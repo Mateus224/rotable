@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/client">
+        <file>resources/bg_orange.png</file>
+        <file>resources/bg_title.png</file>
+        <file>resources/rotable_logo.png</file>
+    </qresource>
+</RCC>
