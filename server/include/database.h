@@ -1,0 +1,233 @@
+#ifndef ROTABLE_DATABASE_H
+#define ROTABLE_DATABASE_H
+
+//------------------------------------------------------------------------------
+
+#ifndef QOBJECT_H
+#include <QObject>
+#endif
+
+#ifndef QSQLDATABASE_H
+#include <QSqlDatabase>
+#endif
+
+#ifndef QSTRING_H
+#include <QString>
+#endif
+
+#ifndef QMAP_H
+#include <QMap>
+#endif
+
+#ifndef QJSONOBJECT_H
+#include <QJsonObject>
+#endif
+
+#include "productcategory.h"
+#include "product.h"
+
+//------------------------------------------------------------------------------
+
+namespace rotable {
+struct DbCategory;
+struct DbProduct;
+class Database;
+}
+
+//------------------------------------------------------------------------------
+
+/**
+ * The Database class can connect to a database and read all categories
+ * and products.
+ *
+ * This abstraction allows an easy replacing of the underlying database.
+ */
+class rotable::Database : public QObject
+{
+  Q_OBJECT
+
+public:
+  /**
+   * Constructor
+   *
+   * @param parent      parent object
+   */
+  Database(QObject *parent = 0);
+
+  /**
+   * Connect to the database.
+   *
+   * @param driver      database driver
+   * @param host        host
+   * @param database    database name
+   * @param user        user name
+   * @param pass        user password
+   * @param prefix      table prefix
+   * @return            true, if connection has been established
+   */
+  bool startConnection(const QString& driver,
+                       const QString& host, const QString& database,
+                       const QString& user, const QString& pass,
+                       const QString& prefix);
+
+  /**
+   * Get list of category ids.
+   *
+   * @param ids         (result) list of category ids
+   * @return            true on successs
+   */
+  bool categoryIds(QList<int>& ids);
+
+  /**
+   * Get list of product ids.
+   *
+   * @param ids         (result) list of product ids
+   * @param categoryId  category id (-1 for all categories)
+   * @return            true on success
+   */
+  bool productIds(QList<int>& ids, int categoryId);
+
+  /**
+   * Read category from database.
+   *
+   * @param id          category id
+   * @return            category or NULL on error
+   */
+  ProductCategory *category(int id);
+
+  /**
+   * Read product from database.
+   *
+   * @param id          product id
+   * @return            product or NULL on errror
+   */
+  Product *product(int id);
+
+  /**
+   * Add a new product category to the database.
+   * (Will not check whether a category with this name already exists!)
+   *
+   * @param category    new category
+   * @return            true on success
+   */
+  bool addCategory(ProductCategory* category);
+
+  /**
+   * Add a new product to the database.
+   * (Will not check whether a product with this name already exists!)
+   *
+   * @param product     new product
+   * @param categoryId  category id
+   * @return            true on success
+   */
+  bool addProduct(Product* product);
+
+  /**
+   * Update a product category.
+   *
+   * @param category    product category
+   * @return            true on success
+   */
+  bool updateCategory(ProductCategory* category);
+
+  /**
+   * Update a product.
+   *
+   * @param product     product
+   * @return            true on success
+   */
+  bool updateProduct(Product* product);
+
+  /**
+   * Remove a category.
+   *
+   * @param id          id of category
+   * @return            true on success
+   */
+  bool removeCategory(int id);
+
+  /**
+   * Remove a product.
+   *
+   * @param id          id of product
+   * @return            true on success
+   */
+  bool removeProduct(int id);
+
+  /**
+   * Setup the database.
+   *
+   * @return            true on success
+   */
+  bool createDatabase();
+
+  /**
+   * Export the database to given file.
+   *
+   * @param path        destination file path
+   * @param binary      whether to save the database in compressed binary format
+   * @return            true on success
+   */
+  bool exportDatabase(const QString& path, bool binary);
+
+  /**
+   * Export the database as SQL command to given string.
+   *
+   * @param dest        destination string
+   * @return            true on success
+   */
+  bool exportDatabase(QString& dest);
+
+  /**
+   * Import database from given file.
+   *
+   * @param path        database file to import
+   * @return            true on success
+   */
+  bool importDatabase(const QString& path);
+
+  /**
+   * Check whether the database is already installed.
+   *
+   * @return            false if database not installed
+   */
+  bool databaseExists() const;
+
+  /**
+   * Check if a category with given name already exists.
+   *
+   * @param name        category name
+   * @return            true if category already exists
+   */
+  bool hasCategory(const QString& name);
+
+  /**
+   * Check if a product with given name already exists in given category.
+   *
+   * @param name        product name
+   * @param categoryId  category id
+   * @return            true if product already exists
+   */
+  bool hasProduct(const QString& name, int categoryId);
+
+  /**
+   * Check whether this object is connected to the database.
+   *
+   * @return            true if connected
+   */
+  bool isConnected() const;
+
+private:
+  /* Database handle */
+  QSqlDatabase _db;
+
+  /* Database table prefix */
+  QString _prefix;
+
+  /* Whether this object is connected to the database */
+  bool _connected;
+}; // class Database
+
+//------------------------------------------------------------------------------
+
+#endif // ROTABLE_DATABASE_H

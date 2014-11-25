@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>resources/beer.png</file>
+        <file>resources/bottle.png</file>
+        <file>resources/cocktail.png</file>
+        <file>resources/cross-white-border.png</file>
+        <file>resources/dices.png</file>
+        <file>resources/hotdrink.png</file>
+        <file>resources/longdrink.png</file>
+        <file>resources/minus-white-border.png</file>
+        <file>resources/plus-white-border.png</file>
+        <file>resources/shot.png</file>
+        <file>resources/soft.png</file>
+        <file>resources/wine.png</file>
+    </qresource>
+</RCC>

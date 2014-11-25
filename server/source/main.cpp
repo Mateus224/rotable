@@ -1,0 +1,60 @@
+#include "private/precomp.h"
+
+#include "client/linux/handler/exception_handler.h"
+
+#include "server.h"
+#include "logmanager.h"
+#include "loglisternerstdout.h"
+
+#include <QTextCodec>
+
+//------------------------------------------------------------------------------
+
+int main(int argc, char *argv[])
+{
+  // Create minidump on program crash (for later debugging)
+  google_breakpad::MinidumpDescriptor breakpad_descriptor("/tmp");
+  google_breakpad::ExceptionHandler breakpad_handler(
+        breakpad_descriptor, NULL, NULL, NULL, true, -1);
+
+  rotable::LogManager::getInstance()->registerQtWarnings();
+  rotable::LogManager::getInstance()->addListener(new rotable::LogListenerStdOut());
+
+  QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
+
+  QCoreApplication app(argc, argv);
+
+  QCoreApplication::setApplicationName("rotable-server");
+  QCoreApplication::setApplicationVersion("1.0b");
+
+  QCommandLineParser parser;
+  parser.setApplicationDescription("rotable server application");
+  parser.addHelpOption();
+  parser.addVersionOption();
+  parser.addPositionalArgument("config",
+    QCoreApplication::translate("main", "Path of the configuration file."));
+
+  QCommandLineOption createDbOption("createDb", "Create a new database");
+  parser.addOption(createDbOption);
+  parser.process(app);
+
+  QString configFilePath("config.ini");
+
+  QStringList args = parser.positionalArguments();
+  if (args.size() > 0) {
+    configFilePath = args[0];
+  }
+
+  rotable::Server server(configFilePath);
+  if (!server.startup()) {
+    exit(EXIT_FAILURE);
+  }
+
+  if (parser.isSet(createDbOption)) {
+    server.createDatabase();
+  }
+
+  rotable::LogManager::getInstance()->startServer(5001);
+
+  return app.exec();
+}
