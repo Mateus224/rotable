@@ -12,10 +12,10 @@ QMAKE_CFLAGS_RELEASE = -g
 # FILES:
 
 INCLUDEPATH += \
-    ../shared/include \
     include \
-    ../google-breakpad \
-    ../qwt/src
+    $$PWD/../shared/include \
+    $$PWD/../third-party/google-breakpad-read-only/src \
+    $$PWD/../third-party/qwt/src
 
 SOURCES += \
     source/main.cpp \
@@ -79,23 +79,23 @@ RESOURCES += \
 # DESTINATION:
 
 contains(QMAKE_CC, gcc) {
-    debug:ROTABLE_DEST = debug/host/$$TARGET
-    release:ROTABLE_DEST = release/host/$$TARGET
+    debug:ROTABLE_DEST = debug/host
+    release:ROTABLE_DEST = release/host
 } else {
-    debug:ROTABLE_DEST = debug/rpi/$$TARGET
-    release:ROTABLE_DEST = release/rpi/$$TARGET
+    debug:ROTABLE_DEST = debug/rpi
+    release:ROTABLE_DEST = release/rpi
 }
 
-DESTDIR     = ../../bin/$$ROTABLE_DEST
-OBJECTS_DIR = ../../bin/tmp/obj/$$ROTABLE_DEST
-MOC_DIR     = ../../bin/tmp/moc/$$ROTABLE_DEST
-RCC_DIR     = ../../bin/tmp/rcc/$$ROTABLE_DEST
-UI_DIR      = ../../bin/tmp/ui/$$ROTABLE_DEST
+DESTDIR     = $$PWD/../bin/$$ROTABLE_DEST
+OBJECTS_DIR = $$PWD/../bin/tmp/obj/$$ROTABLE_DEST/$$TARGET
+MOC_DIR     = $$PWD/../bin/tmp/moc/$$ROTABLE_DEST/$$TARGET
+RCC_DIR     = $$PWD/../bin/tmp/rcc/$$ROTABLE_DEST/$$TARGET
+UI_DIR      = $$PWD/../bin/tmp/ui/$$ROTABLE_DEST/$$TARGET
 
 ########################################################################
 # LINK:
 
 LIBS += \
-    -L$$DESTDIR/../rotable-shared -lrotable-shared \
-    -L$$DESTDIR/../../../../google-breakpad -lbreakpad_client_x86 \
-    -L$$DESTDIR/../../../../qwt/lib -lqwt
+    -L$$DESTDIR -lrotable-shared \
+    -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux -lbreakpad_client \
+    -L$$PWD/../third-party/qwt/lib -lqwt

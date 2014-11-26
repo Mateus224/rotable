@@ -4,3 +4,4 @@
 third-party/**
 qt/**
 /.project
+bin/**
