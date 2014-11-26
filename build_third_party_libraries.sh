@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 CORES=`grep -c '^processor' /proc/cpuinfo`
 CORES=`echo $CORES | grep '^[[:digit:]]*$'`
@@ -6,7 +6,9 @@ CORES=`echo $CORES | grep '^[[:digit:]]*$'`
 SCRIPT=$(readlink -f "$0")
 BASE_DIR="$(dirname "$SCRIPT")/third-party"
 
+#------------------------------------------------------------------------------
 # Install required packages
+
 REQUIRED="subversion git"
 for pkg in $REQUIRED; do
   if ! dpkg --get-selections | grep -q "^$pkg[[:space:]]*install$" >/dev/null; then
@@ -23,20 +25,9 @@ if [ ! -d $BASE_DIR ]; then
   mkdir -p $BASE_DIR
 fi
 
-# wiringPi
-#if [ ! -f "$BASE_DIR/wiringPi/.COMPILED" ]; then
-  if [ ! -d "$BASE_DIR/wiringPi/.git" ]; then
-    cd $BASE_DIR
-    git clone git://git.drogon.net/wiringPi
-  fi
-  
-  #cd "$BASE_DIR/wiringPi"
-  #git pull origin
-  #./build
-  #touch .COMPILED
-#fi
-
+#------------------------------------------------------------------------------
 # google-breakpad
+
 if [ ! -f "$BASE_DIR/google-breakpad-read-only/.COMPILED" ]; then
   if [ ! -d "$BASE_DIR/google-breakpad-read-only/.svn" ]; then
     svn checkout http://google-breakpad.googlecode.com/svn/trunk/ "$BASE_DIR/google-breakpad-read-only"
@@ -51,7 +42,9 @@ if [ ! -f "$BASE_DIR/google-breakpad-read-only/.COMPILED" ]; then
   touch .COMPILED
 fi
 
+#------------------------------------------------------------------------------
 # qwt
+
 QWT_VERSION=6.1.1
 
 if [ ! -d "$BASE_DIR/qwt/src" ]; then

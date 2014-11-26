@@ -179,15 +179,16 @@ fi
 #-------------------------------------------------------------------------------
 # Compile Qt
 
-cd $BASE_DIR/qt-everywhere-opensource-src-$QT5_PACKAGE_VER/qtbase
 mkdir -p $QT5_CROSS_COMPILED_BINARIES_TARGET
 
 if [ ! -f "$BASE_DIR/qt-everywhere-opensource-src-$QT5_PACKAGE_VER/.CONFIGURED" ]; then
+  cd "$BASE_DIR/qt-everywhere-opensource-src-$QT5_PACKAGE_VER"
   ./configure -opengl es2 -device linux-rasp-pi-g++ -device-option CROSS_COMPILE=$BASE_DIR/gcc-4.7-linaro-rpi-gnueabihf/bin/arm-linux-gnueabihf- -sysroot $ROOTFS_DIR -opensource -confirm-license -optimized-qmake -release -prefix $QT5_CROSS_COMPILED_BINARIES_TARGET -no-pch -nomake tests -nomake examples -plugin-sql-sqlite
   touch $BASE_DIR/qt-everywhere-opensource-src-$QT5_PACKAGE_VER/.CONFIGURED
 fi
 
 if [ ! -f "$BASE_DIR/qt-everywhere-opensource-src-$QT5_PACKAGE_VER/.COMPILED" ]; then
+  #cd "$BASE_DIR/qt-everywhere-opensource-src-$QT5_PACKAGE_VER"
   CORES=`grep -c '^processor' /proc/cpuinfo`
   CORES=`echo $CORES | grep '^[[:digit:]]*$'`
   make -j $CORES

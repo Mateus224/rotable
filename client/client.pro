@@ -38,6 +38,14 @@ RESOURCES +=\
     resources.qrc \
     $$PWD/../shared/shared_resources.qrc
 
+OTHER_FILES += \
+    qml/client/categoryCreation.js \
+    qml/client/main.qml \
+    qml/client/ProductButton.qml \
+    qml/client/ProductCategoryPage.qml \
+    qml/client/TabWidget.qml \
+    qml/client/ConnectionPage.qml
+
 ########################################################################
 # DESTINATION:
 
@@ -45,13 +53,17 @@ contains(QMAKE_CC, gcc) {
     debug:ROTABLE_DEST = debug/host
     release:ROTABLE_DEST = release/host
 
-    LIBS += -lbreakpad_client
+    LIBS += \
+        -lbreakpad_client \
+        -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux
 } else {
     debug:ROTABLE_DEST = debug/rpi
     release:ROTABLE_DEST = release/rpi
 
     INCLUDEPATH += $$PWD/../third-party/wiringPi/wiringPi
-    LIBS += -L$$PWD/../third-party/wiringPi/wiringPi -lwiringPi -lbreakpad_client_rpi
+    LIBS += \
+        -L$$PWD/../third-party/wiringPi/wiringPi -lwiringPi \
+        -L$$PWD/../third-party/google-breakpad-read-only-rpi/src/client/linux -lbreakpad_client
 }
 
 DESTDIR     = $$PWD/../bin/$$ROTABLE_DEST
@@ -65,27 +77,3 @@ UI_DIR      = $$PWD/../bin/tmp/ui/$$ROTABLE_DEST/$$TARGET
 
 LIBS += \
     -L$$DESTDIR -lrotable-shared \
-    -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux
-
-contains(QMAKE_CC, gcc) {
-  folder.source = qml
-  folder.target = $$DESTDIR
-  DEPLOYMENTFOLDERS = folder
-} else {
-  folder.source = qml
-  folder.target = $$ROTABLE_DEST
-  DEPLOYMENTFOLDERS = folder
-}
-
-# Please do not modify the following two lines. Required for deployment.
-include(qtquick2applicationviewer/qtquick2applicationviewer.pri)
-qtcAddDeployment()
-
-OTHER_FILES += \
-    ProductButton.qml \
-    qml/etClient/categoryCreation.js \
-    qml/etClient/main.qml \
-    qml/etClient/ProductButton.qml \
-    qml/etClient/ProductCategoryPage.qml \
-    qml/etClient/TabWidget.qml \
-    qml/client/ConnectionPage.qml

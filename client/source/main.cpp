@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
 
   // this has to be called once on program start
   if (-1 == wiringPiSetupSys()) {
-    std::Cout << "Error setting up wiringPi!" << std::endl;
+    std::cout << "Error setting up wiringPi!" << std::endl;
     return -1;
   }
 
