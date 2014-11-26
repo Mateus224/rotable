@@ -1,11 +1,15 @@
-#!/bin/sh
+#!/bin/sh -e
 
 # Install required packages
 REQUIRED="subversion git"
 for pkg in $REQUIRED; do
-    if ! dpkg --get-selections | grep -q "^$pkg[[:space:]]*install$" >/dev/null; then
-        apt-get -qq install $pkg
+  if ! dpkg --get-selections | grep -q "^$pkg[[:space:]]*install$" >/dev/null; then
+    if [ "$(id -u)" != "0" ]; then
+      sudo apt-get -qq install $pkg
+    else
+      apt-get -qq install $pkg
     fi
+  fi
 done
 
 # Create directory:

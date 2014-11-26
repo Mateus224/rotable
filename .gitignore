@@ -3,3 +3,4 @@
 *.o
 third-party/**
 qt/**
+/.project
