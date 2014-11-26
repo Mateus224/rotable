@@ -23,7 +23,7 @@ Rectangle {
         }
 
         Timer {
-            property var dots: 0
+            property int dots: 0
 
             interval: 500;
             running: true;

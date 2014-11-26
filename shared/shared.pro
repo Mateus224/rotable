@@ -2,13 +2,14 @@ QT += core network sql xml
 
 TARGET = rotable-shared
 TEMPLATE = lib
+
 CONFIG += staticlib precompile_header
 PRECOMPILED_HEADER = private/precomp.h
 
-INCLUDEPATH += include
-
 ########################################################################
 # FILES:
+
+INCLUDEPATH += include
 
 SOURCES += \
     source/productcategory.cpp \
@@ -38,11 +39,6 @@ RESOURCES += shared_resources.qrc
 
 ########################################################################
 # DESTINATION:
-
-#unix {
-#    target.path = /usr/lib
-#    INSTALLS += target
-#}
 
 contains(QMAKE_CC, gcc) {
     debug:ROTABLE_DEST = debug/host

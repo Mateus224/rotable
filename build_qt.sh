@@ -191,6 +191,7 @@ if [ ! -f "$BASE_DIR/qt-everywhere-opensource-src-$QT5_PACKAGE_VER/.COMPILED" ];
   CORES=`grep -c '^processor' /proc/cpuinfo`
   CORES=`echo $CORES | grep '^[[:digit:]]*$'`
   make -j $CORES
+  make install
   touch $BASE_DIR/qt-everywhere-opensource-src-$QT5_PACKAGE_VER/.COMPILED
 else 
   echo "Already compiled"

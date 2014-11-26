@@ -15,10 +15,10 @@
 
 int main(int argc, char *argv[])
 {
-  if (!QDir(ROTABLE_QML_PATH).exists()) {
-    qCritical() << QString("Directory %1 does not exist!").arg(ROTABLE_QML_PATH);
-    exit(EXIT_FAILURE);
-  }
+//  if (!QDir(ROTABLE_QML_PATH).exists()) {
+//    qCritical() << QString("Directory %1 does not exist!").arg(ROTABLE_QML_PATH);
+//    exit(EXIT_FAILURE);
+//  }
 
   // Create minidump on program crash (for later debugging)
   google_breakpad::MinidumpDescriptor breakpad_descriptor("/tmp");
@@ -78,7 +78,8 @@ int main(int argc, char *argv[])
   view.rootContext()->setContextProperty("CategoryListModel", client->categoryListModel());
   view.rootContext()->setContextProperty("ProductListModel", client->productListModel());
   view.engine()->addImageProvider("rotable", imageProvider);
-  view.setSource(QUrl::fromLocalFile(QString(ROTABLE_QML_PATH) + QString("main.qml")));
+  //view.setSource(QUrl::fromLocalFile(QString(ROTABLE_QML_PATH) + QString("main.qml")));
+  view.setSource(QString("qrc:/client/main.qml"));
   view.show();
 
   return app.exec();

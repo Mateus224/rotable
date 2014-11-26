@@ -1,14 +1,18 @@
-TARGET = rotable_client
+QT = core qml network gui quick
+TARGET = rotable-client
+
 CONFIG += precompile_header
 PRECOMPILED_HEADER = private/precomp.h
-QT = core qml network gui quick
 
 QMAKE_CFLAGS_RELEASE = -g
 
+########################################################################
+# FILES:
+
 INCLUDEPATH += \
-    ../shared/include \
     include \
-    ../google-breakpad
+    $$PWD/../shared/include \
+    $$PWD/../third-party/google-breakpad-read-only/src \
 
 HEADERS += \
     include/configclient.h \
@@ -30,26 +34,38 @@ SOURCES += \
     source/productlistmodel.cpp \
     source/imageprovider.cpp
 
+RESOURCES +=\
+    resources.qrc \
+    $$PWD/../shared/shared_resources.qrc
+
+########################################################################
+# DESTINATION:
+
 contains(QMAKE_CC, gcc) {
-    debug:ROTABLE_DEST = debug/host/$$TARGET
-    release:ROTABLE_DEST = release/host/$$TARGET
+    debug:ROTABLE_DEST = debug/host
+    release:ROTABLE_DEST = release/host
 
-    LIBS += -lbreakpad_client_x86
+    LIBS += -lbreakpad_client
 } else {
-    debug:ROTABLE_DEST = debug/rpi/$$TARGET
-    release:ROTABLE_DEST = release/rpi/$$TARGET
+    debug:ROTABLE_DEST = debug/rpi
+    release:ROTABLE_DEST = release/rpi
 
-    INCLUDEPATH += ../wiringPi/wiringPi
-    LIBS += -L../wiringPi/wiringPi -lwiringPi -lbreakpad_client_rpi
+    INCLUDEPATH += $$PWD/../third-party/wiringPi/wiringPi
+    LIBS += -L$$PWD/../third-party/wiringPi/wiringPi -lwiringPi -lbreakpad_client_rpi
 }
 
-DESTDIR     = ../../software/bin/$$ROTABLE_DEST
-OBJECTS_DIR = $$DESTDIR/obj
-MOC_DIR     = $$DESTDIR/moc
-RCC_DIR     = $$DESTDIR/rcc
-UI_DIR      = $$DESTDIR/ui
+DESTDIR     = $$PWD/../bin/$$ROTABLE_DEST
+OBJECTS_DIR = $$PWD/../bin/tmp/obj/$$ROTABLE_DEST/$$TARGET
+MOC_DIR     = $$PWD/../bin/tmp/moc/$$ROTABLE_DEST/$$TARGET
+RCC_DIR     = $$PWD/../bin/tmp/rcc/$$ROTABLE_DEST/$$TARGET
+UI_DIR      = $$PWD/../bin/tmp/ui/$$ROTABLE_DEST/$$TARGET
 
-LIBS += -L$$DESTDIR/../shared -lshared -L../../software/google-breakpad
+########################################################################
+# LINK:
+
+LIBS += \
+    -L$$DESTDIR -lrotable-shared \
+    -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux
 
 contains(QMAKE_CC, gcc) {
   folder.source = qml
@@ -73,7 +89,3 @@ OTHER_FILES += \
     qml/etClient/ProductCategoryPage.qml \
     qml/etClient/TabWidget.qml \
     qml/client/ConnectionPage.qml
-
-#PRE_TARGETDEPS += $$DESTDIR/../shared/libshared.a
-
-RESOURCES += resources.qrc ../shared/shared_resources.qrc

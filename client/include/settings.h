@@ -4,7 +4,7 @@
 //------------------------------------------------------------------------------
 
 
-#define ROTABLE_QML_PATH "qml/client/"
+//#define ROTABLE_QML_PATH "qml/client/"
 #define ROTABLE_IMAGE_COMPRESSION "JPEG"
 
 //------------------------------------------------------------------------------

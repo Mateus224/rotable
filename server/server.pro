@@ -1,10 +1,19 @@
 QT = core network sql gui
-TARGET = rotable_server
+TARGET = rotable-server
 
 CONFIG   += console debug precompile_header
 CONFIG   -= app_bundle
 
 PRECOMPILED_HEADER = private/precomp.h
+
+QMAKE_CFLAGS_RELEASE = -g
+
+########################################################################
+# FILES:
+
+INCLUDEPATH += \
+    $$PWD/../shared/include include \
+    $$PWD/../third-party/google-breakpad-read-only/src
 
 SOURCES += \
     source/main.cpp \
@@ -21,29 +30,27 @@ HEADERS += \
     include/server.h \
     include/settings.h
 
-INCLUDEPATH += \
-    ../shared/include include \
-    ../google-breakpad
+########################################################################
+# DESTINATION:
 
 contains(QMAKE_CC, gcc) {
-    debug:ROTABLE_DEST = debug/host/$$TARGET
-    release:ROTABLE_DEST = release/host/$$TARGET
+    debug:ROTABLE_DEST = debug/host
+    release:ROTABLE_DEST = release/host
 
-    LIBS += -lbreakpad_client_x86
+    LIBS += -lbreakpad_client
 } else {
-    debug:ROTABLE_DEST = debug/rpi/$$TARGET
-    release:ROTABLE_DEST = release/rpi/$$TARGET
+    debug:ROTABLE_DEST = debug/rpi
+    release:ROTABLE_DEST = release/rpi
 
     LIBS += -lbreakpad_client_rpi
 }
 
-DESTDIR     = ../../software/bin/$$ROTABLE_DEST
-OBJECTS_DIR = $$DESTDIR/obj
-MOC_DIR     = $$DESTDIR/moc
-RCC_DIR     = $$DESTDIR/rcc
-UI_DIR      = $$DESTDIR/ui
+DESTDIR     = $$PWD/../bin/$$ROTABLE_DEST
+OBJECTS_DIR = $$PWD/../bin/tmp/obj/$$ROTABLE_DEST/$$TARGET
+MOC_DIR     = $$PWD/../bin/tmp/moc/$$ROTABLE_DEST/$$TARGET
+RCC_DIR     = $$PWD/../bin/tmp/rcc/$$ROTABLE_DEST/$$TARGET
+UI_DIR      = $$PWD/../bin/tmp/ui/$$ROTABLE_DEST/$$TARGET
 
-LIBS += -L$$DESTDIR/../shared -lshared \
-        -L../../software/google-breakpad
-
-#PRE_TARGETDEPS += $$DESTDIR/../shared/libshared.a
+LIBS += \
+    -L$$DESTDIR -lrotable-shared \
+    -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux
