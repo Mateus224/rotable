@@ -48,16 +48,21 @@ fi
 QWT_VERSION=6.1.1
 
 if [ ! -d "$BASE_DIR/qwt/src" ]; then
-  wget -nc -c -O "$BASE_DIR/qwt-$QWT_VERSION.tar.bz2" http://downloads.sourceforge.net/project/qwt/qwt/$QWT_VERSION/qwt-$QWT_VERSION.tar.bz2?r=&ts=1417009396
+  if [ ! -f "$BASE_DIR/qwt-$QWT_VERSION.tar.bz2" ]; then
+    wget -nc -c -O "$BASE_DIR/qwt-$QWT_VERSION.tar.bz2" http://downloads.sourceforge.net/project/qwt/qwt/$QWT_VERSION/qwt-$QWT_VERSION.tar.bz2?r=&ts=1417009396
+  fi
   tar -xf "$BASE_DIR/qwt-$QWT_VERSION.tar.bz2" -C $BASE_DIR
   mv "$BASE_DIR/qwt-$QWT_VERSION" "$BASE_DIR/qwt"
 
-  QMAKE_DEFAULT="/home/$USER/qt/5.3.2/5.3/gcc_64/bin/qmake"
+  QMAKE_DEFAULT="/home/$USER/qt/Qt5.3.2/5.3/gcc_64/bin/qmake"
   read -p "qmake [$QMAKE_DEFAULT]: " QMAKE_PATH
   QMAKE_PATH=${QMAKE_PATH:-$QMAKE_DEFAULT}
+  
+  # build as static library:
+  sed -i '/QWT_CONFIG           += QwtDll/c\#QWT_CONFIG           += QwtDll' "$BASE_DIR/qwt/qwtconfig.pri"
 
   cd "$BASE_DIR/qwt"
-  ./QMAKE_PATH qwt.pro
+  $QMAKE_PATH qwt.pro 
   make -j $CORES
 fi
 
