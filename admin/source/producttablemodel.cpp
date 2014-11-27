@@ -55,6 +55,8 @@ int ProductTableModel::rowCount(const QModelIndex& parent) const
 QVariant ProductTableModel::data(const QModelIndex& index, int role) const
 {
 
+  qDebug() << index.column();
+
   if (role ==  Qt::BackgroundRole) {
     if (index.row() % 2) {
       return QVariant(QBrush(QColor(200, 250, 200)));
@@ -64,7 +66,7 @@ QVariant ProductTableModel::data(const QModelIndex& index, int role) const
   }
 
   switch (index.column()) {
-  case 0: // Name
+  case name:
   {
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
       QList<int> productIds = _products->productIds(_currentCategoryId);
@@ -84,7 +86,19 @@ QVariant ProductTableModel::data(const QModelIndex& index, int role) const
       }
     }
   } break;
-  case 1: // Icon
+  case amount:
+  {
+    if (role == Qt::DisplayRole || role == Qt::EditRole) {
+      QList<int> productIds = _products->productIds(_currentCategoryId);
+      Q_ASSERT(index.row() >= 0 && index.row() < productIds.count());
+      Product* product = _products->product(productIds[index.row()]);
+      Q_ASSERT(product);
+      if (product) {
+        return QVariant(product->amount());
+      }
+    }
+  } break;
+  case icon:
   {
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
       QList<int> productIds = _products->productIds(_currentCategoryId);
@@ -96,7 +110,7 @@ QVariant ProductTableModel::data(const QModelIndex& index, int role) const
       }
     }
   } break;
-  case 2: // Price
+  case price:
   {
     if (role == Qt::DisplayRole) {
       QList<int> productIds = _products->productIds(_currentCategoryId);
@@ -116,7 +130,7 @@ QVariant ProductTableModel::data(const QModelIndex& index, int role) const
       }
     }
   } break;
-  case 3: // Info
+  case info:
   {
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
       QList<int> productIds = _products->productIds(_currentCategoryId);
@@ -141,7 +155,7 @@ bool ProductTableModel::setData(const QModelIndex &index,
 {
   if (role == Qt::EditRole) {
     switch (index.column()) {
-    case 0: // Name
+    case name:
     {
       QList<int> productIds = _products->productIds(_currentCategoryId);
       Q_ASSERT(index.row() >= 0 && index.row() < productIds.count());
@@ -152,7 +166,18 @@ bool ProductTableModel::setData(const QModelIndex &index,
         return true;
       }
     } break;
-    case 1: // Icon
+    case amount:
+    {
+      QList<int> productIds = _products->productIds(_currentCategoryId);
+      Q_ASSERT(index.row() >= 0 && index.row() < productIds.count());
+      Product* product = _products->product(productIds[index.row()]);
+      Q_ASSERT(product);
+      if (product) {
+        product->setAmount(value.toString());
+        return true;
+      }
+    } break;
+    case icon:
     {
       QList<int> productIds = _products->productIds(_currentCategoryId);
       Q_ASSERT(index.row() >= 0 && index.row() < productIds.count());
@@ -163,7 +188,7 @@ bool ProductTableModel::setData(const QModelIndex &index,
         return true;
       }
     } break;
-    case 2: // Price
+    case price:
     {
       QList<int> productIds = _products->productIds(_currentCategoryId);
       Q_ASSERT(index.row() >= 0 && index.row() < productIds.count());
@@ -174,7 +199,7 @@ bool ProductTableModel::setData(const QModelIndex &index,
         return true;
       }
     } break;
-    case 3: // Info
+    case info:
     {
       QList<int> productIds = _products->productIds(_currentCategoryId);
       Q_ASSERT(index.row() >= 0 && index.row() < productIds.count());
@@ -205,7 +230,7 @@ Qt::ItemFlags ProductTableModel::flags(const QModelIndex &/*index*/) const
 
 int ProductTableModel::columnCount(const QModelIndex& /*parent*/) const
 {
-  return 4;
+  return info+1;
 }
 
 //------------------------------------------------------------------------------
@@ -215,7 +240,7 @@ QModelIndex ProductTableModel::index(int row, int column,
 {
   if (!parent.isValid()) {
     QList<int> ids = _products->productIds(_currentCategoryId);
-    if (row >= 0 && row < ids.size() && column >= 0 && column < 4) {
+    if (row >= 0 && row < ids.size() && column >= 0 && column <= info) {
       return createIndex(row, column, ids[row]);
     }
   }
@@ -232,19 +257,23 @@ QVariant ProductTableModel::headerData(int section,
   if (orientation == Qt::Horizontal) {
     if (role == Qt::DisplayRole) {
       switch (section) {
-      case 0:
+      case name:
       {
         return QVariant("Name");
       } break;
-      case 1:
+      case amount:
+      {
+        return QVariant("Amount");
+      } break;
+      case icon:
       {
         return QVariant("Icon");
       } break;
-      case 2:
+      case price:
       {
         return QVariant("Price");
       } break;
-      case 3:
+      case info:
       {
         return QVariant("Info");
       } break;
@@ -290,10 +319,6 @@ void ProductTableModel::onProductUpdated(Product* product)
 void ProductTableModel::onCategoryChanged(int id)
 {
   beginResetModel();
-  /*setHeaderData(0, Qt::Horizontal, tr("Name"));
-  setHeaderData(1, Qt::Horizontal, tr("Icon"));
-  setHeaderData(2, Qt::Horizontal, tr("Price"));
-  setHeaderData(3, Qt::Horizontal, tr("Info"));*/
   _currentCategoryId = id;
   endResetModel();
 }

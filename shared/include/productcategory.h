@@ -37,10 +37,10 @@ public:
   explicit ProductCategory(QObject *parent = 0);
 
   inline const QString& name() const { return _name; }
-  inline void setName(const QString &str) { _name = str; emit nameChanged(); }
+  void setName(const QString &str);
 
   inline const QString& icon() const { return _icon; }
-  inline void setIcon(const QString &ico) { _icon = ico; emit iconChanged(); }
+  void setIcon(const QString &ico);
 
   inline int id() const { return _id; }
   inline void setId(int id) { _id = id; }

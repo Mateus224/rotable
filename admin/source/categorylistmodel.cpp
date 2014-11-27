@@ -106,10 +106,13 @@ bool CategoryListModel::setData(const QModelIndex &index,
         ProductCategory* category = _products->category(categoryIds[index.row()]);
         if (category) {
           category->setName(value.toString());
+          return true;
         }
       }
     }
   }
+
+  return false;
 }
 
 //------------------------------------------------------------------------------

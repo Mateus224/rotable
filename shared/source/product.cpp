@@ -16,6 +16,26 @@ Product::Product(QObject *parent) :
 
 //------------------------------------------------------------------------------
 
+void Product::setName(const QString &str)
+{
+  if (_name != str) {
+    _name = str;
+    emit nameChanged();
+  }
+}
+
+//------------------------------------------------------------------------------
+
+void Product::setIcon(const QString &ico)
+{
+  if (_icon != ico) {
+    _icon = ico;
+    emit iconChanged();
+  }
+}
+
+//------------------------------------------------------------------------------
+
 void Product::setPrice(int price)
 {
   _price = price;
@@ -35,6 +55,26 @@ void Product::setPrice(int price)
 
 //------------------------------------------------------------------------------
 
+void Product::setInfo(const QString &info)
+{
+  if (_info != info) {
+    _info = info;
+    emit infoChanged();
+  }
+}
+
+//------------------------------------------------------------------------------
+
+void Product::setAmount(const QString &amount)
+{
+  if (_amount != amount) {
+    _amount = amount;
+    emit amountChanged();
+  }
+}
+
+//------------------------------------------------------------------------------
+
 QJsonValue Product::toJSON() const
 {
   QJsonObject o;
@@ -45,6 +85,7 @@ QJsonValue Product::toJSON() const
   o["price"] = _price;
   o["priceStr"] = _priceStr;
   o["info"] = _info;
+  o["amount"] = _amount;
   return QJsonValue(o);
 }
 
@@ -59,7 +100,8 @@ Product *Product::fromJSON(const QJsonValue &jval)
       && o.contains("icon")
       && o.contains("id")
       && o.contains("price")
-      && o.contains("categoryId"))
+      && o.contains("categoryId")
+      && o.contains("amount"))
   {
     Product* p = new Product();
     p->_name = o["name"].toString();
@@ -69,6 +111,7 @@ Product *Product::fromJSON(const QJsonValue &jval)
     p->_price = o["price"].toInt();
     p->setPrice(p->_price);
     p->_categoryId = o["categoryId"].toInt();
+    p->_amount = o["amount"].toString();
 
     return p;
   }

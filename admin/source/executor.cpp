@@ -152,6 +152,7 @@ void Executor::onAddProduct()
     p.setInfo(dlg.productInfo());
     p.setPrice(dlg.productPrice());
     p.setCategoryId(dlg.categoryId());
+    p.setAmount(dlg.productAmount());
 
     ComPackageDataSet set;
     set.setDataCategory(ComPackage::SetProduct);

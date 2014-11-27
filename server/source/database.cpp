@@ -25,7 +25,8 @@ static const char S_createProductsTable[] =
     "  `price` INTEGER NOT NULL,"
     "  `info` text NOT NULL,"
     "  `category_id` INTEGER NOT NULL,"
-    "  `icon` VARCHAR(128) NOT NULL"
+    "  `icon` VARCHAR(128) NOT NULL,"
+    "  `amount` VARCHAR(512) NOT NULL"
     ");";
 
 static const char S_insertCategory[] =
@@ -35,8 +36,8 @@ static const char S_insertCategory[] =
 
 static const char S_insertProduct[] =
     "INSERT INTO `%1products` "
-    "(`id`, `name`, `price`, `info`, `category_id`, `icon`) "
-    "VALUES (%2, %3, %4, %5, %6, %7);";
+    "(`id`, `name`, `price`, `info`, `category_id`, `icon`, `amount`) "
+    "VALUES (%2, %3, %4, %5, %6, %7, %8);";
 
 static const char S_selectCategory[] =
     "SELECT %2 FROM %1categories WHERE `%3` = %4";
@@ -55,7 +56,7 @@ static const char S_updateCategory[] =
 
 static const char S_updateProduct[] =
     "UPDATE `%1products` SET `name` = :name, `price` = :price, "
-    "`info` = :info, `category_id` = :category_id, `icon` = :icon "
+    "`info` = :info, `category_id` = :category_id, `amount` = :amount, `icon` = :icon "
     "WHERE `id` = %2;";
 
 static const char S_deleteProduct[] =
@@ -293,11 +294,13 @@ Product* Database::product(int id)
     return 0;
   }
 
+
   Product* p = new Product();
 
   p->setName(q.value("name").toString());
   p->setIcon(q.value("icon").toString());
   p->setInfo(q.value("info").toString());
+  p->setAmount(q.value("amount").toString());
   p->setCategoryId(categoryId);
   p->setId(productId);
   p->setPrice(price);
@@ -344,7 +347,7 @@ bool Database::addProduct(Product* product)
   }
 
   QString queryStr = QString(S_insertProduct)
-      .arg(_prefix, "NULL", ":name", ":price", ":info", ":category_id", ":icon");
+      .arg(_prefix, "NULL", ":name", ":price", ":info", ":category_id", ":icon", ":amount");
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -359,6 +362,7 @@ bool Database::addProduct(Product* product)
   q.bindValue(":info", product->info());
   q.bindValue(":category_id", product->categoryId());
   q.bindValue(":icon", product->icon());
+  q.bindValue(":amount", product->amount());
 
   if (!q.exec()) {
     qCritical() << tr("Query exec failed: (%1: %2")
@@ -422,6 +426,7 @@ bool Database::updateProduct(Product *product)
   q.bindValue(":info", product->info());
   q.bindValue(":category_id", product->categoryId());
   q.bindValue(":icon", product->icon());
+  q.bindValue(":amount", product->amount());
 
   if (!q.exec()) {
     qCritical() << tr("Query exec failed: (%1: %2")
@@ -626,7 +631,8 @@ bool Database::exportDatabase(QString &dest)
             .arg(p->price())
             .arg('\'' + p->info() + '\'')
             .arg(p->categoryId())
-            .arg('\'' + p->icon() + '\'');
+            .arg('\'' + p->icon() + '\'')
+            .arg('\'' + p->amount() + '\'');
         dest += '\n';
         delete p;
       } else {

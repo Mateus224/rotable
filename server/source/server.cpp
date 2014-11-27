@@ -403,11 +403,11 @@ bool Server::updateCategory(ProductCategory *category)
 
 bool Server::addProduct(Product *product)
 {
-  if (_db.hasProduct(product->name(), product->categoryId())) {
+  /*if (_db.hasProduct(product->name(), product->categoryId())) {
     qWarning() << tr("A product of name '%1' already exists!")
                   .arg(product->name());
     return false;
-  }
+  }*/
 
   if (!_db.addProduct(product)) {
     qWarning() << tr("Failed to add product!");

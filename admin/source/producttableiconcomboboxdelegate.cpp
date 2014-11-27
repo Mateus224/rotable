@@ -38,10 +38,15 @@ void ProductTableIconComboboxDelegate::setEditorData(
     QWidget *editor, const QModelIndex &index) const
 {
   QComboBox *comboBox = static_cast<QComboBox*>(editor);
-  int value = index.model()->data(index, Qt::EditRole).toUInt();
-  comboBox->setCurrentIndex(value);
+  QString value = index.model()->data(index, Qt::EditRole).toString();
 
-  //comboBox->setCurrentIndex(0);
+  comboBox->setCurrentIndex(0);
+  for (int i = 0; i < _items.size(); ++i) {
+    if (_items.at(i) == value) {
+      comboBox->setCurrentIndex(i);
+      break;
+    }
+  }
 }
 
 //------------------------------------------------------------------------------
@@ -50,7 +55,7 @@ void ProductTableIconComboboxDelegate::setModelData(
     QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
   QComboBox *comboBox = static_cast<QComboBox*>(editor);
-  model->setData(index, comboBox->currentIndex(), Qt::EditRole);
+  model->setData(index, _items.at(comboBox->currentIndex()), Qt::EditRole);
 }
 
 //------------------------------------------------------------------------------

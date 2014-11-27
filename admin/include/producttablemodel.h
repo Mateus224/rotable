@@ -24,6 +24,17 @@ class ProductTableModel : public QAbstractTableModel
 
 public:
   /**
+   * Columns
+   */
+  enum Columns {
+    name = 0,
+    amount,
+    icon,
+    price,
+    info,
+  };
+
+  /**
    * Constructor
    *
    * @param parent                parent object

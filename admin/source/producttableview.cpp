@@ -1,6 +1,7 @@
 #include "private/precomp.h"
 
 #include "producttableview.h"
+#include "producttablemodel.h"
 #include "producttableiconcomboboxdelegate.h"
 #include "producttablepricespinboxdelegate.h"
 
@@ -12,8 +13,8 @@ ProductTableView::ProductTableView(QWidget *parent) :
   _comboBoxDelegate = new ProductTableIconComboboxDelegate(this);
   _spinBoxDelegate = new ProductTablePriceSpinBoxDelegate(this);
 
-  setItemDelegateForColumn(1, _comboBoxDelegate);
-  setItemDelegateForColumn(2, _spinBoxDelegate);
+  setItemDelegateForColumn(ProductTableModel::icon, _comboBoxDelegate);
+  setItemDelegateForColumn(ProductTableModel::price, _spinBoxDelegate);
 }
 
 //------------------------------------------------------------------------------

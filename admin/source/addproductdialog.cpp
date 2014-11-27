@@ -30,7 +30,7 @@ AddProductDialog::AddProductDialog(ImageContainer* images, QWidget *parent) :
     }
   }
 
-  _ui->_labelNameError->clear();
+  //_ui->_labelNameError->clear();
   _ui->_pushButtonAdd->setEnabled(false);
 
   connect(_ui->_comboBoxCategories, SIGNAL(activated(int)),
@@ -38,7 +38,7 @@ AddProductDialog::AddProductDialog(ImageContainer* images, QWidget *parent) :
   connect(_ui->_spinBoxPrice, SIGNAL(valueChanged(int)),
           this, SLOT(onPriceChanged(int)));
   connect(_ui->_lineEditName, SIGNAL(textChanged(QString)),
-          this, SLOT(onNameChanged(QString)));
+         this, SLOT(onNameChanged(QString)));
   connect(_ui->_pushButtonAdd, SIGNAL(clicked()),
           this, SLOT(onAddClicked()));
   connect(_ui->_pushButtonCancel, SIGNAL(clicked()),
@@ -117,6 +117,13 @@ QString AddProductDialog::iconName() const
 
 //------------------------------------------------------------------------------
 
+QString AddProductDialog::productAmount() const
+{
+  return _ui->_lineEditAmount->text();
+}
+
+//------------------------------------------------------------------------------
+
 void AddProductDialog::setCategory(int id)
 {
   Q_ASSERT(id == -1 || id >= 0);
@@ -135,14 +142,14 @@ void AddProductDialog::setCategory(int id)
 void AddProductDialog::onNameChanged(QString name)
 {
   if (name.isEmpty()) {
-    _ui->_labelNameError->clear();
+    //_ui->_labelNameError->clear();
     _ui->_pushButtonAdd->setEnabled(false);
-  } else if (_products->product(name, categoryId())) {
+  /*} else if (_products->product(name, categoryId())) {
     _ui->_labelNameError->setText(
           tr("<font color=\"darkred\">Product already exists in this category!</font>"));
-    _ui->_pushButtonAdd->setEnabled(false);
+    _ui->_pushButtonAdd->setEnabled(false);*/
   } else {
-    _ui->_labelNameError->clear();
+    //_ui->_labelNameError->clear();
     _ui->_pushButtonAdd->setEnabled(true);
   }
 }

@@ -16,6 +16,26 @@ ProductCategory::ProductCategory(QObject* parent) :
 
 //------------------------------------------------------------------------------
 
+void ProductCategory::setName(const QString &str)
+{
+  if (_name != str) {
+    _name = str;
+    emit nameChanged();
+  }
+}
+
+//------------------------------------------------------------------------------
+
+void ProductCategory::setIcon(const QString &ico)
+{
+  if (_icon != ico) {
+    _icon = ico;
+    emit iconChanged();
+  }
+}
+
+//------------------------------------------------------------------------------
+
 QJsonValue ProductCategory::toJSON() const
 {
   QJsonObject o;

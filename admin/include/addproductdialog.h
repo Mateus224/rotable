@@ -79,6 +79,13 @@ public:
   QString iconName() const;
 
   /**
+   * Get product amount.
+   *
+   * @return              amount
+   */
+  QString productAmount() const;
+
+  /**
    * Set current category id.
    *
    * @param id            category id
