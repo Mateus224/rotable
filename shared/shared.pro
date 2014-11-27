@@ -40,8 +40,6 @@ RESOURCES += shared_resources.qrc
 ########################################################################
 # DESTINATION:
 
-#message($$QMAKE_CC)
-
 contains(QMAKE_CC, gcc) {
     PLATFORM = host
 } else {

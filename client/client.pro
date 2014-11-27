@@ -50,15 +50,14 @@ OTHER_FILES += \
 # DESTINATION:
 
 contains(QMAKE_CC, gcc) {
-    debug:ROTABLE_DEST = debug/host
-    release:ROTABLE_DEST = release/host
+    PLATFORM = host
 
     LIBS += \
         -lbreakpad_client \
         -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux
 } else {
-    debug:ROTABLE_DEST = debug/rpi
-    release:ROTABLE_DEST = release/rpi
+    # since QMAKE_CC contains more than gcc this must be a cross-compile build
+    PLATFORM = rpi
 
     INCLUDEPATH += $$PWD/../third-party/wiringPi/wiringPi
     LIBS += \
@@ -66,14 +65,22 @@ contains(QMAKE_CC, gcc) {
         -L$$PWD/../third-party/google-breakpad-read-only-rpi/src/client/linux -lbreakpad_client
 }
 
-DESTDIR     = $$PWD/../bin/$$ROTABLE_DEST
-OBJECTS_DIR = $$PWD/../bin/tmp/obj/$$ROTABLE_DEST/$$TARGET
-MOC_DIR     = $$PWD/../bin/tmp/moc/$$ROTABLE_DEST/$$TARGET
-RCC_DIR     = $$PWD/../bin/tmp/rcc/$$ROTABLE_DEST/$$TARGET
-UI_DIR      = $$PWD/../bin/tmp/ui/$$ROTABLE_DEST/$$TARGET
+CONFIG(debug, debug|release) {
+    DESTDIR     = $$PWD/../bin/debug/$$PLATFORM
+    OBJECTS_DIR = $$PWD/../bin/tmp/obj/debug/$$PLATFORM/$$TARGET
+    MOC_DIR     = $$PWD/../bin/tmp/moc/debug/$$PLATFORM/$$TARGET
+    RCC_DIR     = $$PWD/../bin/tmp/rcc/debug/$$PLATFORM/$$TARGET
+    UI_DIR      = $$PWD/../bin/tmp/ui/debug/$$PLATFORM/$$TARGET
+} else {
+    DESTDIR     = $$PWD/../bin/release/host
+    OBJECTS_DIR = $$PWD/../bin/tmp/obj/release/$$PLATFORM/$$TARGET
+    MOC_DIR     = $$PWD/../bin/tmp/moc/release/$$PLATFORM/$$TARGET
+    RCC_DIR     = $$PWD/../bin/tmp/rcc/release/$$PLATFORM/$$TARGET
+    UI_DIR      = $$PWD/../bin/tmp/ui/release/$$PLATFORM/$$TARGET
+}
 
 ########################################################################
 # LINK:
 
 LIBS += \
-    -L$$DESTDIR -lrotable-shared \
+    -L$$DESTDIR -lrotable-shared
