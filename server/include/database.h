@@ -200,6 +200,7 @@ public:
    * @return            true if category already exists
    */
   bool hasCategory(const QString& name);
+  bool hasCategory(int id);
 
   /**
    * Check if a product with given name already exists in given category.
@@ -209,6 +210,7 @@ public:
    * @return            true if product already exists
    */
   bool hasProduct(const QString& name, int categoryId);
+  bool hasProduct(int productId, int categoryId);
 
   /**
    * Check whether this object is connected to the database.

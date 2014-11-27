@@ -121,6 +121,21 @@ void Executor::onAddProductCategory()
 
 //------------------------------------------------------------------------------
 
+void Executor::onUpdateCategory(ProductCategory *category)
+{
+  if (category) {
+    ComPackageDataSet set;
+    set.setDataCategory(ComPackage::SetCategory);
+    set.setData(category->toJSON());
+
+    if (!_tcp_client.send(set)) {
+      qCritical() << tr("FATAL: Could not send data set package!");
+    }
+  }
+}
+
+//------------------------------------------------------------------------------
+
 void Executor::onAddProduct()
 {
   AddProductDialog dlg(_images, _mainwindow);
@@ -150,6 +165,21 @@ void Executor::onAddProduct()
       msgBox.setStandardButtons(QMessageBox::Ok);
       msgBox.setIcon(QMessageBox::Critical);
       msgBox.exec();
+    }
+  }
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::onUpdateProduct(Product *product)
+{
+  if (product) {
+    ComPackageDataSet set;
+    set.setDataCategory(ComPackage::SetProduct);
+    set.setData(product->toJSON());
+
+    if (!_tcp_client.send(set)) {
+      qCritical() << tr("FATAL: Could not send data set package!");
     }
   }
 }

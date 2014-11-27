@@ -71,6 +71,25 @@ public:
   QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
 
   /**
+   * This method gets called, when a user edits the list data.
+   *
+   * @param index               item index
+   * @param value               new item value
+   * @param role                role
+   * @return                    true on success
+   */
+  bool setData(const QModelIndex & index, const QVariant & value,
+               int role = Qt::EditRole);
+
+  /**
+   * Returns the item flags for the given index.
+   *
+   * @param index               item index
+   * @return                    item flags
+   */
+  Qt::ItemFlags flags(const QModelIndex & index) const;
+
+  /**
    * Returns the number of columns for the children of the given parent.
    *
    * @param parent              parent item

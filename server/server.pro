@@ -1,7 +1,7 @@
 QT = core network sql gui
 TARGET = rotable-server
 
-CONFIG   += console debug precompile_header
+CONFIG   += console precompile_header
 CONFIG   -= app_bundle
 
 PRECOMPILED_HEADER = private/precomp.h
@@ -34,22 +34,27 @@ HEADERS += \
 # DESTINATION:
 
 contains(QMAKE_CC, gcc) {
-    debug:ROTABLE_DEST = debug/host
-    release:ROTABLE_DEST = release/host
-
     LIBS += -lbreakpad_client
+    PLATFORM = host
 } else {
-    debug:ROTABLE_DEST = debug/rpi
-    release:ROTABLE_DEST = release/rpi
-
+    # since QMAKE_CC contains more than gcc this must be a cross-compile build
     LIBS += -lbreakpad_client_rpi
+    PLATFORM = rpi
 }
 
-DESTDIR     = $$PWD/../bin/$$ROTABLE_DEST
-OBJECTS_DIR = $$PWD/../bin/tmp/obj/$$ROTABLE_DEST/$$TARGET
-MOC_DIR     = $$PWD/../bin/tmp/moc/$$ROTABLE_DEST/$$TARGET
-RCC_DIR     = $$PWD/../bin/tmp/rcc/$$ROTABLE_DEST/$$TARGET
-UI_DIR      = $$PWD/../bin/tmp/ui/$$ROTABLE_DEST/$$TARGET
+CONFIG(debug, debug|release) {
+    DESTDIR     = $$PWD/../bin/debug/$$PLATFORM
+    OBJECTS_DIR = $$PWD/../bin/tmp/obj/debug/$$PLATFORM/$$TARGET
+    MOC_DIR     = $$PWD/../bin/tmp/moc/debug/$$PLATFORM/$$TARGET
+    RCC_DIR     = $$PWD/../bin/tmp/rcc/debug/$$PLATFORM/$$TARGET
+    UI_DIR      = $$PWD/../bin/tmp/ui/debug/$$PLATFORM/$$TARGET
+} else {
+    DESTDIR     = $$PWD/../bin/release/host
+    OBJECTS_DIR = $$PWD/../bin/tmp/obj/release/$$PLATFORM/$$TARGET
+    MOC_DIR     = $$PWD/../bin/tmp/moc/release/$$PLATFORM/$$TARGET
+    RCC_DIR     = $$PWD/../bin/tmp/rcc/release/$$PLATFORM/$$TARGET
+    UI_DIR      = $$PWD/../bin/tmp/ui/release/$$PLATFORM/$$TARGET
+}
 
 LIBS += \
     -L$$DESTDIR -lrotable-shared \

@@ -110,6 +110,9 @@ void Controller::connect_signals()
   connect(&_products, SIGNAL(categoryUpdated(rotable::ProductCategory*)),
           _categoryListModel, SLOT(onCategoryUpdated(rotable::ProductCategory*)));
 
+  connect(&_products, SIGNAL(categoryUpdated(rotable::ProductCategory*)),
+          &_executor, SLOT(onUpdateCategory(rotable::ProductCategory*)));
+
   connect(_mainwindow->_ui->_listViewCategories, SIGNAL(selectionChanged(int)),
           &_executor, SLOT(onCategorySelectionChanged(int)));
 
@@ -123,6 +126,9 @@ void Controller::connect_signals()
 
   connect(&_products, SIGNAL(productUpdated(rotable::Product*)),
           _productTableModel, SLOT(onProductUpdated(rotable::Product*)));
+
+  connect(&_products, SIGNAL(productUpdated(rotable::Product*)),
+          &_executor, SLOT(onUpdateProduct(rotable::Product*)));
 
   connect(_mainwindow->_ui->_listViewCategories, SIGNAL(selectionChanged(int)),
           _productTableModel, SLOT(onCategoryChanged(int)));

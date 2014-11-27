@@ -2,6 +2,7 @@
 
 #include "producttableview.h"
 #include "producttableiconcomboboxdelegate.h"
+#include "producttablepricespinboxdelegate.h"
 
 //------------------------------------------------------------------------------
 
@@ -9,7 +10,10 @@ ProductTableView::ProductTableView(QWidget *parent) :
     QTableView(parent)
 {
   _comboBoxDelegate = new ProductTableIconComboboxDelegate(this);
+  _spinBoxDelegate = new ProductTablePriceSpinBoxDelegate(this);
+
   setItemDelegateForColumn(1, _comboBoxDelegate);
+  setItemDelegateForColumn(2, _spinBoxDelegate);
 }
 
 //------------------------------------------------------------------------------

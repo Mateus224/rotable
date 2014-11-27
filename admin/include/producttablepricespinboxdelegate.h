@@ -1,9 +1,9 @@
-#ifndef PRODUCTTABLEICONCOMBOBOXDELEGATE_H
-#define PRODUCTTABLEICONCOMBOBOXDELEGATE_H
+#ifndef PRODUCTTABLEPRICESPINBOXDELEGATE_H
+#define PRODUCTTABLEPRICESPINBOXDELEGATE_H
 
 //------------------------------------------------------------------------------
 
-#include <QItemDelegate>
+#include <QStyledItemDelegate>
 
 //------------------------------------------------------------------------------
 
@@ -20,10 +20,10 @@ class QVariant;
 //------------------------------------------------------------------------------
 
 /**
- * The ProductTableIconComboboxDelegate class is a ComboBox for the product
- * table and allows the user to easily change a products icon.
+ * The ProductTablePriceSpinBoxDelegate class is a SpinBox for the product
+ * table and allows the user to easily change a products price.
  */
-class ProductTableIconComboboxDelegate : public QItemDelegate
+class ProductTablePriceSpinBoxDelegate : public QStyledItemDelegate
 {
   Q_OBJECT
 
@@ -33,7 +33,7 @@ public:
    *
    * @param parent          parent object
    */
-  ProductTableIconComboboxDelegate(QObject *parent = 0);
+  ProductTablePriceSpinBoxDelegate(QObject *parent = 0);
 
   /**
    * Returns the widget used to edit the item specified by index for editing.
@@ -77,22 +77,8 @@ public:
    */
   void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option,
                             const QModelIndex &index) const;
-
-  /**
-   * Renders the delegate using the given painter and style option for the item
-   * specified by index.
-   *
-   * @param painter         painter
-   * @param option          style option
-   * @param index           item index
-   */
-  void paint(QPainter *painter, const QStyleOptionViewItem &option,
-             const QModelIndex &index) const;
-
-private:
-  QStringList _items;
-}; // class ProductTableIconComboboxDelegate
+}; // class ProductTablePriceSpinBoxDelegate
 
 //------------------------------------------------------------------------------
 
-#endif // PRODUCTTABLEICONCOMBOBOXDELEGATE_H
+#endif // PRODUCTTABLEPRICESPINBOXDELEGATE_H

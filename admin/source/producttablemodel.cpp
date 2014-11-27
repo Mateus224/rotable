@@ -66,7 +66,7 @@ QVariant ProductTableModel::data(const QModelIndex& index, int role) const
   switch (index.column()) {
   case 0: // Name
   {
-    if (role == Qt::DisplayRole) {
+    if (role == Qt::DisplayRole || role == Qt::EditRole) {
       QList<int> productIds = _products->productIds(_currentCategoryId);
       Q_ASSERT(index.row() >= 0 && index.row() < productIds.count());
       Product* product = _products->product(productIds[index.row()]);
@@ -86,7 +86,7 @@ QVariant ProductTableModel::data(const QModelIndex& index, int role) const
   } break;
   case 1: // Icon
   {
-    if (role == Qt::DisplayRole) {
+    if (role == Qt::DisplayRole || role == Qt::EditRole) {
       QList<int> productIds = _products->productIds(_currentCategoryId);
       Q_ASSERT(index.row() >= 0 && index.row() < productIds.count());
       Product* product = _products->product(productIds[index.row()]);
@@ -106,11 +106,19 @@ QVariant ProductTableModel::data(const QModelIndex& index, int role) const
       if (product) {
         return QVariant(product->priceStr());
       }
+    } else if (role == Qt::EditRole) {
+      QList<int> productIds = _products->productIds(_currentCategoryId);
+      Q_ASSERT(index.row() >= 0 && index.row() < productIds.count());
+      Product* product = _products->product(productIds[index.row()]);
+      Q_ASSERT(product);
+      if (product) {
+        return QVariant(product->price());
+      }
     }
   } break;
   case 3: // Info
   {
-    if (role == Qt::DisplayRole) {
+    if (role == Qt::DisplayRole || role == Qt::EditRole) {
       QList<int> productIds = _products->productIds(_currentCategoryId);
       Q_ASSERT(index.row() >= 0 && index.row() < productIds.count());
       Product* product = _products->product(productIds[index.row()]);
@@ -123,6 +131,74 @@ QVariant ProductTableModel::data(const QModelIndex& index, int role) const
   }
 
   return QVariant();
+}
+
+//------------------------------------------------------------------------------
+
+bool ProductTableModel::setData(const QModelIndex &index,
+                                const QVariant &value,
+                                int role)
+{
+  if (role == Qt::EditRole) {
+    switch (index.column()) {
+    case 0: // Name
+    {
+      QList<int> productIds = _products->productIds(_currentCategoryId);
+      Q_ASSERT(index.row() >= 0 && index.row() < productIds.count());
+      Product* product = _products->product(productIds[index.row()]);
+      Q_ASSERT(product);
+      if (product) {
+        product->setName(value.toString());
+        return true;
+      }
+    } break;
+    case 1: // Icon
+    {
+      QList<int> productIds = _products->productIds(_currentCategoryId);
+      Q_ASSERT(index.row() >= 0 && index.row() < productIds.count());
+      Product* product = _products->product(productIds[index.row()]);
+      Q_ASSERT(product);
+      if (product) {
+        product->setIcon(value.toString());
+        return true;
+      }
+    } break;
+    case 2: // Price
+    {
+      QList<int> productIds = _products->productIds(_currentCategoryId);
+      Q_ASSERT(index.row() >= 0 && index.row() < productIds.count());
+      Product* product = _products->product(productIds[index.row()]);
+      Q_ASSERT(product);
+      if (product) {
+        product->setPrice(value.toInt());
+        return true;
+      }
+    } break;
+    case 3: // Info
+    {
+      QList<int> productIds = _products->productIds(_currentCategoryId);
+      Q_ASSERT(index.row() >= 0 && index.row() < productIds.count());
+      Product* product = _products->product(productIds[index.row()]);
+      Q_ASSERT(product);
+      if (product) {
+        product->setInfo(value.toString());
+        return true;
+      }
+    } break;
+    }
+
+
+    return false;
+  } else {
+    return false;
+  }
+}
+
+//------------------------------------------------------------------------------
+
+Qt::ItemFlags ProductTableModel::flags(const QModelIndex &/*index*/) const
+{
+  return Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled;
 }
 
 //------------------------------------------------------------------------------
@@ -214,10 +290,10 @@ void ProductTableModel::onProductUpdated(Product* product)
 void ProductTableModel::onCategoryChanged(int id)
 {
   beginResetModel();
-  setHeaderData(0, Qt::Horizontal, tr("Name"));
+  /*setHeaderData(0, Qt::Horizontal, tr("Name"));
   setHeaderData(1, Qt::Horizontal, tr("Icon"));
   setHeaderData(2, Qt::Horizontal, tr("Price"));
-  setHeaderData(3, Qt::Horizontal, tr("Info"));
+  setHeaderData(3, Qt::Horizontal, tr("Info"));*/
   _currentCategoryId = id;
   endResetModel();
 }

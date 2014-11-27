@@ -1,4 +1,4 @@
-QT += core gui network qml widgets
+QT += core gui network qml widgets svg printsupport
 
 TARGET = rotable-admin
 TEMPLATE = app
@@ -39,7 +39,8 @@ SOURCES += \
     source/io_readfordiagram.cpp \
     source/io_init.cpp \
     source/serverloglistener.cpp \
-    source/producttableiconcomboboxdelegate.cpp
+    source/producttableiconcomboboxdelegate.cpp \
+    source/producttablepricespinboxdelegate.cpp
 
 HEADERS += \
     include/mainwindow.h \
@@ -63,7 +64,8 @@ HEADERS += \
     include/io_init.h \
     include/serverloglistener.h \
     include/producttableiconcomboboxdelegate.h \
-    private/precomp.h
+    private/precomp.h \
+    include/producttablepricespinboxdelegate.h
 
 FORMS += \
     ui/mainwindow.ui \
@@ -78,19 +80,21 @@ RESOURCES += \
 ########################################################################
 # DESTINATION:
 
-contains(QMAKE_CC, gcc) {
-    debug:ROTABLE_DEST = debug/host
-    release:ROTABLE_DEST = release/host
-} else {
-    debug:ROTABLE_DEST = debug/rpi
-    release:ROTABLE_DEST = release/rpi
-}
+PLATFORM = host
 
-DESTDIR     = $$PWD/../bin/$$ROTABLE_DEST
-OBJECTS_DIR = $$PWD/../bin/tmp/obj/$$ROTABLE_DEST/$$TARGET
-MOC_DIR     = $$PWD/../bin/tmp/moc/$$ROTABLE_DEST/$$TARGET
-RCC_DIR     = $$PWD/../bin/tmp/rcc/$$ROTABLE_DEST/$$TARGET
-UI_DIR      = $$PWD/../bin/tmp/ui/$$ROTABLE_DEST/$$TARGET
+CONFIG(debug, debug|release) {
+    DESTDIR     = $$PWD/../bin/debug/$$PLATFORM
+    OBJECTS_DIR = $$PWD/../bin/tmp/obj/debug/$$PLATFORM/$$TARGET
+    MOC_DIR     = $$PWD/../bin/tmp/moc/debug/$$PLATFORM/$$TARGET
+    RCC_DIR     = $$PWD/../bin/tmp/rcc/debug/$$PLATFORM/$$TARGET
+    UI_DIR      = $$PWD/../bin/tmp/ui/debug/$$PLATFORM/$$TARGET
+} else {
+    DESTDIR     = $$PWD/../bin/release/host
+    OBJECTS_DIR = $$PWD/../bin/tmp/obj/release/$$PLATFORM/$$TARGET
+    MOC_DIR     = $$PWD/../bin/tmp/moc/release/$$PLATFORM/$$TARGET
+    RCC_DIR     = $$PWD/../bin/tmp/rcc/release/$$PLATFORM/$$TARGET
+    UI_DIR      = $$PWD/../bin/tmp/ui/release/$$PLATFORM/$$TARGET
+}
 
 ########################################################################
 # LINK:
@@ -98,4 +102,4 @@ UI_DIR      = $$PWD/../bin/tmp/ui/$$ROTABLE_DEST/$$TARGET
 LIBS += \
     -L$$DESTDIR -lrotable-shared \
     -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux -lbreakpad_client \
-    -L$$PWD/../third-party/qwt/lib -lqwt
+    -L$$PWD/../third-party/qwt/lib -lqwt -lqwt -lqwt

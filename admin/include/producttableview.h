@@ -8,6 +8,7 @@
 //------------------------------------------------------------------------------
 
 class ProductTableIconComboboxDelegate;
+class ProductTablePriceSpinBoxDelegate;
 
 //------------------------------------------------------------------------------
 
@@ -45,6 +46,7 @@ protected slots:
 
 private:
   ProductTableIconComboboxDelegate* _comboBoxDelegate;
+  ProductTablePriceSpinBoxDelegate* _spinBoxDelegate;
 }; // class ProductTableView
 
 //------------------------------------------------------------------------------

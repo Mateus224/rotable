@@ -20,6 +20,7 @@
 
 #include <QFile>
 
+#include <QHeaderView>
 #include <QHostAddress>
 
 #include <QJsonArray>
@@ -32,6 +33,7 @@
 #include <QModelIndex>
 
 #include <QSettings>
+#include <QSpinBox>
 #include <QString>
 
 #include <QWidget>

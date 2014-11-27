@@ -379,9 +379,9 @@ bool Server::addCategory(ProductCategory *category)
 
 bool Server::updateCategory(ProductCategory *category)
 {
-  if (!_db.hasCategory(category->name())) {
-    qWarning() << tr("A product category of name '%1' does not exists!")
-                  .arg(category->name());
+  if (!_db.hasCategory(category->id())) {
+    qWarning() << tr("A product category with id '%1' does not exists!")
+                  .arg(category->id());
     return false;
   }
 
@@ -427,9 +427,9 @@ bool Server::addProduct(Product *product)
 
 bool Server::updateProduct(Product *product)
 {
-  if (!_db.hasProduct(product->name(), product->categoryId())) {
-    qWarning() << tr("A product of name '%1' does not exists!")
-                  .arg(product->name());
+  if (!_db.hasProduct(product->id(), product->categoryId())) {
+    qWarning() << tr("A product with id '%1' does not exists!")
+                  .arg(product->id());
     return false;
   }
 

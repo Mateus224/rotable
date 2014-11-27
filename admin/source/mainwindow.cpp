@@ -61,10 +61,13 @@ MainWindow::~MainWindow()
   settings.setValue("tabDatabaseSplitterGeometry", _ui->_splitterDb->saveGeometry());
   settings.setValue("tabDatabaseSplitterState", _ui->_splitterDb->saveState());
   settings.setValue("tableViewProductsGeometry", _ui->_tableViewProducts->saveGeometry());
-  settings.setValue("tableViewProductsGeometryColumn0Width", _ui->_tableViewProducts->columnWidth(0));
-  settings.setValue("tableViewProductsGeometryColumn1Width", _ui->_tableViewProducts->columnWidth(1));
-  settings.setValue("tableViewProductsGeometryColumn2Width", _ui->_tableViewProducts->columnWidth(2));
-  settings.setValue("tableViewProductsGeometryColumn3Width", _ui->_tableViewProducts->columnWidth(3));
+
+  if (_ui->_tableViewProducts->horizontalHeader()->sectionSize(0) != 0) {
+    settings.setValue("tableViewProductsGeometryColumn0Width", _ui->_tableViewProducts->horizontalHeader()->sectionSize(0));
+    settings.setValue("tableViewProductsGeometryColumn1Width", _ui->_tableViewProducts->horizontalHeader()->sectionSize(1));
+    settings.setValue("tableViewProductsGeometryColumn2Width", _ui->_tableViewProducts->horizontalHeader()->sectionSize(2));
+    settings.setValue("tableViewProductsGeometryColumn3Width", _ui->_tableViewProducts->horizontalHeader()->sectionSize(3));
+  }
 
   delete _ui;
 }
@@ -93,10 +96,15 @@ void MainWindow::restore()
   _ui->_splitterDb->restoreGeometry(settings.value("tabDatabaseSplitterGeometry").toByteArray());
   _ui->_splitterDb->restoreState(settings.value("tabDatabaseSplitterState").toByteArray());
   _ui->_tableViewProducts->restoreGeometry(settings.value("tableViewProductsGeometry").toByteArray());
-  _ui->_tableViewProducts->setColumnWidth(0, settings.value("tableViewProductsGeometryColumn0Width").toInt());
-  _ui->_tableViewProducts->setColumnWidth(1, settings.value("tableViewProductsGeometryColumn1Width").toInt());
-  _ui->_tableViewProducts->setColumnWidth(2, settings.value("tableViewProductsGeometryColumn2Width").toInt());
-  _ui->_tableViewProducts->setColumnWidth(3, settings.value("tableViewProductsGeometryColumn3Width").toInt());
+
+  _ui->_tableViewProducts->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Interactive);
+  _ui->_tableViewProducts->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Fixed);
+  _ui->_tableViewProducts->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Interactive);
+
+  _ui->_tableViewProducts->horizontalHeader()->resizeSection(0, settings.value("tableViewProductsGeometryColumn0Width", 200).toInt());
+  _ui->_tableViewProducts->horizontalHeader()->resizeSection(1, settings.value("tableViewProductsGeometryColumn1Width", 150).toInt());
+  _ui->_tableViewProducts->horizontalHeader()->resizeSection(2, settings.value("tableViewProductsGeometryColumn2Width", 200).toInt());
+  _ui->_tableViewProducts->horizontalHeader()->resizeSection(3, settings.value("tableViewProductsGeometryColumn3Width").toInt());
 }
 
 //------------------------------------------------------------------------------

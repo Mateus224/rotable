@@ -51,11 +51,13 @@ int CategoryListModel::rowCount(const QModelIndex &parent) const
 
 //------------------------------------------------------------------------------
 
-QVariant CategoryListModel::data(const QModelIndex &index, int role) const
+QVariant CategoryListModel::data(const QModelIndex &index,
+                                 int role) const
 {
   if (index.column() == 0) {
     if (index.row() >= 0 && index.row() < _products->categoryCount()) {
       switch (role) {
+      case Qt::EditRole:
       case Qt::DisplayRole:
       {
         QList<int> categoryIds = _products->categoryIds();
@@ -93,6 +95,32 @@ QVariant CategoryListModel::data(const QModelIndex &index, int role) const
 
 //------------------------------------------------------------------------------
 
+bool CategoryListModel::setData(const QModelIndex &index,
+                                const QVariant &value,
+                                int role)
+{
+  if (index.column() == 0) {
+    if (index.row() >= 0 && index.row() < _products->categoryCount()) {
+      if (role == Qt::EditRole) {
+        QList<int> categoryIds = _products->categoryIds();
+        ProductCategory* category = _products->category(categoryIds[index.row()]);
+        if (category) {
+          category->setName(value.toString());
+        }
+      }
+    }
+  }
+}
+
+//------------------------------------------------------------------------------
+
+Qt::ItemFlags CategoryListModel::flags(const QModelIndex &/*index*/) const
+{
+  return Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled;
+}
+
+//------------------------------------------------------------------------------
+
 int CategoryListModel::columnCount(const QModelIndex &/*parent*/) const
 {
   return 1;
@@ -100,7 +128,8 @@ int CategoryListModel::columnCount(const QModelIndex &/*parent*/) const
 
 //------------------------------------------------------------------------------
 
-QModelIndex CategoryListModel::index(int row, int column,
+QModelIndex CategoryListModel::index(int row,
+                                     int column,
                                      const QModelIndex& parent) const
 {
   if (parent.isValid()

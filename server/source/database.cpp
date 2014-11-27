@@ -51,11 +51,11 @@ static const char S_selectAllProductIds[] =
     "SELECT `id` FROM `%1products`";
 
 static const char S_updateCategory[] =
-    "UPDATE `%1categories` SET `name` = ':name', `icon` = ':icon' WHERE `id` = %2;";
+    "UPDATE `%1categories` SET `name` = :name, `icon` = :icon WHERE `id` = %2;";
 
 static const char S_updateProduct[] =
-    "UPDATE `%1products` SET `name` = ':name', `price` = ':price', "
-    "`info` = ':info', `category_id` = ':category_id', `icon` = ':icon' "
+    "UPDATE `%1products` SET `name` = :name, `price` = :price, "
+    "`info` = :info, `category_id` = :category_id, `icon` = :icon "
     "WHERE `id` = %2;";
 
 static const char S_deleteProduct[] =
@@ -693,6 +693,34 @@ bool Database::hasCategory(const QString &name)
 
 //------------------------------------------------------------------------------
 
+bool Database::hasCategory(int id)
+{
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr = QString(S_selectCategory)
+      .arg(_prefix, "`id`", "id", QString("'%1'").arg(id));
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  if (!q.exec()) {
+    qCritical() << tr("Query exec failed: (%1: %2")
+                   .arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  return q.next();
+}
+
+//------------------------------------------------------------------------------
+
 bool Database::hasProduct(const QString &name, int categoryId)
 {
   if (!isConnected() || name.isEmpty() || categoryId == -1) {
@@ -701,6 +729,35 @@ bool Database::hasProduct(const QString &name, int categoryId)
 
   QString queryStr = QString(S_selectProduct)
       .arg(_prefix, "`id`", "name", QString("'%1'").arg(name));
+  queryStr += QString(" AND `category_id` = %1").arg(categoryId);
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  if (!q.exec()) {
+    qCritical() << tr("Query exec failed: (%1: %2")
+                   .arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  return q.next();
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::hasProduct(int productId, int categoryId)
+{
+  if (!isConnected() || productId == -1 || categoryId == -1) {
+    return false;
+  }
+
+  QString queryStr = QString(S_selectProduct)
+      .arg(_prefix, "`name`", "id", QString("'%1'").arg(productId));
   queryStr += QString(" AND `category_id` = %1").arg(categoryId);
 
   QSqlQuery q(_db);

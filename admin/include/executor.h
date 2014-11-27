@@ -77,9 +77,23 @@ public slots:
   void onAddProductCategory();
 
   /**
+   * Category has been updated.
+   *
+   * @param category      updated category
+   */
+  void onUpdateCategory(rotable::ProductCategory* category);
+
+  /**
    * Button to add a new product has been clicked.
    */
   void onAddProduct();
+
+  /**
+   * Product has been updated.
+   *
+   * @param product       updated product
+   */
+  void onUpdateProduct(rotable::Product* product);
 
   /**
    * Button to reset the complete database has been clicked.

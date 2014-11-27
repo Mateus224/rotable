@@ -39,7 +39,6 @@ int main(int argc, char *argv[])
   parser.process(app);
 
   QString configFilePath("config.ini");
-
   QStringList args = parser.positionalArguments();
   if (args.size() > 0) {
     configFilePath = args[0];
