@@ -7,10 +7,16 @@ Rectangle {
     Rectangle {
         id: rectOnConnecting
         anchors.centerIn: parent
-        color: "#8f214d"
-        width: textOnConnecting.width * 1.2
+        //color: "#8f214d"
+        width: parent.width
         height: textOnConnecting.height * 1.2
         radius: 10
+
+        Image {
+            id: backgroundImage
+            anchors.fill: parent
+            source: "qrc:/client/resources/bg_categories.png"
+        }
 
         Text {
             id: textOnConnecting
@@ -49,7 +55,7 @@ Rectangle {
         }
     }
 
-    Image {
+    /*Image {
         id: logo
         source: "qrc:/client/resources/rotable_logo.png"
 
@@ -60,5 +66,5 @@ Rectangle {
         width: 250
         fillMode: Image.PreserveAspectFit
         antialiasing: true
-    }
+    }*/
 }

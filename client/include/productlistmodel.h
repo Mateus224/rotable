@@ -30,7 +30,9 @@ public:
     InfoRole,
     IconRole,
     ColorRole,
-    IdRole
+    IdRole,
+    PriceStrRole,
+    AmountRole
   };
 
   /**

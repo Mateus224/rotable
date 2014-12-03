@@ -30,7 +30,7 @@ int CategoryListModel::rowCount(const QModelIndex &parent) const
   if (parent.isValid()) {
     return 0;
   } else {
-    return _products->categoryCount();
+    return _products->categoryCount() + 2;
   }
 }
 
@@ -45,29 +45,53 @@ int CategoryListModel::columnCount(const QModelIndex &/*parent*/) const
 
 QVariant CategoryListModel::data(const QModelIndex &index, int role) const
 {
-  if (index.column() == 0 && _products->categoryCount() > index.row()) {
+  if (index.column() == 0 && _products->categoryCount() + 2 > index.row()) {
     switch (role) {
     case Qt::DisplayRole:
     case NameRole:
     {
-      int categoryId = _products->categoryIds()[index.row()];
-      ProductCategory* category = _products->category(categoryId);
-      if (category) {
-        return QVariant(category->name());
+      if (index.row() < _products->categoryCount()) {
+        int categoryId = _products->categoryIds()[index.row()];
+        ProductCategory* category = _products->category(categoryId);
+        if (category) {
+          return QVariant(category->name());
+        }
+      } else {
+        if (index.row() - _products->categoryCount() == 0) {
+          return QVariant(tr("Games"));
+        } else {
+         return  QVariant(tr("Call Waiter"));
+        }
       }
     } break;
     case IconRole:
     {
-      int categoryId = _products->categoryIds()[index.row()];
-      ProductCategory* category = _products->category(categoryId);
-      if (category) {
-        return QVariant(category->icon());
+      if (index.row() < _products->categoryCount()) {
+        int categoryId = _products->categoryIds()[index.row()];
+        ProductCategory* category = _products->category(categoryId);
+        if (category) {
+          return QVariant(category->icon());
+        }
+      } else {
+        if (index.row() - _products->categoryCount() == 0) {
+          return QVariant("dices");
+        } else {
+          return QVariant("waiter");
+        }
       }
     } break;
     case IdRole:
     {
-      int categoryId = _products->categoryIds()[index.row()];
-      return QVariant(categoryId);
+      if (index.row() < _products->categoryCount()) {
+        int categoryId = _products->categoryIds()[index.row()];
+        return QVariant(categoryId);
+      } else {
+        if (index.row() - _products->categoryCount() == 0) {
+          return QVariant(-1);
+        } else {
+          return QVariant(-2);
+        }
+      }
     } break;
     default:
     {
@@ -109,7 +133,7 @@ QHash<int, QByteArray> CategoryListModel::roleNames() const
 
 int CategoryListModel::count() const
 {
-  return _products->categoryCount();
+  return _products->categoryCount() + 2;
 }
 
 //------------------------------------------------------------------------------

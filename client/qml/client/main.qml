@@ -3,15 +3,13 @@ import QtMultimedia 5.0
 import "globals.js" as Global
 
 Rectangle {
-    width: 800
-    height: 800
-    //color: "#FF00FF"
-    color: "#000000"
+    id: mainScreen
+    color: client.debug ? "#C0C0C0" : "#000000"
 
     Rectangle {
         id: screen
-        width: parent.height
-        height: parent.height
+        width: Math.min(parent.height, parent.width)
+        height: Math.min(parent.height, parent.width)
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         color: "#000000"

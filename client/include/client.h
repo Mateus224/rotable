@@ -51,6 +51,8 @@ class rotable::Client : public QObject
   Q_PROPERTY(int screenRotation READ screenRotation NOTIFY rotationChanged)
   Q_PROPERTY(bool contact READ contact NOTIFY contactChanged)
 
+  Q_PROPERTY(bool debug READ debug NOTIFY debugChanged)
+
 public:
   /**
    * Constructor
@@ -156,6 +158,19 @@ public:
     return _dataRequest.contains(packageId);
   }
 
+  /**
+   * Get whether this application has been build in debug mode.
+   *
+   * @return                  true on debug mode
+   */
+  inline bool debug() const {
+#if defined(_DEBUG) || defined(DEBUG) || defined(QT_DEBUG)
+    return true;
+#else
+    return false;
+#endif
+  }
+
 signals:
   /**
    * Current GUI state has changed.
@@ -176,6 +191,11 @@ signals:
    * Contact sensor state has changed.
    */
   void contactChanged();
+
+  /**
+   * Debugging status of software has changed (probably never happens).
+   */
+  void debugChanged();
 
 private slots:
   /**

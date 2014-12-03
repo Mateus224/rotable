@@ -131,6 +131,30 @@ QVariant ProductListModel::data(const QModelIndex &index, int role) const
         qDebug() << tr("unknown color!");
       }
     } break;
+    case PriceStrRole:
+    {
+      if (ids.count() > index.row()) {
+        int productId = ids[index.row()];
+        Product* product = _products->product(productId);
+        if (product) {
+          return QVariant(product->priceStr());
+        }
+      } else {
+        return QVariant("");
+      }
+    } break;
+    case AmountRole:
+    {
+      if (ids.count() > index.row()) {
+        int productId = ids[index.row()];
+        Product* product = _products->product(productId);
+        if (product) {
+          return QVariant(product->amount());
+        }
+      } else {
+        return QVariant("");
+      }
+    } break;
     default:
     {
       return QVariant();
@@ -166,6 +190,8 @@ QHash<int, QByteArray> ProductListModel::roleNames() const
   roles[IconRole] = "icon";
   roles[ColorRole] = "rectColor";
   roles[IdRole] = "productId";
+  roles[PriceStrRole] = "priceStr";
+  roles[AmountRole] = "amount";
   return roles;
 }
 

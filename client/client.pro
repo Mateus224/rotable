@@ -43,8 +43,13 @@ OTHER_FILES += \
     qml/client/main.qml \
     qml/client/ProductButton.qml \
     qml/client/ProductCategoryPage.qml \
-    qml/client/TabWidget.qml \
-    qml/client/ConnectionPage.qml
+    qml/client/CategoryBar.qml \
+    qml/client/ConnectionPage.qml \
+    qml/client/ScreensaverPage.qml \
+    qml/client/StartPage.qml \
+    qml/client/MyOrderButton.qml \
+    qml/client/ProductRects.qml \
+    qml/client/ProductPage.qml
 
 ########################################################################
 # DESTINATION:

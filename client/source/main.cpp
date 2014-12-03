@@ -15,11 +15,6 @@
 
 int main(int argc, char *argv[])
 {
-//  if (!QDir(ROTABLE_QML_PATH).exists()) {
-//    qCritical() << QString("Directory %1 does not exist!").arg(ROTABLE_QML_PATH);
-//    exit(EXIT_FAILURE);
-//  }
-
   // Create minidump on program crash (for later debugging)
   google_breakpad::MinidumpDescriptor breakpad_descriptor("/tmp");
   google_breakpad::ExceptionHandler breakpad_handler(
@@ -34,7 +29,8 @@ int main(int argc, char *argv[])
   parser.setApplicationDescription("rotable client application");
   parser.addHelpOption();
   parser.addVersionOption();
-  parser.addPositionalArgument("config", QCoreApplication::translate("main", "Path of the configuration file."));
+  parser.addPositionalArgument("config",
+    QCoreApplication::translate("main", "Path of the configuration file."));
   parser.process(app);
 
   QString configFilePath("config.ini");

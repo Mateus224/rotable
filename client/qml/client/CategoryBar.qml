@@ -1,42 +1,45 @@
 import QtQuick 2.0
 
 Rectangle {
-    property int buttonSize: 65
+    property int buttonSizeH: parent.height * 0.1 * 0.8
+    property int buttonSizeW: parent.height * 0.1 * 0.9
     property var listModel: CategoryListModel
 
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: parent.bottom
-    anchors.bottomMargin: 80
+    anchors.bottomMargin: parent.height * 0.125
 
-    height: buttonSize + 8
-
-    //color: "#FFFFFF"
+    height: parent.height * 0.1
 
     Image {
         id: backgroundImage
         anchors.fill: parent
-        source: "qrc:/client/resources/bg_orange.png"
+        source: "qrc:/client/resources/bg_categories.png"
     }
 
     ListView {
         anchors.centerIn: parent
-        height: buttonSize
-        width: buttonSize * model.count
+        height: buttonSizeH
+        width: buttonSizeW * model.count
         orientation: ListView.Horizontal
 
         model: listModel
 
+        interactive: false
+
         delegate: Rectangle {
             anchors.top: parent.top
 
-            width: buttonSize
-            height: buttonSize
+            width: buttonSizeW
+            height: buttonSizeH
 
-            color: index % 2 ? "#444041" : "#5a5758"
+            color: index % 2 ? "#444041" : "#3f494a"
 
             Image {
                 anchors.centerIn: parent
+                width: buttonSizeH
+                height: buttonSizeH
                 source: "image://rotable/" + icon
             }
 

@@ -12,5 +12,6 @@
         <file>resources/shot.png</file>
         <file>resources/soft.png</file>
         <file>resources/wine.png</file>
+        <file>resources/waiter.png</file>
     </qresource>
 </RCC>

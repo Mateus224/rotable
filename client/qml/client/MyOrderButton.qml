@@ -1,16 +1,28 @@
 import QtQuick 2.0
 
 Rectangle {
-    color: "#FFFFFF"
-    width: buttonLabel.width * 1.2
-    height: buttonLabel.height * 1.2
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.topMargin: parent.height * 0.1
+    width: parent.width * 0.33333
+    height: parent.height * 0.05
+    color: "#00000000"
+
+    Image {
+        anchors.fill: parent
+        source: "qrc:/client/resources/TopBarRight.png"
+        antialiasing: true
+    }
 
     Text {
         id: buttonLabel
         text: "MY ORDER"
         font.family: "FreeSans"
-        color: "#000000"
-        font.pointSize: 20
-        anchors.centerIn: parent
+        color: "#ffffff"
+        font.bold: true
+        font.pixelSize: parent.height * 0.8
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.right: parent.right
+        anchors.rightMargin: parent.width * 0.1
     }
 }

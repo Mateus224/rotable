@@ -17,5 +17,8 @@
         <file alias="ScreensaverPage.qml">qml/client/ScreensaverPage.qml</file>
         <file alias="StartPage.qml">qml/client/StartPage.qml</file>
         <file alias="startup.png">qml/client/icons/startup.png</file>
+        <file>resources/bg_categories.png</file>
+        <file>resources/TopBarRight.png</file>
+        <file>resources/TopBarLeft.png</file>
     </qresource>
 </RCC>

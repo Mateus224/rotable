@@ -151,7 +151,7 @@ fi
 if [ ! -d "$BASE_DIR/qt-everywhere-opensource-src-$QT5_PACKAGE_VER" ]; then
   cd $BASE_DIR
   if [ ! -f "$BASE_DIR/qt-everywhere-opensource-src-$QT5_PACKAGE_VER.tar.gz" ]; then
-    wget http://download.qt-project.org/official_releases/qt/5.3/$QT5_PACKAGE_VER/single/qt-everywhere-opensource-src-$QT5_PACKAGE_VER.tar.g
+    wget http://download.qt-project.org/official_releases/qt/5.3/$QT5_PACKAGE_VER/single/qt-everywhere-opensource-src-$QT5_PACKAGE_VER.tar.gz
   fi
   tar -xf qt-everywhere-opensource-src-$QT5_PACKAGE_VER.tar.gz
   

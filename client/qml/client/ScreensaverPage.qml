@@ -7,19 +7,22 @@ Rectangle {
     Rectangle {
         id: rectTouchToStart
         anchors.centerIn: parent
-        color: "#FFFFFF"
-        width: textOTouchToStart.width * 1.2
-        height: textOTouchToStart.height * 1.2
-        //radius: 10
+        width: parent.width
+        height: parent.height * 0.1
+
+        Image {
+            id: backgroundImage
+            anchors.fill: parent
+            source: "qrc:/client/resources/bg_categories.png"
+        }
 
         Text {
-            id: textOTouchToStart
+            id: textOnTouchToStart
             text: "TOUCH DISPLAY TO START"
             font.family: "FreeSans"
-            color: "#000000"
-            font.pointSize: 20
+            color: "#FFFFFF"
             anchors.centerIn: parent
-            //font.bold: true
+            font.pixelSize: parent.height * 0.70
         }
     }
 
@@ -28,7 +31,7 @@ Rectangle {
         onClicked: client.state = "STARTSCREEN"
     }
 
-    Image {
+    /*Image {
         id: logo
         source: "qrc:/client/resources/rotable_logo.png"
 
@@ -39,5 +42,5 @@ Rectangle {
         width: 250
         fillMode: Image.PreserveAspectFit
         antialiasing: true
-    }
+    }*/
 }
