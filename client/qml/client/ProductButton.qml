@@ -15,8 +15,6 @@ Rectangle {
     property string productInfo: ""
     property string productPriceStr: ""
 
-    property int lastX: -1
-    property int lastY: -1
     property int animating: 0
 
     property int titleVAlignment: Text.AlignVCenter
@@ -24,16 +22,17 @@ Rectangle {
 
     property real productNameFontPixelSizeExpanded: grid.buttonHeight * 0.5
 
+    state: "COLLAPSED"
+
     width: grid.buttonWidth
     height: grid.buttonHeight
 
-    state: "COLLAPSED"
-
     Rectangle {
         id: buttonCollapsed
+        color: "#00000000"
         anchors.fill: parent
 
-        color: "#00000000"
+        z: 0
 
         Text {
             id: idProductNameCollapsed
@@ -54,33 +53,116 @@ Rectangle {
         }
     }
 
+    Rectangle {
+        id: buttonExpanded
 
-
-
-
-    /*Text {
-        id: idProductInfo
-        text: productInfo
-        wrapMode: Text.Wrap
-        font.family: "FreeSans"
-        color: "#FFFFFF"
-        font.pointSize: 18
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.margins: 20
-        anchors.topMargin: 50
+        color: parent.color
         visible: false
 
-        Behavior on visible {
+        x: parent.x
+        y: parent.y
+        width: parent.width
+        height: parent.height
+
+        Text {
+            id: idProductNameExpanded
+            text: productName
+
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.leftMargin: parent.width    * 0.075
+            anchors.topMargin: parent.height    * 0.075
+
+            height: parent.height * 0.3
+            width:  parent.width  * 0.7
+
+            wrapMode: Text.Wrap
+
+            color: "#FFFFFF"
+
+            verticalAlignment: Text.AlignTop
+            horizontalAlignment: Text.AlignLeft
+
+            font.bold: true
+            font.pixelSize: parent.height * 0.2
+            font.family: productButton.buttonFontFamily
+            font.capitalization: Font.AllUppercase
+        }
+
+        Text {
+            id: idProductPriceStr
+            text: productButton.productPriceStr
+
+            anchors.left: productName.right
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.bottom: productName.bottom
+            anchors.rightMargin: parent.width   * 0.075
+            anchors.topMargin: parent.height    * 0.075
+
+            color: "#000000"
+
+            wrapMode: Text.Wrap
+
+            verticalAlignment: Text.AlignTop
+            horizontalAlignment: Text.AlignLeft
+
+            font.family: productButton.buttonFontFamily
+            font.pixelSize: idProductNameExpanded.font.pixelSize
+        }
+
+        Text {
+            id: idProductInfo
+            text: productInfo
+
+            wrapMode: Text.Wrap
+
+            color: "#000000"
+
+            anchors.left: idProductNameExpanded.left
+            anchors.right: idProductPriceStr.right
+            anchors.top: idProductNameExpanded.bottom
+            //anchors.topMargin: parent.height * 0.1
+
+            font.family: productButton.buttonFontFamily
+            font.pixelSize: parent.height * 0.075
+        }
+
+        Behavior on x {
             NumberAnimation {
-                duration: stateChangeDuration
+                duration: productButton.stateChangeDuration
+                easing.type: Easing.InOutQuad
+            }
+        }
+        Behavior on y {
+            NumberAnimation {
+                duration: productButton.stateChangeDuration
+                easing.type: Easing.InOutQuad
+            }
+        }
+        Behavior on width {
+            NumberAnimation {
+                duration: productButton.stateChangeDuration
+                easing.type: Easing.InOutQuad
+            }
+        }
+        Behavior on height {
+            NumberAnimation {
+                duration: productButton.stateChangeDuration
+                easing.type: Easing.InOutQuad
+            }
+        }
+        Behavior on z {
+            NumberAnimation {
+                duration: productButton.stateChangeDuration
                 easing.type: Easing.InOutQuad
             }
         }
     }
 
-    Rectangle {
+
+
+    /*Rectangle {
         id: idOrderAmountRect
 
         border.color: "#FFFFFF"
@@ -188,10 +270,6 @@ Rectangle {
         onClicked:  {
             if (-1 != buttonProductId) {
                 if (productButton.state == "COLLAPSED") {
-                    if (-1 == productButton.lastX) {
-                        productButton.lastX = productButton.x
-                        productButton.lastY = productButton.y
-                    }
                     productButton.state = "EXPANDED"
                 }
             }
@@ -282,15 +360,12 @@ Rectangle {
             //PropertyChanges { target: buttonCollapsed; visible: false }
             PropertyChanges { target: buttonExpanded; visible: true }
 
-            PropertyChanges { target: buttonExpanded; x: parent.parent.parent.x }
-            PropertyChanges { target: buttonExpanded; y: parent.parent.parent.y }
-            PropertyChanges { target: buttonExpanded; width: 100 }
-            PropertyChanges { target: buttonExpanded; height: 100 }
-            //PropertyChanges { target: buttonExpanded; width: grid.width - grid.buttonMarginH }
-            //PropertyChanges { target: buttonExpanded; height: grid.height - grid.buttonMarginV }
-            //PropertyChanges { target: buttonExpanded; x: grid.x - grid.buttonMarginH }
-            //PropertyChanges { target: buttonExpanded; y: grid.y - grid.buttonMarginV }
-            //PropertyChanges { target: buttonExpanded; z: 1 }
+            PropertyChanges { target: buttonExpanded; x: -productButton.x }
+            PropertyChanges { target: buttonExpanded; y: -productButton.y }
+            PropertyChanges { target: buttonExpanded; width: 5 * (grid.buttonWidth + grid.buttonMarginH) - grid.buttonMarginH }
+            PropertyChanges { target: buttonExpanded; height: 3 * (grid.buttonHeight + grid.buttonMarginV) - grid.buttonMarginV }
+            PropertyChanges { target: productButton; z: 1 }
+            PropertyChanges { target: buttonExpanded; z: 1 }
         },
         State {
             name: "COLLAPSED"
@@ -316,9 +391,10 @@ Rectangle {
 
             PropertyChanges { target: buttonExpanded; width: grid.buttonWidth }
             PropertyChanges { target: buttonExpanded; height: grid.buttonHeight }
-            PropertyChanges { target: buttonExpanded; x: productButton.lastX }
-            PropertyChanges { target: buttonExpanded; y: productButton.lastY }
-            //PropertyChanges { target: buttonExpanded; z: -1 }
+            PropertyChanges { target: buttonExpanded; x: productButton.x }
+            PropertyChanges { target: buttonExpanded; y: productButton.y }
+            PropertyChanges { target: buttonExpanded; z: 0 }
+            PropertyChanges { target: productButton; z: 0 }
         }
     ]
 }
