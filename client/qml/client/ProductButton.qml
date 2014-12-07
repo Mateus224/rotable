@@ -15,12 +15,11 @@ Rectangle {
     property string productInfo: ""
     property string productPriceStr: ""
 
-    property int animating: 0
+    property real contentMarginH: grid.buttonWidth * 0.25
+    property real contentMarginV: contentMarginH //grid.buttonHeight * 0.075
 
     property int titleVAlignment: Text.AlignVCenter
     property int titleTopMargin: grid.buttonHeight * 0.01
-
-    property real productNameFontPixelSizeExpanded: grid.buttonHeight * 0.5
 
     state: "COLLAPSED"
 
@@ -70,8 +69,8 @@ Rectangle {
 
             anchors.top: parent.top
             anchors.left: parent.left
-            anchors.leftMargin: parent.width    * 0.075
-            anchors.topMargin: parent.height    * 0.075
+            anchors.leftMargin: contentMarginH
+            anchors.topMargin: contentMarginV
 
             height: parent.height * 0.3
             width:  parent.width  * 0.7
@@ -97,8 +96,8 @@ Rectangle {
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.bottom: productName.bottom
-            anchors.rightMargin: parent.width   * 0.075
-            anchors.topMargin: parent.height    * 0.075
+            anchors.rightMargin: contentMarginH
+            anchors.topMargin: contentMarginV
 
             color: "#000000"
 
@@ -119,149 +118,136 @@ Rectangle {
 
             color: "#000000"
 
-            anchors.left: idProductNameExpanded.left
-            anchors.right: idProductPriceStr.right
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.leftMargin: contentMarginH
+            anchors.rightMargin: contentMarginH
             anchors.top: idProductNameExpanded.bottom
             //anchors.topMargin: parent.height * 0.1
+
+            horizontalAlignment: Text.AlignHCenter
 
             font.family: productButton.buttonFontFamily
             font.pixelSize: parent.height * 0.075
         }
 
+        Rectangle {
+            id: idAddProductButton
+
+            anchors.left: parent.left
+            anchors.bottom: parent.bottom
+            anchors.leftMargin: contentMarginH
+            anchors.bottomMargin: contentMarginV
+
+            width: parent.height * 0.2
+            height: parent.height * 0.2
+
+            color: Qt.darker(parent.color, 1.4)
+
+            Image {
+                anchors.fill: parent
+                source: "qrc:/client/resources/plus_white.png"
+                anchors.margins: parent.height * 0.33
+            }
+        }
+
+        Rectangle {
+            id: idOrderAmount
+
+            anchors.left: idAddProductButton.right
+            anchors.bottom: idAddProductButton.bottom
+            anchors.top: idAddProductButton.top
+
+            width: parent.height * 0.2
+
+            color: "#FFFFFF"
+
+            Text {
+                id: idProductAmountText
+                text: "0"
+                color: "#000000"
+
+                anchors.fill: parent
+
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+
+                font.family: productButton.buttonFontFamily
+                font.pixelSize: parent.height * 0.75
+            }
+        }
+
+        Rectangle {
+            id: idReduceProductButton
+
+            anchors.left: idOrderAmount.right
+            anchors.bottom: idOrderAmount.bottom
+            anchors.top: idOrderAmount.top
+
+            width: idAddProductButton.width
+
+            color: idAddProductButton.color
+
+            Image {
+                anchors.fill: parent
+                source: "qrc:/client/resources/minus_white.png"
+                anchors.margins: parent.height * 0.33
+            }
+        }
+
+        Text {
+            id: idProductTotalText
+            text: "=0,00 €"
+
+            anchors.left: idReduceProductButton.right
+            anchors.right: parent.right
+            anchors.top: idProductInfo.bottom
+            anchors.bottom: parent.bottom
+            anchors.rightMargin: contentMarginH
+            anchors.bottomMargin: contentMarginV
+
+            color: "#000000"
+
+            wrapMode: Text.Wrap
+
+            verticalAlignment: Text.AlignBottom
+            horizontalAlignment: Text.AlignRight
+
+            font.family: productButton.buttonFontFamily
+            font.pixelSize: idProductNameExpanded.font.pixelSize
+        }
+
         Behavior on x {
             NumberAnimation {
-                duration: productButton.stateChangeDuration
+                duration: stateChangeDuration
                 easing.type: Easing.InOutQuad
             }
         }
         Behavior on y {
             NumberAnimation {
-                duration: productButton.stateChangeDuration
+                duration: stateChangeDuration
                 easing.type: Easing.InOutQuad
             }
         }
         Behavior on width {
             NumberAnimation {
-                duration: productButton.stateChangeDuration
+                duration: stateChangeDuration
                 easing.type: Easing.InOutQuad
             }
         }
         Behavior on height {
             NumberAnimation {
-                duration: productButton.stateChangeDuration
+                duration: stateChangeDuration
                 easing.type: Easing.InOutQuad
             }
         }
         Behavior on z {
             NumberAnimation {
-                duration: productButton.stateChangeDuration
+                duration: stateChangeDuration
                 easing.type: Easing.InOutQuad
             }
         }
     }
-
-
-
-    /*Rectangle {
-        id: idOrderAmountRect
-
-        border.color: "#FFFFFF"
-        border.width: 2
-
-        color: "#00000000"
-
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        anchors.margins: 5
-
-        width: 0
-        height: 0
-
-        Image {
-            id: idMinusButton
-
-            source: "qrc:/images/resources/minus-white-border.png"
-
-            width: parent.width / 5
-
-            anchors.left: parent.left
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.margins: 5
-        }
-
-        Text {
-            id: idOrderAmount
-            text: "0"
-            font.family: "FreeSans"
-            color: "#FFFFFF"
-            font.pointSize: 20
-            anchors.left: idMinusButton.right
-            anchors.bottom: parent.bottom
-            anchors.top: parent.top
-            width: parent.width / 5
-            anchors.margins: 5
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            visible: false
-
-            Behavior on visible {
-                NumberAnimation {
-                    duration: stateChangeDuration
-                    easing.type: Easing.InOutQuad
-                }
-            }
-        }
-
-        Image {
-            id: idPlusButton
-
-            source: "qrc:/images/resources/plus-white-border.png"
-
-            width: parent.width / 5
-
-            anchors.left: idOrderAmount.right
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.margins: 5
-        }
-
-        Text {
-            id: idOrderTotalCostOfAmount
-            text: "0,00 €"
-            font.family: "FreeSans"
-            color: "#FFFFFF"
-            font.pointSize: 20
-            anchors.left: idPlusButton.right
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
-            anchors.top: parent.top
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            visible: false
-
-            Behavior on visible {
-                NumberAnimation {
-                    duration: stateChangeDuration
-                    easing.type: Easing.InOutQuad
-                }
-            }
-        }
-
-        Behavior on width {
-            NumberAnimation {
-                duration: stateChangeDuration
-                easing.type: Easing.InOutQuad
-            }
-        }
-
-        Behavior on height {
-            NumberAnimation {
-                duration: stateChangeDuration
-                easing.type: Easing.InOutQuad
-            }
-        }
-    }*/
 
     MouseArea {
         id: idButtonGlobalMouseArea
@@ -276,90 +262,10 @@ Rectangle {
         }
     }
 
-    /*Rectangle {
-        id: idCloseCrossRect
-
-        anchors.top: parent.top
-        anchors.right: parent.right
-
-        width: 0
-        height: 0
-
-        color: "#00000000"
-
-        Image {
-            id: idCloseCrossImage
-
-            source: "qrc:/images/resources/cross-white-border.png"
-
-            anchors.fill: parent
-            anchors.margins: 5
-        }
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked:  {
-                productButton.state = "COLLAPSED"
-            }
-        }
-
-        Behavior on width {
-            NumberAnimation {
-                duration: stateChangeDuration
-                easing.type: Easing.InOutQuad
-            }
-        }
-
-        Behavior on height {
-            NumberAnimation {
-                duration: stateChangeDuration
-                easing.type: Easing.InOutQuad
-            }
-        }
-    }*/
-
-
-    /*Behavior on titleVAlignment {
-        NumberAnimation {
-            duration: stateChangeDuration
-            easing.type: Easing.InOutQuad
-        }
-    }
-    Behavior on titleTopMargin {
-        NumberAnimation {
-            duration: stateChangeDuration
-            easing.type: Easing.InOutQuad
-        }
-    }*/
-
     states: [
         State {
             name: "EXPANDED"
-            /*PropertyChanges { target: productButton; width: grid.width - grid.buttonMarginH }
-            PropertyChanges { target: productButton; height: grid.height - grid.buttonMarginV }
-            PropertyChanges { target: productButton; x: grid.x - grid.buttonMarginH }
-            PropertyChanges { target: productButton; y: grid.y - grid.buttonMarginV }
-            PropertyChanges { target: productButton; z: 10 }
-            PropertyChanges { target: productButton; titleVAlignment: Text.AlignTop }
-            PropertyChanges { target: productButton; titleTopMargin: 20 }
-            PropertyChanges { target: idProductInfo; visible: true }
-            //PropertyChanges { target: idCloseCrossRect; width: 80 }
-            //PropertyChanges { target: idCloseCrossRect; height: 80 }
-
-            PropertyChanges { target: idProductName; x: grid.x - grid.buttonMarginH }
-            PropertyChanges { target: idProductName; y: grid.y - grid.buttonMarginV }
-            PropertyChanges { target: idProductName; width: grid.width * 0.7 }
-            PropertyChanges { target: idProductName; font.pointSize: productNameFontPixelSizeExpanded }
-
-            PropertyChanges { target: idOrderAmountRect; width: 5*85 }
-            PropertyChanges { target: idOrderAmountRect; height: 85 }
-            PropertyChanges { target: idOrderAmount; visible: true }
-            PropertyChanges { target: idOrderTotalCostOfAmount; visible: true }
-            PropertyChanges { target: idProductPrice; visible: true }*/
-
-            //PropertyChanges { target: buttonCollapsed; visible: false }
             PropertyChanges { target: buttonExpanded; visible: true }
-
             PropertyChanges { target: buttonExpanded; x: -productButton.x }
             PropertyChanges { target: buttonExpanded; y: -productButton.y }
             PropertyChanges { target: buttonExpanded; width: 5 * (grid.buttonWidth + grid.buttonMarginH) - grid.buttonMarginH }
@@ -369,26 +275,7 @@ Rectangle {
         },
         State {
             name: "COLLAPSED"
-            /*PropertyChanges { target: productButton; width: grid.buttonWidth }
-            PropertyChanges { target: productButton; height: grid.buttonHeight }
-            PropertyChanges { target: productButton; x: productButton.lastX }
-            PropertyChanges { target: productButton; y: productButton.lastY }
-            PropertyChanges { target: productButton; z: 1 }
-            PropertyChanges { target: productButton; titleVAlignment: Text.AlignVCenter }
-            PropertyChanges { target: productButton; titleTopMargin: 5 }
-            PropertyChanges { target: idProductInfo; visible: false }
-            //PropertyChanges { target: idCloseCrossRect; width: 0 }
-            //PropertyChanges { target: idCloseCrossRect; height: 0 }
-            PropertyChanges { target: idProductName; font.pixelSize: productNameFontPixelSizeCollapsed }
-            PropertyChanges { target: idOrderAmountRect; width: 0 }
-            PropertyChanges { target: idOrderAmountRect; height: 0 }
-            PropertyChanges { target: idOrderAmount; visible: false }
-            PropertyChanges { target: idOrderTotalCostOfAmount; visible: false }
-            PropertyChanges { target: idProductPrice; visible: false }*/
-
-            //PropertyChanges { target: buttonCollapsed; visible: true }
             PropertyChanges { target: buttonExpanded; visible: false }
-
             PropertyChanges { target: buttonExpanded; width: grid.buttonWidth }
             PropertyChanges { target: buttonExpanded; height: grid.buttonHeight }
             PropertyChanges { target: buttonExpanded; x: productButton.x }
