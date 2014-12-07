@@ -20,5 +20,7 @@
         <file>resources/bg_categories.png</file>
         <file>resources/TopBarRight.png</file>
         <file>resources/TopBarLeft.png</file>
+        <file>resources/minus_white.png</file>
+        <file>resources/plus_white.png</file>
     </qresource>
 </RCC>
