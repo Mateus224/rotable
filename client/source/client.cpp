@@ -172,6 +172,7 @@ void Client::packageReceived(ComPackage *package)
 
     case ComPackage::DataChanged:
     {
+      dataChanged(static_cast<ComPackageDataChanged*>(package));
     } break;
 
     case ComPackage::DataSet:
@@ -360,13 +361,13 @@ void Client::dataReturned(ComPackageDataReturn *package)
     {
       ProductCategory* category = ProductCategory::fromJSON(package->data());
       requestProductIds(category->id());
-      _products->addCategory(category);
+      _products->updateCategory(category);
     } break;
 
     case ComPackage::RequestProduct:
     {
       Product* product = Product::fromJSON(package->data());
-      _products->addProduct(product);
+      _products->updateProduct(product);
     } break;
 
     default:

@@ -46,12 +46,28 @@ public:
   bool addCategory(rotable::ProductCategory* category);
 
   /**
+   * Update an existing product category (or add if not yet existing).
+   *
+   * @param category        category
+   * @return                true on success
+   */
+  bool updateCategory(rotable::ProductCategory* category);
+
+  /**
    * Add a product.
    *
    * @param product         product
    * @return                true on success
    */
   bool addProduct(rotable::Product* product);
+
+  /**
+   * Update an existing product (or add if not yet existing).
+   *
+   * @param product         product
+   * @return                true on success
+   */
+  bool updateProduct(rotable::Product* product);
 
   /**
    * Remove given category (will also destroy the object)

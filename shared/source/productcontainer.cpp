@@ -67,6 +67,31 @@ bool ProductContainer::addProduct(Product *product)
 
 //------------------------------------------------------------------------------
 
+bool ProductContainer::updateProduct(Product* product)
+{
+  if (product
+      && product->id() != -1
+      && _categories.contains(product->categoryId()))
+  {
+    if (!_products.contains(product->id())) {
+      return addProduct(product);
+    } else {
+      Product* p = _products[product->id()];
+      p->setAmount(product->amount());
+      p->setCategoryId(product->categoryId());
+      p->setIcon(product->icon());
+      p->setInfo(product->info());
+      p->setPrice(product->price());
+      emit productUpdated(p);
+      return true;
+    }
+  } else {
+    return false;
+  }
+}
+
+//------------------------------------------------------------------------------
+
 bool ProductContainer::removeCategory(ProductCategory *category)
 {
   if (category) {
@@ -134,6 +159,31 @@ bool ProductContainer::addCategory(ProductCategory *category)
     connect(category, SIGNAL(iconChanged()), this, SLOT(onCategoryUpdated()));
     emit categoryAdded(category->id());
     return true;
+  } else {
+    return false;
+  }
+}
+
+//------------------------------------------------------------------------------
+
+bool ProductContainer::updateCategory(ProductCategory* category)
+{
+  if (category && category->id() != -1) {
+    if (!_categories.contains(category->id())) {
+      return addCategory(category);
+    } else {
+      ProductCategory* c = _categories[category->id()];
+      c->setIcon(category->icon());
+      c->setName(category->name());
+
+      foreach (Product* p, _products) {
+        if (p->categoryId() == c->id()) {
+          _products.remove(p->id());
+        }
+      }
+      emit categoryUpdated(c);
+      return true;
+    }
   } else {
     return false;
   }
