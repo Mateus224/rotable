@@ -261,6 +261,16 @@ Rectangle {
             }
         }
     }
+    Connections {
+        target: idMouseAreaBProductPage
+        onClicked: {
+            if (-1 != buttonProductId) {
+                if (productButton.state == "EXPANDED") {
+                    productButton.state = "COLLAPSED"
+                }
+            }
+        }
+    }
 
     states: [
         State {

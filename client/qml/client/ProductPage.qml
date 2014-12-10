@@ -4,6 +4,13 @@ Rectangle {
     anchors.fill: parent
     color: "#00000000"
 
+
+    MouseArea {
+        id: idMouseAreaBProductPage
+        anchors.fill: parent
+        enabled: true
+    }
+
     Rectangle {
         id: categoryTitle
 
