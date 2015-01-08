@@ -1,0 +1,21 @@
+Admin GUI:
+* Admin GUI should be able to register or verify new tables (with mac address)
+* Export/Import database
+
+Table:
+
+
+Waiter:
+
+
+
+Server:
+* New database design
+* Execute network commands one after another (stack)
+* Log all network communications to /var/log/rotable-server-comm.log
+
+
+Shared:
+* TCPClient implementation of Admin and Table is possibly the same and also 
+  usable for Waiter.
+* encryp TCP communication
