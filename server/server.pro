@@ -59,3 +59,6 @@ CONFIG(debug, debug|release) {
 LIBS += \
     -L$$DESTDIR -lrotable-shared \
     -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux
+
+RESOURCES += \
+    sql-commands.qrc

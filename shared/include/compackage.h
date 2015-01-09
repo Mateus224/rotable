@@ -27,6 +27,7 @@ namespace rotable {
   class ComPackageDataSet;
   class ComPackageReject;
   class ComPackageCommand;
+  class ComPackageSendOrder;
 }
 
 //------------------------------------------------------------------------------

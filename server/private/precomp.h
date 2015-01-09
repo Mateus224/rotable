@@ -17,3 +17,4 @@
 #include <QBuffer>
 #include <QJsonDocument>
 #include <QJsonArray>
+#include <QResource>

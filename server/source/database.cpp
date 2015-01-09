@@ -11,69 +11,33 @@ using namespace rotable;
 
 //------------------------------------------------------------------------------
 
-static const char S_createCategoriesTable[] =
-    "CREATE TABLE IF NOT EXISTS `%1categories` ("
-    "  `id` INTEGER PRIMARY KEY AUTOINCREMENT,"
-    "  `name` VARCHAR(512) NOT NULL,"
-    "  `icon` VARCHAR(128) NOT NULL"
-    ");";
-
-static const char S_createProductsTable[] =
-    "CREATE TABLE IF NOT EXISTS `%1products` ("
-    "  `id` INTEGER PRIMARY KEY AUTOINCREMENT,"
-    "  `name` VARCHAR(512) NOT NULL,"
-    "  `price` INTEGER NOT NULL,"
-    "  `info` text NOT NULL,"
-    "  `category_id` INTEGER NOT NULL,"
-    "  `icon` VARCHAR(128) NOT NULL,"
-    "  `amount` VARCHAR(512) NOT NULL"
-    ");";
-
-static const char S_insertCategory[] =
-    "INSERT INTO `%1categories` "
-    "(`id`, `name`, `icon`) "
-    "VALUES (%2, %3, %4);";
-
-static const char S_insertProduct[] =
-    "INSERT INTO `%1products` "
-    "(`id`, `name`, `price`, `info`, `category_id`, `icon`, `amount`) "
-    "VALUES (%2, %3, %4, %5, %6, %7, %8);";
-
-static const char S_selectCategory[] =
-    "SELECT %2 FROM %1categories WHERE `%3` = %4";
-
-static const char S_selectProduct[] =
-    "SELECT %2 FROM %1products WHERE `%3` = %4";
-
-static const char S_selectAllCategoryIds[] =
-    "SELECT `id` FROM `%1categories`";
-
-static const char S_selectAllProductIds[] =
-    "SELECT `id` FROM `%1products`";
-
-static const char S_updateCategory[] =
-    "UPDATE `%1categories` SET `name` = :name, `icon` = :icon WHERE `id` = %2;";
-
-static const char S_updateProduct[] =
-    "UPDATE `%1products` SET `name` = :name, `price` = :price, "
-    "`info` = :info, `category_id` = :category_id, `amount` = :amount, `icon` = :icon "
-    "WHERE `id` = %2;";
-
-static const char S_deleteProduct[] =
-    "DELETE FROM `%1products` WHERE `id` = %2;";
-
 static const char S_deleteProductsOfCategory[] =
     "DELETE FROM `%1products` WHERE `category_id` = %2;";
-
-static const char S_deleteCategory[] =
-    "DELETE FROM `%1categories` WHERE `id` = %2;";
 
 //------------------------------------------------------------------------------
 
 Database::Database(QObject *parent) :
   QObject(parent), _connected(false)
 {
+  SqlCommands categoryCmds;
+  collectSqlCommands(categoryCmds, "categories");
+  _sqlCommands.append(categoryCmds);
 
+  SqlCommands productCmds;
+  collectSqlCommands(productCmds, "products");
+  _sqlCommands.append(productCmds);
+
+  SqlCommands clientCmds;
+  collectSqlCommands(clientCmds, "clients");
+  _sqlCommands.append(clientCmds);
+
+  SqlCommands orderCmds;
+  collectSqlCommands(orderCmds, "orders");
+  _sqlCommands.append(orderCmds);
+
+  SqlCommands orderItemCmds;
+  collectSqlCommands(orderItemCmds, "order_items");
+  _sqlCommands.append(orderItemCmds);
 }
 
 //------------------------------------------------------------------------------
@@ -112,7 +76,7 @@ bool Database::categoryIds(QList<int>& ids)
     return false;
   }
 
-  QString queryStr = QString(S_selectAllCategoryIds).arg(_prefix);
+  QString queryStr = _sqlCommands[Categories]._listIds.arg(_prefix);
 
   QSqlQuery q(_db);
   //q.setForwardOnly(true);
@@ -154,10 +118,56 @@ bool Database::productIds(QList<int>& ids, int categoryId)
 
   QString queryStr;
   if (categoryId == -1) {
-    queryStr = QString(S_selectAllProductIds).arg(_prefix);
+    queryStr = _sqlCommands[Products]._listIds.arg(_prefix);
   } else {
-    queryStr = QString(S_selectProduct)
-        .arg(_prefix, "`id`", "category_id").arg(categoryId);
+    queryStr = _sqlCommands[Products]._select
+               .arg(_prefix, "`id`", "category_id").arg(categoryId);
+  }
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  if (!q.exec()) {
+    qCritical() << tr("Query exec failed: (%1: %2")
+                   .arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  while (q.next()) {
+    bool toIntOk;
+    ids << q.value("id").toInt(&toIntOk);
+    if (!toIntOk) {
+      qCritical() << tr("Could not convert entry '%1' to an integer!")
+                     .arg(q.value("id").toString());
+      ids.clear();
+      return false;
+    }
+  }
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::orderIds(QList<int>& ids, int clientId)
+{
+  ids.clear();
+
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr;
+  if (clientId == -1) {
+    queryStr = _sqlCommands[Orders]._listIds.arg(_prefix);
+  } else {
+    queryStr = _sqlCommands[Orders]._select
+               .arg(_prefix, "`id`", "client_id").arg(clientId);
   }
 
   QSqlQuery q(_db);
@@ -196,7 +206,7 @@ ProductCategory* Database::category(int id)
     return 0;
   }
 
-  QString queryStr = QString(S_selectCategory).arg(_prefix, "*", "id").arg(id);
+  QString queryStr = _sqlCommands[Categories]._select.arg(_prefix, "*", "id").arg(id);
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -247,7 +257,7 @@ Product* Database::product(int id)
     return 0;
   }
 
-  QString queryStr = QString(S_selectProduct).arg(_prefix, "*", "id").arg(id);
+  QString queryStr = _sqlCommands[Products]._select.arg(_prefix, "*", "id").arg(id);
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -310,13 +320,20 @@ Product* Database::product(int id)
 
 //------------------------------------------------------------------------------
 
+Order*Database::order(int id)
+{
+
+}
+
+//------------------------------------------------------------------------------
+
 bool Database::addCategory(ProductCategory* category)
 {
   if (!isConnected()) {
     return false;
   }
 
-  QString queryStr = QString(S_insertCategory).arg(_prefix, "NULL", ":name", ":icon");
+  QString queryStr = _sqlCommands[Categories]._insert.arg(_prefix, "NULL", ":name", ":icon");
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -346,8 +363,8 @@ bool Database::addProduct(Product* product)
     return false;
   }
 
-  QString queryStr = QString(S_insertProduct)
-      .arg(_prefix, "NULL", ":name", ":price", ":info", ":category_id", ":icon", ":amount");
+  QString queryStr = _sqlCommands[Products]._insert
+                     .arg(_prefix, "NULL", ":name", ":price", ":info", ":category_id", ":icon", ":amount");
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -381,7 +398,7 @@ bool Database::updateCategory(ProductCategory *category)
     return false;
   }
 
-  QString queryStr = QString(S_updateCategory).arg(_prefix).arg(category->id());
+  QString queryStr = _sqlCommands[Categories]._update.arg(_prefix).arg(category->id());
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -411,7 +428,7 @@ bool Database::updateProduct(Product *product)
     return false;
   }
 
-  QString queryStr = QString(S_updateProduct).arg(_prefix).arg(product->id());
+  QString queryStr = _sqlCommands[Products]._update.arg(_prefix).arg(product->id());
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -468,7 +485,7 @@ bool Database::removeCategory(int id)
   //----------------------------------------------------------------------------
   // Remove category:
   {
-    QString queryStr = QString(S_deleteCategory).arg(_prefix).arg(id);
+    QString queryStr = _sqlCommands[Categories]._remove.arg(_prefix).arg(id);
 
     QSqlQuery q(_db);
     q.setForwardOnly(true);
@@ -496,7 +513,7 @@ bool Database::removeProduct(int id)
     return false;
   }
 
-  QString queryStr = QString(S_deleteProduct).arg(_prefix).arg(id);
+  QString queryStr = _sqlCommands[Products]._remove.arg(_prefix).arg(id);
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -538,15 +555,27 @@ bool Database::createDatabase()
     return false;
   }
 
-  QSqlQuery q3(QString(S_createCategoriesTable).arg(_prefix), _db);
+  QSqlQuery q5(QString("DROP TABLE IF EXISTS `%1tables`;").arg(_prefix), _db);
+  if (q5.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q5.lastError().text());
+    return false;
+  }
+
+  QSqlQuery q3(_sqlCommands[Categories]._create.arg(_prefix), _db);
   if (q3.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q3.lastError().text());
     return false;
   }
 
-  QSqlQuery q4(QString(S_createProductsTable).arg(_prefix), _db);
+  QSqlQuery q4(_sqlCommands[Products]._create.arg(_prefix), _db);
   if (q4.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q4.lastError().text());
+    return false;
+  }
+
+  QSqlQuery q6(QString(S_createTablesTable).arg(_prefix), _db);
+  if (q6.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q6.lastError().text());
     return false;
   }
 
@@ -596,19 +625,19 @@ bool Database::exportDatabase(QString &dest)
   dest += QString("DROP TABLE IF EXISTS `%1categories`;\n").arg(_prefix);
   dest += QString("DROP TABLE IF EXISTS `%1products`;\n").arg(_prefix);
 
-  dest += QString(S_createCategoriesTable).arg(_prefix) + '\n';
-  dest += QString(S_createProductsTable).arg(_prefix) + '\n';
+  dest += _sqlCommands[Categories]._create.arg(_prefix) + '\n';
+  dest += _sqlCommands[Products]._create.arg(_prefix) + '\n';
 
   QList<int> ids;
   if (categoryIds(ids)) {
     for (int i = 0; i < ids.size(); ++i) {
       ProductCategory* c = category(ids[i]);
       if (c) {
-        dest += QString(S_insertCategory)
-            .arg(_prefix)
-            .arg(c->id())
-            .arg('\'' + c->name() + '\'')
-            .arg('\'' + c->icon() + '\'');
+        dest += _sqlCommands[Categories]._insert
+                .arg(_prefix)
+                .arg(c->id())
+                .arg('\'' + c->name() + '\'')
+                .arg('\'' + c->icon() + '\'');
         dest += '\n';
         delete c;
       } else {
@@ -624,15 +653,15 @@ bool Database::exportDatabase(QString &dest)
     for (int i = 0; i < ids.size(); ++i) {
       Product *p = product(ids[i]);
       if (p) {
-        dest += QString(S_insertProduct)
-            .arg(_prefix)
-            .arg(p->id())
-            .arg('\'' + p->name() + '\'')
-            .arg(p->price())
-            .arg('\'' + p->info() + '\'')
-            .arg(p->categoryId())
-            .arg('\'' + p->icon() + '\'')
-            .arg('\'' + p->amount() + '\'');
+        dest += _sqlCommands[Products]._insert
+                .arg(_prefix)
+                .arg(p->id())
+                .arg('\'' + p->name() + '\'')
+                .arg(p->price())
+                .arg('\'' + p->info() + '\'')
+                .arg(p->categoryId())
+                .arg('\'' + p->icon() + '\'')
+                .arg('\'' + p->amount() + '\'');
         dest += '\n';
         delete p;
       } else {
@@ -677,8 +706,8 @@ bool Database::hasCategory(const QString &name)
     return false;
   }
 
-  QString queryStr = QString(S_selectCategory)
-      .arg(_prefix, "`id`", "name", QString("'%1'").arg(name));
+  QString queryStr = _sqlCommands[Categories]._select
+                     .arg(_prefix, "`id`", "name", QString("'%1'").arg(name));
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -705,8 +734,8 @@ bool Database::hasCategory(int id)
     return false;
   }
 
-  QString queryStr = QString(S_selectCategory)
-      .arg(_prefix, "`id`", "id", QString("'%1'").arg(id));
+  QString queryStr = _sqlCommands[Categories]._select
+                     .arg(_prefix, "`id`", "id", QString("'%1'").arg(id));
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -733,8 +762,8 @@ bool Database::hasProduct(const QString &name, int categoryId)
     return false;
   }
 
-  QString queryStr = QString(S_selectProduct)
-      .arg(_prefix, "`id`", "name", QString("'%1'").arg(name));
+  QString queryStr = _sqlCommands[Products]._select
+                     .arg(_prefix, "`id`", "name", QString("'%1'").arg(name));
   queryStr += QString(" AND `category_id` = %1").arg(categoryId);
 
   QSqlQuery q(_db);
@@ -762,8 +791,8 @@ bool Database::hasProduct(int productId, int categoryId)
     return false;
   }
 
-  QString queryStr = QString(S_selectProduct)
-      .arg(_prefix, "`name`", "id", QString("'%1'").arg(productId));
+  QString queryStr = _sqlCommands[Products]._select
+                     .arg(_prefix, "`name`", "id", QString("'%1'").arg(productId));
   queryStr += QString(" AND `category_id` = %1").arg(categoryId);
 
   QSqlQuery q(_db);
@@ -791,4 +820,29 @@ bool Database::isConnected() const
     return _db.isOpen();
   }
   return false;
+}
+
+//------------------------------------------------------------------------------
+
+void Database::collectSqlCommands(Database::SqlCommands& cmds, QString table)
+{
+  cmds._create = QString((const char*)QResource(
+                           QString("://sql-commands/%1_create.sql").arg(table)).data());
+  cmds._select = QString((const char*)QResource(
+                           QString("://sql-commands/%1_select.sql").arg(table)).data());
+  cmds._update = QString((const char*)QResource(
+                           QString("://sql-commands/%1_update.sql").arg(table)).data());
+  cmds._insert = QString((const char*)QResource(
+                           QString("://sql-commands/%1_insert.sql").arg(table)).data());
+  cmds._listIds = QString((const char*)QResource(
+                            QString("://sql-commands/%1_select_ids.sql").arg(table)).data());
+  cmds._remove = QString((const char*)QResource(
+                           QString("://sql-commands/%1_remove.sql").arg(table)).data());
+
+  Q_ASSERT(!cmds._create.isEmpty());
+  Q_ASSERT(!cmds._select.isEmpty());
+  Q_ASSERT(!cmds._update.isEmpty());
+  Q_ASSERT(!cmds._insert.isEmpty());
+  Q_ASSERT(!cmds._listIds.isEmpty());
+  Q_ASSERT(!cmds._remove.isEmpty());
 }

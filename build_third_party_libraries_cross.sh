@@ -11,7 +11,7 @@ COMPILER="$BASE_DIR/../qt/gcc-4.7-linaro-rpi-gnueabihf/bin"
 #------------------------------------------------------------------------------
 # google-breakpad
 
-if [ ! -f "$BASE_DIR/google-breakpad-read-only-rpi/.COMPILED" ]; then
+if [ -f "$BASE_DIR/google-breakpad-read-only-rpi/.COMPILED" ]; then
   if [ ! -d "$BASE_DIR/google-breakpad-read-only-rpi/.svn" ]; then
     svn checkout http://google-breakpad.googlecode.com/svn/trunk/ "$BASE_DIR/google-breakpad-read-only-rpi"
     cd "$BASE_DIR/google-breakpad-read-only-rpi"

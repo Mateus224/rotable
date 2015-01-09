@@ -45,7 +45,7 @@ Client::Client(const QString &configFilePath, QObject *parent)
     exit(EXIT_FAILURE);
     break;
   default:
-    // everything fine :)
+    // everything is fine :)
     break;
   }
 

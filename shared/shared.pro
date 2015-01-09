@@ -1,4 +1,4 @@
-QT += core network sql xml
+QT += core network sql xml qml
 
 TARGET = rotable-shared
 TEMPLATE = lib
@@ -20,7 +20,8 @@ SOURCES += \
     source/imagecontainer.cpp \
     source/productcontainer.cpp \
     source/productorder.cpp \
-    source/logmanager.cpp
+    source/logmanager.cpp \
+    source/order.cpp
 
 HEADERS += \
     include/configbase.h \
@@ -33,7 +34,8 @@ HEADERS += \
     include/productorder.h \
     include/logmanager.h \
     include/loglistenerremote.h \
-    include/loglisternerstdout.h
+    include/loglisternerstdout.h \
+    include/order.h
 
 RESOURCES += shared_resources.qrc
 

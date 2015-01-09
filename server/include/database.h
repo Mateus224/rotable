@@ -46,6 +46,30 @@ class rotable::Database : public QObject
 {
   Q_OBJECT
 
+private:
+  /**
+   * Database tables
+   */
+  enum DatabaseTables {
+    Categories = 0,
+    Products,
+    Clients,
+    Orders,
+    OrderItems
+  };
+
+  /**
+   * Collection of sql commands for a table.
+   */
+  struct SqlCommands {
+    QString _create;
+    QString _select;
+    QString _update;
+    QString _insert;
+    QString _listIds;
+    QString _remove;
+  };
+
 public:
   /**
    * Constructor
@@ -88,6 +112,15 @@ public:
   bool productIds(QList<int>& ids, int categoryId);
 
   /**
+   * Get list of order ids.
+   *
+   * @param ids         (result) list of order ids
+   * @param clientId    client id (-1 for all orders)
+   * @return            true on success
+   */
+  bool orderIds(QList<int>& ids, int clientId);
+
+  /**
    * Read category from database.
    *
    * @param id          category id
@@ -102,6 +135,14 @@ public:
    * @return            product or NULL on errror
    */
   Product *product(int id);
+
+  /**
+   * Read order from database.
+   *
+   * @param id          order id
+   * @return            order or NULL on error
+   */
+  Order *order(int id);
 
   /**
    * Add a new product category to the database.
@@ -220,6 +261,13 @@ public:
   bool isConnected() const;
 
 private:
+  /**
+   * Collect SQL commands from resource file.
+   *
+   * @param cmds        collected commands
+   */
+  void collectSqlCommands(SqlCommands& cmds, QString table);
+
   /* Database handle */
   QSqlDatabase _db;
 
@@ -228,6 +276,8 @@ private:
 
   /* Whether this object is connected to the database */
   bool _connected;
+
+  QList<SqlCommands> _sqlCommands;
 }; // class Database
 
 //------------------------------------------------------------------------------

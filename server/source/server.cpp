@@ -99,7 +99,7 @@ void Server::createDatabase()
 
 void Server::clientConnected(client_t client)
 {
-  qWarning() << tr("Client connected: %1").arg(
+  qDebug() << tr("Client connected: %1").arg(
                   _tcp.clientSocket(client)->peerAddress().toString());
 }
 

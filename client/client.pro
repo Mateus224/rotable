@@ -66,8 +66,8 @@ contains(QMAKE_CC, gcc) {
 
     INCLUDEPATH += $$PWD/../third-party/wiringPi/wiringPi
     LIBS += \
-        -L$$PWD/../third-party/wiringPi/wiringPi -lwiringPi \
-        -L$$PWD/../third-party/google-breakpad-read-only-rpi/src/client/linux -lbreakpad_client
+        -L$$PWD/../third-party/wiringPi/wiringPi -lwiringPi #\
+        #-L$$PWD/../third-party/google-breakpad-read-only-rpi/src/client/linux -lbreakpad_client
 }
 
 CONFIG(debug, debug|release) {
@@ -89,3 +89,6 @@ CONFIG(debug, debug|release) {
 
 LIBS += \
     -L$$DESTDIR -lrotable-shared
+
+target.path = /opt/rotable
+INSTALLS    += target

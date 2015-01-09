@@ -1,1 +1,22 @@
-<RCC/>
+<RCC>
+    <qresource prefix="/">
+        <file>sql-commands/categories_create.sql</file>
+        <file>sql-commands/categories_insert.sql</file>
+        <file>sql-commands/categories_select.sql</file>
+        <file>sql-commands/categories_remove.sql</file>
+        <file>sql-commands/categories_select_ids.sql</file>
+        <file>sql-commands/categories_update.sql</file>
+        <file>sql-commands/products_create.sql</file>
+        <file>sql-commands/products_insert.sql</file>
+        <file>sql-commands/products_remove.sql</file>
+        <file>sql-commands/products_select_ids.sql</file>
+        <file>sql-commands/products_select.sql</file>
+        <file>sql-commands/products_update.sql</file>
+        <file>sql-commands/clients_create.sql</file>
+        <file>sql-commands/clients_insert.sql</file>
+        <file>sql-commands/clients_remove.sql</file>
+        <file>sql-commands/clients_select_ids.sql</file>
+        <file>sql-commands/clients_select.sql</file>
+        <file>sql-commands/clients_update.sql</file>
+    </qresource>
+</RCC>
