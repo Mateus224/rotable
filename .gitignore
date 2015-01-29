@@ -5,3 +5,4 @@ third-party/**
 qt/**
 /.project
 bin/**
+Makefile-build-rotable*
