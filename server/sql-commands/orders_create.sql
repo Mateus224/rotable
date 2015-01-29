@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS `%1orders` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `state` VARCHAR(512) NOT NULL,
-  `client_id` VARCHAR(64) NOT NULL,
+  `state` INTEGER,
+  `client_id` INTEGER,
   `date_added` TIMESTAMP NOT NULL,
   `date_last_change` TIMESTAMP NOT NULL
 );
