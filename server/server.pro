@@ -1,4 +1,4 @@
-QT = core network sql gui
+QT = core network sql gui qml
 TARGET = rotable-server
 
 CONFIG   += console precompile_header

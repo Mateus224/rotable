@@ -18,5 +18,17 @@
         <file>sql-commands/clients_select_ids.sql</file>
         <file>sql-commands/clients_select.sql</file>
         <file>sql-commands/clients_update.sql</file>
+        <file>sql-commands/orders_create.sql</file>
+        <file>sql-commands/orders_insert.sql</file>
+        <file>sql-commands/orders_remove.sql</file>
+        <file>sql-commands/orders_select_ids.sql</file>
+        <file>sql-commands/orders_select.sql</file>
+        <file>sql-commands/orders_update.sql</file>
+        <file>sql-commands/orderitems_create.sql</file>
+        <file>sql-commands/orderitems_insert.sql</file>
+        <file>sql-commands/orderitems_remove.sql</file>
+        <file>sql-commands/orderitems_select_ids.sql</file>
+        <file>sql-commands/orderitems_select.sql</file>
+        <file>sql-commands/orderitems_update.sql</file>
     </qresource>
 </RCC>

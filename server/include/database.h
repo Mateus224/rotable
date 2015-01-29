@@ -25,12 +25,11 @@
 
 #include "productcategory.h"
 #include "product.h"
+#include "order.h"
 
 //------------------------------------------------------------------------------
 
 namespace rotable {
-struct DbCategory;
-struct DbProduct;
 class Database;
 }
 

@@ -1,4 +1,5 @@
 Admin GUI:
+* Automatic Connect to server
 * Admin GUI should be able to register or verify new tables (with mac address)
 * Export/Import database
 

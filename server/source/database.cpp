@@ -2,6 +2,7 @@
 
 #include "database.h"
 #include "settings.h"
+#include "order.h"
 
 #include <QSqlDriver>
 
@@ -36,7 +37,7 @@ Database::Database(QObject *parent) :
   _sqlCommands.append(orderCmds);
 
   SqlCommands orderItemCmds;
-  collectSqlCommands(orderItemCmds, "order_items");
+  collectSqlCommands(orderItemCmds, "orderitems");
   _sqlCommands.append(orderItemCmds);
 }
 
@@ -322,7 +323,68 @@ Product* Database::product(int id)
 
 Order*Database::order(int id)
 {
+  if (!isConnected()) {
+    return 0;
+  }
 
+  QString queryStr = _sqlCommands[Orders]._select.arg(_prefix, "*", "id").arg(id);
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return 0;
+  }
+
+  if (!q.exec()) {
+    qCritical() << tr("Query exec failed: (%1: %2")
+                   .arg(queryStr, q.lastError().text());
+    return 0;
+  }
+
+  if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+    if (q.size() != 1) {
+      qCritical() << tr("Query: returned %1 results but we expected it to return 1!")
+                     .arg(q.size());
+      return 0;
+    }
+  }
+
+  if (!q.next()) {
+    return 0;
+  }
+
+  bool ok;
+  int orderId = q.value("id").toInt(&ok);
+  if (!ok) {
+    qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("id").toString());
+    return 0;
+  }
+
+  int clientId = q.value("client_id").toInt(&ok);
+  if (!ok) {
+    qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("client_id").toString());
+    return 0;
+  }
+
+  int state = q.value("stat").toInt(&ok);
+  if (!ok) {
+    qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("state").toString());
+    return 0;
+  }
+
+  QDateTime orderSent = q.value("date_added").toDateTime();
+
+  Order* o = new Order();
+
+  o->setId(orderId);
+  o->setClientId(clientId);
+  o->setState(state);
+
+  // TODO: continue here
+
+  return o;
 }
 
 //------------------------------------------------------------------------------
@@ -573,7 +635,7 @@ bool Database::createDatabase()
     return false;
   }
 
-  QSqlQuery q6(QString(S_createTablesTable).arg(_prefix), _db);
+  QSqlQuery q6(_sqlCommands[Clients]._create.arg(_prefix), _db);
   if (q6.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q6.lastError().text());
     return false;
