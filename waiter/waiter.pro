@@ -29,7 +29,8 @@ RESOURCES +=\
     $$PWD/../shared/shared_resources.qrc
 
 OTHER_FILES += \
-    qml/waiter/main.qml
+    qml/waiter/main.qml \
+    qml/waiter/componentCreation.js
 
 ########################################################################
 # DESTINATION:
@@ -38,15 +39,15 @@ contains(QMAKE_CC, gcc) {
     PLATFORM = host
 
     LIBS += \
-        -lbreakpad_client \
-        -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux
+   #     -lbreakpad_client \
+   #     -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux
 } else {
     # since QMAKE_CC contains more than gcc this must be a cross-compile build
     PLATFORM = rpi
 
     LIBS += \
-        -lbreakpad_client
-        -L$$PWD/../third-party/google-breakpad-read-only-rpi/src/client/linux 
+ #       -lbreakpad_client
+ #       -L$$PWD/../third-party/google-breakpad-read-only-rpi/src/client/linux
 }
 
 CONFIG(debug, debug|release) {
