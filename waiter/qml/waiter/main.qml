@@ -2,6 +2,8 @@ import QtQuick 2.0
 import QtMultimedia 5.0
 import "componentCreation.js" as CreateComponent
 
+//http://qt-project.org/doc/qt-4.8/qml-component.html
+
 Rectangle {
     id: appWindow
     width: 300; height: 300
@@ -10,14 +12,14 @@ Rectangle {
     id: bottleArea
     anchors.fill: parent
     //rotation: 4
-    onPressed: CreateComponent.consolee()
+    //onPressed: CreateComponent.consolee()
     }
     Image {
     id: dialer
     anchors.fill: parent
-    source: "pics/sky_vodka.png";
+    //source: "pics/sky_vodka.png";
     }
-    //Component.onCompleted: CreateComponent.createSpriteObjects();
+    Component.onCompleted: CreateComponent.createSpriteObjects();
    //Component.onCompleted: CreateComponent.initialize();
 
 }
@@ -100,17 +102,5 @@ Rectangle {
                 }
 
 
-
-
-
-function createSpriteObjects() {
-    component = Qt.createComponent("Sprite.qml");
-    sprite = component.createObject(appWindow, {"x": 100, "y": 100});
-
-    if (sprite == null) {
-        // Error Handling
-        console.log("Error creating object");
-    }
-}
 }
 */

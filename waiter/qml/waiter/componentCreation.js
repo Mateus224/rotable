@@ -2,19 +2,9 @@ var component;
 var sprite;
 
 
-function consolee() {
-     console.log("test");
-}
-
-
-function initialize()
-{
-    centerX = dialer.x + dialer.width / 2;
-    centerY = dialer.y + dialer.height / 2;
-}
 
 function createSpriteObjects() {
-
+    console.log("test");
     component = Qt.createComponent("Sprite.qml");
 
     if (component.status == Component.Ready)
