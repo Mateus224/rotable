@@ -3,6 +3,5 @@
         <file>resources/rotable_logo.png</file>
         <file alias="main.qml">qml/waiter/main.qml</file>
         <file alias="componentCreation.js">qml/waiter/componentCreation.js</file>
-        <file alias="Sprite.qml">qml/waiter/Sprite.qml</file>
     </qresource>
 </RCC>

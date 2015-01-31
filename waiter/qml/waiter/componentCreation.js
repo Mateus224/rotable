@@ -4,6 +4,10 @@ var count_table_objects=0
 
 
 var count=100
+
+
+
+
 function createSpriteObjects(){
     var string=["import QtQuick 2.0;
 
@@ -16,10 +20,16 @@ function createSpriteObjects(){
 
     Text {
         text:\"table:\"+ "+count_table_objects+"
+        anchors.centerIn: parent
+
     }
     MouseArea {
     id: itemArea"+count_table_objects+";
     anchors.fill: parent;
+    onClicked: {
+        parent.color = 'red'
+
+        }
     }
 }
 
