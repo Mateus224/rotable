@@ -1,15 +1,26 @@
 import QtQuick 2.0
 import QtMultimedia 5.0
-import "qrc:componentCreation.js" as CreateComponent
+import "componentCreation.js" as CreateComponent
 
-    Rectangle{
-         id:table
-         width:700
-         height:400
-         color: "#ffffff"
+Rectangle {
+    id: appWindow
+    width: 300; height: 300
+    MouseArea {
+    //color:"#800000FF"
+    id: bottleArea
+    anchors.fill: parent
+    //rotation: 4
+    onPressed: CreateComponent.consolee()
+    }
+    Image {
+    id: dialer
+    anchors.fill: parent
+    source: "pics/sky_vodka.png";
+    }
+    //Component.onCompleted: CreateComponent.createSpriteObjects();
+   //Component.onCompleted: CreateComponent.initialize();
 
-         Component.onCompleted: CreateComponent.createSpriteObjects();
-
+}
 
           /*  Rectangle {
                 id: rectangle1
@@ -88,7 +99,7 @@ import "qrc:componentCreation.js" as CreateComponent
 
                 }
 
-*/
+
 
 
 
@@ -102,3 +113,4 @@ function createSpriteObjects() {
     }
 }
 }
+*/

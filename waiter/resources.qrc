@@ -2,6 +2,6 @@
     <qresource prefix="/waiter">
         <file>resources/rotable_logo.png</file>
         <file alias="main.qml">qml/waiter/main.qml</file>
-        <file>componentCreation.js</file>
+        <file alias="componentCreation.js">qml/waiter/componentCreation.js</file>
     </qresource>
 </RCC>
