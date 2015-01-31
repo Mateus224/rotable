@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtMultimedia 5.0
 import "componentCreation.js" as CreateComponent
 
-//http://qt-project.org/doc/qt-4.8/qml-component.html
+
 
 Rectangle {
     id: appWindow
