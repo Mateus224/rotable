@@ -1,6 +1,6 @@
 #include "private/precomp.h"
 
-#include "client/linux/handler/exception_handler.h"
+//#include "client/linux/handler/exception_handler.h"
 
 #include "server.h"
 #include "logmanager.h"
@@ -13,9 +13,9 @@
 int main(int argc, char *argv[])
 {
   // Create minidump on program crash (for later debugging)
-  google_breakpad::MinidumpDescriptor breakpad_descriptor("/tmp");
-  google_breakpad::ExceptionHandler breakpad_handler(
-        breakpad_descriptor, NULL, NULL, NULL, true, -1);
+//  google_breakpad::MinidumpDescriptor breakpad_descriptor("/tmp");
+//  google_breakpad::ExceptionHandler breakpad_handler(
+//        breakpad_descriptor, NULL, NULL, NULL, true, -1);
 
   rotable::LogManager::getInstance()->registerQtWarnings();
   rotable::LogManager::getInstance()->addListener(new rotable::LogListenerStdOut());
