@@ -11,48 +11,18 @@ Rectangle {
     width: 125
     height: 480
     anchors.centerIn: parent
-    color: "transparent" //"#800000FF"//
+    color:  "#800000FF"//"transparent"
 
 
 
     RotationAnimation {
 	id: rotaryReleaseAnimation
-    duration : 2000
+    //duration : 2000
 	target: dialer
-	property: "rotation"
+    property: "rotation"
     easing.type: Easing.OutQuad
-    //direction: RotationAnimation.Counterclockwise
+    //running: true
     }
-
-    // the numbers layer
-/*
-    Rectangle {
-	id: numbers
-	anchors.fill: parent
-    color: "transparent"
-
-	Repeater {
-        model: 12
-	    delegate: Rectangle {
-        width: 30
-        height: 30
-		color: "transparent"
-        x: dialerView.width / 2 + 300 * Math.cos(index * Dialer.digitAngle) - 15
-        y: dialerView.height / 2 - 300 * Math.sin(index * Dialer.digitAngle) - 15
-
-		Text {
-		    color: "black"
-            font.pointSize: 15
-		    anchors.centerIn: parent
-            text: (index + 1) % 13
-		}
-	    }
-    }
-
-	anchors.centerIn: parent
-    }*/
-
-    // the rotating dialer layer
 
     Image {
 	id: dialer
@@ -69,7 +39,6 @@ Rectangle {
     //color:"#800000FF"
     id: bottleArea
 	anchors.fill: parent
-    //rotation: 45
 	onPositionChanged: Dialer.dialerMoved(mouse)
 	onReleased: Dialer.dialerReleased(mouse)
 	onPressed: Dialer.dialerPressed(mouse)

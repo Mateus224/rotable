@@ -14,54 +14,12 @@ Rectangle {
 	fillMode: "Tile"
     }
 
-    Rectangle {/*
-	border.width: 1
-	border.color: "black"
-	anchors.top: parent.top
-	anchors.left: parent.left
-	anchors.right: parent.right
-	anchors.topMargin: 60
-	anchors.margins: 10
-	height: dialerOutput.height
 
-	Text {
-	    id: dialerOutput
-	    text: ""
-	    font.pointSize: 15
-	    elide: Text.ElideLeft
-	}
-    */
-    }
 
     Dialer {
     //onNumberEntered: dialerOutput.text += number
     }
-    /*
-    Rectangle {
-            id : theTimer
-            x : 20; y: 20
-            width : 30 ; height: 50
-            color: "#707070"
 
-            Text {
-
-                    //text: seconds
-                    font.pointSize: 12; font.bold: true
-                    font.family: "Courier"
-                    anchors.centerIn: parent
-                }
-    }
-
-
-
-    Timer{
-        id:timer01
-        interval: 100
-        repeat: true
-        running: true
-        //onTriggered:{if(enabled) seconds++;}
-    }
-*/
     Item  {
         id: root
         width: 200; height: 230
@@ -92,18 +50,19 @@ Rectangle {
         }
 */
 
-
+/*
         Timer  {
             id: elapsedTimer
             interval: 100;
             running: true;
             repeat: true;
-            onTriggered: Dialer.timeChanged()
+            //onTriggered: Dialer.timeChanged()
         }
-
+ */
         Text {
             id: counterText
             text: root.secondsElapsed
+
         }
     }
 
