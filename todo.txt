@@ -2,11 +2,22 @@ Admin GUI:
 * Automatic Connect to server
 * Admin GUI should be able to register or verify new tables (with mac address)
 * Export/Import database
+* Waiter
+	* Create new waiter
+	* Block waiter (mayby he was fired)
+	* ? Change waiter personal information, e.g. password 
 
 Table:
-
+* Waiter support
+	* Connect between waiters and orders
+	* Waiter information 
 
 Waiter:
+* Login as waiter
+* ? Change personal information, e.g. password
+* Show active orders
+* Accept order (maybe some restriction e.g. 3 actice orders at once)
+* Show undone waiter's order
 
 
 
@@ -14,9 +25,21 @@ Server:
 * New database design
 * Execute network commands one after another (stack)
 * Log all network communications to /var/log/rotable-server-comm.log
+* Communication with Waiter
+	* Accept Waiter request
+		* list active orders
+		* list undone orders depends of waiter
+		* reserve order by waiter
+	* Send update order list after change
+
 
 
 Shared:
 * TCPClient implementation of Admin and Table is possibly the same and also 
   usable for Waiter.
 * encryp TCP communication
+
+Suggestion:
+* Show time to done order (waiter can set this time)
+* Show on table orders count in stock (custommer can see how many orders are before his order)
+  (maybe that can be realized by this same code as send information to waiters)

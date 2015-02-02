@@ -34,11 +34,11 @@ HEADERS += \
 # DESTINATION:
 
 contains(QMAKE_CC, gcc) {
-    LIBS += -lbreakpad_client
+ #   LIBS += -lbreakpad_client
     PLATFORM = host
 } else {
     # since QMAKE_CC contains more than gcc this must be a cross-compile build
-    LIBS += -lbreakpad_client_rpi
+ #   LIBS += -lbreakpad_client_rpi
     PLATFORM = rpi
 }
 
@@ -58,7 +58,7 @@ CONFIG(debug, debug|release) {
 
 LIBS += \
     -L$$DESTDIR -lrotable-shared \
-    -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux
+  #  -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux
 
 RESOURCES += \
     sql-commands.qrc
