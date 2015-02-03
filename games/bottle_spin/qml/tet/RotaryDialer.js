@@ -26,11 +26,15 @@ var AngelChangiging=0;
 
 ///////////////////////////
 //
-var queue=[0,0,0,0,0,0,0,0,0,0]
+var queue=[0,0,0,0]
 //
 var index_queue=0
 //
 ///////////////////////////
+
+
+var velocity=0
+
 
 function initialize()
 {
@@ -73,7 +77,8 @@ function dialerPressed(event)
 
     startAngle = newAngle;
     console.log("startAngle1",startAngle* 180 / Math.PI)
-
+    queue=[0,0,0,0]
+    velocity=0
 
 }
 
@@ -84,7 +89,7 @@ function dialerMoved(event)
         var newAngle = getEventAngle(event);
         angleDiff = getAngleDiff(newAngle);
 
-        dialerView.rotation=(angleDiff * 180 / Math.PI)+lastangle
+        dialerView.rotation=((angleDiff / Math.PI) * 180)+lastangle
 
 
         lastangle =(angleDiff * 180 / Math.PI)+lastangle
@@ -98,53 +103,63 @@ function dialerMoved(event)
             console.log("diffangleL",angleDiff)
         }
         else
-         console.log("diffangleR",angleDiff)
-        moving_average();
+        console.log("diffangleR",angleDiff)
+        var average=moving_average();
+        var Angular_velocity=(average/0.05)
+        velocity=Angular_velocity*0.007 // meter per sec
+        console.log("Angular_velocity:",velocity)
 
 }
 //---------------------------------------------------------
 
 function moving_average()
 {
-        if(index_queue==9)
+        if(index_queue==3)
         {
             queue.shift()
             queue[index_queue]=angleDiff
-            index_queue=8
+            index_queue=2
         }
         else
             queue[index_queue]=angleDiff
 
-         console.log("queue",queue[0],queue[1],queue[2],queue[3],queue[4],queue[5],queue[6],queue[7],queue[8],queue[9])
+        console.log("queue",queue[0],queue[1],queue[2],queue[3])
         index_queue++
+        var average
+        average=(queue[0]+queue[1]+queue[2]+queue[3])/4
+        console.log("moving average:",average)
+        return average;
 }
 
 
 //-----------------------------------------------------------
-var geschwindigkeit=0
+
 
 function dialerReleased(event)
 {
     var angleDiff = getAngleDiff(getEventAngle(event));
     //console.log("start",startAngle)
 
-    var runden=20;
+    if(velocity!==0)
+    {
+    dialerView.rotation= (70*velocity*velocity*velocity)+lastangle //360 test number
+    console.log("velocity:", velocity)
+    console.log("lastangle:", lastangle)
+    console.log("lastangle:", lastangle)
 
-    geschwindigkeit++
-    dialerView.rotation= ((200*runden)/geschwindigkeit)+lastangle
-    // console.log("angleDiff:", angleDiff * 180 / Math.PI)
-
-
-    rotaryReleaseAnimation.direction= RotationAnimation.Clockwise;
-    rotaryReleaseAnimation.duration=(10*runden)*geschwindigkeit
+    if(velocity>0)
+        rotaryReleaseAnimation.direction= RotationAnimation.Clockwise;
+    else
+       rotaryReleaseAnimation.direction= RotationAnimation.Counterclockwise;
+    rotaryReleaseAnimation.duration=300*Math.abs(velocity)*Math.abs(velocity)*Math.abs(velocity)
     //hier wird die Flasche zurückgelegt auf den Punkt wo man loslässt
     //lastangle darf nicht in betracht gezogen werden da rotation schon aufgerufen worderen ist
     //und rotaryReleaseAnimation.from sich auf den Winkel von der bottleArea sich bezieht
-    rotaryReleaseAnimation.from=-((200*runden)/geschwindigkeit)
+    rotaryReleaseAnimation.from=-(70*velocity*velocity*velocity)
     rotaryReleaseAnimation.to =0// die Flasche muss wieder auf der bottleArea "landen"
     rotaryReleaseAnimation.running = true
-    lastangle=((200*runden)/geschwindigkeit)+lastangle // wichtig für die ausgangsposition des nächsten drehens
-
+    lastangle=(70*velocity*velocity*velocity)+lastangle  // wichtig für die ausgangsposition des nächsten drehens
+    }
 }
 
 

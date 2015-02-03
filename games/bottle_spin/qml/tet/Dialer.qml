@@ -11,7 +11,7 @@ Rectangle {
     width: 125
     height: 480
     anchors.centerIn: parent
-    color:  "#800000FF"//"transparent"
+    color:  "transparent"//"#800000FF"//
 
 
 
