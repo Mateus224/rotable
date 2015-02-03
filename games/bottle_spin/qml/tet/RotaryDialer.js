@@ -76,7 +76,6 @@ function dialerPressed(event)
     radius=-event.y+centerY
 
     startAngle = newAngle;
-    console.log("startAngle1",startAngle* 180 / Math.PI)
     queue=[0,0,0,0]
     velocity=0
 
@@ -98,17 +97,11 @@ function dialerMoved(event)
         angleDiff=(angleDiff/Math.PI)*180
 
         if(angleDiff>180)
-        {
             angleDiff=angleDiff-360
-            console.log("diffangleL",angleDiff)
-        }
-        else
-        console.log("diffangleR",angleDiff)
+
         var average=moving_average();
         var Angular_velocity=(average/0.05)
         velocity=Angular_velocity*0.007 // meter per sec
-        console.log("Angular_velocity:",velocity)
-
 }
 //---------------------------------------------------------
 
@@ -123,11 +116,10 @@ function moving_average()
         else
             queue[index_queue]=angleDiff
 
-        console.log("queue",queue[0],queue[1],queue[2],queue[3])
         index_queue++
         var average
         average=(queue[0]+queue[1]+queue[2]+queue[3])/4
-        console.log("moving average:",average)
+
         return average;
 }
 
@@ -143,9 +135,7 @@ function dialerReleased(event)
     if(velocity!==0)
     {
     dialerView.rotation= (70*velocity*velocity*velocity)+lastangle //360 test number
-    console.log("velocity:", velocity)
-    console.log("lastangle:", lastangle)
-    console.log("lastangle:", lastangle)
+
 
     if(velocity>0)
         rotaryReleaseAnimation.direction= RotationAnimation.Clockwise;
