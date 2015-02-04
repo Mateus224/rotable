@@ -103,7 +103,7 @@ void IO_init::schreibeMonatsUmsatz()
     QList<double> ListeMitUmsaetzenRueckwertsDiesesJahres;
     QList<double> ListeMitUmsaetzenDiesesJahres;
     ListeMitUmsaetzenRueckwertsDiesesJahres=leseUmsatzUndSpeichereRueckwertsInListe(dayOfYear,0,umsatz);
-    //qDebug()<<ListeMitUmsaetzenRueckwertsDiesesJahres;
+    //we have to change the order of the List:
     for(int i=0;i<dayOfYear;i++)
     {
 
@@ -124,29 +124,42 @@ void IO_init::schreibeMonatsUmsatz()
         return;
     }
 
+
+     //der Pointer "TageProMonatBisHeute" zeigt auf eine array das mit der Anzahl der vergangenen Tage im Monat speichert
     int* TageProMonatBisHeute;
     TageProMonatBisHeute=dat.DaysInMonthFrom0101ToNow();
     qDebug()<<TageProMonatBisHeute[0]<<TageProMonatBisHeute[1]<<TageProMonatBisHeute[2]<<TageProMonatBisHeute[3]<<"hier";
-    //der Pointer "TageProMonatBisHeute" zeigt auf eine array das mit der Anzahl der vergangenen Tage im Monat speichert
+
+
+    int vergangene_tage_der_letzten_Monate=0;
     // nun gehen wir die Monate bis zum heutigem Monat durch
+    //
+
     for( int j=0; j<dat.date.month(); j++)
     {
-        SummeDerUmsaetzeDesMonats=0; //reseten des ints
+        //vergangene_tage_der_letzten_Monate soll den die Tage der letzten monate ausrechenen
+        //(ausser den jetzigen (letzten Monat)--> unvollständigen Monat)-->TageProMonatBisHeute[j-1]
+        //da wir erst nachdem der erste Monat (Januar vorüber ist die 31 Tage aufaddieren wollen muss j>0 sein
+        //Bei jedem Durchlauf der for-Schleife weden die vergangene_tage_der_letzten_Monate aufaddiert.
+        if(j>0)
+        {
+            vergangene_tage_der_letzten_Monate=vergangene_tage_der_letzten_Monate+TageProMonatBisHeute[j-1];
+            qDebug()<<vergangene_tage_der_letzten_Monate<<"TageProMonatBisHeute[k]";
+        }
+        SummeDerUmsaetzeDesMonats=0; //reseten des Umsatzes für jeden Monat
         int TageImMonat=TageProMonatBisHeute[j];
 
         for(int i=0; i<TageImMonat; i++)
         {
-            if(!ListeMitUmsaetzenDiesesJahres.isEmpty())
-            {   if(j==0)
-                {
-                    SummeDerUmsaetzeDesMonats=SummeDerUmsaetzeDesMonats+ListeMitUmsaetzenDiesesJahres[i];
 
-                }
-                SummeDerUmsaetzeDesMonats=SummeDerUmsaetzeDesMonats+ListeMitUmsaetzenDiesesJahres[TageProMonatBisHeute[j-1]+i];
-                qDebug()<<TageProMonatBisHeute[j];
+            if(!ListeMitUmsaetzenDiesesJahres.isEmpty())
+            {
+
+                SummeDerUmsaetzeDesMonats=SummeDerUmsaetzeDesMonats+ListeMitUmsaetzenDiesesJahres[vergangene_tage_der_letzten_Monate+i];
+                //qDebug()<<vergangene_tage_der_letzten_Monate<<"vergangene_tage_der_letzten_Monate";
             }
         }
-        qDebug()<<SummeDerUmsaetzeDesMonats;
+        //qDebug()<<SummeDerUmsaetzeDesMonats;
         MonthOutput<<SummeDerUmsaetzeDesMonats<<","<<dat.date.dayOfYear()<<"\n";
     }
 
