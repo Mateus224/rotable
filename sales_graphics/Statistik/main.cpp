@@ -8,6 +8,7 @@
 #include "date.h"
 #include "io_init.h"
 #include "io_writeinmonthwithnewdata.h"
+#include "date.h"
 //using namespace IO_WriteInMonthData;
 
 class MainWindow: public QMainWindow
@@ -44,7 +45,7 @@ MainWindow::MainWindow( QWidget *parent ):
 int main( int argc, char **argv )
 {
     double umsatz=7.20; //heutiger Umsatz
-
+    Date dat;
 
     QApplication a(argc, argv);
     IO_init Init;
@@ -53,7 +54,7 @@ int main( int argc, char **argv )
     Init.schreibeMonatsUmsatz();
 
     IO_WriteInMonthData test;
-    test.schreibeInUmsatz(umsatz);
+    test.schreibeInUmsatz(umsatz, dat.date.dayOfYear());
 
     MainWindow mainWindow;
 
