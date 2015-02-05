@@ -19,8 +19,8 @@ double* IO_ReadForDiagram::leseAusUmsatzDiesesJahr()
     ThisJahr.prepend("_");
     ThisJahr.prepend(QString::number(dat.date.year()));
     iListeMonatsumsaetze=leseUmsatzUndSpeichereRueckwertsInListe(heutigerMonat,0,ThisJahr);
-    qDebug()<<"schreibeInUmsat1";
-   // qDebug()<<iListeMonatsumsaetze[0]<<"..."<<iListeMonatsumsaetze[1]<<"..."<<iListeMonatsumsaetze[2]<<"..."<<iListeMonatsumsaetze[3];
+    qDebug()<<heutigerMonat<<"heutigerMonat";
+    qDebug()<<iListeMonatsumsaetze[0]<<"..."<<iListeMonatsumsaetze[1];//<<iListeMonatsumsaetze[2];
     if(!iListeMonatsumsaetze.isEmpty())
     {
         for (int i=0;i<heutigerMonat;i++)

@@ -51,11 +51,12 @@ int main( int argc, char **argv )
     IO_init Init;
     Init.JahrVollLegeNeueDateiAn(); //diese Funktion muss als erstes aufgerufen werden (bevor etwas in Umsatz.data geschrieben wird)
     Init.untersucheAufLueckenUndFuelleAuf();
-    Init.schreibeMonatsUmsatz();
+
 
     IO_WriteInMonthData test;
     test.schreibeInUmsatz(umsatz, dat.date.dayOfYear());
 
+    Init.schreibeMonatsUmsatz(); //erst letzten Umsatz schreiben dann auswerten
     MainWindow mainWindow;
 
     mainWindow.resize( 800, 600 );

@@ -27,7 +27,7 @@ void IO_init::untersucheAufLueckenUndFuelleAuf()
     int ivergleicheTag;
     int dayOfYear= dat.date.dayOfYear();
     //oeffneUmsatz();
-    vergleicheTag=leseUmsatzUndSpeichereRueckwertsInListe(1,0,umsatz);
+    vergleicheTag=leseUmsatzUndSpeichereRueckwertsInListe(1,1,umsatz);
     if(!vergleicheTag.isEmpty())
     {
         ivergleicheTag=vergleicheTag.last();
@@ -40,11 +40,14 @@ void IO_init::untersucheAufLueckenUndFuelleAuf()
         {
             int differenz;
             differenz=dayOfYear-ivergleicheTag;
+            qDebug()<<"ivergleicheTag"<<ivergleicheTag;
+             qDebug()<<"differenz"<<differenz;
             for( int i=0; i < differenz-1; i++)
             {
                 IO_WriteInMonthData test2;
                 test2.schreibeInUmsatz(0,i+1);
-            }
+                qDebug()<<"differenz4";
+            } qDebug()<<"differenz3";
         }
 
     }
@@ -56,6 +59,7 @@ void IO_init::untersucheAufLueckenUndFuelleAuf()
         }
         else
         {
+            qDebug()<<"ivergleicheTag22";
             int differenz;
             differenz=dayOfYear;
             for(int i=0; i< differenz-1;i++)
@@ -104,6 +108,7 @@ void IO_init::schreibeMonatsUmsatz()
     QList<double> ListeMitUmsaetzenDiesesJahres;
     ListeMitUmsaetzenRueckwertsDiesesJahres=leseUmsatzUndSpeichereRueckwertsInListe(dayOfYear,0,umsatz);
     //we have to change the order of the List:
+
     for(int i=0;i<dayOfYear;i++)
     {
 
@@ -112,7 +117,6 @@ void IO_init::schreibeMonatsUmsatz()
         ListeMitUmsaetzenDiesesJahres.append(new_last);
 
     }
-
     //Öffne zum Schreiben in die Datei MonatsUmsatz
     QString ThisJahr= MonatsUmsatz;
     ThisJahr.prepend("_");
@@ -124,11 +128,10 @@ void IO_init::schreibeMonatsUmsatz()
         return;
     }
 
-
      //der Pointer "TageProMonatBisHeute" zeigt auf eine array das mit der Anzahl der vergangenen Tage im Monat speichert
     int* TageProMonatBisHeute;
     TageProMonatBisHeute=dat.DaysInMonthFrom0101ToNow();
-    qDebug()<<TageProMonatBisHeute[0]<<TageProMonatBisHeute[1]<<TageProMonatBisHeute[2]<<TageProMonatBisHeute[3]<<"hier";
+    qDebug()<<"HALLO"<<TageProMonatBisHeute[0]<<TageProMonatBisHeute[1]<<TageProMonatBisHeute[2]<<TageProMonatBisHeute[3]<<"hier";
 
 
     int vergangene_tage_der_letzten_Monate=0;
