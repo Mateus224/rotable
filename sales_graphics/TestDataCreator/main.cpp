@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
     {
         for(int i=0;i<Tag;i++)
         {
-            iSecret[i]= (rand() % 4000 + 1)+2000;
+            iSecret[i]= (rand() % 40 + 1)+10;
             Tage[i]=i;
             qDebug()<<iSecret[i];
             in<<iSecret[i]<<","<<Tage[i]<<"\n";

@@ -41,17 +41,27 @@ void IO_init::untersucheAufLueckenUndFuelleAuf()
             int differenz;
             differenz=dayOfYear-ivergleicheTag;
             qDebug()<<"ivergleicheTag"<<ivergleicheTag;
-             qDebug()<<"differenz"<<differenz;
-            for( int i=0; i < differenz-1; i++)
+            qDebug()<<"differenz"<<differenz;
+            if(differenz<0)
             {
-                IO_WriteInMonthData test2;
-                test2.schreibeInUmsatz(0,i+1);
-                qDebug()<<"differenz4";
-            } qDebug()<<"differenz3";
-        }
+                for(int i=0; i<dayOfYear-1;i++)
+                {
+                    IO_WriteInMonthData newYear;
+                    newYear.schreibeInUmsatz(0,i+1);
+                }
+            }
+            else
+            {
+                for(int i=0; i < differenz-1; i++)
+                {
+                    IO_WriteInMonthData diff;
+                    diff.schreibeInUmsatz(0,i+1);
+                }
+            }
 
+        }
     }
-    else
+    else //if Qlist is Empty or the file umsatz.data not exists
     {
         if(dayOfYear==1) //the first day of the Year no gaps to fill
         {

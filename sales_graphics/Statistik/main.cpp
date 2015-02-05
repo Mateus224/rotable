@@ -44,7 +44,7 @@ MainWindow::MainWindow( QWidget *parent ):
 
 int main( int argc, char **argv )
 {
-    double umsatz=7.20; //heutiger Umsatz
+    double umsatz=7; //heutiger Umsatz
     Date dat;
 
     QApplication a(argc, argv);
@@ -52,9 +52,10 @@ int main( int argc, char **argv )
     Init.JahrVollLegeNeueDateiAn(); //diese Funktion muss als erstes aufgerufen werden (bevor etwas in Umsatz.data geschrieben wird)
     Init.untersucheAufLueckenUndFuelleAuf();
 
-
     IO_WriteInMonthData test;
     test.schreibeInUmsatz(umsatz, dat.date.dayOfYear());
+
+
 
     Init.schreibeMonatsUmsatz(); //erst letzten Umsatz schreiben dann auswerten
     MainWindow mainWindow;
