@@ -17,18 +17,15 @@ void IO_WriteInMonthData::schreibeInUmsatz(double heuteigerUmsatz, int date)
     QFile Umsatz(umsatz);
     if(!Umsatz.open(QIODevice::ReadWrite | QIODevice::Text| QFile::Append ))
     {
-        qDebug()<<"schreibeNichtInUmsatz";
+        qDebug()<<"schreibe nicht in Umsatz";
         return;
     }
     QTextStream out(&Umsatz);
     QList <double> vergleicheTag;
     int ivergleicheTag;
-    //qDebug()<<"hierbin ich";
     vergleicheTag=leseUmsatzUndSpeichereRueckwertsInListe(1,1,umsatz);
-    qDebug()<<"hierbin ich";
     if(!vergleicheTag.isEmpty())
     {
-        qDebug()<<"hierbin ich auch";
         ivergleicheTag=vergleicheTag.last();
         if (ivergleicheTag!=dat.date.dayOfYear())
             out<<heuteigerUmsatz<<","<<date<<"\n";

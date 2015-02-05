@@ -26,7 +26,6 @@ void IO_init::untersucheAufLueckenUndFuelleAuf()
     QList <double> vergleicheTag;
     int ivergleicheTag;
     int dayOfYear= dat.date.dayOfYear();
-    //oeffneUmsatz();
     vergleicheTag=leseUmsatzUndSpeichereRueckwertsInListe(1,1,umsatz);
     if(!vergleicheTag.isEmpty())
     {
@@ -40,8 +39,6 @@ void IO_init::untersucheAufLueckenUndFuelleAuf()
         {
             int differenz;
             differenz=dayOfYear-ivergleicheTag;
-            qDebug()<<"ivergleicheTag"<<ivergleicheTag;
-            qDebug()<<"differenz"<<differenz;
             if(differenz<0)
             {
                 for(int i=0; i<dayOfYear-1;i++)
@@ -55,7 +52,7 @@ void IO_init::untersucheAufLueckenUndFuelleAuf()
                 for(int i=0; i < differenz-1; i++)
                 {
                     IO_WriteInMonthData diff;
-                    diff.schreibeInUmsatz(0,i+1);
+                    diff.schreibeInUmsatz(0,ivergleicheTag+1+i);
                 }
             }
 
@@ -69,7 +66,6 @@ void IO_init::untersucheAufLueckenUndFuelleAuf()
         }
         else
         {
-            qDebug()<<"ivergleicheTag22";
             int differenz;
             differenz=dayOfYear;
             for(int i=0; i< differenz-1;i++)

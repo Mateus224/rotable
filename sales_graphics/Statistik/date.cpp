@@ -36,23 +36,18 @@ int* Date::DaysInMonthFrom0101ToNow()
     int Monat=Date.date.month();
     for(int i=Monat-1;i>=0;i--)
     {
-        //qDebug()<<"  "<<i<<"   "<<Monat;
         qaDaysInMonth[i]=Date.date.addMonths(i-Monat+1);
         if(i==Monat-1)
         {
-
             iaDaysInMonth[i]=qaDaysInMonth[i].day();
-
         }
         else
         {
             iaDaysInMonth[i]=qaDaysInMonth[i].daysInMonth();
-
          }
     }
     for(int i=Monat;i<12;i++)
     {
-
         iaDaysInMonth[i]=0;
     }
     for(int i=0; i<12; i++)
