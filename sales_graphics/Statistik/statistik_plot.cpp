@@ -124,7 +124,6 @@ void Statistik_Plot::populate()
     double *ptrtY=0;
 
     ptrtY=thisYear.leseAusUmsatzDiesesJahr();
-    qDebug()<<"schreibeInUmsat1";
 
 
     for (int i=0; i<12; i++)  // Array durchlaufen

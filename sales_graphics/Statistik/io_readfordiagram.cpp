@@ -38,7 +38,6 @@ double* IO_ReadForDiagram::leseAusUmsatzVorLetzenJahr()
     QString LetzesJahr= MonatsUmsatz;
     LetzesJahr.prepend("_");
     LetzesJahr.prepend(QString::number(dat.date.year()-1));
-    qDebug()<<LetzesJahr<<"letztes jahr";
 
     iListeMonatsumsaetze=leseUmsatzUndSpeichereRueckwertsInListe(12,0,LetzesJahr);
     if(!iListeMonatsumsaetze.isEmpty())
@@ -60,7 +59,6 @@ double* IO_ReadForDiagram::leseAusUmsatzVorVorLetzenJahr()
     QString VorletzesJahr= MonatsUmsatz;
     VorletzesJahr.prepend("_");
     VorletzesJahr.prepend(QString::number(dat.date.year()-2));
-    qDebug()<<VorletzesJahr<<"vorvorletztesJahr";
 
     iListeMonatsumsaetze=leseUmsatzUndSpeichereRueckwertsInListe(12,0,VorletzesJahr);
     if(!iListeMonatsumsaetze.isEmpty())

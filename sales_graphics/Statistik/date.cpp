@@ -50,10 +50,6 @@ int* Date::DaysInMonthFrom0101ToNow()
     {
         iaDaysInMonth[i]=0;
     }
-    for(int i=0; i<12; i++)
-    {
-        qDebug()<<iaDaysInMonth[i]<<"days";
-    }
     return iaDaysInMonth;
 }
 

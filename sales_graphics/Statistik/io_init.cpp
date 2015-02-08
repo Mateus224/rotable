@@ -137,8 +137,6 @@ void IO_init::schreibeMonatsUmsatz()
      //der Pointer "TageProMonatBisHeute" zeigt auf eine array das mit der Anzahl der vergangenen Tage im Monat speichert
     int* TageProMonatBisHeute;
     TageProMonatBisHeute=dat.DaysInMonthFrom0101ToNow();
-    qDebug()<<"HALLO"<<TageProMonatBisHeute[0]<<TageProMonatBisHeute[1]<<TageProMonatBisHeute[2]<<TageProMonatBisHeute[3]<<"hier";
-
 
     int vergangene_tage_der_letzten_Monate=0;
     // nun gehen wir die Monate bis zum heutigem Monat durch
@@ -153,7 +151,6 @@ void IO_init::schreibeMonatsUmsatz()
         if(j>0)
         {
             vergangene_tage_der_letzten_Monate=vergangene_tage_der_letzten_Monate+TageProMonatBisHeute[j-1];
-            qDebug()<<vergangene_tage_der_letzten_Monate<<"TageProMonatBisHeute[k]";
         }
         SummeDerUmsaetzeDesMonats=0; //reseten des Umsatzes für jeden Monat
         int TageImMonat=TageProMonatBisHeute[j];
@@ -165,10 +162,8 @@ void IO_init::schreibeMonatsUmsatz()
             {
 
                 SummeDerUmsaetzeDesMonats=SummeDerUmsaetzeDesMonats+ListeMitUmsaetzenDiesesJahres[vergangene_tage_der_letzten_Monate+i];
-                //qDebug()<<vergangene_tage_der_letzten_Monate<<"vergangene_tage_der_letzten_Monate";
             }
         }
-        //qDebug()<<SummeDerUmsaetzeDesMonats;
         MonthOutput<<SummeDerUmsaetzeDesMonats<<","<<dat.date.dayOfYear()<<"\n";
     }
 
@@ -193,38 +188,42 @@ void IO_init::JahrVollLegeNeueDateiAn()
     if(!letzteerTag.isEmpty())
     {
         int iletzterTag=letzteerTag.last();
-        qDebug()<<iletzterTag<<"<"<<dat.date.dayOfYear();
         if(dat.date.dayOfYear()<iletzterTag)
         {
-            qDebug()<<"JahrVollLegeNeueDateiAn";
+            IO_WriteInMonthData fill_last_year;
+            //FILL last year with turnover "0"
+            for(int i=iletzterTag; i<dat.date.daysInYear(); i++)
+            {
+                fill_last_year.schreibeInUmsatz(0,i+1);
+            }
+            untersucheAufLueckenUndFuelleAuf(); //Last year is filled now fill this year to todays date
+
             QString newYear=umsatz;
             int iThisYear=dat.date.year()-1;
-            QString sThisYear=QString::number(iThisYear);
-            sThisYear.append("_");
-            newYear.prepend(sThisYear);
+            QString sLastYear=QString::number(iThisYear);
+            sLastYear.append("_");
+            newYear.prepend(sLastYear);
             QFile UmsatzLastYear(newYear);
 
             if(!UmsatzLastYear.open(QIODevice::WriteOnly | QIODevice::Text ))
             {
-                qDebug()<<"JahrVollLegeNeueDateiAn";
+                qDebug()<<"io_init__ERR";
                 return;
             }
-
             QTextStream in(&UmsatzLastYear);
-            QList <double> Umsaetze=leseUmsatzUndSpeichereRueckwertsInListe(720,0,umsatz);
+            QList <double> Umsaetze=leseUmsatzUndSpeichereRueckwertsInListe(732,0,umsatz);
             QDate lastYear;
             lastYear= dat.date.addYears (-1);
             int ilastYear=lastYear.year();
-            QDate QlastYear(ilastYear,12,1);
             int SummeMonat;
 
-            for(int i=0; i<dat.date.dayOfYear();i++)
+            //remove in the Qlist the days of this Year-1 because todays turnover is not written
+            for(int i=0; i<dat.date.dayOfYear()-1;i++)
             {
                 if(!Umsaetze.isEmpty())
                     Umsaetze.takeFirst();
             }
-
-            for(int i=12; i>0;i--)
+            for(int i=1; i<=12;i++)
             {
                 SummeMonat=0;
                 QDate QlastYear(ilastYear,i,1);
@@ -233,16 +232,13 @@ void IO_init::JahrVollLegeNeueDateiAn()
                 {
                     if(!Umsaetze.isEmpty())
                     {
-                        SummeMonat=SummeMonat+Umsaetze.takeFirst();
+                        SummeMonat=SummeMonat+Umsaetze.takeLast();
                     }
-
                 }
                 in<<SummeMonat<<","<<dat.date.dayOfYear()<<"\n";
             }
             UmsatzLastYear.close();
         }
     }
-
     return;
-
 }

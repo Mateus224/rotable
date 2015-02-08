@@ -16,16 +16,16 @@ int main(int argc, char *argv[])
     }
     QTextStream in(&dummyDaten);
 
-    int Tag=356;
+    int Tag=365;
 
     int iUmsatz;
     int iSecret[Tag];
     int Tage[Tag];
-    for (int i=0;i<4;i++)
+    for (int j=0;j<1;j++)
     {
-        for(int i=0;i<Tag;i++)
+        for(int i=1;i<=Tag;i++)
         {
-            iSecret[i]= (rand() % 40 + 1)+10;
+            iSecret[i]= i+(j*365);//(rand() % 40 + 1)+10;
             Tage[i]=i;
             qDebug()<<iSecret[i];
             in<<iSecret[i]<<","<<Tage[i]<<"\n";
