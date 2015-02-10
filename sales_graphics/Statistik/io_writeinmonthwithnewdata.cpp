@@ -1,5 +1,6 @@
 #include "io_writeinmonthwithnewdata.h"
-#define umsatz "umsatz.daten"
+
+#define umsatz "umsatz.data"
 #define ThisDay "ThisDay.data"
 
 IO_WriteInMonthData::IO_WriteInMonthData()
@@ -44,6 +45,7 @@ void IO_WriteInMonthData::schreibeInUmsatz(double heuteigerUmsatz, int date,QStr
         lastElement=leseUmsatzUndSpeichereRueckwertsInListe(1,0,Dateipfad);
         if(!lastElement.isEmpty())//falls die Liste noch nicht angelegt wurde
         {
+
             addTurnOver=lastElement.last();
             heuteigerUmsatz=heuteigerUmsatz+addTurnOver;
             out<<heuteigerUmsatz<<"\n";

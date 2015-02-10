@@ -11,6 +11,8 @@
 #include "date.h"
 #include "io_init_day.h"
 
+#define ThisDay "ThisDay.data"
+#define umsatz "umsatz.data"
 
 class MainWindow: public QMainWindow
 {
@@ -43,7 +45,7 @@ MainWindow::MainWindow( QWidget *parent ):
 
 int main( int argc, char **argv )
 {
-    double umsatz=7.9; //heutiger Umsatz
+    double dUmsatz=7.9; //heutiger Umsatz
     Date dat;
     QList <double> QLumsatz_vorherErfassterTag;
     double Dumsatz_vorherErfassterTag;
@@ -52,21 +54,20 @@ int main( int argc, char **argv )
 
 
     IO_WriteInMonthData write;
-    QFile Umsatz("ThisDay.data");
+    QFile Umsatz(ThisDay);
     //Umsatz.remove();
-    write.schreibeInUmsatz(umsatz,dat.date.dayOfYear(),"ThisDay.data");
+    write.schreibeInUmsatz(dUmsatz,dat.date.dayOfYear(),ThisDay);
 
 
     IO_init Init;
 
-    QLumsatz_vorherErfassterTag= Init.leseUmsatzUndSpeichereRueckwertsInListe(1,0,"ThisDay.data");
+    QLumsatz_vorherErfassterTag= Init.leseUmsatzUndSpeichereRueckwertsInListe(1,0,ThisDay);
     Dumsatz_vorherErfassterTag=QLumsatz_vorherErfassterTag.last();
-    qDebug()<<Dumsatz_vorherErfassterTag<<"HIER";
     Init.JahrVollLegeNeueDateiAn(); //diese Funktion muss als erstes aufgerufen werden (bevor etwas in Umsatz.data geschrieben wird)
     Init.untersucheAufLueckenUndFuelleAuf();
 
 
-    write.schreibeInUmsatz(Dumsatz_vorherErfassterTag, dat.date.dayOfYear(),"umsatz.daten");
+    write.schreibeInUmsatz(Dumsatz_vorherErfassterTag, dat.date.dayOfYear(),umsatz);
 
 
 

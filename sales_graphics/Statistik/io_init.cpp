@@ -1,7 +1,6 @@
 #include "io_init.h"
 #include "io_writeinmonthwithnewdata.h"
-#define MonatsUmsatz "umsatz.daten"
-#define umsatz "umsatz.daten"
+#define umsatz "umsatz.data"
 
 
 
@@ -97,7 +96,7 @@ void IO_init::schreibeMonatsUmsatz()
     //eintrag übereinstimmt wenn ja return da jeder Tag nur einmal in der Datei
     //gespeichert werden soll
     QString SletzterTag;
-    QList<double> letzterTag=leseUmsatzUndSpeichereRueckwertsInListe(1,1,MonatsUmsatz);
+    QList<double> letzterTag=leseUmsatzUndSpeichereRueckwertsInListe(1,1,umsatz);
     if(!letzterTag.isEmpty())
     {
         SletzterTag=letzterTag.last();
@@ -123,8 +122,8 @@ void IO_init::schreibeMonatsUmsatz()
         ListeMitUmsaetzenDiesesJahres.append(new_last);
 
     }
-    //Öffne zum Schreiben in die Datei MonatsUmsatz
-    QString ThisJahr= MonatsUmsatz;
+    //Öffne zum Schreiben in die Datei umsatz
+    QString ThisJahr= umsatz;
     ThisJahr.prepend("_");
     ThisJahr.prepend(QString::number(dat.date.year()));
     QFile SchreibeInMonatsUmsatz(ThisJahr);
