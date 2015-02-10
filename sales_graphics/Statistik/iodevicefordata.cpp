@@ -55,7 +55,6 @@ QList<double> IODeviceForData::leseUmsatzUndSpeichereRueckwertsInListe(int Tage,
             else if(argument==1)
             {
                 sUmsatzEintrag=list.at(1);
-                qDebug()<<sUmsatzEintrag<<"test";
                 double iUmsatzEintrag=sUmsatzEintrag.toDouble();
                 ListeMitUmsaetzenDiesesJahres<<iUmsatzEintrag;
             }

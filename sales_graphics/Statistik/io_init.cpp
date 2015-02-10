@@ -194,7 +194,7 @@ void IO_init::JahrVollLegeNeueDateiAn()
             //FILL last year with turnover "0"
             for(int i=iletzterTag; i<dat.date.daysInYear(); i++)
             {
-                fill_last_year.schreibeInUmsatz(0,i+1,"umsatz");
+                fill_last_year.schreibeInUmsatz(0,i+1,umsatz);
             }
             untersucheAufLueckenUndFuelleAuf(); //Last year is filled now fill this year to todays date
 

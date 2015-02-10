@@ -10,7 +10,6 @@
 #include "io_writeinmonthwithnewdata.h"
 #include "date.h"
 #include "io_init_day.h"
-//#include "iodevicefordata.h"
 
 
 class MainWindow: public QMainWindow
@@ -54,7 +53,7 @@ int main( int argc, char **argv )
 
     IO_WriteInMonthData write;
     QFile Umsatz("ThisDay.data");
-    Umsatz.remove();
+    //Umsatz.remove();
     write.schreibeInUmsatz(umsatz,dat.date.dayOfYear(),"ThisDay.data");
 
 
