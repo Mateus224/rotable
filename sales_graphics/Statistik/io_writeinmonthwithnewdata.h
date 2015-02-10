@@ -8,7 +8,7 @@ class IO_WriteInMonthData: public IODeviceForData
 
 public:
     IO_WriteInMonthData();
-    void schreibeInUmsatz(double, int);
+    void schreibeInUmsatz(double, int,QString);
 
 };
 

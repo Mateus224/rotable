@@ -1,5 +1,6 @@
 #include "io_writeinmonthwithnewdata.h"
 #define umsatz "umsatz.daten"
+#define ThisDay "ThisDay.data"
 
 IO_WriteInMonthData::IO_WriteInMonthData()
 {
@@ -12,27 +13,45 @@ IO_WriteInMonthData::IO_WriteInMonthData()
 /// Datei vorhanden ist.
 /////////////////////////////////////////////////////////////////////////////////
 
-void IO_WriteInMonthData::schreibeInUmsatz(double heuteigerUmsatz, int date)
+void IO_WriteInMonthData::schreibeInUmsatz(double heuteigerUmsatz, int date,QString Dateipfad )
 {
-    QFile Umsatz(umsatz);
+    QFile Umsatz(Dateipfad);
     if(!Umsatz.open(QIODevice::ReadWrite | QIODevice::Text| QFile::Append ))
     {
         qDebug()<<"schreibe nicht in Umsatz";
         return;
     }
     QTextStream out(&Umsatz);
-    QList <double> vergleicheTag;
+    QList <double> lastElement;
     int ivergleicheTag;
-    vergleicheTag=leseUmsatzUndSpeichereRueckwertsInListe(1,1,umsatz);
-    if(!vergleicheTag.isEmpty())
+    double addTurnOver;
+    if(Dateipfad==umsatz)
     {
-        ivergleicheTag=vergleicheTag.last();
-        if (ivergleicheTag!=dat.date.dayOfYear())
+        lastElement=leseUmsatzUndSpeichereRueckwertsInListe(1,1,Dateipfad);
+        if(!lastElement.isEmpty()) //falls die Liste noch nicht angelegt wurde
+        {
+            ivergleicheTag=lastElement.last();
+            if (ivergleicheTag!=dat.date.dayOfYear())
+                out<<heuteigerUmsatz<<","<<date<<"\n";
+        }
+        else
+        {
             out<<heuteigerUmsatz<<","<<date<<"\n";
+        }
     }
-    else
+    else if(Dateipfad==ThisDay)
     {
-        out<<heuteigerUmsatz<<","<<date<<"\n";
+        lastElement=leseUmsatzUndSpeichereRueckwertsInListe(1,0,Dateipfad);
+        if(!lastElement.isEmpty())//falls die Liste noch nicht angelegt wurde
+        {
+            addTurnOver=lastElement.last();
+            heuteigerUmsatz=heuteigerUmsatz+addTurnOver;
+            out<<heuteigerUmsatz<<"\n";
+        }
+        else
+        {
+            out<<heuteigerUmsatz<<"\n";
+        }
     }
     Umsatz.close();
 }

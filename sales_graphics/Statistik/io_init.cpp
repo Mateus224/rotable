@@ -44,7 +44,7 @@ void IO_init::untersucheAufLueckenUndFuelleAuf()
                 for(int i=0; i<dayOfYear-1;i++)
                 {
                     IO_WriteInMonthData newYear;
-                    newYear.schreibeInUmsatz(0,i+1);
+                    newYear.schreibeInUmsatz(0,i+1,umsatz);
                 }
             }
             else
@@ -52,7 +52,7 @@ void IO_init::untersucheAufLueckenUndFuelleAuf()
                 for(int i=0; i < differenz-1; i++)
                 {
                     IO_WriteInMonthData diff;
-                    diff.schreibeInUmsatz(0,ivergleicheTag+1+i);
+                    diff.schreibeInUmsatz(0,ivergleicheTag+1+i,umsatz);
                 }
             }
 
@@ -71,7 +71,7 @@ void IO_init::untersucheAufLueckenUndFuelleAuf()
             for(int i=0; i< differenz-1;i++)
             {
                 IO_WriteInMonthData first_initialisation;
-                first_initialisation.schreibeInUmsatz(0,i+1);
+                first_initialisation.schreibeInUmsatz(0,i+1,umsatz);
             }
         }
 
@@ -194,7 +194,7 @@ void IO_init::JahrVollLegeNeueDateiAn()
             //FILL last year with turnover "0"
             for(int i=iletzterTag; i<dat.date.daysInYear(); i++)
             {
-                fill_last_year.schreibeInUmsatz(0,i+1);
+                fill_last_year.schreibeInUmsatz(0,i+1,"umsatz");
             }
             untersucheAufLueckenUndFuelleAuf(); //Last year is filled now fill this year to todays date
 

@@ -9,6 +9,8 @@
 #include "io_init.h"
 #include "io_writeinmonthwithnewdata.h"
 #include "date.h"
+#include "io_init_day.h"
+//#include "iodevicefordata.h"
 
 
 class MainWindow: public QMainWindow
@@ -44,14 +46,28 @@ int main( int argc, char **argv )
 {
     double umsatz=7.9; //heutiger Umsatz
     Date dat;
+    QList <double> QLumsatz_vorherErfassterTag;
+    double Dumsatz_vorherErfassterTag;
 
     QApplication a(argc, argv);
+
+
+    IO_WriteInMonthData write;
+    QFile Umsatz("ThisDay.data");
+    Umsatz.remove();
+    write.schreibeInUmsatz(umsatz,dat.date.dayOfYear(),"ThisDay.data");
+
+
     IO_init Init;
+
+    QLumsatz_vorherErfassterTag= Init.leseUmsatzUndSpeichereRueckwertsInListe(1,0,"ThisDay.data");
+    Dumsatz_vorherErfassterTag=QLumsatz_vorherErfassterTag.last();
+    qDebug()<<Dumsatz_vorherErfassterTag<<"HIER";
     Init.JahrVollLegeNeueDateiAn(); //diese Funktion muss als erstes aufgerufen werden (bevor etwas in Umsatz.data geschrieben wird)
     Init.untersucheAufLueckenUndFuelleAuf();
 
-    IO_WriteInMonthData test;
-    test.schreibeInUmsatz(umsatz, dat.date.dayOfYear());
+
+    write.schreibeInUmsatz(Dumsatz_vorherErfassterTag, dat.date.dayOfYear(),"umsatz.daten");
 
 
 

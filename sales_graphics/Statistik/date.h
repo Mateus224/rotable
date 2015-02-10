@@ -1,8 +1,9 @@
 #ifndef DATE_H
 #define DATE_H
 #include <QDate>
+#include <QTime>
 
-class Date:public QDate
+class Date:public QDate, public QTime
 {
 public:
     Date();
@@ -11,6 +12,7 @@ public:
 
 
      QDate date;
+     QTime time;
 };
 
 #endif // DATE_H

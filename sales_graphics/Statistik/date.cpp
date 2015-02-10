@@ -6,6 +6,7 @@
 Date::Date()
 {
     date=date.currentDate();
+    time=time.currentTime();
 }
 
 

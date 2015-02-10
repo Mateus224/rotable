@@ -599,6 +599,7 @@ moc_statistik_plot.cpp: /usr/local/qwt-6.1.1-svn/include/qwt_plot.h \
 		../Statistik/date.h \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/QDate \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qdatetime.h \
+		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/QTime \
 		../Statistik/statistik_plot.h
 	/home/mateusz/Qt5.3.1/5.3/gcc_64/bin/moc $(DEFINES) -I/home/mateusz/Qt5.3.1/5.3/gcc_64/mkspecs/linux-g++ -I/home/mateusz/Clouds/gitlab/prototyp-2/sales_graphics/Statistik -I/usr/local/qwt-6.1.1-svn/include -I/home/mateusz/Qt5.3.1/5.3/gcc_64/include -I/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtWidgets -I/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtGui -I/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore -I. ../Statistik/statistik_plot.h -o moc_statistik_plot.cpp
 
@@ -779,13 +780,15 @@ main.o: ../Statistik/main.cpp /home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtWidgets
 		../Statistik/date.h \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/QDate \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qdatetime.h \
+		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/QTime \
 		../Statistik/io_init.h \
 		../Statistik/iodevicefordata.h \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/QList \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/QFile \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/QDebug \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/QStringList \
-		../Statistik/io_writeinmonthwithnewdata.h
+		../Statistik/io_writeinmonthwithnewdata.h \
+		../Statistik/io_init_day.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../Statistik/main.cpp
 
 date.o: ../Statistik/date.cpp ../Statistik/date.h \
@@ -844,6 +847,7 @@ date.o: ../Statistik/date.cpp ../Statistik/date.h \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qobject_impl.h \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qhash.h \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qpair.h \
+		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/QTime \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/QDebug \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qdebug.h \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qmap.h \
@@ -1000,6 +1004,7 @@ statistik_plot.o: ../Statistik/statistik_plot.cpp /usr/local/qwt-6.1.1-svn/inclu
 		../Statistik/date.h \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/QDate \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qdatetime.h \
+		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/QTime \
 		../Statistik/io_readfordiagram.h \
 		../Statistik/iodevicefordata.h \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/QList \
@@ -1067,6 +1072,7 @@ io_init.o: ../Statistik/io_init.cpp ../Statistik/io_init.h \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qobject_impl.h \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qhash.h \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qpair.h \
+		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/QTime \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/QFile \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qfile.h \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qfiledevice.h \
@@ -1148,6 +1154,7 @@ io_readfordiagram.o: ../Statistik/io_readfordiagram.cpp ../Statistik/io_readford
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qobject_impl.h \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qhash.h \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qpair.h \
+		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/QTime \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/QFile \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qfile.h \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qfiledevice.h \
@@ -1227,6 +1234,7 @@ iodevicefordata.o: ../Statistik/iodevicefordata.cpp ../Statistik/iodevicefordata
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qobject_impl.h \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qhash.h \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qpair.h \
+		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/QTime \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/QFile \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qfile.h \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qfiledevice.h \
@@ -1307,6 +1315,7 @@ io_writeinmonthwithnewdata.o: ../Statistik/io_writeinmonthwithnewdata.cpp ../Sta
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qobject_impl.h \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qhash.h \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qpair.h \
+		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/QTime \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/QFile \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qfile.h \
 		/home/mateusz/Qt5.3.1/5.3/gcc_64/include/QtCore/qfiledevice.h \
