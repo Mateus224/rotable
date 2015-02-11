@@ -58,8 +58,8 @@ contains(QMAKE_CC, gcc) {
     PLATFORM = host
 
     LIBS += \
-        -lbreakpad_client \
-        -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux
+       # -lbreakpad_client \
+       # -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux
 } else {
     # since QMAKE_CC contains more than gcc this must be a cross-compile build
     PLATFORM = rpi

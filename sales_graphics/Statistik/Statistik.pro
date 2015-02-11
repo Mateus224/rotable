@@ -29,6 +29,10 @@ HEADERS  += \
     io_writeinmonthwithnewdata.h
 
 
-LIBS += -L /usr/local/qwt-6.1.1-svn/lib -lqwt #/home/mateusz/qwt-6.1/lib/ -lqwt
-INCLUDEPATH += /usr/local/qwt-6.1.1-svn/include
-DEPENDPATH += /usr/local/qwt-6.1.1-svn/include
+#LIBS += -L /usr/local/qwt-6.1.1-svn/lib -lqwt
+#INCLUDEPATH += /usr/local/qwt-6.1.1-svn/include
+#DEPENDPATH += /usr/local/qwt-6.1.1-svn/include
+
+LIBS += -L/home/rosynski/qwt-6.1/lib -lqwt
+INCLUDEPATH += /usr/local/qwt-6.1.3-svn/include
+DEPENDPATH += /usr/local/qwt-6.1.3-svn/include
