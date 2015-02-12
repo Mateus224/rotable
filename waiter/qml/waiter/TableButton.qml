@@ -21,6 +21,7 @@ Rectangle{
         id: nameModel
         ListElement { name: "Table"
                       cost: 0 }
+
     }
     Component {
         id: nameDelegate
@@ -43,6 +44,12 @@ Rectangle{
         highlight: Rectangle {
             width: parent.width
             color: "lightgray"
+            radius: 5
+
+        }
+        MouseArea{
+            anchors.fill: parent
+            onClicked:  CreateComponent.createCategory(tableWindow,0);
         }
     }
 
