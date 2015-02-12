@@ -30,7 +30,9 @@ RESOURCES +=\
 
 OTHER_FILES += \
     qml/waiter/main.qml \
-    qml/waiter/componentCreation.js
+    qml/waiter/componentCreation.js \
+    qml/waiter/TableButton.qml \
+    qml/waiter/TestQml.qml
 
 ########################################################################
 # DESTINATION:

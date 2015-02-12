@@ -1,46 +1,20 @@
-var component;
-var sprite;
-var count_table_objects=0
+var x= 100
+var y= 100
+var count=1
+function createCategory(parent_item, category) {
+    console.log("hallo")
+    //var component = Qt.createComponent("ProductCategoryPage.qml");
+    //var productComponent = Qt.createComponent("TableButton.qml");
+    //var object
+    //var object = productComponent.createObject(parent_item,
+    //                                    {"text": "Hallo",
+    //                                      //"color":"#FFFFFF",
+    //                                     "x":"100", "y":y
+    //                                      })
 
+    nameModel.append({"name":"Table", "cost":count})
+    count++
 
-var count=100
+    y=y+50
 
-
-
-
-function createSpriteObjects(){
-    var string=["import QtQuick 2.0;
-
-    Rectangle {
-    x:"+100+";
-    y: "+count+";
-    width: 100;
-    height: 50;
-    color:\"#800000FF\";
-
-    Text {
-        text:\"table:\"+ "+count_table_objects+"
-        anchors.centerIn: parent
-
-    }
-    MouseArea {
-    id: itemArea"+count_table_objects+";
-    anchors.fill: parent;
-    onClicked: {
-        parent.color = 'red'
-
-        }
-    }
-}
-
-
-
-
-"]
-
-
-
-    Qt.createQmlObject(string, appWindow, "dynamicItem");
-    count=count+100
-    count_table_objects++
 }
