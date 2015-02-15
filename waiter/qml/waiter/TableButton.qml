@@ -20,8 +20,11 @@ Rectangle{
     ListModel {
         id: nameModel
         ListElement { name: "Table"
-                      cost: 0 }
-
+                      cost: 0
+                      surfaceColor: "red"}
+        ListElement { name: "Table"
+                      cost: 0
+                      surfaceColor: "black"}
     }
     Component {
         id: nameDelegate
@@ -30,6 +33,9 @@ Rectangle{
             font.pixelSize: 24
         }
     }
+
+
+
 
     ListView {
         anchors.fill: parent
@@ -49,13 +55,18 @@ Rectangle{
             Item {
                 id: container
                 width: ListView.view.width; height: 60; anchors.leftMargin: 10; anchors.rightMargin: 10
+                property bool incoming_order: false
 
                 Rectangle {
                     id: content
                     anchors.centerIn: parent; width: container.width - 40; height: container.height - 10
-                    color: "transparent"
+                    //signal clicked(color blue) //
+                    //color:{ if (incoming_order) "blue"; else "transparent" }
                     antialiasing: true
                     radius: 10
+                    //border.color: "black"
+                    border.width: 1
+                    color: surfaceColor
 
                     Rectangle { anchors.fill: parent; anchors.margins: 3; color: "#899AAEE0"; antialiasing: true; radius: 8 }
                 }
@@ -79,6 +90,7 @@ Rectangle{
                     }
                 }
             }
+
         }
 
     }

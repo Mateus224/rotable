@@ -8,22 +8,6 @@ Rectangle {
     width: 900; height: 600
     color:"#800000FF"
 
-    TableButton{
-    }
-
-        /*
-        Text{
-            text: "create Table"
-            font.pixelSize: 15
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-        }
-        */
-
-
-
-    //Component.onCompleted: CreateComponent.createCategory();
-
-
+    TableButton{}
 }
 
