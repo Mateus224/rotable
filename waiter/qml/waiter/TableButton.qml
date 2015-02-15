@@ -35,22 +35,52 @@ Rectangle{
         anchors.fill: parent
         clip: true
         model: nameModel
-        delegate: nameDelegate
+        //delegate: nameDelegate
         header: bannercomponent
         footer: Rectangle {
             width: parent.width; height: 30;
             gradient: clubcolors
         }
         highlight: Rectangle {
-            width: parent.width
-            color: "lightgray"
-            radius: 5
+                color: "lightblue"
+                width: parent.width
+            }
+        delegate:Component {
+            Item {
+                id: container
+                width: ListView.view.width; height: 60; anchors.leftMargin: 10; anchors.rightMargin: 10
 
+                Rectangle {
+                    id: content
+                    anchors.centerIn: parent; width: container.width - 40; height: container.height - 10
+                    color: "transparent"
+                    antialiasing: true
+                    radius: 10
+
+                    Rectangle { anchors.fill: parent; anchors.margins: 3; color: "#899AAEE0"; antialiasing: true; radius: 8 }
+                }
+
+                Text {
+                    id: label
+                    anchors.centerIn: content
+                    text: "Table " + (index + 1)
+                    color: "#EEEFFEFFE"
+                    font.pixelSize: 14
+                }
+
+                MouseArea {
+                    id: mouseArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+
+                    onClicked: {
+                        container.ListView.view.currentIndex = index
+                        container.forceActiveFocus()
+                    }
+                }
+            }
         }
-        MouseArea{
-            anchors.fill: parent
-            onClicked:  CreateComponent.createCategory(tableWindow,0);
-        }
+
     }
 
     Component {     //instantiated when header is processed
