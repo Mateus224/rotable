@@ -5,5 +5,6 @@
         <file alias="componentCreation.js">qml/waiter/componentCreation.js</file>
         <file alias="TableButton.qml">qml/waiter/TableButton.qml</file>
         <file alias="TestQml.qml">qml/waiter/TestQml.qml</file>
+        <file alias="TableGrid.qml">qml/waiter/TableGrid.qml</file>
     </qresource>
 </RCC>

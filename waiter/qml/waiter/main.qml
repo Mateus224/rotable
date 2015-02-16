@@ -9,5 +9,8 @@ Rectangle {
     color:"#800000FF"
 
     TableButton{}
+
+    TableGrid{}
+
 }
 

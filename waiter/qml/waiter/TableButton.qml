@@ -10,7 +10,7 @@ Rectangle{
 
     id: tableWindow
 
-     width: 200; height: 500
+     width: 200; height: parent.height
      color:"#80000000"
 
      TestQml{
@@ -21,10 +21,10 @@ Rectangle{
         id: nameModel
         ListElement { name: "Table"
                       cost: 0
-                      surfaceColor: "red"}
+                      surfaceColor: "transparent"}
         ListElement { name: "Table"
                       cost: 0
-                      surfaceColor: "black"}
+                      surfaceColor: "red"}
     }
     Component {
         id: nameDelegate
@@ -60,7 +60,7 @@ Rectangle{
                 Rectangle {
                     id: content
                     anchors.centerIn: parent; width: container.width - 40; height: container.height - 10
-                    //signal clicked(color blue) //
+
                     //color:{ if (incoming_order) "blue"; else "transparent" }
                     antialiasing: true
                     radius: 10
