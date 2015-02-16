@@ -1,0 +1,1 @@
+UPDATE `%lwaiters` SET `disable` = %3 WHERE `id` = %2;
