@@ -109,15 +109,13 @@ Rectangle {
 
 
                     Rectangle{
-                        //anchors.horizontalCenter: tableGrid.horizontalCenter
-                        //anchors.verticalCenter: tableGrid.verticalCenter
+
                         width:50
                         height:50
                         color: "transparent"
 
 
                         Text {
-                            //anchors.centerIn: tableGrid
                             font.family: "Helvetica"; font.pointSize: 13; font.bold: true
                             id: contactInfo
                             text:  pieces+"x"
@@ -127,15 +125,12 @@ Rectangle {
                     }
 
                     Rectangle{
-                        //anchors.horizontalCenter: tableGrid.horizontalCenter
-                        //anchors.verticalCenter: tableGrid.verticalCenter
                         width:150
                         height:50
                         color: "transparent"
 
 
                         Text {
-                            //anchors.centerIn: tableGrid
                             font.family: "Helvetica"; font.pointSize: 13; font.bold: true
                             id: contactInfoname
                             text:  name
@@ -144,15 +139,12 @@ Rectangle {
                         }
                     }
                     Rectangle{
-                        //anchors.horizontalCenter: tableGrid.horizontalCenter
-                        //anchors.verticalCenter: tableGrid.verticalCenter
                         width:50
                         height:50
                         color: "transparent"
 
 
                         Text {
-                            //anchors.centerIn: tableGrid
                             font.family: "Helvetica"; font.pointSize: 13; font.bold: true
                             id: contactInfoprice
                             text:  price+"€"
@@ -161,8 +153,6 @@ Rectangle {
                         }
                     }
                     Rectangle{
-                        //anchors.horizontalCenter: tableGrid.horizontalCenter
-                        //anchors.verticalCenter: tableGrid.verticalCenter
                         width:50
                         height:50
                         color: "transparent"
@@ -170,7 +160,6 @@ Rectangle {
 
                         Text {
                             font.family: "Helvetica"; font.pointSize: 13; font.bold: true
-                            //anchors.centerIn: tableGrid
                             id: contactInfoready
                             text:  ready
                             color: wrapper.ListView.isCurrentItem ? "red" : "green"
@@ -178,8 +167,6 @@ Rectangle {
                         }
                     }
                     Rectangle{
-                        //anchors.horizontalCenter: tableGrid.horizontalCenter
-                        //anchors.verticalCenter: tableGrid.verticalCenter
                         width:50
                         height:50
                         color: "transparent"
@@ -194,8 +181,6 @@ Rectangle {
                         }
                     }
                     Rectangle{
-                        //anchors.horizontalCenter: tableGrid.horizontalCenter
-                        //anchors.verticalCenter: tableGrid.verticalCenter
                         width:50
                         height:50
                         color: "transparent"

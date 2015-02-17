@@ -17,12 +17,14 @@ INCLUDEPATH += \
 HEADERS += \
     include/configwaiter.h \
     include/tcpwaiter.h \
-    include/tcpclient.h
+    include/tcpclient.h \
+    include/orderinformation.h
 
 SOURCES += \
     source/main.cpp \
     source/configwaiter.cpp \
-    source/tcpclient.cpp
+    source/tcpclient.cpp \
+    source/orderinformation.cpp
 
 RESOURCES +=\
     resources.qrc \

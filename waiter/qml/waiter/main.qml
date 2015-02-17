@@ -11,6 +11,17 @@ Rectangle {
     TableButton{}
 
     TableGrid{}
+    ListView {
+        width: 200; height: 200
+
+        model: myModel
+        delegate: Rectangle {
+            height: 25
+            width: 100
+            color: model.modelData.color
+            Text { text: name }
+        }
+    }
 
 }
 

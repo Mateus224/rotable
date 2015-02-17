@@ -1,4 +1,11 @@
 #include "private/precomp.h"
+#include "../include/orderinformation.h"
+
+#include <qqmlengine.h>
+#include <qqmlcontext.h>
+#include <qqml.h>
+#include <QtQuick/qquickitem.h>
+#include <QtQuick/qquickview.h>
 
 //#include "client/linux/handler/exception_handler.h"
 
@@ -36,11 +43,22 @@ int main(int argc, char *argv[])
   //rotable::ImageProvider* imageProvider = new rotable::ImageProvider(client);
   //client->setImageProvider(imageProvider);
 
+  //add information to qmllist
+  QList<QObject*> dataList;
+  dataList.append(new OrderInformation("Item 1", "red"));
+  dataList.append(new OrderInformation("Item 2", "green"));
+  dataList.append(new OrderInformation("Item 3", "blue"));
+  dataList.append(new OrderInformation("Item 4", "yellow"));
+
   QQuickView view;
   //client->startup();
 
   view.setResizeMode(QQuickView::SizeRootObjectToView);
+  QQmlContext *ctxt = view.rootContext();
+  ctxt->setContextProperty("myModel", QVariant::fromValue(dataList));
+
   view.setSource(QString("qrc:/waiter/main.qml"));
+
   view.show();
 
   return app.exec();
