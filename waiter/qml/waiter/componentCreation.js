@@ -4,14 +4,14 @@ var count=1
 function createCategory(parent_item, category) {
 
 
-    var order= true
+    var order= false
 
     var color="red"
     if(order)
     {
         color="transparent"
     }
-    nameModel.append({"name":"Table", "cost":count, surfaceColor: color})
+    myModel.append({"name":"Table", "cost":count, color: "red"})
     count++
 
 

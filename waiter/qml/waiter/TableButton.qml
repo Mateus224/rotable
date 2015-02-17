@@ -18,13 +18,16 @@ Rectangle{
      }
 
     ListModel {
-        id: nameModel
-        ListElement { name: "Table"
+        id: myModel
+        ListElement { name: "Table 1"
                       cost: 0
-                      surfaceColor: "transparent"}
-        ListElement { name: "Table"
+                      surfaceColor: "transparent"
+                      color: "transparent"
+                       }
+        ListElement { name: "Table 2"
                       cost: 0
-                      surfaceColor: "red"}
+                      surfaceColor: "red"
+                      }
     }
     Component {
         id: nameDelegate
@@ -40,7 +43,7 @@ Rectangle{
     ListView {
         anchors.fill: parent
         clip: true
-        model: nameModel
+        model: myModel
         //delegate: nameDelegate
         header: bannercomponent
         footer: Rectangle {
@@ -66,7 +69,7 @@ Rectangle{
                     radius: 10
                     //border.color: "black"
                     border.width: 1
-                    color: surfaceColor
+                    color: color //model.modelData.color //surfaceColor
 
                     Rectangle { anchors.fill: parent; anchors.margins: 3; color: "#899AAEE0"; antialiasing: true; radius: 8 }
                 }
@@ -74,7 +77,7 @@ Rectangle{
                 Text {
                     id: label
                     anchors.centerIn: content
-                    text: "Table " + (index + 1)
+                    text: name//"Table " + (index + 1)
                     color: "#EEEFFEFFE"
                     font.pixelSize: 14
                 }

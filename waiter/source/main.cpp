@@ -45,10 +45,13 @@ int main(int argc, char *argv[])
 
   //add information to qmllist
   QList<QObject*> dataList;
-  dataList.append(new OrderInformation("Item 1", "red"));
-  dataList.append(new OrderInformation("Item 2", "green"));
-  dataList.append(new OrderInformation("Item 3", "blue"));
-  dataList.append(new OrderInformation("Item 4", "yellow"));
+  dataList.append(new OrderInformation("Table 1", "red"));
+  dataList.append(new OrderInformation("Table 2", "transparent"));
+  dataList.append(new OrderInformation("Table 3", "red"));
+  dataList.append(new OrderInformation("Table 4", "transparent"));
+  dataList.append(new OrderInformation("Table 5", "transparent"));
+  dataList.append(new OrderInformation("Table 6", "transparent"));
+  dataList.append(new OrderInformation("Table 7", "transparent"));
 
   QQuickView view;
   //client->startup();

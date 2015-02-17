@@ -7,8 +7,8 @@ OrderInformation::OrderInformation(QObject *parent) : QObject(parent)
 }
 
 
-OrderInformation::OrderInformation(const QString &name, const QString &color, QObject *parent)
-    : QObject(parent), m_name(name), m_color(color)
+OrderInformation::OrderInformation(const QString &name, const QString &order, QObject *parent)
+    : QObject(parent), m_name(name), m_order(order)
 {
 }
 
@@ -25,15 +25,15 @@ void OrderInformation::setName(const QString &name)
     }
 }
 
-QString OrderInformation::color() const
+QString OrderInformation::order() const
 {
-    return m_color;
+    return m_order;
 }
 
-void OrderInformation::setColor(const QString &color)
+void OrderInformation::setorder(const QString &order)
 {
-    if (color != m_color) {
-        m_color = color;
-        emit colorChanged();
+    if (order != m_order) {
+        m_order = order;
+        emit orderChanged();
     }
 }
