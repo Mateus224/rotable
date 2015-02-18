@@ -12,7 +12,8 @@ class OrderInformation : public QObject
 
 public:
     OrderInformation(QObject *parent=0);
-    OrderInformation(const QString &name, const QString &order, QObject *parent=0);
+    OrderInformation(const QString &name, const QString &order, const int &pieces,const QString &orderName,
+                     const float &price, const bool &ready, const bool &cancellation,  QObject *parent=0);
 
     QString name() const;
     void setName(const QString &name);
@@ -20,13 +21,43 @@ public:
     QString order() const;
     void setorder(const QString &order);
 
+    int pieces() const;
+    void setpieces(const int &pieces);
+
+    QString orderName() const;
+    void setorderName(const QString &orderName);
+
+    float price() const;
+    void setprice(const float &price);
+
+    bool ready() const;
+    void setready(const bool &ready);
+
+    bool cancellation() const;
+    void setcancellation(const bool &cancellation);
+
+    //float time() const;
+    //void settime(const float &time);
+
 signals:
     void nameChanged();
     void orderChanged();
+    void piecesChanged();
+    void orderNameChanged();
+    void priceChanged();
+    void readyChanged();
+    void cancellationChanged();
+    //void timeChanged();
 
 private:
     QString m_name;
     QString m_order;
+    int m_pieces;
+    QString m_orderName;
+    float m_price;
+    bool m_ready;
+    bool m_cancellation;
+    //QString m_time;
 };
 
 #endif // ORDERINFORMATION_H

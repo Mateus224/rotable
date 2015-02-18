@@ -27,7 +27,7 @@ Rectangle{
         ListElement { name: "Table 2"
                       cost: 0
                       surfaceColor: "red"
-                      }
+                     }
     }
     Component {
         id: nameDelegate

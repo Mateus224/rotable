@@ -3,6 +3,7 @@ import QtMultimedia 5.0
 import "componentCreation.js" as CreateComponent
 
 
+
 Rectangle {
     id: appWindow
     width: 900; height: 600
@@ -21,19 +22,7 @@ Rectangle {
          TestQml{
 
          }
-/*
-        ListModel {
-            id: myModel
-            ListElement { name: "Table 1"
-                          cost: 0
-                          surfaceColor: "transparent"
-                          color: "transparent"
-                           }
-            ListElement { name: "Table 2"
-                          cost: 0
-                          surfaceColor: "red"
-                          }
-        }*/
+
         Component {
             id: nameDelegate
             Text {
@@ -46,13 +35,15 @@ Rectangle {
 
 
         ListView {
+
+
             anchors.fill: parent
             clip: true
             model: myModel
             //delegate: nameDelegate
             header: bannercomponent
             footer: Rectangle {
-                width: parent.width; height: 30;
+                width: parent.width; height: 50;
                 gradient: clubcolors
             }
             highlight: Rectangle {
@@ -61,6 +52,7 @@ Rectangle {
                 }
             delegate:Component {
                 Item {
+
                     id: container
                     width: ListView.view.width; height: 60; anchors.leftMargin: 10; anchors.rightMargin: 10
                     property bool incoming_order: false
