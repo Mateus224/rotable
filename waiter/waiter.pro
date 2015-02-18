@@ -18,13 +18,15 @@ HEADERS += \
     include/configwaiter.h \
     include/tcpwaiter.h \
     include/tcpclient.h \
-    include/orderinformation.h
+    include/orderinformation.h \
+    include/table.h
 
 SOURCES += \
     source/main.cpp \
     source/configwaiter.cpp \
     source/tcpclient.cpp \
-    source/orderinformation.cpp
+    source/orderinformation.cpp \
+    source/table.cpp
 
 RESOURCES +=\
     resources.qrc \
