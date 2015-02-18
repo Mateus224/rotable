@@ -9,6 +9,12 @@ class OrderInformation : public QObject
 
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QString color READ order WRITE setorder NOTIFY orderChanged)
+    Q_PROPERTY(int pieces READ pieces WRITE setpieces NOTIFY piecesChanged)
+    Q_PROPERTY(QString orderName READ orderName WRITE setorderName NOTIFY orderNameChanged)
+    Q_PROPERTY(float price READ price WRITE setprice NOTIFY priceChanged)
+    Q_PROPERTY(bool ready READ ready WRITE setready NOTIFY readyChanged)
+    Q_PROPERTY(bool cancellation READ cancellation WRITE setcancellation NOTIFY cancellationChanged)
+
 
 public:
     OrderInformation(QObject *parent=0);
