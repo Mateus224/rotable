@@ -9,7 +9,7 @@ Rectangle {
     color: "white"
 
 
-    ListModel {
+  /*  ListModel {
         id:table
         ListElement {
             pieces: 3
@@ -66,7 +66,7 @@ Rectangle {
             //portrait: "pics/portrait.png"
         }
 
-    }
+    }*/
 
 
     Component {
@@ -133,7 +133,7 @@ Rectangle {
                         Text {
                             font.family: "Helvetica"; font.pointSize: 13; font.bold: true
                             id: contactInfoname
-                            text:  name
+                            text:  orderName
                             color: wrapper.ListView.isCurrentItem ? "red" : "green"
 
                         }

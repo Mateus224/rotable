@@ -11,7 +11,154 @@ Rectangle {
 
     //TableButton{}
 
-    TableGrid{}
+    //TableGrid{}
+    Rectangle {
+        id:tableGrid
+        width: 520
+        height: 400
+        x:250
+        y:100
+        color: "white"
+        Component {
+            id: contactDelegate
+            Item {
+                width: grid.cellWidth; height: grid.cellHeight
+                Column {
+                    anchors.fill: parent
+                    //Image { source: portrait; anchors.horizontalCenter: parent.horizontalCenter }
+                    Text { text: name; anchors.horizontalCenter: parent.horizontalCenter }
+                }
+            }
+        }
+
+        ListView {
+            //x:250
+            //y:30
+            id:grid
+            orientation: ListView.Vertical
+            width: parent.width
+            height: parent.height
+            anchors.fill: parent
+            clip: true
+            model: table
+            delegate: contactsDelegate
+
+
+            Component {
+                id: contactsDelegate
+                Rectangle {
+                    //color:"blue"
+                    //x:200
+                    id: wrapper
+                    width: grid.width
+                    height: 50
+                    //anchors.fill: parent
+
+                    color: "transparent"
+
+                    Row {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.verticalCenter: parent.verticalCenter
+
+                            spacing: 5
+
+
+                        Rectangle{
+
+                            width:50
+                            height:50
+                            color: "transparent"
+
+
+                            Text {
+                                font.family: "Helvetica"; font.pointSize: 13; font.bold: true
+                                id: contactInfo
+                                text:  model.modelData.pieces+"x"
+                                color: wrapper.ListView.isCurrentItem ? "red" : "green"
+                                //color:model.modelData.color
+                            }
+                        }
+
+                        Rectangle{
+                            width:150
+                            height:50
+                            color: "transparent"
+
+
+                            Text {
+                                font.family: "Helvetica"; font.pointSize: 13; font.bold: true
+                                id: contactInfoname
+                                text:  orderName
+                                color: wrapper.ListView.isCurrentItem ? "red" : "green"
+
+                            }
+                        }
+                        Rectangle{
+                            width:50
+                            height:50
+                            color: "transparent"
+
+
+                            Text {
+                                font.family: "Helvetica"; font.pointSize: 13; font.bold: true
+                                id: contactInfoprice
+                                text:  model.modelData.price+"€"
+                                color: wrapper.ListView.isCurrentItem ? "red" : "green"
+
+                            }
+                        }
+                        Rectangle{
+                            width:50
+                            height:50
+                            color: "transparent"
+
+
+                            Text {
+                                font.family: "Helvetica"; font.pointSize: 13; font.bold: true
+                                id: contactInfoready
+                                text:  model.modelData.ready
+                                color: wrapper.ListView.isCurrentItem ? "red" : "green"
+
+                            }
+                        }
+                        Rectangle{
+                            width:50
+                            height:50
+                            color: "transparent"
+
+
+                            Text {
+                                font.family: "Helvetica"; font.pointSize: 13; font.bold: true
+                                id: contactInfoncancellation
+                                text:  model.modelData.cancellation
+                                color: wrapper.ListView.isCurrentItem ? "red" : "green"
+
+                            }
+                        }
+                        Rectangle{
+                            width:50
+                            height:50
+                            color: "transparent"
+
+
+                            Text {
+                                font.family: "Helvetica"; font.pointSize: 13; font.bold: true
+                                id: contactInfontime
+                                text:  1+" min"
+                                color: wrapper.ListView.isCurrentItem ? "red" : "green"
+
+                            }
+                        }
+                    }
+                }
+            }
+
+
+
+        }
+
+
+    }
     Rectangle{
 
         id: tableWindow

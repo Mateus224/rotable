@@ -59,8 +59,10 @@ int main(int argc, char *argv[])
   view.setResizeMode(QQuickView::SizeRootObjectToView);
   QQmlContext *ctxt = view.rootContext();
   ctxt->setContextProperty("myModel", QVariant::fromValue(dataList));
+  ctxt->setContextProperty("table", QVariant::fromValue(dataList));
 
   view.setSource(QString("qrc:/waiter/main.qml"));
+
 
   view.show();
 
