@@ -2,9 +2,9 @@
 #include "../include/table.h"
 
 
-/*table::table(QObject *parent) : QObject(parent)
+table::table(QObject *parent) : QObject(parent)
 {
-}*/
+}
 
 table::table(const int &tableNumber, QObject *parent) : QObject(parent), m_tableNumber(tableNumber)
 {
