@@ -1,9 +1,9 @@
 #ifndef ORDERINFORMATION_H
 #define ORDERINFORMATION_H
-
+//#include<../include/table.h>
 #include <QObject>
 
-class OrderInformation : public QObject
+class OrderInformation : public QObject//, public table
 {
     Q_OBJECT
 

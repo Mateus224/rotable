@@ -1,6 +1,6 @@
 #include "private/precomp.h"
 #include "../include/orderinformation.h"
-
+//#include "../include/table.h"
 #include <qqmlengine.h>
 #include <qqmlcontext.h>
 #include <qqml.h>
@@ -50,11 +50,12 @@ int main(int argc, char *argv[])
 
   QList <QObject*>  dataList;
   //int Tables=7;
-
+  //dataList.append(new table(1));
 
   //QList <dataList*> Tables =QList <dataList*> ();
 
   //QList<QObject*> dataList;//=new QList<QObject*>;
+
   dataList.append(new OrderInformation("Table 1", "red", 3, "Sambuca", 2.5, true, false));
   dataList.append(new OrderInformation("Table 2", "transparent", 3, "Sambuca", 2.5, true, false));
   dataList.append(new OrderInformation("Table 3", "red",3, "Sambuca", 2.5, true, false));
