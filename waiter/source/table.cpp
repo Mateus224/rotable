@@ -2,11 +2,12 @@
 #include "../include/table.h"
 
 
-table::table(QObject *parent) : QObject(parent)
+table::table()//(QObject *parent) : QObject(parent)
 {
 }
 
-table::table(const int &tableNumber, QObject *parent) : QObject(parent), m_tableNumber(tableNumber)
+table::table(const int &tableNumber): m_tableNumber(tableNumber)
+//, QObject *parent) : QObject(parent), m_tableNumber(tableNumber)
 {
 }
 
@@ -23,5 +24,28 @@ void table::settableNumber(const int &tableNumber)
         m_tableNumber = tableNumber;
         emit tableNumberChanged();
     }
+}
+
+
+//------------------------------------------------------------
+void table::add_orderinformation()
+{
+    L_orderinformation.append(new OrderInformation(("Table 1", "red", 3, "Sambuca", 2.5, true, false)));
+}
+
+void table::cancellation_orderinformation(int position)
+{
+    OrderInformation cancellationInformation;
+    cancellationInformation=L_orderinformation.takeAt(position);
+    cancellationInformation->setcancellation(true);
+    L_orderinformation.insert(position,cancellationInformation);
+}
+
+void table::ready_orderinformation(int position)
+{
+    QObject* readyInformation;
+    readyInformation=L_orderinformation.takeAt(position);
+    readyInformation->setready(true);
+    L_orderinformation.insert(position,readyInformation);
 }
 

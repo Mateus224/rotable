@@ -48,9 +48,11 @@ int main(int argc, char *argv[])
   //for ( int i=0; i<1 ; i++)
    // QList<QObject*> dataList;
 
-  QList <QObject*>  dataList;
+  QList <table*>  dataList;
   //int Tables=7;
   dataList.append(new table(1));
+
+
 
   //QList <dataList*> Tables =QList <dataList*> ();
 
@@ -67,10 +69,13 @@ int main(int argc, char *argv[])
   QQuickView view;
   //client->startup();
 
+  table* tab;
+  tab->add_orderinformation();
+  tab=dataList.last();
   view.setResizeMode(QQuickView::SizeRootObjectToView);
   QQmlContext *ctxt = view.rootContext();
-  ctxt->setContextProperty("myModel", QVariant::fromValue(dataList));
-  ctxt->setContextProperty("table", QVariant::fromValue(dataList));
+  ctxt->setContextProperty("myModel", QVariant::fromValue(tab->L_orderinformation));
+  ctxt->setContextProperty("table", QVariant::fromValue(tab->L_orderinformation));
 
   view.setSource(QString("qrc:/waiter/main.qml"));
 
