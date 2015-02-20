@@ -48,16 +48,15 @@ int main(int argc, char *argv[])
   //for ( int i=0; i<1 ; i++)
    // QList<QObject*> dataList;
 
-  QList <table*>  dataList;
-  //int Tables=7;
-  dataList.append(new table(1));
+  QList <table*>  tableNumber;
+  tableNumber.append(new table(2));
 
 
 
   //QList <dataList*> Tables =QList <dataList*> ();
 
   //QList<QObject*> dataList;//=new QList<QObject*>;
-/*
+    /*
   dataList.append(new OrderInformation("Table 1", "red", 3, "Sambuca", 2.5, true, false));
   dataList.append(new OrderInformation("Table 2", "transparent", 3, "Sambuca", 2.5, true, false));
   dataList.append(new OrderInformation("Table 3", "red",3, "Sambuca", 2.5, true, false));
@@ -68,10 +67,17 @@ int main(int argc, char *argv[])
 */
   QQuickView view;
   //client->startup();
-
   table* tab;
+  tab=tableNumber.last();
   tab->add_orderinformation();
-  tab=dataList.last();
+  tab->add_orderinformation();
+  tab->add_orderinformation();
+  tab->add_orderinformation();
+  tab->add_orderinformation();
+  tab->add_orderinformation();
+  tab->add_orderinformation();
+  tab->add_orderinformation();
+
   view.setResizeMode(QQuickView::SizeRootObjectToView);
   QQmlContext *ctxt = view.rootContext();
   ctxt->setContextProperty("myModel", QVariant::fromValue(tab->L_orderinformation));

@@ -3,7 +3,7 @@
 //#include<../include/table.h>
 #include <QObject>
 
-class OrderInformation : public QObject//, public table
+class OrderInformation : public QObject
 {
     Q_OBJECT
 
