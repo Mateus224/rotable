@@ -19,7 +19,7 @@ public:
     void cancellation_orderinformation(int position);
     void ready_orderinformation(int position);
 
-    QList <QObject*>  L_orderinformation;
+    QList <OrderInformation*>  L_orderinformation;
 
 signals:
     void tableNumberChanged();

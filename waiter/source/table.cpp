@@ -34,17 +34,17 @@ void table::add_orderinformation()
 
 void table::cancellation_orderinformation(int position)
 {
-    QObject* cancellationInformation;
+    OrderInformation* cancellationInformation;
     cancellationInformation=L_orderinformation.takeAt(position);
-    ((OrderInformation *)cancellationInformation)->setcancellation(true);
+    cancellationInformation->setcancellation(true);
     L_orderinformation.insert(position,cancellationInformation);
 }
 
 void table::ready_orderinformation(int position)
 {
-    QObject* readyInformation;
+    OrderInformation* readyInformation;
     readyInformation=L_orderinformation.takeAt(position);
-    ((OrderInformation *)readyInformation)->setready(true);
+    readyInformation->setready(true);
     L_orderinformation.insert(position,readyInformation);
 }
 
