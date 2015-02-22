@@ -6,7 +6,12 @@ table::table(QObject *parent) : QObject(parent)
 {
 }
 
-table::table(const int &tableNumber, QObject *parent) : QObject(parent), m_tableNumber(tableNumber)
+table::table(const int &tableNumber, const QString &name, const QString &order,
+             const int &pieces,const QString &orderName,
+             const float &price,
+             const bool &ready, const bool &cancellation,
+             QObject *parent)
+    : QObject(parent), m_tableNumber(tableNumber), m_name(name), m_order(order), m_pieces(pieces), m_orderName(orderName), m_price(price), m_ready(ready),m_cancellation(cancellation)
 {
 }
 
@@ -27,9 +32,9 @@ void table::settableNumber(const int &tableNumber)
 
 
 //------------------------------------------------------------
-void table::add_orderinformation()
+void table::add_orderinformation(QString m_name, QString m_order,int m_pieces,QString m_orderName,float m_price,bool m_ready,bool m_cancellation)
 {
-    L_orderinformation.append(new OrderInformation("Table 1", "red", 3, "Sambuca", 2.5, true, true));
+    L_orderinformation.append(new OrderInformation(m_name, m_order, m_pieces, m_orderName, m_price, m_ready, m_cancellation));
 }
 
 void table::cancellation_orderinformation(int position)

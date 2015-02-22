@@ -32,8 +32,6 @@ Rectangle {
         }
 
         ListView {
-            //x:250
-            //y:30
             id:grid
             orientation: ListView.Vertical
             width: parent.width
@@ -47,8 +45,6 @@ Rectangle {
             Component {
                 id: contactsDelegate
                 Rectangle {
-                    //color:"blue"
-                    //x:200
                     id: wrapper
                     width: grid.width
                     height: 50
@@ -75,7 +71,7 @@ Rectangle {
                                 id: contactInfo
                                 text:  model.modelData.pieces+"x"
                                 color: wrapper.ListView.isCurrentItem ? "red" : "green"
-                                //color:model.modelData.color
+
                             }
                         }
 
@@ -83,7 +79,6 @@ Rectangle {
                             width:150
                             height:50
                             color: "transparent"
-
 
                             Text {
                                 font.family: "Helvetica"; font.pointSize: 13; font.bold: true
@@ -199,6 +194,8 @@ Rectangle {
                 }
             delegate:Component {
                 Item {
+                    //id: item
+                    signal qmlSignal(string msg)
 
                     id: container
                     width: ListView.view.width; height: 60; anchors.leftMargin: 10; anchors.rightMargin: 10
@@ -234,6 +231,7 @@ Rectangle {
                         onClicked: {
                             container.ListView.view.currentIndex = index
                             container.forceActiveFocus()
+                            container.qmlSignal("Hello from QML")
                         }
                     }
                 }

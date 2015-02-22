@@ -1,11 +1,12 @@
 #include "private/precomp.h"
-//#include "../include/orderinformation.h"
 #include "../include/table.h"
+#include "../include/orderinformation.h"
 #include <qqmlengine.h>
 #include <qqmlcontext.h>
 #include <qqml.h>
 #include <QtQuick/qquickitem.h>
 #include <QtQuick/qquickview.h>
+//#include <QtDeclarative>
 
 //#include "client/linux/handler/exception_handler.h"
 
@@ -38,45 +39,21 @@ int main(int argc, char *argv[])
     configFilePath = args[0];
   }
 
-  //rotable::Client* client = new rotable::Client(configFilePath);
-
-  //rotable::ImageProvider* imageProvider = new rotable::ImageProvider(client);
-  //client->setImageProvider(imageProvider);
-
-  //add information to qmllist
-
-  //for ( int i=0; i<1 ; i++)
-   // QList<QObject*> dataList;
-
   QList <table*>  tableNumber;
-  tableNumber.append(new table(2));
+  tableNumber.append(new table(2, "Table 1", "Hallo", 3, "Sambuca", 2, true, false ));
+  //tableNumber.append(new table(2, "Table 2", "Hallo", 3, "Vodka", 2, false, false ));
 
 
+  //QDeclarativeView view;
 
-  //QList <dataList*> Tables =QList <dataList*> ();
-
-  //QList<QObject*> dataList;//=new QList<QObject*>;
-    /*
-  dataList.append(new OrderInformation("Table 1", "red", 3, "Sambuca", 2.5, true, false));
-  dataList.append(new OrderInformation("Table 2", "transparent", 3, "Sambuca", 2.5, true, false));
-  dataList.append(new OrderInformation("Table 3", "red",3, "Sambuca", 2.5, true, false));
-  dataList.append(new OrderInformation("Table 4", "transparent",3, "Sambuca", 2.5, true, false));
-  dataList.append(new OrderInformation("Table 5", "transparent",3, "Sambuca", 2.5, true, false));
-  dataList.append(new OrderInformation("Table 6", "transparent",3, "Sambuca", 2.5, true, false));
-  dataList.append(new OrderInformation("Table 7", "transparent",3, "Sambuca", 2.5, true, false));
-*/
   QQuickView view;
   //client->startup();
-  table* tab;
+  table* tab=new table;
   tab=tableNumber.last();
-  tab->add_orderinformation();
-  tab->add_orderinformation();
-  tab->add_orderinformation();
-  tab->add_orderinformation();
-  tab->add_orderinformation();
-  tab->add_orderinformation();
-  tab->add_orderinformation();
-  tab->add_orderinformation();
+  tab->add_orderinformation("Table 1", "Hallo", 3, "Sambuca", 2, false, false );
+  tab->add_orderinformation("Table 2", "Hallo", 3, "Vodka", 2, false, false );
+  tab->add_orderinformation("Table 3", "Nie", 2, "Vodka", 3, true, false );
+
 
   view.setResizeMode(QQuickView::SizeRootObjectToView);
   QQmlContext *ctxt = view.rootContext();
@@ -84,8 +61,11 @@ int main(int argc, char *argv[])
   ctxt->setContextProperty("table", QVariant::fromValue(tab->L_orderinformation));
 
   view.setSource(QString("qrc:/waiter/main.qml"));
-
-
+QObject *container = view.rootObject();
+ OrderInformation OrderInformation;
+ //OrderInformation
+ QObject::connect(container, SIGNAL(qmlSignal(QString)),
+                      &OrderInformation, SLOT(cppSlot(QString)));
   view.show();
 
   return app.exec();

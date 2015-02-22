@@ -1,4 +1,4 @@
-QT = core qml network gui quick
+QT = core qml network gui quick #declarative
 TARGET = rotable-waiter
 
 CONFIG += precompile_header

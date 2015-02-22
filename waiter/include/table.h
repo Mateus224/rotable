@@ -10,12 +10,13 @@ class table : public QObject//, public OrderInformation
 
 public:
     table(QObject *parent=0);
-    table(const int &tableNumber, QObject *parent=0);
+    table(const int &tableNumber, const QString &name, const QString &order, const int &pieces,const QString &orderName,
+                                 const float &price, const bool &ready, const bool &cancellation,  QObject *parent=0);
     ~table() {}
     int tableNumber() const;
     void settableNumber(const int &tableNumber);
 
-    void add_orderinformation();
+    void add_orderinformation(const QString m_name,const QString m_order, const int m_pieces,const QString m_orderName,const float m_price,const bool m_ready,const bool m_cancellation);
     void cancellation_orderinformation(int position);
     void ready_orderinformation(int position);
 
@@ -26,6 +27,14 @@ signals:
 
 private:
     int m_tableNumber;
+private:
+    QString m_name;
+    QString m_order;
+    int m_pieces;
+    QString m_orderName;
+    float m_price;
+    bool m_ready;
+    bool m_cancellation;
 };
 
 #endif // TABLE_H
