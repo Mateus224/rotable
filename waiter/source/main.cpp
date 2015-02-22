@@ -57,8 +57,8 @@ int main(int argc, char *argv[])
 
   view.setResizeMode(QQuickView::SizeRootObjectToView);
   QQmlContext *ctxt = view.rootContext();
-  ctxt->setContextProperty("myModel", QVariant::fromValue(tab->L_orderinformation));
-  ctxt->setContextProperty("table", QVariant::fromValue(tab->L_orderinformation));
+  ctxt->setContextProperty("myModel", QVariant::fromValue(*reinterpret_cast<QList<QObject*> *>(&(tab->L_orderinformation))));
+  ctxt->setContextProperty("table", QVariant::fromValue(*reinterpret_cast<QList<QObject*> *>(&(tab->L_orderinformation))));
 
   view.setSource(QString("qrc:/waiter/main.qml"));
 QObject *container = view.rootObject();
