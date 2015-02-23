@@ -26,6 +26,8 @@
 #include "productcategory.h"
 #include "product.h"
 #include "order.h"
+#include "compackage.h"
+#include "waiter.h"
 
 //------------------------------------------------------------------------------
 
@@ -54,7 +56,8 @@ private:
     Products,
     Clients,
     Orders,
-    OrderItems
+    OrderItems,
+    Waiters
   };
 
   /**
@@ -161,6 +164,14 @@ public:
    * @return            true on success
    */
   bool addProduct(Product* product);
+
+  /**
+   * Add a new waiter to the database.
+   *
+   * @param waiter      new waiter
+   * @return            true on success
+   */
+  bool addWaiter(Waiter* waiter);
 
   /**
    * Update a product category.

@@ -21,7 +21,8 @@ SOURCES += \
     source/productcontainer.cpp \
     source/productorder.cpp \
     source/logmanager.cpp \
-    source/order.cpp
+    source/order.cpp \
+    source/waiter.cpp
 
 HEADERS += \
     include/configbase.h \
@@ -35,7 +36,8 @@ HEADERS += \
     include/logmanager.h \
     include/loglistenerremote.h \
     include/loglisternerstdout.h \
-    include/order.h
+    include/order.h \
+    include/waiter.h
 
 RESOURCES += shared_resources.qrc
 
