@@ -20,6 +20,7 @@ static const char S_deleteProductsOfCategory[] =
 Database::Database(QObject *parent) :
   QObject(parent), _connected(false)
 {
+  
   SqlCommands categoryCmds;
   collectSqlCommands(categoryCmds, "categories");
   _sqlCommands.append(categoryCmds);
@@ -39,6 +40,10 @@ Database::Database(QObject *parent) :
   SqlCommands orderItemCmds;
   collectSqlCommands(orderItemCmds, "orderitems");
   _sqlCommands.append(orderItemCmds);
+
+  SqlCommands waiterCmds;
+  collectSqlCommands(waiterCmds, "waiter");
+  _sqlCommands.append(waiterCmds);
 }
 
 //------------------------------------------------------------------------------
@@ -454,6 +459,41 @@ bool Database::addProduct(Product* product)
 
 //------------------------------------------------------------------------------
 
+bool Database::addWaiter(Waiter* waiter)
+{
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr = _sqlCommands[Waiters]._insert
+                     .arg(_prefix, "NULL", ":nick", ":name", ":passwd");
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+//  q.bindValue(":name", product->name());
+//  q.bindValue(":price", product->price());
+//  q.bindValue(":info", product->info());
+//  q.bindValue(":category_id", product->categoryId());
+//  q.bindValue(":icon", product->icon());
+//  q.bindValue(":amount", product->amount());
+
+  if (!q.exec()) {
+    qCritical() << tr("Query exec failed: (%1: %2")
+                   .arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
 bool Database::updateCategory(ProductCategory *category)
 {
   if (!isConnected()) {
@@ -623,6 +663,12 @@ bool Database::createDatabase()
     return false;
   }
 
+  QSqlQuery q7(QString("DROP TABLE IF EXISTS `%1waiters`;").arg(_prefix), _db);
+  if (q7.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q7.lastError().text());
+    return false;
+  }
+
   QSqlQuery q3(_sqlCommands[Categories]._create.arg(_prefix), _db);
   if (q3.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q3.lastError().text());
@@ -638,6 +684,12 @@ bool Database::createDatabase()
   QSqlQuery q6(_sqlCommands[Clients]._create.arg(_prefix), _db);
   if (q6.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q6.lastError().text());
+    return false;
+  }
+
+  QSqlQuery q8(_sqlCommands[Waiters]._create.arg(_prefix), _db);
+  if (q7.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q8.lastError().text());
     return false;
   }
 
