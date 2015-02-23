@@ -22,12 +22,17 @@ public:
 
     QList <OrderInformation*>  L_orderinformation;
 
+    int m_tableNumber;
+public slots:
+    void tableSlot(const int &msg) {
+            qDebug() << "Message from table nr.:" << msg;
+            m_tableNumber=msg;
+        }
 signals:
     void tableNumberChanged();
 
 private:
-    int m_tableNumber;
-private:
+
     QString m_name;
     QString m_order;
     int m_pieces;

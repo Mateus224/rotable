@@ -13,6 +13,8 @@ table::table(const int &tableNumber, const QString &name, const QString &order,
              QObject *parent)
     : QObject(parent), m_tableNumber(tableNumber), m_name(name), m_order(order), m_pieces(pieces), m_orderName(orderName), m_price(price), m_ready(ready),m_cancellation(cancellation)
 {
+    qDebug()<<tableNumber<<" "<<m_tableNumber;
+    settableNumber(tableNumber);
 }
 
 

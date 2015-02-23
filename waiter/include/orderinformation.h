@@ -46,8 +46,7 @@ public:
     //void settime(const float &time);
 
 public slots:
-    //void currentTableObject(int index);
-    void cppSlot(const QString &msg) {
+    void cppSlot(const int &msg) {
             qDebug() << "Called the C++ slot with message:" << msg;
         }
 

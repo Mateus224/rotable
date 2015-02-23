@@ -193,7 +193,7 @@ Rectangle {
 
                 Item {
                     //id: item
-                    signal qmlSignal(string msg)
+                    signal qmlSignal(int msg)
 
                     id: container
                     width: ListView.view.width; height: 60; anchors.leftMargin: 10; anchors.rightMargin: 10
@@ -230,7 +230,7 @@ Rectangle {
                         onClicked: {
                             container.ListView.view.currentIndex = index
                             container.forceActiveFocus()
-                            con.cppSlot("Hello from QML")
+                            con.tableSlot(index + 1)
                         }
                     }
                 }
