@@ -1,7 +1,7 @@
 #ifndef ORDERINFORMATION_H
 #define ORDERINFORMATION_H
-//#include<../include/table.h>
 #include <QObject>
+#include <QDebug>
 
 class OrderInformation : public QObject
 {

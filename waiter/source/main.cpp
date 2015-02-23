@@ -1,12 +1,14 @@
 #include "private/precomp.h"
 #include "../include/table.h"
 #include "../include/orderinformation.h"
+#include "orderinformation.h"
+#include "table.h"
 #include <qqmlengine.h>
 #include <qqmlcontext.h>
 #include <qqml.h>
 #include <QtQuick/qquickitem.h>
 #include <QtQuick/qquickview.h>
-//#include <QtDeclarative>
+#include <QtQuick>
 
 //#include "client/linux/handler/exception_handler.h"
 
@@ -44,10 +46,11 @@ int main(int argc, char *argv[])
   //tableNumber.append(new table(2, "Table 2", "Hallo", 3, "Vodka", 2, false, false ));
 
 
-  //QDeclarativeView view;
-
   QQuickView view;
+
   //client->startup();
+  //QQuickView view(QUrl::fromLocalFile("main.qml"));
+
   table* tab=new table;
   tab=tableNumber.last();
   tab->add_orderinformation("Table 1", "Hallo", 3, "Sambuca", 2, false, false );
@@ -57,16 +60,18 @@ int main(int argc, char *argv[])
 
   view.setResizeMode(QQuickView::SizeRootObjectToView);
   QQmlContext *ctxt = view.rootContext();
+  OrderInformation orderinformation;
+  ctxt->setContextProperty("con", &orderinformation);
   ctxt->setContextProperty("myModel", QVariant::fromValue(*reinterpret_cast<QList<QObject*> *>(&(tab->L_orderinformation))));
   ctxt->setContextProperty("table", QVariant::fromValue(*reinterpret_cast<QList<QObject*> *>(&(tab->L_orderinformation))));
-
   view.setSource(QString("qrc:/waiter/main.qml"));
-QObject *container = view.rootObject();
- OrderInformation OrderInformation;
- //OrderInformation
- QObject::connect(container, SIGNAL(qmlSignal(QString)),
-                      &OrderInformation, SLOT(cppSlot(QString)));
-  view.show();
+
+  /*QObject *con = view.rootObject();
+
+  QObject::connect(con, SIGNAL(qmlSignal(QString)),
+                      &orderinformation, SLOT(cppSlot(QString)));
+*/
+view.show();
 
   return app.exec();
 }

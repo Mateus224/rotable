@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import QtMultimedia 5.0
-import "componentCreation.js" as CreateComponent
+//import "componentCreation.js" as CreateComponent
 
 
 
@@ -161,9 +161,6 @@ Rectangle {
          width: 200; height: parent.height
          color:"#80000000"
 
-         TestQml{
-
-         }
 
         Component {
             id: nameDelegate
@@ -193,6 +190,7 @@ Rectangle {
                     width: parent.width
                 }
             delegate:Component {
+
                 Item {
                     //id: item
                     signal qmlSignal(string msg)
@@ -224,6 +222,7 @@ Rectangle {
                     }
 
                     MouseArea {
+
                         id: mouseArea
                         anchors.fill: parent
                         hoverEnabled: true
@@ -231,7 +230,7 @@ Rectangle {
                         onClicked: {
                             container.ListView.view.currentIndex = index
                             container.forceActiveFocus()
-                            container.qmlSignal("Hello from QML")
+                            con.cppSlot("Hello from QML")
                         }
                     }
                 }
