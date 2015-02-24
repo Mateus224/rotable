@@ -476,12 +476,9 @@ bool Database::addWaiter(Waiter* waiter)
     return false;
   }
 
-//  q.bindValue(":name", product->name());
-//  q.bindValue(":price", product->price());
-//  q.bindValue(":info", product->info());
-//  q.bindValue(":category_id", product->categoryId());
-//  q.bindValue(":icon", product->icon());
-//  q.bindValue(":amount", product->amount());
+  q.bindValue(":name", waiter->name());
+  q.bindValue(":nick", waiter->nick());
+  q.bindValue(":passwd", waiter->hashPassword());
 
   if (!q.exec()) {
     qCritical() << tr("Query exec failed: (%1: %2")
