@@ -10,9 +10,9 @@ class table : public QObject//, public OrderInformation
 
 public:
     table(QObject *parent=0);
-    table(const int &tableNumber, const QString &name, const QString &order, const int &pieces,const QString &orderName,
-                                 const float &price, const bool &ready, const bool &cancellation,  QObject *parent=0);
+    table(const int &tableNumber, const bool &newOrder,  QObject *parent=0);
     ~table() {}
+
     int tableNumber() const;
     void settableNumber(const int &tableNumber);
 
@@ -32,7 +32,7 @@ signals:
     void tableNumberChanged();
 
 private:
-
+    bool m_newOrder;
     QString m_name;
     QString m_order;
     int m_pieces;

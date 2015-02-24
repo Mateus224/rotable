@@ -3,6 +3,7 @@
 #include "../include/orderinformation.h"
 #include "orderinformation.h"
 #include "table.h"
+#include "qmlcontxt.h"
 #include <qqmlengine.h>
 #include <qqmlcontext.h>
 #include <qqml.h>
@@ -41,36 +42,22 @@ int main(int argc, char *argv[])
     configFilePath = args[0];
   }
 
-  QList <table*>  tableNumber;
-  int NumberOfTables=6;
-  for(int i=0;i <NumberOfTables; i++)
-  {
-    tableNumber.append(new table(3, "Table 1", "Hallo", 3, "Sambuca", 2, true, false ));
-  }
-
 
   QQuickView view;
-
-  //client->startup();
-
-  table* tab=new table;
-  int position;
-  position=tab->tableNumber();
-  qDebug()<<position;
-  tab=tableNumber.at(position);
-  tab->add_orderinformation("Table 1", "Hallo", 3, "Sambuca", 2, false, false );
-  tab->add_orderinformation("Table 2", "Hallo", 3, "Vodka", 2, false, false );
-  tab->add_orderinformation("Table 3", "Nie", 2, "Vodka", 3, true, false );
-
-
   view.setResizeMode(QQuickView::SizeRootObjectToView);
   QQmlContext *ctxt = view.rootContext();
-  //OrderInformation orderinformation;
-  ctxt->setContextProperty("con", tab);
-  ctxt->setContextProperty("myModel", QVariant::fromValue(*reinterpret_cast<QList<QObject*> *>(&(tab->L_orderinformation))));
-  ctxt->setContextProperty("table", QVariant::fromValue(*reinterpret_cast<QList<QObject*> *>(&(tab->L_orderinformation))));
+  //ctxt->setContextProperty("con", tab); //Signal from QML
+
+  qmlContxt init;
+  init.initContxt(6,false);
+  init.contxt(*ctxt);
   view.setSource(QString("qrc:/waiter/main.qml"));
 
+
+
+
+
+  //client->startup();
 
 view.show();
 

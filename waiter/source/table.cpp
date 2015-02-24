@@ -6,12 +6,9 @@ table::table(QObject *parent) : QObject(parent)
 {
 }
 
-table::table(const int &tableNumber, const QString &name, const QString &order,
-             const int &pieces,const QString &orderName,
-             const float &price,
-             const bool &ready, const bool &cancellation,
+table::table(const int &tableNumber, const bool &newOrder,
              QObject *parent)
-    : QObject(parent), m_tableNumber(tableNumber), m_name(name), m_order(order), m_pieces(pieces), m_orderName(orderName), m_price(price), m_ready(ready),m_cancellation(cancellation)
+    : QObject(parent), m_tableNumber(tableNumber), m_newOrder(newOrder)
 {
     qDebug()<<tableNumber<<" "<<m_tableNumber;
     settableNumber(tableNumber);
