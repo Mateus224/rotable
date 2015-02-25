@@ -980,6 +980,35 @@ bool Database::hasProduct(int productId, int categoryId)
 
 //------------------------------------------------------------------------------
 
+bool Database::hasUser(const QString nick, const QString passwdhash)
+{
+    if (!isConnected() || !nick.isEmpty() || !passwdhash.isEmpty()) {
+      return false;
+    }
+
+    QString queryStr = _sqlCommands[Waiters]._select
+                       .arg(_prefix, "`id`", "nick",QString("'%1'").arg(nick));
+    queryStr += QString(" AND `passwd` = %1").arg(passwdhash);
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return false;
+    }
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    return q.next();
+}
+
+//------------------------------------------------------------------------------
+
 bool Database::isConnected() const
 {
   if (_connected) {

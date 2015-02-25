@@ -264,6 +264,15 @@ public:
   bool hasProduct(int productId, int categoryId);
 
   /**
+    Check if user exist
+    require for login
+   * @param nick        Waiter nick
+   * @param passwdhash  password hash
+   * @return            true if user with nick and password exists
+   */
+  bool hasUser(const QString nick, const QString passwdhash);
+
+  /**
    * Check whether this object is connected to the database.
    *
    * @return            true if connected
