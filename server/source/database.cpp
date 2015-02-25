@@ -651,14 +651,14 @@ bool Database::createDatabase()
 
   QSqlQuery q2(_sqlCommands[Categories]._create.arg(_prefix), _db);
   if (q2.lastError().type() != QSqlError::NoError) {
-    qCritical() << tr("Query exec failed: %1").arg(q3.lastError().text());
+    qCritical() << tr("Query exec failed: %1").arg(q2.lastError().text());
     return false;
   }
 
   // Product table
   QSqlQuery q3(QString("DROP TABLE IF EXISTS `%1products`;").arg(_prefix), _db);
   if (q3.lastError().type() != QSqlError::NoError) {
-    qCritical() << tr("Query exec failed: %1").arg(q2.lastError().text());
+    qCritical() << tr("Query exec failed: %1").arg(q3.lastError().text());
     return false;
   }
 
@@ -704,25 +704,25 @@ bool Database::createDatabase()
   // Order table
   QSqlQuery q9(QString("DROP TABLE IF EXISTS `%1order`;").arg(_prefix), _db);
   if (q9.lastError().type() != QSqlError::NoError) {
-    qCritical() << tr("Query exec failed: %1").arg(q7.lastError().text());
+    qCritical() << tr("Query exec failed: %1").arg(q9.lastError().text());
     return false;
   }
 
   QSqlQuery q10(_sqlCommands[Orders]._create.arg(_prefix), _db);
   if (q10.lastError().type() != QSqlError::NoError) {
-    qCritical() << tr("Query exec failed: %1").arg(q8.lastError().text());
+    qCritical() << tr("Query exec failed: %1").arg(q10.lastError().text());
     return false;
   }
   // Order_item table
   QSqlQuery q11(QString("DROP TABLE IF EXISTS `%1order_items`;").arg(_prefix), _db);
   if (q11.lastError().type() != QSqlError::NoError) {
-    qCritical() << tr("Query exec failed: %1").arg(q7.lastError().text());
+    qCritical() << tr("Query exec failed: %1").arg(q11.lastError().text());
     return false;
   }
 
   QSqlQuery q12(_sqlCommands[OrderItems]._create.arg(_prefix), _db);
   if (q12.lastError().type() != QSqlError::NoError) {
-    qCritical() << tr("Query exec failed: %1").arg(q8.lastError().text());
+    qCritical() << tr("Query exec failed: %1").arg(q12.lastError().text());
     return false;
   }
 
