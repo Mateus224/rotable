@@ -15,7 +15,7 @@ namespace rotable {
 
 
 /**
- * @brief The rotable::OrderItem class defines an ordered item.
+ * @brief The rotable::Waiter class defines an ordered item.
  */
 class rotable::Waiter : public QObject
 {
@@ -47,6 +47,9 @@ private:
   int _id;
   QString _nick;
   QString _name;
+  /**
+    @_passwd - store hash password (for secure) sha 512
+  */
   QString _passwd;
 
 

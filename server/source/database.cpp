@@ -642,33 +642,23 @@ bool Database::createDatabase()
   // Set time zone is not available when using SQLITE
   //ret &= dbExec(QString("SET time_zone = \"%1\";").arg(ROTABLE_DATABASE_TIMEZONE));
 
+  // Category table
   QSqlQuery q1(QString("DROP TABLE IF EXISTS `%1categories`;").arg(_prefix), _db);
   if (q1.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q1.lastError().text());
     return false;
   }
 
-  QSqlQuery q2(QString("DROP TABLE IF EXISTS `%1products`;").arg(_prefix), _db);
+  QSqlQuery q2(_sqlCommands[Categories]._create.arg(_prefix), _db);
   if (q2.lastError().type() != QSqlError::NoError) {
-    qCritical() << tr("Query exec failed: %1").arg(q2.lastError().text());
-    return false;
-  }
-
-  QSqlQuery q5(QString("DROP TABLE IF EXISTS `%1tables`;").arg(_prefix), _db);
-  if (q5.lastError().type() != QSqlError::NoError) {
-    qCritical() << tr("Query exec failed: %1").arg(q5.lastError().text());
-    return false;
-  }
-
-  QSqlQuery q7(QString("DROP TABLE IF EXISTS `%1waiters`;").arg(_prefix), _db);
-  if (q7.lastError().type() != QSqlError::NoError) {
-    qCritical() << tr("Query exec failed: %1").arg(q7.lastError().text());
-    return false;
-  }
-
-  QSqlQuery q3(_sqlCommands[Categories]._create.arg(_prefix), _db);
-  if (q3.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q3.lastError().text());
+    return false;
+  }
+
+  // Product table
+  QSqlQuery q3(QString("DROP TABLE IF EXISTS `%1products`;").arg(_prefix), _db);
+  if (q4.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q2.lastError().text());
     return false;
   }
 
@@ -678,14 +668,60 @@ bool Database::createDatabase()
     return false;
   }
 
+//  That table don't exists (don't exist in sql commands, don't create in other way)
+//  QSqlQuery q5(QString("DROP TABLE IF EXISTS `%1tables`;").arg(_prefix), _db);
+//  if (q5.lastError().type() != QSqlError::NoError) {
+//    qCritical() << tr("Query exec failed: %1").arg(q5.lastError().text());
+//    return false;
+//  }
+
+  // Client table
+  QSqlQuery q5(QString("DROP TABLE IF EXISTS `%lclient`;").arg(_prefix), _db);
+  if (q5.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q5.lastError().text());
+    return false;
+  }
+
   QSqlQuery q6(_sqlCommands[Clients]._create.arg(_prefix), _db);
   if (q6.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q6.lastError().text());
     return false;
   }
 
-  QSqlQuery q8(_sqlCommands[Waiters]._create.arg(_prefix), _db);
+  // Waiter table
+  QSqlQuery q7(QString("DROP TABLE IF EXISTS `%1waiters`;").arg(_prefix), _db);
   if (q7.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q7.lastError().text());
+    return false;
+  }
+
+  QSqlQuery q8(_sqlCommands[Waiters]._create.arg(_prefix), _db);
+  if (q8.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q8.lastError().text());
+    return false;
+  }
+
+  // Order table
+  QSqlQuery q9(QString("DROP TABLE IF EXISTS `%1order`;").arg(_prefix), _db);
+  if (q9.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q7.lastError().text());
+    return false;
+  }
+
+  QSqlQuery q10(_sqlCommands[Orders]._create.arg(_prefix), _db);
+  if (q10.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q8.lastError().text());
+    return false;
+  }
+  // Order_item table
+  QSqlQuery q11(QString("DROP TABLE IF EXISTS `%1order_items`;").arg(_prefix), _db);
+  if (q11.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q7.lastError().text());
+    return false;
+  }
+
+  QSqlQuery q12(_sqlCommands[OrderItems]._create.arg(_prefix), _db);
+  if (q12.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q8.lastError().text());
     return false;
   }
@@ -733,12 +769,28 @@ bool Database::exportDatabase(QString &dest)
     return false;
   }
 
+  // Add drop table commands
   dest += QString("DROP TABLE IF EXISTS `%1categories`;\n").arg(_prefix);
   dest += QString("DROP TABLE IF EXISTS `%1products`;\n").arg(_prefix);
+  // TODO: chceck is it need'ed
+  // dest += QString("DROP TABLE IF EXISTS `%1tables`;").arg(_prefix);
+  dest += QString("DROP TABLE IF EXISTS `%1waiters`;").arg(_prefix);
+  dest += QString("DROP TABLE IF EXISTS `%1clients`;").arg(_prefix);
+  dest += QString("DROP TABLE IF EXISTS `%1order`;").arg(_prefix);
+  dest += QString("DROP TABLE IF EXISTS `%1order_item`;").arg(_prefix);
 
+  // Add create table command
   dest += _sqlCommands[Categories]._create.arg(_prefix) + '\n';
   dest += _sqlCommands[Products]._create.arg(_prefix) + '\n';
+  dest += _sqlCommands[Clients]._create.arg(_prefix) + '\n';
+  dest += _sqlCommands[Waiters]._create.arg(_prefix) + '\n';
+  dest += _sqlCommands[Orders]._create.arg(_prefix) + '\n';
+  dest += _sqlCommands[OrderItems]._create.arg(_prefix) + '\n';
 
+  //-------------------------------------------------------------------------------
+  // Add insert command with data
+  //-------------------------------------------------------------------------------
+  // Category
   QList<int> ids;
   if (categoryIds(ids)) {
     for (int i = 0; i < ids.size(); ++i) {
@@ -758,7 +810,7 @@ bool Database::exportDatabase(QString &dest)
   } else {
     return false;
   }
-
+  // Product
   ids.clear();
   if (productIds(ids, -1)) {
     for (int i = 0; i < ids.size(); ++i) {
@@ -782,7 +834,10 @@ bool Database::exportDatabase(QString &dest)
   } else {
     return false;
   }
-
+  //TODO: export Waiter table
+  //TODO: export Client table
+  //TODO: export Order table
+  //TODO: export OrderList table
   return true;
 }
 
