@@ -657,7 +657,7 @@ bool Database::createDatabase()
 
   // Product table
   QSqlQuery q3(QString("DROP TABLE IF EXISTS `%1products`;").arg(_prefix), _db);
-  if (q4.lastError().type() != QSqlError::NoError) {
+  if (q3.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q2.lastError().text());
     return false;
   }
@@ -980,7 +980,7 @@ bool Database::hasProduct(int productId, int categoryId)
 
 //------------------------------------------------------------------------------
 
-bool Database::hasUser(const QString nick, const QString passwdhash)
+bool Database::hasWaiter(const QString nick, const QString passwdhash)
 {
     if (!isConnected() || !nick.isEmpty() || !passwdhash.isEmpty()) {
       return false;
