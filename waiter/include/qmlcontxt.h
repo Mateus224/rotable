@@ -25,7 +25,8 @@ class qmlContxt: public QObject
 public slots:
     void tableSlot(const int &msg) {
             qDebug() << "Message from qmlContxt: table nr.:" << msg;
-            m_tableNumber=msg;
+            m_tableNumber=msg-1;
+            tableNumber.at(m_tableNumber)->setNewOrder("Transparent");
         }
 
     private:

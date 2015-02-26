@@ -25,6 +25,7 @@ void qmlContxt::initContxt(int NumberOfTables, bool newOrder)
     for(int i=0;i <NumberOfTables; i++)
     {
       tableNumber.append(new myTables());
+      tableNumber.at(i)->setNewOrder("Transparent");
     }
 }
 
