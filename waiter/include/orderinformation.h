@@ -7,7 +7,7 @@ class OrderInformation : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+    //Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QString color READ order WRITE setorder NOTIFY orderChanged)
     Q_PROPERTY(int pieces READ pieces WRITE setpieces NOTIFY piecesChanged)
     Q_PROPERTY(QString orderName READ orderName WRITE setorderName NOTIFY orderNameChanged)
@@ -18,14 +18,12 @@ class OrderInformation : public QObject
 
 public:
     OrderInformation(QObject *parent=0);
-    OrderInformation(const QString &name, const QString &order, const int &pieces,const QString &orderName,
+    OrderInformation(const QString &neworder, const int &pieces,const QString &orderName,
                      const float &price, const bool &ready, const bool &cancellation,  QObject *parent=0);
 
-    QString name() const;
-    void setName(const QString &name);
 
     QString order() const;
-    void setorder(const QString &order);
+    void setorder(const QString &neworder);
 
     int pieces() const;
     void setpieces(const int &pieces);
@@ -42,23 +40,15 @@ public:
     bool cancellation() const;
     void setcancellation(const bool &cancellation);
 
-    //float time() const;
-    //void settime(const float &time);
-
-public slots:
-    void cppSlot(const int &msg) {
-            qDebug() << "Called the C++ slot with message:" << msg;
-        }
 
 signals:
-    void nameChanged();
+ //   void nameChanged();
     void orderChanged();
     void piecesChanged();
     void orderNameChanged();
     void priceChanged();
     void readyChanged();
     void cancellationChanged();
-    //void timeChanged();
 
 private:
     QString m_name;
@@ -68,7 +58,6 @@ private:
     float m_price;
     bool m_ready;
     bool m_cancellation;
-    //QString m_time;
 };
 
 #endif // ORDERINFORMATION_H

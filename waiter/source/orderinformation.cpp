@@ -7,26 +7,12 @@ OrderInformation::OrderInformation(QObject *parent) : QObject(parent)
 }
 
 
-OrderInformation::OrderInformation(const QString &name, const QString &order, const int &pieces,const QString &orderName,
+OrderInformation::OrderInformation(const QString &neworder, const int &pieces,const QString &orderName,
                                    const float &price, const bool &ready, const bool &cancellation , QObject *parent)
-    : QObject(parent), m_name(name), m_order(order), m_pieces(pieces), m_orderName(orderName), m_price(price), m_ready(ready),m_cancellation(cancellation)
+    : QObject(parent), m_order(neworder), m_pieces(pieces), m_orderName(orderName), m_price(price), m_ready(ready),m_cancellation(cancellation)
 {
 }
 
-
-//-----------------------------------------------------------------
-QString OrderInformation::name() const
-{
-    return m_name;
-}
-
-void OrderInformation::setName(const QString &name)
-{
-    if (name != m_name) {
-        m_name = name;
-        emit nameChanged();
-    }
-}
 
 
 //-----------------------------------------------------------------
@@ -35,10 +21,10 @@ QString OrderInformation::order() const
     return m_order;
 }
 
-void OrderInformation::setorder(const QString &order)
+void OrderInformation::setorder(const QString &neworder)
 {
-    if (order != m_order) {
-        m_order = order;
+    if (neworder != m_order) {
+        m_order = neworder;
         emit orderChanged();
     }
 }
@@ -120,15 +106,3 @@ void OrderInformation::setcancellation(const bool &cancellation)
 
 
 //-----------------------------------------------------------------
-/*QString OrderInformation::order() const
-{
-    return m_order;
-}
-
-void OrderInformation::setorder(const QString &order)
-{
-    if (order != m_order) {
-        m_order = order;
-        emit orderChanged();
-    }
-}*/

@@ -19,16 +19,16 @@ HEADERS += \
     include/tcpwaiter.h \
     include/tcpclient.h \
     include/orderinformation.h \
-    include/table.h \
-    include/qmlcontxt.h
+    include/qmlcontxt.h \
+    include/mytables.h
 
 SOURCES += \
     source/main.cpp \
     source/configwaiter.cpp \
     source/tcpclient.cpp \
     source/orderinformation.cpp \
-    source/table.cpp \
-    source/qmlcontxt.cpp
+    source/qmlcontxt.cpp \
+    source/mytables.cpp
 
 RESOURCES +=\
     resources.qrc \

@@ -6,41 +6,46 @@
 #include <QtQuick/qquickview.h>
 #include <QtQuick>
 
-qmlContxt::qmlContxt()
+
+
+//qmlContxt::qmlContxt(QObject *parent): QObject(parent)
+//{
+
+//}
+
+qmlContxt::qmlContxt(QQmlContext &qmlCon, QObject *parent) :QObject(parent), ctxt(qmlCon)
 {
+    //QList<myTables*> tableNumber=;
 
 }
 
-qmlContxt::~qmlContxt()
-{
-
-}
 
 void qmlContxt::initContxt(int NumberOfTables, bool newOrder)
 {
     for(int i=0;i <NumberOfTables; i++)
     {
-      tableNumber.append(new table(NumberOfTables, newOrder ));
+      tableNumber.append(new myTables());
     }
 }
 
 
-void qmlContxt::contxt(QQmlContext &ctxt)
+void qmlContxt::add_orderInfoForTable(int tableNr )
+{
+    tab=new myTables();
+    tab=tableNumber.at(tableNr);
+    tab->add_orderinformation( "RED", 3, "Sambuca", 2, false, false );
+    tab->add_orderinformation( "blue", 3, "Vodka", 2, false, false );
+    tab->add_orderinformation( "Nie", 2, "Vodka", 3, true, false );
+}
+
+void qmlContxt::contxt(int tableNr)
 {
 
+    //tab=tableNumber.at(tableNr);
 
-
-    table* tab=new table;
-
-    tab=tableNumber.at(3);
-    tab->add_orderinformation("Table 1", "Hallo", 3, "Sambuca", 2, false, false );
-    tab->add_orderinformation("Table 2", "Hallo", 3, "Vodka", 2, false, false );
-    tab->add_orderinformation("Table 3", "Nie", 2, "Vodka", 3, true, false );
-
-
-
-    ctxt.setContextProperty("con", tab);
+    ctxt.setContextProperty("con", this);
     ctxt.setContextProperty("myModel", QVariant::fromValue(*reinterpret_cast<QList<QObject*> *>(&(tab->L_orderinformation))));
     ctxt.setContextProperty("table", QVariant::fromValue(*reinterpret_cast<QList<QObject*> *>(&(tab->L_orderinformation))));
 
 }
+

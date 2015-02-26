@@ -1,8 +1,7 @@
 #include "private/precomp.h"
-#include "../include/table.h"
+#include "../include/mytables.h"
 #include "../include/orderinformation.h"
 #include "orderinformation.h"
-#include "table.h"
 #include "qmlcontxt.h"
 #include <qqmlengine.h>
 #include <qqmlcontext.h>
@@ -42,15 +41,15 @@ int main(int argc, char *argv[])
     configFilePath = args[0];
   }
 
-
   QQuickView view;
   view.setResizeMode(QQuickView::SizeRootObjectToView);
   QQmlContext *ctxt = view.rootContext();
   //ctxt->setContextProperty("con", tab); //Signal from QML
 
-  qmlContxt init;
+  qmlContxt init(*ctxt);
   init.initContxt(6,false);
-  init.contxt(*ctxt);
+  init.add_orderInfoForTable(0);
+  init.contxt(1);
   view.setSource(QString("qrc:/waiter/main.qml"));
 
 
