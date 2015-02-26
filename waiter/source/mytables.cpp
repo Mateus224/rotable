@@ -28,6 +28,8 @@ void myTables::add_orderinformation(QString m_order,int m_pieces,QString m_order
     L_orderinformation.append(new OrderInformation(m_order, m_pieces, m_orderName, m_price, m_ready, m_cancellation));
 }
 
+
+//------------------------------------------------------------
 void myTables::cancellation_orderinformation(int position)
 {
     OrderInformation* cancellationInformation;

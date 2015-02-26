@@ -44,7 +44,6 @@ int main(int argc, char *argv[])
   QQuickView view;
   view.setResizeMode(QQuickView::SizeRootObjectToView);
   QQmlContext *ctxt = view.rootContext();
-  //ctxt->setContextProperty("con", tab); //Signal from QML
 
   qmlContxt init(*ctxt);
   init.initContxt(6,false);
