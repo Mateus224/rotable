@@ -216,7 +216,7 @@ Rectangle {
                     Text {
                         id: label
                         anchors.centerIn: content
-                        text: name//"Table " + (index + 1)
+                        text: "Table " + (index + 1)
                         color: "#EEEFFEFFE"
                         font.pixelSize: 14
                     }

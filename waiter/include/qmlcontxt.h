@@ -21,7 +21,7 @@ class qmlContxt: public QObject
         void contxt(int tableNr);
         void initContxt(int NumberOfTables, bool newOrder);
         void add_orderInfoForTable(int tableNr);
-
+        QList<myTables*> tableNumber;
 public slots:
     void tableSlot(const int &msg) {
             qDebug() << "Message from qmlContxt: table nr.:" << msg;
@@ -30,7 +30,7 @@ public slots:
 
     private:
     QQmlContext &ctxt;
-    QList<myTables*> tableNumber;
+
     myTables* tab;
 
     public:

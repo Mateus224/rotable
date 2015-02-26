@@ -26,7 +26,6 @@ void qmlContxt::initContxt(int NumberOfTables, bool newOrder)
     {
       tableNumber.append(new myTables());
     }
-    //tab->settableNumber(NumberOfTables);
 }
 
 

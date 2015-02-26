@@ -51,6 +51,7 @@ int main(int argc, char *argv[])
   init.contxt(1);
   view.setSource(QString("qrc:/waiter/main.qml"));
 
+  init.tableNumber.at(3)->setNewOrder("Red");
 
 
 
