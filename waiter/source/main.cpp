@@ -21,6 +21,13 @@ int main(int argc, char *argv[])
   //google_breakpad::ExceptionHandler breakpad_handler(
   //  breakpad_descriptor, NULL, NULL, NULL, true, -1);
 
+  //Test values
+  //---------------------------------------------
+    int tableNr=0;
+    int allTables=7;
+
+
+  //---------------------------------------------
   QGuiApplication app(argc, argv);
 
   QCoreApplication::setApplicationName("rotable-waiter");
@@ -46,13 +53,22 @@ int main(int argc, char *argv[])
   QQmlContext *ctxt = view.rootContext();
 
   qmlContxt init(*ctxt);
-  init.initContxt(6,false);
-  init.add_orderInfoForTable(0);
-  init.contxt(1);
+  init.initContxt(allTables);
+  init.add_orderInfoForTable(tableNr,1, "Sambuca",2.1);
+  init.add_orderInfoForTable(tableNr+1,3, "Sambuca",2.1);
+  init.add_orderInfoForTable(tableNr+2,3, "Sambuca",5.1);
+  init.add_orderInfoForTable(tableNr+3,3, "Sambuca",2.4);
+  init.add_orderInfoForTable(tableNr+4,3, "Sambuca",2.1);
+  init.add_orderInfoForTable(tableNr+5,3, "Vodka",2.1);
+  init.add_orderInfoForTable(tableNr+1,3, "Sambuca",3.1);
+  init.add_orderInfoForTable(tableNr+1,3, "Sambuca",2.1);
+  init.add_orderInfoForTable(tableNr+2,3, "Becks",4.1);
+  init.add_orderInfoForTable(tableNr+2,3, "Sambuca",2.1);
+  init.contxt(0);
   view.setSource(QString("qrc:/waiter/main.qml"));
 
   init.tableNumber.at(3)->setNewOrder("Red");
-
+  init.tableNumber.at(2)->setCallWaiter("Yellow");
 
 
 

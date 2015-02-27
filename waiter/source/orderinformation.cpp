@@ -69,7 +69,8 @@ float OrderInformation::price() const
 void OrderInformation::setprice(const float &price)
 {
     if (price != m_price) {
-        m_price = price;
+        //m_price = (float)((int)(price*100))/100;
+        m_price= price;
         emit priceChanged();
     }
 }

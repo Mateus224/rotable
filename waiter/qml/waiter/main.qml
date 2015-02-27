@@ -69,8 +69,8 @@ Rectangle {
                             Text {
                                 font.family: "Helvetica"; font.pointSize: 13; font.bold: true
                                 id: contactInfo
-                                text:  model.modelData.pieces+"x"
-                                color: wrapper.ListView.isCurrentItem ? "red" : "green"
+                                text:  pieces+"x"
+                                color: newOrder
 
                             }
                         }
@@ -84,8 +84,7 @@ Rectangle {
                                 font.family: "Helvetica"; font.pointSize: 13; font.bold: true
                                 id: contactInfoname
                                 text:  orderName
-                                color: wrapper.ListView.isCurrentItem ? "red" : "green"
-
+                                color: newOrder
                             }
                         }
                         Rectangle{
@@ -97,9 +96,8 @@ Rectangle {
                             Text {
                                 font.family: "Helvetica"; font.pointSize: 13; font.bold: true
                                 id: contactInfoprice
-                                text:  model.modelData.price+"€"
-                                color: wrapper.ListView.isCurrentItem ? "red" : "green"
-
+                                text:  price.toFixed(2)+"€"
+                                color: newOrder
                             }
                         }
                         Rectangle{
@@ -112,8 +110,7 @@ Rectangle {
                                 font.family: "Helvetica"; font.pointSize: 13; font.bold: true
                                 id: contactInfoready
                                 text:  model.modelData.ready
-                                color: wrapper.ListView.isCurrentItem ? "red" : "green"
-
+                                color: newOrder
                             }
                         }
                         Rectangle{
@@ -126,8 +123,7 @@ Rectangle {
                                 font.family: "Helvetica"; font.pointSize: 13; font.bold: true
                                 id: contactInfoncancellation
                                 text:  model.modelData.cancellation
-                                color: wrapper.ListView.isCurrentItem ? "red" : "green"
-
+                                color: newOrder
                             }
                         }
                         Rectangle{
@@ -140,8 +136,7 @@ Rectangle {
                                 font.family: "Helvetica"; font.pointSize: 13; font.bold: true
                                 id: contactInfontime
                                 text:  1+" min"
-                                color: wrapper.ListView.isCurrentItem ? "red" : "green"
-
+                                color: newOrder
                             }
                         }
                     }
@@ -175,7 +170,7 @@ Rectangle {
 
         ListView {
 
-
+            //currentIndex: curr
             anchors.fill: parent
             clip: true
             model: myModel
@@ -187,8 +182,15 @@ Rectangle {
             }
             highlight: Rectangle {
                     color: "lightblue"
-                    width: parent.width
+                    width: 5//parent.width
+                    //index:3
                 }
+
+            Connections{
+                //target: myModel
+                onChangeCurrentIndex: currentIndexT
+            }
+
             delegate:Component {
 
                 Item {
@@ -214,11 +216,13 @@ Rectangle {
                     }
 
                     Text {
+
                         id: label
                         anchors.centerIn: content
                         text: "Table " + (index + 1)
-                        color: "#EEEFFEFFE"
+                        color: CallWaiter//"White"
                         font.pixelSize: 14
+                        font.bold: true
                     }
 
                     MouseArea {
@@ -250,6 +254,7 @@ Rectangle {
                     anchors.centerIn: parent
                     text: "Tables"
                     font.pixelSize: 32
+                    font.bold: true
                 }
             }
         }
