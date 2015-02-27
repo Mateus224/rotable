@@ -7,7 +7,8 @@ class myTables : public QObject//, public OrderInformation
 {
     Q_OBJECT
     Q_PROPERTY(QString color READ NewOrder WRITE setNewOrder NOTIFY NewOrderChanged)
-    //Q_PROPERTY(int CallWaiter READ CallWaiter WRITE setCallWaiter NOTIFY CallWaiterChanged)
+    Q_PROPERTY(QString CallWaiter READ CallWaiter WRITE setCallWaiter NOTIFY CallWaiterChanged)
+    Q_PROPERTY(int currentIndexT READ tableNumber WRITE settableNumber NOTIFY tableNumberChanged)
 
 
 public:
@@ -33,6 +34,7 @@ public:
 signals:
     void NewOrderChanged();
     void CallWaiterChanged();
+    void tableNumberChanged();
 
 private:
     QString m_newOrder;

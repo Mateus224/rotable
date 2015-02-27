@@ -17,7 +17,7 @@ void myTables::settableNumber(const int &tableNumber)
 {
     if (tableNumber != m_tableNumber) {
         m_tableNumber = tableNumber;
-        //emit tableNumberChanged();
+        emit tableNumberChanged();
     }
 }
 
