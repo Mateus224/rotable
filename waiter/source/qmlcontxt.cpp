@@ -42,9 +42,18 @@ void qmlContxt::contxt(int tableNr)
 
     tab=tableNumber.at(tableNr);
 
-    ctxt.setContextProperty("con", this);
+
     ctxt.setContextProperty("myModel", QVariant::fromValue(*reinterpret_cast<QList<QObject*> *>(&(tableNumber))));
     ctxt.setContextProperty("table", QVariant::fromValue(*reinterpret_cast<QList<QObject*> *>(&(tab->L_orderinformation))));
-
+    ctxt.setContextProperty("con", this);
 }
+
+void qmlContxt::resetOldCurrentTable()
+{
+    for(int i=0;i<tableNumber.length();i++)
+    {
+        tableNumber.at(i)->settableNumber("Transparent");
+    }
+}
+
 

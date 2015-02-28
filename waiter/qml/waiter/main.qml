@@ -154,7 +154,7 @@ Rectangle {
         id: tableWindow
 
          width: 200; height: parent.height
-         color:"#80000000"
+         color:"#70000000"
 
 
         Component {
@@ -170,7 +170,7 @@ Rectangle {
 
         ListView {
 
-            //currentIndex: curr
+            //currentIndex: 4
             anchors.fill: parent
             clip: true
             model: myModel
@@ -180,41 +180,39 @@ Rectangle {
                 width: parent.width; height: 50;
                 gradient: clubcolors
             }
-            highlight: Rectangle {
+
+            /*highlight: Rectangle {
                     color: "lightblue"
                     width: 5//parent.width
-                    //index:3
-                }
+                }*/
 
-            Connections{
-                //target: myModel
-                onChangeCurrentIndex: currentIndexT
-            }
-
+            focus: true
             delegate:Component {
 
                 Item {
                     //id: item
                     signal qmlSignal(int msg)
+                    signal resetSignal()
 
                     id: container
                     width: ListView.view.width; height: 60; anchors.leftMargin: 10; anchors.rightMargin: 10
-                    property bool incoming_order: false
-
+                    Rectangle{
+                        id:currentTable
+                        color: currentIndexT//
+                        width: parent.width
+                        height: parent.height
                     Rectangle {
                         id: content
                         anchors.centerIn: parent; width: container.width - 40; height: container.height - 10
 
-                        //color:{ if (incoming_order) "blue"; else "transparent" }
                         antialiasing: true
                         radius: 10
                         //border.color: "black"
                         border.width: 1
-                        color: model.modelData.color //surfaceColor
+                        color: model.modelData.color
 
                         Rectangle { anchors.fill: parent; anchors.margins: 3; color: "#899AAEE0"; antialiasing: true; radius: 8 }
                     }
-
                     Text {
 
                         id: label
@@ -224,6 +222,9 @@ Rectangle {
                         font.pixelSize: 14
                         font.bold: true
                     }
+                    }
+
+
 
                     MouseArea {
 
@@ -234,9 +235,15 @@ Rectangle {
                         onClicked: {
                             container.ListView.view.currentIndex = index
                             container.forceActiveFocus()
+                            currentTable.color= "Transparent"
                             con.tableSlot(index + 1)
                         }
+
                     }
+                    states: State {
+                                name: "resized"; when: mouseArea.pressed
+                                PropertyChanges { target: currentTable; color: "#7ED2EE"}//; height: container.height }
+                             }
                 }
 
             }
@@ -249,7 +256,9 @@ Rectangle {
                 id: banner
                 width: parent.width; height: 50
                 gradient: clubcolors
-                border {color: "#9EDDF2"; width: 2}
+                border {
+                    color: "#9EDDF2";
+                    width: 2}
                 Text {
                     anchors.centerIn: parent
                     text: "Tables"
@@ -260,7 +269,7 @@ Rectangle {
         }
         Gradient {
             id: clubcolors
-            GradientStop { position: 0.0; color: "#8EE2FE"}
+            GradientStop { position: 0.0; color:"Yellow" }//"#8EE2FE"}
             GradientStop { position: 0.66; color: "#7ED2EE"}
         }
     }

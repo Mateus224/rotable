@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
 
   init.tableNumber.at(3)->setNewOrder("Red");
   init.tableNumber.at(2)->setCallWaiter("Yellow");
-
+  init.resetOldCurrentTable();
 
 
   //client->startup();
