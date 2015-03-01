@@ -146,6 +146,14 @@ private:
    */
   bool executeCommand(ComPackageCommand* package);
 
+  /**
+   * Prosses login package, then login in property way
+   *
+   * @param package     login package
+   * @return            ComPackageDataReturn with account information
+   */
+  ComPackageDataReturn* login(ComPackageLogin* package);
+
   /* Configuration file access */
   ConfigServer _config;
 

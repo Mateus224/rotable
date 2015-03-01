@@ -268,9 +268,9 @@ public:
     require for login
    * @param nick        Waiter nick
    * @param passwdhash  password hash
-   * @return            true if user with nick and password exists
+   * @return            id if user with nick and password exists, otherwise -1
    */
-  bool hasWaiter(const QString nick, const QString passwdhash);
+  int hasWaiter(const QString nick, const QString passwdhash);
 
   /**
    * Check whether this object is connected to the database.

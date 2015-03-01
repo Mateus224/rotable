@@ -28,6 +28,7 @@ namespace rotable {
   class ComPackageReject;
   class ComPackageCommand;
   class ComPackageSendOrder;
+  class ComPackageLogin;
 }
 
 //------------------------------------------------------------------------------
@@ -65,7 +66,10 @@ public:
     Reject,
 
     /* Client sends a command */
-    Command
+    Command,
+
+    /* Client try login as a Waiter*/
+    Login
   };
 
   /**
@@ -114,6 +118,14 @@ public:
 
     /* Delete a product from the database */
     DeleteProduct
+  };
+
+  /**
+   * Enumeration of account type client can login.
+   */
+  enum LoginType {
+    /* Waiter account type */
+    WaiterAccount = 0,
   };
 
   /**
@@ -422,4 +434,51 @@ private:
 
 //------------------------------------------------------------------------------
 
+//------------------------------------------------------------------------------
+
+/**
+ * The login package allow client login as waiter, are somone else (in future)
+ */
+class rotable::ComPackageLogin : public ComPackage
+{
+  friend class ComPackage;
+
+public:
+  /**
+   * Default constrcutor
+   */
+  ComPackageLogin();
+
+  inline Type type() const { return Login; }
+
+  /**
+   * Get command type.
+   *
+   * @return              command type
+   */
+  inline int loginType() const { return _loginType; }
+  /**
+   * Get account data
+   *
+   * @return              account data
+   */
+  inline const QJsonValue& data() const { return _data; }
+
+  /**
+   * Set login type.
+   *
+   * @param commandType   command type
+   */
+  inline void setLoginType(LoginType loginType) { _loginType = loginType; }
+  inline void setData(const QJsonValue& data) { _data = data; }
+
+  QByteArray toByteArray() const;
+
+private:
+  /* Additional data */
+  int _loginType;
+  QJsonValue _data;
+}; // class ComPackageLogin
+
+//------------------------------------------------------------------------------
 #endif // ROTABLE_COMPACKAGE_H

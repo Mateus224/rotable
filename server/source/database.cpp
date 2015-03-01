@@ -5,6 +5,7 @@
 #include "order.h"
 
 #include <QSqlDriver>
+#include <QSqlRecord>
 
 //------------------------------------------------------------------------------
 
@@ -980,7 +981,7 @@ bool Database::hasProduct(int productId, int categoryId)
 
 //------------------------------------------------------------------------------
 
-bool Database::hasWaiter(const QString nick, const QString passwdhash)
+int Database::hasWaiter(const QString nick, const QString passwdhash)
 {
     if (!isConnected() || !nick.isEmpty() || !passwdhash.isEmpty()) {
       return false;
@@ -995,16 +996,23 @@ bool Database::hasWaiter(const QString nick, const QString passwdhash)
 
     if (!q.prepare(queryStr)) {
       qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return false;
+      return -1;
     }
 
     if (!q.exec()) {
       qCritical() << tr("Query exec failed: (%1: %2")
                      .arg(queryStr, q.lastError().text());
-      return false;
+      return -1;
     }
 
-    return q.next();
+    if(q.next())
+    {
+        QSqlRecord rec = q.record();
+
+        return rec.value(rec.indexOf("id")).toInt();
+    }
+
+    return -1;
 }
 
 //------------------------------------------------------------------------------

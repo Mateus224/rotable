@@ -3,6 +3,12 @@
 
 //------------------------------------------------------------------------------
 
+#ifndef QJSONOBJECT_H
+#include <QJsonObject>
+#endif
+
+
+
 #include <QObject>
 
 //------------------------------------------------------------------------------
@@ -40,6 +46,8 @@ public:
   inline void setHashPassword(const QString  passwd) { _passwd = passwd; }
   void setPassword(QString password);
 
+  QJsonValue toJSON() const;
+  static Waiter *fromJSON(const QJsonValue &jval);
 signals:
 
 

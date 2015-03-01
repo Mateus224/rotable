@@ -185,6 +185,25 @@ void Server::packageReceived(client_t client, ComPackage *package)
       _tcp.send(client, reject);
     }
   } break;
+  case ComPackage::Login:
+  {
+    if (_tcp.isClientAccepted(client)) {
+      ComPackageLogin* p = static_cast<ComPackageLogin*>(package);
+
+      ComPackageDataReturn* ret = login(p);
+      if (ret) {
+        _tcp.send(client, *ret);
+      } else {
+        ComPackageReject reject(package->id());
+        _tcp.send(client, reject);
+      }
+    } else {
+      qDebug() << tr("WARNING: Unallowed Command from client \"%1\"")
+                  .arg(_tcp.clientName(client));
+      ComPackageReject reject(package->id());
+      _tcp.send(client, reject);
+    }
+  } break;
   case ComPackage::Reject:
   {
     qDebug() << tr("Did not expect to receive Reject package... doing nothing");
@@ -513,3 +532,33 @@ bool Server::executeCommand(ComPackageCommand *package)
 
   return false;
 }
+
+//------------------------------------------------------------------------------
+
+ComPackageDataReturn* Server::login(ComPackageLogin* package)
+{
+    if(package)
+    {
+        switch (package->loginType()) {
+        case ComPackage::WaiterAccount :
+        {
+            // Load data about waiter from Json
+            Waiter *w = Waiter::fromJSON(package->data());
+            // Get waiter id
+            int id = _db.hasWaiter(w->nick(),w->hashPassword());
+            if(!id) // If id < 0 then loggin failed, we can end it
+                return 0;
+            // TODO: add waiter to list with connected waiters
+            // TODO: return data about waiter
+        }   break;
+        default:
+        {
+          qCritical() << tr("Unknown account type '%1'!").arg(package->loginType());
+          return false;
+        } break;
+        }
+    }
+    return 0;
+}
+
+//------------------------------------------------------------------------------
