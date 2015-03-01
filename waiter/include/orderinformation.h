@@ -7,8 +7,7 @@ class OrderInformation : public QObject
 {
     Q_OBJECT
 
-    //Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
-    Q_PROPERTY(QString color READ order WRITE setorder NOTIFY orderChanged)
+    Q_PROPERTY(QString newOrder READ order WRITE setorder NOTIFY orderChanged)
     Q_PROPERTY(int pieces READ pieces WRITE setpieces NOTIFY piecesChanged)
     Q_PROPERTY(QString orderName READ orderName WRITE setorderName NOTIFY orderNameChanged)
     Q_PROPERTY(float price READ price WRITE setprice NOTIFY priceChanged)

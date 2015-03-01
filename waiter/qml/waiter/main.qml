@@ -69,8 +69,8 @@ Rectangle {
                             Text {
                                 font.family: "Helvetica"; font.pointSize: 13; font.bold: true
                                 id: contactInfo
-                                text:  model.modelData.pieces+"x"
-                                color: wrapper.ListView.isCurrentItem ? "red" : "green"
+                                text:  pieces+"x"
+                                color: newOrder
 
                             }
                         }
@@ -84,8 +84,7 @@ Rectangle {
                                 font.family: "Helvetica"; font.pointSize: 13; font.bold: true
                                 id: contactInfoname
                                 text:  orderName
-                                color: wrapper.ListView.isCurrentItem ? "red" : "green"
-
+                                color: newOrder
                             }
                         }
                         Rectangle{
@@ -97,9 +96,8 @@ Rectangle {
                             Text {
                                 font.family: "Helvetica"; font.pointSize: 13; font.bold: true
                                 id: contactInfoprice
-                                text:  model.modelData.price+"€"
-                                color: wrapper.ListView.isCurrentItem ? "red" : "green"
-
+                                text:  price.toFixed(2)+"€"
+                                color: newOrder
                             }
                         }
                         Rectangle{
@@ -112,8 +110,7 @@ Rectangle {
                                 font.family: "Helvetica"; font.pointSize: 13; font.bold: true
                                 id: contactInfoready
                                 text:  model.modelData.ready
-                                color: wrapper.ListView.isCurrentItem ? "red" : "green"
-
+                                color: newOrder
                             }
                         }
                         Rectangle{
@@ -126,8 +123,7 @@ Rectangle {
                                 font.family: "Helvetica"; font.pointSize: 13; font.bold: true
                                 id: contactInfoncancellation
                                 text:  model.modelData.cancellation
-                                color: wrapper.ListView.isCurrentItem ? "red" : "green"
-
+                                color: newOrder
                             }
                         }
                         Rectangle{
@@ -140,8 +136,7 @@ Rectangle {
                                 font.family: "Helvetica"; font.pointSize: 13; font.bold: true
                                 id: contactInfontime
                                 text:  1+" min"
-                                color: wrapper.ListView.isCurrentItem ? "red" : "green"
-
+                                color: newOrder
                             }
                         }
                     }
@@ -159,7 +154,7 @@ Rectangle {
         id: tableWindow
 
          width: 200; height: parent.height
-         color:"#80000000"
+         color:"#70000000"
 
 
         Component {
@@ -175,7 +170,7 @@ Rectangle {
 
         ListView {
 
-
+            //currentIndex: 4
             anchors.fill: parent
             clip: true
             model: myModel
@@ -185,41 +180,51 @@ Rectangle {
                 width: parent.width; height: 50;
                 gradient: clubcolors
             }
-            highlight: Rectangle {
+
+            /*highlight: Rectangle {
                     color: "lightblue"
-                    width: parent.width
-                }
+                    width: 5//parent.width
+                }*/
+
+            focus: true
             delegate:Component {
 
                 Item {
                     //id: item
                     signal qmlSignal(int msg)
+                    signal resetSignal()
 
                     id: container
                     width: ListView.view.width; height: 60; anchors.leftMargin: 10; anchors.rightMargin: 10
-                    property bool incoming_order: false
-
+                    Rectangle{
+                        id:currentTable
+                        color: currentIndexT//
+                        width: parent.width
+                        height: parent.height
                     Rectangle {
                         id: content
                         anchors.centerIn: parent; width: container.width - 40; height: container.height - 10
 
-                        //color:{ if (incoming_order) "blue"; else "transparent" }
                         antialiasing: true
                         radius: 10
                         //border.color: "black"
                         border.width: 1
-                        color: model.modelData.color //surfaceColor
+                        color: model.modelData.color
 
                         Rectangle { anchors.fill: parent; anchors.margins: 3; color: "#899AAEE0"; antialiasing: true; radius: 8 }
                     }
-
                     Text {
+
                         id: label
                         anchors.centerIn: content
-                        text: name//"Table " + (index + 1)
-                        color: "#EEEFFEFFE"
+                        text: "Table " + (index + 1)
+                        color: CallWaiter//"White"
                         font.pixelSize: 14
+                        font.bold: true
                     }
+                    }
+
+
 
                     MouseArea {
 
@@ -230,9 +235,15 @@ Rectangle {
                         onClicked: {
                             container.ListView.view.currentIndex = index
                             container.forceActiveFocus()
+                            currentTable.color= "Transparent"
                             con.tableSlot(index + 1)
                         }
+
                     }
+                    states: State {
+                                name: "resized"; when: mouseArea.pressed
+                                PropertyChanges { target: currentTable; color: "#7ED2EE"}//; height: container.height }
+                             }
                 }
 
             }
@@ -245,17 +256,20 @@ Rectangle {
                 id: banner
                 width: parent.width; height: 50
                 gradient: clubcolors
-                border {color: "#9EDDF2"; width: 2}
+                border {
+                    color: "#9EDDF2";
+                    width: 2}
                 Text {
                     anchors.centerIn: parent
                     text: "Tables"
                     font.pixelSize: 32
+                    font.bold: true
                 }
             }
         }
         Gradient {
             id: clubcolors
-            GradientStop { position: 0.0; color: "#8EE2FE"}
+            GradientStop { position: 0.0; color:"Yellow" }//"#8EE2FE"}
             GradientStop { position: 0.66; color: "#7ED2EE"}
         }
     }

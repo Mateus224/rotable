@@ -8,12 +8,12 @@ myTables::myTables(QObject *parent) : QObject(parent)
 
 
 //------------------------------------------------------------
-int myTables::tableNumber() const
+QString myTables::tableNumber() const
 {
     return m_tableNumber;
 }
 
-void myTables::settableNumber(const int &tableNumber)
+void myTables::settableNumber(const QString &tableNumber)
 {
     if (tableNumber != m_tableNumber) {
         m_tableNumber = tableNumber;
@@ -44,5 +44,35 @@ void myTables::ready_orderinformation(int position)
     readyInformation=L_orderinformation.takeAt(position);
     readyInformation->setready(true);
     L_orderinformation.insert(position,readyInformation);
+}
+
+
+//------------------------------------------------------------
+QString myTables::CallWaiter() const
+{
+    return m_CallWaiter;
+}
+
+void myTables::setCallWaiter(const QString &CallWaiter)
+{
+    if (CallWaiter != m_CallWaiter) {
+        m_CallWaiter = CallWaiter;
+        emit CallWaiterChanged();
+    }
+}
+
+
+//------------------------------------------------------------
+QString myTables::NewOrder() const
+{
+    return m_newOrder;
+}
+
+void myTables::setNewOrder(const QString &NewOrder)
+{
+    if (NewOrder != m_newOrder) {
+        m_newOrder = NewOrder;
+        emit NewOrderChanged();
+    }
 }
 

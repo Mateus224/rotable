@@ -6,25 +6,39 @@
 class myTables : public QObject//, public OrderInformation
 {
     Q_OBJECT
-    Q_PROPERTY(int tables READ tableNumber WRITE settableNumber NOTIFY tableNumberChanged)
+    Q_PROPERTY(QString color READ NewOrder WRITE setNewOrder NOTIFY NewOrderChanged)
+    Q_PROPERTY(QString CallWaiter READ CallWaiter WRITE setCallWaiter NOTIFY CallWaiterChanged)
+    Q_PROPERTY(QString currentIndexT READ tableNumber WRITE settableNumber NOTIFY tableNumberChanged)
+
 
 public:
     myTables(QObject *parent=0);
 
-    int tableNumber() const;
-    void settableNumber(const int &tableNumber);
-    void add_table(int tables);
+    QString tableNumber() const;
+    void settableNumber(const QString &tableNumber);
+    void add_table(QString tables);
     void add_orderinformation(const QString m_order, const int m_pieces,const QString m_orderName,const float m_price,const bool m_ready,const bool m_cancellation);
     void cancellation_orderinformation(int position);
+
+    QString CallWaiter() const;
+    void setCallWaiter(const QString &CallWaiter);
+
+    QString NewOrder() const;
+    void setNewOrder(const QString &NewOrder);
+
+
     void ready_orderinformation(int position);
     QList <OrderInformation*>  L_orderinformation;
-    int m_tableNumber;
+    QString m_tableNumber;
 
 signals:
+    void NewOrderChanged();
+    void CallWaiterChanged();
     void tableNumberChanged();
 
 private:
-    bool m_newOrder;
+    QString m_newOrder;
+    QString m_CallWaiter;
     QString m_name;
     QString m_order;
     int m_pieces;
