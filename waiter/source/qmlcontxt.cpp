@@ -62,15 +62,12 @@ void qmlContxt::holdNewOrder()
 {
     for(int i=0;i<tableNumber.length();i++)
     {
-        qDebug()<<tableNumber.at(i)->NewOrder();
         if(tableNumber.at(i)->NewOrder()!=("Red"))
         {
-            qDebug()<<"white";
             tableNumber.at(i)->setNewOrder("White");
         }
         else
         {
-            qDebug()<<"red";
             tableNumber.at(i)->setNewOrder("Red");
         }
     }
