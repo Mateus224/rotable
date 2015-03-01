@@ -20,6 +20,8 @@ qmlContxt::qmlContxt(QQmlContext &qmlCon, QObject *parent) :QObject(parent), ctx
 }
 
 
+
+//--------------------------------------------------------
 void qmlContxt::initContxt(int NumberOfTables)
 {
     tab=new myTables();
@@ -31,12 +33,15 @@ void qmlContxt::initContxt(int NumberOfTables)
 }
 
 
+//--------------------------------------------------------
 void qmlContxt::add_orderInfoForTable(int tableNr,int pices,QString OrderName, float price)
 {
     tab=tableNumber.at(tableNr);
     tab->add_orderinformation("Red", pices,OrderName, price, false, false );
 }
 
+
+//--------------------------------------------------------
 void qmlContxt::contxt(int tableNr)
 {
 
@@ -48,6 +53,8 @@ void qmlContxt::contxt(int tableNr)
     ctxt.setContextProperty("con", this);
 }
 
+
+//--------------------------------------------------------
 void qmlContxt::resetOldCurrentTable()
 {
     for(int i=0;i<tableNumber.length();i++)
@@ -58,6 +65,7 @@ void qmlContxt::resetOldCurrentTable()
 }
 
 
+//--------------------------------------------------------
 void qmlContxt::holdNewOrder()
 {
     for(int i=0;i<tableNumber.length();i++)

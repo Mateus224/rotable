@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
   init.add_orderInfoForTable(tableNr+1,3, "Sambuca",2.1);
   init.add_orderInfoForTable(tableNr+2,3, "Sambuca",5.1);
   init.add_orderInfoForTable(tableNr+3,3, "Sambuca",2.4);
-  init.add_orderInfoForTable(tableNr+4,3, "Sambuca",2.1);
+  init.add_orderInfoForTable(tableNr+4,3, "Vodka Bottle",100.00);
   init.add_orderInfoForTable(tableNr+5,3, "Vodka",2.1);
   init.add_orderInfoForTable(tableNr+1,3, "Sambuca",3.1);
   init.add_orderInfoForTable(tableNr+1,3, "Sambuca",2.1);
@@ -67,11 +67,11 @@ int main(int argc, char *argv[])
   init.contxt(0);
   view.setSource(QString("qrc:/waiter/main.qml"));
 
-  init.tableNumber.at(3)->setNewOrder("Red");
-  init.tableNumber.at(2)->setCallWaiter("Yellow");
+  init.tableNumber.at(2)->setNewOrder("Red");
+  init.tableNumber.at(2)->setCallWaiter("Blue");
   init.resetOldCurrentTable();
   init.tableNumber.at(3)->setNewOrder("Red");
-
+  init.tableNumber.at(6)->setCallWaiter("Blue");
 
   //client->startup();
 

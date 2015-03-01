@@ -17,8 +17,8 @@ Rectangle {
         width: 520
         height: 400
         x:250
-        y:100
-        color: "#7AAEEE"
+        y:0
+        color: "lightblue"//"#7AAEEE"
         Component {
             id: contactDelegate
             Item {
@@ -52,31 +52,50 @@ Rectangle {
                     width: parent.width; height: 50
                     gradient: clubcolors
                     border {
-                        color: "#9EDDF2";
+                        color: "#7AAEEE"//"#9EDDF2";
                         width: 2}
-                    Rectangle{
-                        width:70
-                        height:50
-                        color: "transparent"
-                        Text {
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            text: "Pices"
-                            font.pixelSize: 15
-                            font.bold: true
+                    Row{
+
+                        spacing: 5
+                        x:5
+                        Rectangle{
+
+                            width:65
+                            height:50
+                            color: "transparent"
+                            Text {
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                text: "Pices"
+                                font.pixelSize: 15
+                                font.bold: true
+                            }
                         }
-                    }
-                    Rectangle{
-                        x:70
-                        width:140
-                        height:50
-                        color: "transparent"
-                        Text {
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            text: "Order"
-                            font.pixelSize: 15
-                            font.bold: true
+                        Rectangle{
+
+                            width:160
+                            height:50
+                            color: "transparent"
+                            Text {
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                text: "Order"
+                                font.pixelSize: 15
+                                font.bold: true
+                            }
+                        }
+                        Rectangle{
+
+                            width:80
+                            height:50
+                            color:"transparent"
+                                Text {
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                text: "Price"
+                                font.pixelSize: 15
+                                font.bold: true
+                            }
                         }
                     }
 
@@ -86,116 +105,125 @@ Rectangle {
             Component {
                 id: contactsDelegate
                 Rectangle {
+                    x:5
                     id: wrapper
                     width: grid.width
                     height: 50
                     color: "transparent"//"blue"
 
+                    Rectangle{
+                        width:parent.width
+                        height: 40
+                        color: "transparent"
 
-                    Row {
-
+                        Row {
                             spacing: 5
 
+                            Rectangle{
+                                width:65
+                                height:40
+                                color: "lightblue" //"transparent"
 
-                        Rectangle{
-                            width:70
-                            height:50
-                            color: "lightblue" //"transparent"
+                                Text {
+                                    font.family: "Helvetica"; font.pointSize: 13; font.bold: true
+                                    id: contactInfo
+                                    text:  pieces+"x"
+                                    color: newOrder
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.horizontalCenter: parent.horizontalCenter
 
-                            Text {
-                                font.family: "Helvetica"; font.pointSize: 13; font.bold: true
-                                id: contactInfo
-                                text:  pieces+"x"
-                                color: newOrder
-                                anchors.verticalCenter: parent.verticalCenter
-                                anchors.horizontalCenter: parent.horizontalCenter
-
+                                }
                             }
-                        }
 
-                        Rectangle{
-                            width:150
-                            height:50
-                            color: "lightblue" //"transparent"
+                            Rectangle{
+                                width:160
+                                height:40
+                                color: "lightblue" //"transparent"
 
-                            Text {
-                                font.family: "Helvetica"; font.pointSize: 13; font.bold: true
-                                id: contactInfoname
-                                text:  orderName
-                                color: newOrder
-                                anchors.verticalCenter: parent.verticalCenter
-                                anchors.horizontalCenter: parent.horizontalCenter
+                                Text {
+                                    font.family: "Helvetica"; font.pointSize: 13; font.bold: true
+                                    id: contactInfoname
+                                    text:  orderName
+                                    color: newOrder
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                }
                             }
-                        }
-                        Rectangle{
-                            width:50
-                            height:50
-                            color: "lightblue"
+                            Rectangle{
+                                width:80
+                                height:40
+                                color: "lightblue"
 
 
-                            Text {
-                                font.family: "Helvetica"; font.pointSize: 13; font.bold: true
-                                id: contactInfoprice
-                                text:  price.toFixed(2)+"€"
-                                color: newOrder
-                                anchors.verticalCenter: parent.verticalCenter
-                                anchors.horizontalCenter: parent.horizontalCenter
+                                Text {
+                                    font.family: "Helvetica"; font.pointSize: 13; font.bold: true
+                                    id: contactInfoprice
+                                    text:  price.toFixed(2)+"€"
+                                    color: newOrder
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                }
                             }
-                        }
-                        Rectangle{
-                            width:50
-                            height:50
-                            color: "lightblue"
+                            Rectangle{
+                                width:40
+                                height:40
+                                color: "lightblue"
 
+                                Image {
+                                id: ready
+                                anchors.fill: parent
+                                source: "resources/Cross.png";
+                                }
 
-                            Text {
-                                font.family: "Helvetica"; font.pointSize: 13; font.bold: true
-                                id: contactInfoready
-                                text:  model.modelData.ready
-                                color: newOrder
-                                anchors.verticalCenter: parent.verticalCenter
-                                anchors.horizontalCenter: parent.horizontalCenter
+                                /*Text {
+                                    font.family: "Helvetica"; font.pointSize: 13; font.bold: true
+                                    id: contactInfoready
+                                    text:  model.modelData.ready
+                                    color: newOrder
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                }*/
                             }
-                        }
-                        Rectangle{
-                            width:50
-                            height:50
-                            color: "lightblue"
+                            Rectangle{
+                                width:40
+                                height:40
+                                color: "lightblue"
 
+                                Image {
+                                id: canc
+                                anchors.fill: parent
+                                source: "resources/Cross.png";
+                                }
 
-                            Text {
-                                font.family: "Helvetica"; font.pointSize: 13; font.bold: true
-                                id: contactInfoncancellation
-                                text:  model.modelData.cancellation
-                                color: newOrder
-                                anchors.verticalCenter: parent.verticalCenter
-                                anchors.horizontalCenter: parent.horizontalCenter
+                                /*Text {
+                                    font.family: "Helvetica"; font.pointSize: 13; font.bold: true
+                                    id: contactInfoncancellation
+                                    text:  model.modelData.cancellation
+                                    color: newOrder
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                }*/
                             }
-                        }
-                        Rectangle{
-                            width:50
-                            height:50
-                            color: "lightblue"
+                            Rectangle{
+                                width:60
+                                height:40
+                                color: "lightblue"
 
 
-                            Text {
-                                font.family: "Helvetica"; font.pointSize: 13; font.bold: true
-                                id: contactInfontime
-                                text:  1+" min"
-                                color: newOrder
-                                anchors.verticalCenter: parent.verticalCenter
-                                anchors.horizontalCenter: parent.horizontalCenter
+                                Text {
+                                    font.family: "Helvetica"; font.pointSize: 13; font.bold: true
+                                    id: contactInfontime
+                                    text:  1+" min"
+                                    color: newOrder
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                }
                             }
                         }
                     }
                 }
             }
-
-
-
         }
-
-
     }
     Rectangle{
 
@@ -315,7 +343,7 @@ Rectangle {
         }
         Gradient {
             id: clubcolors
-            GradientStop { position: 0.0; color:"Yellow" }//"#8EE2FE"}
+            GradientStop { position: 0.0; color:"White" }//"#8EE2FE"}
             GradientStop { position: 0.66; color: "#7AAEEE"}
         }
     }

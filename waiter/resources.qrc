@@ -6,5 +6,6 @@
         <file alias="TableButton.qml">qml/waiter/TableButton.qml</file>
         <file alias="TestQml.qml">qml/waiter/TestQml.qml</file>
         <file alias="TableGrid.qml">qml/waiter/TableGrid.qml</file>
+        <file>resources/Cross.png</file>
     </qresource>
 </RCC>
