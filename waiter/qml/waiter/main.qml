@@ -7,7 +7,7 @@ import QtMultimedia 5.0
 Rectangle {
     id: appWindow
     width: 900; height: 600
-    color:"#800000FF"
+    color:"lightblue"//"#800000FF"
 
     //TableButton{}
 
@@ -18,7 +18,7 @@ Rectangle {
         height: 400
         x:250
         y:100
-        color: "white"
+        color: "#7AAEEE"
         Component {
             id: contactDelegate
             Item {
@@ -40,7 +40,48 @@ Rectangle {
             clip: true
             model: table
             delegate: contactsDelegate
+            header: bannercomponentInfo
 
+
+            Component {     //instantiated when header is processed
+                id: bannercomponentInfo
+
+                Rectangle {
+
+                    id: banner
+                    width: parent.width; height: 50
+                    gradient: clubcolors
+                    border {
+                        color: "#9EDDF2";
+                        width: 2}
+                    Rectangle{
+                        width:70
+                        height:50
+                        color: "transparent"
+                        Text {
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            text: "Pices"
+                            font.pixelSize: 15
+                            font.bold: true
+                        }
+                    }
+                    Rectangle{
+                        x:70
+                        width:140
+                        height:50
+                        color: "transparent"
+                        Text {
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            text: "Order"
+                            font.pixelSize: 15
+                            font.bold: true
+                        }
+                    }
+
+                }
+            }
 
             Component {
                 id: contactsDelegate
@@ -48,29 +89,26 @@ Rectangle {
                     id: wrapper
                     width: grid.width
                     height: 50
-                    //anchors.fill: parent
+                    color: "transparent"//"blue"
 
-                    color: "transparent"
 
                     Row {
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            anchors.verticalCenter: parent.verticalCenter
 
                             spacing: 5
 
 
                         Rectangle{
-
-                            width:50
+                            width:70
                             height:50
-                            color: "transparent"
-
+                            color: "lightblue" //"transparent"
 
                             Text {
                                 font.family: "Helvetica"; font.pointSize: 13; font.bold: true
                                 id: contactInfo
                                 text:  pieces+"x"
                                 color: newOrder
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.horizontalCenter: parent.horizontalCenter
 
                             }
                         }
@@ -78,19 +116,21 @@ Rectangle {
                         Rectangle{
                             width:150
                             height:50
-                            color: "transparent"
+                            color: "lightblue" //"transparent"
 
                             Text {
                                 font.family: "Helvetica"; font.pointSize: 13; font.bold: true
                                 id: contactInfoname
                                 text:  orderName
                                 color: newOrder
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.horizontalCenter: parent.horizontalCenter
                             }
                         }
                         Rectangle{
                             width:50
                             height:50
-                            color: "transparent"
+                            color: "lightblue"
 
 
                             Text {
@@ -98,12 +138,14 @@ Rectangle {
                                 id: contactInfoprice
                                 text:  price.toFixed(2)+"€"
                                 color: newOrder
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.horizontalCenter: parent.horizontalCenter
                             }
                         }
                         Rectangle{
                             width:50
                             height:50
-                            color: "transparent"
+                            color: "lightblue"
 
 
                             Text {
@@ -111,12 +153,14 @@ Rectangle {
                                 id: contactInfoready
                                 text:  model.modelData.ready
                                 color: newOrder
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.horizontalCenter: parent.horizontalCenter
                             }
                         }
                         Rectangle{
                             width:50
                             height:50
-                            color: "transparent"
+                            color: "lightblue"
 
 
                             Text {
@@ -124,12 +168,14 @@ Rectangle {
                                 id: contactInfoncancellation
                                 text:  model.modelData.cancellation
                                 color: newOrder
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.horizontalCenter: parent.horizontalCenter
                             }
                         }
                         Rectangle{
                             width:50
                             height:50
-                            color: "transparent"
+                            color: "lightblue"
 
 
                             Text {
@@ -137,6 +183,8 @@ Rectangle {
                                 id: contactInfontime
                                 text:  1+" min"
                                 color: newOrder
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.horizontalCenter: parent.horizontalCenter
                             }
                         }
                     }
@@ -154,7 +202,7 @@ Rectangle {
         id: tableWindow
 
          width: 200; height: parent.height
-         color:"#70000000"
+         color: "#7AAEEE"//"#70000000"
 
 
         Component {
@@ -181,10 +229,7 @@ Rectangle {
                 gradient: clubcolors
             }
 
-            /*highlight: Rectangle {
-                    color: "lightblue"
-                    width: 5//parent.width
-                }*/
+
 
             focus: true
             delegate:Component {
@@ -207,8 +252,9 @@ Rectangle {
 
                         antialiasing: true
                         radius: 10
-                        //border.color: "black"
+                        border.color: "black"
                         border.width: 1
+
                         color: model.modelData.color
 
                         Rectangle { anchors.fill: parent; anchors.margins: 3; color: "#899AAEE0"; antialiasing: true; radius: 8 }
@@ -242,7 +288,7 @@ Rectangle {
                     }
                     states: State {
                                 name: "resized"; when: mouseArea.pressed
-                                PropertyChanges { target: currentTable; color: "#7ED2EE"}//; height: container.height }
+                                PropertyChanges { target: currentTable; color: "#8EE2FE"}//; height: container.height }
                              }
                 }
 
@@ -257,7 +303,7 @@ Rectangle {
                 width: parent.width; height: 50
                 gradient: clubcolors
                 border {
-                    color: "#9EDDF2";
+                    color: "#7AAEEE"//"#9EDDF2";
                     width: 2}
                 Text {
                     anchors.centerIn: parent
@@ -270,7 +316,7 @@ Rectangle {
         Gradient {
             id: clubcolors
             GradientStop { position: 0.0; color:"Yellow" }//"#8EE2FE"}
-            GradientStop { position: 0.66; color: "#7ED2EE"}
+            GradientStop { position: 0.66; color: "#7AAEEE"}
         }
     }
 
