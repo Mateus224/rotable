@@ -9,10 +9,8 @@ Rectangle {
     width: 1024; height: 768
     color:"lightblue"//"#800000FF"
 
-    //TableButton{}
-
-    //TableGrid{}
     Rectangle{
+        id:downWindow
         x:950
         height: parent.height
         width:  parent.width
@@ -20,17 +18,39 @@ Rectangle {
     }
 
     Rectangle{
+        id:ob
         x:220
         width: 710
-        height: parent.height
+        height: 150
         y: parent.height-150
         color: "#7AAEEE"
+        Text{
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            font.bold: true
+            font.family: "Lobster two"
+            font.pixelSize: 32
+
+            y:60
+            text:"To Pay: "+100.23+"€"
+        }
 
         Rectangle
         {
+            y:0
             width:parent.width
             height:60
             gradient: clubcolors
+        }
+        Rectangle
+        {
+
+            width:parent.width
+            height:60
+            y:  ob.height-40
+            //color:"black"
+
+            gradient: clubcolors2
         }
     }
 
@@ -382,6 +402,11 @@ Rectangle {
         id: clubcolors
         GradientStop { position: 0.0; color:"White" }//"#8EE2FE"}
         GradientStop { position: 0.66; color: "#7AAEEE"}
+    }
+    Gradient {
+        id: clubcolors2
+        GradientStop { position: 0.0; color:"#7AAEEE" }//"#8EE2FE"}
+        GradientStop { position: 0.66; color: "White"}
     }
 
 }
