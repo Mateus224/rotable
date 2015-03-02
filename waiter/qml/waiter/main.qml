@@ -6,16 +6,39 @@ import QtMultimedia 5.0
 
 Rectangle {
     id: appWindow
-    width: 900; height: 600
+    width: 1024; height: 768
     color:"lightblue"//"#800000FF"
 
     //TableButton{}
 
     //TableGrid{}
+    Rectangle{
+        x:950
+        height: parent.height
+        width:  parent.width
+        color: "#7AAEEE"
+    }
+
+    Rectangle{
+        x:220
+        width: 710
+        height: parent.height
+        y: parent.height-150
+        color: "#7AAEEE"
+
+        Rectangle
+        {
+            width:parent.width
+            height:60
+            gradient: clubcolors
+        }
+    }
+
+
     Rectangle {
         id:tableGrid
-        width: 600
-        height: parent.height
+        width: 710
+        height: parent.height-150
         x:220
         y:0
         color: "lightblue"//"#7AAEEE"
@@ -58,12 +81,12 @@ Rectangle {
                     Row{
 
                         spacing: 20
-                        x:20
+                        x:10
                         Rectangle{
 
                             width:65
                             height:60
-                            color: "transparent"
+                            color:"transparent"
                             Text {
                                 font.family: "Lobster two"
                                 anchors.verticalCenter: parent.verticalCenter
@@ -71,11 +94,12 @@ Rectangle {
                                 text: "Pices"
                                 font.pixelSize: 32
                                 font.bold: true
+
                             }
                         }
                         Rectangle{
 
-                            width:180
+                            width:280
                             height:60
                             color: "transparent"
                             Text {
@@ -84,6 +108,7 @@ Rectangle {
                                 text: "Order"
                                 font.pixelSize: 32
                                 font.bold: true
+                                font.family: "Lobster two"
                             }
                         }
                         Rectangle{
@@ -96,6 +121,7 @@ Rectangle {
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 text: "Price"
                                 font.pixelSize: 32
+                                font.family: "Lobster two"
                                 font.bold: true
                             }
                         }
@@ -124,10 +150,10 @@ Rectangle {
                             Rectangle{
                                 width:65
                                 height:50
-                                color: "transparent" //"transparent"
+                                color: "transparent"
 
                                 Text {
-                                    font.family: "Helvetica"; font.pointSize: 16; font.bold: true
+                                    font.family: "Purisa"; font.pointSize: 16; font.bold: true
                                     id: contactInfo
                                     text:  pieces+"x"
                                     color: newOrder
@@ -138,12 +164,12 @@ Rectangle {
                             }
 
                             Rectangle{
-                                width:180
+                                width:280
                                 height:50
                                 color: "transparent" //"transparent"
 
                                 Text {
-                                    font.family: "Helvetica"; font.pointSize: 16; font.bold: true
+                                    font.family: "Purisa"; font.pointSize: 16; font.bold: true
                                     id: contactInfoname
                                     text:  orderName
                                     color: newOrder
@@ -158,7 +184,7 @@ Rectangle {
 
 
                                 Text {
-                                    font.family: "Helvetica"; font.pointSize: 16; font.bold: true
+                                    font.family: "Purisa"; font.pointSize: 16; font.bold: true
                                     id: contactInfoprice
                                     text:  price.toFixed(2)+"€"
                                     color: newOrder
@@ -214,9 +240,9 @@ Rectangle {
 
 
                                 Text {
-                                    font.family: "Helvetica"; font.pointSize: 16; font.bold: true
+                                    font.family: "Purisa"; font.pointSize: 16; font.bold: true
                                     id: contactInfontime
-                                    text:  1+" min"
+                                    text:  1+"min"
                                     color: newOrder
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
@@ -296,8 +322,9 @@ Rectangle {
                         anchors.centerIn: content
                         text: "Table " + (index + 1)
                         color: CallWaiter//"White"
-                        font.pixelSize: 14
+                        font.pixelSize: 20
                         font.bold: true
+                        font.family: "Lobster two"//font.family: "Purisa"
                     }
                     }
 
@@ -337,7 +364,7 @@ Rectangle {
                     color: "#7AAEEE"//"#9EDDF2";
                     width: 2}
                 Text {
-                    font.family: "Purisa"
+                    font.family: "Lobster two"
                     anchors.centerIn: parent
                     text: "Tables"
                     font.pixelSize: 32
@@ -345,11 +372,16 @@ Rectangle {
                 }
             }
         }
-        Gradient {
+       /* Gradient {
             id: clubcolors
             GradientStop { position: 0.0; color:"White" }//"#8EE2FE"}
             GradientStop { position: 0.66; color: "#7AAEEE"}
-        }
+        }*/
+    }
+    Gradient {
+        id: clubcolors
+        GradientStop { position: 0.0; color:"White" }//"#8EE2FE"}
+        GradientStop { position: 0.66; color: "#7AAEEE"}
     }
 
 }
