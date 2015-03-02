@@ -14,9 +14,9 @@ Rectangle {
     //TableGrid{}
     Rectangle {
         id:tableGrid
-        width: 520
-        height: 400
-        x:250
+        width: 600
+        height: parent.height
+        x:220
         y:0
         color: "lightblue"//"#7AAEEE"
         Component {
@@ -49,51 +49,53 @@ Rectangle {
                 Rectangle {
 
                     id: banner
-                    width: parent.width; height: 50
+                    width: parent.width;
+                    height: 60
                     gradient: clubcolors
                     border {
                         color: "#7AAEEE"//"#9EDDF2";
                         width: 2}
                     Row{
 
-                        spacing: 5
-                        x:5
+                        spacing: 20
+                        x:20
                         Rectangle{
 
                             width:65
-                            height:50
+                            height:60
                             color: "transparent"
                             Text {
+                                font.family: "Lobster two"
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 text: "Pices"
-                                font.pixelSize: 15
+                                font.pixelSize: 32
                                 font.bold: true
                             }
                         }
                         Rectangle{
 
-                            width:160
-                            height:50
+                            width:180
+                            height:60
                             color: "transparent"
                             Text {
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 text: "Order"
-                                font.pixelSize: 15
+                                font.pixelSize: 32
                                 font.bold: true
                             }
                         }
                         Rectangle{
 
                             width:80
-                            height:50
+                            height:60
                             color:"transparent"
                                 Text {
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 text: "Price"
-                                font.pixelSize: 15
+                                font.pixelSize: 32
                                 font.bold: true
                             }
                         }
@@ -105,27 +107,27 @@ Rectangle {
             Component {
                 id: contactsDelegate
                 Rectangle {
-                    x:5
+                    x:10
                     id: wrapper
                     width: grid.width
-                    height: 50
+                    height: 60
                     color: "transparent"//"blue"
 
                     Rectangle{
                         width:parent.width
-                        height: 40
+                        height: 50
                         color: "transparent"
 
                         Row {
-                            spacing: 5
+                            spacing: 20
 
                             Rectangle{
                                 width:65
-                                height:40
-                                color: "lightblue" //"transparent"
+                                height:50
+                                color: "transparent" //"transparent"
 
                                 Text {
-                                    font.family: "Helvetica"; font.pointSize: 13; font.bold: true
+                                    font.family: "Helvetica"; font.pointSize: 16; font.bold: true
                                     id: contactInfo
                                     text:  pieces+"x"
                                     color: newOrder
@@ -136,12 +138,12 @@ Rectangle {
                             }
 
                             Rectangle{
-                                width:160
-                                height:40
-                                color: "lightblue" //"transparent"
+                                width:180
+                                height:50
+                                color: "transparent" //"transparent"
 
                                 Text {
-                                    font.family: "Helvetica"; font.pointSize: 13; font.bold: true
+                                    font.family: "Helvetica"; font.pointSize: 16; font.bold: true
                                     id: contactInfoname
                                     text:  orderName
                                     color: newOrder
@@ -151,12 +153,12 @@ Rectangle {
                             }
                             Rectangle{
                                 width:80
-                                height:40
-                                color: "lightblue"
+                                height:50
+                                color: "transparent"
 
 
                                 Text {
-                                    font.family: "Helvetica"; font.pointSize: 13; font.bold: true
+                                    font.family: "Helvetica"; font.pointSize: 16; font.bold: true
                                     id: contactInfoprice
                                     text:  price.toFixed(2)+"€"
                                     color: newOrder
@@ -165,14 +167,15 @@ Rectangle {
                                 }
                             }
                             Rectangle{
-                                width:40
-                                height:40
-                                color: "lightblue"
-
+                                width:50
+                                height:50
+                                color: "transparent"
+                            property bool ready:true
                                 Image {
-                                id: ready
+                                id: reaady
                                 anchors.fill: parent
-                                source: "resources/Cross.png";
+                                //source: "resources/Cross.png";
+                                source: (model.modelData.ready=== reaady) ? "resources/Cross.png" : "resources/Check.png"
                                 }
 
                                 /*Text {
@@ -185,9 +188,9 @@ Rectangle {
                                 }*/
                             }
                             Rectangle{
-                                width:40
-                                height:40
-                                color: "lightblue"
+                                width:50
+                                height:50
+                                color: "transparent"
 
                                 Image {
                                 id: canc
@@ -206,12 +209,12 @@ Rectangle {
                             }
                             Rectangle{
                                 width:60
-                                height:40
-                                color: "lightblue"
+                                height:50
+                                color: "transparent"
 
 
                                 Text {
-                                    font.family: "Helvetica"; font.pointSize: 13; font.bold: true
+                                    font.family: "Helvetica"; font.pointSize: 16; font.bold: true
                                     id: contactInfontime
                                     text:  1+" min"
                                     color: newOrder
@@ -328,12 +331,13 @@ Rectangle {
             id: bannercomponent
             Rectangle {
                 id: banner
-                width: parent.width; height: 50
+                width: parent.width; height: 60
                 gradient: clubcolors
                 border {
                     color: "#7AAEEE"//"#9EDDF2";
                     width: 2}
                 Text {
+                    font.family: "Purisa"
                     anchors.centerIn: parent
                     text: "Tables"
                     font.pixelSize: 32

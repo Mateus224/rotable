@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
   qmlContxt init(*ctxt);
   init.initContxt(allTables);
   init.add_orderInfoForTable(tableNr,1, "Sambuca",2.1);
-  init.add_orderInfoForTable(tableNr+1,3, "Sambuca",2.1);
+  init.add_orderInfoForTable(tableNr+1,3, "Banana Split Shooter",12.60);
   init.add_orderInfoForTable(tableNr+2,3, "Sambuca",5.1);
   init.add_orderInfoForTable(tableNr+3,3, "Sambuca",2.4);
   init.add_orderInfoForTable(tableNr+4,3, "Vodka Bottle",100.00);
