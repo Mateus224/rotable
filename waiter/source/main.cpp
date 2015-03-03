@@ -54,6 +54,8 @@ int main(int argc, char *argv[])
 
   qmlContxt init(*ctxt);
   init.initContxt(allTables);
+  //For tests
+  //-----------------------------------------------------
   init.add_orderInfoForTable(tableNr,1, "Sambuca",2.1);
   init.add_orderInfoForTable(tableNr+1,3, "Banana Split Shooter",22.60);
   init.add_orderInfoForTable(tableNr+1,3, "kangeru",22.60);
@@ -73,6 +75,9 @@ int main(int argc, char *argv[])
   init.add_orderInfoForTable(tableNr+1,3, "Sambuca",2.1);
   init.add_orderInfoForTable(tableNr+2,3, "Becks non-Alcoholic",4.1);
   init.add_orderInfoForTable(tableNr+2,3, "Sambuca Coffee",2.1);
+  //-------------------------------------------------------------
+
+  //init.addAllPrices();
   init.contxt(0);
   view.setSource(QString("qrc:/waiter/main.qml"));
 

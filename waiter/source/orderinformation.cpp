@@ -9,7 +9,7 @@ OrderInformation::OrderInformation(QObject *parent) : QObject(parent)
 
 OrderInformation::OrderInformation(const QString &neworder, const int &pieces,const QString &orderName,
                                    const float &price, const bool &ready, const bool &cancellation , QObject *parent)
-    : QObject(parent), m_order(neworder), m_pieces(pieces), m_orderName(orderName), m_price(price), m_ready(ready),m_cancellation(cancellation)
+    : QObject(parent), m_order(neworder), m_pieces(pieces), m_orderName(orderName), m_price(price*pieces), m_ready(ready),m_cancellation(cancellation)
 {
 }
 

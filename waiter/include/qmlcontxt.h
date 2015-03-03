@@ -23,7 +23,10 @@ class qmlContxt: public QObject
         void add_orderInfoForTable(int tableNr,int pices,QString OrderName, float price);
         void resetOldCurrentTable();
         void holdNewOrder();
+        void addAllPrices();
+
         QList<myTables*> tableNumber;
+
 public slots:
     void tableSlot(const int &msg) {
 
@@ -33,6 +36,7 @@ public slots:
         tableNumber.at(m_tableNumber)->setNewOrder("Transparent");
         contxt(m_tableNumber);
         tableNumber.at(m_tableNumber)->settableNumber("Lightblue");
+        addAllPrices();
         holdNewOrder();
         }
 

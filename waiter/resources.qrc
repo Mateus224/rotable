@@ -8,5 +8,7 @@
         <file alias="TableGrid.qml">qml/waiter/TableGrid.qml</file>
         <file>resources/Cross.png</file>
         <file>resources/Check.png</file>
+        <file>resources/Check_grey.png</file>
+        <file>resources/Cross_grey.png</file>
     </qresource>
 </RCC>

@@ -66,6 +66,20 @@ void qmlContxt::resetOldCurrentTable()
 
 
 //--------------------------------------------------------
+void qmlContxt::addAllPrices()
+{
+    double toPay=0;
+    for(int i=0;i<tableNumber.at(m_tableNumber)->L_orderinformation.length();i++)
+    {
+         toPay+=tableNumber.at(m_tableNumber)->L_orderinformation.at(i)->m_price;
+    }
+    tableNumber.at(m_tableNumber)->setToPay(toPay);
+    //qDebug()<<toPay;
+
+}
+
+
+//--------------------------------------------------------
 void qmlContxt::holdNewOrder()
 {
     for(int i=0;i<tableNumber.length();i++)

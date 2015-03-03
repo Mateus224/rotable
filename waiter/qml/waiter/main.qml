@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import QtMultimedia 5.0
-//import "componentCreation.js" as CreateComponent
+import "componentCreation.js" as JSinterface
 
 
 
@@ -8,6 +8,8 @@ Rectangle {
     id: appWindow
     width: 1024; height: 768
     color:"lightblue"//"#800000FF"
+
+
 
     Rectangle{
         id:downWindow
@@ -24,15 +26,17 @@ Rectangle {
         height: 150
         y: parent.height-150
         color: "#7AAEEE"
-        Text{
+
+        Text {
+            id:priceLabel
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
             font.bold: true
             font.family: "Lobster two"
             font.pixelSize: 32
-
+            text:JSinterface.getPrices()
             y:60
-            text:"To Pay: "+100.23+"€"
+
         }
 
         Rectangle
@@ -95,6 +99,7 @@ Rectangle {
                     width: parent.width;
                     height: 60
                     gradient: clubcolors
+
                     border {
                         color: "#7AAEEE"//"#9EDDF2";
                         width: 2}
@@ -103,6 +108,7 @@ Rectangle {
                         spacing: 20
                         x:10
                         Rectangle{
+
 
                             width:65
                             height:60
@@ -153,6 +159,7 @@ Rectangle {
             Component {
                 id: contactsDelegate
                 Rectangle {
+
                     x:10
                     id: wrapper
                     width: grid.width
@@ -203,6 +210,7 @@ Rectangle {
                                 color: "transparent"
 
 
+
                                 Text {
                                     font.family: "Purisa"; font.pointSize: 16; font.bold: true
                                     id: contactInfoprice
@@ -216,12 +224,12 @@ Rectangle {
                                 width:50
                                 height:50
                                 color: "transparent"
-                            property bool ready:true
+                            property bool ready:false
                                 Image {
                                 id: reaady
                                 anchors.fill: parent
                                 //source: "resources/Cross.png";
-                                source: (model.modelData.ready=== reaady) ? "resources/Cross.png" : "resources/Check.png"
+                                source: (model.modelData.ready=== reaady) ? "resources/Check_grey.png" : "resources/Check.png"
                                 }
 
                                 /*Text {
@@ -241,7 +249,8 @@ Rectangle {
                                 Image {
                                 id: canc
                                 anchors.fill: parent
-                                source: "resources/Cross.png";
+                                source: (model.modelData.ready=== reaady) ? "resources/Cross_grey.png" : "resources/Cross_grey.png"
+
                                 }
 
                                 /*Text {
@@ -312,9 +321,9 @@ Rectangle {
             delegate:Component {
 
                 Item {
-                    //id: item
+                    property real toPay:ToPay
                     signal qmlSignal(int msg)
-                    signal resetSignal()
+
 
                     id: container
                     width: ListView.view.width; height: 60; anchors.leftMargin: 10; anchors.rightMargin: 10
@@ -357,6 +366,7 @@ Rectangle {
                         hoverEnabled: true
 
                         onClicked: {
+                            JSinterface.setPrices(ToPay)
                             container.ListView.view.currentIndex = index
                             container.forceActiveFocus()
                             currentTable.color= "Transparent"
@@ -368,11 +378,9 @@ Rectangle {
                                 name: "resized"; when: mouseArea.pressed
                                 PropertyChanges { target: currentTable; color: "#8EE2FE"}//; height: container.height }
                              }
+                    }
                 }
-
             }
-
-        }
 
         Component {     //instantiated when header is processed
             id: bannercomponent
@@ -392,11 +400,6 @@ Rectangle {
                 }
             }
         }
-       /* Gradient {
-            id: clubcolors
-            GradientStop { position: 0.0; color:"White" }//"#8EE2FE"}
-            GradientStop { position: 0.66; color: "#7AAEEE"}
-        }*/
     }
     Gradient {
         id: clubcolors

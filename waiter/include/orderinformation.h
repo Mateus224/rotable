@@ -38,7 +38,7 @@ public:
 
     bool cancellation() const;
     void setcancellation(const bool &cancellation);
-
+    float m_price;
 
 signals:
  //   void nameChanged();
@@ -54,7 +54,6 @@ private:
     QString m_order;
     int m_pieces;
     QString m_orderName;
-    float m_price;
     bool m_ready;
     bool m_cancellation;
 };
