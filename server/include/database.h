@@ -147,6 +147,13 @@ public:
   Order *order(int id);
 
   /**
+   * Read waiter from database.
+   * @param id          waiter id
+   * @return            waiter or NULL on error
+   */
+  Waiter *waiter(int id);
+
+  /**
    * Add a new product category to the database.
    * (Will not check whether a category with this name already exists!)
    *

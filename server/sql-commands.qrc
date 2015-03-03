@@ -30,5 +30,12 @@
         <file>sql-commands/orderitems_select_ids.sql</file>
         <file>sql-commands/orderitems_select.sql</file>
         <file>sql-commands/orderitems_update.sql</file>
+        <file>sql-commands/waiters_create.sql</file>
+        <file>sql-commands/waiters_disable.sql</file>
+        <file>sql-commands/waiters_insert.sql</file>
+        <file>sql-commands/waiters_orders_create.sql</file>
+        <file>sql-commands/waiters_orders_insert.sql</file>
+        <file>sql-commands/waiters_select_login.sql</file>
+        <file>sql-commands/waiters_select.sql</file>
     </qresource>
 </RCC>

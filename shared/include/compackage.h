@@ -89,7 +89,10 @@ public:
     RequestCategory,
 
     /* Request product data from a given product id */
-    RequestProduct
+    RequestProduct,
+
+    /* Request waiter data from a given product id or when login*/
+    RequestWaiter
   };
 
   /**

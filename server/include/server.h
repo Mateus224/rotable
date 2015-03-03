@@ -150,9 +150,10 @@ private:
    * Prosses login package, then login in property way
    *
    * @param package     login package
+   * @param client      client socket, use to save to table with
    * @return            ComPackageDataReturn with account information
    */
-  ComPackageDataReturn* login(ComPackageLogin* package);
+  ComPackageDataReturn *login(ComPackageLogin* package, client_t client);
 
   /* Configuration file access */
   ConfigServer _config;
@@ -173,6 +174,14 @@ private:
 
   /* Images */
   QMap<QString, Image> _images;
+
+  /**
+   * client_t - socket
+   * int - waiter id
+   * Map with sockets on with connected are waiters
+   * With that we can send information to any/all waiter(s)
+   */
+  QMap<client_t, int> _waiters;
 }; // class Server
 
 //------------------------------------------------------------------------------
