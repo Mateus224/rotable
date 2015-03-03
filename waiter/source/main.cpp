@@ -54,23 +54,38 @@ int main(int argc, char *argv[])
 
   qmlContxt init(*ctxt);
   init.initContxt(allTables);
+  //For tests
+  //-----------------------------------------------------
   init.add_orderInfoForTable(tableNr,1, "Sambuca",2.1);
-  init.add_orderInfoForTable(tableNr+1,3, "Sambuca",2.1);
-  init.add_orderInfoForTable(tableNr+2,3, "Sambuca",5.1);
+  init.add_orderInfoForTable(tableNr+1,3, "Banana Split Shooter",22.60);
+  init.add_orderInfoForTable(tableNr+1,3, "kangeru",22.60);
+  init.add_orderInfoForTable(tableNr+1,3, "Tequilla sunrise",22.60);
+  init.add_orderInfoForTable(tableNr+1,3, "Banana Split Shooter",8.80);
+  init.add_orderInfoForTable(tableNr+1,3, "Swimming Pool",20.60);
+  init.add_orderInfoForTable(tableNr+1,3, "Long Island Ice Tea",22.60);
+  init.add_orderInfoForTable(tableNr+1,3, "Hacke Beck",12.60);
+  init.add_orderInfoForTable(tableNr+1,3, "Gin Tonic Hendrix",22.60);
+  init.add_orderInfoForTable(tableNr+1,3, "Gin Tonic Tanquerry",22.60);
+  init.add_orderInfoForTable(tableNr+1,3, "Banana Split Shooter",22.60);
+  init.add_orderInfoForTable(tableNr+2,3, "Gin Tonic Bombay",18.3);
   init.add_orderInfoForTable(tableNr+3,3, "Sambuca",2.4);
-  init.add_orderInfoForTable(tableNr+4,3, "Sambuca",2.1);
-  init.add_orderInfoForTable(tableNr+5,3, "Vodka",2.1);
-  init.add_orderInfoForTable(tableNr+1,3, "Sambuca",3.1);
+  init.add_orderInfoForTable(tableNr+4,3, "Champan Bottle",100.00);
+  init.add_orderInfoForTable(tableNr+5,3, "Vodka shot",2.1);
+  init.add_orderInfoForTable(tableNr+1,3, "Tequilla Gold",3.1);
   init.add_orderInfoForTable(tableNr+1,3, "Sambuca",2.1);
-  init.add_orderInfoForTable(tableNr+2,3, "Becks",4.1);
-  init.add_orderInfoForTable(tableNr+2,3, "Sambuca",2.1);
+  init.add_orderInfoForTable(tableNr+2,3, "Becks non-Alcoholic",4.1);
+  init.add_orderInfoForTable(tableNr+2,3, "Sambuca Coffee",2.1);
+  //-------------------------------------------------------------
+
+  //init.addAllPrices();
   init.contxt(0);
   view.setSource(QString("qrc:/waiter/main.qml"));
 
-  init.tableNumber.at(3)->setNewOrder("Red");
-  init.tableNumber.at(2)->setCallWaiter("Yellow");
+  init.tableNumber.at(2)->setNewOrder("Red");
+  init.tableNumber.at(2)->setCallWaiter("Blue");
   init.resetOldCurrentTable();
-
+  init.tableNumber.at(3)->setNewOrder("Red");
+  init.tableNumber.at(6)->setCallWaiter("Blue");
 
   //client->startup();
 

@@ -76,3 +76,18 @@ void myTables::setNewOrder(const QString &NewOrder)
     }
 }
 
+
+//------------------------------------------------------------
+double myTables::toPay() const
+{
+    return m_toPay;
+}
+
+void myTables::setToPay(const double &toPay)
+{
+    if (toPay != m_toPay) {
+        m_toPay = toPay;
+        emit NewOrderChanged();
+    }
+}
+
