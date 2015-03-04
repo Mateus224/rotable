@@ -393,6 +393,61 @@ Order*Database::order(int id)
   return o;
 }
 
+Waiter *Database::waiter(int id)
+{
+    if (!isConnected()) {
+      return 0;
+    }
+
+    QString queryStr = _sqlCommands[Waiters]._select.arg(_prefix, "*", "id").arg(id);
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return 0;
+    }
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return 0;
+    }
+
+    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+      if (q.size() != 1) {
+        qCritical() << tr("Query: returned %1 results but we expected it to return 1!")
+                       .arg(q.size());
+        return 0;
+      }
+    }
+
+    if (!q.next()) {
+      return 0;
+    }
+
+    bool ok;
+    int waiterId = q.value("id").toInt(&ok);
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("id").toString());
+      return 0;
+    }
+
+    QString passwd = q.value("passwd").toString();
+    QString nick = q.value("nick").toString();
+    QString name = q.value("name").toString();
+
+    Waiter* w = new Waiter();
+
+    w->setId(waiterId);
+    w->setHashPassword(passwd);
+    w->setNick(nick);
+    w->setName(name);
+
+    return w;
+}
+
 //------------------------------------------------------------------------------
 
 bool Database::addCategory(ProductCategory* category)

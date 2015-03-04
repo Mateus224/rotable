@@ -190,7 +190,7 @@ void Server::packageReceived(client_t client, ComPackage *package)
     if (_tcp.isClientAccepted(client)) {
       ComPackageLogin* p = static_cast<ComPackageLogin*>(package);
 
-      ComPackageDataReturn* ret = login(p);
+      ComPackageDataReturn* ret = login(p, client);
       if (ret) {
         _tcp.send(client, *ret);
       } else {
@@ -535,7 +535,7 @@ bool Server::executeCommand(ComPackageCommand *package)
 
 //------------------------------------------------------------------------------
 
-ComPackageDataReturn* Server::login(ComPackageLogin* package)
+ComPackageDataReturn* Server::login(ComPackageLogin* package, client_t client)
 {
     if(package)
     {
@@ -548,13 +548,25 @@ ComPackageDataReturn* Server::login(ComPackageLogin* package)
             int id = _db.hasWaiter(w->nick(),w->hashPassword());
             if(!id) // If id < 0 then loggin failed, we can end it
                 return 0;
-            // TODO: add waiter to list with connected waiters
-            // TODO: return data about waiter
+            _waiters.insert(client, id);
+            // clean memory, we don't like memory leaks
+            delete w;
+            // get waiter data, base on id
+            w = _db.waiter(id);
+            // we don't need password any more, delate for safety
+            w->setHashPassword("");
+
+
+            // return data about waiter
+            ComPackageDataReturn *pkg = new ComPackageDataReturn();
+            pkg->setData(w->toJSON());
+            pkg->setDataCategory(ComPackage::RequestWaiter);
+            return pkg;
         }   break;
         default:
         {
           qCritical() << tr("Unknown account type '%1'!").arg(package->loginType());
-          return false;
+          return 0;
         } break;
         }
     }
