@@ -213,9 +213,15 @@ void Server::packageReceived(client_t client, ComPackage *package)
 
 //------------------------------------------------------------------------------
 
-void Server::clientDisconnected(client_t, const QString &clientName)
+void Server::clientDisconnected(client_t client, const QString &clientName)
 {
   qDebug() << tr("Client %1 disconnected").arg(clientName);
+
+  // Find client in map
+  QMap<client_t, int>::Iterator it = _waiters.find(client);
+  // if client is in map (client is a waiter), remove client from list
+  if (it != _waiters.end())
+      _waiters.erase(it);
 }
 
 //------------------------------------------------------------------------------
