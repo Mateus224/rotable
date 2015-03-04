@@ -1,11 +1,11 @@
 import QtQuick 2.0
 import QtMultimedia 5.0
-import "componentCreation.js" as JSinterface
+//import "componentCreation.js" as JSinterface
 
 
 
 Rectangle {
-    id: appWindow
+    id: waiterAppWindow
     width: 1024; height: 768
     color:"lightblue"//"#800000FF"
 
@@ -17,6 +17,9 @@ Rectangle {
         height: parent.height
         width:  parent.width
         color: "#7AAEEE"
+        Text{
+
+        }
     }
 
     Rectangle{
@@ -34,7 +37,7 @@ Rectangle {
             font.bold: true
             font.family: "Lobster two"
             font.pixelSize: 32
-            text:JSinterface.getPrices()
+            text:waiterAppWindows.TooPay.toFixed(2)+" €"
             y:60
 
         }
@@ -367,7 +370,7 @@ Rectangle {
 
                         onClicked: {
 
-                            JSinterface.setPrices(ToPay)
+                            //JSinterface.setPrices(ToPay)
                             container.ListView.view.currentIndex = index
                             container.forceActiveFocus()
                             currentTable.color= "Transparent"

@@ -5,7 +5,7 @@
 #include <qqmlcontext.h>
 #include "../include/mytables.h"
 #include "../include/orderinformation.h"
-
+#include "../include/waiterappwindow.h"
 
 class qmlContxt: public QObject
 {
@@ -25,6 +25,7 @@ class qmlContxt: public QObject
         void holdNewOrder();
         void addAllPrices();
 
+        WaiterAppWindow* AppWindow;
         QList<myTables*> tableNumber;
 
 public slots:
@@ -42,8 +43,8 @@ public slots:
 
     private:
     QQmlContext &ctxt;
-
     myTables* tab;
+
 
     public:
         int m_tableNumber;

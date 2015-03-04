@@ -16,7 +16,7 @@
 qmlContxt::qmlContxt(QQmlContext &qmlCon, QObject *parent) :QObject(parent), ctxt(qmlCon)
 {
     m_tableNumber=0;
-
+    AppWindow=new WaiterAppWindow;
 
 }
 
@@ -52,6 +52,7 @@ void qmlContxt::contxt(int tableNr)
     ctxt.setContextProperty("myModel", QVariant::fromValue(*reinterpret_cast<QList<QObject*> *>(&(tableNumber))));
     ctxt.setContextProperty("table", QVariant::fromValue(*reinterpret_cast<QList<QObject*> *>(&(tab->L_orderinformation))));
     ctxt.setContextProperty("con", this);
+    ctxt.setContextProperty("waiterAppWindows",AppWindow);
 }
 
 
@@ -70,15 +71,16 @@ void qmlContxt::resetOldCurrentTable()
 void qmlContxt::addAllPrices()
 {
 
-    for(int i=0;i<tableNumber.length();i++)
-    {
+    //for(int i=0;i<tableNumber.length();i++)
+    //{
         double toPay=0;
-        for(int j=0;j<tableNumber.at(i)->L_orderinformation.length();j++)
+        for(int j=0;j<tableNumber.at(m_tableNumber)->L_orderinformation.length();j++)
         {
-             toPay+=tableNumber.at(i)->L_orderinformation.at(j)->m_price;
+             toPay+=tableNumber.at(m_tableNumber)->L_orderinformation.at(j)->m_price;
         }
-        tableNumber.at(i)->setToPay(toPay);
-    }
+
+    //}
+    AppWindow->setToPay(toPay);
 }
 
 

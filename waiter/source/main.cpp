@@ -48,9 +48,9 @@ int main(int argc, char *argv[])
     configFilePath = args[0];
   }
 
-  QQuickView view;
-  view.setResizeMode(QQuickView::SizeRootObjectToView);
-  QQmlContext *ctxt = view.rootContext();
+  QQuickView* view=new QQuickView;
+  view->setResizeMode(QQuickView::SizeRootObjectToView);
+  QQmlContext *ctxt = view->engine()->rootContext();//view.rootContext();
 
   qmlContxt init(*ctxt);
   init.initContxt(allTables);
@@ -77,20 +77,22 @@ int main(int argc, char *argv[])
   init.add_orderInfoForTable(tableNr+2,3, "Sambuca Coffee",2.1);
   //-------------------------------------------------------------
 
+
   init.addAllPrices();
   init.contxt(0);
-  view.setSource(QString("qrc:/waiter/main.qml"));
+  view->setSource(QString("qrc:/waiter/main.qml"));
 
   init.tableNumber.at(2)->setNewOrder("Red");
   init.tableNumber.at(2)->setCallWaiter("Blue");
   init.resetOldCurrentTable();
   init.tableNumber.at(3)->setNewOrder("Red");
   init.tableNumber.at(6)->setCallWaiter("Blue");
-  //init.addAllPrices();
+
+  //init.AppWindow->setToPay(34.2);
 
   //client->startup();
 
-view.show();
+view->show();
 
   return app.exec();
 }

@@ -87,7 +87,7 @@ void myTables::setToPay(const double &toPay)
 {
     if (toPay != m_toPay) {
         m_toPay = toPay;
-        emit NewOrderChanged();
+        emit toPayChanged();
     }
 }
 

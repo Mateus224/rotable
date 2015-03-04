@@ -20,7 +20,9 @@ HEADERS += \
     include/tcpclient.h \
     include/orderinformation.h \
     include/qmlcontxt.h \
-    include/mytables.h
+    include/mytables.h \
+    include/waiterappwindow.h
+
 
 SOURCES += \
     source/main.cpp \
@@ -28,7 +30,8 @@ SOURCES += \
     source/tcpclient.cpp \
     source/orderinformation.cpp \
     source/qmlcontxt.cpp \
-    source/mytables.cpp
+    source/mytables.cpp \
+    source/waiterappwindow.cpp
 
 RESOURCES +=\
     resources.qrc \
