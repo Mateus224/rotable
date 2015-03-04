@@ -366,13 +366,13 @@ Rectangle {
                         hoverEnabled: true
 
                         onClicked: {
+
                             JSinterface.setPrices(ToPay)
                             container.ListView.view.currentIndex = index
                             container.forceActiveFocus()
                             currentTable.color= "Transparent"
                             con.tableSlot(index + 1)
                         }
-
                     }
                     states: State {
                                 name: "resized"; when: mouseArea.pressed

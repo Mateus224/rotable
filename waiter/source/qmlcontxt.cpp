@@ -15,6 +15,7 @@
 
 qmlContxt::qmlContxt(QQmlContext &qmlCon, QObject *parent) :QObject(parent), ctxt(qmlCon)
 {
+    m_tableNumber=0;
 
 
 }
@@ -68,14 +69,16 @@ void qmlContxt::resetOldCurrentTable()
 //--------------------------------------------------------
 void qmlContxt::addAllPrices()
 {
-    double toPay=0;
-    for(int i=0;i<tableNumber.at(m_tableNumber)->L_orderinformation.length();i++)
-    {
-         toPay+=tableNumber.at(m_tableNumber)->L_orderinformation.at(i)->m_price;
-    }
-    tableNumber.at(m_tableNumber)->setToPay(toPay);
-    //qDebug()<<toPay;
 
+    for(int i=0;i<tableNumber.length();i++)
+    {
+        double toPay=0;
+        for(int j=0;j<tableNumber.at(i)->L_orderinformation.length();j++)
+        {
+             toPay+=tableNumber.at(i)->L_orderinformation.at(j)->m_price;
+        }
+        tableNumber.at(i)->setToPay(toPay);
+    }
 }
 
 
