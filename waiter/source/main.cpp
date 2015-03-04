@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
   init.add_orderInfoForTable(tableNr+2,3, "Sambuca Coffee",2.1);
   //-------------------------------------------------------------
 
-  //init.addAllPrices();
+  init.addAllPrices();
   init.contxt(0);
   view.setSource(QString("qrc:/waiter/main.qml"));
 
@@ -86,6 +86,7 @@ int main(int argc, char *argv[])
   init.resetOldCurrentTable();
   init.tableNumber.at(3)->setNewOrder("Red");
   init.tableNumber.at(6)->setCallWaiter("Blue");
+  //init.addAllPrices();
 
   //client->startup();
 
