@@ -70,16 +70,11 @@ void qmlContxt::resetOldCurrentTable()
 //--------------------------------------------------------
 void qmlContxt::addAllPrices()
 {
-
-    //for(int i=0;i<tableNumber.length();i++)
-    //{
         double toPay=0;
         for(int j=0;j<tableNumber.at(m_tableNumber)->L_orderinformation.length();j++)
         {
              toPay+=tableNumber.at(m_tableNumber)->L_orderinformation.at(j)->m_price;
         }
-
-    //}
     AppWindow->setToPay(toPay);
 }
 

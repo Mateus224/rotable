@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
   //-------------------------------------------------------------
 
 
-  init.addAllPrices();
+
   init.contxt(0);
   view->setSource(QString("qrc:/waiter/main.qml"));
 
@@ -87,8 +87,8 @@ int main(int argc, char *argv[])
   init.resetOldCurrentTable();
   init.tableNumber.at(3)->setNewOrder("Red");
   init.tableNumber.at(6)->setCallWaiter("Blue");
+  init.addAllPrices();
 
-  //init.AppWindow->setToPay(34.2);
 
   //client->startup();
 

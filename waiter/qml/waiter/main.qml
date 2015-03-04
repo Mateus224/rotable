@@ -229,10 +229,14 @@ Rectangle {
                                 color: "transparent"
                             property bool ready:false
                                 Image {
-                                id: reaady
+                                id: image_ready
                                 anchors.fill: parent
                                 //source: "resources/Cross.png";
-                                source: (model.modelData.ready=== reaady) ? "resources/Check_grey.png" : "resources/Check.png"
+                                source: (model.modelData.ready=== ready) ? "resources/Check_grey.png" : "resources/Check.png"
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onClicked: image_ready.source= (model.modelData.ready!== ready) ? "resources/Check_grey.png" : "resources/Check.png"
+                                }
                                 }
 
                                 /*Text {
@@ -250,10 +254,13 @@ Rectangle {
                                 color: "transparent"
 
                                 Image {
-                                id: canc
+                                id: image_canc
                                 anchors.fill: parent
-                                source: (model.modelData.ready=== reaady) ? "resources/Cross_grey.png" : "resources/Cross_grey.png"
-
+                                source: (model.modelData.ready=== ready) ? "resources/Cross_grey.png" : "resources/Cross_grey.png"
+                                    MouseArea {
+                                        anchors.fill: parent
+                                        onClicked: image_canc.source= (model.modelData.ready!== ready) ? "resources/Cross.png" : "resources/Cross.png"
+                                    }
                                 }
 
                                 /*Text {
