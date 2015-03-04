@@ -155,6 +155,13 @@ private:
    */
   ComPackageDataReturn *login(ComPackageLogin* package, client_t client);
 
+  /**
+   * Method to send package to all waiters
+   *
+   * @param package     Package with data to send
+   */
+  inline void send_to_waiters(ComPackage &package);
+
   /* Configuration file access */
   ConfigServer _config;
 

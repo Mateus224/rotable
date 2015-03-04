@@ -579,4 +579,13 @@ ComPackageDataReturn* Server::login(ComPackageLogin* package, client_t client)
     return 0;
 }
 
+void Server::send_to_waiters(ComPackage &package)
+{
+    foreach (client_t client, _waiters.keys()) {
+        _tcp.send(client, package);
+    }
+}
+
+
+
 //------------------------------------------------------------------------------
