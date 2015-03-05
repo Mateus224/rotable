@@ -23,7 +23,7 @@ void myTables::settableNumber(const QString &tableNumber)
 
 
 //------------------------------------------------------------
-void myTables::add_orderinformation(QString m_order,int m_pieces,QString m_orderName,float m_price,bool m_ready,bool m_cancellation)
+void myTables::add_orderinformation(QString m_order,int m_pieces,QString m_orderName,float m_price,QString m_ready,QString m_cancellation)
 {
     L_orderinformation.append(new OrderInformation(m_order, m_pieces, m_orderName, m_price, m_ready, m_cancellation));
 }
@@ -34,7 +34,7 @@ void myTables::cancellation_orderinformation(int position)
 {
     OrderInformation* cancellationInformation;
     cancellationInformation=L_orderinformation.takeAt(position);
-    cancellationInformation->setcancellation(true);
+    cancellationInformation->setcancellation("red");
     L_orderinformation.insert(position,cancellationInformation);
 }
 
@@ -42,7 +42,7 @@ void myTables::ready_orderinformation(int position)
 {
     OrderInformation* readyInformation;
     readyInformation=L_orderinformation.takeAt(position);
-    readyInformation->setready(true);
+    readyInformation->setready("green");
     L_orderinformation.insert(position,readyInformation);
 }
 

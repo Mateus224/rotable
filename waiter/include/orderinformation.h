@@ -11,14 +11,14 @@ class OrderInformation : public QObject
     Q_PROPERTY(int pieces READ pieces WRITE setpieces NOTIFY piecesChanged)
     Q_PROPERTY(QString orderName READ orderName WRITE setorderName NOTIFY orderNameChanged)
     Q_PROPERTY(float price READ price WRITE setprice NOTIFY priceChanged)
-    Q_PROPERTY(bool ready READ ready WRITE setready NOTIFY readyChanged)
-    Q_PROPERTY(bool cancellation READ cancellation WRITE setcancellation NOTIFY cancellationChanged)
+    Q_PROPERTY(QString ready READ ready WRITE setready NOTIFY readyChanged)
+    Q_PROPERTY(QString cancellation READ cancellation WRITE setcancellation NOTIFY cancellationChanged)
 
 
 public:
     OrderInformation(QObject *parent=0);
     OrderInformation(const QString &neworder, const int &pieces,const QString &orderName,
-                     const float &price, const bool &ready, const bool &cancellation,  QObject *parent=0);
+                     const float &price, const QString &ready, const QString &cancellation,  QObject *parent=0);
 
 
     QString order() const;
@@ -33,11 +33,11 @@ public:
     float price() const;
     void setprice(const float &price);
 
-    bool ready() const;
-    void setready(const bool &ready);
+    QString ready() const;
+    void setready(const QString &ready);
 
-    bool cancellation() const;
-    void setcancellation(const bool &cancellation);
+    QString cancellation() const;
+    void setcancellation(const QString &cancellation);
     float m_price;
 
 signals:
@@ -54,8 +54,8 @@ private:
     QString m_order;
     int m_pieces;
     QString m_orderName;
-    bool m_ready;
-    bool m_cancellation;
+    QString m_ready;
+    QString m_cancellation;
 };
 
 #endif // ORDERINFORMATION_H

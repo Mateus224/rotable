@@ -8,7 +8,7 @@ OrderInformation::OrderInformation(QObject *parent) : QObject(parent)
 
 
 OrderInformation::OrderInformation(const QString &neworder, const int &pieces,const QString &orderName,
-                                   const float &price, const bool &ready, const bool &cancellation , QObject *parent)
+                                   const float &price, const QString &ready, const QString &cancellation , QObject *parent)
     : QObject(parent), m_order(neworder), m_pieces(pieces), m_orderName(orderName), m_price(price*pieces), m_ready(ready),m_cancellation(cancellation)
 {
 }
@@ -69,7 +69,6 @@ float OrderInformation::price() const
 void OrderInformation::setprice(const float &price)
 {
     if (price != m_price) {
-        //m_price = (float)((int)(price*100))/100;
         m_price= price;
         emit priceChanged();
     }
@@ -77,31 +76,39 @@ void OrderInformation::setprice(const float &price)
 
 
 //-----------------------------------------------------------------
-bool OrderInformation::ready() const
+QString OrderInformation::ready() const
 {
     return m_ready;
 }
 
-void OrderInformation::setready(const bool &ready)
+void OrderInformation::setready(const QString &ready)
 {
-    if (ready != m_ready) {
-        m_ready = ready;
+    if (ready == "Green"||"green") {
+        m_ready = "green";
+        emit readyChanged();
+    }
+    else if(ready=="Black"||"black"){
+        m_ready= "red";
         emit readyChanged();
     }
 }
 
 
 //-----------------------------------------------------------------
-bool OrderInformation::cancellation() const
+QString OrderInformation::cancellation() const
 {
     return m_cancellation;
 }
 
-void OrderInformation::setcancellation(const bool &cancellation)
+void OrderInformation::setcancellation(const QString &cancellation)
 {
-    if (cancellation != m_cancellation) {
-        m_cancellation = cancellation;
-        emit cancellationChanged();
+    if (cancellation == "Red"||"red") {
+        m_cancellation = "green";
+        emit readyChanged();
+    }
+    else if(cancellation=="Black"||"black"){
+        m_cancellation= "red";
+        emit readyChanged();
     }
 }
 

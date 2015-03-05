@@ -40,6 +40,18 @@ public slots:
         addAllPrices();
         holdNewOrder();
         }
+    void readySlot(const bool &ready)
+    {
+        m_ready=ready;
+        qDebug()<<"test";
+
+    }
+
+    void cancSlot(const bool &canc)
+    {
+        m_canc=canc;
+        qDebug()<<"test2";
+    }
 
     private:
     QQmlContext &ctxt;
@@ -48,6 +60,8 @@ public slots:
 
     public:
         int m_tableNumber;
+        int m_ready;
+        int m_canc;
 };
 
 #endif // QMLCONTEXT_H

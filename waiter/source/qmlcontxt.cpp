@@ -38,7 +38,7 @@ void qmlContxt::initContxt(int NumberOfTables)
 void qmlContxt::add_orderInfoForTable(int tableNr,int pices,QString OrderName, float price)
 {
     tab=tableNumber.at(tableNr);
-    tab->add_orderinformation("Red", pices,OrderName, price, false, false );
+    tab->add_orderinformation("black", pices,OrderName, price, "black", "black" );
 }
 
 
@@ -52,7 +52,7 @@ void qmlContxt::contxt(int tableNr)
     ctxt.setContextProperty("myModel", QVariant::fromValue(*reinterpret_cast<QList<QObject*> *>(&(tableNumber))));
     ctxt.setContextProperty("table", QVariant::fromValue(*reinterpret_cast<QList<QObject*> *>(&(tab->L_orderinformation))));
     ctxt.setContextProperty("con", this);
-    ctxt.setContextProperty("waiterAppWindows",AppWindow);
+    ctxt.setContextProperty("waiterAppWindows",AppWindow); 
 }
 
 

@@ -2,14 +2,10 @@ import QtQuick 2.0
 import QtMultimedia 5.0
 //import "componentCreation.js" as JSinterface
 
-
-
 Rectangle {
     id: waiterAppWindow
     width: 1024; height: 768
     color:"lightblue"//"#800000FF"
-
-
 
     Rectangle{
         id:downWindow
@@ -17,9 +13,6 @@ Rectangle {
         height: parent.height
         width:  parent.width
         color: "#7AAEEE"
-        Text{
-
-        }
     }
 
     Rectangle{
@@ -39,7 +32,6 @@ Rectangle {
             font.pixelSize: 32
             text:waiterAppWindows.TooPay.toFixed(2)+" €"
             y:60
-
         }
 
         Rectangle
@@ -51,7 +43,6 @@ Rectangle {
         }
         Rectangle
         {
-
             width:parent.width
             height:60
             y:  ob.height-40
@@ -60,8 +51,6 @@ Rectangle {
             gradient: clubcolors2
         }
     }
-
-
     Rectangle {
         id:tableGrid
         width: 710
@@ -80,7 +69,6 @@ Rectangle {
                 }
             }
         }
-
         ListView {
             id:grid
             orientation: ListView.Vertical
@@ -155,19 +143,16 @@ Rectangle {
                             }
                         }
                     }
-
                 }
             }
-
             Component {
                 id: contactsDelegate
                 Rectangle {
-
                     x:10
                     id: wrapper
                     width: grid.width
                     height: 60
-                    color: "transparent"//"blue"
+                    color: "transparent"
 
                     Rectangle{
                         width:parent.width
@@ -175,6 +160,7 @@ Rectangle {
                         color: "transparent"
 
                         Row {
+
                             spacing: 20
 
                             Rectangle{
@@ -212,8 +198,6 @@ Rectangle {
                                 height:50
                                 color: "transparent"
 
-
-
                                 Text {
                                     font.family: "Purisa"; font.pointSize: 16; font.bold: true
                                     id: contactInfoprice
@@ -227,26 +211,20 @@ Rectangle {
                                 width:50
                                 height:50
                                 color: "transparent"
-                            property bool ready:false
-                                Image {
-                                id: image_ready
-                                anchors.fill: parent
-                                //source: "resources/Cross.png";
-                                source: (model.modelData.ready=== ready) ? "resources/Check_grey.png" : "resources/Check.png"
-                                MouseArea {
-                                    anchors.fill: parent
-                                    onClicked: image_ready.source= (model.modelData.ready!== ready) ? "resources/Check_grey.png" : "resources/Check.png"
-                                }
-                                }
+                                property bool ready:false
 
-                                /*Text {
-                                    font.family: "Helvetica"; font.pointSize: 13; font.bold: true
-                                    id: contactInfoready
-                                    text:  model.modelData.ready
-                                    color: newOrder
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    anchors.horizontalCenter: parent.horizontalCenter
-                                }*/
+                                Image {
+                                    id: image_ready
+                                    anchors.fill: parent
+                                    source: (model.modelData.ready=== ready) ? "resources/Check_grey.png" : "resources/Check.png"
+                                    MouseArea {
+                                        anchors.fill: parent
+                                        onClicked:{
+                                            image_ready.source= (model.modelData.ready!== ready) ? "resources/Check_grey.png" : "resources/Check.png"
+                                            con.readySlot(ready)
+                                        }
+                                    }
+                                }
                             }
                             Rectangle{
                                 width:50
@@ -259,18 +237,13 @@ Rectangle {
                                 source: (model.modelData.ready=== ready) ? "resources/Cross_grey.png" : "resources/Cross_grey.png"
                                     MouseArea {
                                         anchors.fill: parent
-                                        onClicked: image_canc.source= (model.modelData.ready!== ready) ? "resources/Cross.png" : "resources/Cross.png"
+                                        onClicked:{
+
+                                            image_canc.source= (model.modelData.ready!== ready) ? "resources/Cross.png" : "resources/Cross.png"
+                                            con.cancSlot(ready)
+                                        }
                                     }
                                 }
-
-                                /*Text {
-                                    font.family: "Helvetica"; font.pointSize: 13; font.bold: true
-                                    id: contactInfoncancellation
-                                    text:  model.modelData.cancellation
-                                    color: newOrder
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    anchors.horizontalCenter: parent.horizontalCenter
-                                }*/
                             }
                             Rectangle{
                                 width:60
@@ -294,12 +267,9 @@ Rectangle {
         }
     }
     Rectangle{
-
         id: tableWindow
-
-         width: 200; height: parent.height
-         color: "#7AAEEE"//"#70000000"
-
+        width: 200; height: parent.height
+        color: "#7AAEEE"//"#70000000"
 
         Component {
             id: nameDelegate
@@ -309,32 +279,19 @@ Rectangle {
             }
         }
 
-
-
-
         ListView {
-
-            //currentIndex: 4
             anchors.fill: parent
             clip: true
             model: myModel
-            //delegate: nameDelegate
             header: bannercomponent
             footer: Rectangle {
                 width: parent.width; height: 50;
                 gradient: clubcolors
             }
-
-
-
             focus: true
+
             delegate:Component {
-
                 Item {
-                    property real toPay:ToPay
-                    signal qmlSignal(int msg)
-
-
                     id: container
                     width: ListView.view.width; height: 60; anchors.leftMargin: 10; anchors.rightMargin: 10
                     Rectangle{
@@ -342,44 +299,38 @@ Rectangle {
                         color: currentIndexT//
                         width: parent.width
                         height: parent.height
-                    Rectangle {
-                        id: content
-                        anchors.centerIn: parent; width: container.width - 40; height: container.height - 10
+                        Rectangle {
+                            id: content
+                            anchors.centerIn: parent; width: container.width - 40; height: container.height - 10
 
-                        antialiasing: true
-                        radius: 10
-                        border.color: "black"
-                        border.width: 1
+                            antialiasing: true
+                            radius: 10
+                            border.color: "black"
+                            border.width: 1
 
-                        color: model.modelData.color
+                            color: model.modelData.color
 
-                        Rectangle { anchors.fill: parent; anchors.margins: 3; color: "#899AAEE0"; antialiasing: true; radius: 8 }
+                            Rectangle { anchors.fill: parent; anchors.margins: 3; color: "#899AAEE0"; antialiasing: true; radius: 8 }
+                        }
+                        Text {
+
+                            id: label
+                            anchors.centerIn: content
+                            text: "Table " + (index + 1)
+                            color: CallWaiter//"White"
+                            font.pixelSize: 20
+                            font.bold: true
+                            font.family: "Lobster two"//font.family: "Purisa"
+                        }
                     }
-                    Text {
-
-                        id: label
-                        anchors.centerIn: content
-                        text: "Table " + (index + 1)
-                        color: CallWaiter//"White"
-                        font.pixelSize: 20
-                        font.bold: true
-                        font.family: "Lobster two"//font.family: "Purisa"
-                    }
-                    }
-
-
 
                     MouseArea {
-
                         id: mouseArea
                         anchors.fill: parent
                         hoverEnabled: true
 
                         onClicked: {
-
-                            //JSinterface.setPrices(ToPay)
                             container.ListView.view.currentIndex = index
-                            container.forceActiveFocus()
                             currentTable.color= "Transparent"
                             con.tableSlot(index + 1)
                         }
@@ -388,10 +339,9 @@ Rectangle {
                                 name: "resized"; when: mouseArea.pressed
                                 PropertyChanges { target: currentTable; color: "#8EE2FE"}//; height: container.height }
                              }
-                    }
                 }
             }
-
+        }
         Component {     //instantiated when header is processed
             id: bannercomponent
             Rectangle {
@@ -421,5 +371,4 @@ Rectangle {
         GradientStop { position: 0.0; color:"#7AAEEE" }//"#8EE2FE"}
         GradientStop { position: 0.66; color: "White"}
     }
-
 }

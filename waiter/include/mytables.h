@@ -19,7 +19,7 @@ public:
     void settableNumber(const QString &tableNumber);
 
     void add_table(QString tables);
-    void add_orderinformation(const QString m_order, const int m_pieces,const QString m_orderName,const float m_price,const bool m_ready,const bool m_cancellation);
+    void add_orderinformation(const QString m_order, const int m_pieces,const QString m_orderName,const float m_price,const QString m_ready,const QString m_cancellation);
     void cancellation_orderinformation(int position);
 
     QString CallWaiter() const;
@@ -50,8 +50,8 @@ private:
     QString m_order;
     int m_pieces;
     QString m_orderName;
-    bool m_ready;
-    bool m_cancellation;
+    QString m_ready;
+    QString m_cancellation;
 
 };
 
