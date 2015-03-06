@@ -40,6 +40,7 @@ public slots:
         addAllPrices();
         holdNewOrder();
         }
+
     void readySlot(const QString &ready, const int &index)
     {
         if(ready=="black")
@@ -50,6 +51,12 @@ public slots:
         {
             tableNumber.value(m_tableNumber)->setColor_orderinformation(index, "black");
         }
+    }
+
+    void payedSlot()
+    {
+        tableNumber.value(m_tableNumber)->L_orderinformation.clear();
+        contxt(m_tableNumber);
     }
 
     void cancSlot(const QString &canc, const int index)

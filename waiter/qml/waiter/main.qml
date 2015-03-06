@@ -7,6 +7,7 @@ Rectangle {
     width: 1024; height: 768
     color:"lightblue"//"#800000FF"
 
+
     Rectangle{
         id:downWindow
         x:950
@@ -31,8 +32,10 @@ Rectangle {
             font.family: "Lobster two"
             font.pixelSize: 32
             text:waiterAppWindows.TooPay.toFixed(2)+" €"
-            y:60
+            //y:60
         }
+
+
 
         Rectangle
         {
@@ -50,7 +53,34 @@ Rectangle {
 
             gradient: clubcolors2
         }
+        Rectangle{
+            id: payed
+            anchors.verticalCenter: parent.verticalCenter
+            width: 100
+            height: 50
+            color:"lightblue"
+            x: parent.width-200
+            antialiasing: true
+            border.width: 1
+            radius: 10
+
+            Text{
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.bold: true
+                font.family: "Lobster two"
+                font.pixelSize: 32
+                text:" Payed "
+            }
+            MouseArea {
+                anchors.fill: parent
+                onClicked:{
+                    con.payedSlot();
+                }
+            }
+        }
     }
+
     Rectangle {
         id:tableGrid
         width: 710
