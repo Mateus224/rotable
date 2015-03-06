@@ -7,12 +7,6 @@
 #include <QtQuick>
 
 
-
-//qmlContxt::qmlContxt(QObject *parent): QObject(parent)
-//{
-
-//}
-
 qmlContxt::qmlContxt(QQmlContext &qmlCon, QObject *parent) :QObject(parent), ctxt(qmlCon)
 {
     m_tableNumber=0;
@@ -38,7 +32,7 @@ void qmlContxt::initContxt(int NumberOfTables)
 void qmlContxt::add_orderInfoForTable(int tableNr,int pices,QString OrderName, float price)
 {
     tab=tableNumber.at(tableNr);
-    tab->add_orderinformation("black", pices,OrderName, price, "black", "black" );
+    tab->add_orderinformation(pices,OrderName, price, "black");
 }
 
 
@@ -84,13 +78,13 @@ void qmlContxt::holdNewOrder()
 {
     for(int i=0;i<tableNumber.length();i++)
     {
-        if(tableNumber.at(i)->NewOrder()!=("Red"))
+        if(tableNumber.at(i)->NewOrder()!=("red"))
         {
-            tableNumber.at(i)->setNewOrder("White");
+            tableNumber.at(i)->setNewOrder("white");
         }
         else
         {
-            tableNumber.at(i)->setNewOrder("Red");
+            tableNumber.at(i)->setNewOrder("red");
         }
     }
 }

@@ -19,8 +19,7 @@ public:
     void settableNumber(const QString &tableNumber);
 
     void add_table(QString tables);
-    void add_orderinformation(const QString m_order, const int m_pieces,const QString m_orderName,const float m_price,const QString m_ready,const QString m_cancellation);
-    void cancellation_orderinformation(int position);
+    void add_orderinformation(const int m_pieces,const QString m_orderName,const float m_price,const QString m_info_orderInfo);
 
     QString CallWaiter() const;
     void setCallWaiter(const QString &CallWaiter);
@@ -31,7 +30,7 @@ public:
     double toPay()const;
     void setToPay(const double &toPay);
 
-    void ready_orderinformation(int position);
+    void setColor_orderinformation(const int &position,const QString &color);
     QList <OrderInformation*>  L_orderinformation;
     QString m_tableNumber;
     float m_price;

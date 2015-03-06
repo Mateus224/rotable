@@ -172,7 +172,7 @@ Rectangle {
                                     font.family: "Purisa"; font.pointSize: 16; font.bold: true
                                     id: contactInfo
                                     text:  pieces+"x"
-                                    color: newOrder
+                                    color: color_oderinfo
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
 
@@ -188,7 +188,7 @@ Rectangle {
                                     font.family: "Purisa"; font.pointSize: 16; font.bold: true
                                     id: contactInfoname
                                     text:  orderName
-                                    color: newOrder
+                                    color: color_oderinfo
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
                                 }
@@ -202,7 +202,7 @@ Rectangle {
                                     font.family: "Purisa"; font.pointSize: 16; font.bold: true
                                     id: contactInfoprice
                                     text:  price.toFixed(2)+"€"
-                                    color: newOrder
+                                    color: color_oderinfo
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
                                 }
@@ -211,17 +211,39 @@ Rectangle {
                                 width:50
                                 height:50
                                 color: "transparent"
-                                property bool ready:false
 
                                 Image {
                                     id: image_ready
                                     anchors.fill: parent
-                                    source: (model.modelData.ready=== ready) ? "resources/Check_grey.png" : "resources/Check.png"
+                                    source: if(model.modelData.color_oderinfo=== "green")
+                                            {
+                                                image_ready.source= "resources/Check.png"
+                                            }
+                                            else if(model.modelData.color_oderinfo=== "black")
+                                            {
+                                                image_ready.source= "resources/Check_grey.png"
+                                            }
+                                            else if(model.modelData.color_oderinfo=== "red")
+                                            {
+                                                image_ready.source= "resources/Check_grey.png"
+                                            }
                                     MouseArea {
                                         anchors.fill: parent
                                         onClicked:{
-                                            image_ready.source= (model.modelData.ready!== ready) ? "resources/Check_grey.png" : "resources/Check.png"
-                                            con.readySlot(ready)
+                                            if(model.modelData.color_oderinfo=== "green")
+                                            {
+                                                image_ready.source= "resources/Check_grey.png"
+                                            }
+                                            else if(model.modelData.color_oderinfo=== "black")
+                                            {
+                                                image_ready.source= "resources/Check.png"
+                                                image_canc.source= "resources/Cross_grey.png"
+                                            }
+                                            else if(model.modelData.color_oderinfo=== "red")
+                                            {
+                                                image_ready.source= "resources/Check_grey.png"
+                                            }
+                                            con.readySlot(color_oderinfo, index)
                                         }
                                     }
                                 }
@@ -234,13 +256,38 @@ Rectangle {
                                 Image {
                                 id: image_canc
                                 anchors.fill: parent
-                                source: (model.modelData.ready=== ready) ? "resources/Cross_grey.png" : "resources/Cross_grey.png"
+                                source: if(model.modelData.color_oderinfo=== "red")
+                                        {
+                                            image_canc.source= "resources/Cross.png"
+                                        }
+                                        else if(model.modelData.color_oderinfo=== "black")
+                                        {
+                                            image_canc.source= "resources/Cross_grey.png"
+                                        }
+                                        else if(model.modelData.color_oderinfo=== "green")
+                                        {
+                                            image_canc.source= "resources/Cross_grey.png"
+                                        }
+
                                     MouseArea {
                                         anchors.fill: parent
                                         onClicked:{
-
-                                            image_canc.source= (model.modelData.ready!== ready) ? "resources/Cross.png" : "resources/Cross.png"
-                                            con.cancSlot(ready)
+                                            if(model.modelData.color_oderinfo=== "red")
+                                            {
+                                                image_canc.source= "resources/Cross_grey.png"
+                                            }
+                                            else if(model.modelData.color_oderinfo=== "black")
+                                            {
+                                                image_canc.source= "resources/Cross.png"
+                                                image_ready.source= "resources/Check_grey.png"
+                                            }
+                                            else if(model.modelData.color_oderinfo=== "green")
+                                            {
+                                                image_canc.source= "resources/Cross.png"
+                                                image_ready.source= "resources/Check_grey.png"
+                                                color_oderinfo="black"
+                                            }
+                                            con.cancSlot(color_oderinfo, index)
                                         }
                                     }
                                 }
@@ -255,7 +302,7 @@ Rectangle {
                                     font.family: "Purisa"; font.pointSize: 16; font.bold: true
                                     id: contactInfontime
                                     text:  1+"min"
-                                    color: newOrder
+                                    color: color_oderinfo
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
                                 }

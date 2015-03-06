@@ -40,17 +40,28 @@ public slots:
         addAllPrices();
         holdNewOrder();
         }
-    void readySlot(const bool &ready)
+    void readySlot(const QString &ready, const int &index)
     {
-        m_ready=ready;
-        qDebug()<<"test";
-
+        if(ready=="black")
+        {
+            tableNumber.at(m_tableNumber)->setColor_orderinformation(index, "green");
+        }
+        else if(ready=="green")
+        {
+            tableNumber.at(m_tableNumber)->setColor_orderinformation(index, "black");
+        }
     }
 
-    void cancSlot(const bool &canc)
+    void cancSlot(const QString &canc, const int index)
     {
-        m_canc=canc;
-        qDebug()<<"test2";
+        if(canc=="black")
+        {
+            tableNumber.at(m_tableNumber)->setColor_orderinformation(index, "red");
+        }
+        else if(canc=="red")
+        {
+            tableNumber.at(m_tableNumber)->setColor_orderinformation(index, "black");
+        }
     }
 
     private:
@@ -60,8 +71,8 @@ public slots:
 
     public:
         int m_tableNumber;
-        int m_ready;
-        int m_canc;
+        QString m_ready;
+        QString m_canc;
 };
 
 #endif // QMLCONTEXT_H

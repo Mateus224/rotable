@@ -7,29 +7,14 @@ OrderInformation::OrderInformation(QObject *parent) : QObject(parent)
 }
 
 
-OrderInformation::OrderInformation(const QString &neworder, const int &pieces,const QString &orderName,
-                                   const float &price, const QString &ready, const QString &cancellation , QObject *parent)
-    : QObject(parent), m_order(neworder), m_pieces(pieces), m_orderName(orderName), m_price(price*pieces), m_ready(ready),m_cancellation(cancellation)
+OrderInformation::OrderInformation(const int &pieces,const QString &orderName,
+                                   const float &price, const QString &info_orderInfo , QObject *parent)
+    : QObject(parent), m_pieces(pieces), m_orderName(orderName), m_price(price*pieces), m_info_orderInfo(info_orderInfo)
 {
 }
-
 
 
 //-----------------------------------------------------------------
-QString OrderInformation::order() const
-{
-    return m_order;
-}
-
-void OrderInformation::setorder(const QString &neworder)
-{
-    if (neworder != m_order) {
-        m_order = neworder;
-        emit orderChanged();
-    }
-}
-
-
 //-----------------------------------------------------------------
 int OrderInformation::pieces() const
 {
@@ -76,41 +61,35 @@ void OrderInformation::setprice(const float &price)
 
 
 //-----------------------------------------------------------------
-QString OrderInformation::ready() const
+QString OrderInformation::info_orderInfo() const
 {
-    return m_ready;
+    return m_info_orderInfo;
 }
 
-void OrderInformation::setready(const QString &ready)
+void OrderInformation::setinfo_orderInfo(const QString &info_orderInfo)
 {
-    if (ready == "Green"||"green") {
-        m_ready = "green";
-        emit readyChanged();
+    qDebug()<<info_orderInfo;
+    if(info_orderInfo=="black"){
+        m_info_orderInfo= "black";
+        emit info_orderInfoChanged();
     }
-    else if(ready=="Black"||"black"){
-        m_ready= "red";
-        emit readyChanged();
+    else if (info_orderInfo == "green") {
+        m_info_orderInfo = "green";
+        emit info_orderInfoChanged();
     }
+    else if(info_orderInfo=="red"){
+        m_info_orderInfo= "red";
+        emit info_orderInfoChanged();
+    }
+    else if(info_orderInfo=="white"){
+        m_info_orderInfo= "white";
+        emit info_orderInfoChanged();
+    }
+    else
+    {
+        m_info_orderInfo="blue";
+        emit info_orderInfoChanged();
+     }
+
 }
 
-
-//-----------------------------------------------------------------
-QString OrderInformation::cancellation() const
-{
-    return m_cancellation;
-}
-
-void OrderInformation::setcancellation(const QString &cancellation)
-{
-    if (cancellation == "Red"||"red") {
-        m_cancellation = "green";
-        emit readyChanged();
-    }
-    else if(cancellation=="Black"||"black"){
-        m_cancellation= "red";
-        emit readyChanged();
-    }
-}
-
-
-//-----------------------------------------------------------------
