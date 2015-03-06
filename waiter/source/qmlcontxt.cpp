@@ -65,9 +65,9 @@ void qmlContxt::resetOldCurrentTable()
 void qmlContxt::addAllPrices()
 {
         double toPay=0;
-        for(int j=0;j<tableNumber.at(m_tableNumber)->L_orderinformation.length();j++)
+        for(int j=0;j<tableNumber.value(m_tableNumber)->L_orderinformation.length();j++)
         {
-             toPay+=tableNumber.at(m_tableNumber)->L_orderinformation.at(j)->m_price;
+             toPay+=tableNumber.value(m_tableNumber)->L_orderinformation.at(j)->m_price;
         }
     AppWindow->setToPay(toPay);
 }
@@ -78,13 +78,13 @@ void qmlContxt::holdNewOrder()
 {
     for(int i=0;i<tableNumber.length();i++)
     {
-        if(tableNumber.at(i)->NewOrder()!=("red"))
+        if(tableNumber.value(i)->NewOrder()!=("red"))
         {
-            tableNumber.at(i)->setNewOrder("white");
+            tableNumber.value(i)->setNewOrder("white");
         }
         else
         {
-            tableNumber.at(i)->setNewOrder("red");
+            tableNumber.value(i)->setNewOrder("red");
         }
     }
 }

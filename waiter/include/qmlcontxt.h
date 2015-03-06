@@ -44,11 +44,11 @@ public slots:
     {
         if(ready=="black")
         {
-            tableNumber.at(m_tableNumber)->setColor_orderinformation(index, "green");
+            tableNumber.value(m_tableNumber)->setColor_orderinformation(index, "green");
         }
         else if(ready=="green")
         {
-            tableNumber.at(m_tableNumber)->setColor_orderinformation(index, "black");
+            tableNumber.value(m_tableNumber)->setColor_orderinformation(index, "black");
         }
     }
 
@@ -56,17 +56,35 @@ public slots:
     {
         if(canc=="black")
         {
-            tableNumber.at(m_tableNumber)->setColor_orderinformation(index, "red");
+            tableNumber.value(m_tableNumber)->setColor_orderinformation(index, "red");
+            s_storno_prices thisPrice= {tableNumber.value(m_tableNumber)->L_orderinformation.value(index)->m_price,index};
+            L_price.append(thisPrice);
+            tableNumber.value(m_tableNumber)->L_orderinformation.value(index)->setprice(0);
+            addAllPrices();
         }
         else if(canc=="red")
         {
-            tableNumber.at(m_tableNumber)->setColor_orderinformation(index, "black");
+            tableNumber.value(m_tableNumber)->setColor_orderinformation(index, "black");
+            for(int i=0; i<L_price.length();i++)
+            {
+               if (L_price.value(i).s_index==index)
+               {
+                   tableNumber.value(m_tableNumber)->L_orderinformation.value(index)->setprice(L_price.value(i).s_price );
+                   addAllPrices();
+               }
+            }
         }
     }
 
     private:
     QQmlContext &ctxt;
     myTables* tab;
+    float _price;
+    struct s_storno_prices{
+        double s_price;
+        int s_index;
+    };
+    QList <s_storno_prices> L_price;
 
 
     public:

@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
   //-----------------------------------------------------
   init.add_orderInfoForTable(tableNr,1, "Sambuca",2.1);
   init.add_orderInfoForTable(tableNr+1,3, "Banana Split Shooter",22.60);
-  init.add_orderInfoForTable(tableNr+1,3, "kangeru",22.60);
+  init.add_orderInfoForTable(tableNr+1,3, "Kangeru",22.60);
   init.add_orderInfoForTable(tableNr+1,3, "Tequilla sunrise",22.60);
   init.add_orderInfoForTable(tableNr+1,3, "Banana Split Shooter",8.80);
   init.add_orderInfoForTable(tableNr+1,3, "Swimming Pool",20.60);
@@ -82,11 +82,12 @@ int main(int argc, char *argv[])
   init.contxt(0);
   view->setSource(QString("qrc:/waiter/main.qml"));
 
-  init.tableNumber.at(2)->setNewOrder("Red");
-  init.tableNumber.at(2)->setCallWaiter("Blue");
+  init.tableNumber.at(2)->setNewOrder("red");
+  init.tableNumber.at(2)->setCallWaiter("blue");
   init.resetOldCurrentTable();
-  init.tableNumber.at(3)->setNewOrder("Red");
-  init.tableNumber.at(6)->setCallWaiter("Blue");
+  init.tableNumber.at(3)->setNewOrder("red");
+  init.tableNumber.at(6)->setCallWaiter("blue");
+  //init.tableNumber.at(3)->setCallWaiter("blue");
   init.addAllPrices();
 
 

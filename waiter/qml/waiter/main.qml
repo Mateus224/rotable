@@ -108,7 +108,7 @@ Rectangle {
                                 font.family: "Lobster two"
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                text: "Pices"
+                                text: "Pieces"
                                 font.pixelSize: 32
                                 font.bold: true
 
