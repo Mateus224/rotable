@@ -37,5 +37,8 @@
         <file>sql-commands/waiters_orders_insert.sql</file>
         <file>sql-commands/waiters_select_login.sql</file>
         <file>sql-commands/waiters_select.sql</file>
+        <file>sql-commands/waiters_update.sql</file>
+        <file>sql-commands/waiters_select_ids.sql</file>
+        <file>sql-commands/waiters_remove.sql</file>
     </qresource>
 </RCC>

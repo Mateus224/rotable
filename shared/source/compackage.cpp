@@ -21,8 +21,9 @@ struct TypeStr2Enum {
 #define ROTABLE_PACKAGE_COMMAND_DATA_SET_STR                QString("DS")
 #define ROTABLE_PACKAGE_COMMAND_REJECT_STR                  QString("RJ")
 #define ROTABLE_PACKAGE_COMMAND_COMMAND_STR                 QString("CC")
+#define ROTABLE_PACKAGE_COMMAND_SEND_ORDER_STR              QString("SO")
 
-static const int S_types_count = 8;
+static const int S_types_count = 9;
 static const TypeStr2Enum S_types[S_types_count] = {
   { ROTABLE_PACKAGE_COMMAND_CONNECTION_REQUEST_STR, ComPackage::ConnectionRequest },
   { ROTABLE_PACKAGE_COMMAND_CONNECTION_ACCEPT_STR, ComPackage::ConnectionAccept },
@@ -45,6 +46,9 @@ static const TypeStr2Enum S_types[S_types_count] = {
 #define ROTABLE_PACKAGE_ID_STR                              QString("ID")
 #define ROTABLE_PACKAGE_ORIGIN_ID_STR                       QString("OI")
 #define ROTABLE_PACKAGE_COMMAND_TYPE_STR                    QString("CT")
+#define ROTABLE_PACKAGE_TIME_CREATED_STR                    QString("TC")
+#define ROTABLE_PACKAGE_LAST_CHANGED_STR                    QString("LC")
+#define ROTABLE_PACKAGE_ORDER_STATE_STR                     QString("OS")
 
 //------------------------------------------------------------------------------
 

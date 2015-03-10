@@ -43,7 +43,7 @@ Database::Database(QObject *parent) :
   _sqlCommands.append(orderItemCmds);
 
   SqlCommands waiterCmds;
-  collectSqlCommands(waiterCmds, "waiter");
+  collectSqlCommands(waiterCmds, "waiters");
   _sqlCommands.append(waiterCmds);
 }
 

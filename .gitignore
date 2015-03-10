@@ -6,3 +6,5 @@ qt/**
 /.project
 bin/**
 Makefile-build-rotable*
+Makefile
+games/bottle_spin/build-tet**
