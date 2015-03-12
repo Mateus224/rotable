@@ -65,6 +65,7 @@ int main(int argc, char *argv[])
   //-----------------------------------------------------
 
   QQuickView* view=new QQuickView;
+  waiter_client->startup();
   view->setResizeMode(QQuickView::SizeRootObjectToView);
   QQmlContext *ctxt = view->engine()->rootContext();//view.rootContext();
 

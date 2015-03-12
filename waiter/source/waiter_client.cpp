@@ -63,6 +63,25 @@ Waiter_Client::~Waiter_Client()
    // _stopping=true;
 }
 
+
+//------------------------------------------------------------------------------
+
+bool Waiter_Client::startup()
+{
+  reconnect();
+  return true;
+}
+
+
+//------------------------------------------------------------------------------
+
+void Waiter_Client::reconnect()
+{
+  _tcp.startConnection(_config.serverAddress(), _config.port());
+}
+
+//------------------------------------------------------------------------------
+
 void Waiter_Client::connected()
 {
   qDebug() << tr("Connection established");

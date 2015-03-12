@@ -33,12 +33,19 @@ public:
                   QObject *parent = 0);
     ~Waiter_Client();
 
+    /**
+     * Startup client (connect to server).
+     *
+     * @return                false on critical error
+     */
+    bool startup();
+
 
 private slots:
   /**
    * Start reconnection with rotable-server.
    */
-  //void reconnect();
+  void reconnect();
 
   /**
    * Slot to be called when connection to server is established.
