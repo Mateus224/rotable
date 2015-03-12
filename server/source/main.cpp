@@ -21,12 +21,9 @@ int main(int argc, char *argv[])
   rotable::LogManager::getInstance()->addListener(new rotable::LogListenerStdOut());
 
   QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
-
   QCoreApplication app(argc, argv);
-
   QCoreApplication::setApplicationName("rotable-server");
   QCoreApplication::setApplicationVersion("1.0b");
-
   QCommandLineParser parser;
   parser.setApplicationDescription("rotable server application");
   parser.addHelpOption();
@@ -43,6 +40,7 @@ int main(int argc, char *argv[])
   if (args.size() > 0) {
     configFilePath = args[0];
   }
+
 
   rotable::Server server(configFilePath);
   if (!server.startup()) {

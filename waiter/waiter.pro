@@ -21,7 +21,8 @@ HEADERS += \
     include/orderinformation.h \
     include/qmlcontxt.h \
     include/mytables.h \
-    include/waiterappwindow.h
+    include/waiterappwindow.h \
+    include/waiter_client.h
 
 
 SOURCES += \
@@ -31,7 +32,8 @@ SOURCES += \
     source/orderinformation.cpp \
     source/qmlcontxt.cpp \
     source/mytables.cpp \
-    source/waiterappwindow.cpp
+    source/waiterappwindow.cpp \
+    source/waiter_client.cpp
 
 RESOURCES +=\
     resources.qrc \

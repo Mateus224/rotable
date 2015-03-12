@@ -1,6 +1,7 @@
 #include "private/precomp.h"
 #include "../include/mytables.h"
 #include "../include/orderinformation.h"
+#include "../include/waiter_client.h"
 #include "orderinformation.h"
 #include "qmlcontxt.h"
 #include <qqmlengine.h>
@@ -41,12 +42,27 @@ int main(int argc, char *argv[])
     QCoreApplication::translate("main", "Path of the configuration file."));
   parser.process(app);
 
+
+
+  /* Connection to server building*/
+//-----------------------------------------------------
   QString configFilePath("config.ini");
 
   QStringList args = parser.positionalArguments();
   if (args.size() > 0) {
     configFilePath = args[0];
   }
+
+ rotable::Waiter_Client* waiter_client = new rotable::Waiter_Client(configFilePath);
+
+
+
+
+
+
+
+    /* Gui programming*/
+  //-----------------------------------------------------
 
   QQuickView* view=new QQuickView;
   view->setResizeMode(QQuickView::SizeRootObjectToView);
@@ -87,11 +103,8 @@ int main(int argc, char *argv[])
   init.resetOldCurrentTable();
   init.tableNumber.at(3)->setNewOrder("red");
   init.tableNumber.at(6)->setCallWaiter("blue");
-  //init.tableNumber.at(3)->setCallWaiter("blue");
   init.addAllPrices();
 
-
-  //client->startup();
 
 view->show();
 

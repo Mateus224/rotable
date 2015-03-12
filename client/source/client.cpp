@@ -1,5 +1,4 @@
 #include "private/precomp.h"
-
 #include "client.h"
 #include "compackage.h"
 #include "utils.h"
