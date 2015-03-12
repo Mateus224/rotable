@@ -33,8 +33,47 @@ public:
                   QObject *parent = 0);
     ~Waiter_Client();
 
-//------------------------------------------------------------------------------
 
+private slots:
+  /**
+   * Start reconnection with rotable-server.
+   */
+  //void reconnect();
+
+  /**
+   * Slot to be called when connection to server is established.
+   */
+  void connected();
+
+  /**
+   * Slot to be called when connection to server has been lost.
+   */
+  void disconnected();
+
+  /**
+   * A package from the server has been received.
+   *
+   * @param package     package
+   */
+  void packageReceived(ComPackage* package);
+
+  /**
+   * A package has been rejected.
+   *
+   * @param rej        reject package
+   */
+  //void rejected(ComPackageReject* rej);
+
+  /**
+   * Set current GUI state.
+   *
+   * @param state       new GUI state
+   */
+  void setState(const QString& state);
+
+
+//------------------------------------------------------------------------------
+private:
     /* Whether this client has been accepted by the server */
     bool _accepted;
 
@@ -47,6 +86,11 @@ public:
     /* Configuration file access */
     ConfigWaiter _config;
 
+    /* TCP-Socket object */
+    TcpClient _tcp;
+
+    /* Timer for waiting before reconnect */
+    QTimer _reconnectTimer;
 
 };
 
