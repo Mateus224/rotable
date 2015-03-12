@@ -1,6 +1,7 @@
 #ifndef ORDERINFORMATION_H
 #define ORDERINFORMATION_H
 #include <QObject>
+#include <QTime>
 #include <QDebug>
 
 class OrderInformation : public QObject
@@ -32,6 +33,9 @@ public:
     void setinfo_orderInfo(const QString &info_orderInfo);
     float m_price;
 
+    int resetStopWatch()const;
+    void setresetStopWatch(const int &delet);
+
 signals:
 
     void piecesChanged();
@@ -47,6 +51,7 @@ private:
     QString m_orderName;
     QString m_ready;
     QString m_cancellation;
+    QTime stopwatch;
 };
 
 #endif // ORDERINFORMATION_H

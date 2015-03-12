@@ -11,6 +11,9 @@ OrderInformation::OrderInformation(const int &pieces,const QString &orderName,
                                    const float &price, const QString &info_orderInfo , QObject *parent)
     : QObject(parent), m_pieces(pieces), m_orderName(orderName), m_price(price*pieces), m_info_orderInfo(info_orderInfo)
 {
+
+    stopwatch.start();
+
 }
 
 
@@ -68,13 +71,13 @@ QString OrderInformation::info_orderInfo() const
 
 void OrderInformation::setinfo_orderInfo(const QString &info_orderInfo)
 {
-    qDebug()<<info_orderInfo;
     if(info_orderInfo=="black"){
         m_info_orderInfo= "black";
         emit info_orderInfoChanged();
     }
     else if (info_orderInfo == "green") {
         m_info_orderInfo = "green";
+        qDebug()<<(stopwatch.elapsed()/1000);
         emit info_orderInfoChanged();
     }
     else if(info_orderInfo=="red"){
