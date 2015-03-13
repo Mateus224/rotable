@@ -18,6 +18,9 @@
 
 #include "configwaiter.h"
 #include "tcpclient.h"
+#include "private/precomp.h"
+#include "compackage.h"
+#include "utils.h"
 
 //------------------------------------------------------------------------------
 
@@ -69,7 +72,7 @@ private slots:
    *
    * @param rej        reject package
    */
-  //void rejected(ComPackageReject* rej);
+  void rejected(ComPackageReject* rej);
 
   /**
    * Set current GUI state.
@@ -98,6 +101,9 @@ private:
 
     /* Timer for waiting before reconnect */
     QTimer _reconnectTimer;
+
+    /* Currently pending data requests */
+    QMap<QString, ComPackageDataRequest*> _dataRequest;
 
 };
 

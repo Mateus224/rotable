@@ -1,7 +1,5 @@
 #include "include/waiter_client.h"
-#include "private/precomp.h"
-#include "compackage.h"
-#include "utils.h"
+
 
 
 //------------------------------------------------------------------------------
@@ -53,8 +51,8 @@ Waiter_Client::Waiter_Client(const QString &configFilePath, QObject *parent)
             this, SLOT(disconnected()));
     connect(&_tcp, SIGNAL(packageReceived(ComPackage*)),
             this, SLOT(packageReceived(ComPackage*)));
-    //connect(&_reconnectTimer, SIGNAL(timeout()),
-    //        this, SLOT(reconnect()));
+    connect(&_reconnectTimer, SIGNAL(timeout()),
+            this, SLOT(reconnect()));
 
 }
 
@@ -165,12 +163,12 @@ void Waiter_Client::packageReceived(ComPackage *package)
 
 //------------------------------------------------------------------------------
 
-/*void Waiter_Client::rejected(ComPackageReject *rej)
+void Waiter_Client::rejected(ComPackageReject *rej)
 {
   if (_dataRequest.contains(rej->originId())) {
     _dataRequest.remove(rej->originId());
   }
-}*/
+}
 
 //------------------------------------------------------------------------------
 
