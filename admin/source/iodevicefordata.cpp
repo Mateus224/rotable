@@ -1,5 +1,3 @@
-#include "private/precomp.h"
-
 #include "iodevicefordata.h"
 
 IODeviceForData::IODeviceForData()
@@ -56,11 +54,16 @@ QList<double> IODeviceForData::leseUmsatzUndSpeichereRueckwertsInListe(int Tage,
             }
             else if(argument==1)
             {
+                sUmsatzEintrag=list.at(1);
+                double iUmsatzEintrag=sUmsatzEintrag.toDouble();
+                ListeMitUmsaetzenDiesesJahres<<iUmsatzEintrag;
+            }
+            else if(argument==2)
+            {
                 sUmsatzEintrag=list.last();
                 double iUmsatzEintrag=sUmsatzEintrag.toDouble();
                 ListeMitUmsaetzenDiesesJahres<<iUmsatzEintrag;
             }
-
         }
     }
     leseAusUmsatz.close();

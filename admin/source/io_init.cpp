@@ -1,9 +1,7 @@
-#include "private/precomp.h"
-
 #include "io_init.h"
 #include "io_writeinmonthwithnewdata.h"
-#define MonatsUmsatz "umsatz.daten"
-#define umsatz "umsatz.daten"
+#define umsatz "umsatz.data"
+
 
 
 IO_init::IO_init()
@@ -24,30 +22,55 @@ IO_init::IO_init()
 
 void IO_init::untersucheAufLueckenUndFuelleAuf()
 {
-    IO_WriteInMonthData test2;
     QList <double> vergleicheTag;
     int ivergleicheTag;
-    //oeffneUmsatz();
+    int dayOfYear= dat.date.dayOfYear();
     vergleicheTag=leseUmsatzUndSpeichereRueckwertsInListe(1,1,umsatz);
-    qDebug()<<vergleicheTag<<"  empty??";
     if(!vergleicheTag.isEmpty())
     {
         ivergleicheTag=vergleicheTag.last();
-        qDebug()<<ivergleicheTag<<"  DIFFERENZ";
-        int dayOfYear= dat.date.dayOfYear();
+
         if(ivergleicheTag==dayOfYear)
         {
-
+            return;
         }
         else
         {
             int differenz;
             differenz=dayOfYear-ivergleicheTag;
-            qDebug()<<differenz<<"  DIFFERENZ";
-            for( int i=0; i < differenz-1; i++)
+            if(differenz<0)
             {
-                qDebug()<<differenz<<"  DIFFERENZ";
-                test2.schreibeInUmsatz(20,1);
+                for(int i=0; i<dayOfYear-1;i++)
+                {
+                    IO_WriteInMonthData newYear;
+                    newYear.schreibeInUmsatz(0,i+1,umsatz);
+                }
+            }
+            else
+            {
+                for(int i=0; i < differenz-1; i++)
+                {
+                    IO_WriteInMonthData diff;
+                    diff.schreibeInUmsatz(0,ivergleicheTag+1+i,umsatz);
+                }
+            }
+
+        }
+    }
+    else //if Qlist is Empty or the file umsatz.data not exists
+    {
+        if(dayOfYear==1) //the first day of the Year no gaps to fill
+        {
+            return;
+        }
+        else
+        {
+            int differenz;
+            differenz=dayOfYear;
+            for(int i=0; i< differenz-1;i++)
+            {
+                IO_WriteInMonthData first_initialisation;
+                first_initialisation.schreibeInUmsatz(0,i+1,umsatz);
             }
         }
 
@@ -70,10 +93,10 @@ void IO_init::schreibeMonatsUmsatz()
 {
 
     //hier wird erst read ausgeführt und geschaut ob der heutige Tag mit dem letzten
-    //eintrag übereinstimmt wenn ja, return, da jeder Tag nur einmal in der Datei
+    //eintrag übereinstimmt wenn ja return da jeder Tag nur einmal in der Datei
     //gespeichert werden soll
     QString SletzterTag;
-    QList<double> letzterTag=leseUmsatzUndSpeichereRueckwertsInListe(1,1,MonatsUmsatz);
+    QList<double> letzterTag=leseUmsatzUndSpeichereRueckwertsInListe(1,1,umsatz);
     if(!letzterTag.isEmpty())
     {
         SletzterTag=letzterTag.last();
@@ -82,18 +105,25 @@ void IO_init::schreibeMonatsUmsatz()
             return;
         }
     }
-    int heutigerMonat=dat.date.month();
     double SummeDerUmsaetzeDesMonats=0;
-    int DaysInMonth= dat.date.daysInMonth();
     int dayOfYear=dat.date.dayOfYear();
 
     //Hier erhalten wir eine Liste mit den täglichen Umsatzen bis zum Jahresbegin
+    QList<double> ListeMitUmsaetzenRueckwertsDiesesJahres;
     QList<double> ListeMitUmsaetzenDiesesJahres;
-    ListeMitUmsaetzenDiesesJahres=leseUmsatzUndSpeichereRueckwertsInListe(dayOfYear,0,umsatz);
+    ListeMitUmsaetzenRueckwertsDiesesJahres=leseUmsatzUndSpeichereRueckwertsInListe(dayOfYear,0,umsatz);
+    //we have to change the order of the List:
 
+    for(int i=0;i<dayOfYear;i++)
+    {
 
-    //Öffne zum Schreiben in die Datei MonatsUmsatz
-    QString ThisJahr= MonatsUmsatz;
+        double new_last;
+        new_last=ListeMitUmsaetzenRueckwertsDiesesJahres.takeLast();
+        ListeMitUmsaetzenDiesesJahres.append(new_last);
+
+    }
+    //Öffne zum Schreiben in die Datei umsatz
+    QString ThisJahr= umsatz;
     ThisJahr.prepend("_");
     ThisJahr.prepend(QString::number(dat.date.year()));
     QFile SchreibeInMonatsUmsatz(ThisJahr);
@@ -103,27 +133,36 @@ void IO_init::schreibeMonatsUmsatz()
         return;
     }
 
+     //der Pointer "TageProMonatBisHeute" zeigt auf eine array das mit der Anzahl der vergangenen Tage im Monat speichert
     int* TageProMonatBisHeute;
     TageProMonatBisHeute=dat.DaysInMonthFrom0101ToNow();
-    qDebug()<<TageProMonatBisHeute[0]<<TageProMonatBisHeute[1]<<TageProMonatBisHeute[2]<<TageProMonatBisHeute[3]<<TageProMonatBisHeute[4]<<"hier";
-    //der Pointer "TageProMonatBisHeute" zeigt auf eine array das mit der Anzahl der vergangenen Tage im Monat speichert
+
+    int vergangene_tage_der_letzten_Monate=0;
     // nun gehen wir die Monate bis zum heutigem Monat durch
-    int k=0;
+    //
+
     for( int j=0; j<dat.date.month(); j++)
     {
-        SummeDerUmsaetzeDesMonats=0; //reseten des ints
+        //vergangene_tage_der_letzten_Monate soll den die Tage der letzten monate ausrechenen
+        //(ausser den jetzigen (letzten Monat)--> unvollständigen Monat)-->TageProMonatBisHeute[j-1]
+        //da wir erst nachdem der erste Monat (Januar vorüber ist die 31 Tage aufaddieren wollen muss j>0 sein
+        //Bei jedem Durchlauf der for-Schleife weden die vergangene_tage_der_letzten_Monate aufaddiert.
+        if(j>0)
+        {
+            vergangene_tage_der_letzten_Monate=vergangene_tage_der_letzten_Monate+TageProMonatBisHeute[j-1];
+        }
+        SummeDerUmsaetzeDesMonats=0; //reseten des Umsatzes für jeden Monat
         int TageImMonat=TageProMonatBisHeute[j];
 
         for(int i=0; i<TageImMonat; i++)
         {
+
             if(!ListeMitUmsaetzenDiesesJahres.isEmpty())
             {
-                SummeDerUmsaetzeDesMonats=SummeDerUmsaetzeDesMonats+ListeMitUmsaetzenDiesesJahres[k];
-                //qDebug()<<SummeDerUmsaetzeDesMonats;
-                k++;
+
+                SummeDerUmsaetzeDesMonats=SummeDerUmsaetzeDesMonats+ListeMitUmsaetzenDiesesJahres[vergangene_tage_der_letzten_Monate+i];
             }
         }
-        //qDebug()<<SummeDerUmsaetzeDesMonats;
         MonthOutput<<SummeDerUmsaetzeDesMonats<<","<<dat.date.dayOfYear()<<"\n";
     }
 
@@ -148,38 +187,42 @@ void IO_init::JahrVollLegeNeueDateiAn()
     if(!letzteerTag.isEmpty())
     {
         int iletzterTag=letzteerTag.last();
-        qDebug()<<iletzterTag<<"<"<<dat.date.dayOfYear();
         if(dat.date.dayOfYear()<iletzterTag)
         {
-            qDebug()<<"JahrVollLegeNeueDateiAn";
+            IO_WriteInMonthData fill_last_year;
+            //FILL last year with turnover "0"
+            for(int i=iletzterTag; i<dat.date.daysInYear(); i++)
+            {
+                fill_last_year.schreibeInUmsatz(0,i+1,umsatz);
+            }
+            untersucheAufLueckenUndFuelleAuf(); //Last year is filled now fill this year to todays date
+
             QString newYear=umsatz;
             int iThisYear=dat.date.year()-1;
-            QString sThisYear=QString::number(iThisYear);
-            sThisYear.append("_");
-            newYear.prepend(sThisYear);
+            QString sLastYear=QString::number(iThisYear);
+            sLastYear.append("_");
+            newYear.prepend(sLastYear);
             QFile UmsatzLastYear(newYear);
 
             if(!UmsatzLastYear.open(QIODevice::WriteOnly | QIODevice::Text ))
             {
-                qDebug()<<"JahrVollLegeNeueDateiAn";
+                qDebug()<<"io_init__ERR";
                 return;
             }
-
             QTextStream in(&UmsatzLastYear);
-            QList <double> Umsaetze=leseUmsatzUndSpeichereRueckwertsInListe(720,0,umsatz);
+            QList <double> Umsaetze=leseUmsatzUndSpeichereRueckwertsInListe(732,0,umsatz);
             QDate lastYear;
             lastYear= dat.date.addYears (-1);
             int ilastYear=lastYear.year();
-            QDate QlastYear(ilastYear,12,1);
             int SummeMonat;
 
-            for(int i=0; i<dat.date.dayOfYear();i++)
+            //remove in the Qlist the days of this Year-1 because todays turnover is not written
+            for(int i=0; i<dat.date.dayOfYear()-1;i++)
             {
                 if(!Umsaetze.isEmpty())
                     Umsaetze.takeFirst();
             }
-
-            for(int i=12; i>0;i--)
+            for(int i=1; i<=12;i++)
             {
                 SummeMonat=0;
                 QDate QlastYear(ilastYear,i,1);
@@ -188,16 +231,13 @@ void IO_init::JahrVollLegeNeueDateiAn()
                 {
                     if(!Umsaetze.isEmpty())
                     {
-                        SummeMonat=SummeMonat+Umsaetze.takeFirst();
+                        SummeMonat=SummeMonat+Umsaetze.takeLast();
                     }
-
                 }
                 in<<SummeMonat<<","<<dat.date.dayOfYear()<<"\n";
             }
             UmsatzLastYear.close();
         }
     }
-
     return;
-
 }

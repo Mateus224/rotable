@@ -1,5 +1,3 @@
-#include "private/precomp.h"
-
 #include <qwt_plot_layout.h>
 #include <qwt_plot_canvas.h>
 #include <qwt_plot_renderer.h>
@@ -9,6 +7,8 @@
 #include <qwt_plot_histogram.h>
 #include <qwt_column_symbol.h>
 #include <qwt_series_data.h>
+#include <qpen.h>
+#include <stdlib.h>
 
 #include "statistik_plot.h"
 #include "date.h"
@@ -122,8 +122,8 @@ void Statistik_Plot::populate()
 
     IO_ReadForDiagram thisYear;
     double *ptrtY=0;
-    ptrtY=thisYear.leseAusUmsatzDiesesJahr();
 
+    ptrtY=thisYear.leseAusUmsatzDiesesJahr();
 
 
     for (int i=0; i<12; i++)  // Array durchlaufen
@@ -137,7 +137,6 @@ void Statistik_Plot::populate()
     for (int i=0; i<12; i++)  // Array durchlaufen
     {
         UmsatzletztesJahr[i] = ptrlY[i]; // einlesen der Gewinne
-
     }
 
 

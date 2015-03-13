@@ -1,11 +1,21 @@
-#include "private/precomp.h"
-
 #include "date.h"
+#include <QDebug>
+#include <QDateTime>
 
 
 Date::Date()
 {
     date=date.currentDate();
+    time=time.currentTime();
+}
+
+
+int* Date::day_month_date()
+{
+    int day_month_date [2];
+    day_month_date[0]= date.day();
+    day_month_date[1]=date.month();
+    return day_month_date;
 }
 
 
@@ -27,28 +37,19 @@ int* Date::DaysInMonthFrom0101ToNow()
     int Monat=Date.date.month();
     for(int i=Monat-1;i>=0;i--)
     {
-        //qDebug()<<"  "<<i<<"   "<<Monat;
         qaDaysInMonth[i]=Date.date.addMonths(i-Monat+1);
         if(i==Monat-1)
         {
-
             iaDaysInMonth[i]=qaDaysInMonth[i].day();
-
         }
         else
         {
             iaDaysInMonth[i]=qaDaysInMonth[i].daysInMonth();
-
          }
     }
     for(int i=Monat;i<12;i++)
     {
-
         iaDaysInMonth[i]=0;
-    }
-    for(int i=0; i<12; i++)
-    {
-        qDebug()<<iaDaysInMonth[i]<<"days";
     }
     return iaDaysInMonth;
 }

@@ -1,7 +1,7 @@
-#include "private/precomp.h"
-
 #include "io_writeinmonthwithnewdata.h"
-#define umsatz "umsatz.daten"
+
+#define umsatz "umsatz.data"
+#define ThisDay "ThisDay.data"
 
 IO_WriteInMonthData::IO_WriteInMonthData()
 {
@@ -9,39 +9,51 @@ IO_WriteInMonthData::IO_WriteInMonthData()
 
 
 /////////////////////////////////////////////////////////////////////////////////
-/// Das erste Argument übergibt den Umsatz.
-/// Das zweite Argument gibt an ob die aufrufende Funktion die berechtigung hat in die
-/// umsatz.data Datei zu schreiben auch wenn die Datei als letzten Eintrag das heutige Datum
-/// gespeichert hat.
-/// Der neue Umsatz wird dann am Ende der
-/// der Datei mit dem heutigem bzw. mit dem gestrigen angehängt Datum angehängt.
+/// In dieser Funktion wird ihr ein double übergeben. Dieser wird dann am Ende der
+/// der Datei mit dem heutigem Datum angehängt, wenn das Datum noch nicht in der
+/// Datei vorhanden ist.
 /////////////////////////////////////////////////////////////////////////////////
 
-void IO_WriteInMonthData::schreibeInUmsatz(double heuteigerUmsatz, int argument)
+void IO_WriteInMonthData::schreibeInUmsatz(double heuteigerUmsatz, int date,QString Dateipfad )
 {
-    QFile Umsatz(umsatz);
+    QFile Umsatz(Dateipfad);
     if(!Umsatz.open(QIODevice::ReadWrite | QIODevice::Text| QFile::Append ))
     {
-        qDebug()<<"schreibeInUmsatz";
+        qDebug()<<"schreibe nicht in Umsatz";
         return;
     }
     QTextStream out(&Umsatz);
-    QList <double> vergleicheTag;
+    QList <double> lastElement;
     int ivergleicheTag;
-
-    vergleicheTag=leseUmsatzUndSpeichereRueckwertsInListe(1,1,umsatz);
-    if(!vergleicheTag.isEmpty())
+    double addTurnOver;
+    if(Dateipfad==umsatz)
     {
-        ivergleicheTag=vergleicheTag.last();
-        if (argument==0)
+        lastElement=leseUmsatzUndSpeichereRueckwertsInListe(1,1,Dateipfad);
+        if(!lastElement.isEmpty()) //falls die Liste noch nicht angelegt wurde
         {
+            ivergleicheTag=lastElement.last();
             if (ivergleicheTag!=dat.date.dayOfYear())
-                out<<heuteigerUmsatz<<","<<dat.date.dayOfYear()<<"\n";
+                out<<heuteigerUmsatz<<","<<date<<"\n";
         }
         else
-            {
-                out<<heuteigerUmsatz<<","<<dat.date.dayOfYear()-1<<"\n";
-            }
+        {
+            out<<heuteigerUmsatz<<","<<date<<"\n";
+        }
+    }
+    else if(Dateipfad==ThisDay)
+    {
+        lastElement=leseUmsatzUndSpeichereRueckwertsInListe(1,0,Dateipfad);
+        if(!lastElement.isEmpty())//falls die Liste noch nicht angelegt wurde
+        {
+
+            addTurnOver=lastElement.last();
+            heuteigerUmsatz=heuteigerUmsatz+addTurnOver;
+            out<<heuteigerUmsatz<<"\n";
+        }
+        else
+        {
+            out<<heuteigerUmsatz<<"\n";
+        }
     }
     Umsatz.close();
 }

@@ -14,8 +14,8 @@ QMAKE_CFLAGS_RELEASE = -g
 INCLUDEPATH += \
     include \
     $$PWD/../shared/include \
-    $$PWD/../third-party/google-breakpad-read-only/src \
-    $$PWD/../third-party/qwt/src
+#    $$PWD/../third-party/google-breakpad-read-only/src \
+#    $$PWD/../third-party/qwt/src
 
 SOURCES += \
     source/main.cpp \
@@ -101,5 +101,9 @@ CONFIG(debug, debug|release) {
 
 LIBS += \
     -L$$DESTDIR -lrotable-shared \
-    -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux -lbreakpad_client \
-    -L$$PWD/../third-party/qwt/lib -lqwt -lqwt -lqwt
+   # -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux -lbreakpad_client \
+   # -L$$PWD/../third-party/qwt/lib -lqwt -lqwt -lqwt
+
+LIBS += -L/home/rosynski/qwt-6.1/lib -lqwt
+INCLUDEPATH += /usr/local/qwt-6.1.3-svn/include
+DEPENDPATH += /usr/local/qwt-6.1.3-svn/include

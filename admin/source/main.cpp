@@ -10,16 +10,19 @@
 #include "io_init.h"
 #include "io_writeinmonthwithnewdata.h"
 
-#include "client/linux/handler/exception_handler.h"
+#define ThisDay "ThisDay.data"
+#define umsatz "umsatz.data"
+
+//#include "client/linux/handler/exception_handler.h"
 
 //------------------------------------------------------------------------------
 
 int main(int argc, char *argv[])
 {
-  // Create minidump on program crash (for later debugging)
-  google_breakpad::MinidumpDescriptor breakpad_descriptor("/tmp");
-  google_breakpad::ExceptionHandler breakpad_handler(
-    breakpad_descriptor, NULL, NULL, NULL, true, -1);
+//  Create minidump on program crash (for later debugging)
+//  google_breakpad::MinidumpDescriptor breakpad_descriptor("/tmp");
+//  google_breakpad::ExceptionHandler breakpad_handler(
+//   breakpad_descriptor, NULL, NULL, NULL, true, -1);
 
   QApplication a(argc, argv);
 
@@ -43,7 +46,7 @@ int main(int argc, char *argv[])
   }
 
   //----------------------------------------------------------------------------
-  double umsatz=7.20; //heutiger Umsatz
+  /*double umsatz=7.20; //heutiger Umsatz
 
   IO_init Init;
   Init.JahrVollLegeNeueDateiAn(); //diese Funktion muss als erstes aufgerufen werden (bevor etwas in Umsatz.data geschrieben wird)
@@ -52,6 +55,32 @@ int main(int argc, char *argv[])
 
   IO_WriteInMonthData test;
   test.schreibeInUmsatz(umsatz,0);
+  */
+  //----------------------------------------------------------------------------
+
+  double dUmsatz=7.9; //heutiger Umsatz
+  Date dat;
+  QList <double> QLumsatz_vorherErfassterTag;
+  double Dumsatz_vorherErfassterTag;
+
+
+
+  IO_WriteInMonthData write;
+  write.schreibeInUmsatz(dUmsatz,dat.date.dayOfYear(),ThisDay);
+qDebug()<<"Bug";
+
+  IO_init Init;
+
+  QLumsatz_vorherErfassterTag= Init.leseUmsatzUndSpeichereRueckwertsInListe(1,0,ThisDay);
+  Dumsatz_vorherErfassterTag=QLumsatz_vorherErfassterTag.last();
+  Init.JahrVollLegeNeueDateiAn(); //diese Funktion muss als erstes aufgerufen werden (bevor etwas in Umsatz.data geschrieben wird)
+  Init.untersucheAufLueckenUndFuelleAuf();
+qDebug()<<"Bug";
+
+  write.schreibeInUmsatz(Dumsatz_vorherErfassterTag, dat.date.dayOfYear(),umsatz);
+
+
+  Init.schreibeMonatsUmsatz();
   //----------------------------------------------------------------------------
 
   MainWindow w;
