@@ -178,4 +178,8 @@ void Waiter_Client::setState(const QString &state)
   //emit stateChanged();
 }
 
+//------------------------------------------------------------------------------
+
+
+
 

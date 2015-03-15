@@ -104,6 +104,9 @@ LIBS += \
    # -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux -lbreakpad_client \
    # -L$$PWD/../third-party/qwt/lib -lqwt -lqwt -lqwt
 
-LIBS += -L/home/rosynski/qwt-6.1/lib -lqwt
-INCLUDEPATH += /usr/local/qwt-6.1.3-svn/include
-DEPENDPATH += /usr/local/qwt-6.1.3-svn/include
+#LIBS += -L/home/rosynski/qwt-6.1/lib -lqwt
+#INCLUDEPATH += /usr/local/qwt-6.1.3-svn/include
+#DEPENDPATH += /usr/local/qwt-6.1.3-svn/include
+LIBS += -L/home/rosynski/qwt-6.1.2/lib -lqwt
+INCLUDEPATH += /usr/local/qwt-6.1.2/include
+DEPENDPATH += /usr/local/qwt-6.1.2/include
