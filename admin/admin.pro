@@ -1,5 +1,7 @@
 QT += core gui network qml widgets svg printsupport
 
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
 TARGET = rotable-admin
 TEMPLATE = app
 

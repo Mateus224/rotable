@@ -15,10 +15,12 @@ double* IO_ReadForDiagram::leseAusUmsatzDiesesJahr()
 
     double* iaUmsatz= new double [12];
     int heutigerMonat=dat.date.month();
+        qDebug()<<dat.date.month();
     QList<double> iListeMonatsumsaetze;
     QString ThisJahr= umsatz;
     ThisJahr.prepend("_");
     ThisJahr.prepend(QString::number(dat.date.year()));
+    qDebug()<<dat.date.year();
     iListeMonatsumsaetze=leseUmsatzUndSpeichereRueckwertsInListe(heutigerMonat,0,ThisJahr);
     if(!iListeMonatsumsaetze.isEmpty())
     {

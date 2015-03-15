@@ -7,15 +7,16 @@ Date::Date()
 {
     date=date.currentDate();
     time=time.currentTime();
+    qDebug()<<date<<"   "<<time;
 }
 
 
 int* Date::day_month_date()
 {
-    int day_month_date [2];
-    day_month_date[0]= date.day();
-    day_month_date[1]=date.month();
-    return day_month_date;
+    int iday_month_date [2];
+    iday_month_date[0]= date.day();
+    iday_month_date[1]=date.month();
+    return iday_month_date;
 }
 
 
