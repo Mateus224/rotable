@@ -42,8 +42,10 @@ int main(int argc, char *argv[])
 
   QStringList args = parser.positionalArguments();
   if (args.size() > 0) {
+      qDebug()<<args.size();
     configFilePath = args[0];
   }
+  qDebug()<<"Bug";
 
   //----------------------------------------------------------------------------
   /*double umsatz=7.20; //heutiger Umsatz
@@ -58,7 +60,7 @@ int main(int argc, char *argv[])
   */
   //----------------------------------------------------------------------------
 
-  double dUmsatz=7.9; //heutiger Umsatz
+ /* double dUmsatz=7.9; //heutiger Umsatz
   Date dat;
   QList <double> QLumsatz_vorherErfassterTag;
   double Dumsatz_vorherErfassterTag;
@@ -66,7 +68,7 @@ int main(int argc, char *argv[])
 
 
   IO_WriteInMonthData write;
-  write.schreibeInUmsatz(dUmsatz,dat.date.dayOfYear(),ThisDay);
+  write.schreibeInUmsatz(dUmsatz, dat.date.dayOfYear(),ThisDay);
 qDebug()<<"Bug";
 
   IO_init Init;
@@ -79,13 +81,16 @@ qDebug()<<"Bug";
 
   write.schreibeInUmsatz(Dumsatz_vorherErfassterTag, dat.date.dayOfYear(),umsatz);
 
-
-  Init.schreibeMonatsUmsatz();
+qDebug()<<"Bug";
+  Init.schreibeMonatsUmsatz();*/
   //----------------------------------------------------------------------------
+  qDebug()<<"Bug";
 
   MainWindow w;
+  qDebug()<<"Bug";
   Controller controller(&w, configFilePath);
+  qDebug()<<"Bug";
   w.show();
-
+qDebug()<<"Bug";
   return a.exec();
 }
