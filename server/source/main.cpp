@@ -17,8 +17,11 @@ int main(int argc, char *argv[])
 //  google_breakpad::ExceptionHandler breakpad_handler(
 //        breakpad_descriptor, NULL, NULL, NULL, true, -1);
 
-  rotable::LogManager::getInstance()->registerQtWarnings();
-  rotable::LogManager::getInstance()->addListener(new rotable::LogListenerStdOut());
+    //--------------------------------------------------
+    // For test
+    // rotable::LogManager::getInstance()->registerQtWarnings();
+    // rotable::LogManager::getInstance()->addListener(new rotable::LogListenerStdOut());
+    //--------------------------------------------------
 
   QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
   QCoreApplication app(argc, argv);

@@ -56,7 +56,7 @@ bool Server::startup()
       }
     }
 
-  }
+  }  qDebug()<<"test";
 
   if (!_tcp.start(_config.port())) {
     qCritical() << tr("FATAL: Could not start listening on port %1\n")
