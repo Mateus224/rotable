@@ -68,6 +68,7 @@ int main(int argc, char *argv[])
   write.schreibeInUmsatz(Dumsatz_vorherErfassterTag, dat.date.dayOfYear(),umsatz);
 
   Init.schreibeMonatsUmsatz();
+
   //----------------------------------------------------------------------------
 
 

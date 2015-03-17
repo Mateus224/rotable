@@ -121,7 +121,7 @@ void Statistik_Plot::populate()
 
 
     IO_ReadForDiagram thisYear;
-    double *ptrtY=0;
+    double* ptrtY = 0;
 
     ptrtY=thisYear.leseAusUmsatzDiesesJahr();
 

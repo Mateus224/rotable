@@ -24,9 +24,11 @@ QList<double> IODeviceForData::leseUmsatzUndSpeichereRueckwertsInListe(int Tage,
 
     if (!leseAusUmsatz.open(QIODevice::ReadWrite| QIODevice::Text))
     {
+
         qDebug()<<"leseUmsatzUndSpeichereRueckwertsInListe";
         exit;
     }
+
     QTextStream in(&leseAusUmsatz);
 
     QString line = in.readLine();
