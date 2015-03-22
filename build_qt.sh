@@ -104,17 +104,34 @@ fi
 
 #-------------------------------------------------------------------------------
 # Install required packages
-
-REQUIRED="build-essential git gcc-multilib ctorrent unzip libglu1-mesa-dev wget lib32z1-dev"
-for pkg in $REQUIRED; do
-  if ! dpkg --get-selections | grep -q "^$pkg[[:space:]]*install$" >/dev/null; then
-    if [ "$(id -u)" != "0" ]; then
-      sudo apt-get -qq install $pkg
-    else
-      apt-get -qq install $pkg
+if cat /etc/*-release | grep "Arch Linux">/dev/null; then
+  REQUIRED="git gcc-multilib unzip wget"
+  for pkg in $REQUIRED; do
+    x=`pacman -Qs $pkg`
+    if [ ! -n "$x" ]; then
+      if [ "$(id -u)" != "0" ]; then
+        sudo pacman --noconfirm -S  $pkg
+      else
+        pacman --noconfirm -S  $pkg
+      fi
     fi
-  fi
-done
+  done
+else
+  REQUIRED="build-essential git gcc-multilib ctorrent unzip libglu1-mesa-dev wget lib32z1-dev"
+
+  for pkg in $REQUIRED; do
+    if ! dpkg --get-selections | grep -q "^$pkg[[:space:]]*install$" >/dev/null; then
+      if [ "$(id -u)" != "0" ]; then
+        sudo apt-get -qq install $pkg
+      else
+        apt-get -qq install $pkg
+      fi
+    fi
+  done
+fi
+
+
+
 
 #-------------------------------------------------------------------------------
 # Download tools
@@ -124,15 +141,17 @@ cd $BASE_DIR
 # gcc-4.7-linaro-rpi-gnueabihf
 if [ ! -d "$BASE_DIR/gcc-4.7-linaro-rpi-gnueabihf" ]; then
   if [ ! -f "$BASE_DIR/gcc-4.7-linaro-rpi-gnueabihf.tbz" ]; then
-    echo "You have to download gcc-4.7-linaro-rpi-gnueabihf.tbz and put it in $BASE_DIR!"
-    exit 1
+    echo "Downloading gcc-4.7-linaro-rpi-gnueabihf.tbz"
+    wget -O gcc-4.7-linaro-rpi-gnueabihf.tbz http://downloads.sourceforge.net/project/rfidmonitor/crosscompilation-resources/gcc-4.7-linaro-rpi-gnueabihf.tbz?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Frfidmonitor%2Ffiles%2Fcrosscompilation-resources%2F&ts=1427047482&use_mirror=heanet 
+    echo "Download gcc-4.7-linaro-rpi-gnueabihf.tbz"
+    # exit 1
   fi
   tar -xf gcc-4.7-linaro-rpi-gnueabihf.tbz
 fi
 
 # cross-compile-tools
 if [ ! -d "$BASE_DIR/cross-compile-tools/.git" ]; then
-  git clone git://gitorious.org/cross-compile-tools/cross-compile-tools.git
+  git clone https://gitorious.org/cross-compile-tools/cross-compile-tools.git
 fi
 cd "$BASE_DIR/cross-compile-tools"
 git pull origin
