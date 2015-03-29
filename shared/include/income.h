@@ -23,7 +23,7 @@ class rotable::Income : public QObject
   Q_OBJECT
 
   Q_PROPERTY(int id READ id)
-  Q_PROPERTY(int income READ income WRITE setIncome NOTIFY incomeChange)
+  Q_PROPERTY(float income READ income WRITE setIncome NOTIFY incomeChange)
   Q_PROPERTY(QDate date READ date WRITE setDate)
   Q_PROPERTY(QString format MEMBER _format)
 
@@ -31,7 +31,7 @@ public:
   inline int id() const { return _id; }
   inline void setId(int id) { _id = id; }
 
-  inline int income() const { return _income; }
+  inline float income() const { return _income; }
   inline void setIncome(int income) { _income = income; emit incomeChange(); }
 
   inline QDate date() const { return _date; }
@@ -45,7 +45,7 @@ signals:
 
 private:
   int _id;
-  int _income;
+  float _income;
   QDate _date;
   static QString _format;
 
