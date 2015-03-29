@@ -32,7 +32,7 @@ public:
   inline void setId(int id) { _id = id; }
 
   inline float income() const { return _income; }
-  inline void setIncome(int income) { _income = income; emit incomeChange(); }
+  inline void setIncome(float income) { _income = income; emit incomeChange(); }
 
   inline QDate date() const { return _date; }
   inline void setDate(QDate income) { _date = income;}
