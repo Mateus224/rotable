@@ -45,6 +45,10 @@ Database::Database(QObject *parent) :
   SqlCommands waiterCmds;
   collectSqlCommands(waiterCmds, "waiters");
   _sqlCommands.append(waiterCmds);
+
+  SqlCommands incomeCmds;
+  collectSqlCommands(incomeCmd, "incomes");
+  _sqlCommands.append(incomeCmds);
 }
 
 //------------------------------------------------------------------------------
@@ -782,6 +786,19 @@ bool Database::createDatabase()
     return false;
   }
 
+  // Incomes table
+  QSqlQuery q13(QString("DROP TABLE IF EXISTS `%1daily_incomes`;").arg(_prefix), _db);
+  if (q13.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q13.lastError().text());
+    return false;
+  }
+
+  QSqlQuery q14(_sqlCommands[Incomes]._create.arg(_prefix), _db);
+  if (q14.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q14.lastError().text());
+    return false;
+  }
+
   return true;
 }
 
@@ -834,6 +851,7 @@ bool Database::exportDatabase(QString &dest)
   dest += QString("DROP TABLE IF EXISTS `%1clients`;").arg(_prefix);
   dest += QString("DROP TABLE IF EXISTS `%1order`;").arg(_prefix);
   dest += QString("DROP TABLE IF EXISTS `%1order_item`;").arg(_prefix);
+  dest += QString("DROP TABLE IF EXISTS `%1daily_incomes`;").arg(_prefix);
 
   // Add create table command
   dest += _sqlCommands[Categories]._create.arg(_prefix) + '\n';
@@ -842,6 +860,7 @@ bool Database::exportDatabase(QString &dest)
   dest += _sqlCommands[Waiters]._create.arg(_prefix) + '\n';
   dest += _sqlCommands[Orders]._create.arg(_prefix) + '\n';
   dest += _sqlCommands[OrderItems]._create.arg(_prefix) + '\n';
+  dest += _sqlCommands[Incomes]._create.arg(_prefix) + '\n';
 
   //-------------------------------------------------------------------------------
   // Add insert command with data
@@ -894,6 +913,7 @@ bool Database::exportDatabase(QString &dest)
   //TODO: export Client table
   //TODO: export Order table
   //TODO: export OrderList table
+  //TODO: export Incomes table
   return true;
 }
 

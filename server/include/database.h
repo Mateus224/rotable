@@ -57,7 +57,8 @@ private:
     Clients,
     Orders,
     OrderItems,
-    Waiters
+    Waiters,
+    Incomes
   };
 
   /**
