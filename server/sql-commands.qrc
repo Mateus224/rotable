@@ -30,6 +30,12 @@
         <file>sql-commands/orderitems_select_ids.sql</file>
         <file>sql-commands/orderitems_select.sql</file>
         <file>sql-commands/orderitems_update.sql</file>
+        <file>sql-commands/income_create.sql</file>
+        <file>sql-commands/income_insert.sql</file>
+        <file>sql-commands/income_remove.sql</file>
+        <file>sql-commands/income_select_ids.sql</file>
+        <file>sql-commands/income_select.sql</file>
+        <file>sql-commands/income_update.sql</file>
         <file>sql-commands/waiters_create.sql</file>
         <file>sql-commands/waiters_disable.sql</file>
         <file>sql-commands/waiters_insert.sql</file>
