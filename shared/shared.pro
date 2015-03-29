@@ -39,6 +39,7 @@ HEADERS += \
     include/loglisternerstdout.h \
     include/order.h \
     include/waiter.h \
+    include/income.h
 
 
 RESOURCES += shared_resources.qrc
