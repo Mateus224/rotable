@@ -47,7 +47,7 @@ Database::Database(QObject *parent) :
   _sqlCommands.append(waiterCmds);
 
   SqlCommands incomeCmds;
-  collectSqlCommands(incomeCmd, "incomes");
+  collectSqlCommands(incomeCmds, "incomes");
   _sqlCommands.append(incomeCmds);
 }
 
