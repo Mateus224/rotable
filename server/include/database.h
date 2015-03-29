@@ -28,6 +28,7 @@
 #include "order.h"
 #include "compackage.h"
 #include "waiter.h"
+#include "income.h"
 
 //------------------------------------------------------------------------------
 
@@ -123,6 +124,8 @@ public:
    */
   bool orderIds(QList<int>& ids, int clientId);
 
+
+
   /**
    * Read category from database.
    *
@@ -155,6 +158,14 @@ public:
   Waiter *waiter(int id);
 
   /**
+   * Read income from database
+   *
+   * @param id          income id
+   * @return            income or NOOL on error
+   */
+  Income *income(int id);
+
+  /**
    * Add a new product category to the database.
    * (Will not check whether a category with this name already exists!)
    *
@@ -182,6 +193,14 @@ public:
   bool addWaiter(Waiter* waiter);
 
   /**
+   * Add new income record to the database
+   *
+   * @param income      new income
+   * @return            true on succes
+   */
+  bool addIncome(Income *income);
+
+  /**
    * Update a product category.
    *
    * @param category    product category
@@ -198,6 +217,13 @@ public:
   bool updateProduct(Product* product);
 
   /**
+   * Update dayly income
+   * @param income      Update income object
+   * @return            true on success
+   */
+  bool updateIncome(Income *income);
+
+  /**
    * Remove a category.
    *
    * @param id          id of category
@@ -212,6 +238,14 @@ public:
    * @return            true on success
    */
   bool removeProduct(int id);
+
+  /**
+   * Remove income
+   *
+   * @param id          id of income
+   * @return            true on success
+   */
+  bool removeIncome(int id);
 
   /**
    * Setup the database.
@@ -279,6 +313,9 @@ public:
    * @return            id if user with nick and password exists, otherwise -1
    */
   int hasWaiter(const QString nick, const QString passwdhash);
+
+  int hasIncome(QDate date);
+  int hasIncome(int mounth, int year);
 
   /**
    * Check whether this object is connected to the database.

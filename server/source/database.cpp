@@ -5,6 +5,7 @@
 #include "order.h"
 
 #include <QSqlDriver>
+#include <QDate>
 #include <QSqlRecord>
 
 //------------------------------------------------------------------------------
@@ -397,6 +398,8 @@ Order*Database::order(int id)
   return o;
 }
 
+//------------------------------------------------------------------------------
+
 Waiter *Database::waiter(int id)
 {
     if (!isConnected()) {
@@ -450,6 +453,61 @@ Waiter *Database::waiter(int id)
     w->setName(name);
 
     return w;
+}
+
+//------------------------------------------------------------------------------
+
+Income *Database::income(int id)
+{
+    if (!isConnected()) {
+      return 0;
+    }
+
+    QString queryStr = _sqlCommands[Incomes]._select.arg(_prefix, "*", "id;").arg(id);
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return 0;
+    }
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return 0;
+    }
+
+    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+      if (q.size() != 1) {
+        qCritical() << tr("Query: returned %1 results but we expected it to return 1!")
+                       .arg(q.size());
+        return 0;
+      }
+    }
+
+    if (!q.next()) {
+      return 0;
+    }
+
+    bool ok;
+    int incomeId = q.value("id").toInt(&ok);
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("id").toString());
+      return 0;
+    }
+
+    QDate date = q.value("date").toDate();
+    float income = q.value("income").toFloat();
+
+    Income* i = new Income();
+
+    i->setId(incomeId);
+    i->setDate(date);
+    i->setIncome(income);
+
+    return i;
 }
 
 //------------------------------------------------------------------------------
@@ -551,6 +609,37 @@ bool Database::addWaiter(Waiter* waiter)
 
 //------------------------------------------------------------------------------
 
+bool Database::addIncome(Income *income)
+{
+    if (!isConnected()) {
+      return false;
+    }
+
+    QString queryStr = _sqlCommands[Incomes]._insert
+                       .arg(_prefix, "NULL", ":income", ":date");
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return false;
+    }
+
+    q.bindValue(":income", income->income());
+    q.bindValue(":date", income->date());
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    return true;
+}
+
+//------------------------------------------------------------------------------
+
 bool Database::updateCategory(ProductCategory *category)
 {
   if (!isConnected()) {
@@ -611,6 +700,36 @@ bool Database::updateProduct(Product *product)
   }
 
   return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::updateIncome(Income *income)
+{
+    if (!isConnected()) {
+      return false;
+    }
+
+    QString queryStr = _sqlCommands[Incomes]._update.arg(_prefix).arg(income->id());
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return false;
+    }
+
+    q.bindValue(":income", income->income());
+    q.bindValue(":date", income->date());
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    return true;
 }
 
 //------------------------------------------------------------------------------
@@ -689,6 +808,33 @@ bool Database::removeProduct(int id)
   }
 
   return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::removeIncome(int id)
+{
+    if (!isConnected() || id == -1) {
+      return false;
+    }
+
+    QString queryStr = _sqlCommands[Incomes]._remove.arg(_prefix).arg(id);
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return false;
+    }
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    return true;
 }
 
 //------------------------------------------------------------------------------
@@ -1088,6 +1234,87 @@ int Database::hasWaiter(const QString nick, const QString passwdhash)
     }
 
     return -1;
+}
+
+//------------------------------------------------------------------------------
+
+int Database::hasIncome(QDate date)
+{
+    if (!isConnected() || !date.isValid()) {
+      return false;
+    }
+
+    QString queryStr = _sqlCommands[Incomes]._select
+                       .arg(_prefix, "`id`", "date", ":date");
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return -1;
+    }
+
+    q.bindValue(":date", date);
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return -1;
+    }
+
+    if(q.next())
+    {
+        QSqlRecord rec = q.record();
+
+        return rec.value(rec.indexOf("id")).toInt();
+    }
+
+    return -1;
+
+}
+
+//------------------------------------------------------------------------------
+
+int Database::hasIncome(int mounth, int year)
+{
+    if (!isConnected() || mounth <1 || mounth >12 || year < 2015 ) {
+      return false;
+    }
+
+    QString queryStr = _sqlCommands[Incomes]._select
+                       .arg(_prefix, "`id`", "1", "1");
+    queryStr += QString(" AND `date` >= :date1");
+    queryStr += QString(" AND `date` < :date2");
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return -1;
+    }
+    // If we want search income from january 2015 then we take
+    // all income afer (with 1-st) 1 january and before 1 february
+    QDate date1(1,mounth,year), date2(1, mounth+1, year);
+
+    q.bindValue(":date1", date1);
+    q.bindValue(":date2", date2);
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return -1;
+    }
+
+    if(q.next())
+    {
+        QSqlRecord rec = q.record();
+
+        return rec.value(rec.indexOf("id")).toInt();
+    }
+
+    return -1;
+
 }
 
 //------------------------------------------------------------------------------
