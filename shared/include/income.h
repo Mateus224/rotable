@@ -25,6 +25,7 @@ class rotable::Income : public QObject
   Q_PROPERTY(int id READ id)
   Q_PROPERTY(int income READ income WRITE setIncome NOTIFY incomeChange)
   Q_PROPERTY(QDate date READ date WRITE setDate)
+  Q_PROPERTY(QString format MEMBER _format)
 
 public:
   inline int id() const { return _id; }
@@ -36,6 +37,9 @@ public:
   inline QDate date() const { return _date; }
   inline void setDate(QDate income) { _date = income;}
 
+  inline QString formatedDate(){ return _date.toString(_format); }
+  inline void setFormatedDate(QString date){ _date=QDate::fromString(date, _format); }
+
 signals:
   void incomeChange();
 
@@ -43,6 +47,7 @@ private:
   int _id;
   int _income;
   QDate _date;
+  static QString _format;
 
 }; // class Income
 

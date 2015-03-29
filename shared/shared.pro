@@ -23,6 +23,7 @@ SOURCES += \
     source/logmanager.cpp \
     source/order.cpp \
     source/waiter.cpp \
+    source/income.cpp
 
 
 HEADERS += \
