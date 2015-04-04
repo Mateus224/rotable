@@ -1,0 +1,1 @@
+UPDATE `%1configs` SET `day_begin` = :day_begin `id` = %2;
