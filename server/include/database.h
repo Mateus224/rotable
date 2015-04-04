@@ -59,7 +59,8 @@ private:
     Orders,
     OrderItems,
     Waiters,
-    Incomes
+    Incomes,
+    Configs
   };
 
   /**
