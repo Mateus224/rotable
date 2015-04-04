@@ -18,6 +18,12 @@
         <file>sql-commands/clients_select_ids.sql</file>
         <file>sql-commands/clients_select.sql</file>
         <file>sql-commands/clients_update.sql</file>
+        <file>sql-commands/configs_create.sql</file>
+        <file>sql-commands/configs_insert.sql</file>
+        <file>sql-commands/configs_remove.sql</file>
+        <file>sql-commands/configs_select_ids.sql</file>
+        <file>sql-commands/configs_select.sql</file>
+        <file>sql-commands/configs_update.sql</file>
         <file>sql-commands/orders_create.sql</file>
         <file>sql-commands/orders_insert.sql</file>
         <file>sql-commands/orders_remove.sql</file>
