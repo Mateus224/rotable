@@ -1,4 +1,5 @@
 CREATE TABLE IF NOT EXISTS `%1configs` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `day_begin` TIME NOT NULL,
+  `name` VARCHAR(50) NOT NULL,
+  `value` VALUE NOT NULL
 );

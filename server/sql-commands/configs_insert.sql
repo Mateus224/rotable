@@ -1,3 +1,3 @@
 INSERT INTO `%1configs`
-(`id`, `day_begin`)
-VALUES (%2, %3 );
+(`id`, `name`, `value`)
+VALUES (%2, %3, %4 );

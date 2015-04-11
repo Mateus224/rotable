@@ -1,1 +1,1 @@
-UPDATE `%1configs` SET `day_begin` = :day_begin `id` = %2;
+UPDATE `%1configs` SET `name` = :name, `value` = :value WHERE `id` = %2;
