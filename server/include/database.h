@@ -125,8 +125,6 @@ public:
    */
   bool orderIds(QList<int>& ids, int clientId);
 
-
-
   /**
    * Read category from database.
    *
@@ -162,9 +160,18 @@ public:
    * Read income from database
    *
    * @param id          income id
-   * @return            income or NOOL on error
+   * @return            income or NULL on error
    */
   Income *income(int id);
+
+  /**
+   * Read config from database
+   *
+   * @param id          config id
+   * @return            config or NULL on error
+   */
+
+  Config *config(int id);
 
   /**
    * Add a new product category to the database.
@@ -202,6 +209,14 @@ public:
   bool addIncome(Income *income);
 
   /**
+   * Add new config record to the database
+   *
+   * @param config      new config
+   * @return            true on success
+   */
+  bool addConfig(Config *config);
+
+  /**
    * Update a product category.
    *
    * @param category    product category
@@ -223,6 +238,14 @@ public:
    * @return            true on success
    */
   bool updateIncome(Income *income);
+
+  /**
+   * Update config record
+   *
+   * @param config      Config object
+   * @return            true on success
+   */
+  bool updateConfig(Config *config);
 
   /**
    * Remove a category.
@@ -247,6 +270,14 @@ public:
    * @return            true on success
    */
   bool removeIncome(int id);
+
+  /**
+   * Remove a config.
+   *
+   * @param id          id of config
+   * @return            true on success
+   */
+  bool removeConfig(int id);
 
   /**
    * Setup the database.

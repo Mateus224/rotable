@@ -516,6 +516,13 @@ Income *Database::income(int id)
 
 //------------------------------------------------------------------------------
 
+Config *Database::config(int id)
+{
+
+}
+
+//------------------------------------------------------------------------------
+
 bool Database::addCategory(ProductCategory* category)
 {
   if (!isConnected()) {
@@ -644,6 +651,13 @@ bool Database::addIncome(Income *income)
 
 //------------------------------------------------------------------------------
 
+bool Database::addConfig(Config *config)
+{
+
+}
+
+//------------------------------------------------------------------------------
+
 bool Database::updateCategory(ProductCategory *category)
 {
   if (!isConnected()) {
@@ -706,7 +720,7 @@ bool Database::updateProduct(Product *product)
   return true;
 }
 
-//------------------------------------------------------------------------------
+
 
 bool Database::updateIncome(Income *income)
 {
@@ -734,6 +748,13 @@ bool Database::updateIncome(Income *income)
     }
 
     return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::updateConfig(Config *config)
+{
+
 }
 
 //------------------------------------------------------------------------------
@@ -839,6 +860,13 @@ bool Database::removeIncome(int id)
     }
 
     return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::removeConfig(int id)
+{
+
 }
 
 //------------------------------------------------------------------------------
