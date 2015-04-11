@@ -518,7 +518,55 @@ Income *Database::income(int id)
 
 Config *Database::config(int id)
 {
+    if (!isConnected()) {
+      return 0;
+    }
 
+    QString queryStr = _sqlCommands[Configs]._select.arg(_prefix, "*", "id;").arg(id);
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return 0;
+    }
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return 0;
+    }
+
+    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+      if (q.size() != 1) {
+        qCritical() << tr("Query: returned %1 results but we expected it to return 1!")
+                       .arg(q.size());
+        return 0;
+      }
+    }
+
+    if (!q.next()) {
+      return 0;
+    }
+
+    bool ok;
+    int configId = q.value("id").toInt(&ok);
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("id").toString());
+      return 0;
+    }
+
+    QString name = q.value("name").toString();
+    QJsonObject value = q.value("value").toJsonObject();
+
+    Config* c = new Config();
+
+    c->setId(id);
+    c->setName(name);
+    c->setValue(value);
+
+    return c;
 }
 
 //------------------------------------------------------------------------------
@@ -653,8 +701,33 @@ bool Database::addIncome(Income *income)
 
 bool Database::addConfig(Config *config)
 {
+    if (!isConnected()) {
+      return false;
+    }
 
+    QString queryStr = _sqlCommands[Configs]._insert
+                       .arg(_prefix, "NULL", ":name", ":value");
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return false;
+    }
+
+    q.bindValue(":name", config->name());
+    q.bindValue(":value", config->value());
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    return true;
 }
+
 
 //------------------------------------------------------------------------------
 
@@ -720,7 +793,7 @@ bool Database::updateProduct(Product *product)
   return true;
 }
 
-
+//------------------------------------------------------------------------------
 
 bool Database::updateIncome(Income *income)
 {
@@ -754,7 +827,30 @@ bool Database::updateIncome(Income *income)
 
 bool Database::updateConfig(Config *config)
 {
+    if (!isConnected()) {
+      return false;
+    }
 
+    QString queryStr = _sqlCommands[Configs]._update.arg(_prefix).arg(config->id());
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return false;
+    }
+
+    q.bindValue(":name", config->name());
+    q.bindValue(":value", config->value());
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    return true;
 }
 
 //------------------------------------------------------------------------------
@@ -866,7 +962,27 @@ bool Database::removeIncome(int id)
 
 bool Database::removeConfig(int id)
 {
+    if (!isConnected() || id == -1) {
+      return false;
+    }
 
+    QString queryStr = _sqlCommands[Configs]._remove.arg(_prefix).arg(id);
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return false;
+    }
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    return true;
 }
 
 //------------------------------------------------------------------------------
