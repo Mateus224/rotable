@@ -1483,6 +1483,76 @@ int Database::hasIncome(int mounth, int year)
 
 //------------------------------------------------------------------------------
 
+int Database::hasConfig(QString name)
+{
+    if (!isConnected()) {
+      return false;
+    }
+
+    QString queryStr = _sqlCommands[Configs]._select
+                       .arg(_prefix, "`id`", "`name`", ":name");
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return -1;
+    }
+
+    q.bindValue(":name", name);
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return -1;
+    }
+
+    if(q.next())
+    {
+        QSqlRecord rec = q.record();
+
+        return rec.value(rec.indexOf("id")).toInt();
+    }
+
+    return -1;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::hasConfig(int id)
+{
+    if (!isConnected()) {
+      return false;
+    }
+
+    QString queryStr = _sqlCommands[Configs]._select
+                       .arg(_prefix, "`id`", "`id`", ":id");
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return -1;
+    }
+
+    q.bindValue(":id", id);
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return -1;
+    }
+
+    if(q.next())
+    {
+       return true;
+    }
+
+    return -1;
+}
+
+//------------------------------------------------------------------------------
+
 bool Database::isConnected() const
 {
   if (_connected) {

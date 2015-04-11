@@ -351,6 +351,20 @@ public:
   int hasIncome(int mounth, int year);
 
   /**
+   * Check Config record exist
+   * @param name        config name
+   * @return            record id
+   */
+  int hasConfig(QString name);
+
+  /**
+   * Check Config record exist
+   * @param id          record id
+   * @return            true on susses
+   */
+  bool hasConfig(int id);
+
+  /**
    * Check whether this object is connected to the database.
    *
    * @return            true if connected
