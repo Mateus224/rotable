@@ -23,7 +23,8 @@ SOURCES += \
     source/logmanager.cpp \
     source/order.cpp \
     source/waiter.cpp \
-    source/income.cpp
+    source/income.cpp \
+    source/config.cpp
 
 
 HEADERS += \
@@ -40,7 +41,8 @@ HEADERS += \
     include/loglisternerstdout.h \
     include/order.h \
     include/waiter.h \
-    include/income.h
+    include/income.h \
+    include/config.h
 
 
 RESOURCES += shared_resources.qrc
