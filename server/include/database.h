@@ -29,6 +29,7 @@
 #include "compackage.h"
 #include "waiter.h"
 #include "income.h"
+#include "config.h"
 
 //------------------------------------------------------------------------------
 
