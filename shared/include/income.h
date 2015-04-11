@@ -22,7 +22,7 @@ class rotable::Income : public QObject
 {
   Q_OBJECT
 
-  Q_PROPERTY(int id READ id)
+  Q_PROPERTY(int id READ id WRITE setId)
   Q_PROPERTY(float income READ income WRITE setIncome NOTIFY incomeChange)
   Q_PROPERTY(QDate date READ date WRITE setDate)
   Q_PROPERTY(QString format MEMBER _format)
