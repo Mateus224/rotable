@@ -1106,6 +1106,8 @@ bool Database::createDatabase()
     return false;
   }
 
+  add_init_data();
+
   return true;
 }
 
@@ -1559,6 +1561,19 @@ bool Database::isConnected() const
     return _db.isOpen();
   }
   return false;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::add_init_data()
+{
+
+  Config day;
+  day.setName("day_begin");
+  day.setValue("16:00");
+
+  return addConfig(&day);
+
 }
 
 //------------------------------------------------------------------------------

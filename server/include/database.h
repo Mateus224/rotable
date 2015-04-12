@@ -371,6 +371,8 @@ public:
    */
   bool isConnected() const;
 
+  bool add_init_data();
+
 private:
   /**
    * Collect SQL commands from resource file.
@@ -378,6 +380,7 @@ private:
    * @param cmds        collected commands
    */
   void collectSqlCommands(SqlCommands& cmds, QString table);
+
 
   /* Database handle */
   QSqlDatabase _db;
