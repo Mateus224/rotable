@@ -558,7 +558,7 @@ Config *Database::config(int id)
     }
 
     QString name = q.value("name").toString();
-    QJsonObject value = q.value("value").toJsonObject();
+    QString value = q.value("value").toString();
 
     Config* c = new Config();
 
