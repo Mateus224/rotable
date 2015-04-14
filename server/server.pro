@@ -20,7 +20,8 @@ SOURCES += \
     source/tcpserver.cpp \
     source/database.cpp \
     source/configserver.cpp \
-    source/server.cpp
+    source/server.cpp \
+    source/schedule.cpp
 
 HEADERS += \
     include/tcpserver.h \
@@ -28,7 +29,8 @@ HEADERS += \
     include/configserver.h \
     private/precomp.h \
     include/server.h \
-    include/settings.h
+    include/settings.h \
+    include/schedule.h
 
 ########################################################################
 # DESTINATION:
