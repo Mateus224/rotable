@@ -127,6 +127,14 @@ public:
   bool orderIds(QList<int>& ids, int clientId);
 
   /**
+   * Get list of config ids
+   *
+   * @param ids (result) list of config ids
+   * @return true on success
+   */
+  bool configIds(QList<int>& ids);
+
+  /**
    * Read category from database.
    *
    * @param id          category id

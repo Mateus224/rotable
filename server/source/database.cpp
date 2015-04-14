@@ -216,6 +216,45 @@ bool Database::orderIds(QList<int>& ids, int clientId)
 
 //------------------------------------------------------------------------------
 
+bool Database::configIds(QList<int> &ids)
+{
+    ids.clear();
+
+    if (!isConnected()) {
+      return false;
+    }
+
+    QString queryStr = _sqlCommands[Configs]._listIds.arg(_prefix);
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return false;
+    }
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    while (q.next()) {
+      bool toIntOk;
+      ids << q.value("id").toInt(&toIntOk);
+      if (!toIntOk) {
+        qCritical() << tr("Could not convert entry '%1' to an integer!")
+                       .arg(q.value("id").toString());
+        ids.clear();
+        return false;
+      }
+    }
+
+    return true;
+}
+
+//------------------------------------------------------------------------------
+
 ProductCategory* Database::category(int id)
 {
   if (!isConnected()) {
