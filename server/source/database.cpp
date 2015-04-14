@@ -596,12 +596,12 @@ Config *Database::config(int id)
       return 0;
     }
 
-    QString name = q.value("name").toString();
+    int name = q.value("name").toInt();
     QString value = q.value("value").toString();
 
     Config* c = new Config();
 
-    c->setId(id);
+    c->setId(configId);
     c->setName(name);
     c->setValue(value);
 
@@ -1608,7 +1608,7 @@ bool Database::add_init_data()
 {
 
   Config day;
-  day.setName("day_begin");
+  day.setName(Config::day_begin);
   day.setValue("16:00");
 
   return addConfig(&day);
