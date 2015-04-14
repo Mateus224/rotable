@@ -166,7 +166,7 @@ private:
   /**
    * Load config from database
    */
-  void load_config();
+  void load_configs();
 
   /**
    * Realized config

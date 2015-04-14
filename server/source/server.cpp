@@ -597,7 +597,7 @@ void Server::load_configs()
     foreach (int id, ids) {
         Config *cfg =  _db.config(id);
         cfg_list.append(cfg);
-        config_parser(cnf);
+        config_parser(cfg);
     }
 
 }
@@ -608,7 +608,7 @@ void Server::config_parser(Config *config)
 {
     // Base on config name we select prepare method
     switch (config->name()) {
-    case "day_begin":
+    case Config::day_begin:
 
         break;
     default:
