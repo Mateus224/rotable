@@ -579,6 +579,8 @@ ComPackageDataReturn* Server::login(ComPackageLogin* package, client_t client)
     return 0;
 }
 
+//------------------------------------------------------------------------------
+
 void Server::send_to_waiters(ComPackage &package)
 {
     foreach (client_t client, _waiters.keys()) {
@@ -586,6 +588,32 @@ void Server::send_to_waiters(ComPackage &package)
     }
 }
 
+//------------------------------------------------------------------------------
 
+void Server::load_configs()
+{
+    QList<int> ids;
+    _db.categoryIds(ids);
+    foreach (int id, ids) {
+        Config *cfg =  _db.config(id);
+        cfg_list.append(cfg);
+        config_set(cnf);
+    }
+
+}
+
+//------------------------------------------------------------------------------
+
+void Server::config_set(Config *config)
+{
+    // Base on config name we select prepare method
+    switch (config->name()) {
+    case "day_begin":
+
+        break;
+    default:
+        qCritical() << tr("Unknown config type '%1'!").arg(config->name());
+    }
+}
 
 //------------------------------------------------------------------------------

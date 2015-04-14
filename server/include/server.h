@@ -16,6 +16,7 @@
 #include "database.h"
 #include "settings.h"
 #include "compackage.h"
+#include "config.h"
 
 //------------------------------------------------------------------------------
 
@@ -162,6 +163,18 @@ private:
    */
   inline void send_to_waiters(ComPackage &package);
 
+  /**
+   * Load config from database
+   */
+  void load_config();
+
+  /**
+   * Realized config
+   *
+   * @param config      config class
+   */
+  void configs_set(Config *config);
+
   /* Configuration file access */
   ConfigServer _config;
 
@@ -189,6 +202,7 @@ private:
    * With that we can send information to any/all waiter(s)
    */
   QMap<client_t, int> _waiters;
+  QList<Config*> cfg_list;
 }; // class Server
 
 //------------------------------------------------------------------------------
