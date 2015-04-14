@@ -597,14 +597,14 @@ void Server::load_configs()
     foreach (int id, ids) {
         Config *cfg =  _db.config(id);
         cfg_list.append(cfg);
-        config_set(cnf);
+        config_parser(cnf);
     }
 
 }
 
 //------------------------------------------------------------------------------
 
-void Server::config_set(Config *config)
+void Server::config_parser(Config *config)
 {
     // Base on config name we select prepare method
     switch (config->name()) {

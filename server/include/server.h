@@ -173,7 +173,7 @@ private:
    *
    * @param config      config class
    */
-  void configs_set(Config *config);
+  void config_parser(Config *config);
 
   /* Configuration file access */
   ConfigServer _config;
