@@ -11,7 +11,9 @@
 #include <QTimer>
 #endif
 
-#include <QObject>
+#ifndef QDATETIME_H
+#include <QDateTime>
+#endif
 
 //------------------------------------------------------------------------------
 
@@ -26,13 +28,27 @@ namespace rotable {
 class rotable::ScheduleOperation : public QObject
 {
     Q_OBJECT
+
+    Q_PROPERTY(QString name READ name WRITE setName)
+    Q_PROPERTY(QDateTime next READ next WRITE setNext)
+    Q_PROPERTY(QDateTime interval READ interval WRITE setInterval)
+
 public:
     inline ScheduleOperation(){}
+
     inline void setName(QString name) {_name = name; }
     inline QString name() { return _name; }
 
+    inline void setNext(QDateTime next) {_next = next; }
+    inline QDateTime next() { return _next; }
+
+    inline void setInterval(QDateTime interval) {_interval = interval; }
+    inline QDateTime interval() { return _interval; }
+
 private:
     QString _name;
+    QDateTime _next;
+    QDateTime _interval;
 };//class ScheduleOption
 
 //------------------------------------------------------------------------------

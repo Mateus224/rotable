@@ -68,15 +68,18 @@ void ScheduleWorker::addScheduleOperation(ScheduleOperation *operation)
 
 void ScheduleWorker::removeOperation(QString name)
 {
+    // Operation don't exist?
     if(!hasOperation(name))
     {
+        // Yes. so we send message about that
         qCritical() << tr("Option %1 don't exist, skipping..").arg(name);
         return ;
     }
 
+    //  Remove position from list
     delete _scheduleOption[name];
-    if(_scheduleOption.isEmpty())
-        emit stopSchedule();
+    if(_scheduleOption.isEmpty())   // If list is empty
+        emit stopSchedule();        // Stop schedule
 }
 
 //------------------------------------------------------------------------------
