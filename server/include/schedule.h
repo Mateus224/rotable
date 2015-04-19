@@ -42,6 +42,7 @@ class rotable::ScheduleWorker : public QObject
     Q_OBJECT
 public:
     void addScheduleOperation(rotable::ScheduleOperation *operation);
+    void removeOperation(QString name);
 public slots:
     // Slot for check ScheduleOption
     void checkSchedule();
@@ -53,6 +54,7 @@ private:
     QMap<QString,rotable::ScheduleOperation*> _scheduleOption;
 
     bool hasOperation(ScheduleOperation *operation);
+    bool hasOperation(QString name);
 };//class ScheduleWorker
 
 //------------------------------------------------------------------------------
@@ -70,7 +72,7 @@ public:
 
     /**
      * Set interval beetween refresh
-     * @param ms
+     * @param ms    time in ms
      */
     inline void setRefreshTime(int ms){ _timer.setInterval(ms); }
 
@@ -80,14 +82,18 @@ public:
      */
     inline int refresh_time(){ return _timer.interval(); }
 
+    /**
+     * Method to add/modify operation to/from schedule
+     * @param operation operation
+     */
     inline void addOperiationToSchedule(rotable::ScheduleOperation *operation) { _scheduleWorker.addScheduleOperation(operation); }
-//   void removeOperiationFromSchedule();
+    inline void removeOperiationFromSchedule(QString name) { _scheduleWorker.removeOperation(name); }
 
 private:
 
    void stop();
-   QTimer _timer;
    void run();
+   QTimer _timer;
    rotable::ScheduleWorker _scheduleWorker;
 
 };//class Schedule
