@@ -25,6 +25,14 @@ void Schedule::stop()
 inline  Schedule::Schedule()
 {
     _timer.setInterval(1000);
+    connect(&_timer, SIGNAL(timeout()), &_scheduleWorker, SLOT(checkSchedule()));
+}
+
+//------------------------------------------------------------------------------
+
+void Schedule::ScheduleWorker::checkSchedule()
+{
+    //TODO
 }
 
 //------------------------------------------------------------------------------

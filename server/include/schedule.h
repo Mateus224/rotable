@@ -47,11 +47,12 @@ public:
     void removeOperiationFromSchedule();
 
 private:
+
    void stop();
    QTimer _timer;
    void run();
+   class ScheduleWorker _scheduleWorker;
 
-   class ScheduleWorker;
 };//class Schedule
 
 //------------------------------------------------------------------------------
