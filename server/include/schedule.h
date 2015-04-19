@@ -11,19 +11,55 @@
 #include <QTimer>
 #endif
 
+#include <QObject>
+
 //------------------------------------------------------------------------------
 
 namespace rotable {
   class Schedule;
-  class ScheduleOption;
+  class ScheduleWorker;
+  class ScheduleOperation;
 }
+
+//------------------------------------------------------------------------------
+
+class rotable::ScheduleOperation : public QObject
+{
+    Q_OBJECT
+public:
+    inline ScheduleOperation(){}
+    inline void setName(QString name) {_name = name; }
+    inline QString name() { return _name; }
+
+private:
+    QString _name;
+};//class ScheduleOption
+
+//------------------------------------------------------------------------------
+
+class rotable::ScheduleWorker : public QObject
+{
+    Q_OBJECT
+public:
+    void addScheduleOperation(rotable::ScheduleOperation *operation);
+public slots:
+    // Slot for check ScheduleOption
+    void checkSchedule();
+signals:
+    void startSchedule();
+    void stopSchedule();
+
+private:
+    QMap<QString,rotable::ScheduleOperation> _scheduleOption;
+
+    bool hasOperation(rotable::ScheduleOperation operation);
+};//class ScheduleWorker
 
 //------------------------------------------------------------------------------
 
 class rotable::Schedule : public QThread
 {
     Q_OBJECT
-
 public:
     /**
      * Default constructor
@@ -44,49 +80,20 @@ public:
      */
     inline int refresh_time(){ return _timer.interval(); }
 
-    void addOperiationToSchedule(rotable::ScheduleOption option);
-    void removeOperiationFromSchedule();
+    inline void addOperiationToSchedule(rotable::ScheduleOperation *operation) { _scheduleWorker.addScheduleOperation(operation); }
+//   void removeOperiationFromSchedule();
 
 private:
 
    void stop();
    QTimer _timer;
    void run();
-   class ScheduleWorker _scheduleWorker;
+   rotable::ScheduleWorker _scheduleWorker;
 
 };//class Schedule
 
 //------------------------------------------------------------------------------
 
-class rotable::Schedule::ScheduleWorker
-{
-    Q_OBJECT
-
-public:
-
-public slots:
-    // Slot for check ScheduleOption
-    void checkSchedule();
-signals:
-    void startSchedule();
-    void stopSchedule();
-
-private:
-QList<rotable::ScheduleOption> _scheduleOption;
-
-};//class ScheduleWorker
-
-//------------------------------------------------------------------------------
-
-class rotable::ScheduleOption
-{
-    Q_OBJECT
-public:
-    inline ScheduleOption(){}
-
-};//class ScheduleOption
-
-//------------------------------------------------------------------------------
 
 #endif // SCHEDULE
 

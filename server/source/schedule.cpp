@@ -1,5 +1,13 @@
 #include "schedule.h"
 
+#ifndef QTIMER_H
+#include <QMap>
+#endif
+
+#ifndef QT_CORE_LIB
+#include <QtCore>
+#endif
+
 //------------------------------------------------------------------------------
 
 using namespace rotable;
@@ -22,7 +30,7 @@ void Schedule::stop()
 
 //------------------------------------------------------------------------------
 
-inline  Schedule::Schedule()
+inline Schedule::Schedule()
 {
     _timer.setInterval(1000);
 
@@ -35,9 +43,26 @@ inline  Schedule::Schedule()
 
 //------------------------------------------------------------------------------
 
-void Schedule::ScheduleWorker::checkSchedule()
+void ScheduleWorker::addScheduleOperation(ScheduleOperation *operation)
+{
+
+}
+
+//------------------------------------------------------------------------------
+
+void ScheduleWorker::checkSchedule()
 {
     //TODO
+}
+
+//------------------------------------------------------------------------------
+
+bool ScheduleWorker::hasOperation(rotable::ScheduleOperation operation)
+{
+    if(_scheduleOption.contains(operation.name()))
+        return true;
+    return false;
+
 }
 
 //------------------------------------------------------------------------------
