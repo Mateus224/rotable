@@ -86,7 +86,19 @@ void ScheduleWorker::removeOperation(QString name)
 
 void ScheduleWorker::checkSchedule()
 {
-    //TODO
+    // Object with current time and date
+    QDateTime time = QDateTime.currentDateTime();
+    // Foreach element in list
+    foreach (ScheduleOperation *operation, _scheduleOption) {
+        // Chech if actual time > time when we should do something
+        if(time > operation->next())
+        {
+            // Do "something"
+            operation->operation();
+            // Calc when we need do something next time
+            operation->calcNext();
+        }
+    }
 }
 
 //------------------------------------------------------------------------------
