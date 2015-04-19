@@ -50,9 +50,9 @@ signals:
     void stopSchedule();
 
 private:
-    QMap<QString,rotable::ScheduleOperation> _scheduleOption;
+    QMap<QString,rotable::ScheduleOperation*> _scheduleOption;
 
-    bool hasOperation(rotable::ScheduleOperation operation);
+    bool hasOperation(ScheduleOperation *operation);
 };//class ScheduleWorker
 
 //------------------------------------------------------------------------------
