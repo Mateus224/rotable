@@ -15,6 +15,7 @@
 
 namespace rotable {
   class Schedule;
+  class ScheduleOption;
 }
 
 //------------------------------------------------------------------------------
@@ -63,6 +64,16 @@ class rotable::Schedule::ScheduleWorker
 public:
     void checkSchedule();
 };//class ScheduleWorker
+
+//------------------------------------------------------------------------------
+
+class rotable::ScheduleOption
+{
+    Q_OBJECT
+public:
+    inline ScheduleOption(){}
+
+};//class ScheduleOption
 
 //------------------------------------------------------------------------------
 
