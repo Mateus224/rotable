@@ -7,10 +7,6 @@
 #include <QThread>
 #endif
 
-#ifndef QTIMER_H
-#include <QTimer>
-#endif
-
 //------------------------------------------------------------------------------
 
 namespace rotable {
@@ -24,15 +20,17 @@ class rotable::Schedule : public QThread
     Q_OBJECT
 
 public:
-    inline Schedule(): _refresh_time(1000) {}
+    inline Schedule();
 
-    inline void setRefreshTime(int ms){ _refresh_time = ms; }
-    inline int refresh_time(){return _refresh_time;}
+    inline void setRefreshTime(int ms){ _timer.setInterval(ms); }
+    inline int refresh_time(){return _timer.interval();}
 
 private:
-   int _refresh_time;  // Time beetween check
+   void stop();
+   QTimer _timer;
    void run();
-
 };
+
+
 #endif // SCHEDULE
 
