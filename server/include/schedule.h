@@ -21,6 +21,7 @@ namespace rotable {
   class Schedule;
   class ScheduleWorker;
   class ScheduleOperation;
+  struct dateInterval;
 }
 
 //------------------------------------------------------------------------------
@@ -31,7 +32,7 @@ class rotable::ScheduleOperation : public QObject
 
     Q_PROPERTY(QString name READ name WRITE setName)
     Q_PROPERTY(QDateTime next READ next WRITE setNext)
-    Q_PROPERTY(QDateTime interval READ interval WRITE setInterval)
+    Q_PROPERTY(qint64 interval READ setSecInterval WRITE setSecInterval)
 
 public:
     inline ScheduleOperation(){}
@@ -42,13 +43,15 @@ public:
     inline void setNext(QDateTime next) {_next = next; }
     inline QDateTime next() { return _next; }
 
-    inline void setInterval(QDateTime interval) {_interval = interval; }
-    inline QDateTime interval() { return _interval; }
+    inline void setSecInterval(qint64 interval) {_interval = interval; }
+    inline qint64 setSecInterval() { return _interval; }
+
+    inline void setDayInterval(qint64 interval) {_interval = interval*86400; }
 
 private:
     QString _name;
     QDateTime _next;
-    QDateTime _interval;
+    qint64 _interval;
 };//class ScheduleOption
 
 //------------------------------------------------------------------------------
