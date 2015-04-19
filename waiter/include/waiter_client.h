@@ -24,8 +24,15 @@
 
 //------------------------------------------------------------------------------
 
+
 namespace rotable {
   class Waiter_Client;
+  class ComPackage;
+  class ComPackageDataReturn;
+  class ComPackageReject;
+  class ComPackageDataRequest;
+  class ComPackageDataChanged;
+  class ProductContainer;
 }
 
 class rotable::Waiter_Client : public QObject
@@ -42,6 +49,7 @@ public:
      * @return                false on critical error
      */
     bool startup();
+
 
 
 private slots:
@@ -84,6 +92,56 @@ private slots:
 
 //------------------------------------------------------------------------------
 private:
+
+  /**
+   * Request category information.
+   * (result received in dataReturned())
+   *
+   * @param categoryId      category id
+   */
+  void requestCategory(int categoryId);
+
+  /**
+   * Request product information.
+   * (result received in dataReturned())
+   *
+   * @param productId       product id
+   */
+  void requestProduct(int productId);
+
+  /**
+   * Request all category ids.
+   */
+  void requestCategoryIds();
+
+  /**
+   * Request product ids of given category.
+   * (result received in dataReturned())
+   *
+   * @param categoryId      id of category to request product ids from
+   */
+  void requestProductIds(int categoryId);
+
+    /**
+     * Handle data received from the server.
+     *
+     * @param ret         received data package
+     */
+    void dataReturned(ComPackageDataReturn* ret);
+
+
+    /**
+     * Handle data changed information from the server.
+     *
+     * @param package     received package
+     */
+    void dataChanged(rotable::ComPackageDataChanged* package);
+
+
+    //------------------------------------------------------------------------------
+
+    /* Products */
+    rotable::ProductContainer* _products;
     /* Whether this client has been accepted by the server */
     bool _accepted;
 
@@ -105,6 +163,7 @@ private:
     /* Currently pending data requests */
     QMap<QString, ComPackageDataRequest*> _dataRequest;
 
+    //----------------------------------------------------------------------------
 };
 
 #endif // WAITER_CLIENT_H
