@@ -44,7 +44,7 @@ public:
      */
     inline int refresh_time(){ return _timer.interval(); }
 
-    void addOperiationToSchedule();
+    void addOperiationToSchedule(rotable::ScheduleOption option);
     void removeOperiationFromSchedule();
 
 private:
@@ -61,8 +61,19 @@ private:
 class rotable::Schedule::ScheduleWorker
 {
     Q_OBJECT
+
 public:
+
+public slots:
+    // Slot for check ScheduleOption
     void checkSchedule();
+signals:
+    void startSchedule();
+    void stopSchedule();
+
+private:
+QList<rotable::ScheduleOption> _scheduleOption;
+
 };//class ScheduleWorker
 
 //------------------------------------------------------------------------------
