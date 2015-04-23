@@ -61,6 +61,13 @@ Rectangle {
                 PropertyChanges { target: screensaverPage; visible: false }
                 PropertyChanges { target: startPage; visible: false }
                 PropertyChanges { target: productPage; visible: true }
+            },
+            State {
+                name: "SENDORDERSCREEN"
+                PropertyChanges { target: connectionPage; visible: false }
+                PropertyChanges { target: screensaverPage; visible: false }
+                PropertyChanges { target: startPage; visible: false }
+                PropertyChanges { target: productPage; visible: false }
             }
         ]
         //! [states]
