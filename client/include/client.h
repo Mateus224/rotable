@@ -173,27 +173,27 @@ public:
 
 signals:
   /**
-   * Current GUI state has changed.
+   * Current GUI state has changed.Sending to QML File.
    */
   void stateChanged();
 
   /**
-   * Current category id has changed.
+   * Current category id has changed. Sending to QML File.
    */
   void currentCategoryIdChanged();
 
   /**
-   * Screen rotation has changed.
+   * Screen rotation has changed.Sending to QML File. Sending to QML File.
    */
   void rotationChanged();
 
   /**
-   * Contact sensor state has changed.
+   * Contact sensor state has changed. Sending to QML File.
    */
   void contactChanged();
 
   /**
-   * Debugging status of software has changed (probably never happens).
+   * Debugging status of software has changed (probably never happens). Sending to QML File.
    */
   void debugChanged();
 
