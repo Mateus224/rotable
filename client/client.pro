@@ -48,6 +48,7 @@ OTHER_FILES += \
     qml/client/ScreensaverPage.qml \
     qml/client/StartPage.qml \
     qml/client/MyOrderButton.qml \
+    qml/client/MyOrderPage.qml \
     qml/client/ProductRects.qml \
     qml/client/ProductPage.qml
 
