@@ -6,6 +6,7 @@ import QtQuick 2.0
 Rectangle {
     id: productButton
 
+    property int i:0
     property int stateChangeDuration: 400
     property string buttonFontFamily: "FreeSans"
 
@@ -169,7 +170,7 @@ Rectangle {
 
             Text {
                 id: idProductAmountText
-                text: "0"
+                text: i
                 color: "#000000"
 
                 anchors.fill: parent
