@@ -12,10 +12,13 @@
 #include <wiringPi.h>
 #include <linux/i2c-dev.h>
 #include <time.h>
-#include <sys/types.h>
-#include <sys/stat.h>
+#include <linux/types.h>
+#include <linux/stat.h>
+//#include <sys/types.h>
+//#include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+
 
 /*
 for(i=256;i<=1023;i++){
