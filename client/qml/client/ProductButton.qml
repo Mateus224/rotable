@@ -131,6 +131,7 @@ Rectangle {
             font.pixelSize: parent.height * 0.075
         }
 
+        //+++++++++++++++++++++++++++++++++++++++
         Rectangle {
             id: idAddProductButton
 
@@ -143,6 +144,10 @@ Rectangle {
             height: parent.height * 0.2
 
             color: Qt.darker(parent.color, 1.4)
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {  }
+            }
 
             Image {
                 anchors.fill: parent
@@ -177,6 +182,7 @@ Rectangle {
             }
         }
 
+        //------------------------------------
         Rectangle {
             id: idReduceProductButton
 
@@ -187,6 +193,10 @@ Rectangle {
             width: idAddProductButton.width
 
             color: idAddProductButton.color
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {  }
+            }
 
             Image {
                 anchors.fill: parent

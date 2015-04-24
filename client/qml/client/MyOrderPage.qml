@@ -57,9 +57,12 @@ Rectangle {
     }*/
 
 
-
     CategoryBar {
         id: categoryBar
+    }
+
+    MyOrderRects {
+        id: myOrderRects
     }
 
 }

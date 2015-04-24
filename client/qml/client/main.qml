@@ -40,35 +40,35 @@ Rectangle {
         states: [
             State {
                 name: "DISCONNECTED"
-                PropertyChanges { target: connectionPage; visible: false}//true }
+                PropertyChanges { target: connectionPage; visible: true }
                 PropertyChanges { target: screensaverPage; visible: false }
                 PropertyChanges { target: startPage; visible: false }
                 PropertyChanges { target: productPage; visible: false }
-                PropertyChanges { target: myOrderPage; visible: true}
+                PropertyChanges { target: myOrderPage; visible: false}
             },
             State {
                 name: "SCREENSAVER"
                 PropertyChanges { target: connectionPage; visible: false }
-                PropertyChanges { target: screensaverPage; visible: false}//true }
+                PropertyChanges { target: screensaverPage; visible: true }
                 PropertyChanges { target: startPage; visible: false }
                 PropertyChanges { target: productPage; visible: false }
-                PropertyChanges { target: myOrderPage; visible: true}
+                PropertyChanges { target: myOrderPage; visible: false}
             },
             State {
                 name: "STARTSCREEN"
                 PropertyChanges { target: connectionPage; visible: false }
                 PropertyChanges { target: screensaverPage; visible: false }
-                PropertyChanges { target: startPage; visible: false}//true }
+                PropertyChanges { target: startPage; visible: true }
                 PropertyChanges { target: productPage; visible: false }
-                PropertyChanges { target: myOrderPage; visible: true}
+                PropertyChanges { target: myOrderPage; visible: false}
             },
             State {
                 name: "PRODUCTSCREEN"
                 PropertyChanges { target: connectionPage; visible: false }
                 PropertyChanges { target: screensaverPage; visible: false }
                 PropertyChanges { target: startPage; visible: false }
-                PropertyChanges { target: productPage; visible: false}//true }
-                PropertyChanges { target: myOrderPage; visible: true}
+                PropertyChanges { target: productPage; visible: true }
+                PropertyChanges { target: myOrderPage; visible: false}
             },
             State {
                 name: "SENDORDERSCREEN"
