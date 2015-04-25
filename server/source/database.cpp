@@ -540,8 +540,11 @@ Income *Database::income(int id)
       qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("id").toString());
       return 0;
     }
-
-    QDate date = q.value("date").toDate();
+    int day = q.value("day").toInt();
+    int month = q.value("month").toInt();
+    int year = q.value("year").toInt();
+    QDate date;
+    date.setDate(year, month, day);
     float income = q.value("income").toFloat();
 
     Income* i = new Income();
@@ -714,7 +717,7 @@ bool Database::addIncome(Income *income)
     }
 
     QString queryStr = _sqlCommands[Incomes]._insert
-                       .arg(_prefix, "NULL", ":income", ":date");
+                       .arg(_prefix, "NULL", ":income", ":day", ":month", ":year");
 
     QSqlQuery q(_db);
     q.setForwardOnly(true);
@@ -725,7 +728,9 @@ bool Database::addIncome(Income *income)
     }
 
     q.bindValue(":income", income->income());
-    q.bindValue(":date", income->date());
+    q.bindValue(":day", income->date().day());
+    q.bindValue(":month", income->date().month());
+    q.bindValue(":year", income->date());
 
     if (!q.exec()) {
       qCritical() << tr("Query exec failed: (%1: %2")
@@ -851,7 +856,7 @@ bool Database::updateIncome(Income *income)
     }
 
     q.bindValue(":income", income->income());
-    q.bindValue(":date", income->date());
+
 
     if (!q.exec()) {
       qCritical() << tr("Query exec failed: (%1: %2")
@@ -1450,7 +1455,8 @@ int Database::hasIncome(QDate date)
     }
 
     QString queryStr = _sqlCommands[Incomes]._select
-                       .arg(_prefix, "`id`", "date", ":date");
+                       .arg(_prefix, "`id`", "day", ":day");
+    queryStr += QString(" AND `month` = :month AND `year` = :year");
 
     QSqlQuery q(_db);
     q.setForwardOnly(true);
@@ -1460,7 +1466,9 @@ int Database::hasIncome(QDate date)
       return -1;
     }
 
-    q.bindValue(":date", date);
+    q.bindValue(":day", date.day());
+    q.bindValue(":month", date.month());
+    q.bindValue(":year", date.year());
 
     if (!q.exec()) {
       qCritical() << tr("Query exec failed: (%1: %2")
@@ -1481,44 +1489,57 @@ int Database::hasIncome(QDate date)
 
 //------------------------------------------------------------------------------
 
-int Database::hasIncome(int mounth, int year)
+QList<int>* Database::hasIncome(int mounth, int year)
 {
     if (!isConnected() || mounth <1 || mounth >12 || year < 2015 ) {
-      return false;
+      return NULL;
     }
 
     QString queryStr = _sqlCommands[Incomes]._select
                        .arg(_prefix, "`id`", "1", "1");
-    queryStr += QString(" AND `date` >= :date1");
-    queryStr += QString(" AND `date` < :date2");
+    queryStr += QString(" AND `day` >= :day1");
+    queryStr += QString(" AND `day` <= :day2");
+    queryStr += QString(" AND `month` >= :month1");
+    queryStr += QString(" AND `month` <= :month2");
+    queryStr += QString(" AND `year` >= :year1");
+    queryStr += QString(" AND `year` <= :year2;");
     QSqlQuery q(_db);
     q.setForwardOnly(true);
 
     if (!q.prepare(queryStr)) {
       qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return -1;
+      return NULL;
     }
     // If we want search income from january 2015 then we take
     // all income afer (with 1-st) 1 january and before 1 february
     QDate date1(1,mounth,year), date2(1, mounth+1, year);
 
-    q.bindValue(":date1", date1);
-    q.bindValue(":date2", date2);
+    q.bindValue(":day1", date1.day());
+    q.bindValue(":month1", date1.month());
+    q.bindValue(":year1", date1.year());
+    q.bindValue(":day2", date2.day());
+    q.bindValue(":month2", date2.month());
+    q.bindValue(":year2", date2.year());
 
     if (!q.exec()) {
       qCritical() << tr("Query exec failed: (%1: %2")
                      .arg(queryStr, q.lastError().text());
-      return -1;
+      return NULL;
     }
+
+    QList<int>* list = new QList<int>();
 
     if(q.next())
     {
         QSqlRecord rec = q.record();
 
-        return rec.value(rec.indexOf("id")).toInt();
+        list->append(rec.value(rec.indexOf("id")).toInt());
     }
 
-    return -1;
+    if(list->isEmpty())
+        return NULL;
+    else
+        return list;
 
 }
 

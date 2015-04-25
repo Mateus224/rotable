@@ -356,7 +356,7 @@ public:
   int hasWaiter(const QString nick, const QString passwdhash);
 
   int hasIncome(QDate date);
-  int hasIncome(int mounth, int year);
+  QList<int> *hasIncome(int mounth, int year);
 
   /**
    * Check Config record exist
