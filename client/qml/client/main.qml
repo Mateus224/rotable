@@ -32,6 +32,10 @@ Rectangle {
             id: productPage
         }
 
+        MyOrderPage{
+            id: myOrderPage
+        }
+
         //! [states]
         states: [
             State {
@@ -40,6 +44,7 @@ Rectangle {
                 PropertyChanges { target: screensaverPage; visible: false }
                 PropertyChanges { target: startPage; visible: false }
                 PropertyChanges { target: productPage; visible: false }
+                PropertyChanges { target: myOrderPage; visible: false}
             },
             State {
                 name: "SCREENSAVER"
@@ -47,6 +52,7 @@ Rectangle {
                 PropertyChanges { target: screensaverPage; visible: true }
                 PropertyChanges { target: startPage; visible: false }
                 PropertyChanges { target: productPage; visible: false }
+                PropertyChanges { target: myOrderPage; visible: false}
             },
             State {
                 name: "STARTSCREEN"
@@ -54,6 +60,7 @@ Rectangle {
                 PropertyChanges { target: screensaverPage; visible: false }
                 PropertyChanges { target: startPage; visible: true }
                 PropertyChanges { target: productPage; visible: false }
+                PropertyChanges { target: myOrderPage; visible: false}
             },
             State {
                 name: "PRODUCTSCREEN"
@@ -61,6 +68,15 @@ Rectangle {
                 PropertyChanges { target: screensaverPage; visible: false }
                 PropertyChanges { target: startPage; visible: false }
                 PropertyChanges { target: productPage; visible: true }
+                PropertyChanges { target: myOrderPage; visible: false}
+            },
+            State {
+                name: "SENDORDERSCREEN"
+                PropertyChanges { target: connectionPage; visible: false }
+                PropertyChanges { target: screensaverPage; visible: false }
+                PropertyChanges { target: startPage; visible: false }
+                PropertyChanges { target: productPage; visible: false }
+                PropertyChanges { target: myOrderPage; visible: true}
             }
         ]
         //! [states]

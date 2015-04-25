@@ -20,6 +20,8 @@ class rotable::ProductOrder : public QObject
 {
   Q_OBJECT
 
+  //Q_PROPERTY(int productId READ productId WRITE setProductId NOTIFY productIdChanged)
+
   /*
   Q_PROPERTY(int id READ id WRITE setId)
   Q_PROPERTY(int productId READ productId WRITE setProductId NOTIFY productIdChanged)
@@ -32,6 +34,7 @@ class rotable::ProductOrder : public QObject
   */
 
 public:
+    /*write into the database the state*/
   enum OrderState {
     /* The client is currently collecting this order */
     e_preparing = 0,
@@ -56,6 +59,58 @@ public:
 
   inline int id() const { return _id; }
   inline void setId(int id) { _id = id; }
+
+  /**
+   * add from the MyOrderButton.qml
+   * Products which are choosen
+   */
+  void addProductToOrder();
+
+  /**
+   * add from the MyOrderButton.qml
+   * Products which are choosen
+   * @brief removeProductFromOrder
+   */
+  void removeProductFromOrder();
+
+  /**
+   * send order to the server and the server
+   * @brief sendOrder
+   */
+  void sendOrderToServer();
+
+  /**
+   * send order to the server and the server
+   * @brief sendOrderToWaitor
+   */
+  void sendOrderToWaitor();
+
+  /**
+   * order is accepted or rejected by the waitor
+   * @brief acceptOrder
+   */
+  void acceptOrder();
+
+  /**
+   * @brief setStopWatchTime
+   * by incomming orders the time will be start to measured
+   */
+  void setStopWatchTime();
+
+  /**
+   * @brief getStopWatchTime
+   * @return
+   * returns (for the waitorGui) the time which the clients are
+   * waiting for the orders
+   */
+  int getStopWatchTime();
+
+  /**
+   * @brief sendWaitTimeForClient
+   * @return
+   * send to the client the probeble waiting time for the order
+   */
+  int sendWaitTimeForClient();
 
   /**
    * Convert this order into a QJsonObject.

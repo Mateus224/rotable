@@ -22,5 +22,7 @@
         <file>resources/TopBarLeft.png</file>
         <file>resources/minus_white.png</file>
         <file>resources/plus_white.png</file>
+        <file alias="MyOrderPage.qml">qml/client/MyOrderPage.qml</file>
+        <file alias="MyOrderRects.qml">qml/client/MyOrderRects.qml</file>
     </qresource>
 </RCC>

@@ -14,6 +14,7 @@ INCLUDEPATH += \
     $$PWD/../shared/include \
     $$PWD/../third-party/google-breakpad-read-only/src \
 
+
 HEADERS += \
     include/configclient.h \
     include/sensors.h \
@@ -48,6 +49,7 @@ OTHER_FILES += \
     qml/client/ScreensaverPage.qml \
     qml/client/StartPage.qml \
     qml/client/MyOrderButton.qml \
+    qml/client/MyOrderPage.qml \
     qml/client/ProductRects.qml \
     qml/client/ProductPage.qml
 
@@ -64,9 +66,13 @@ contains(QMAKE_CC, gcc) {
     # since QMAKE_CC contains more than gcc this must be a cross-compile build
     PLATFORM = rpi
 
-    INCLUDEPATH += $$PWD/../third-party/wiringPi/wiringPi
+    INCLUDEPATH += /home/rosynski/opt/third_party/wiringPi/wiringPi \#$$PWD/../third-party/wiringPi/wiringPi \
+                   /home/rosynski/opt/rpi/rootfs/usr/include \
+
     LIBS += \
-        -L$$PWD/../third-party/wiringPi/wiringPi -lwiringPi #\
+            -L/home/rosynski/opt/third_party/wiringPi/wiringPi -lwiringPi \
+            -L/home/rosynski/opt/rpi/rasp-pi-rootfs/usr/include -lrt
+           #-L$$PWD/../third-party/wiringPi/wiringPi -lwiringPi #\
         #-L$$PWD/../third-party/google-breakpad-read-only-rpi/src/client/linux -lbreakpad_client
 }
 

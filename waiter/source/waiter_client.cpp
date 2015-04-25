@@ -1,5 +1,11 @@
-#include "include/waiter_client.h"
-
+#include "waiter_client.h"
+#include "private/precomp.h"
+#include "compackage.h"
+#include "utils.h"
+//#include "settings.h"
+//#include "categorylistmodel.h"
+//#include "productlistmodel.h"
+#include "productcontainer.h"
 
 
 //------------------------------------------------------------------------------
@@ -134,12 +140,12 @@ void Waiter_Client::packageReceived(ComPackage *package)
 
     case ComPackage::DataReturn:
     {
-      //dataReturned(static_cast<ComPackageDataReturn*>(package));
+      dataReturned(static_cast<ComPackageDataReturn*>(package));
     } break;
 
     case ComPackage::DataChanged:
     {
-      //dataChanged(static_cast<ComPackageDataChanged*>(package));
+      dataChanged(static_cast<ComPackageDataChanged*>(package));
     } break;
 
     case ComPackage::DataSet:
@@ -180,6 +186,163 @@ void Waiter_Client::setState(const QString &state)
 
 //------------------------------------------------------------------------------
 
+void Waiter_Client::dataReturned(ComPackageDataReturn *package)
+{
+  if (package) {
+    switch (package->dataCategory())
+    {
+    case ComPackage::RequestImage:
 
+    case ComPackage::RequestCategoryIds:
+    {
+      QJsonArray arr = package->data().toArray();
+      foreach (QJsonValue val, arr) {
+        int id = val.toInt();
+        requestCategory(id);
+      }
+    } break;
 
+    case ComPackage::RequestProductIds:
+    {
+      QJsonArray arr = package->data().toArray();
+      foreach (QJsonValue val, arr) {
+        int id = val.toInt();
+        requestProduct(id);
+      }
+    } break;
 
+    case ComPackage::RequestCategory:
+    {
+      ProductCategory* category = ProductCategory::fromJSON(package->data());
+      requestProductIds(category->id());
+      _products->updateCategory(category);
+    } break;
+
+    case ComPackage::RequestProduct:
+    {
+      Product* product = Product::fromJSON(package->data());
+      _products->updateProduct(product);
+    } break;
+
+    default:
+    {
+      qCritical() << tr("Unknown data package returned");
+    } break;
+
+    }
+  }
+}
+
+//------------------------------------------------------------------------------
+
+void Waiter_Client::requestCategory(int categoryId)
+{
+  ComPackageDataRequest* request = new ComPackageDataRequest();
+  request->setDataCategory(ComPackage::RequestCategory);
+  request->setDataName(QString("%1").arg(categoryId));
+
+  if (!_tcp.send(*request)) {
+    qCritical() << tr("Could not send request!");
+  } else {
+    _dataRequest[request->id()] = request;
+  }
+}
+
+//------------------------------------------------------------------------------
+
+void Waiter_Client::requestProduct(int productId)
+{
+  ComPackageDataRequest* request = new ComPackageDataRequest();
+  request->setDataCategory(ComPackage::RequestProduct);
+  request->setDataName(QString("%1").arg(productId));
+
+  if (!_tcp.send(*request)) {
+    qCritical() << tr("Could not send request!");
+  } else {
+    _dataRequest[request->id()] = request;
+  }
+}
+//------------------------------------------------------------------------------
+
+void Waiter_Client::requestProductIds(int categoryId)
+{
+  ComPackageDataRequest* request = new ComPackageDataRequest();
+  request->setDataCategory(ComPackage::RequestProductIds);
+  request->setDataName(QString("%1").arg(categoryId));
+
+  if (!_tcp.send(*request)) {
+    qCritical() << tr("Could not send request!");
+  } else {
+    _dataRequest[request->id()] = request;
+  }
+}
+
+//------------------------------------------------------------------------------
+
+void Waiter_Client::dataChanged(rotable::ComPackageDataChanged *package)
+{
+  if (package) {
+    switch (package->dataCategory()) {
+    case ComPackage::RequestImage:
+    {
+    } break;
+    case ComPackage::RequestCategoryIds:
+    {
+      _products->clear();
+      requestCategoryIds();
+    } break;
+    case ComPackage::RequestProductIds:
+    {
+      bool ok;
+      int categoryId = package->dataName().toInt(&ok);
+      if (!ok) {
+        qCritical() << tr("Could not convert category id '%1' to int!")
+                       .arg(package->dataName());
+      } else {
+        requestProductIds(categoryId);
+      }
+    } break;
+    case ComPackage::RequestCategory:
+    {
+      bool ok;
+      int categoryId = package->dataName().toInt(&ok);
+      if (!ok) {
+        qCritical() << tr("Could not convert category id '%1' to int!")
+                       .arg(package->dataName());
+      } else {
+        requestCategory(categoryId);
+      }
+    } break;
+    case ComPackage::RequestProduct:
+    {
+      bool ok;
+      int productId = package->dataName().toInt(&ok);
+      if (!ok) {
+        qCritical() << tr("Could not convert product id '%1' to int!")
+                       .arg(package->dataName());
+      } else {
+        requestProduct(productId);
+      }
+    } break;
+    default:
+    {
+      qCritical() << tr("Unknown data changed category '%1' received!")
+                     .arg(package->dataCategory());
+    } break;
+    }
+  }
+}
+
+//------------------------------------------------------------------------------
+
+void Waiter_Client::requestCategoryIds()
+{
+  ComPackageDataRequest* request = new ComPackageDataRequest();
+  request->setDataCategory(ComPackage::RequestCategoryIds);
+
+  if (!_tcp.send(*request)) {
+    qCritical() << tr("Could not send request!");
+  } else {
+    _dataRequest[request->id()] = request;
+  }
+}
