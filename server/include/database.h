@@ -358,6 +358,8 @@ public:
   int hasIncome(QDate date);
   QList<int> *hasIncome(int mounth, int year);
 
+  Income* getLastIncome();
+  int getLastIncomeId();
   /**
    * Check Config record exist
    * @param name        config name

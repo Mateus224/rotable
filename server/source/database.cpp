@@ -1615,6 +1615,47 @@ bool Database::hasConfig(int id)
 
 //------------------------------------------------------------------------------
 
+Income*  Database::getLastIncome()
+{
+    int id = getLastIncomeId();
+    return income(id);
+}
+
+//------------------------------------------------------------------------------
+
+int Database::getLastIncomeId()
+{
+    if (!isConnected()) {
+      return -1;
+    }
+
+    QString queryStr = QString("SELECT MAX(id)  FROM %1daily_incomes;").arg(_prefix);
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return -1;
+    }
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return -1;
+    }
+
+    if(q.next())
+    {
+        QSqlRecord rec = q.record();
+
+        return rec.value(rec.indexOf("id")).toInt();
+    }
+
+    return -1;
+}
+
+//------------------------------------------------------------------------------
+
 bool Database::isConnected() const
 {
   if (_connected) {
