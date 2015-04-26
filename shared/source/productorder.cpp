@@ -45,12 +45,12 @@ void ProductOrder::setStopWatchTime()
 
 }
 
-void ProductOrder::getStopWatchTime()
+int ProductOrder::getStopWatchTime()
 {
 
 }
 
-void ProductOrder::sendWaitTimeForClient()
+int ProductOrder::sendWaitTimeForClient()
 {
 
 }
