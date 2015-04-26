@@ -7,6 +7,7 @@
 #include "productlistmodel.h"
 #include "productcontainer.h"
 #include "imageprovider.h"
+#include "productorder.h"
 
 //------------------------------------------------------------------------------
 
@@ -49,6 +50,7 @@ Client::Client(const QString &configFilePath, QObject *parent)
   }
 
   _products = new ProductContainer(this);
+  _productOrder = new ProductOrder(this);
 
   connect(&_tcp, SIGNAL(connected()),
           this, SLOT(connected()));

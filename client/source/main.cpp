@@ -69,13 +69,13 @@ int main(int argc, char *argv[])
 
   QQuickView view;
   client->startup();
-  rotable::ProductOrder* MyOrder;                   //this will be in the fulture in the client included
+  //rotable::ProductOrder* MyOrder;                   //this will be in the fulture in the client included
   view.setResizeMode(QQuickView::SizeRootObjectToView);
   view.rootContext()->setContextProperty("client", client);
   view.rootContext()->setContextProperty("CategoryListModel", client->categoryListModel());
   view.rootContext()->setContextProperty("ProductListModel", client->productListModel());
   view.engine()->addImageProvider("rotable", imageProvider);
-  view.rootContext()->setContextProperty("MyOrder", MyOrder);
+  //view.rootContext()->setContextProperty("MyOrder", MyOrder);
 
   //view.setSource(QUrl::fromLocalFile(QString(ROTABLE_QML_PATH) + QString("main.qml")));
   view.setSource(QString("qrc:/client/main.qml"));

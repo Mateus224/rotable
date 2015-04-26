@@ -55,7 +55,9 @@ public:
     e_canceled
   };
 
+  //ProductOrder();
   explicit ProductOrder(QObject *parent = 0);
+
 
   inline int id() const { return _id; }
   inline void setId(int id) { _id = id; }

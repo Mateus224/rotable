@@ -18,6 +18,7 @@
 #include "configclient.h"
 #include "tcpclient.h"
 #include "sensors.h"
+#include "productorder.h"
 
 //------------------------------------------------------------------------------
 
@@ -30,6 +31,7 @@ namespace rotable {
   class ComPackageDataRequest;
   class ComPackageDataChanged;
   class ProductContainer;
+  class ProductOrder;
 }
 
 class QAbstractListModel;
@@ -324,6 +326,8 @@ private:
 
   /* Image provider */
   ImageProvider* _imageProvider;
+
+  rotable::ProductOrder* _productOrder;
 }; // class Client
 
 //------------------------------------------------------------------------------
