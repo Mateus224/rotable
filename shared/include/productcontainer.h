@@ -20,7 +20,8 @@ class ProductContainer;
 /**
  * The ProductContainer class stores products and categories.
  */
-class rotable::ProductContainer : public QObject
+class rotable::
+        ProductContainer : public QObject
 {
   Q_OBJECT
 
