@@ -5,11 +5,13 @@
 
 #include <QObject>
 #include <QList>
+#include "orderpage.h"
 
 //------------------------------------------------------------------------------
 
 namespace rotable {
   class ProductOrder;
+  class OrderPage;
 }
 
 //------------------------------------------------------------------------------
@@ -63,7 +65,7 @@ public:
   QList<int>* L_quantity;
 
   //ProductOrder();
-  explicit ProductOrder(int orderID,int clientID, QObject *parent = 0);
+  explicit ProductOrder(int orderID,QObject *parent = 0);
   ~ProductOrder();
 
 
@@ -177,6 +179,9 @@ private:
   /* Unique category ID */
   int _productId;
   int _quantity;
+
+  int _orderID;
+  int _clientID;
 }; // class ProductOrder
 
 //------------------------------------------------------------------------------

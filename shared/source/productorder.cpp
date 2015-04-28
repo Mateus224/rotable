@@ -8,9 +8,9 @@ using namespace rotable;
 
 //------------------------------------------------------------------------------
 
-ProductOrder::ProductOrder(int orderID, int ClientID, QObject *parent) : QObject(parent)
+ProductOrder::ProductOrder(int orderID, QObject *parent) : QObject(parent)
 {
-
+    _orderID=orderID;
     //L_quantity= new QList<int>;
     //L_OrderList= new QList<int>;
 }
@@ -19,6 +19,7 @@ ProductOrder::ProductOrder::~ProductOrder()
 {
 
 }
+
 
 //------------------------------------------------------------------------------
 

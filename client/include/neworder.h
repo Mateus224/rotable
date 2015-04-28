@@ -5,6 +5,7 @@
 #include <QObject>
 #endif
 #include "productorder.h"
+#include "private/precomp.h"
 
 namespace rotable {
   class ProductOrder;
@@ -18,12 +19,15 @@ class rotable::NewOrder : public QObject
 
 
 public:
-    explicit NewOrder(QObject *parent = 0){_orderID=0;}
-    ~NewOrder();
+     NewOrder(QObject *parent = 0);//{_orderID=0;}
+    ~NewOrder(){};
 
+     QList<rotable::OrderPage*> Order;
+
+     void TableClient(int clientID);
 
 private:
-    rotable::ProductOrder* Order;
+    //rotable::ProductOrder* Order;
     int _orderID;
     int _clientID;
 
@@ -31,7 +35,13 @@ private:
 
 public slots:
     //void Payed();
-    void New_Order(int clientID);
+
+    /**
+     * @brief New_Order
+     * @param clientID
+     *Here we manage the Order pages from all Clients
+     */
+
 };
 
 #endif // NEWORDER_H
