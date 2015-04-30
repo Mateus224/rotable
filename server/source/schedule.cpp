@@ -94,7 +94,7 @@ void ScheduleWorker::checkSchedule()
         if(time > operation->next())
         {
             // Do "something"
-            operation->operation();
+            operation->on_time();
             // Calc when we need do something next time
             operation->calcNext();
         }

@@ -49,16 +49,16 @@ public:
 
     inline void setDayInterval(qint64 interval) {_interval = interval*86400; }
 
-    inline void operation(){ (*_operation)();}
-    inline void setOperation( void (*operation)()) { _operation = operation; }
-
-
+    inline void setOperation( void (*operation)()) { QObject::connect(this, &ScheduleOperation::on_time, operation); }
 
 private:
     QString _name;
     QDateTime _next;
     qint64 _interval;
-    void (*_operation)();
+
+signals:
+    void on_time();
+
 };//class ScheduleOption
 
 //------------------------------------------------------------------------------
