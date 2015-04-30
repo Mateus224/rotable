@@ -208,7 +208,7 @@ Rectangle {
 
         Text {
             id: idProductTotalText
-            text: "=0,00 €"
+            text: "=0,00 €"+buttonProductId
 
             anchors.left: idReduceProductButton.right
             anchors.right: parent.right

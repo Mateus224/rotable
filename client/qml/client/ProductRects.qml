@@ -49,6 +49,7 @@ Rectangle {
             delegate: productDelegate
         }
     }
+
 }
 
 

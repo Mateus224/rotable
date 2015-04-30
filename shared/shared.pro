@@ -24,7 +24,10 @@ SOURCES += \
     source/order.cpp \
     source/waiter.cpp \
     source/income.cpp \
-    source/config.cpp
+    source/config.cpp \
+    source/orderpage.cpp \
+    source/mytables.cpp \
+    source/orderinformation.cpp
 
 
 HEADERS += \
@@ -42,7 +45,10 @@ HEADERS += \
     include/order.h \
     include/waiter.h \
     include/income.h \
-    include/config.h
+    include/config.h \
+    include/orderpage.h \
+    include/mytables.h \
+    include/orderinformation.h
 
 
 RESOURCES += shared_resources.qrc

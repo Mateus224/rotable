@@ -4,11 +4,14 @@
 //------------------------------------------------------------------------------
 
 #include <QObject>
+#include <QList>
+#include "orderpage.h"
 
 //------------------------------------------------------------------------------
 
 namespace rotable {
   class ProductOrder;
+  class OrderPage;
 }
 
 //------------------------------------------------------------------------------
@@ -22,10 +25,12 @@ class rotable::ProductOrder : public QObject
 
   //Q_PROPERTY(int productId READ productId WRITE setProductId NOTIFY productIdChanged)
 
+
+
+  //Q_PROPERTY(int quantity READ _quantity WRITE set_quantity NOTIFY quantityChanged)
+  //Q_PROPERTY(int productId READ _productId WRITE set_ProductId NOTIFY productIdChanged)
   /*
-  Q_PROPERTY(int id READ id WRITE setId)
-  Q_PROPERTY(int productId READ productId WRITE setProductId NOTIFY productIdChanged)
-  Q_PROPERTY(int count READ count WRITE setSetCount NOTIFY countChanged)
+    Q_PROPERTY(int count READ count WRITE setSetCount NOTIFY countChanged)
   Q_PROPERTY(QString session READ session WRITE setSession NOTIFY sessionChanged)
   Q_PROPERTY(QString waitorId READ waitorId WRITE setWaitorId NOTIFY waitorChanged)
   Q_PROPERTY(int timestamp READ timestamp WRITE setTimeStamp NOTIFY timestampChanged)
@@ -55,25 +60,15 @@ public:
     e_canceled
   };
 
+
+  //QList<int>* L_OrderList;
+  QList<int>* L_quantity;
+
   //ProductOrder();
-  explicit ProductOrder(QObject *parent = 0);
+  explicit ProductOrder(int orderID,QObject *parent = 0);
+  ~ProductOrder();
 
 
-  inline int id() const { return _id; }
-  inline void setId(int id) { _id = id; }
-
-  /**
-   * add from the MyOrderButton.qml
-   * Products which are choosen
-   */
-  void addProductToOrder();
-
-  /**
-   * add from the MyOrderButton.qml
-   * Products which are choosen
-   * @brief removeProductFromOrder
-   */
-  void removeProductFromOrder();
 
   /**
    * send order to the server and the server
@@ -113,6 +108,29 @@ public:
    * send to the client the probeble waiting time for the order
    */
   int sendWaitTimeForClient();
+  //------------------------------------------------------------------------------
+
+  /**
+   * @brief set_quantity
+   * @param id
+   * set quantity of this Product and send to GUI
+   */
+  void set_quantity(int id);
+
+  void set_ProductId(int id);
+
+
+  /**
+   * @brief id
+   * @return
+   * return the Product ID
+   */
+  inline int get_quantity() const { return _productId; }
+
+  inline int get_ProductId() const { return _productId; }
+
+
+  //------------------------------------------------------------------------------
 
   /**
    * Convert this order into a QJsonObject.
@@ -129,12 +147,41 @@ public:
    */
   static ProductOrder *fromJSON(const QJsonValue& jval);
 
+
+
+
+
+
+
+//------------------------------------------------------------------------------
+
+
 signals:
+  void productIdChanged();
+  void quantityChanged();
+
+public slots:
+  /**
+   * add from the MyOrderButton.qml
+   * Products which are choosen
+   */
+  void addProductToOrder(int id);
+
+  /**
+   * add from the MyOrderButton.qml
+   * Products which are choosen
+   * @brief removeProductFromOrder
+   */
+  void removeProductFromOrder(int id);
 
 private:
 
   /* Unique category ID */
-  int _id;
+  int _productId;
+  int _quantity;
+
+  int _orderID;
+  int _clientID;
 }; // class ProductOrder
 
 //------------------------------------------------------------------------------
