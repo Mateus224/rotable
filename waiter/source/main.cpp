@@ -3,7 +3,7 @@
 #include "../include/orderinformation.h"
 #include "../include/waiter_client.h"
 #include "orderinformation.h"
-#include "qmlcontxt.h"
+#include  "../include/qmlcontxt.h"
 #include <qqmlengine.h>
 #include <qqmlcontext.h>
 #include <qqml.h>
