@@ -122,23 +122,23 @@ void Sensors::checkDisplaySensors()
               .arg(digitalRead(24)).arg(digitalRead(25));
 
   if (LOW == digitalRead(7)) {
-    if (_screenRotation != 0) {
-      _screenRotation = 0;
-      emit rotationChanged();
-    }
-  } else if (LOW == digitalRead(8)) {
-    if (_screenRotation != 90) {
-      _screenRotation = 90;
-      emit rotationChanged();
-    }
-  } else if (LOW == digitalRead(24)) {
     if (_screenRotation != 180) {
       _screenRotation = 180;
       emit rotationChanged();
     }
-  } else if (LOW == digitalRead(25)) {
+  } else if (LOW == digitalRead(8)) {
+    if (_screenRotation != 0) {
+      _screenRotation = 0;
+      emit rotationChanged();
+    }
+  } else if (LOW == digitalRead(24)) {
     if (_screenRotation != 270) {
       _screenRotation = 270;
+      emit rotationChanged();
+    }
+  } else if (LOW == digitalRead(25)) {
+    if (_screenRotation != 90) {
+      _screenRotation = 90;
       emit rotationChanged();
     }
   }
@@ -182,9 +182,9 @@ void Sensors::checkDistanceSensors()
         }
       }
 
-      /*qDebug() << tr("Distance Sensor %1, %2, %3, %4")
+      qDebug() << tr("Distance Sensor %1, %2, %3, %4")
                   .arg(values[0]).arg(values[1])
-                  .arg(values[2]).arg(values[3]);*/
+                  .arg(values[2]).arg(values[3]);
     }
   }
 #endif
