@@ -3,6 +3,8 @@
 #include "server.h"
 #include "settings.h"
 #include "logmanager.h"
+#include "schedule.h"
+#include "operation.h"
 
 //------------------------------------------------------------------------------
 
@@ -609,11 +611,48 @@ void Server::config_parser(Config *config)
     // Base on config name we select prepare method
     switch (config->name()) {
     case Config::day_begin:
-
+        day_begin_config(config);
         break;
     default:
         qCritical() << tr("Unknown config type '%1'!").arg(config->name());
     }
+}
+
+//------------------------------------------------------------------------------
+
+void Server::day_begin_config(Config *config){
+
+    //Load last income from database
+    Income *lastIncome = _db.getLastIncome();
+
+    //Prepare date f add new income to database
+    QDateTime dateTime;
+    if (!lastIncome)    // If income don't exist
+    {
+        //We want add new income record with day before today
+        dateTime = QDateTime::currentDateTime();    //current day(today)
+        dateTime.addDays(-1);                       //yesterday
+    }
+    else
+    {
+        dateTime.setDate(lastIncome->date());       //last income day
+        dateTime.addDays(1);                        //next income day
+    }
+    //Read time from config
+    QTime time = QTime::fromString(config->value(), "h'm");
+    //Create new ScheduleOperation obj
+    ScheduleOperation *operation =  new ScheduleOperation();
+    //Init filds of class
+    operation->setName("day_begin");
+    dateTime.setTime(time);
+    operation->setNext(dateTime);
+    operation->setDayInterval(1);
+    // Connect method with
+    operation->setOperation(Operation::newIncome);
+
+    //ToDo: add ScheduleOperation to Schedule
+    //Add Schedule obj to server
+
 }
 
 //------------------------------------------------------------------------------

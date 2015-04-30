@@ -174,6 +174,11 @@ private:
    * @param config      config class
    */
   void config_parser(Config *config);
+  /**
+   * Method prepare ScheduleOperation object and add this to Schedule
+   * @param config      Config
+   */
+  void day_begin_config(Config *config);
 
   /* Configuration file access */
   ConfigServer _config;
