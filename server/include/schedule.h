@@ -15,6 +15,13 @@
 #include <QDateTime>
 #endif
 
+#ifndef QOBJECT_H
+#include <QObject>
+#endif
+
+
+#include "server.h"
+
 //------------------------------------------------------------------------------
 
 namespace rotable {
@@ -49,7 +56,7 @@ public:
 
     inline void setDayInterval(qint64 interval) {_interval = interval*86400; }
 
-    inline void setOperation( void (*operation)()) { QObject::connect(this, &ScheduleOperation::on_time, operation); }
+    inline void setOperation(QObject *obj, bool (*operation)());
 
 private:
     QString _name;
