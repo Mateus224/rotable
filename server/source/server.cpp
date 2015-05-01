@@ -476,6 +476,61 @@ bool Server::updateProduct(Product *product)
 
 //------------------------------------------------------------------------------
 
+bool Server::addIncome(Income *income)
+{
+    if (_db.hasIncome(income->date())) {
+      qWarning() << tr("A income of date '%1' already exists!").arg(income->date().toString());
+      return false;
+    }
+
+    if (!_db.addIncome(income)) {
+      qWarning() << tr("Failed to add product category!");
+      return false;
+    }
+
+    // we don't need inform clients about changes...
+    // in future we can inform admin app about change to update diagram
+    //ToDo: inform admin app about change
+
+    return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Server::updateIncome(Income *income)
+{
+    if (!_db.hasIncome(income->id())) {
+      qWarning() << tr("A income with id '%1' does not exists!")
+                    .arg(income->id());
+      return false;
+    }
+
+    if (!_db.updateIncome(income)) {
+      qWarning() << tr("Failed to update income!");
+      return false;
+    }
+
+    // we don't need inform clients about changes...
+    // in future we can inform admin app about change to update diagram
+    //ToDo: inform admin app about change
+
+    return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Server::newIncome()
+{
+    Income *income = new Income();
+    income->setIncome(0.0);
+    //ToDo: change here
+    income->setDate(QDate::currentDate());
+    return true;
+
+}
+
+//------------------------------------------------------------------------------
+
 bool Server::executeCommand(ComPackageCommand *package)
 {
   if (package) {
@@ -648,7 +703,8 @@ void Server::day_begin_config(Config *config){
     operation->setNext(dateTime);
     operation->setDayInterval(1);
     // Connect method with
-    operation->setOperation(Operation::newIncome);
+    //operation->setOperation(this, &Server::newIncome);
+    //ToDo: do connect slots by setOperation
 
     //ToDo: add ScheduleOperation to Schedule
     //Add Schedule obj to server
