@@ -18,7 +18,7 @@ HEADERS += \
     include/configwaiter.h \
     include/tcpwaiter.h \
     include/tcpclient.h \
-    include/qmlcontxt.h \
+    #include/qmlcontxt.h \
     include/waiterappwindow.h \
     include/waiter_client.h
 
@@ -27,7 +27,7 @@ SOURCES += \
     source/main.cpp \
     source/configwaiter.cpp \
     source/tcpclient.cpp \
-    source/qmlcontxt.cpp \
+    #source/qmlcontxt.cpp \
     source/waiterappwindow.cpp \
     source/waiter_client.cpp
 

@@ -1,6 +1,6 @@
 #ifndef MYTABLES_H
 #define MYTABLES_H
-#include <QObject>
+#include "private/precomp.h"
 #include "orderinformation.h"
 
 class myTables : public QObject//, public OrderInformation
@@ -10,6 +10,9 @@ class myTables : public QObject//, public OrderInformation
     Q_PROPERTY(QString CallWaiter READ CallWaiter WRITE setCallWaiter NOTIFY CallWaiterChanged)
     Q_PROPERTY(QString currentIndexT READ tableNumber WRITE settableNumber NOTIFY tableNumberChanged)
     Q_PROPERTY(double ToPay READ toPay WRITE setToPay NOTIFY toPayChanged)
+
+    //Q_PROPERTY(int _s_quantity READ tableNumber WRITE settableNumber NOTIFY tableNumberChanged)
+
 
 
 public:
@@ -31,7 +34,21 @@ public:
     void setToPay(const double &toPay);
 
     void setColor_orderinformation(const int &position,const QString &color);
+
+
     QList <OrderInformation*>  L_orderinformation;
+
+
+
+
+    struct productChoosen{
+        int _s_id;
+        int _s_quantity;
+    };
+    productChoosen Product;
+
+    QHash<int,productChoosen> ClientProductHash;
+
     QString m_tableNumber;
     float m_price;
     float m_toPay;
@@ -41,6 +58,11 @@ signals:
     void CallWaiterChanged();
     void tableNumberChanged();
     void toPayChanged();
+
+public slots:
+
+    void addToProductHash(int ProductID);
+    void rmFromProductHash(int ProductID);
 
 private:
     QString m_newOrder;

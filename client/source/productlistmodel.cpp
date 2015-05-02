@@ -63,7 +63,7 @@ QVariant ProductListModel::data(const QModelIndex &index, int role) const
 
   if (index.column() == 0) {
     switch (role) {
-    //case Qt::DisplayRole:
+    case Qt::DisplayRole:
     case NameRole:
     {
       if (ids.count() > index.row()) {

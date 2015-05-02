@@ -27,7 +27,8 @@ SOURCES += \
     source/config.cpp \
     source/orderpage.cpp \
     source/mytables.cpp \
-    source/orderinformation.cpp
+    source/orderinformation.cpp \
+    source/qmlcontxt.cpp
 
 
 HEADERS += \
@@ -48,7 +49,8 @@ HEADERS += \
     include/config.h \
     include/orderpage.h \
     include/mytables.h \
-    include/orderinformation.h
+    include/orderinformation.h \
+    include/qmlcontxt.h
 
 
 RESOURCES += shared_resources.qrc

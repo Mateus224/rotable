@@ -2,10 +2,6 @@
     <qresource prefix="/waiter">
         <file>resources/rotable_logo.png</file>
         <file alias="main.qml">qml/waiter/main.qml</file>
-        <file alias="componentCreation.js">qml/waiter/componentCreation.js</file>
-        <file alias="TableButton.qml">qml/waiter/TableButton.qml</file>
-        <file alias="TestQml.qml">qml/waiter/TestQml.qml</file>
-        <file alias="TableGrid.qml">qml/waiter/TableGrid.qml</file>
         <file>resources/Cross.png</file>
         <file>resources/Check.png</file>
         <file>resources/Check_grey.png</file>

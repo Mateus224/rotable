@@ -5,7 +5,7 @@ import QtQuick 2.0
 
 Rectangle {
     id: productButton
-
+    property int count:0
     property int i:0
     property int stateChangeDuration: 400
     property string buttonFontFamily: "FreeSans"
@@ -147,7 +147,14 @@ Rectangle {
             color: Qt.darker(parent.color, 1.4)
             MouseArea {
                 anchors.fill: parent
-                onClicked: {  }
+
+                onClicked: {
+                    MyOrder.addToProductHash(buttonProductId)
+                    count++
+                }
+
+                //onClicked: add_or_removeProduct(buttonProductId,true)
+
             }
 
             Image {
@@ -170,7 +177,7 @@ Rectangle {
 
             Text {
                 id: idProductAmountText
-                text: i
+                text: count
                 color: "#000000"
 
                 anchors.fill: parent
@@ -196,7 +203,15 @@ Rectangle {
             color: idAddProductButton.color
             MouseArea {
                 anchors.fill: parent
-                onClicked: {  }
+
+                onClicked: {
+                    MyOrder.rmFromProductHash(buttonProductId)
+                    if (count>0)
+                        count--
+                }
+
+                //onClicked: add_or_removeProduct(buttonProductId,flase)
+
             }
 
             Image {
@@ -208,7 +223,8 @@ Rectangle {
 
         Text {
             id: idProductTotalText
-            text: "=0,00 €"+buttonProductId
+            property string price:productButton.productPriceStr.replace(",",".")
+            text: (parseFloat(price).toFixed(2)*count).toFixed(2)+"€"
 
             anchors.left: idReduceProductButton.right
             anchors.right: parent.right

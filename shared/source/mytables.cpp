@@ -81,4 +81,61 @@ void myTables::setToPay(const double &toPay)
         emit toPayChanged();
     }
 }
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+//Get Information
+//-----------------------------------------------------------------
+
+
+//-----------------------------------------------------------------
+
+
+void myTables::addToProductHash(int ProductID)
+{
+    if(ClientProductHash.contains(ProductID))
+    {
+        Product=ClientProductHash.take(ProductID);
+        Product._s_quantity++;
+        ClientProductHash.insert(Product._s_quantity,Product);
+
+    }
+    else
+    {
+        productChoosen* Product1=new productChoosen;
+        Product1->_s_id=ProductID;
+        Product1->_s_quantity=1;
+        ClientProductHash.insert(Product1->_s_quantity,*Product1);
+    }
+
+}
+
+//-----------------------------------------------------------------
+
+
+void myTables::rmFromProductHash(int ProductID)
+{
+    if(ClientProductHash.contains(ProductID))
+    {
+        Product=ClientProductHash.take(ProductID);
+        if(Product._s_quantity>1)
+        {
+            Product._s_quantity--;
+            ClientProductHash.insert(Product._s_quantity,Product);
+        }
+        else if(Product._s_quantity==1);
+        else
+        {
+            qDebug()<<"Fehler in rmFromProductHash";
+            //Fehler
+        }
+
+
+    }
+    else
+    {
+        qDebug()<<"Fehler in rmFromProductHash";
+        //Fehler
+    }
+}
+
 
