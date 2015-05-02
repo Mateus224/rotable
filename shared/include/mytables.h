@@ -47,7 +47,7 @@ public:
     };
     productChoosen Product;
 
-    QHash<int,productChoosen> ClientProductHash;
+    QHash<int,productChoosen> *ClientProductHash;
 
     QString m_tableNumber;
     float m_price;
