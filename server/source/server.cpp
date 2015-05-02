@@ -702,9 +702,11 @@ void Server::day_begin_config(Config *config){
     dateTime.setTime(time);
     operation->setNext(dateTime);
     operation->setDayInterval(1);
-    // Connect method with
+    // Connect signal emit on time with method on server(create new income)
+    connect(operation, &ScheduleOperation::on_time,this, &Server::newIncome);
+    // the easiest way is the best xD
     //operation->setOperation(this, &Server::newIncome);
-    //ToDo: do connect slots by setOperation
+
 
     //ToDo: add ScheduleOperation to Schedule
     //Add Schedule obj to server

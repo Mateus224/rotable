@@ -124,12 +124,3 @@ bool ScheduleWorker::hasOperation(QString name)
 
 //------------------------------------------------------------------------------
 
-void ScheduleOperation::setOperation(QObject *obj, bool (*operation)())
-{
-    if(obj) // If obj use, so this isn't static method
-        QObject::connect(this, &ScheduleOperation::on_time, obj, operation);
-    else    //this is static method
-        QObject::connect(this, &ScheduleOperation::on_time, operation);
-}
-
-//------------------------------------------------------------------------------

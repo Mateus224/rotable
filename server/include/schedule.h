@@ -20,8 +20,6 @@
 #endif
 
 
-#include "server.h"
-
 //------------------------------------------------------------------------------
 
 namespace rotable {
@@ -55,8 +53,6 @@ public:
     inline void calcNext(){_next.addSecs(_interval);}
 
     inline void setDayInterval(qint64 interval) {_interval = interval*86400; }
-
-    inline void setOperation(QObject *obj, bool (*operation)());
 
 private:
     QString _name;
