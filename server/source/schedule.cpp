@@ -37,8 +37,8 @@ Schedule::Schedule()
     // Connect timer with checkSchedule
     connect(&_timer, SIGNAL(timeout()), &_scheduleWorker, SLOT(checkSchedule()));
     // Connect scheduleWorker with Schedule(there's no need work schedule when no option, etc.)
-    connect(&_scheduleWorker, SLOT(startSchedule()), this, SLOT(start()));
-    connect(&_scheduleWorker, SLOT(stopSchedule()), this, SLOT(quit()));
+    connect(&_scheduleWorker, SIGNAL(startSchedule()), this, SLOT(start()));
+    connect(&_scheduleWorker, SIGNAL(stopSchedule()), this, SLOT(quit()));
 }
 
 //------------------------------------------------------------------------------
