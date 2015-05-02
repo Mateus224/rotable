@@ -1,1 +1,1 @@
-SELECT `id` FROM `%1config`;
+SELECT `id` FROM `%1configs`;

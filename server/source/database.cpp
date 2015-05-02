@@ -506,7 +506,7 @@ Income *Database::income(int id)
       return 0;
     }
 
-    QString queryStr = _sqlCommands[Incomes]._select.arg(_prefix, "*", "id;").arg(id);
+    QString queryStr = _sqlCommands[Incomes]._select.arg(_prefix, "*", "id").arg(id);
 
     QSqlQuery q(_db);
     q.setForwardOnly(true);
@@ -564,7 +564,7 @@ Config *Database::config(int id)
       return 0;
     }
 
-    QString queryStr = _sqlCommands[Configs]._select.arg(_prefix, "*", "id;").arg(id);
+    QString queryStr = _sqlCommands[Configs]._select.arg(_prefix, "*", "id").arg(id);
 
     QSqlQuery q(_db);
     q.setForwardOnly(true);

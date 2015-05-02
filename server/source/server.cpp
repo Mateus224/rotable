@@ -528,8 +528,8 @@ bool Server::newIncome()
     income->setIncome(0.0);
     //ToDo: change here
     income->setDate(QDate::currentDate());
-    return true;
 
+    return addIncome(income);
 }
 
 //------------------------------------------------------------------------------
@@ -652,10 +652,12 @@ void Server::send_to_waiters(ComPackage &package)
 
 void Server::load_configs()
 {
+    qDebug() << "Load configs";
     QList<int> ids; // List for config id
-    _db.categoryIds(ids);   // Get config ids from database
+    _db.configIds(ids);   // Get config ids from database
     // For any id in ids list
     foreach (int id, ids) {
+        qDebug()<< "Load config with id:" <<  id << endl;
         Config *cfg =  _db.config(id);  // Load config from dababase (base on id)
         config_parser(cfg);             // Parse config
         delete cfg;                     // Delete obj;
