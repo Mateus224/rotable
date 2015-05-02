@@ -103,13 +103,13 @@ public:
      * Set interval beetween refresh
      * @param ms    time in ms
      */
-    inline void setRefreshTime(int ms){ _timer.setInterval(ms); }
+    inline void setRefreshTime(int ms);
 
     /**
      * Get interval beetween refresh
      * @return
      */
-    inline int refresh_time(){ return _timer.interval(); }
+    inline int refresh_time(){ return _timerInterval; }
 
     /**
      * Method to add/modify operation to/from schedule
@@ -122,7 +122,8 @@ private:
 
    void stop();
    void run();
-   QTimer _timer;
+   QTimer* _timer;
+   int _timerInterval;
    rotable::ScheduleWorker _scheduleWorker;
 
 };//class Schedule

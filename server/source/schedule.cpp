@@ -16,7 +16,11 @@ using namespace rotable;
 
 void Schedule::run()
 {
-    _timer.start();
+    _timer = new QTimer();
+    _timer->setInterval(_timerInterval);
+    // Connect timer with checkSchedule
+    connect(_timer, SIGNAL(timeout()), &_scheduleWorker, SLOT(checkSchedule()));
+    _timer->start();
     exec();
 }
 
@@ -24,21 +28,27 @@ void Schedule::run()
 
 void Schedule::stop()
 {
-    _timer.stop();
+    _timer->stop();
+    delete _timer;
     quit();
 }
 
 //------------------------------------------------------------------------------
 
-Schedule::Schedule()
+Schedule::Schedule(): _timerInterval(1000)
 {
-    _timer.setInterval(1000);
-
-    // Connect timer with checkSchedule
-    connect(&_timer, SIGNAL(timeout()), &_scheduleWorker, SLOT(checkSchedule()));
     // Connect scheduleWorker with Schedule(there's no need work schedule when no option, etc.)
     connect(&_scheduleWorker, SIGNAL(startSchedule()), this, SLOT(start()));
     connect(&_scheduleWorker, SIGNAL(stopSchedule()), this, SLOT(quit()));
+}
+
+//------------------------------------------------------------------------------
+
+void Schedule::setRefreshTime(int ms)
+{
+    _timerInterval = ms;
+    if(_timer)
+        _timer->setInterval(ms);
 }
 
 //------------------------------------------------------------------------------
