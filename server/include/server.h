@@ -232,7 +232,6 @@ private:
    * With that we can send information to any/all waiter(s)
    */
   QMap<client_t, int> _waiters;
-  QList<Config*> cfg_list;
   Schedule* schedule;
 
 }; // class Server

@@ -19,6 +19,8 @@ Server::Server(const QString &configFilePath, QObject *parent)
           this, SLOT(clientDisconnected(client_t,QString)));
   connect(&_tcp, SIGNAL(packageReceived(client_t,ComPackage*)),
           this, SLOT(packageReceived(client_t,ComPackage*)));
+  // if we add or update any config we parse them
+  connect(&_db, &Database::parseConfig, this, &Server::config_parser);
   schedule = new Schedule();
 }
 
@@ -81,6 +83,8 @@ bool Server::startup()
       }
     }
   }
+
+  load_configs();
 
   qDebug() << tr("Listening for incoming connections on port %1").arg(_config.port());
 
@@ -648,14 +652,14 @@ void Server::send_to_waiters(ComPackage &package)
 
 void Server::load_configs()
 {
-    QList<int> ids;
-    _db.categoryIds(ids);
+    QList<int> ids; // List for config id
+    _db.categoryIds(ids);   // Get config ids from database
+    // For any id in ids list
     foreach (int id, ids) {
-        Config *cfg =  _db.config(id);
-        cfg_list.append(cfg);
-        config_parser(cfg);
+        Config *cfg =  _db.config(id);  // Load config from dababase (base on id)
+        config_parser(cfg);             // Parse config
+        delete cfg;                     // Delete obj;
     }
-
 }
 
 //------------------------------------------------------------------------------
@@ -707,7 +711,6 @@ void Server::day_begin_config(Config *config){
 
     //Add operation to schedule
     schedule->addOperiationToSchedule(operation);
-
 }
 
 //------------------------------------------------------------------------------
