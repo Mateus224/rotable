@@ -402,6 +402,9 @@ public:
 
   bool add_init_data();
 
+signals:
+  void parseConfig(Config* c);
+
 private:
   /**
    * Collect SQL commands from resource file.
