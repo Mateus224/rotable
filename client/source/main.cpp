@@ -6,6 +6,7 @@
 #include "settings.h"
 #include "imageprovider.h"
 #include "productorder.h"
+#include "mytables.h"
 
 #ifdef __arm__
 #include <wiringPi.h>
@@ -61,7 +62,7 @@ int main(int argc, char *argv[])
 //  pinMode(24, INPUT);
 //  pinMode(25, INPUT);
 #endif
-
+  myTables *table= new myTables();
   rotable::Client* client = new rotable::Client(configFilePath);
 
   rotable::ImageProvider* imageProvider = new rotable::ImageProvider(client);
@@ -75,7 +76,7 @@ int main(int argc, char *argv[])
   view.rootContext()->setContextProperty("CategoryListModel", client->categoryListModel());
   view.rootContext()->setContextProperty("ProductListModel", client->productListModel());
   view.engine()->addImageProvider("rotable", imageProvider);
-  //view.rootContext()->setContextProperty("MyOrder", ClientOrder);
+  view.rootContext()->setContextProperty("MyOrder", table);
     view.rootContext()->setContextProperty("con", client);
   //view.setSource(QUrl::fromLocalFile(QString(ROTABLE_QML_PATH) + QString("main.qml")));
   view.setSource(QString("qrc:/client/main.qml"));
