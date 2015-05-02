@@ -17,6 +17,7 @@
 #include "settings.h"
 #include "compackage.h"
 #include "config.h"
+#include "schedule.h"
 
 //------------------------------------------------------------------------------
 
@@ -232,6 +233,8 @@ private:
    */
   QMap<client_t, int> _waiters;
   QList<Config*> cfg_list;
+  Schedule* schedule;
+
 }; // class Server
 
 //------------------------------------------------------------------------------

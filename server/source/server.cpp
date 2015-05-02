@@ -3,8 +3,6 @@
 #include "server.h"
 #include "settings.h"
 #include "logmanager.h"
-#include "schedule.h"
-#include "operation.h"
 
 //------------------------------------------------------------------------------
 
@@ -21,13 +19,14 @@ Server::Server(const QString &configFilePath, QObject *parent)
           this, SLOT(clientDisconnected(client_t,QString)));
   connect(&_tcp, SIGNAL(packageReceived(client_t,ComPackage*)),
           this, SLOT(packageReceived(client_t,ComPackage*)));
+  schedule = new Schedule();
 }
 
 //------------------------------------------------------------------------------
 
 Server::~Server()
 {
-
+    delete schedule;
 }
 
 //------------------------------------------------------------------------------
@@ -707,7 +706,7 @@ void Server::day_begin_config(Config *config){
     // the easiest way is the best xD
     //operation->setOperation(this, &Server::newIncome);
 
-
+    schedule->addOperiationToSchedule(operation);
     //ToDo: add ScheduleOperation to Schedule
     //Add Schedule obj to server
 
