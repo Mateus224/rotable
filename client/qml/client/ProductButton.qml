@@ -147,7 +147,7 @@ Rectangle {
             color: Qt.darker(parent.color, 1.4)
             MouseArea {
                 anchors.fill: parent
-                onClicked: {  }
+                onClicked: add_or_removeProduct(buttonProductId,true)
             }
 
             Image {
@@ -196,7 +196,7 @@ Rectangle {
             color: idAddProductButton.color
             MouseArea {
                 anchors.fill: parent
-                onClicked: {  }
+                onClicked: add_or_removeProduct(buttonProductId,flase)
             }
 
             Image {
@@ -208,7 +208,7 @@ Rectangle {
 
         Text {
             id: idProductTotalText
-            text: "=0,00 €"+buttonProductId
+            text: "=0,00 €"//+buttonProductId
 
             anchors.left: idReduceProductButton.right
             anchors.right: parent.right

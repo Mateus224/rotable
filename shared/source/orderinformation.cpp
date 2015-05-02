@@ -96,3 +96,4 @@ void OrderInformation::setinfo_orderInfo(const QString &info_orderInfo)
 
 }
 
+

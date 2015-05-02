@@ -23,10 +23,7 @@ void NewOrder::TableClient(int clientID)
     Order.append( new OrderPage(_clientID,this));
 }
 
-//void NewOrder::SendPage()
-//{
-   // Order.OrderFromClient.clear();
-//}
+
 
 /**
   NewOrder have a List of OrderPages in this Pages are an OrderID and a ClientID

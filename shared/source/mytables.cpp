@@ -81,4 +81,52 @@ void myTables::setToPay(const double &toPay)
         emit toPayChanged();
     }
 }
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+//Get Information
+//-----------------------------------------------------------------
 
+//qml Slot
+/*void myTables::add_or_removeProduct(int ProductID, bool add)
+{
+    if (add)
+    {
+        //addToProductHash(ProductID)
+    }
+    else
+    {
+
+    }
+}*/
+
+void myTables::addToProductHash(int id)
+{
+    //is this Product in the List? if not append if yes increase number
+    if(ClientProductHash.contains(id))
+    {
+        Product=ClientProductHash.take(id);
+        Product._s_quantity++;
+        ClientProductHash.insert(Product._s_quantity,Product);
+
+    }
+    else
+    {
+        productChoosen* Product1=new productChoosen;
+        Product1->_s_id=id;
+        Product1->_s_quantity=1;
+        ClientProductHash.insert(Product1->_s_quantity,*Product1);
+    }
+
+}
+/*
+void myTables::rmFromProductHash(int id)
+{
+    //is this product in the list? if one rm this from the list if more decrease it
+}
+
+
+void myTables::ProductHashManaging()
+{
+
+}
+*/
