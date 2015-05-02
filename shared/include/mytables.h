@@ -11,6 +11,9 @@ class myTables : public QObject//, public OrderInformation
     Q_PROPERTY(QString currentIndexT READ tableNumber WRITE settableNumber NOTIFY tableNumberChanged)
     Q_PROPERTY(double ToPay READ toPay WRITE setToPay NOTIFY toPayChanged)
 
+    //Q_PROPERTY(int _s_quantity READ tableNumber WRITE settableNumber NOTIFY tableNumberChanged)
+
+
 
 public:
     myTables(QObject *parent=0);
@@ -36,7 +39,6 @@ public:
     QList <OrderInformation*>  L_orderinformation;
 
 
-    void addToProductHash(int id);
 
 
     struct productChoosen{
@@ -56,6 +58,11 @@ signals:
     void CallWaiterChanged();
     void tableNumberChanged();
     void toPayChanged();
+
+public slots:
+
+    void addToProductHash(int ProductID);
+    void rmFromProductHash(int ProductID);
 
 private:
     QString m_newOrder;

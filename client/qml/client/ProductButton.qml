@@ -147,11 +147,11 @@ Rectangle {
             color: Qt.darker(parent.color, 1.4)
             MouseArea {
                 anchors.fill: parent
-<<<<<<< HEAD
+
                 onClicked: { con.payedSlot(1); }
-=======
-                onClicked: add_or_removeProduct(buttonProductId,true)
->>>>>>> 247a9c089cf6016fee6006d182acaa34060d1da0
+
+                //onClicked: add_or_removeProduct(buttonProductId,true)
+
             }
 
             Image {
@@ -200,11 +200,11 @@ Rectangle {
             color: idAddProductButton.color
             MouseArea {
                 anchors.fill: parent
-<<<<<<< HEAD
+
                 onClicked: { con.payedSlot(0); }
-=======
-                onClicked: add_or_removeProduct(buttonProductId,flase)
->>>>>>> 247a9c089cf6016fee6006d182acaa34060d1da0
+
+                //onClicked: add_or_removeProduct(buttonProductId,flase)
+
             }
 
             Image {

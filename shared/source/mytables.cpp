@@ -86,25 +86,15 @@ void myTables::setToPay(const double &toPay)
 //Get Information
 //-----------------------------------------------------------------
 
-//qml Slot
-/*void myTables::add_or_removeProduct(int ProductID, bool add)
-{
-    if (add)
-    {
-        //addToProductHash(ProductID)
-    }
-    else
-    {
 
-    }
-}*/
+//-----------------------------------------------------------------
 
-void myTables::addToProductHash(int id)
+
+void myTables::addToProductHash(int ProductID)
 {
-    //is this Product in the List? if not append if yes increase number
-    if(ClientProductHash.contains(id))
+    if(ClientProductHash.contains(ProductID))
     {
-        Product=ClientProductHash.take(id);
+        Product=ClientProductHash.take(ProductID);
         Product._s_quantity++;
         ClientProductHash.insert(Product._s_quantity,Product);
 
@@ -112,21 +102,40 @@ void myTables::addToProductHash(int id)
     else
     {
         productChoosen* Product1=new productChoosen;
-        Product1->_s_id=id;
+        Product1->_s_id=ProductID;
         Product1->_s_quantity=1;
         ClientProductHash.insert(Product1->_s_quantity,*Product1);
     }
 
 }
-/*
-void myTables::rmFromProductHash(int id)
+
+//-----------------------------------------------------------------
+
+
+void myTables::rmFromProductHash(int ProductID)
 {
-    //is this product in the list? if one rm this from the list if more decrease it
+    if(ClientProductHash.contains(ProductID))
+    {
+        Product=ClientProductHash.take(ProductID);
+        if(Product._s_quantity>1)
+        {
+            Product._s_quantity--;
+            ClientProductHash.insert(Product._s_quantity,Product);
+        }
+        else if(Product._s_quantity==1);
+        else
+        {
+            qDebug()<<"Fehler in rmFromProductHash";
+            //Fehler
+        }
+
+
+    }
+    else
+    {
+        qDebug()<<"Fehler in rmFromProductHash";
+        //Fehler
+    }
 }
 
 
-void myTables::ProductHashManaging()
-{
-
-}
-*/
