@@ -1589,7 +1589,7 @@ int Database::hasIncome(int id)
 
 //------------------------------------------------------------------------------
 
-int Database::hasConfig(QString name)
+int Database::hasConfigName(int name)
 {
     if (!isConnected()) {
       return false;
