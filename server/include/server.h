@@ -140,6 +140,29 @@ private:
   bool updateProduct(Product* product);
 
   /**
+   * Add a new income to database
+   * Only use for server propose
+   * @param income      new income
+   * @return            true on success
+   */
+  bool addIncome(Income *income);
+
+  /**
+   * Update an existing income
+   * Only use for server propose
+   * @param income      income to update
+   * @return            true on success
+   */
+  bool updateIncome(Income *income);
+
+  /**
+   * Create new income, base on actual date and last income
+   * Used by ScheduleOperation
+   * @return            teue on success
+   */
+  bool newIncome();
+
+  /**
    * Execute a command received from a client.
    *
    * @param package     command package
@@ -174,6 +197,12 @@ private:
    * @param config      config class
    */
   void config_parser(Config *config);
+
+  /**
+   * Method prepare ScheduleOperation object and add this to Schedule
+   * @param config      Config
+   */
+  void day_begin_config(Config *config);
 
   /* Configuration file access */
   ConfigServer _config;

@@ -3,6 +3,8 @@
 #include "server.h"
 #include "settings.h"
 #include "logmanager.h"
+#include "schedule.h"
+#include "operation.h"
 
 //------------------------------------------------------------------------------
 
@@ -474,6 +476,61 @@ bool Server::updateProduct(Product *product)
 
 //------------------------------------------------------------------------------
 
+bool Server::addIncome(Income *income)
+{
+    if (_db.hasIncome(income->date())) {
+      qWarning() << tr("A income of date '%1' already exists!").arg(income->date().toString());
+      return false;
+    }
+
+    if (!_db.addIncome(income)) {
+      qWarning() << tr("Failed to add product category!");
+      return false;
+    }
+
+    // we don't need inform clients about changes...
+    // in future we can inform admin app about change to update diagram
+    //ToDo: inform admin app about change
+
+    return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Server::updateIncome(Income *income)
+{
+    if (!_db.hasIncome(income->id())) {
+      qWarning() << tr("A income with id '%1' does not exists!")
+                    .arg(income->id());
+      return false;
+    }
+
+    if (!_db.updateIncome(income)) {
+      qWarning() << tr("Failed to update income!");
+      return false;
+    }
+
+    // we don't need inform clients about changes...
+    // in future we can inform admin app about change to update diagram
+    //ToDo: inform admin app about change
+
+    return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Server::newIncome()
+{
+    Income *income = new Income();
+    income->setIncome(0.0);
+    //ToDo: change here
+    income->setDate(QDate::currentDate());
+    return true;
+
+}
+
+//------------------------------------------------------------------------------
+
 bool Server::executeCommand(ComPackageCommand *package)
 {
   if (package) {
@@ -609,11 +666,49 @@ void Server::config_parser(Config *config)
     // Base on config name we select prepare method
     switch (config->name()) {
     case Config::day_begin:
-
+        day_begin_config(config);
         break;
     default:
         qCritical() << tr("Unknown config type '%1'!").arg(config->name());
     }
+}
+
+//------------------------------------------------------------------------------
+
+void Server::day_begin_config(Config *config){
+
+    //Load last income from database
+    Income *lastIncome = _db.getLastIncome();
+
+    //Prepare date f add new income to database
+    QDateTime dateTime;
+    if (!lastIncome)    // If income don't exist
+    {
+        //We want add new income record with day before today
+        dateTime = QDateTime::currentDateTime();    //current day(today)
+        dateTime.addDays(-1);                       //yesterday
+    }
+    else
+    {
+        dateTime.setDate(lastIncome->date());       //last income day
+        dateTime.addDays(1);                        //next income day
+    }
+    //Read time from config
+    QTime time = QTime::fromString(config->value(), "h'm");
+    //Create new ScheduleOperation obj
+    ScheduleOperation *operation =  new ScheduleOperation();
+    //Init filds of class
+    operation->setName("day_begin");
+    dateTime.setTime(time);
+    operation->setNext(dateTime);
+    operation->setDayInterval(1);
+    // Connect method with
+    //operation->setOperation(this, &Server::newIncome);
+    //ToDo: do connect slots by setOperation
+
+    //ToDo: add ScheduleOperation to Schedule
+    //Add Schedule obj to server
+
 }
 
 //------------------------------------------------------------------------------

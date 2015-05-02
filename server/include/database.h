@@ -355,8 +355,27 @@ public:
    */
   int hasWaiter(const QString nick, const QString passwdhash);
 
+  /**
+   * Check if income exist base on date
+   * @param date        date
+   * @return            id if exists, otherwise -1
+   */
   int hasIncome(QDate date);
+
+  /**
+   * Get list of income base on mounth and year
+   * @param mounth      mounth
+   * @param year        year
+   * @return            id lists if exists, otherwise NULL
+   */
   QList<int> *hasIncome(int mounth, int year);
+
+  /**
+   * Check if income exist base on id
+   * @param id          income id
+   * @return            id if exists, otherwise -1
+   */
+  int hasIncome(int id);
 
   Income* getLastIncome();
   int getLastIncomeId();

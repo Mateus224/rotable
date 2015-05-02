@@ -94,7 +94,7 @@ void ScheduleWorker::checkSchedule()
         if(time > operation->next())
         {
             // Do "something"
-            operation->operation();
+            operation->on_time();
             // Calc when we need do something next time
             operation->calcNext();
         }
@@ -120,6 +120,16 @@ bool ScheduleWorker::hasOperation(QString name)
     if(_scheduleOption.contains(name))
         return true;
     return false;
+}
+
+//------------------------------------------------------------------------------
+
+void ScheduleOperation::setOperation(QObject *obj, bool (*operation)())
+{
+    if(obj) // If obj use, so this isn't static method
+        QObject::connect(this, &ScheduleOperation::on_time, obj, operation);
+    else    //this is static method
+        QObject::connect(this, &ScheduleOperation::on_time, operation);
 }
 
 //------------------------------------------------------------------------------

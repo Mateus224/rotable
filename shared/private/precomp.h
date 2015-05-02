@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <assert.h>
-
+#include <QHash>
 #include <QObject>
 #include <QString>
 #include <QIcon>

@@ -1,6 +1,6 @@
 #ifndef MYTABLES_H
 #define MYTABLES_H
-#include <QObject>
+#include "private/precomp.h"
 #include "orderinformation.h"
 
 class myTables : public QObject//, public OrderInformation
@@ -31,7 +31,22 @@ public:
     void setToPay(const double &toPay);
 
     void setColor_orderinformation(const int &position,const QString &color);
+
+
     QList <OrderInformation*>  L_orderinformation;
+
+
+    void addToProductHash(int id);
+
+
+    struct productChoosen{
+        int _s_id;
+        int _s_quantity;
+    };
+    productChoosen Product;
+
+    QHash<int,productChoosen> ClientProductHash;
+
     QString m_tableNumber;
     float m_price;
     float m_toPay;
