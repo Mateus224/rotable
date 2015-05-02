@@ -147,7 +147,7 @@ Rectangle {
             color: Qt.darker(parent.color, 1.4)
             MouseArea {
                 anchors.fill: parent
-                onClicked: {  }
+                onClicked: { con.payedSlot(1); }
             }
 
             Image {
@@ -196,7 +196,7 @@ Rectangle {
             color: idAddProductButton.color
             MouseArea {
                 anchors.fill: parent
-                onClicked: {  }
+                onClicked: { con.payedSlot(0); }
             }
 
             Image {

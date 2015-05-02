@@ -46,6 +46,8 @@ class rotable::Client : public QObject
 {
   Q_OBJECT
 
+  //Q_PROPERTY(QString test READ test WRITE settest NOTIFY testChanged)
+
   Q_PROPERTY(QString state READ state WRITE setState NOTIFY stateChanged)
   Q_PROPERTY(int currentCategoryId READ currentCategoryId WRITE setCurrentCategoryId NOTIFY currentCategoryIdChanged)
   Q_PROPERTY(QString currentCategoryName READ currentCategoryName NOTIFY currentCategoryIdChanged)
@@ -199,7 +201,8 @@ signals:
    */
   void debugChanged();
 
-private slots:
+public slots:
+void payedSlot(int i){qDebug()<<i;}
   /**
    * Start reconnection with rotable-server.
    */

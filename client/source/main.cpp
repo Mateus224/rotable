@@ -75,8 +75,8 @@ int main(int argc, char *argv[])
   view.rootContext()->setContextProperty("CategoryListModel", client->categoryListModel());
   view.rootContext()->setContextProperty("ProductListModel", client->productListModel());
   view.engine()->addImageProvider("rotable", imageProvider);
-  //view.rootContext()->setContextProperty("MyOrder", MyOrder);
-
+  //view.rootContext()->setContextProperty("MyOrder", ClientOrder);
+    view.rootContext()->setContextProperty("con", client);
   //view.setSource(QUrl::fromLocalFile(QString(ROTABLE_QML_PATH) + QString("main.qml")));
   view.setSource(QString("qrc:/client/main.qml"));
   view.show();

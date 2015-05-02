@@ -1,10 +1,12 @@
 import QtQuick 2.0
 
 Rectangle {
+    id:screensaverPage
     anchors.fill: parent
     color: "#00000000" // max alpha!
 
     Rectangle {
+
         id: rectTouchToStart
         anchors.centerIn: parent
         width: parent.width
@@ -25,10 +27,11 @@ Rectangle {
             font.pixelSize: parent.height * 0.70
         }
     }
-
+    property string startscreen: "STARTSCREEN"
     MouseArea {
+        id:te
         anchors.fill: parent
-        onClicked: client.state = "STARTSCREEN"
+        onClicked: client.state = startscreen
     }
 
     /*Image {

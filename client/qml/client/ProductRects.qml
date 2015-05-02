@@ -34,7 +34,7 @@ Rectangle {
             Component {
                 id: productDelegate
 
-                ProductButton {
+                ProductButton{
                     id: productButton
                     productName: name
                     productAmount: amount
