@@ -97,7 +97,7 @@ public:
      *
      * Init _timer interval, connect slots, etc.
      */
-    inline Schedule();
+    Schedule();
 
     /**
      * Set interval beetween refresh

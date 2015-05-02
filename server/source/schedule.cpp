@@ -30,7 +30,7 @@ void Schedule::stop()
 
 //------------------------------------------------------------------------------
 
-inline Schedule::Schedule()
+Schedule::Schedule()
 {
     _timer.setInterval(1000);
 
