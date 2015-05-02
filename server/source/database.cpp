@@ -506,7 +506,7 @@ Income *Database::income(int id)
       return 0;
     }
 
-    QString queryStr = _sqlCommands[Incomes]._select.arg(_prefix, "*", "id;").arg(id);
+    QString queryStr = _sqlCommands[Incomes]._select.arg(_prefix, "*", "id").arg(id);
 
     QSqlQuery q(_db);
     q.setForwardOnly(true);
@@ -564,7 +564,7 @@ Config *Database::config(int id)
       return 0;
     }
 
-    QString queryStr = _sqlCommands[Configs]._select.arg(_prefix, "*", "id;").arg(id);
+    QString queryStr = _sqlCommands[Configs]._select.arg(_prefix, "*", "id").arg(id);
 
     QSqlQuery q(_db);
     q.setForwardOnly(true);
@@ -769,6 +769,9 @@ bool Database::addConfig(Config *config)
       return false;
     }
 
+    // emit signal to parse config
+    parseConfig(config);
+
     return true;
 }
 
@@ -893,6 +896,9 @@ bool Database::updateConfig(Config *config)
                      .arg(queryStr, q.lastError().text());
       return false;
     }
+
+    // emit signal to parse config
+    parseConfig(config);
 
     return true;
 }
@@ -1583,7 +1589,7 @@ int Database::hasIncome(int id)
 
 //------------------------------------------------------------------------------
 
-int Database::hasConfig(QString name)
+int Database::hasConfigName(int name)
 {
     if (!isConnected()) {
       return false;
@@ -1707,6 +1713,7 @@ bool Database::isConnected() const
 bool Database::add_init_data()
 {
 
+  //ToDo: Change this to exec some sql command, or load data from json/xml, etc.
   Config day;
   day.setName(Config::day_begin);
   day.setValue("16:00");

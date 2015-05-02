@@ -20,8 +20,6 @@
 #endif
 
 
-#include "server.h"
-
 //------------------------------------------------------------------------------
 
 namespace rotable {
@@ -55,8 +53,6 @@ public:
     inline void calcNext(){_next.addSecs(_interval);}
 
     inline void setDayInterval(qint64 interval) {_interval = interval*86400; }
-
-    inline void setOperation(QObject *obj, bool (*operation)());
 
 private:
     QString _name;
@@ -101,19 +97,19 @@ public:
      *
      * Init _timer interval, connect slots, etc.
      */
-    inline Schedule();
+    Schedule();
 
     /**
      * Set interval beetween refresh
      * @param ms    time in ms
      */
-    inline void setRefreshTime(int ms){ _timer.setInterval(ms); }
+    inline void setRefreshTime(int ms);
 
     /**
      * Get interval beetween refresh
      * @return
      */
-    inline int refresh_time(){ return _timer.interval(); }
+    inline int refresh_time(){ return _timerInterval; }
 
     /**
      * Method to add/modify operation to/from schedule
@@ -126,7 +122,8 @@ private:
 
    void stop();
    void run();
-   QTimer _timer;
+   QTimer* _timer;
+   int _timerInterval;
    rotable::ScheduleWorker _scheduleWorker;
 
 };//class Schedule

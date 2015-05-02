@@ -3,8 +3,6 @@
 #include "server.h"
 #include "settings.h"
 #include "logmanager.h"
-#include "schedule.h"
-#include "operation.h"
 
 //------------------------------------------------------------------------------
 
@@ -21,13 +19,16 @@ Server::Server(const QString &configFilePath, QObject *parent)
           this, SLOT(clientDisconnected(client_t,QString)));
   connect(&_tcp, SIGNAL(packageReceived(client_t,ComPackage*)),
           this, SLOT(packageReceived(client_t,ComPackage*)));
+  // if we add or update any config we parse them
+  connect(&_db, &Database::parseConfig, this, &Server::config_parser);
+  schedule = new Schedule();
 }
 
 //------------------------------------------------------------------------------
 
 Server::~Server()
 {
-
+    delete schedule;
 }
 
 //------------------------------------------------------------------------------
@@ -82,6 +83,8 @@ bool Server::startup()
       }
     }
   }
+
+  load_configs();
 
   qDebug() << tr("Listening for incoming connections on port %1").arg(_config.port());
 
@@ -525,8 +528,8 @@ bool Server::newIncome()
     income->setIncome(0.0);
     //ToDo: change here
     income->setDate(QDate::currentDate());
-    return true;
 
+    return addIncome(income);
 }
 
 //------------------------------------------------------------------------------
@@ -649,14 +652,16 @@ void Server::send_to_waiters(ComPackage &package)
 
 void Server::load_configs()
 {
-    QList<int> ids;
-    _db.categoryIds(ids);
+    qDebug() << "Load configs";
+    QList<int> ids; // List for config id
+    _db.configIds(ids);   // Get config ids from database
+    // For any id in ids list
     foreach (int id, ids) {
-        Config *cfg =  _db.config(id);
-        cfg_list.append(cfg);
-        config_parser(cfg);
+        qDebug()<< "Load config with id:" <<  id << endl;
+        Config *cfg =  _db.config(id);  // Load config from dababase (base on id)
+        config_parser(cfg);             // Parse config
+        delete cfg;                     // Delete obj;
     }
-
 }
 
 //------------------------------------------------------------------------------
@@ -702,13 +707,12 @@ void Server::day_begin_config(Config *config){
     dateTime.setTime(time);
     operation->setNext(dateTime);
     operation->setDayInterval(1);
-    // Connect method with
-    //operation->setOperation(this, &Server::newIncome);
-    //ToDo: do connect slots by setOperation
+    //Connect signal emit on time with method on server(create new income)
+    connect(operation, &ScheduleOperation::on_time,this, &Server::newIncome);
+    //the easiest way is the best xD
 
-    //ToDo: add ScheduleOperation to Schedule
-    //Add Schedule obj to server
-
+    //Add operation to schedule
+    schedule->addOperiationToSchedule(operation);
 }
 
 //------------------------------------------------------------------------------

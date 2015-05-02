@@ -384,7 +384,7 @@ public:
    * @param name        config name
    * @return            record id
    */
-  int hasConfig(QString name);
+  int hasConfigName(int name);
 
   /**
    * Check Config record exist
@@ -401,6 +401,9 @@ public:
   bool isConnected() const;
 
   bool add_init_data();
+
+signals:
+  void parseConfig(Config* c);
 
 private:
   /**
