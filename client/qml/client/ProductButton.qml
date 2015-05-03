@@ -224,7 +224,7 @@ Rectangle {
         Text {
             id: idProductTotalText
             property string price:productButton.productPriceStr.replace(",",".")
-            text: (parseFloat(price).toFixed(2)*count).toFixed(2)+"€"
+            text: (parseFloat(price).toFixed(2)*count).toFixed(2)+"€ "+buttonProductId
 
             anchors.left: idReduceProductButton.right
             anchors.right: parent.right
