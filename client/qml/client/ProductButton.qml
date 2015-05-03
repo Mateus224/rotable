@@ -229,7 +229,7 @@ Rectangle {
 
         Text {
             id: idProductTotalText
-            text: (parseFloat(price).toFixed(1)*count).toFixed(1)+"€"
+            text: (parseFloat(price).toFixed(1)*MyOrder.quantity).toFixed(1)+"€"
 
             font.bold: true
             anchors.left: idReduceProductButton.right
