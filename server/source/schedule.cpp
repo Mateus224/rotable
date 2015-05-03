@@ -107,6 +107,7 @@ void ScheduleWorker::checkSchedule()
             operation->on_time();
             // Calc when we need do something next time
             operation->calcNext();
+            qDebug() << "New time: " << operation->next() << endl;
         }
     }
 }

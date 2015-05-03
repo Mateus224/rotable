@@ -50,7 +50,7 @@ public:
 
     inline void setSecInterval(qint64 interval) {_interval = interval; }
     inline qint64 setSecInterval() { return _interval; }
-    inline void calcNext(){_next.addSecs(_interval);}
+    inline void calcNext(){ _next = _next.addSecs(_interval); }
 
     inline void setDayInterval(qint64 interval) {_interval = interval*86400; }
 
