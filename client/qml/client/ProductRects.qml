@@ -36,12 +36,12 @@ Rectangle {
 
                 ProductButton{
                     id: productButton
-                    productName: name
-                    productAmount: amount
-                    productInfo: info
-                    productPriceStr: priceStr
-                    color: rectColor
-                    buttonProductId: productId
+                    productName: name ? name:""
+                    productAmount: amount ? amount:""
+                    productInfo: info ? info:""
+                    productPriceStr: priceStr ? priceStr:""
+                    color: rectColor ? rectColor:""
+                    buttonProductId: productId ? productId:""
                 }
             }
 

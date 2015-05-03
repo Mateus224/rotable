@@ -39,7 +39,7 @@ Rectangle {
         Text {
             id: idProductNameCollapsed
             anchors.fill: parent
-            text: productName
+            text: productName ? productName:""
 
             wrapMode: Text.Wrap
 
@@ -119,7 +119,8 @@ Rectangle {
 
         Text {
             id: idProductInfo
-            text:  info//+ "test"
+            text:  info ? info:""
+//+ "test"
 
             wrapMode: Text.Wrap
 
