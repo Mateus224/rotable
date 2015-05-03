@@ -481,13 +481,13 @@ bool Server::updateProduct(Product *product)
 
 bool Server::addIncome(Income *income)
 {
-    if (_db.hasIncome(income->date())) {
+    if (_db.hasIncome(income->date()) != -1) {
       qWarning() << tr("A income of date '%1' already exists!").arg(income->date().toString());
       return false;
     }
 
     if (!_db.addIncome(income)) {
-      qWarning() << tr("Failed to add product category!");
+      qWarning() << tr("Failed to add income!");
       return false;
     }
 
@@ -691,19 +691,20 @@ void Server::day_begin_config(Config *config){
     {
         //We want add new income record with day before today
         dateTime = QDateTime::currentDateTime();    //current day(today)
-        dateTime.addDays(-1);                       //yesterday
+        dateTime = dateTime.addDays(-1);                       //yesterday
     }
     else
     {
-        dateTime.setDate(lastIncome->date());       //last income day
-        dateTime.addDays(1);                        //next income day
+       dateTime.setDate(lastIncome->date());       //last income day
+       dateTime = dateTime.addDays(1);                        //next income day
     }
     //Read time from config
-    QTime time = QTime::fromString(config->value(), "h'm");
+    QTime time = QTime::fromString(config->value(), "hh:mm");
     //Create new ScheduleOperation obj
     ScheduleOperation *operation =  new ScheduleOperation();
     //Init filds of class
     operation->setName("day_begin");
+    //qDebug() << "time load from config" << time.toString("hh:m") << endl<< "String with data" << config->value() << endl;
     dateTime.setTime(time);
     operation->setNext(dateTime);
     operation->setDayInterval(1);
