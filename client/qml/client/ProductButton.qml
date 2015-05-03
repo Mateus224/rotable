@@ -88,7 +88,7 @@ Rectangle {
 
             font.bold: true
             font.pixelSize: parent.height * 0.2
-            font.family: productButton.buttonFontFamily
+            //font.family: productButton.buttonFontFamily
             font.capitalization: Font.AllUppercase
         }
 
@@ -230,7 +230,8 @@ Rectangle {
 
         Text {
             id: idProductTotalText
-            text: (parseFloat(price).toFixed(1)*MyOrder.quantity).toFixed(1)+"€"
+            property string price:productButton.productPriceStr.replace(",",".")
+            text: (parseFloat(price).toFixed(1)*(MyOrder.quantity)).toFixed(1)+"€"
 
             font.bold: true
             anchors.left: idReduceProductButton.right

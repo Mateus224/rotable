@@ -7,7 +7,6 @@ Rectangle {
     MyOrderButton {
         id: buttonMyOrder
     }
-
     /*Image {
         id: logo
         source: "qrc:/client/resources/rotable_logo.png"
@@ -19,7 +18,6 @@ Rectangle {
         width: 250
         fillMode: Image.PreserveAspectFit
     }*/
-
     CategoryBar {
         id: categoryBar
     }

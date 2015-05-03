@@ -129,12 +129,12 @@ void myTables::addToProductHash(int ProductID)
         Product->_s_id=ProductID;
         Product->_s_quantity=1;
         ClientProductHash->insert(Product->_s_id,*Product);
-/*
+
         QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
         while (i != ClientProductHash->constEnd()) {
             qDebug() <<  "first; quantity: " << i.value()._s_quantity <<  "id: " << i.value()._s_id ;
             ++i;
-        }*/
+        }
         setquantity(1);
     }
 
@@ -152,14 +152,15 @@ void myTables::rmFromProductHash(int ProductID)
         {
             Product._s_quantity--;
             ClientProductHash->insert(Product._s_id,Product);
-/*
+        setquantity(Product._s_quantity);
             QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
             while (i != ClientProductHash->constEnd()) {
             qDebug() <<  "rm; quantity: " << i.value()._s_quantity <<  "id: " << i.value()._s_id ;
                 ++i;
-            }*/
+            }
         }
-        else if(Product._s_quantity==1);
+        else if(Product._s_quantity==0)
+            setquantity(Product._s_quantity);
         else
         {
             qDebug()<<"Fehler in rmFromProductHash1";
