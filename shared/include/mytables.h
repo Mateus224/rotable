@@ -11,7 +11,7 @@ class myTables : public QObject//, public OrderInformation
     Q_PROPERTY(QString currentIndexT READ tableNumber WRITE settableNumber NOTIFY tableNumberChanged)
     Q_PROPERTY(double ToPay READ toPay WRITE setToPay NOTIFY toPayChanged)
 
-    //Q_PROPERTY(int _s_quantity READ tableNumber WRITE settableNumber NOTIFY tableNumberChanged)
+    Q_PROPERTY(int quantity READ quantity WRITE setquantity NOTIFY quantityChanged)
 
 
 
@@ -20,6 +20,10 @@ public:
 
     QString tableNumber() const;
     void settableNumber(const QString &tableNumber);
+
+    int quantity() const;
+    void setquantity( int quantity);
+
 
     void add_table(QString tables);
     void add_orderinformation(const int m_pieces,const QString m_orderName,const float m_price,const QString m_info_orderInfo);
@@ -35,6 +39,7 @@ public:
 
     void setColor_orderinformation(const int &position,const QString &color);
 
+    void getQuantity(int ProductID);
 
     QList <OrderInformation*>  L_orderinformation;
 
@@ -58,13 +63,19 @@ signals:
     void CallWaiterChanged();
     void tableNumberChanged();
     void toPayChanged();
+    void quantityChanged();
 
 public slots:
 
     void addToProductHash(int ProductID);
     void rmFromProductHash(int ProductID);
+    void setproductid(int ProductID){
+        qDebug()<<"plub";
+        getQuantity(ProductID);
+    }
 
 private:
+    int m__quantity;
     QString m_newOrder;
     QString m_CallWaiter;
     QString m_name;

@@ -47,7 +47,7 @@ QVariant CategoryListModel::data(const QModelIndex &index, int role) const
 {
   if (index.column() == 0 && _products->categoryCount() + 2 > index.row()) {
     switch (role) {
-    case Qt::DisplayRole:
+    //case Qt::DisplayRole:
     case NameRole:
     {
       if (index.row() < _products->categoryCount()) {

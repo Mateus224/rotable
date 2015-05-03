@@ -6,6 +6,7 @@ myTables::myTables(QObject *parent) : QObject(parent)
 {
     ClientProductHash=new QHash<int,productChoosen>;
     ClientProductHash->reserve(250);
+    m__quantity=0;
 }
 
 
@@ -83,6 +84,20 @@ void myTables::setToPay(const double &toPay)
         emit toPayChanged();
     }
 }
+
+//------------------------------------------------------------
+int myTables::quantity() const
+{
+    return Product._s_quantity;
+}
+
+void myTables::setquantity( int quantity)
+{
+    Product._s_quantity = quantity;
+    emit quantityChanged();
+}
+
+
 //-----------------------------------------------------------------
 //-----------------------------------------------------------------
 //Get Information
@@ -94,18 +109,18 @@ void myTables::setToPay(const double &toPay)
 
 void myTables::addToProductHash(int ProductID)
 {
-            qDebug()<<ProductID;
     if(ClientProductHash->contains(ProductID))
     {
-        qDebug()<<"juhuu";
         Product=ClientProductHash->take(ProductID);
         Product._s_quantity++;
         ClientProductHash->insert(Product._s_id, Product);
-    QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
+/*
+        QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
         while (i != ClientProductHash->constEnd()) {
             qDebug() <<  "quantity: " << i.value()._s_quantity <<  "id: " << i.value()._s_id ;
             ++i;
-        }
+        }*/
+        setquantity(Product._s_quantity);
 
     }
     else
@@ -114,11 +129,13 @@ void myTables::addToProductHash(int ProductID)
         Product->_s_id=ProductID;
         Product->_s_quantity=1;
         ClientProductHash->insert(Product->_s_id,*Product);
-    QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
+/*
+        QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
         while (i != ClientProductHash->constEnd()) {
             qDebug() <<  "first; quantity: " << i.value()._s_quantity <<  "id: " << i.value()._s_id ;
             ++i;
-        }
+        }*/
+        setquantity(1);
     }
 
 }
@@ -128,25 +145,24 @@ void myTables::addToProductHash(int ProductID)
 
 void myTables::rmFromProductHash(int ProductID)
 {
-            qDebug()<<"Fehler in rmFromProductHash0";
     if(ClientProductHash->contains(ProductID))
     {
         Product=ClientProductHash->take(ProductID);
-        if(Product._s_quantity>1)
+        if(Product._s_quantity>0)
         {
             Product._s_quantity--;
             ClientProductHash->insert(Product._s_id,Product);
-    QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
+/*
+            QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
             while (i != ClientProductHash->constEnd()) {
             qDebug() <<  "rm; quantity: " << i.value()._s_quantity <<  "id: " << i.value()._s_id ;
                 ++i;
-            }
+            }*/
         }
         else if(Product._s_quantity==1);
         else
         {
             qDebug()<<"Fehler in rmFromProductHash1";
-            //Fehler
         }
 
 
@@ -154,8 +170,24 @@ void myTables::rmFromProductHash(int ProductID)
     else
     {
         qDebug()<<"Fehler in rmFromProductHash2";
-        //Fehler
     }
+    setquantity(Product._s_quantity);
 }
 
+//-----------------------------------------------------------------
+
+void myTables::getQuantity(int ProductID)
+{
+    if(ClientProductHash->contains(ProductID))
+    {
+        Product=ClientProductHash->take(ProductID);
+        ClientProductHash->insert(Product._s_id,Product);
+        setquantity (Product._s_quantity);
+    }
+    else
+    {
+        int zero=0;
+        setquantity (zero);
+    }
+}
 

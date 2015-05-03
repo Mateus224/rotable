@@ -15,6 +15,8 @@ Rectangle {
     property string productAmount: ""
     property string productInfo: ""
     property string productPriceStr: ""
+    property string price:productButton.productPriceStr.replace(",",".")
+
 
     property real contentMarginH: grid.buttonWidth * 0.25
     property real contentMarginV: contentMarginH //grid.buttonHeight * 0.075
@@ -64,9 +66,10 @@ Rectangle {
         width: parent.width
         height: parent.height
 
+
         Text {
             id: idProductNameExpanded
-            text: productName
+            text: name
 
             anchors.top: parent.top
             anchors.left: parent.left
@@ -91,8 +94,11 @@ Rectangle {
 
         Text {
             id: idProductPriceStr
-            text: productButton.productPriceStr
+            property string price:productButton.productPriceStr.replace(",",".")
+            text: parseFloat(price).toFixed(1)+"€ "
+            //text: productButton.productPriceStr
 
+            font.bold: true
             anchors.left: productName.right
             anchors.right: parent.right
             anchors.top: parent.top
@@ -113,7 +119,7 @@ Rectangle {
 
         Text {
             id: idProductInfo
-            text: productInfo
+            text:  info//+ "test"
 
             wrapMode: Text.Wrap
 
@@ -150,7 +156,7 @@ Rectangle {
 
                 onClicked: {
                     MyOrder.addToProductHash(buttonProductId)
-                    count++
+                    count=count+1
                 }
 
                 //onClicked: add_or_removeProduct(buttonProductId,true)
@@ -177,7 +183,7 @@ Rectangle {
 
             Text {
                 id: idProductAmountText
-                text: count
+                text: MyOrder.quantity
                 color: "#000000"
 
                 anchors.fill: parent
@@ -223,9 +229,9 @@ Rectangle {
 
         Text {
             id: idProductTotalText
-            property string price:productButton.productPriceStr.replace(",",".")
-            text: (parseFloat(price).toFixed(2)*count).toFixed(2)+"€ "+buttonProductId
+            text: (parseFloat(price).toFixed(1)*count).toFixed(1)+"€"
 
+            font.bold: true
             anchors.left: idReduceProductButton.right
             anchors.right: parent.right
             anchors.top: idProductInfo.bottom
@@ -284,16 +290,20 @@ Rectangle {
             if (-1 != buttonProductId) {
                 if (productButton.state == "COLLAPSED") {
                     productButton.state = "EXPANDED"
+                    MyOrder.setproductid(buttonProductId)
+
                 }
             }
         }
     }
+
     Connections {
         target: idMouseAreaBProductPage
         onClicked: {
             if (-1 != buttonProductId) {
                 if (productButton.state == "EXPANDED") {
                     productButton.state = "COLLAPSED"
+                    MyOrder.setproductid(buttonProductId)
                 }
             }
         }
@@ -309,6 +319,7 @@ Rectangle {
             PropertyChanges { target: buttonExpanded; height: 3 * (grid.buttonHeight + grid.buttonMarginV) - grid.buttonMarginV }
             PropertyChanges { target: productButton; z: 1 }
             PropertyChanges { target: buttonExpanded; z: 1 }
+            //PropertyChanges { target: buttonExpanded; MyOrderButton }
         },
         State {
             name: "COLLAPSED"

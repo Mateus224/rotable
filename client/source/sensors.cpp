@@ -117,9 +117,9 @@ Sensors::~Sensors()
 void Sensors::checkDisplaySensors()
 {
 #ifdef __arm__
-  qDebug() << tr("Sensors %1, %2, %3, %4")
+  /*qDebug() << tr("Sensors %1, %2, %3, %4")
               .arg(digitalRead(7)).arg(digitalRead(8))
-              .arg(digitalRead(24)).arg(digitalRead(25));
+              .arg(digitalRead(24)).arg(digitalRead(25));*/
 
   if (LOW == digitalRead(7)) {
     if (_screenRotation != 180) {
@@ -182,9 +182,9 @@ void Sensors::checkDistanceSensors()
         }
       }
 
-      qDebug() << tr("Distance Sensor %1, %2, %3, %4")
+     /* qDebug() << tr("Distance Sensor %1, %2, %3, %4")
                   .arg(values[0]).arg(values[1])
-                  .arg(values[2]).arg(values[3]);
+                  .arg(values[2]).arg(values[3]);*/
     }
   }
 #endif
