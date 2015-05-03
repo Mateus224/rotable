@@ -730,7 +730,7 @@ bool Database::addIncome(Income *income)
     q.bindValue(":income", income->income());
     q.bindValue(":day", income->date().day());
     q.bindValue(":month", income->date().month());
-    q.bindValue(":year", income->date());
+    q.bindValue(":year", income->date().year());
 
     if (!q.exec()) {
       qCritical() << tr("Query exec failed: (%1: %2")
@@ -1080,7 +1080,7 @@ bool Database::createDatabase()
 //  }
 
   // Client table
-  QSqlQuery q5(QString("DROP TABLE IF EXISTS `%lclient`;").arg(_prefix), _db);
+  QSqlQuery q5(QString("DROP TABLE IF EXISTS `%1client`;").arg(_prefix), _db);
   if (q5.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q5.lastError().text());
     return false;

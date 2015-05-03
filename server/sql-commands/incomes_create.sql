@@ -3,5 +3,5 @@ CREATE TABLE IF NOT EXISTS `%1daily_incomes` (
   `income` REAL NOT NULL,
   `day` INTEGER NOT NULL,
   `month` INTEGER NOT NULL,
-  `year` INTEGER NOT NULL,
+  `year` INTEGER NOT NULL
 );
