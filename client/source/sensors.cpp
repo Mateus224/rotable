@@ -182,9 +182,9 @@ void Sensors::checkDistanceSensors()
         }
       }
 
-     /* qDebug() << tr("Distance Sensor %1, %2, %3, %4")
+      qDebug() << tr("Distance Sensor %1, %2, %3, %4")
                   .arg(values[0]).arg(values[1])
-                  .arg(values[2]).arg(values[3]);*/
+                  .arg(values[2]).arg(values[3]);
     }
   }
 #endif

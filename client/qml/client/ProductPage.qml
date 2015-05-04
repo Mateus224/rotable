@@ -28,7 +28,7 @@ Rectangle {
 
         Text {
             id: categoryTitleLabel
-            text: client.currentCategoryName
+            text: client.currentCategoryName ? client.currentCategoryName: ""
             font.family: "FreeSans"
             color: "#000000"
             font.bold: true
