@@ -44,22 +44,45 @@ Rectangle {
         id: buttonMyOrder
     }
 
-    /*Image {
+    Image {
         id: logo
         source: "qrc:/client/resources/rotable_logo.png"
 
         anchors.top: categoryBar.bottom
         anchors.bottom: parent.bottom
-        anchors.right: parent.right
-        anchors.margins: 5
+        anchors.horizontalCenter: parent.horizontalCenter
+        //anchors.right: parent.right
+        anchors.margins: 10
 
         fillMode: Image.PreserveAspectFit
-    }*/
+    }
 
     CategoryBar {
         id: categoryBar
     }
+    /*
+    Image {
+        property int buttonSizeH: parent.height * 0.1
+        property int buttonSizeW: ( parent.height*0.01)
 
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.verticalCenterOffset: buttonSizeW
+        anchors.bottomMargin: parent.height * 0.125
+
+        //height: parent.height * 0.1
+        id: logo
+        source: "qrc:/client/resources/rotable_logo.png"
+         //:buttonSizeW
+        //anchors.bottom: categoryBar.top
+
+        anchors.horizontalCenter: parent.horizontalCenter
+        //anchors.margins: 10
+
+        height : buttonSizeH
+        fillMode: Image.PreserveAspectFit
+    }
+*/
     ProductRects {
         id: productRects
     }
