@@ -11,7 +11,7 @@
 qmlContxt::qmlContxt(QQmlContext &qmlCon, QObject *parent) :QObject(parent), ctxt(qmlCon)
 {
     m_tableNumber=0;
-    AppWindow=new WaiterAppWindow;
+    //AppWindow=new WaiterAppWindow;
 
 }
 
@@ -70,7 +70,7 @@ void qmlContxt::addAllPrices()
         {
              toPay+=tableNumber.value(m_tableNumber)->L_orderinformation.at(j)->m_price;
         }
-    AppWindow->setToPay(toPay);
+    //AppWindow->setToPay(toPay);
 }
 
 
@@ -153,5 +153,8 @@ void qmlContxt::cancSlot(const QString &canc, const int index)
         }
     }
 }
+
+//--------------------------------------------------------
+
 
 

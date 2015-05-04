@@ -1,5 +1,5 @@
 #include "private/precomp.h"
-
+#include  "../include/qmlcontxt.h"
 //#include "client/linux/handler/exception_handler.h"
 
 #include "client.h"
@@ -62,25 +62,34 @@ int main(int argc, char *argv[])
 //  pinMode(24, INPUT);
 //  pinMode(25, INPUT);
 #endif
+
+
   myTables *table= new myTables();
+
   rotable::Client* client = new rotable::Client(configFilePath);
 
   rotable::ImageProvider* imageProvider = new rotable::ImageProvider(client);
   client->setImageProvider(imageProvider);
 
-  QQuickView view;
-  client->startup();
-  //rotable::ProductOrder* MyOrder;                   //this will be in the fulture in the client included
-  view.setResizeMode(QQuickView::SizeRootObjectToView);
-  view.rootContext()->setContextProperty("client", client);
-  view.rootContext()->setContextProperty("CategoryListModel", client->categoryListModel());
-  view.rootContext()->setContextProperty("ProductListModel", client->productListModel());
-  view.engine()->addImageProvider("rotable", imageProvider);
-  view.rootContext()->setContextProperty("MyOrder", table);
-  //view.rootContext()->setContextProperty("con", client);
+
+  QQuickView* view=new QQuickView;
+
+  client->startup();               //this will be in the fulture in the client included
+  view->setResizeMode(QQuickView::SizeRootObjectToView);
+  view->rootContext()->setContextProperty("client", client);
+  view->rootContext()->setContextProperty("CategoryListModel", client->categoryListModel());
+  view->rootContext()->setContextProperty("ProductListModel", client->productListModel());
+  view->engine()->addImageProvider("rotable", imageProvider);
+  view->rootContext()->setContextProperty("MyOrder", table);
+
+  QQmlContext *ctxt = view->engine()->rootContext();
+  qmlContxt init(*ctxt);
+  init.initContxt(1);
+  init.contxt(0);
+
   //view.setSource(QUrl::fromLocalFile(QString(ROTABLE_QML_PATH) + QString("main.qml")));
-  view.setSource(QString("qrc:/client/main.qml"));
-  view.show();
+  view->setSource(QString("qrc:/client/main.qml"));
+  view->show();
 
   return app.exec();
 }
