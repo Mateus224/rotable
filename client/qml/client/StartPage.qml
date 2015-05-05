@@ -13,13 +13,13 @@ Rectangle {
 
         id: logo
         source: "qrc:/client/resources/rotable_logo.png"
-
-        //anchors.bottom: categoryBar.top
-        y: 200
+        anchors.top: parent.top
+        anchors.bottom: categoryBar.top
+        //y: 200
         anchors.horizontalCenter: parent.horizontalCenter
-        //anchors.margins: 10
+        anchors.margins: 1
 
-        width: 500
+        width: parent.width
         fillMode: Image.PreserveAspectFit
 
     }

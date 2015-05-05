@@ -47,7 +47,7 @@ void qmlContxt::contxt(int tableNr)
     ctxt.setContextProperty("myModel", QVariant::fromValue(*reinterpret_cast<QList<QObject*> *>(&(tableNumber))));
     ctxt.setContextProperty("table", QVariant::fromValue(*reinterpret_cast<QList<QObject*> *>(&(tab->L_orderinformation))));
     ctxt.setContextProperty("con", this);
-    ctxt.setContextProperty("waiterAppWindows",AppWindow); 
+    //ctxt.setContextProperty("waiterAppWindows",AppWindow);
 }
 
 
