@@ -73,6 +73,7 @@ int main(int argc, char *argv[])
 
 
   QQuickView* view=new QQuickView;
+  rotable::ProductOrder* MyOrder= new rotable::ProductOrder();
 
   client->startup();               //this will be in the fulture in the client included
   view->setResizeMode(QQuickView::SizeRootObjectToView);
@@ -80,7 +81,8 @@ int main(int argc, char *argv[])
   view->rootContext()->setContextProperty("CategoryListModel", client->categoryListModel());
   view->rootContext()->setContextProperty("ProductListModel", client->productListModel());
   view->engine()->addImageProvider("rotable", imageProvider);
-  view->rootContext()->setContextProperty("MyOrder", table);
+  //view->rootContext()->setContextProperty("MyOrder", table);
+  view->rootContext()->setContextProperty("MyOrder", MyOrder);
 
   QQmlContext *ctxt = view->engine()->rootContext();
   qmlContxt init(*ctxt);

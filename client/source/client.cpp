@@ -50,7 +50,7 @@ Client::Client(const QString &configFilePath, QObject *parent)
   }
 
   _products = new ProductContainer(this);
-  //_productOrder = new ProductOrder(this);
+  _productOrder = new ProductOrder(this);
 
   connect(&_tcp, SIGNAL(connected()),
           this, SLOT(connected()));

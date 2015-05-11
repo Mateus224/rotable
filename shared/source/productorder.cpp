@@ -8,11 +8,11 @@ using namespace rotable;
 
 //------------------------------------------------------------------------------
 
-ProductOrder::ProductOrder(int orderID, QObject *parent) : QObject(parent)
+ProductOrder::ProductOrder( QObject *parent) : QObject(parent)
 {
-    _orderID=orderID;
-    //L_quantity= new QList<int>;
-    //L_OrderList= new QList<int>;
+    ClientProductHash=new QHash<int,productChoosen>;
+    ClientProductHash->reserve(250);
+    _quantity=0;
 }
 
 ProductOrder::ProductOrder::~ProductOrder()
@@ -67,21 +67,152 @@ int ProductOrder::sendWaitTimeForClient()
 }
 //------------------------------------------------------------------------------
 
+  void ProductOrder::setproductId(int productId)
+  {
+
+  }
 
 
-void ProductOrder::set_quantity(int id)
-{
-    _productId=id;
-    addProductToOrder(id);
-}
 //------------------------------------------------------------------------------
 
-static ProductOrder *fromJSON(const QJsonValue& jval)
+  void ProductOrder::getProductInformation(int ProductId)
+  {
+
+  }
+
+//------------------------------------------------------------------------------
+
+ProductOrder *ProductOrder::fromJSON(const QJsonValue &jval)
 {
+
+    QJsonObject o = jval.toObject();
+
+    if (o.contains("name")
+        && o.contains("info")
+        && o.contains("icon")
+        && o.contains("id")
+        && o.contains("price")
+        && o.contains("categoryId")
+        && o.contains("amount"))
+    {
+        ProductOrder* p = new ProductOrder();
+        //p->_name = o["name"].toString();
+        //p->_info = o["info"].toString();
+       // p->_icon = o["icon"].toString();
+        //p->_id = o["id"].toInt();
+        //p->_price = o["price"].toInt();
+        //p->setPrice(p->_price);
+        //p->_categoryId = o["categoryId"].toInt();
+       // p->_amount = o["amount"].toString();
+
+        return p;
+    }
+    return 0;
 
 }
 
 QJsonValue ProductOrder::toJSON() const
 {
+        return 0;
+}
 
+//------------------------------------------------------------------------------
+//get Gui Information
+//------------------------------------------------------------------------------
+
+
+void ProductOrder::addToProductHash(int ProductID)
+{
+    if(ClientProductHash->contains(ProductID))
+    {
+        _Product=ClientProductHash->take(ProductID);
+        _Product._s_quantity++;
+        ClientProductHash->insert(_Product._s_id, _Product);
+/*
+        QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
+        while (i != ClientProductHash->constEnd()) {
+            qDebug() <<  "quantity: " << i.value()._s_quantity <<  "id: " << i.value()._s_id ;
+            ++i;
+        }*/
+        setquantity(_Product._s_quantity);
+
+    }
+    else
+    {
+        productChoosen* _Product=new productChoosen;
+        _Product->_s_id=ProductID;
+        _Product->_s_quantity=1;
+        ClientProductHash->insert(_Product->_s_id,*_Product);
+
+        QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
+        while (i != ClientProductHash->constEnd()) {
+            qDebug() <<  "first; quantity: " << i.value()._s_quantity <<  "id: " << i.value()._s_id ;
+            ++i;
+        }
+        setquantity(1);
+    }
+
+}
+
+//-----------------------------------------------------------------
+
+void ProductOrder::setquantity( int quantity)
+{
+    _Product._s_quantity = quantity;
+    emit quantityChanged();
+}
+
+//-----------------------------------------------------------------
+
+void ProductOrder::rmFromProductHash(int ProductID)
+{
+    if(ClientProductHash->contains(ProductID))
+    {
+        _Product=ClientProductHash->take(ProductID);
+        if(_Product._s_quantity>0)
+        {
+            _Product._s_quantity--;
+            ClientProductHash->insert(_Product._s_id,_Product);
+        setquantity(_Product._s_quantity);
+            QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
+            while (i != ClientProductHash->constEnd()) {
+            qDebug() <<  "rm; quantity: " << i.value()._s_quantity <<  "id: " << i.value()._s_id ;
+                ++i;
+            }
+        }
+        else if(_Product._s_quantity==0){
+            setquantity(_Product._s_quantity);}
+        else
+        {
+            qDebug()<<"Fehler in rmFromProductHash1";
+        }
+
+
+    }
+    else
+    {
+        qDebug()<<"Fehler in rmFromProductHash2";
+    }
+
+    setquantity(_Product._s_quantity);
+}
+
+//-----------------------------------------------------------------
+
+void ProductOrder::getQuantity(int ProductID)
+{
+    qDebug()<<ProductID;
+        qDebug()<<ProductID;
+         qDebug()<<ProductID;
+    if(ClientProductHash->contains(ProductID))
+    {
+        _Product=ClientProductHash->take(ProductID);
+        ClientProductHash->insert(_Product._s_id,_Product);
+        setquantity (_Product._s_quantity);
+    }
+    else
+    {
+        int zero=0;
+        setquantity (zero);
+    }
 }

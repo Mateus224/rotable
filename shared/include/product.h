@@ -60,6 +60,8 @@ public:
   inline const QString& amount() const { return _amount; }
   void setAmount(const QString& amount);
 
+
+
   /**
    * Convert this product category into a QJsonObject.
    *

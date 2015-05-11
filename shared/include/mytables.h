@@ -3,6 +3,16 @@
 #include "private/precomp.h"
 #include "orderinformation.h"
 
+
+//------------------------------------------------------------------------------
+
+namespace rotable {
+  class myTables;
+  class Product;
+}
+
+//------------------------------------------------------------------------------
+
 class myTables : public QObject//, public OrderInformation
 {
     Q_OBJECT

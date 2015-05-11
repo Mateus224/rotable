@@ -5,13 +5,16 @@
 
 #include <QObject>
 #include <QList>
-#include "orderpage.h"
+//#include "orderpage.h"
+#include "product.h"
+#include "private/precomp.h"
 
 //------------------------------------------------------------------------------
 
 namespace rotable {
   class ProductOrder;
-  class OrderPage;
+  //class OrderPage;
+  class Product;
 }
 
 //------------------------------------------------------------------------------
@@ -23,20 +26,14 @@ class rotable::ProductOrder : public QObject
 {
   Q_OBJECT
 
-  //Q_PROPERTY(int productId READ productId WRITE setProductId NOTIFY productIdChanged)
-
-
-
   //Q_PROPERTY(int quantity READ _quantity WRITE set_quantity NOTIFY quantityChanged)
-  //Q_PROPERTY(int productId READ _productId WRITE set_ProductId NOTIFY productIdChanged)
-  /*
-    Q_PROPERTY(int count READ count WRITE setSetCount NOTIFY countChanged)
-  Q_PROPERTY(QString session READ session WRITE setSession NOTIFY sessionChanged)
-  Q_PROPERTY(QString waitorId READ waitorId WRITE setWaitorId NOTIFY waitorChanged)
-  Q_PROPERTY(int timestamp READ timestamp WRITE setTimeStamp NOTIFY timestampChanged)
-  Q_PROPERTY(int status READ status WRITE setStatus NOTIFY statusChanged)
-  Q_PROPERTY(QString tableId READ tableId WRITE setTableId NOTIFY tableIdChanged)
-  */
+  //Q_PROPERTY(QString session READ session WRITE setSession NOTIFY sessionChanged)
+  //Q_PROPERTY(QString waitorId READ waitorId WRITE setWaitorId NOTIFY waitorChanged)
+  //Q_PROPERTY(int timestamp READ timestamp WRITE setTimeStamp NOTIFY timestampChanged)
+  //Q_PROPERTY(int status READ status WRITE setStatus NOTIFY statusChanged)
+  Q_PROPERTY(int productId READ productId WRITE setproductId NOTIFY productIdChanged)
+  Q_PROPERTY(int quantity READ quantity WRITE setquantity NOTIFY quantityChanged)
+
 
 public:
     /*write into the database the state*/
@@ -65,7 +62,8 @@ public:
   QList<int>* L_quantity;
 
   //ProductOrder();
-  explicit ProductOrder(int orderID,QObject *parent = 0);
+  explicit ProductOrder(const QJsonValue& jval, QObject *parent = 0);
+  explicit ProductOrder(QObject *parent = 0);
   ~ProductOrder();
 
 
@@ -108,29 +106,19 @@ public:
    * send to the client the probeble waiting time for the order
    */
   int sendWaitTimeForClient();
+
+
+  //For Gui interface
+  //------------------------------------------------------------------------------
+  inline int productId() const { return _productId; }
+  void setproductId(  int productId);
+
+
+  inline  int quantity() const { return  _Product._s_quantity; }
+  void setquantity( int quantity);
+
   //------------------------------------------------------------------------------
 
-  /**
-   * @brief set_quantity
-   * @param id
-   * set quantity of this Product and send to GUI
-   */
-  void set_quantity(int id);
-
-  void set_ProductId(int id);
-
-
-  /**
-   * @brief id
-   * @return
-   * return the Product ID
-   */
-  inline int get_quantity() const { return _productId; }
-
-  inline int get_ProductId() const { return _productId; }
-
-
-  //------------------------------------------------------------------------------
 
   /**
    * Convert this order into a QJsonObject.
@@ -149,8 +137,29 @@ public:
 
 
 
+  struct productChoosen{
+      int _s_id;
+      int _s_quantity;
+  };
+  productChoosen _Product;
+
+  QHash<int,productChoosen> *ClientProductHash;
+
+  /* Products (Mapping of product id to object) */
+  QHash<int, rotable::Product*> _products;
+
+private:
 
 
+  /* Unique category ID */
+  int _productId;
+  int _quantity;
+
+  int _orderID;
+  int _clientID;
+//------------------------------------------------------------------------------
+
+  void getQuantity(int ProductID);
 
 
 //------------------------------------------------------------------------------
@@ -160,7 +169,25 @@ signals:
   void productIdChanged();
   void quantityChanged();
 
+//------------------------------------------------------------------------------
+
+
 public slots:
+
+  void addToProductHash(int ProductID);
+  void rmFromProductHash(int ProductID);
+  void setproductid(int ProductID){
+    _productId=ProductID;
+      getQuantity(_productId);
+  }
+
+  /**
+    get all information from added Product
+   * @brief getProductInformation
+   * @param ProductId
+   */
+  void getProductInformation(int ProductId);
+
   /**
    * add from the MyOrderButton.qml
    * Products which are choosen
@@ -174,14 +201,9 @@ public slots:
    */
   void removeProductFromOrder(int id);
 
-private:
 
-  /* Unique category ID */
-  int _productId;
-  int _quantity;
 
-  int _orderID;
-  int _clientID;
+
 }; // class ProductOrder
 
 //------------------------------------------------------------------------------
