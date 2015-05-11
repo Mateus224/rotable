@@ -13,6 +13,12 @@ Rectangle {
         source: "qrc:/client/resources/TopBarRight.png"
         antialiasing: true
     }
+    property string myorderscreen: "MYORDERSCREEN"
+    MouseArea {
+        id:te
+        anchors.fill: parent
+        onClicked: client.state = myorderscreen
+    }
 
     Text {
         id: buttonLabel

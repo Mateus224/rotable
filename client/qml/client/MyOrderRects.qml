@@ -13,11 +13,33 @@ Rectangle {
         anchors.fill: parent
         anchors.margins: parent.height * 0.02
 
-        color: "#000000"
+        color: "#A00000"
 
-    ListView {
+        ListView {
+            id: list
+            property var listModel: MyProductOrderList
 
-    }
+            anchors.fill: parent
+            //anchors.leftMargin: buttonMarginH
+            //anchors.topMargin: buttonMarginV
 
+            Component {
+                id: productDelegate
+
+                ProductButton{
+                    id: productButton
+                    productName: name ? name:""
+                    productAmount: amount ? amount:""
+                    productInfo: info ? info:""
+                    productPriceStr: priceStr ? priceStr:""
+                    color: rectColor ? rectColor:""
+                    buttonProductId: productId ? productId:""
+                }
+            }
+
+        model: listModel
+        delegate: productDelegate
+
+        }
     }
 }

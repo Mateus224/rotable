@@ -44,17 +44,18 @@ Rectangle {
         id: buttonMyOrder
     }
 
-    /*Image {
+    Image {
         id: logo
         source: "qrc:/client/resources/rotable_logo.png"
 
         anchors.top: categoryBar.bottom
         anchors.bottom: parent.bottom
-        anchors.right: parent.right
-        anchors.margins: 5
+        anchors.horizontalCenter: parent.horizontalCenter
+        //anchors.right: parent.right
+        anchors.margins: 10
 
         fillMode: Image.PreserveAspectFit
-    }*/
+    }
 
 
     CategoryBar {

@@ -71,7 +71,7 @@ Rectangle {
                 PropertyChanges { target: myOrderPage; visible: false}
             },
             State {
-                name: "SENDORDERSCREEN"
+                name: "MYORDERSCREEN"
                 PropertyChanges { target: connectionPage; visible: false }
                 PropertyChanges { target: screensaverPage; visible: false }
                 PropertyChanges { target: startPage; visible: false }
