@@ -1,5 +1,4 @@
 #include "private/precomp.h"
-
 #include "productorder.h"
 
 //------------------------------------------------------------------------------
@@ -13,6 +12,7 @@ ProductOrder::ProductOrder( QObject *parent) : QObject(parent)
     ClientProductHash=new QHash<int,productChoosen>;
     ClientProductHash->reserve(250);
     _quantity=0;
+    Products=new QList<Product*>;
 }
 
 ProductOrder::ProductOrder::~ProductOrder()
@@ -67,17 +67,29 @@ int ProductOrder::sendWaitTimeForClient()
 }
 //------------------------------------------------------------------------------
 
-  void ProductOrder::setproductId(int productId)
-  {
+    void ProductOrder::setproductId(int productId)
+    {
 
-  }
+    }
+  //------------------------------------------------------------------------------
+
 
 
 //------------------------------------------------------------------------------
 
-  void ProductOrder::getProductInformation(int ProductId)
+  QList<rotable::Product>  ProductOrder::getProductInformation(int ProductId)
   {
+      Products->clear();
 
+      QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
+      while (i != ClientProductHash->constEnd()) {
+          //i.value()._s_quantity ;
+
+          _addProduct=new ProductContainer ();
+          _addProduct->product(i.value()._s_id) ;
+          //Products->addProduct;
+          ++i;
+      }
   }
 
 //------------------------------------------------------------------------------

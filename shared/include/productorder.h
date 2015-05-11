@@ -7,13 +7,15 @@
 #include <QList>
 //#include "orderpage.h"
 #include "product.h"
+#include "productcontainer.h"
 #include "private/precomp.h"
 
 //------------------------------------------------------------------------------
 
 namespace rotable {
   class ProductOrder;
-  //class OrderPage;
+  class ProductContainer;
+  class OrderPage;
   class Product;
 }
 
@@ -107,6 +109,8 @@ public:
    */
   int sendWaitTimeForClient();
 
+  QList<rotable::Product>  getProductInformation(int ProductId);
+
 
   //For Gui interface
   //------------------------------------------------------------------------------
@@ -147,6 +151,8 @@ public:
 
   /* Products (Mapping of product id to object) */
   QHash<int, rotable::Product*> _products;
+  QList<rotable::Product*>* Products;
+  rotable::ProductContainer* _addProduct;
 
 private:
 
@@ -186,7 +192,7 @@ public slots:
    * @brief getProductInformation
    * @param ProductId
    */
-  void getProductInformation(int ProductId);
+  //void getProductInformation(int ProductId);
 
   /**
    * add from the MyOrderButton.qml
