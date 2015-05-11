@@ -83,6 +83,7 @@ int main(int argc, char *argv[])
   view->engine()->addImageProvider("rotable", imageProvider);
   //view->rootContext()->setContextProperty("MyOrder", table);
   view->rootContext()->setContextProperty("MyOrder", MyOrder);
+  view->rootContext()->setContextProperty("MyProductOrderList", QVariant::fromValue(*reinterpret_cast<QList<QObject*> *>(&(MyOrder->Products))));
 
   QQmlContext *ctxt = view->engine()->rootContext();
   qmlContxt init(*ctxt);

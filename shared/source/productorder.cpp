@@ -77,19 +77,18 @@ int ProductOrder::sendWaitTimeForClient()
 
 //------------------------------------------------------------------------------
 
-  QList<rotable::Product>  ProductOrder::getProductInformation(int ProductId)
+  QList<rotable::Product>  ProductOrder::getProductInformation()
   {
       Products->clear();
-
       QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
       while (i != ClientProductHash->constEnd()) {
           //i.value()._s_quantity ;
 
           _addProduct=new ProductContainer ();
           _addProduct->product(i.value()._s_id) ;
-          //Products->addProduct;
           ++i;
       }
+      //return Products;
   }
 
 //------------------------------------------------------------------------------

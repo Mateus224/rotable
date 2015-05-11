@@ -109,7 +109,7 @@ public:
    */
   int sendWaitTimeForClient();
 
-  QList<rotable::Product>  getProductInformation(int ProductId);
+  QList<rotable::Product>  getProductInformation();
 
 
   //For Gui interface
