@@ -64,7 +64,6 @@ int main(int argc, char *argv[])
 #endif
 
 
-  myTables *table= new myTables();
 
   rotable::Client* client = new rotable::Client(configFilePath);
 
@@ -73,7 +72,7 @@ int main(int argc, char *argv[])
 
 
   QQuickView* view=new QQuickView;
-  rotable::ProductOrder* MyOrder= new rotable::ProductOrder();
+  //rotable::ProductOrder* MyOrder= new rotable::ProductOrder();
 
   client->startup();               //this will be in the fulture in the client included
   view->setResizeMode(QQuickView::SizeRootObjectToView);
@@ -82,9 +81,8 @@ int main(int argc, char *argv[])
   view->rootContext()->setContextProperty("ProductListModel", client->productListModel());
   view->engine()->addImageProvider("rotable", imageProvider);
   //view->rootContext()->setContextProperty("MyOrder", table);
-  view->rootContext()->setContextProperty("MyOrder", MyOrder);
-  view->rootContext()->setContextProperty("MyProductOrderList", QVariant::fromValue(*reinterpret_cast<QList<QObject*> *>(&(MyOrder->ProductList))));
-  //view->rootContext()->setContextProperty("MOrder", MyOrder);
+  view->rootContext()->setContextProperty("MyOrder", client->_productOrder);
+  view->rootContext()->setContextProperty("MyProductOrderList", QVariant::fromValue(*reinterpret_cast<QList<QObject*> *>(&(client->_productOrder->ProductList))));
 
   QQmlContext *ctxt = view->engine()->rootContext();
   qmlContxt init(*ctxt);

@@ -178,6 +178,9 @@ public:
   /* Products */
   rotable::ProductContainer* _products;
 
+
+  rotable::ProductOrder* _productOrder;
+
 signals:
   /**
    * Current GUI state has changed.Sending to QML File.
@@ -330,7 +333,6 @@ private:
   /* Image provider */
   ImageProvider* _imageProvider;
 
-  rotable::ProductOrder* _productOrder;
 }; // class Client
 
 //------------------------------------------------------------------------------

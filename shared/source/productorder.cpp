@@ -13,6 +13,8 @@ ProductOrder::ProductOrder( ProductContainer &productcontainer, QObject *parent)
     ClientProductHash->reserve(250);
     _quantity=0;
     ProductList=new QList<Product*>;
+
+
 }
 
 ProductOrder::ProductOrder::~ProductOrder()
@@ -80,7 +82,8 @@ void ProductOrder::setproductId(int productId)
   void ProductOrder::getListForMyOrderPage()
   {
       qDebug()<<"Test";
-      ProductList->clear();
+      if(ProductList->empty())
+        ProductList->clear();
       _addProduct=new Product;
       QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
       while (i != ClientProductHash->constEnd()) {

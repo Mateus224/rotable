@@ -126,7 +126,7 @@ Rectangle {
                                 Text {
                                     font.family: "Purisa"; font.pointSize: 16; font.bold: true
                                     id: contactInfo
-                                    text:  price+"x"
+                                    //text: // price+"x"
                                     color: color_oderinfo
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
@@ -142,7 +142,7 @@ Rectangle {
                                 Text {
                                     font.family: "Purisa"; font.pointSize: 16; font.bold: true
                                     id: contactInfoname
-                                    text:  name
+                                    text: "ff" //name
                                     color: color_oderinfo
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
@@ -156,7 +156,7 @@ Rectangle {
                                 Text {
                                     font.family: "Purisa"; font.pointSize: 16; font.bold: true
                                     id: contactInfoprice
-                                    text:  price.toFixed(2)+"€"
+                                    text: "sd" //price.toFixed(2)+"€"
                                     color: color_oderinfo
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
