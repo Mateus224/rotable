@@ -14,7 +14,8 @@ using namespace rotable;
 ProductContainer::ProductContainer(QObject* parent)
   : QObject(parent)
 {
-
+   _products = new QHash<int, rotable::Product*> ;
+    //_products=*_products_;
 }
 
 //------------------------------------------------------------------------------
@@ -49,13 +50,13 @@ bool ProductContainer::addProduct(Product *product)
     return false;
   }
 
-  if (_products.contains(product->id())) {
+  if (_products->contains(product->id())) {
     qDebug() << tr("Could not add product: Product of id '%1' is already in list!")
                 .arg(product->id());
     return false;
   }
 
-  _products[product->id()] = product;
+  (*_products)[product->id()] = product;
   connect(product, SIGNAL(iconChanged()), this, SLOT(onProductUpdated()));
   connect(product, SIGNAL(nameChanged()), this, SLOT(onProductUpdated()));
   connect(product, SIGNAL(infoChanged()), this, SLOT(onProductUpdated()));
@@ -73,10 +74,10 @@ bool ProductContainer::updateProduct(Product* product)
       && product->id() != -1
       && _categories.contains(product->categoryId()))
   {
-    if (!_products.contains(product->id())) {
+    if (!_products->contains(product->id())) {
       return addProduct(product);
     } else {
-      Product* p = _products[product->id()];
+      Product *p = (*_products)[product->id()];
       p->setAmount(product->amount());
       p->setCategoryId(product->categoryId());
       p->setIcon(product->icon());
@@ -135,9 +136,9 @@ bool ProductContainer::removeProduct(Product *product)
 
 bool ProductContainer::removeProduct(int id)
 {
-  if (_products.contains(id)) {
-    Product* product = _products[id];
-    _products.remove(id);
+  if (_products->contains(id)) {
+    Product* product = (*_products)[id];
+    (*_products).remove(id);
     emit productRemoved(product);
     delete product;
     return true;
@@ -176,9 +177,9 @@ bool ProductContainer::updateCategory(ProductCategory* category)
       c->setIcon(category->icon());
       c->setName(category->name());
 
-      foreach (Product* p, _products) {
+      foreach (Product* p, (*_products)) {
         if (p->categoryId() == c->id()) {
-          _products.remove(p->id());
+          _products->remove(p->id());
         }
       }
       emit categoryUpdated(c);
@@ -217,8 +218,8 @@ ProductCategory* ProductContainer::category(const QString& name)
 
 Product *ProductContainer::product(int id)
 {
-  if (_products.contains(id)) {
-    return _products[id];
+  if (_products->contains(id)) {
+    return (*_products)[id];
   } else {
     return 0;
   }
@@ -228,7 +229,7 @@ Product *ProductContainer::product(int id)
 
 Product*ProductContainer::product(const QString& name, int categoryId)
 {
-  foreach (Product* product, _products) {
+  foreach (Product* product, (*_products)) {
     if (product->categoryId() == categoryId
         && product->name().compare(name, Qt::CaseInsensitive) == 0)
     {
@@ -250,7 +251,7 @@ QList<int> ProductContainer::categoryIds() const
 
 QList<int> ProductContainer::productIds() const
 {
-  return _products.keys();
+  return (*_products).keys();
 }
 
 //------------------------------------------------------------------------------
@@ -259,7 +260,7 @@ QList<int> ProductContainer::productIds(int categoryId) const
 {
   QList<int> ids;
 
-  foreach (Product* product, _products.values()) {
+  foreach (Product* product, (*_products).values()) {
     if (product->categoryId() == categoryId) {
       ids << product->id();
     }
@@ -279,7 +280,7 @@ int ProductContainer::categoryCount() const
 
 int ProductContainer::productCount() const
 {
-  return _products.count();
+  return (*_products).count();
 }
 
 //------------------------------------------------------------------------------
@@ -288,7 +289,7 @@ int ProductContainer::productCount(int categoryId) const
 {
   int count = 0;
 
-  foreach (Product* product, _products.values()) {
+  foreach (Product* product,(*_products).values()) {
     if (product->categoryId() == categoryId) {
       ++count;
     }
@@ -301,11 +302,11 @@ int ProductContainer::productCount(int categoryId) const
 
 void ProductContainer::clear()
 {
-  foreach (Product* product, _products) {
+  foreach (Product* product, (*_products)) {
     emit productRemoved(product);
     delete product;
   }
-  _products.clear();
+  _products->clear();
 
   foreach (ProductCategory* category, _categories) {
     emit categoryRemoved(category);
@@ -320,7 +321,7 @@ void ProductContainer::clearProducts(int categoryId)
 {
   QList<Product*> removals;
 
-  foreach (Product* product, _products.values()) {
+  foreach (Product* product, (*_products).values()) {
     if (product->categoryId() == categoryId) {
       emit productRemoved(product);
       removals << product;
@@ -329,7 +330,7 @@ void ProductContainer::clearProducts(int categoryId)
 
   foreach (Product* product, removals) {
     delete product;
-    _products.remove(product->id());
+    (*_products).remove(product->id());
   }
 }
 

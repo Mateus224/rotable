@@ -2,10 +2,10 @@
 #define PRODUCTCONTAINER_H
 
 //------------------------------------------------------------------------------
-
-#include <QObject>
-#include <QHash>
-#include <QList>
+#include "private/precomp.h"
+//#include <QObject>
+//#include <QHash>
+//#include <QList>
 
 //------------------------------------------------------------------------------
 
@@ -206,9 +206,9 @@ private slots:
 private:
   /* Categories (Mapping of category id to object) */
   QHash<int, rotable::ProductCategory*> _categories;
-
+public:
   /* Products (Mapping of product id to object) */
-  QHash<int, rotable::Product*> _products;
+  QHash<int, rotable::Product*>* _products;
 }; // class ProductContainer
 
 //------------------------------------------------------------------------------

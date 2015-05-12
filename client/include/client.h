@@ -174,6 +174,9 @@ public:
     return false;
 #endif
   }
+public:
+  /* Products */
+  rotable::ProductContainer* _products;
 
 signals:
   /**
@@ -311,9 +314,6 @@ private:
 
   /* Timer for waiting before reconnect */
   QTimer _reconnectTimer;
-
-  /* Products */
-  rotable::ProductContainer* _products;
 
   /* Whether the program is currently shutting */
   bool _stopping;

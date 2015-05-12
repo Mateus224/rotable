@@ -32,10 +32,10 @@ Rectangle {
 
 
 
-            clip: true
+            //clip: true
             //anchors.leftMargin: buttonMarginH
             //anchors.topMargin: buttonMarginV
-            Component {     //instantiated when header is processed
+            /*Component {     //instantiated when header is processed
                 id: bannercomponentInfo
 
                 Rectangle {
@@ -98,7 +98,7 @@ Rectangle {
                         }
                     }
                 }
-            }
+            }*/
 
             Component {
                 id: contactsDelegate
@@ -112,7 +112,7 @@ Rectangle {
                     Rectangle{
                         width:parent.width
                         height: 50
-                        color: "transparent"
+                        color: "white"
 
                         Row {
 
@@ -121,12 +121,12 @@ Rectangle {
                             Rectangle{
                                 width:65
                                 height:50
-                                color: "transparent"
+                                color: "red"
 
                                 Text {
                                     font.family: "Purisa"; font.pointSize: 16; font.bold: true
                                     id: contactInfo
-                                    text:  pieces+"x"
+                                    text:  price+"x"
                                     color: color_oderinfo
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
@@ -142,7 +142,7 @@ Rectangle {
                                 Text {
                                     font.family: "Purisa"; font.pointSize: 16; font.bold: true
                                     id: contactInfoname
-                                    text:  orderName
+                                    text:  name
                                     color: color_oderinfo
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
@@ -178,7 +178,7 @@ Rectangle {
                                 Text {
                                     font.family: "Purisa"; font.pointSize: 16; font.bold: true
                                     id: contactInfontime
-                                    text:  1+"min"
+                                    text:  "min"
                                     color: color_oderinfo
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter

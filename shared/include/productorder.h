@@ -24,7 +24,7 @@ namespace rotable {
 /**
  * @brief The rotable::ProductOrder class contains a product order.
  */
-class rotable::ProductOrder : public QObject
+class rotable::ProductOrder : public QObject //, rotable::ProductContainer
 {
   Q_OBJECT
 
@@ -66,7 +66,7 @@ public:
 
   //ProductOrder();
   explicit ProductOrder(const QJsonValue& jval, QObject *parent = 0);
-  explicit ProductOrder(QObject *parent = 0);
+  explicit ProductOrder( rotable::ProductContainer &Productcontainer,QObject *parent = 0);
   ~ProductOrder();
 
 
@@ -110,7 +110,7 @@ public:
    */
   int sendWaitTimeForClient();
 
-  QList<rotable::Product>  getProductInformation();
+  //QList<rotable::Product>  getProductInformation();
 
 
   //For Gui interface
@@ -156,6 +156,8 @@ public:
   rotable::Product* _addProduct;
   rotable::ProductContainer* _getProduct;
 
+public:
+  rotable::ProductContainer &_productcontainer;
 private:
 
 
@@ -165,6 +167,7 @@ private:
 
   int _orderID;
   int _clientID;
+
 //------------------------------------------------------------------------------
 
   void getQuantity(int ProductID);
@@ -188,7 +191,7 @@ public slots:
     _productId=ProductID;
       getQuantity(_productId);
   }
-  void getListForMyOrderPage(){}
+  void getListForMyOrderPage();
 
   /**
     get all information from added Product

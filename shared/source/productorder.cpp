@@ -7,7 +7,7 @@ using namespace rotable;
 
 //------------------------------------------------------------------------------
 
-ProductOrder::ProductOrder( QObject *parent) : QObject(parent)
+ProductOrder::ProductOrder( ProductContainer &productcontainer, QObject *parent) : QObject(parent), _productcontainer(productcontainer)
 {
     ClientProductHash=new QHash<int,productChoosen>;
     ClientProductHash->reserve(250);
@@ -67,30 +67,37 @@ int ProductOrder::sendWaitTimeForClient()
 }
 //------------------------------------------------------------------------------
 
-    void ProductOrder::setproductId(int productId)
-    {
+void ProductOrder::setproductId(int productId)
+{
 
-    }
+}
 //------------------------------------------------------------------------------
 
 
 
 //------------------------------------------------------------------------------
 
-  QList<rotable::Product>  ProductOrder::getProductInformation()
+  void ProductOrder::getListForMyOrderPage()
   {
+      qDebug()<<"Test";
       ProductList->clear();
       _addProduct=new Product;
       QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
       while (i != ClientProductHash->constEnd()) {
           //i.value()._s_quantity ;
+            qDebug()<<"get in";
+          //_products;
+            if(_productcontainer._products->empty())
+                qDebug()<<"err";
+            if (_productcontainer._products->contains(i.value()._s_id)) {
 
-          _getProduct=new ProductContainer ();
-          _addProduct=_getProduct->product(i.value()._s_id) ;
+          //_addProduct=_productcontainer._products[i.value()._s_id];
+          qDebug()<<_addProduct->price();
           ProductList->append(_addProduct);
+            }
           ++i;
       }
-     // return ProductList;
+      qDebug()<<ProductList->at(0)->price()<< "Test";
   }
 
 //------------------------------------------------------------------------------
@@ -108,7 +115,7 @@ ProductOrder *ProductOrder::fromJSON(const QJsonValue &jval)
         && o.contains("categoryId")
         && o.contains("amount"))
     {
-        ProductOrder* p = new ProductOrder();
+        //ProductOrder* p = new ProductOrder();
         //p->_name = o["name"].toString();
         //p->_info = o["info"].toString();
        // p->_icon = o["icon"].toString();
@@ -118,7 +125,7 @@ ProductOrder *ProductOrder::fromJSON(const QJsonValue &jval)
         //p->_categoryId = o["categoryId"].toInt();
        // p->_amount = o["amount"].toString();
 
-        return p;
+        //return p;
     }
     return 0;
 
