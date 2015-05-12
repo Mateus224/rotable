@@ -17,7 +17,13 @@ Rectangle {
     MouseArea {
         id:te
         anchors.fill: parent
-        onClicked: client.state = myorderscreen
+        onClicked: {
+            client.state= myorderscreen
+            MyOrder.getListForMyOrderPage()
+        }
+
+
+
     }
 
     Text {

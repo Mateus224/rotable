@@ -12,7 +12,7 @@ ProductOrder::ProductOrder( QObject *parent) : QObject(parent)
     ClientProductHash=new QHash<int,productChoosen>;
     ClientProductHash->reserve(250);
     _quantity=0;
-    Products=new QList<Product*>;
+    ProductList=new QList<Product*>;
 }
 
 ProductOrder::ProductOrder::~ProductOrder()
@@ -71,7 +71,7 @@ int ProductOrder::sendWaitTimeForClient()
     {
 
     }
-  //------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 
 
@@ -79,16 +79,18 @@ int ProductOrder::sendWaitTimeForClient()
 
   QList<rotable::Product>  ProductOrder::getProductInformation()
   {
-      Products->clear();
+      ProductList->clear();
+      _addProduct=new Product;
       QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
       while (i != ClientProductHash->constEnd()) {
           //i.value()._s_quantity ;
 
-          _addProduct=new ProductContainer ();
-          _addProduct->product(i.value()._s_id) ;
+          _getProduct=new ProductContainer ();
+          _addProduct=_getProduct->product(i.value()._s_id) ;
+          ProductList->append(_addProduct);
           ++i;
       }
-      //return Products;
+     // return ProductList;
   }
 
 //------------------------------------------------------------------------------
@@ -212,9 +214,6 @@ void ProductOrder::rmFromProductHash(int ProductID)
 
 void ProductOrder::getQuantity(int ProductID)
 {
-    qDebug()<<ProductID;
-        qDebug()<<ProductID;
-         qDebug()<<ProductID;
     if(ClientProductHash->contains(ProductID))
     {
         _Product=ClientProductHash->take(ProductID);

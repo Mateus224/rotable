@@ -35,6 +35,7 @@ class rotable::ProductOrder : public QObject
   //Q_PROPERTY(int status READ status WRITE setStatus NOTIFY statusChanged)
   Q_PROPERTY(int productId READ productId WRITE setproductId NOTIFY productIdChanged)
   Q_PROPERTY(int quantity READ quantity WRITE setquantity NOTIFY quantityChanged)
+  //Q_PROPERTY(WRITE getListForMyOrderPage)
 
 
 public:
@@ -151,8 +152,9 @@ public:
 
   /* Products (Mapping of product id to object) */
   QHash<int, rotable::Product*> _products;
-  QList<rotable::Product*>* Products;
-  rotable::ProductContainer* _addProduct;
+  QList<rotable::Product*>* ProductList;
+  rotable::Product* _addProduct;
+  rotable::ProductContainer* _getProduct;
 
 private:
 
@@ -186,6 +188,7 @@ public slots:
     _productId=ProductID;
       getQuantity(_productId);
   }
+  void getListForMyOrderPage(){}
 
   /**
     get all information from added Product
