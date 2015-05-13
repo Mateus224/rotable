@@ -17,7 +17,7 @@ Rectangle {
 
         ListView {
             id: list
-            property var listModel: MyProductOrderList
+            property var listModel: MyProductOrderList //? MyProductOrderList:""
             property int buttonMarginH: parent.width  * 0.015
             property int buttonMarginV: parent.height * 0.025
             property int buttonWidth:  (parent.width  - buttonMarginH) / 5.01 - buttonMarginH

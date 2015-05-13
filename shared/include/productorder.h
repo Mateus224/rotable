@@ -152,7 +152,7 @@ public:
 
   /* Products (Mapping of product id to object) */
   QHash<int, rotable::Product*> _products;
-  QList<rotable::Product*>* ProductList;
+  QList<QObject*> ProductList;
   rotable::Product* _addProduct;
   rotable::ProductContainer* _getProduct;
 
