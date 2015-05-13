@@ -84,21 +84,18 @@ void ProductOrder::setproductId(int productId)
       qDebug()<<"Test";
       if(ProductList.empty())
         ProductList.clear();
-      _addProduct=new Product;
       QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
       while (i != ClientProductHash->constEnd()) {
-          //i.value()._s_quantity ;
-            qDebug()<<"get in";
-          //_products;
             if(_productcontainer._products->empty())
                 qDebug()<<"err";
             if (_productcontainer._products->contains(i.value()._s_id)) {
 
-          //_addProduct=_productcontainer._products[i.value()._s_id];
-          qDebug()<<_addProduct->price();
-          ProductList.append(new Product (_addProduct));
+                qDebug()<<_productcontainer.product(i.value()._s_id)->price();
+                ProductList.append (new Product (_productcontainer.product(i.value()._s_id)));
             }
           ++i;
+          qDebug()<<ProductList.size();
+
       }
       //qDebug()<<ProductList->at(0)->price()<< "Test";
   }

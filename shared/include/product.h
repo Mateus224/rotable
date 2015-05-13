@@ -36,7 +36,7 @@ class rotable::Product : public QObject
 
 public:
   explicit Product(const QJsonValue& jval, QObject *parent = 0);
-  explicit Product(QObject *parent = 0);
+  Product(QObject *parent = 0);
 
   inline const QString& name() const { return _name; }
   void setName(const QString &str);

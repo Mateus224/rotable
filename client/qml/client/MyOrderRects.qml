@@ -15,197 +15,99 @@ Rectangle {
 
         color: "#000000"
 
-        ListView {
-            id: list
-            property var listModel: MyProductOrderList //? MyProductOrderList:""
-            property int buttonMarginH: parent.width  * 0.015
-            property int buttonMarginV: parent.height * 0.025
-            property int buttonWidth:  (parent.width  - buttonMarginH) / 5.01 - buttonMarginH
-            property int buttonHeight: (parent.height - buttonMarginV) / 3.01 - buttonMarginV
-
-            anchors.fill: parent
-            orientation: ListView.Vertical
-            anchors.leftMargin: buttonMarginH
-            anchors.topMargin: buttonMarginV
-            width:parent.width
-            height: 20
-
-
-
-            //clip: true
-            //anchors.leftMargin: buttonMarginH
-            //anchors.topMargin: buttonMarginV
-            /*Component {     //instantiated when header is processed
-                id: bannercomponentInfo
-
-                Rectangle {
-                    color: "transparent"
-                    id: banner
-                    width: parent.width;
-                    height: 100
-                    //gradient: clubcolors
-
-                    border {
-                        color: "lightblue"//"#9EDDF2";
-                        width: 2}
-                    Row{
-
-                        spacing: 20
-                        //x:10
-                        Rectangle{
-
-
-                            width:65
-                            height:60
-                            color:"transparent"
-                            Text {
-                                font.family: "Lobster two"
-                                anchors.verticalCenter: parent.verticalCenter
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                text: "Pieces"
-                                font.pixelSize: 32
-                                font.bold: true
-
-                            }
-                        }
-                        Rectangle{
-
-                            width:280
-                            height:60
-                            color: "transparent"
-                            Text {
-                                anchors.verticalCenter: parent.verticalCenter
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                text: "Order"
-                                font.pixelSize: 32
-                                font.bold: true
-                                font.family: "Lobster two"
-                            }
-                        }
-                        Rectangle{
-
-                            width:80
-                            height:60
-                            color:"transparent"
-                                Text {
-                                anchors.verticalCenter: parent.verticalCenter
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                text: "Price"
-                                font.pixelSize: 32
-                                font.family: "Lobster two"
-                                font.bold: true
-                            }
-                        }
-                    }
-                }
-            }*/
+        Rectangle{
+            id: tableWindow
+            width: 200; height: parent.height
+            color: "#7AAEEE"//"#70000000"
 
             Component {
-                id: contactsDelegate
-                Rectangle {
-                    x:10
-                    id: wrapper
-                    width: grid.width
-                    height: 60
-                    color: "transparent"
-
-                    Rectangle{
-                        width:parent.width
-                        height: 50
-                        color: "white"
-
-                        Row {
-
-                            spacing: 20
-
-                            Rectangle{
-                                width:65
-                                height:50
-                                color: "red"
-
-                                Text {
-                                    font.family: "Purisa"; font.pointSize: 16; font.bold: true
-                                    id: contactInfo
-                                    //text: // price+"x"
-                                    color: color_oderinfo
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    anchors.horizontalCenter: parent.horizontalCenter
-
-                                }
-                            }
-
-                            Rectangle{
-                                width:280
-                                height:50
-                                color: "transparent" //"transparent"
-
-                                Text {
-                                    font.family: "Purisa"; font.pointSize: 16; font.bold: true
-                                    id: contactInfoname
-                                    text: "ff" //name
-                                    color: color_oderinfo
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    anchors.horizontalCenter: parent.horizontalCenter
-                                }
-                            }
-                            Rectangle{
-                                width:80
-                                height:50
-                                color: "transparent"
-
-                                Text {
-                                    font.family: "Purisa"; font.pointSize: 16; font.bold: true
-                                    id: contactInfoprice
-                                    text: "sd" //price.toFixed(2)+"€"
-                                    color: color_oderinfo
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    anchors.horizontalCenter: parent.horizontalCenter
-                                }
-                            }
-
-                            Rectangle{
-                                width:50
-                                height:50
-                                color: "transparent"
-                                }
-                            }
-                            Rectangle{
-                                width:60
-                                height:50
-                                color: "transparent"
-
-
-                                Text {
-                                    font.family: "Purisa"; font.pointSize: 16; font.bold: true
-                                    id: contactInfontime
-                                    text:  "min"
-                                    color: color_oderinfo
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    anchors.horizontalCenter: parent.horizontalCenter
-                                }
-                            }
-                        }
-                    }
-
+                id: nameDelegate
+                Text {
+                    text: name+" "+cost
+                    font.pixelSize: 24
+                }
             }
 
-            /*Component {
-                id: productDelegate
+            ListView {
+                anchors.fill: parent
+                clip: true
+                model: MyProductOrderList
+                header: bannercomponent
+                footer: Rectangle {
+                    width: parent.width; height: 50;
 
-                ProductButton{
-                    id: productButton
-                    productName: name ? name:""
-                    productAmount: amount ? amount:""
-                    productInfo: info ? info:""
-                    productPriceStr: priceStr ? priceStr:""
-                    color: rectColor ? rectColor:""
-                    buttonProductId: productId ? productId:""
                 }
-            }*/
+                focus: true
 
-        model: listModel
-        delegate: contactsDelegate
+                delegate:Component {
+                    Item {
+                        id: container
+                        width: ListView.view.width; height: 60; anchors.leftMargin: 10; anchors.rightMargin: 10
+                        Rectangle{
+                            id:currentTable
+                            color: currentIndexT//
+                            width: parent.width
+                            height: parent.height
+                            Rectangle {
+                                id: content
+                                anchors.centerIn: parent; width: container.width - 40; height: container.height - 10
 
+                                antialiasing: true
+                                radius: 10
+                                border.color: "black"
+                                border.width: 1
+
+                                color: model.modelData.color
+
+                                Rectangle { anchors.fill: parent; anchors.margins: 3; color: "#899AAEE0"; antialiasing: true; radius: 8 }
+                            }
+                            Text {
+
+                                id: label
+                                anchors.centerIn: content
+                                text: name ? name: ""
+                                color: CallWaiter//"White"
+                                font.pixelSize: 20
+                                font.bold: true
+                                font.family: "Lobster two"//font.family: "Purisa"
+                            }
+                        }
+
+                        MouseArea {
+                            id: mouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+
+                            onClicked: {
+                                container.ListView.view.currentIndex = index
+
+                            }
+                        }
+                        states: State {
+                                    name: "resized"; when: mouseArea.pressed
+                                    PropertyChanges { target: currentTable; color: "#8EE2FE"}//; height: container.height }
+                                 }
+                    }
+                }
+            }
+            Component {     //instantiated when header is processed
+                id: bannercomponent
+                Rectangle {
+                    id: banner
+                    width: parent.width; height: 60
+                    //gradient: clubcolors
+                    border {
+                        color: "#7AAEEE"//"#9EDDF2";
+                        width: 2}
+                    Text {
+                        font.family: "Lobster two"
+                        anchors.centerIn: parent
+                        text: "Tables"
+                        font.pixelSize: 32
+                        font.bold: true
+                    }
+                }
+            }
         }
     }
 }

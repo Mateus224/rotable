@@ -67,8 +67,10 @@ int main(int argc, char *argv[])
 
   rotable::Client* client = new rotable::Client(configFilePath);
 
-  QList<QObject*>* OrderList= new QList<QObject*>;
-  OrderList =  &client->_productOrder->ProductList;
+  QList<rotable::Product*>* OrderList= new QList<rotable::Product*>;
+  OrderList =  &(client->_productOrder->ProductList);
+  OrderList->append (new rotable::Product (client->_products->product(2)));
+
 
   rotable::ImageProvider* imageProvider = new rotable::ImageProvider(client);
   client->setImageProvider(imageProvider);
@@ -86,9 +88,6 @@ int main(int argc, char *argv[])
   //view->rootContext()->setContextProperty("MyOrder", table);
   view->rootContext()->setContextProperty("MyOrder", client->_productOrder);
   view->rootContext()->setContextProperty("MyProductOrderList", QVariant::fromValue(*reinterpret_cast<QList<QObject*> *>(&(client->_productOrder->ProductList))));
-  //view->rootContext()->setContextProperty("MyProductOrderList", QVariant::fromValue(*reinterpret_cast <QList<rotable::Product*>*> (&(client->_productOrder->ProductList))));
-  //view->rootContext()->setContextProperty("MyProductOrderList", QVariant::fromValue (*reinterpret_cast<QList<QObject*>*>(&OrderList)));
-  //view->rootContext()->setContextProperty("MyProductOrderList", QVariant::fromValue (QList<QObject*> (*OrderList)));
   QQmlContext *ctxt = view->engine()->rootContext();
   qmlContxt init(*ctxt);
   init.initContxt(1);
