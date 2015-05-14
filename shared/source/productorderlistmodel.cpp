@@ -9,33 +9,33 @@ using namespace rotable;
 //------------------------------------------------------------------------------
 
 
-ProductOrderListModel::ProductOrderListModel(QObject *parent, rotable::ProductOrder *products)
+ProductOrderListModel::ProductOrderListModel(QObject *parent, ProductOrder *products)
     : QAbstractListModel(parent), _products(products), _categoryId(-1)
     {
 
       Q_ASSERT(products);
-/*
-      connect(_products, SIGNAL(categoryAdded(int)),
+
+      connect(&(_products->_productcontainer), SIGNAL(categoryAdded(int)),
               this, SLOT(onCategoryAdded(int)));
-      connect(_products, SIGNAL(categoryRemoved(rotable::ProductCategory*)),
+      connect(&(_products->_productcontainer), SIGNAL(categoryRemoved(rotable::ProductCategory*)),
               this, SLOT(onCategoryRemoved(rotable::ProductCategory*)));
-      connect(_products, SIGNAL(categoryUpdated(rotable::ProductCategory*)),
+      connect(&(_products->_productcontainer), SIGNAL(categoryUpdated(rotable::ProductCategory*)),
               this, SLOT(onCategoryUpdated(rotable::ProductCategory*)));
 
-      connect(_products, SIGNAL(productAdded(int)),
+      connect(&(_products->_productcontainer), SIGNAL(productAdded(int)),
               this, SLOT(onProductAdded(int)));
-      connect(_products, SIGNAL(productRemoved(rotable::Product*)),
+      connect(&(_products->_productcontainer), SIGNAL(productRemoved(rotable::Product*)),
               this, SLOT(onProductRemoved(rotable::Product*)));
-      connect(_products, SIGNAL(productUpdated(rotable::Product*)),
+      connect(&(_products->_productcontainer), SIGNAL(productUpdated(rotable::Product*)),
               this, SLOT(onProductUpdated(rotable::Product*)));
-   */ }
+    }
 
 //------------------------------------------------------------------------------
 
 int ProductOrderListModel::rowCount(const QModelIndex &parent) const
 {
   if (parent.isValid() || -1 == _categoryId) {
-    return 0;
+    return  _products->_productcontainer._orderProducts->count();
   } else {
     //QList<int> ids = _products->productIds(_categoryId);
     //return ids.count();
@@ -50,11 +50,15 @@ int ProductOrderListModel::columnCount(const QModelIndex &/*parent*/) const
   return 1;
 }
 
+//------------------------------------------------------------------------------
+
+
 QVariant ProductOrderListModel::data(const QModelIndex &index, int role) const
 {
   QList<int> ids;
   if (_categoryId != -1) {
-    ids = _products->_productcontainer.productIds(_categoryId);
+    ids = _products->_productcontainer.productIds_();
+    qDebug()<<"ttttt"<<ids;
   }
 
   if (index.column() == 0) {
@@ -64,7 +68,7 @@ QVariant ProductOrderListModel::data(const QModelIndex &index, int role) const
     {
       if (ids.count() > index.row()) {
         int productId = ids[index.row()];
-        Product* product = _products->_productcontainer.product(productId);
+        Product* product =  _products->_productcontainer.product(productId);
         if (product) {
           return QVariant(product->name());
         }
@@ -76,7 +80,7 @@ QVariant ProductOrderListModel::data(const QModelIndex &index, int role) const
     {
       if (ids.count() > index.row()) {
         int productId = ids[index.row()];
-        Product* product = _products->_productcontainer.product(productId);
+        Product* product =  _products->_productcontainer.product(productId);
         if (product) {
           return QVariant(product->info());
         }
@@ -87,7 +91,7 @@ QVariant ProductOrderListModel::data(const QModelIndex &index, int role) const
     {
       if (ids.count() > index.row()) {
         int productId = ids[index.row()];
-        Product* product = _products->_productcontainer.product(productId);
+        Product* product =  _products->_productcontainer.product(productId);
         if (product) {
           return QVariant(product->icon());
         }
@@ -106,19 +110,19 @@ QVariant ProductOrderListModel::data(const QModelIndex &index, int role) const
     {
       if (ids.count() > index.row()) {
         int productId = ids[index.row()];
-        Product* product = _products->_productcontainer.product(productId);
+        Product* product =  _products->_productcontainer.product(productId);
         if (product) {
           return QVariant(product->priceStr());
         }
       } else {
-        return QVariant("");
+        return QVariant("6");
       }
     } break;
     case AmountRole:
     {
       if (ids.count() > index.row()) {
         int productId = ids[index.row()];
-        Product* product = _products->_productcontainer.product(productId);
+        Product* product =  _products->_productcontainer.product(productId);
         if (product) {
           return QVariant(product->amount());
         }
@@ -170,7 +174,7 @@ QHash<int, QByteArray> ProductOrderListModel::roleNames() const
 int ProductOrderListModel::count() const
 {
   if (-1 != _categoryId) {
-    return _products->_productcontainer.productIds(_categoryId).count();
+    return  _products->_productcontainer.productIds(_categoryId).count();
   } else {
     return 0;
   }
@@ -219,13 +223,17 @@ void ProductOrderListModel::onCategoryUpdated(ProductCategory *category)
 
 void ProductOrderListModel::onProductAdded(int id)
 {
+
+    qDebug()<<"ID:  ff" ;
   Product* product = _products->_productcontainer.product(id);
   if (product) {
-    if (product->categoryId() == _categoryId) {
+    //if (product->categoryId() == _categoryId) {
+
+      qDebug()<<"ID:"<<product->categoryId() ;
       beginResetModel();
       endResetModel();
       emit countChanged();
-    }
+    //}
   }
 }
 

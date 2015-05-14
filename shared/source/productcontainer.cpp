@@ -15,6 +15,7 @@ ProductContainer::ProductContainer(QObject* parent)
   : QObject(parent)
 {
    _products = new QHash<int, rotable::Product*> ;
+   _orderProducts = new QHash<int, rotable::Product*> ;
     //_products=*_products_;
 }
 
@@ -227,6 +228,25 @@ Product *ProductContainer::product(int id)
 
 //------------------------------------------------------------------------------
 
+
+void ProductContainer::addForOrderProduct_(int id)
+{
+  if (_products->contains(id)) {
+     (*_orderProducts)[product(id)->id()] =product(id);
+      connect(product(id), SIGNAL(iconChanged()), this, SLOT(onProductUpdated()));
+      connect(product(id), SIGNAL(nameChanged()), this, SLOT(onProductUpdated()));
+      connect(product(id), SIGNAL(infoChanged()), this, SLOT(onProductUpdated()));
+      connect(product(id), SIGNAL(priceChanged()), this, SLOT(onProductUpdated()));
+      qDebug()<<"tttttaaa";
+      emit productAdded(product(id)->id());
+
+  } else {
+
+  }
+}
+
+//------------------------------------------------------------------------------
+
 Product*ProductContainer::product(const QString& name, int categoryId)
 {
   foreach (Product* product, (*_products)) {
@@ -241,6 +261,9 @@ Product*ProductContainer::product(const QString& name, int categoryId)
 }
 
 //------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
 
 QList<int> ProductContainer::categoryIds() const
 {
@@ -252,6 +275,7 @@ QList<int> ProductContainer::categoryIds() const
 QList<int> ProductContainer::productIds() const
 {
   return (*_products).keys();
+    qDebug()<<"TEsST";
 }
 
 //------------------------------------------------------------------------------
@@ -270,6 +294,19 @@ QList<int> ProductContainer::productIds(int categoryId) const
 }
 
 //------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+QList<int> ProductContainer::productIds_() const
+{
+  return (*_orderProducts).keys();
+  qDebug()<<"TEsST";
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
 
 int ProductContainer::categoryCount() const
 {

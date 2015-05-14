@@ -17,7 +17,7 @@ namespace rotable {
   class ProductContainer;
   class ProductCategory;
   class Product;
-  class ProductOrder;
+
 }
 
 //------------------------------------------------------------------------------

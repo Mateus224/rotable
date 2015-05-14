@@ -45,7 +45,7 @@ Rectangle {
                         width: ListView.view.width; height: 60; anchors.leftMargin: 10; anchors.rightMargin: 10
                         Rectangle{
                             id:currentTable
-                            color: currentIndexT//
+                            //color: currentIndexT//
                             width: parent.width
                             height: parent.height
                             Rectangle {
@@ -57,7 +57,7 @@ Rectangle {
                                 border.color: "black"
                                 border.width: 1
 
-                                color: model.modelData.color
+                                //color: model.modelData.color
 
                                 Rectangle { anchors.fill: parent; anchors.margins: 3; color: "#899AAEE0"; antialiasing: true; radius: 8 }
                             }
@@ -65,8 +65,8 @@ Rectangle {
 
                                 id: label
                                 anchors.centerIn: content
-                                text: name ? name: ""
-                                color: CallWaiter//"White"
+                                text: priceStr ? priceStr: ""
+                                //color: CallWaiter//"White"
                                 font.pixelSize: 20
                                 font.bold: true
                                 font.family: "Lobster two"//font.family: "Purisa"

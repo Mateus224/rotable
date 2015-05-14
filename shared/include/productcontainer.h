@@ -67,6 +67,8 @@ public:
    * @param product         product
    * @return                true on success
    */
+
+
   bool updateProduct(rotable::Product* product);
 
   /**
@@ -149,6 +151,14 @@ public:
   QList<int> productIds() const;
 
   /**
+   * Get list of all product ids for Order.
+   *
+   * @return                product ids
+   */
+  QList<int> productIds_() const;
+
+
+  /**
    * Get list of all product ids of a category given by id.
    *
    * @param categoryId      category id
@@ -189,9 +199,13 @@ public:
    */
   void clearProducts(int categoryId);
 
+  void addForOrderProduct_(int id);
+
 signals:
   void categoryAdded(int id);
   void productAdded(int id);
+
+
 
   void categoryRemoved(rotable::ProductCategory* category);
   void productRemoved(rotable::Product* product);
@@ -204,11 +218,14 @@ private slots:
   void onProductUpdated();
 
 private:
+
+public:
   /* Categories (Mapping of category id to object) */
   QHash<int, rotable::ProductCategory*> _categories;
-public:
   /* Products (Mapping of product id to object) */
   QHash<int, rotable::Product*>* _products;
+  /* Products (Mapping of product id to object) */
+  QHash<int, rotable::Product*>* _orderProducts;
 }; // class ProductContainer
 
 //------------------------------------------------------------------------------

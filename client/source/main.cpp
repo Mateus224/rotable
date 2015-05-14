@@ -67,9 +67,8 @@ int main(int argc, char *argv[])
 
   rotable::Client* client = new rotable::Client(configFilePath);
 
-  QList<rotable::Product*>* OrderList= new QList<rotable::Product*>;
-  OrderList =  &(client->_productOrder->ProductList);
-  OrderList->append (new rotable::Product (client->_products->product(2)));
+
+
 
 
   rotable::ImageProvider* imageProvider = new rotable::ImageProvider(client);

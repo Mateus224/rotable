@@ -158,6 +158,7 @@ public:
 
 public:
   rotable::ProductContainer &_productcontainer;
+  rotable::ProductContainer *_newproductordercontainer;
 private:
 
 
