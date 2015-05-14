@@ -50,7 +50,7 @@ Client::Client(const QString &configFilePath, QObject *parent)
   }
 
   _products = new ProductContainer();
-    qDebug()<<"Test";
+
   _productOrder = new ProductOrder(*_products);
 
   connect(&_tcp, SIGNAL(connected()),
@@ -100,6 +100,16 @@ QAbstractListModel *Client::productListModel()
   return _productListModel;
 }
 
+//------------------------------------------------------------------------------
+
+QAbstractListModel *Client::productOrderListModel()
+{
+  if (0 == _productorderlistmodel) {
+    _productorderlistmodel = new ProductOrderListModel(this, _productOrder);
+  }
+
+  return _productorderlistmodel;
+}
 //------------------------------------------------------------------------------
 
 QString Client::currentCategoryName() const

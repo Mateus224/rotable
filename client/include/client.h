@@ -19,6 +19,7 @@
 #include "tcpclient.h"
 #include "sensors.h"
 #include "productorder.h"
+#include "productorderlistmodel.h"
 
 //------------------------------------------------------------------------------
 
@@ -34,6 +35,7 @@ namespace rotable {
   class ProductOrder;
 }
 
+class ProductOrderListModel;
 class QAbstractListModel;
 class ProductListModel;
 
@@ -92,6 +94,9 @@ public:
    * @return                product list model
    */
   QAbstractListModel *productListModel();
+
+
+  QAbstractListModel *productOrderListModel();
 
   /**
    * Get screen rotation.
@@ -329,6 +334,8 @@ private:
 
   /* Product list model */
   ProductListModel* _productListModel;
+
+  ProductOrderListModel* _productorderlistmodel;
 
   /* Image provider */
   ImageProvider* _imageProvider;
