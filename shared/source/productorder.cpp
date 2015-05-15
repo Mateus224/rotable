@@ -81,14 +81,17 @@ void ProductOrder::setproductId(int productId)
 
   void ProductOrder::getListForMyOrderPage()
   {
+      _productcontainer._orderProducts->clear();
       QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
       while (i != ClientProductHash->constEnd()) {
             if(_productcontainer._products->empty())
                 qDebug()<<"err";
             if (_productcontainer._products->contains(i.value()._s_id)) {
-                 _productcontainer.addForOrderProduct_(i.value()._s_id);
-                 qDebug()<<"COUNT:"<<_productcontainer.productCount();
-            }
+                _productcontainer.addForOrderProduct_(i.value()._s_id);
+                _productcontainer._orderProducts->value(i.value()._s_id)->setAmount(QString::number(i.value()._s_quantity));
+                //_productcontainer._orderProducts->value(i.value()._s_id);
+           }
+
           ++i;
       }
   }

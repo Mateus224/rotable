@@ -86,7 +86,7 @@ Rectangle {
                                     font.family: "Lobster two"
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
-                                    text: "Pieces"
+                                    text: "Amount"
                                     font.pixelSize: 10
                                     font.bold: true
 
@@ -154,7 +154,7 @@ Rectangle {
                                     Text {
                                         font.family: "Purisa"; font.pointSize: 16; font.bold: true
                                         id: contactInfo
-                                        //text:  pieces+"x"
+                                        text:  amount//+"x"
                                         //color: color_oderinfo
                                         anchors.verticalCenter: parent.verticalCenter
                                         anchors.horizontalCenter: parent.horizontalCenter

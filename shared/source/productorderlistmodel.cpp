@@ -115,7 +115,7 @@ QVariant ProductOrderListModel::data(const QModelIndex &index, int role) const
           return QVariant(product->priceStr());
         }
       } else {
-        return QVariant("6");
+        return QVariant("");
       }
     } break;
     case AmountRole:
