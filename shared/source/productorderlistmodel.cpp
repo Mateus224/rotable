@@ -56,10 +56,10 @@ int ProductOrderListModel::columnCount(const QModelIndex &/*parent*/) const
 QVariant ProductOrderListModel::data(const QModelIndex &index, int role) const
 {
   QList<int> ids;
-  if (_categoryId != -1) {
+  //if (_categoryId != -1) {
     ids = _products->_productcontainer.productIds_();
     qDebug()<<"ttttt"<<ids;
-  }
+  //}
 
   if (index.column() == 0) {
     switch (role) {
