@@ -84,14 +84,10 @@ void ProductOrder::setproductId(int productId)
       _productcontainer._orderProducts->clear();
       QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
       while (i != ClientProductHash->constEnd()) {
-            if(_productcontainer._products->empty())
-                qDebug()<<"err";
             if (_productcontainer._products->contains(i.value()._s_id)) {
                 _productcontainer.addForOrderProduct_(i.value()._s_id);
                 _productcontainer._orderProducts->value(i.value()._s_id)->setAmount(QString::number(i.value()._s_quantity));
-                //_productcontainer._orderProducts->value(i.value()._s_id);
            }
-
           ++i;
       }
   }
@@ -187,23 +183,25 @@ void ProductOrder::rmFromProductHash(int ProductID)
         _Product=ClientProductHash->take(ProductID);
         if(_Product._s_quantity>0)
         {
-            _Product._s_quantity--;
-            ClientProductHash->insert(_Product._s_id,_Product);
-        setquantity(_Product._s_quantity);
-            QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
-            while (i != ClientProductHash->constEnd()) {
-            qDebug() <<  "rm; quantity: " << i.value()._s_quantity <<  "id: " << i.value()._s_id ;
-                ++i;
+            if(_Product._s_quantity>1)
+            {
+                _Product._s_quantity--;
+                ClientProductHash->insert(_Product._s_id,_Product);
+                setquantity(_Product._s_quantity);
+                QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
+
+                while (i != ClientProductHash->constEnd())
+                {
+                    qDebug() <<  "rm; quantity: " << i.value()._s_quantity <<  "id: " << i.value()._s_id ;
+                    ++i;
+                }
+            }
+            else if(_Product._s_quantity==1)
+            {
+                setquantity(0);
+                ClientProductHash->remove(ProductID); //take(ProductID);
             }
         }
-        else if(_Product._s_quantity==0){
-            setquantity(_Product._s_quantity);}
-        else
-        {
-            qDebug()<<"Fehler in rmFromProductHash1";
-        }
-
-
     }
     else
     {

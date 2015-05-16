@@ -58,7 +58,6 @@ QVariant ProductOrderListModel::data(const QModelIndex &index, int role) const
   QList<int> ids;
   //if (_categoryId != -1) {
     ids = _products->_productcontainer.productIds_();
-    qDebug()<<"ttttt"<<ids;
   //}
 
   if (index.column() == 0) {
@@ -223,8 +222,6 @@ void ProductOrderListModel::onCategoryUpdated(ProductCategory *category)
 
 void ProductOrderListModel::onProductAdded(int id)
 {
-
-    qDebug()<<"ID:  ff" ;
   Product* product = _products->_productcontainer.product(id);
   if (product) {
     //if (product->categoryId() == _categoryId) {
