@@ -237,7 +237,6 @@ void ProductContainer::addForOrderProduct_(int id)
       connect(product(id), SIGNAL(nameChanged()), this, SLOT(onProductUpdated()));
       connect(product(id), SIGNAL(infoChanged()), this, SLOT(onProductUpdated()));
       connect(product(id), SIGNAL(priceChanged()), this, SLOT(onProductUpdated()));
-      qDebug()<<"tttttaaa";
       emit productAdded(product(id)->id());
 
   } else {

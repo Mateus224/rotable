@@ -4,14 +4,14 @@
 #include <qqml.h>
 #include <QtQuick/qquickitem.h>
 #include <QtQuick/qquickview.h>
-#include "../../waiter/include/waiterappwindow.h"
+//#include "../../waiter/include/waiterappwindow.h"
 //#include <QtQuick>
 
 
 qmlContxt::qmlContxt(QQmlContext &qmlCon, QObject *parent) :QObject(parent), ctxt(qmlCon)
 {
     m_tableNumber=0;
-    //AppWindow=new WaiterAppWindow;
+ //   AppWindow=new WaiterAppWindow;
 
 }
 
@@ -47,7 +47,7 @@ void qmlContxt::contxt(int tableNr)
     ctxt.setContextProperty("myModel", QVariant::fromValue(*reinterpret_cast<QList<QObject*> *>(&(tableNumber))));
     ctxt.setContextProperty("table", QVariant::fromValue(*reinterpret_cast<QList<QObject*> *>(&(tab->L_orderinformation))));
     ctxt.setContextProperty("con", this);
-    //ctxt.setContextProperty("waiterAppWindows",AppWindow);
+   // ctxt.setContextProperty("waiterAppWindows",AppWindow);
 }
 
 
@@ -70,7 +70,7 @@ void qmlContxt::addAllPrices()
         {
              toPay+=tableNumber.value(m_tableNumber)->L_orderinformation.at(j)->m_price;
         }
-    //AppWindow->setToPay(toPay);
+   // AppWindow->setToPay(toPay);
 }
 
 

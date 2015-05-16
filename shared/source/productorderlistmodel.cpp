@@ -226,7 +226,6 @@ void ProductOrderListModel::onProductAdded(int id)
   if (product) {
     //if (product->categoryId() == _categoryId) {
 
-      qDebug()<<"ID:"<<product->categoryId() ;
       beginResetModel();
       endResetModel();
       emit countChanged();

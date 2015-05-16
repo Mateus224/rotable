@@ -5,7 +5,6 @@
 
 #include <QObject>
 #include <QList>
-//#include "orderpage.h"
 #include "product.h"
 #include "productcontainer.h"
 #include "private/precomp.h"
@@ -15,7 +14,6 @@
 namespace rotable {
   class ProductOrder;
   class ProductContainer;
-  class OrderPage;
   class Product;
 }
 
