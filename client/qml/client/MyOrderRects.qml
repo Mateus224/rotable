@@ -6,6 +6,11 @@ Rectangle {
     anchors.leftMargin: parent.width * (1.0 - 0.805) / 2.0
     anchors.rightMargin: parent.width * (1.0 - 0.805) / 2.0
     anchors.bottomMargin: parent.height * (0.09125 + 0.10 + 0.125)
+    property int fontSize: parent.height * 0.02
+    property int fontSizeHeader: parent.height * 0.04
+    property int widthINFO: parent.width*0.15
+    property int heightINFO:parent.height*0.08
+    property color defcolor:"#48A8C0" //"#1A1A80" //"#48A8C0"
 
     color: "#3f494a"
 
@@ -20,25 +25,6 @@ Rectangle {
             width: parent.width; height: parent.height
             color: "transparent"//"#70000000"
 
-           /* Component {
-                id: nameDelegate
-                Text {
-                    text: name+" "+cost
-                    font.pixelSize: 24
-                }
-            }*/
-
-            Component {
-                id: contactDelegate
-                Item {
-                    width: grid.cellWidth; height: grid.cellHeight
-                    Column {
-                        anchors.fill: parent
-                        //Image { source: portrait; anchors.horizontalCenter: parent.horizontalCenter }
-                        Text { text: name; anchors.horizontalCenter: parent.horizontalCenter }
-                    }
-                }
-            }
 
             ListView {
                 property int buttonMarginH: parent.width  * 0.015
@@ -59,64 +45,63 @@ Rectangle {
                 header: bannercomponentInfo
 
 
-                Component {     //instantiated when header is processed
+                Component {
                     id: bannercomponentInfo
 
                     Rectangle {
 
                         id: banner
                         width: parent.width;
-                        height: 60
-                        //gradient: clubcolors
+                        height: heightINFO
+                        gradient: clubcolors
 
                         border {
-                            color: "#7AAEEE"//"#9EDDF2";
+                            color: "white"//"#7AAEEE"//"#9EDDF2";
                             width: 2}
                         Row{
 
                             spacing: 20
-                            x:10
                             Rectangle{
 
 
-                                width:65
-                                height:60
+                                width:widthINFO
+                                height:heightINFO
                                 color:"transparent"
                                 Text {
-                                    font.family: "Lobster two"
+                                    font.family: "FreeSans"
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
                                     text: "Amount"
-                                    font.pixelSize: 10
+                                    font.pixelSize: fontSizeHeader
                                     font.bold: true
 
                                 }
                             }
                             Rectangle{
 
-                                width:280
-                                height:60
+                                width:widthINFO
+                                height:heightINFO
                                 color: "transparent"
                                 Text {
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
                                     text: "Order"
-                                    font.pixelSize: 10
+                                    font.pixelSize: fontSizeHeader
                                     font.bold: true
-                                    font.family: "Lobster two"
+                                    font.family: "FreeSans"
                                 }
                             }
                             Rectangle{
 
-                                width:80
-                                height:60
+                                width:widthINFO
+                                height:heightINFO
                                 color:"transparent"
                                     Text {
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
                                     text: "Price"
-                                    font.pixelSize: 10
-                                    font.family: "Lobster two"
+                                    font.pixelSize: fontSizeHeader
+                                    font.family: "FreeSans"
                                     font.bold: true
                                 }
                             }
@@ -129,17 +114,17 @@ Rectangle {
                         y:10
                         id: wrapper
                         width: grid.width
-                        height: 60
+                        height: heightINFO
                         color: "transparent"
                         Rectangle {
                             width: (parent.width)
                             height: (parent.height-2)
-                            color: "#7AAEEE"
+                            color: defcolor// "#7AAEEE"
                         }
 
                         Rectangle{
                             width:parent.width
-                            height: 50
+                            height: heightINFO
                             color: "transparent"
 
                             Row {
@@ -147,12 +132,12 @@ Rectangle {
                                 spacing: 20
 
                                 Rectangle{
-                                    width:65
-                                    height:50
+                                    width:widthINFO
+                                    height:heightINFO
                                     color: "transparent"
 
                                     Text {
-                                        font.family: "Purisa"; font.pointSize: 16; font.bold: true
+                                        font.family: "FreeSans"; font.pointSize: fontSize; font.bold: true
                                         id: contactInfo
                                         text:  amount//+"x"
                                         //color: color_oderinfo
@@ -163,12 +148,12 @@ Rectangle {
                                 }
 
                                 Rectangle{
-                                    width:280
-                                    height:50
+                                    width:widthINFO
+                                    height:heightINFO
                                     color: "transparent" //"transparent"
 
                                     Text {
-                                        font.family: "Purisa"; font.pointSize: 16; font.bold: true
+                                        font.family: "FreeSans"; font.pointSize: fontSize; font.bold: true
                                         id: contactInfoname
                                         text:  name
                                         //color: color_oderinfo
@@ -177,102 +162,56 @@ Rectangle {
                                     }
                                 }
                                 Rectangle{
-                                    width:80
-                                    height:50
+                                    width:widthINFO
+                                    height:heightINFO
                                     color: "transparent"
 
                                     Text {
-                                        font.family: "Purisa"; font.pointSize: 16; font.bold: true
+                                        property string price:priceStr.replace(",",".")
+                                        text: (parseFloat(price).toFixed(1)*amount).toFixed(1) +" € "
+                                        font.family: "FreeSans"; font.pointSize: fontSize; font.bold: true
                                         id: contactInfoprice
-                                        text:  priceStr
-                                        //color: color_oderinfo
+                                        //text:  priceStr
+                                        //color: clubcolors
                                         anchors.verticalCenter: parent.verticalCenter
                                         anchors.horizontalCenter: parent.horizontalCenter
                                     }
                                 }
                                 Rectangle{
-                                    width:50
-                                    height:50
+                                    width:heightINFO*0.8
+                                    height:heightINFO*0.8
                                     color: "transparent"
 
                                     Image {
                                         id: image_ready
                                         anchors.fill: parent
-                                        /*source: if(model.modelData.color_oderinfo=== "green")
-                                                {
-                                                    image_ready.source= "resources/Check.png"
-                                                }
-                                                else if(model.modelData.color_oderinfo=== "black")
-                                                {
-                                                    image_ready.source= "resources/Check_grey.png"
-                                                }
-                                                else if(model.modelData.color_oderinfo=== "red")
-                                                {
-                                                    image_ready.source= "resources/Check_grey.png"
-                                                }
+                                        source: image_ready.source= "resources/plus_white.png"
+
                                         MouseArea {
                                             anchors.fill: parent
                                             onClicked:{
-                                                if(model.modelData.color_oderinfo=== "green")
-                                                {
-                                                    image_ready.source= "resources/Check_grey.png"
-                                                }
-                                                else if(model.modelData.color_oderinfo=== "black")
-                                                {
-                                                    image_ready.source= "resources/Check.png"
-                                                    image_canc.source= "resources/Cross_grey.png"
-                                                }
-                                                else if(model.modelData.color_oderinfo=== "red")
-                                                {
-                                                    image_ready.source= "resources/Check_grey.png"
-                                                }
-                                                con.readySlot(color_oderinfo, index)
+
                                             }
-                                        }*/
+                                        }
                                     }
                                 }
                                 Rectangle{
-                                    width:50
-                                    height:50
+                                    width:heightINFO*0.8
+                                    height:heightINFO*0.8
                                     color: "transparent"
 
                                     Image {
                                     id: image_canc
                                     anchors.fill: parent
-                                    /*source: if(model.modelData.color_oderinfo=== "red")
-                                            {
-                                                image_canc.source= "resources/Cross.png"
-                                            }
-                                            else if(model.modelData.color_oderinfo=== "black")
-                                            {
-                                                image_canc.source= "resources/Cross_grey.png"
-                                            }
-                                            else if(model.modelData.color_oderinfo=== "green")
-                                            {
-                                                image_canc.source= "resources/Cross_grey.png"
-                                            }
+                                    source: image_canc.source = "resources/minus_white.png"
+
 
                                         MouseArea {
                                             anchors.fill: parent
                                             onClicked:{
-                                                if(model.modelData.color_oderinfo=== "red")
-                                                {
-                                                    image_canc.source= "resources/Cross_grey.png"
-                                                }
-                                                else if(model.modelData.color_oderinfo=== "black")
-                                                {
-                                                    image_canc.source= "resources/Cross.png"
-                                                    image_ready.source= "resources/Check_grey.png"
-                                                }
-                                                else if(model.modelData.color_oderinfo=== "green")
-                                                {
-                                                    image_canc.source= "resources/Cross.png"
-                                                    image_ready.source= "resources/Check_grey.png"
-                                                    color_oderinfo="black"
-                                                }
-                                                con.cancSlot(color_oderinfo, index)
+
                                             }
-                                        }*/
+                                        }
                                     }
                                 }
                             }
@@ -280,24 +219,11 @@ Rectangle {
                     }
                 }
             }
-            Component {     //instantiated when header is processed
-                id: bannercomponent
-                Rectangle {
-                    id: banner
-                    width: parent.width; height: 60
-                    //gradient: clubcolors
-                    border {
-                        color: "#7AAEEE"//"#9EDDF2";
-                        width: 2}
-                    Text {
-                        font.family: "Lobster two"
-                        anchors.centerIn: parent
-                        text: "Tables"
-                        font.pixelSize: 32
-                        font.bold: true
-                    }
-                }
-            }
         }
+    }
+    Gradient {
+        id: clubcolors
+        GradientStop { position: 0.0; color:"White" }//"#8EE2FE"}
+        GradientStop { position: 0.66; color: defcolor}
     }
 }

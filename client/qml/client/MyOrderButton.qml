@@ -20,6 +20,7 @@ Rectangle {
         onClicked: {
             client.state= myorderscreen
             MyOrder.getListForMyOrderPage()
+            MyOrder.getListForMyOrderPage()
         }
 
 
