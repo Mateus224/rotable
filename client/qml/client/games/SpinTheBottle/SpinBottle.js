@@ -38,15 +38,21 @@ var velocity=0
 
 function initialize()
 {
-    centerX = dialer.x + dialer.width / 2;
-    centerY = dialer.y + dialer.height / 2;
+    centerX =  (spinBottle.width / 2);
+    centerY = (spinBottle.height / 2);
+    console.log(centerX,"    : ", centerY, "x:",spinBottle.x, (spinBottle.width / 2))
 }
 
 
 function getEventAngle(event)
 {
-    var angle = Math.atan2(event.y - centerY, event.x - centerX);
-
+    var angle
+    //if(event.y >= centerY)
+    angle = Math.atan2(event.y - centerY, event.x - centerX);
+    //else
+    //   { angle = Math.atan2(abs(event.y - centerY), abs(event.x - centerX));
+    //    console.log("angle:",angle)}
+    console.log("event",event.y,"centerY",centerY)
     if(angle < 0)
     angle += 2 * Math.PI;
 

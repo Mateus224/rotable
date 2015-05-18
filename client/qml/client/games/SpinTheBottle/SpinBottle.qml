@@ -19,8 +19,10 @@ Rectangle{
         //anchors.fill: parent
         id: spinBottle
         rotation: 0
-        height: parent.height
-        width: parent.width/3.75
+        width: 125
+        height: 480
+        //height: parent.height
+        //width: parent.width/3.75
         anchors.centerIn: parent
         color:  "#800000FF"//"transparent"//
 
@@ -33,8 +35,9 @@ Rectangle{
             }
 
         Image {
-            height: parent.height
-            width: parent.width
+            anchors.fill: parent
+            //height: parent.height
+            //width: parent.width
             id: dialer
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
