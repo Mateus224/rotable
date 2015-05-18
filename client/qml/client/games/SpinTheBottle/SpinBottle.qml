@@ -4,6 +4,7 @@ import "SpinBottle.js" as SpinBottle
 Rectangle{
     anchors.fill: parent
 
+
     Image {
         //anchors.fill: parent
         anchors.horizontalCenter: parent.horizontalCenter
@@ -12,6 +13,19 @@ Rectangle{
         width: parent.width
         source:  "qrc:/client/games/SpinTheBottle/qml/client/games/SpinTheBottle/pics/background.png"
         //fillMode: "Tile"
+    }
+    Image {
+        x:parent.width-45
+        y:10
+        //anchors.right: 20
+        id: close
+        source: "qrc:/client/games/SpinTheBottle/qml/client/games/SpinTheBottle/pics/close.png"
+        MouseArea{
+            anchors.fill: parent
+            onClicked: {
+                client.state = "STARTSCREEN";
+            }
+        }
     }
 
     Rectangle {
@@ -36,7 +50,7 @@ Rectangle{
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         height: parent.height
-        width: parent.width/4
+        width: parent.width/3.75
         source: "qrc:/client/games/SpinTheBottle/qml/client/games/SpinTheBottle/pics/sky_vodka.png";
         }
 
