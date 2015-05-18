@@ -24,8 +24,7 @@ Rectangle{
         //height: parent.height
         //width: parent.width/3.75
         anchors.centerIn: parent
-        color:  "#800000FF"//"transparent"//
-
+        color:  "transparent"//"#800000FF"//
 
         RotationAnimation {
             id: rotaryReleaseAnimation
