@@ -130,7 +130,7 @@ function moving_average()
 function dialerReleased(event)
 {
     var angleDiff = getAngleDiff(getEventAngle(event));
-    //console.log("start",startAngle)
+    //console.log("velocity:",velocity)
 
     if(velocity!==0)
     {
@@ -138,10 +138,10 @@ function dialerReleased(event)
 
 
     if(velocity>0)
-        rotaryReleaseAnimation.direction= RotationAnimation.Clockwise;
+       { rotaryReleaseAnimation.direction= RotationAnimation.Clockwise;}
     else
-       rotaryReleaseAnimation.direction= RotationAnimation.Counterclockwise;
-    rotaryReleaseAnimation.duration=300*Math.abs(velocity)*Math.abs(velocity)*Math.abs(velocity)
+       {rotaryReleaseAnimation.direction= RotationAnimation.Counterclockwise;}
+    rotaryReleaseAnimation.duration=300*Math.abs(velocity)*Math.abs(velocity)
     //hier wird die Flasche zurückgelegt auf den Punkt wo man loslässt
     //lastangle darf nicht in betracht gezogen werden da rotation schon aufgerufen worderen ist
     //und rotaryReleaseAnimation.from sich auf den Winkel von der bottleArea sich bezieht

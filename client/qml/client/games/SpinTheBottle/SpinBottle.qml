@@ -14,55 +14,66 @@ Rectangle{
         source:  "qrc:/client/games/SpinTheBottle/qml/client/games/SpinTheBottle/pics/background.png"
         //fillMode: "Tile"
     }
-    Image {
+
+    Rectangle {
+        //anchors.fill: parent
+        id: spinBottle
+        rotation: 0
+        height: parent.height
+        width: parent.width/3.75
+        anchors.centerIn: parent
+        color:  "#800000FF"//"transparent"//
+
+
+        RotationAnimation {
+            id: rotaryReleaseAnimation
+            target: dialer
+            property: "rotation"
+            easing.type: Easing.OutQuad
+            }
+
+        Image {
+            height: parent.height
+            width: parent.width
+            id: dialer
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+
+            source: "qrc:/client/games/SpinTheBottle/qml/client/games/SpinTheBottle/pics/sky_vodka.png";
+            }
+
+        MouseArea {
+            //color:"#800000FF"
+            id: bottleArea
+            anchors.fill: parent
+            onPositionChanged: SpinBottle.dialerMoved(mouse)
+            onReleased: SpinBottle.dialerReleased(mouse)
+            onPressed: SpinBottle.dialerPressed(mouse)
+            }
+
+        Component.onCompleted: SpinBottle.initialize()
+    }
+    Rectangle{
+        color: "transparent"
+        width: 30
+        height: 30
         x:parent.width-45
-        y:10
-        //anchors.right: 20
-        id: close
-        source: "qrc:/client/games/SpinTheBottle/qml/client/games/SpinTheBottle/pics/close.png"
+        y:20
         MouseArea{
             anchors.fill: parent
             onClicked: {
                 client.state = "STARTSCREEN";
             }
         }
-    }
-
-    Rectangle {
-        anchors.fill: parent
-        id: spinBottle
-        rotation: 0
-        width: 125
-        height: 480
-        anchors.centerIn: parent
-        color:  "transparent"//"#800000FF"//
-
-
-        RotationAnimation {
-        id: rotaryReleaseAnimation
-        target: dialer
-        property: "rotation"
-        easing.type: Easing.OutQuad
-        }
 
         Image {
-        id: dialer
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
-        height: parent.height
-        width: parent.width/3.75
-        source: "qrc:/client/games/SpinTheBottle/qml/client/games/SpinTheBottle/pics/sky_vodka.png";
+            anchors.fill: parent
+            //anchors.right: 20
+            id: close
+            width: 20
+            height: 20
+            source: "qrc:/client/games/SpinTheBottle/qml/client/games/SpinTheBottle/pics/close.png"
         }
-
-        MouseArea {
-        //color:"#800000FF"
-        id: bottleArea
-        anchors.fill: parent
-        onPositionChanged: SpinBottle.dialerMoved(mouse)
-        onReleased: SpinBottle.dialerReleased(mouse)
-        onPressed: SpinBottle.dialerPressed(mouse)
-        }
-
-        Component.onCompleted: SpinBottle.initialize()
     }
+
 }
