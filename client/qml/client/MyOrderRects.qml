@@ -43,6 +43,7 @@ Rectangle {
                 model: MyProductOrderList
                 delegate: contactsDelegate
                 header: bannercomponentInfo
+                footer: sendOrder
 
 
                 Component {
@@ -215,6 +216,25 @@ Rectangle {
                                     }
                                 }
                             }
+                        }
+                    }
+                }
+
+                Component{
+                    id:sendOrder
+                    Rectangle {
+
+                        id: banner
+                        width: parent.width;
+                        height: heightINFO
+                        gradient: clubcolors
+                        Text {
+                            font.family: "FreeSans"; font.pointSize: fontSize; font.bold: true
+                            id: contactInfoname
+                            text:  "Price"
+                            //color: color_oderinfo
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
                         }
                     }
                 }

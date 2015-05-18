@@ -1,9 +1,0 @@
-<RCC>
-    <qresource prefix="/bs">
-        <file alias="Dialer.qml">qml/tet/Dialer.qml</file>
-        <file alias="main.qml">qml/tet/main.qml</file>
-        <file alias="RotaryDialer.js">qml/tet/RotaryDialer.js</file>
-        <file alias="pics/background.png">qml/tet/pics/background.png</file>
-        <file alias="pics/sky_vodka.png">qml/tet/pics/sky_vodka.png</file>
-    </qresource>
-</RCC>

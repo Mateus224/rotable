@@ -58,9 +58,9 @@ QVariant CategoryListModel::data(const QModelIndex &index, int role) const
         }
       } else {
         if (index.row() - _products->categoryCount() == 0) {
-          return QVariant(tr("Games"));
+          return QVariant(tr("Call Waiter"));
         } else {
-         return  QVariant(tr("Call Waiter"));
+         return  QVariant(tr("Games"));
         }
       }
     } break;
@@ -74,9 +74,9 @@ QVariant CategoryListModel::data(const QModelIndex &index, int role) const
         }
       } else {
         if (index.row() - _products->categoryCount() == 0) {
-          return QVariant("dices");
-        } else {
           return QVariant("waiter");
+        } else {
+          return QVariant("dices");
         }
       }
     } break;

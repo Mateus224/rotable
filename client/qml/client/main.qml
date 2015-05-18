@@ -1,6 +1,9 @@
 import QtQuick 2.0
 import QtMultimedia 5.0
 import "globals.js" as Global
+import "games"
+
+//import "games/SpinBottle.qml"
 
 Rectangle {
     id: mainScreen
@@ -36,6 +39,10 @@ Rectangle {
             id: myOrderPage
         }
 
+        GamePage{
+            id:gamePage
+        }
+
         //! [states]
         states: [
             State {
@@ -45,6 +52,8 @@ Rectangle {
                 PropertyChanges { target: startPage; visible: false }
                 PropertyChanges { target: productPage; visible: false }
                 PropertyChanges { target: myOrderPage; visible: false}
+                PropertyChanges { target: gamePage; visible: false}
+
             },
             State {
                 name: "SCREENSAVER"
@@ -53,6 +62,8 @@ Rectangle {
                 PropertyChanges { target: startPage; visible: false }
                 PropertyChanges { target: productPage; visible: false }
                 PropertyChanges { target: myOrderPage; visible: false}
+                PropertyChanges { target: gamePage; visible: false}
+
             },
             State {
                 name: "STARTSCREEN"
@@ -61,6 +72,8 @@ Rectangle {
                 PropertyChanges { target: startPage; visible: true }
                 PropertyChanges { target: productPage; visible: false }
                 PropertyChanges { target: myOrderPage; visible: false}
+                PropertyChanges { target: gamePage; visible: false}
+
             },
             State {
                 name: "PRODUCTSCREEN"
@@ -69,6 +82,8 @@ Rectangle {
                 PropertyChanges { target: startPage; visible: false }
                 PropertyChanges { target: productPage; visible: true }
                 PropertyChanges { target: myOrderPage; visible: false}
+                PropertyChanges { target: gamePage; visible: false}
+
             },
             State {
                 name: "MYORDERSCREEN"
@@ -77,6 +92,28 @@ Rectangle {
                 PropertyChanges { target: startPage; visible: false }
                 PropertyChanges { target: productPage; visible: false }
                 PropertyChanges { target: myOrderPage; visible: true}
+                PropertyChanges { target: gamePage; visible: false}
+
+            },
+            State {
+                name: "GAMEPAGE"
+                PropertyChanges { target: connectionPage; visible: false }
+                PropertyChanges { target: screensaverPage; visible: false }
+                PropertyChanges { target: startPage; visible: false }
+                PropertyChanges { target: productPage; visible: false }
+                PropertyChanges { target: myOrderPage; visible: false}
+                PropertyChanges { target: gamePage; visible: true}
+
+            },
+            State {
+                name: "CALLWAITER"
+                PropertyChanges { target: connectionPage; visible: false }
+                PropertyChanges { target: screensaverPage; visible: false }
+                PropertyChanges { target: startPage; visible: false }
+                PropertyChanges { target: productPage; visible: false }
+                PropertyChanges { target: myOrderPage; visible: true}
+                //PropertyChanges { target: gamePage; visible: true}
+
             }
         ]
         //! [states]

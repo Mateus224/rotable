@@ -25,4 +25,16 @@
         <file alias="MyOrderPage.qml">qml/client/MyOrderPage.qml</file>
         <file alias="MyOrderRects.qml">qml/client/MyOrderRects.qml</file>
     </qresource>
+    <qresource prefix="/client/games">
+        <file alias="GamePage.qml">qml/client/games/GamePage.qml</file>
+    </qresource>
+    <qresource prefix="/client/games/SpinTheBottle">
+        <file alias="SpinBottle.qml">qml/client/games/SpinTheBottle/SpinBottle.qml</file>
+        <file alias="SpinBottle.js">qml/client/games/SpinTheBottle/SpinBottle.js</file>
+        <file>qml/client/games/SpinTheBottle/pics/background.png</file>
+        <file>qml/client/games/SpinTheBottle/pics/close.png</file>
+        <file>qml/client/games/SpinTheBottle/pics/sky_vodka.png</file>
+    </qresource>
+
+
 </RCC>

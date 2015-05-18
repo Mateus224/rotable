@@ -1,4 +1,4 @@
-function createCategory(parent_item, category) {
+/*function createCategory(parent_item, category) {
     var component = Qt.createComponent("ProductCategoryPage.qml");
     var productComponent = Qt.createComponent("ProductButton.qml");
 
@@ -25,4 +25,4 @@ function createCategory(parent_item, category) {
     }
 
     return object;
-}
+}*/

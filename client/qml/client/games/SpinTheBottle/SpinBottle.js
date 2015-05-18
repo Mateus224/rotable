@@ -88,7 +88,7 @@ function dialerMoved(event)
         var newAngle = getEventAngle(event);
         angleDiff = getAngleDiff(newAngle);
 
-        dialerView.rotation=((angleDiff / Math.PI) * 180)+lastangle
+        spinBottle.rotation=((angleDiff / Math.PI) * 180)+lastangle
 
 
         lastangle =(angleDiff * 180 / Math.PI)+lastangle
@@ -134,7 +134,7 @@ function dialerReleased(event)
 
     if(velocity!==0)
     {
-    dialerView.rotation= (70*velocity*velocity*velocity)+lastangle //360 test number
+    spinBottle.rotation= (70*velocity*velocity*velocity)+lastangle //360 test number
 
 
     if(velocity>0)

@@ -231,12 +231,19 @@ void Client::setCurrentCategoryId(int id)
     _currentCategoryId = id;
     emit currentCategoryIdChanged();
 
-    if (_productListModel) {
-      _productListModel->setCategoryId(id);
+    if(id<0) //TODO implement games and waitor
+    {
+        if (_state != "GAMEPAGE") {
+          setState("GAMEPAGE");
+        }
     }
+    else if (_productListModel) {  //else if
+      _productListModel->setCategoryId(id);
 
-    if (_state != "PRODUCTSCREEN") {
-      setState("PRODUCTSCREEN");
+
+        if (_state != "PRODUCTSCREEN") {
+          setState("PRODUCTSCREEN");
+        }
     }
   }
 }
