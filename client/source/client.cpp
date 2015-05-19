@@ -231,7 +231,13 @@ void Client::setCurrentCategoryId(int id)
     _currentCategoryId = id;
     emit currentCategoryIdChanged();
 
-    if(id==-2) //TODO implement games and waitor
+    if(id==-1)
+    {
+        if (_state != "CALLWAITORPAGE") {
+          setState("CALLWAITORPAGE");
+        }
+    }
+    else if(id==-2) //TODO implement games and waitor
     {
         if (_state != "GAMEPAGE") {
           setState("GAMEPAGE");

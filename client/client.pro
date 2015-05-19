@@ -99,3 +99,6 @@ LIBS += \
 
 target.path = /opt/rotable
 INSTALLS    += target
+
+DISTFILES += \
+    qml/client/callWaiter/CallWaiterPage.qml

@@ -35,6 +35,7 @@
         <file>qml/client/games/SpinTheBottle/pics/close.png</file>
         <file>qml/client/games/SpinTheBottle/pics/sky_vodka.png</file>
     </qresource>
-
-
+    <qresource prefix="/client/callWaiter">
+        <file alias="CallWaiterPage.qml">qml/client/callWaiter/CallWaiterPage.qml</file>
+    </qresource>
 </RCC>
