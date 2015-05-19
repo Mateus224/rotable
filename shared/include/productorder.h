@@ -26,14 +26,8 @@ class rotable::ProductOrder : public QObject //, rotable::ProductContainer
 {
   Q_OBJECT
 
-  //Q_PROPERTY(int quantity READ _quantity WRITE set_quantity NOTIFY quantityChanged)
-  //Q_PROPERTY(QString session READ session WRITE setSession NOTIFY sessionChanged)
-  //Q_PROPERTY(QString waitorId READ waitorId WRITE setWaitorId NOTIFY waitorChanged)
-  //Q_PROPERTY(int timestamp READ timestamp WRITE setTimeStamp NOTIFY timestampChanged)
-  //Q_PROPERTY(int status READ status WRITE setStatus NOTIFY statusChanged)
-  Q_PROPERTY(int productId READ productId WRITE setproductId NOTIFY productIdChanged)
-  Q_PROPERTY(int quantity READ quantity WRITE setquantity NOTIFY quantityChanged)
-  //Q_PROPERTY(WRITE getListForMyOrderPage)
+  Q_PROPERTY(int productId READ productId NOTIFY productIdChanged)
+  Q_PROPERTY(int quantity READ pieces WRITE setpieces NOTIFY piecesChanged)
 
 
 public:
@@ -46,7 +40,7 @@ public:
     e_submitted,
 
     /* The order has been accepted by a waitor */
-    //e_accepted,
+    e_accepted,
 
     /* The order has been delivered to the client */
     e_delivered,
@@ -65,15 +59,6 @@ public:
   //ProductOrder();
    ProductOrder(const QJsonValue& jval, QObject *parent = 0);
    ProductOrder( rotable::ProductContainer &Productcontainer,QObject *parent = 0);
-  ~ProductOrder();
-
-
-
-  /**
-   * send order to the server and the server
-   * @brief sendOrder
-   */
-  void sendOrderToServer();
 
   /**
    * send order to the server and the server
@@ -87,11 +72,6 @@ public:
    */
   void acceptOrder();
 
-  /**
-   * @brief setStopWatchTime
-   * by incomming orders the time will be start to measured
-   */
-  void setStopWatchTime();
 
   /**
    * @brief getStopWatchTime
@@ -114,13 +94,20 @@ public:
   //For Gui interface
   //------------------------------------------------------------------------------
   inline int productId() const { return _productId; }
-  void setproductId(  int productId);
 
 
-  inline  int quantity() const { return  _Product._s_quantity; }
-  void setquantity( int quantity);
-
+  inline  int pieces() const { return  _Product._s_quantity; }
+  void setpieces( int quantity);
   //------------------------------------------------------------------------------
+
+  /**
+   * @brief getpieces
+   * @param ProductID
+   * gives you the pieces of a product
+   * through ClientProductHash
+   */
+  void getpieces(int ProductID);
+
 
 
   /**
@@ -139,10 +126,65 @@ public:
   static ProductOrder *fromJSON(const QJsonValue& jval);
 
 
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
+signals:
+  void productIdChanged();
+  void piecesChanged();
+
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+public slots:
+  /**
+   * @brief addToProductHash
+   * @param ProductID
+   * Here we add through the gui the product id into the ClientProductHash
+   * and count the pieces
+   */
+  void addToProductHash(int ProductID);
+
+  /**
+   * @brief rmFromProductHash
+   * @param ProductID
+   * Here we remove through the gui the product id into the ClientProductHash
+   * and count the pieces
+   */
+  void rmFromProductHash(int ProductID);
+
+  /**
+   * @brief setproductid
+   * @param ProductID
+   * set the Product ID
+   */
+  void setproductid(int ProductID){
+    _productId=ProductID;
+      getpieces(_productId);
+  }
+
+  /**
+   * @brief getListForMyOrderPage
+   * We clear the _productcontainer._orderProducts hash
+   * and add all products again which are stored in ClientProductHash
+   *
+   */
+  void getListForMyOrderPage();
+
+  /**
+   * send order to the server and the server
+   * @brief sendOrder
+   */
+  void sendOrderToServer();
+
+//------------------------------------------------------------------------------
+//---------VALUES--------------------------------------------------------------
+
+public:
   struct productChoosen{
       int _s_id;
-      int _s_quantity;
+      int _s_quantity=0;
   };
   productChoosen _Product;
 
@@ -150,15 +192,15 @@ public:
 
   /* Products (Mapping of product id to object) */
   QHash<int, rotable::Product*> _products;
-  QList<rotable::Product*> ProductList;
-  rotable::Product* _addProduct;
-  rotable::ProductContainer* _getProduct;
 
-public:
+
   rotable::ProductContainer &_productcontainer;
   rotable::ProductContainer *_newproductordercontainer;
-private:
 
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+private:
 
   /* Unique category ID */
   int _productId;
@@ -166,55 +208,6 @@ private:
 
   int _orderID;
   int _clientID;
-
-//------------------------------------------------------------------------------
-
-  void getQuantity(int ProductID);
-
-
-//------------------------------------------------------------------------------
-
-
-signals:
-  void productIdChanged();
-  void quantityChanged();
-
-//------------------------------------------------------------------------------
-
-
-public slots:
-
-  void addToProductHash(int ProductID);
-  void rmFromProductHash(int ProductID);
-  void setproductid(int ProductID){
-    _productId=ProductID;
-      getQuantity(_productId);
-  }
-  void getListForMyOrderPage();
-
-  /**
-    get all information from added Product
-   * @brief getProductInformation
-   * @param ProductId
-   */
-  //void getProductInformation(int ProductId);
-
-  /**
-   * add from the MyOrderButton.qml
-   * Products which are choosen
-   */
-  void addProductToOrder(int id);
-
-  /**
-   * add from the MyOrderButton.qml
-   * Products which are choosen
-   * @brief removeProductFromOrder
-   */
-  void removeProductFromOrder(int id);
-
-
-
-
 }; // class ProductOrder
 
 //------------------------------------------------------------------------------

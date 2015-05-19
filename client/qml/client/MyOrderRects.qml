@@ -238,11 +238,18 @@ Rectangle {
                             border.color: "#8772c0"
                             border.width: 2
                             color: defcolor
-                            Text {
-                                font.family: "FreeSans"; font.pointSize: fontSize; font.bold: true
-                                text:  "Send Order"
-                                anchors.verticalCenter: parent.verticalCenter
-                                anchors.horizontalCenter: parent.horizontalCenter
+                            MouseArea{
+                                anchors.fill: parent
+                                onClicked: {
+                                       MyOrder.sendOrderToServer()
+                                }
+
+                                Text {
+                                    font.family: "FreeSans"; font.pointSize: fontSize; font.bold: true
+                                    text:  "Send Order"
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                }
                             }
 
 

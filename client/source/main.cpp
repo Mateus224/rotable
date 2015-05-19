@@ -64,12 +64,7 @@ int main(int argc, char *argv[])
 #endif
 
 
-
   rotable::Client* client = new rotable::Client(configFilePath);
-
-
-
-
 
   rotable::ImageProvider* imageProvider = new rotable::ImageProvider(client);
   client->setImageProvider(imageProvider);
