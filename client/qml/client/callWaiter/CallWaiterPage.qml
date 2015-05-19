@@ -15,7 +15,7 @@ Rectangle {
         anchors.leftMargin: parent.width * (1.0 - 0.805) / 2.0
         anchors.rightMargin: parent.width * (1.0 - 0.805) / 2.0
         anchors.bottomMargin: parent.height * (0.09125 + 0.10 + 0.125)
-        property string gradientValue: "DEFAULT"
+
         color: "#3f494a"
 
         Rectangle {
@@ -57,7 +57,7 @@ Rectangle {
                     anchors.fill: parent
                     anchors.margins: parent.height * 0.02
                     onClicked:  {
-                        if(callwaiterbutton.state=="DEFAULT")
+                        if(callwaiterbutton.state!="CALLWAITER")
                             callwaiterbutton.state="CALLWAITER"
                         else
                             callwaiterbutton.state="DEFAULT"

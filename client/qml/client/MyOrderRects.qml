@@ -48,7 +48,7 @@ Rectangle {
 
                 Component {
                     id: bannercomponentInfo
-
+                    //Rectangle{
                     Rectangle {
 
                         id: banner
@@ -56,11 +56,11 @@ Rectangle {
                         height: heightINFO
                         gradient: clubcolors
 
-                        border {
-                            color: "white"//"#7AAEEE"//"#9EDDF2";
-                            width: 2}
+                        /*border {
+                            gradient:clubcolors
+                            //color: "#f9a8d8"//"#7AAEEE"//"#9EDDF2";
+                            width: 2}*/
                         Row{
-
                             spacing: 20
                             Rectangle{
 
@@ -223,27 +223,58 @@ Rectangle {
                 Component{
                     id:sendOrder
                     Rectangle {
-
-                        id: banner
+                        id: endPrice
                         width: parent.width;
                         height: heightINFO
-                        gradient: clubcolors
-                        Text {
-                            font.family: "FreeSans"; font.pointSize: fontSize; font.bold: true
-                            id: contactInfoname
-                            text:  "Price"
-                            //color: color_oderinfo
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.horizontalCenter: parent.horizontalCenter
+                        gradient: clubcolorsrevers
+                        Rectangle {
+                            anchors.verticalCenter:parent.verticalCenter
+                            x:parent.width/4
+                            width: parent.width/4
+                            id: sendOrderButton
+                            height: parent.height*0.66
+                            //radius: 4
+                            //antialiasing: true
+                            border.color: "#8772c0"
+                            border.width: 2
+                            color: defcolor
+                            Text {
+                                font.family: "FreeSans"; font.pointSize: fontSize; font.bold: true
+                                text:  "Send Order"
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
+
+
+                        }
+                        Rectangle {
+                            id: endPriceDoub
+                            x:parent.width/2
+                            width: parent.width/2;
+                            height: heightINFO
+                            gradient: clubcolorsrevers
+                            Text {
+                                font.family: "FreeSans"; font.pointSize: fontSize; font.bold: true
+                                text:  "Price: 10.0 €"
+                                //color: color_oderinfo
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
                         }
                     }
+
                 }
             }
         }
     }
     Gradient {
         id: clubcolors
-        GradientStop { position: 0.0; color:"White" }//"#8EE2FE"}
-        GradientStop { position: 0.66; color: defcolor}
+        GradientStop { position: 0.0; color:"#f9a8d8" }//"#8EE2FE"}
+        GradientStop { position: 0.80; color: defcolor}
+    }
+    Gradient {
+        id: clubcolorsrevers
+        GradientStop { position: 0.0; color:defcolor}//"#8EE2FE"}
+        GradientStop { position: 0.60; color: "#8772c0"}
     }
 }
