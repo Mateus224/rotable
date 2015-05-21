@@ -905,6 +905,14 @@ bool Database::updateConfig(Config *config)
 
 //------------------------------------------------------------------------------
 
+bool Database::updateOrders(ProductOrder *order)
+{
+    QDebug() << "Not implemented yet";
+    return false;
+}
+
+//------------------------------------------------------------------------------
+
 bool Database::removeCategory(int id)
 {
   if (!isConnected() || id == -1) {

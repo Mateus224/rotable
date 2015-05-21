@@ -106,7 +106,9 @@ public:
     SetCategory,
 
     /* Set/Update a product */
-    SetProduct
+    SetProduct,
+
+    SetProductOrder
   };
 
   /**

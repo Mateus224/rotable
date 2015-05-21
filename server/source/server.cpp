@@ -3,6 +3,7 @@
 #include "server.h"
 #include "settings.h"
 #include "logmanager.h"
+#include "productorder.h"
 
 //------------------------------------------------------------------------------
 
@@ -375,6 +376,11 @@ bool Server::setData(ComPackageDataSet *set)
       return false;
     }
   } break;
+  case ComPackage::SetProductOrder:
+  {
+    ProductOrder* po = ProductOrder::fromJSON(set->data());
+    return updateOrders(po);
+  }break;
   default:
   {
     qCritical() << tr("Unknown data set id: %d").arg(set->dataCategory());

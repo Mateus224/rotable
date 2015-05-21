@@ -30,6 +30,7 @@
 #include "waiter.h"
 #include "income.h"
 #include "config.h"
+#include "productorder.h"
 
 //------------------------------------------------------------------------------
 
@@ -255,6 +256,8 @@ public:
    * @return            true on success
    */
   bool updateConfig(Config *config);
+
+  bool updateOrders(ProductOrder *order);
 
   /**
    * Remove a category.
