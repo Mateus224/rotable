@@ -11,6 +11,7 @@ ProductOrder::ProductOrder( ProductContainer &productcontainer, QObject *parent)
 {
     ClientProductHash=new QHash<int,productChoosen>;
     ClientProductHash->reserve(250);
+    _Product._s_quantity = 0;
     //_Product
     //ProductList=new QList<QObject*>;
 
