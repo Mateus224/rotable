@@ -907,7 +907,7 @@ bool Database::updateConfig(Config *config)
 
 bool Database::updateOrders(ProductOrder *order)
 {
-    QDebug() << "Not implemented yet";
+    qDebug() << "Not implemented yet";
     return false;
 }
 
