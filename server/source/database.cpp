@@ -686,7 +686,7 @@ bool Database::addProduct(Product* product)
 
 //------------------------------------------------------------------------------
 
-bool Database::addWaiter(Waiter* waiter)
+bool Database::addUser(User* user)
 {
   if (!isConnected()) {
     return false;
@@ -703,8 +703,8 @@ bool Database::addWaiter(Waiter* waiter)
     return false;
   }
 
-  q.bindValue(":name", waiter->nick());
-  q.bindValue(":type", ComPackage::WaiterAccount);
+  q.bindValue(":name", user->name());
+  q.bindValue(":type", user->accountType());
 
   if (!q.exec()) {
     qCritical() << tr("Query exec failed: (%1: %2")
@@ -722,7 +722,8 @@ bool Database::addWaiter(Waiter* waiter)
     return false;
   }
 
-  q.bindValue(":password", waiter->hashPassword());
+  q.bindValue(":id", id);
+  q.bindValue(":password", user->hashPassword());
 
   if (!q.exec()) {
     qCritical() << tr("Query exec failed: (%1: %2")
@@ -732,6 +733,7 @@ bool Database::addWaiter(Waiter* waiter)
 
   return true;
 }
+
 
 //------------------------------------------------------------------------------
 
@@ -1808,13 +1810,18 @@ bool Database::add_init_data()
   day.setName(Config::day_begin);
   day.setValue("16:00");
 
-  book ok = addConfig(&day);
+  bool ok = addConfig(&day);
 
   Waiter waiter;
-  waiter.setNick("TestWaiter");
+  waiter.setName("TestWaiter");
   waiter.setPassword("TestWaiter");
 
-  ok = ok && addWaiter(waiter);
+  ok = ok && addUser(&waiter);
+
+  Admin admin;
+  admin.setName("debugAdmin");
+  admin.setPassword("debugAdmin");
+  ok = ok && addUser(&admin);
 
   return ok;
 

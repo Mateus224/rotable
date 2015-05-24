@@ -22,13 +22,13 @@ SOURCES += \
     source/productorder.cpp \
     source/logmanager.cpp \
     source/order.cpp \
-    source/waiter.cpp \
     source/income.cpp \
     source/config.cpp \
     source/mytables.cpp \
     source/orderinformation.cpp \
     source/qmlcontxt.cpp \
-    source/productorderlistmodel.cpp
+    source/productorderlistmodel.cpp \
+    source/client.cpp
 
 
 HEADERS += \
@@ -44,14 +44,15 @@ HEADERS += \
     include/loglistenerremote.h \
     include/loglisternerstdout.h \
     include/order.h \
-    include/waiter.h \
     include/income.h \
     include/config.h \
     include/mytables.h \
     include/orderinformation.h \
     include/qmlcontxt.h \
     include/productorderlistmodel.h \
-    include/productorderlistmodel.h
+    include/productorderlistmodel.h \
+    include/client.h \
+    include/waiter.h
 
 
 RESOURCES += shared_resources.qrc

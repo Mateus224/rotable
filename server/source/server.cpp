@@ -622,6 +622,7 @@ bool Server::login(ComPackageConnectionRequest* package, client_t client)
     {
         switch (package->clientType()) {
         case ComPackage::WaiterAccount :
+        case ComPackage::AdminAccount :
         {
             // Get waiter id
             int id = _db.hasUser(package->clientName(),package->clientPass());
@@ -631,8 +632,6 @@ bool Server::login(ComPackageConnectionRequest* package, client_t client)
             return true;
         }
         case ComPackage::TableAccount :
-            return true;
-        case ComPackage::AdminAccount :
             return true;
         default:
         {

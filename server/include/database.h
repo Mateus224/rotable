@@ -27,7 +27,7 @@
 #include "product.h"
 #include "order.h"
 #include "compackage.h"
-#include "waiter.h"
+#include "client.h"
 #include "income.h"
 #include "config.h"
 #include "productorder.h"
@@ -205,12 +205,12 @@ public:
   bool addProduct(Product* product);
 
   /**
-   * Add a new waiter to the database.
+   * Add a new user to the database.
    *
-   * @param waiter      new waiter
+   * @param user        new user
    * @return            true on success
    */
-  bool addWaiter(Waiter* waiter);
+  bool addUser(User* user);
 
   /**
    * Add new income record to the database
