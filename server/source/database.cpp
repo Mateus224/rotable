@@ -54,6 +54,14 @@ Database::Database(QObject *parent) :
   SqlCommands configCmds;
   collectSqlCommands(configCmds, "configs");
   _sqlCommands.append(configCmds);
+
+  SqlCommands passwordCmds;
+  collectSqlCommands(passwordCmds, "configs");
+  _sqlCommands.append(passwordCmds);
+
+  SqlCommands macAdressCmds;
+  collectSqlCommands(macAdressCmds, "configs");
+  _sqlCommands.append(macAdressCmds);
 }
 
 //------------------------------------------------------------------------------
@@ -1426,18 +1434,19 @@ bool Database::hasProduct(int productId, int categoryId)
 
 //------------------------------------------------------------------------------
 
-int Database::hasWaiter(const QString nick, const QString passwdhash)
+int Database::hasUser(const QString nick, const QString passwdHash)
 {
-    if (!isConnected() || !nick.isEmpty() || !passwdhash.isEmpty()) {
+    if (!isConnected() || !nick.isEmpty() || !passwdHash.isEmpty()) {
       return false;
     }
 
-    QString queryStr = _sqlCommands[Waiters]._select
-                       .arg(_prefix, "`id`", "nick",QString("'%1'").arg(nick));
-    queryStr += QString(" AND `passwd` = %1").arg(passwdhash);
+    QString queryStr = _sqlCommands[Clients]._select
+                       .arg(_prefix, "`id`", "name", ":nick");
 
     QSqlQuery q(_db);
     q.setForwardOnly(true);
+
+    q.bindValue(":nick", nick);
 
     if (!q.prepare(queryStr)) {
       qCritical() << tr("Invalid query: %1").arg(queryStr);
@@ -1450,11 +1459,41 @@ int Database::hasWaiter(const QString nick, const QString passwdhash)
       return -1;
     }
 
-    if(q.next())
-    {
-        QSqlRecord rec = q.record();
+    if (!q.next()) {
+      return 0;
+    }
 
-        return rec.value(rec.indexOf("id")).toInt();
+    bool ok;
+    int id = q.value("id").toInt(&ok);
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("id").toString());
+      return 0;
+    }
+
+    queryStr = _sqlCommands[Passwords]._select
+            .arg(_prefix, "`id`", "id", ":id AND password = :password");
+
+
+
+    q.clear();
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return -1;
+    }
+
+    q.bindValue(":id", id);
+    q.bindValue(":password", passwdHash);
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return -1;
+    }
+
+    if (q.next()) {
+      return q.value("id").toInt(&ok);
     }
 
     return -1;

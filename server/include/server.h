@@ -122,6 +122,7 @@ private:
    */
   bool updateCategory(ProductCategory* category);
 
+  bool updateOrders(ProductOrder* order );
   /**
    * Add a new product to the database.
    * (Will automatically inform all connected clients)
@@ -176,9 +177,9 @@ private:
    *
    * @param package     login package
    * @param client      client socket, use to save to table with
-   * @return            ComPackageDataReturn with account information
+   * @return            true on success
    */
-  ComPackageDataReturn *login(ComPackageLogin* package, client_t client);
+  bool login(ComPackageConnectionRequest* package, client_t client);
 
   /**
    * Method to send package to all waiters

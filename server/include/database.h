@@ -62,7 +62,9 @@ private:
     OrderItems,
     Waiters,
     Incomes,
-    Configs
+    Configs,
+    Passwords,
+    MacAdresses
   };
 
   /**
@@ -356,7 +358,7 @@ public:
    * @param passwdhash  password hash
    * @return            id if user with nick and password exists, otherwise -1
    */
-  int hasWaiter(const QString nick, const QString passwdhash);
+  int hasUser(const QString nick, const QString passwdHash);
 
   /**
    * Check if income exist base on date
