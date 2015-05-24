@@ -692,8 +692,8 @@ bool Database::addWaiter(Waiter* waiter)
     return false;
   }
 
-  QString queryStr = _sqlCommands[Waiters]._insert
-                     .arg(_prefix, "NULL", ":nick", ":name", ":passwd");
+  QString queryStr = _sqlCommands[Clients]._insert
+                     .arg(_prefix, "NULL", ":name", ":type");
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -703,9 +703,26 @@ bool Database::addWaiter(Waiter* waiter)
     return false;
   }
 
-  q.bindValue(":name", waiter->name());
-  q.bindValue(":nick", waiter->nick());
-  q.bindValue(":passwd", waiter->hashPassword());
+  q.bindValue(":name", waiter->nick());
+  q.bindValue(":type", ComPackage::WaiterAccount);
+
+  if (!q.exec()) {
+    qCritical() << tr("Query exec failed: (%1: %2")
+                   .arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  qint32 id = q.lastInsertId().toInt();
+
+  queryStr = _sqlCommands[Passwords]._insert
+                       .arg(_prefix, ":id", ":password");
+  q.clear();
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  q.bindValue(":password", waiter->hashPassword());
 
   if (!q.exec()) {
     qCritical() << tr("Query exec failed: (%1: %2")
@@ -1169,6 +1186,32 @@ bool Database::createDatabase()
   QSqlQuery q16(_sqlCommands[Configs]._create.arg(_prefix), _db);
   if (q16.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q16.lastError().text());
+    return false;
+  }
+
+  // Configs table
+  QSqlQuery q17(QString("DROP TABLE IF EXISTS `%1mac_adresses`;").arg(_prefix), _db);
+  if (q17.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q17.lastError().text());
+    return false;
+  }
+
+  QSqlQuery q18(_sqlCommands[MacAdresses]._create.arg(_prefix), _db);
+  if (q18.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q18.lastError().text());
+    return false;
+  }
+
+  // Configs table
+  QSqlQuery q19(QString("DROP TABLE IF EXISTS `%1passwords`;").arg(_prefix), _db);
+  if (q19.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q19.lastError().text());
+    return false;
+  }
+
+  QSqlQuery q20(_sqlCommands[Passwords]._create.arg(_prefix), _db);
+  if (q20.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q20.lastError().text());
     return false;
   }
 
@@ -1765,7 +1808,15 @@ bool Database::add_init_data()
   day.setName(Config::day_begin);
   day.setValue("16:00");
 
-  return addConfig(&day);
+  book ok = addConfig(&day);
+
+  Waiter waiter;
+  waiter.setNick("TestWaiter");
+  waiter.setPassword("TestWaiter");
+
+  ok = ok && addWaiter(waiter);
+
+  return ok;
 
 }
 
