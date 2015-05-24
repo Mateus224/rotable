@@ -91,7 +91,10 @@ void Waiter_Client::connected()
   qDebug() << tr("Connection established");
 
   ComPackageConnectionRequest request;
-  request.setClientName(_config.clientName());
+  request.setClientType(ComPackage::WaiterAccount);
+  //Add login window
+  request.setClientName("TestWaiter");
+  request.setClientPass("TestWaiter");
   if (!_tcp.send(request)) {
     qCritical() << tr("FATAL: Could not send connection request package!");
     exit(EXIT_FAILURE);

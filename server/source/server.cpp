@@ -626,12 +626,13 @@ bool Server::login(ComPackageConnectionRequest* package, client_t client)
             // Get waiter id
             int id = _db.hasUser(package->clientName(),package->clientPass());
             if(!id) // If id < 0 then loggin failed, we can end it
-                return 0;
+                return false;
             _waiters.insert(client, id);
-            // get waiter data, base on id
             return true;
         }
         case ComPackage::TableAccount :
+            return true;
+        case ComPackage::AdminAccount :
             return true;
         default:
         {

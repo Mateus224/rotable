@@ -131,6 +131,7 @@ void Client::connected()
 
   ComPackageConnectionRequest request;
   request.setClientName(_config.clientName());
+  request.setClientType(ComPackage::TableAccount);
   if (!_tcp.send(request)) {
     qCritical() << tr("FATAL: Could not send connection request package!");
     exit(EXIT_FAILURE);
