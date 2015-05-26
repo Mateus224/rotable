@@ -184,7 +184,7 @@ public slots:
 public:
   struct productChoosen{
       int _s_id;
-      int _s_quantity=0;
+      int _s_quantity;
   };
   productChoosen _Product;
 

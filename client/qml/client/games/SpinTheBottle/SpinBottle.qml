@@ -4,7 +4,6 @@ import "SpinBottle.js" as SpinBottle
 Rectangle{
     anchors.fill: parent
 
-
     Image {
         //anchors.fill: parent
         anchors.horizontalCenter: parent.horizontalCenter
@@ -16,7 +15,6 @@ Rectangle{
     }
 
     Rectangle {
-        //anchors.fill: parent
         id: spinBottle
         rotation: 0
         width: 125
@@ -24,7 +22,7 @@ Rectangle{
         //height: parent.height
         //width: parent.width/3.75
         anchors.centerIn: parent
-        color:  "transparent"//"#800000FF"//
+        color:  "transparent"
 
         RotationAnimation {
             id: rotaryReleaseAnimation
@@ -55,27 +53,79 @@ Rectangle{
 
         Component.onCompleted: SpinBottle.initialize()
     }
-    Rectangle{
-        color: "transparent"
-        width: 30
-        height: 30
-        x:parent.width-45
-        y:20
-        MouseArea{
-            anchors.fill: parent
-            onClicked: {
-                client.state = "STARTSCREEN";
-            }
-        }
 
+    CloseButton{
+        x:parent.width-50
+        y:25
+    }
+    CloseButton{
+        x:25
+        y:25
+    }
+    CloseButton{
+        x: 25
+        y:parent.height-50
+    }
+    CloseButton{
+        x:parent.width-50
+        y:parent.height-50
+    }
+
+    Rectangle
+    {
+        rotation: 0
+        width: parent.height/3
+        height: parent.width/5
+        x:parent.width /3
+        y:(parent.height*4) /5
+        color: "transparent"
         Image {
-            anchors.fill: parent
-            //anchors.right: 20
-            id: close
-            width: 20
-            height: 20
-            source: "qrc:/client/games/SpinTheBottle/qml/client/games/SpinTheBottle/pics/close.png"
-        }
+            width: parent.width
+            height: parent.height
+            source: "qrc:/client/games/SpinTheBottle/qml/client/games/SpinTheBottle/pics/spin-the-bottle-ny2.png";
+            }
+    }
+    Rectangle
+    {
+        rotation: 90
+        width: parent.width/3
+        height: parent.height/5
+        x:-(parent.width/15)
+        y:parent.height/2-(parent.height/10)//-50
+        color: "transparent"
+        Image {
+            width: parent.width
+            height: parent.height
+            source: "qrc:/client/games/SpinTheBottle/qml/client/games/SpinTheBottle/pics/spin-the-bottle-ny2.png";
+            }
+    }
+    Rectangle
+    {
+        rotation: 180
+        width: parent.height/3
+        height: parent.width/5
+        x:parent.width /3
+        y:0
+        color: "transparent"
+        Image {
+            width: parent.width
+            height: parent.height
+            source: "qrc:/client/games/SpinTheBottle/qml/client/games/SpinTheBottle/pics/spin-the-bottle-ny2.png";
+            }
+    }
+    Rectangle
+    {
+        rotation: 270
+        width: parent.width/3
+        height: parent.height/5
+        x:(parent.width*4)/5- (parent.width/15)
+        y:parent.height/2-(parent.height/10)
+        color: "transparent"
+        Image {
+            width: parent.width
+            height: parent.height
+            source: "qrc:/client/games/SpinTheBottle/qml/client/games/SpinTheBottle/pics/spin-the-bottle-ny2.png";
+            }
     }
 
 }
