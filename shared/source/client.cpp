@@ -1,4 +1,4 @@
-#include "waiter.h"
+#include "client.h"
 
 using namespace rotable;
 
@@ -8,7 +8,7 @@ using namespace rotable;
 
 //------------------------------------------------------------------------------
 
-void Waiter::setPassword(QString password)
+void User::setPassword(QString password)
 {
     // Create cryptograpy hash generator, initialized with hash type
     QCryptographicHash hash(QCryptographicHash::Sha512);    // I'm paranoid and I know it
@@ -17,31 +17,31 @@ void Waiter::setPassword(QString password)
     _passwd = QString(result);                              // set _passwd with hash
 }
 
-QJsonValue Waiter::toJSON() const
-{
-    QJsonObject o;
-    o["nick"] = _nick;
-    o["name"] = _name;
-    o["passwd"] = _passwd;
+//QJsonValue Client::toJSON() const
+//{
+//    QJsonObject o;
+//    o["nick"] = _nick;
+//    o["name"] = _name;
+//    o["passwd"] = _passwd;
 
-    return QJsonValue(o);
-}
+//    return QJsonValue(o);
+//}
 
-Waiter *Waiter::fromJSON(const QJsonValue &jval)
-{
-  QJsonObject o = jval.toObject();
+//Client *Client::fromJSON(const QJsonValue &jval)
+//{
+//  QJsonObject o = jval.toObject();
 
-  if (o.contains("nick")
-      && o.contains("name")
-      && o.contains("passwd"))
-  {
-    Waiter* c = new Waiter();
-    c->_nick = o["nick"].toString();
-    c->_name = o["name"].toString();
-    c->_passwd = o["passwd"].toString();
+//  if (o.contains("nick")
+//      && o.contains("name")
+//      && o.contains("passwd"))
+//  {
+//    Client* c = new Client();
+//    c->_nick = o["nick"].toString();
+//    c->_name = o["name"].toString();
+//    c->_passwd = o["passwd"].toString();
 
-    return c;
-  }
+//    return c;
+//  }
 
-  return 0;
-}
+//  return 0;
+//}

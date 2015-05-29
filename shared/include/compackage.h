@@ -66,10 +66,7 @@ public:
     Reject,
 
     /* Client sends a command */
-    Command,
-
-    /* Client try login as a Waiter*/
-    Login
+    Command
   };
 
   /**
@@ -106,7 +103,9 @@ public:
     SetCategory,
 
     /* Set/Update a product */
-    SetProduct
+    SetProduct,
+
+    SetProductOrder
   };
 
   /**
@@ -129,6 +128,8 @@ public:
   enum LoginType {
     /* Waiter account type */
     WaiterAccount = 0,
+    TableAccount,
+    AdminAccount
   };
 
   /**
@@ -196,12 +197,14 @@ public:
 
   inline const QString& clientName() const { return _clientName; }
   inline const QString& clientPass() const { return _clientPass; }
+  inline const int& clientType() const { return _clientType; }
   inline Type type() const { return ConnectionRequest; }
 
   QByteArray toByteArray() const;
 
   inline void setClientName(const QString& clientName) { _clientName = clientName; }
   inline void setClientPass(const QString& clientPass) { _clientPass = clientPass; }
+  inline void setClientType(const int& clientType) { _clientType = clientType; }
 
 private:
   /* Name of the client */
@@ -209,6 +212,9 @@ private:
 
   /* Password of the client */
   QString _clientPass;
+
+  /*Type of client, Table, Waiter, Admin, etc.*/
+  int _clientType;
 }; // class ComPackageConnectionRequest
 
 //------------------------------------------------------------------------------
@@ -434,54 +440,6 @@ private:
   /* Additional data */
   QJsonValue _data;
 }; // class ComPackageReject
-
-//------------------------------------------------------------------------------
-
-//------------------------------------------------------------------------------
-
-/**
- * The login package allow client login as waiter, are somone else (in future)
- */
-class rotable::ComPackageLogin : public ComPackage
-{
-  friend class ComPackage;
-
-public:
-  /**
-   * Default constrcutor
-   */
-  ComPackageLogin();
-
-  inline Type type() const { return Login; }
-
-  /**
-   * Get command type.
-   *
-   * @return              command type
-   */
-  inline int loginType() const { return _loginType; }
-  /**
-   * Get account data
-   *
-   * @return              account data
-   */
-  inline const QJsonValue& data() const { return _data; }
-
-  /**
-   * Set login type.
-   *
-   * @param commandType   command type
-   */
-  inline void setLoginType(LoginType loginType) { _loginType = loginType; }
-  inline void setData(const QJsonValue& data) { _data = data; }
-
-  QByteArray toByteArray() const;
-
-private:
-  /* Additional data */
-  int _loginType;
-  QJsonValue _data;
-}; // class ComPackageLogin
 
 //------------------------------------------------------------------------------
 #endif // ROTABLE_COMPACKAGE_H

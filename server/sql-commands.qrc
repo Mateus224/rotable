@@ -42,6 +42,18 @@
         <file>sql-commands/incomes_select_ids.sql</file>
         <file>sql-commands/incomes_select.sql</file>
         <file>sql-commands/incomes_update.sql</file>
+        <file>sql-commands/macadresses_create.sql</file>
+        <file>sql-commands/macadresses_insert.sql</file>
+        <file>sql-commands/macadresses_remove.sql</file>
+        <file>sql-commands/macadresses_select_ids.sql</file>
+        <file>sql-commands/macadresses_select.sql</file>
+        <file>sql-commands/macadresses_update.sql</file>
+        <file>sql-commands/passwords_create.sql</file>
+        <file>sql-commands/passwords_insert.sql</file>
+        <file>sql-commands/passwords_remove.sql</file>
+        <file>sql-commands/passwords_select_ids.sql</file>
+        <file>sql-commands/passwords_select.sql</file>
+        <file>sql-commands/passwords_update.sql</file>
         <file>sql-commands/waiters_create.sql</file>
         <file>sql-commands/waiters_disable.sql</file>
         <file>sql-commands/waiters_insert.sql</file>

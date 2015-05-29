@@ -57,7 +57,7 @@ public:
   QList<int>* L_quantity;
 
   //ProductOrder();
-   ProductOrder(const QJsonValue& jval, QObject *parent = 0);
+   //ProductOrder(const QJsonValue& jval, QObject *parent = 0);
    ProductOrder( rotable::ProductContainer &Productcontainer,QObject *parent = 0);
 
   /**

@@ -3,6 +3,7 @@
 #include "server.h"
 #include "settings.h"
 #include "logmanager.h"
+#include "productorder.h"
 
 //------------------------------------------------------------------------------
 
@@ -116,10 +117,14 @@ void Server::packageReceived(client_t client, ComPackage *package)
   case ComPackage::ConnectionRequest:
   {
     ComPackageConnectionRequest* p = static_cast<ComPackageConnectionRequest*>(package);
-    _tcp.setClientName(client, p->clientName());
-
-    ComPackageConnectionAccept accept;
-    _tcp.send(client, accept);
+    if (login(p, client)) {
+      _tcp.setClientName(client, p->clientName());
+      ComPackageConnectionAccept accept;
+      _tcp.send(client, accept);
+    } else {
+      ComPackageReject reject(package->id());
+      _tcp.send(client, reject);
+    }
   } break;
   case ComPackage::ConnectionAccept:
   {
@@ -180,25 +185,6 @@ void Server::packageReceived(client_t client, ComPackage *package)
       ComPackageCommand* p = static_cast<ComPackageCommand*>(package);
 
       if (!executeCommand(p)) {
-        ComPackageReject reject(package->id());
-        _tcp.send(client, reject);
-      }
-    } else {
-      qDebug() << tr("WARNING: Unallowed Command from client \"%1\"")
-                  .arg(_tcp.clientName(client));
-      ComPackageReject reject(package->id());
-      _tcp.send(client, reject);
-    }
-  } break;
-  case ComPackage::Login:
-  {
-    if (_tcp.isClientAccepted(client)) {
-      ComPackageLogin* p = static_cast<ComPackageLogin*>(package);
-
-      ComPackageDataReturn* ret = login(p, client);
-      if (ret) {
-        _tcp.send(client, *ret);
-      } else {
         ComPackageReject reject(package->id());
         _tcp.send(client, reject);
       }
@@ -375,6 +361,11 @@ bool Server::setData(ComPackageDataSet *set)
       return false;
     }
   } break;
+  case ComPackage::SetProductOrder:
+  {
+    ProductOrder* po = ProductOrder::fromJSON(set->data());
+    return updateOrders(po);
+  }break;
   default:
   {
     qCritical() << tr("Unknown data set id: %d").arg(set->dataCategory());
@@ -427,6 +418,30 @@ bool Server::updateCategory(ProductCategory *category)
   _tcp.send(-1, dc);
 
   return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Server::updateOrders(ProductOrder *order)
+{
+    //Some valid here
+//    if (!_db.has) {
+//      qWarning() << tr("A does not exists!")
+//                    .arg(category->id());
+//      return false;
+//    }
+
+    if (!_db.updateOrders(order)) {
+      qWarning() << tr("Failed to update orders!");
+      return false;
+    }
+
+    // Inform clients about data change...
+//    ComPackageDataChanged dc;
+//    dc.setDataCategory();
+//    dc.setDataName(QString("%1").arg());
+//    _tcp.send(-1, dc);
+    return true;
 }
 
 //------------------------------------------------------------------------------
@@ -601,39 +616,28 @@ bool Server::executeCommand(ComPackageCommand *package)
 
 //------------------------------------------------------------------------------
 
-ComPackageDataReturn* Server::login(ComPackageLogin* package, client_t client)
+bool Server::login(ComPackageConnectionRequest* package, client_t client)
 {
     if(package)
     {
-        switch (package->loginType()) {
+        switch (package->clientType()) {
         case ComPackage::WaiterAccount :
+        case ComPackage::AdminAccount :
         {
-            // Load data about waiter from Json
-            Waiter *w = Waiter::fromJSON(package->data());
             // Get waiter id
-            int id = _db.hasWaiter(w->nick(),w->hashPassword());
+            int id = _db.hasUser(package->clientName(),package->clientPass());
             if(!id) // If id < 0 then loggin failed, we can end it
-                return 0;
+                return false;
             _waiters.insert(client, id);
-            // clean memory, we don't like memory leaks
-            delete w;
-            // get waiter data, base on id
-            w = _db.waiter(id);
-            // we don't need password any more, delate for safety
-            w->setHashPassword("");
-
-
-            // return data about waiter
-            ComPackageDataReturn *pkg = new ComPackageDataReturn();
-            pkg->setData(w->toJSON());
-            pkg->setDataCategory(ComPackage::RequestWaiter);
-            return pkg;
-        }   break;
+            return true;
+        }
+        case ComPackage::TableAccount :
+            return true;
         default:
         {
-          qCritical() << tr("Unknown account type '%1'!").arg(package->loginType());
-          return 0;
-        } break;
+          qCritical() << tr("Unknown account type '%1'!").arg(package->clientType());
+          return false;
+        }
         }
     }
     return 0;
