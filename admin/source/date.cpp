@@ -7,7 +7,7 @@ Date::Date()
 {
     date=date.currentDate();
     time=time.currentTime();
-    qDebug()<<date<<"   "<<time;
+    //qDebug()<<date<<"   "<<time;
 }
 
 
