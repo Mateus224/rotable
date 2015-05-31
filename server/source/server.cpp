@@ -208,11 +208,12 @@ void Server::clientDisconnected(client_t client, const QString &clientName)
 {
   qDebug() << tr("Client %1 disconnected").arg(clientName);
 
-  // Find client in map
-  QMap<client_t, int>::Iterator it = _waiters.find(client);
-  // if client is in map (client is a waiter), remove client from list
-  if (it != _waiters.end())
-      _waiters.erase(it);
+  // remove client from _users
+  // we don't know in with QMap it is
+  // so we remove element from all QMap
+  for(int i=0; i<3;++i)
+    _users[i].remove(client);
+
 }
 
 //------------------------------------------------------------------------------
@@ -628,10 +629,11 @@ bool Server::login(ComPackageConnectionRequest* package, client_t client)
             int id = _db.hasUser(package->clientName(),package->clientPass());
             if(!id) // If id < 0 then loggin failed, we can end it
                 return false;
-            _waiters.insert(client, id);
+            _users[package->clientType()].insert(client, id);
             return true;
         }
         case ComPackage::TableAccount :
+            //_users[package->clientType()].insert(client, id);
             return true;
         default:
         {
@@ -645,9 +647,9 @@ bool Server::login(ComPackageConnectionRequest* package, client_t client)
 
 //------------------------------------------------------------------------------
 
-void Server::send_to_waiters(ComPackage &package)
+void Server::send_to_users(ComPackage &package, int accountType)
 {
-    foreach (client_t client, _waiters.keys()) {
+    foreach (client_t client, _users[accountType].keys()) {
         _tcp.send(client, package);
     }
 }
