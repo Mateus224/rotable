@@ -10,12 +10,8 @@ using namespace rotable;
 ProductOrder::ProductOrder( ProductContainer &productcontainer, QObject *parent) : QObject(parent), _productcontainer(productcontainer)
 {
     ClientProductHash=new QHash<int,productChoosen>;
-    ClientProductHash->reserve(250);
-    _Product._s_quantity = 0;
-    //_Product
-    //ProductList=new QList<QObject*>;
 
-
+    ClientProductHash->reserve(50);
 }
 
 void ProductOrder::sendOrderToServer()
