@@ -19,8 +19,8 @@ int main(int argc, char *argv[])
 
     //--------------------------------------------------
     // For test
-    // rotable::LogManager::getInstance()->registerQtWarnings();
-    // rotable::LogManager::getInstance()->addListener(new rotable::LogListenerStdOut());
+     rotable::LogManager::getInstance()->registerQtWarnings();
+     rotable::LogManager::getInstance()->addListener(new rotable::LogListenerStdOut());
     //--------------------------------------------------
 
   QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));

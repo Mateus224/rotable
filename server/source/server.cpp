@@ -619,11 +619,15 @@ bool Server::executeCommand(ComPackageCommand *package)
 
 bool Server::login(ComPackageConnectionRequest* package, client_t client)
 {
+//    qDebug() << "Anvalible account type" << endl
+//             << "Admin Account:" << QString(ComPackage::AdminAccount) << endl
+//             << "Waiter Account:" << QString(ComPackage::WaiterAccount) << endl
+//             << "Table Account: " << QString(ComPackage::TableAccount) << endl;
     if(package)
     {
         switch (package->clientType()) {
-        case ComPackage::WaiterAccount :
-        case ComPackage::AdminAccount :
+        case rotable::ComPackage::WaiterAccount :
+        case rotable::ComPackage::AdminAccount :
         {
             // Get waiter id
             int id = _db.hasUser(package->clientName(),package->clientPass());
@@ -632,7 +636,7 @@ bool Server::login(ComPackageConnectionRequest* package, client_t client)
             _users[package->clientType()].insert(client, id);
             return true;
         }
-        case ComPackage::TableAccount :
+        case rotable::ComPackage::TableAccount :
             //_users[package->clientType()].insert(client, id);
             return true;
         default:

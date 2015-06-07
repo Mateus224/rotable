@@ -204,7 +204,7 @@ public:
 
   inline void setClientName(const QString& clientName) { _clientName = clientName; }
   inline void setClientPass(const QString& clientPass) { _clientPass = clientPass; }
-  inline void setClientType(const int& clientType) { _clientType = clientType; }
+  inline void setClientType(const int &clientType) { _clientType = clientType; }
 
 private:
   /* Name of the client */

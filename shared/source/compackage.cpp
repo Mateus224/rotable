@@ -40,6 +40,7 @@ static const TypeStr2Enum S_types[S_types_count] = {
 #define ROTABLE_PACKAGE_COMMAND_STR                         QString("C")
 #define ROTABLE_PACKAGE_CLIENT_NAME_STR                     QString("CN")
 #define ROTABLE_PACKAGE_CLIENT_PASS_STR                     QString("CP")
+#define ROTABLE_PACKAGE_CLIENT_TYPE_STR                     QString("CT")
 #define ROTABLE_PACKAGE_DATA_CATEGORY_STR                   QString("DC")
 #define ROTABLE_PACKAGE_DATA_NAME_STR                       QString("DN")
 #define ROTABLE_PACKAGE_DATA_STR                            QString("D")
@@ -200,7 +201,7 @@ ComPackage* ComPackage::fromJson(const QJsonDocument& doc)
     ComPackageConnectionRequest* p = new ComPackageConnectionRequest();
     p->_clientName = o[ROTABLE_PACKAGE_CLIENT_NAME_STR].toString();
     p->_clientPass = o[ROTABLE_PACKAGE_CLIENT_PASS_STR].toString();
-
+    p->_clientType = o[ROTABLE_PACKAGE_CLIENT_TYPE_STR].toInt();
     ret = p;
   } break;
   case ConnectionAccept:
@@ -274,6 +275,7 @@ QByteArray ComPackageConnectionRequest::toByteArray() const
   o[ROTABLE_PACKAGE_COMMAND_STR] = ROTABLE_PACKAGE_COMMAND_CONNECTION_REQUEST_STR;
   o[ROTABLE_PACKAGE_CLIENT_NAME_STR] = _clientName;
   o[ROTABLE_PACKAGE_CLIENT_PASS_STR] = _clientPass;
+  o[ROTABLE_PACKAGE_CLIENT_TYPE_STR] = _clientType;
   return QJsonDocument(o).toBinaryData();
 }
 
