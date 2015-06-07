@@ -91,7 +91,7 @@ void Waiter_Client::connected()
   qDebug() << tr("Connection established");
 
   ComPackageConnectionRequest request;
-  request.setClientType(ComPackage::WaiterAccount);
+  request.setClientType(rotable::ComPackage::WaiterAccount);
   //Add login window
   request.setClientName("TestWaiter");
   request.setClientPass("TestWaiter");
