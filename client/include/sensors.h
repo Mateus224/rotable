@@ -37,16 +37,20 @@ signals:
 public slots:
   void checkDisplaySensors();
   void checkDistanceSensors();
+  void set_PWM_signal();
 
 private:
   int _screenRotation;
 
   QTimer _displaySensorCheckTimer;
   QTimer _distanceSensorCheckTimer;
+  QTimer _ledPWM_CheckTimer;
 
   int _i2cDevice;
   bool _contact;
   int _contactThreshold;
+  int _intervalCounter;
+  bool _lighter;
 }; // class Sensors
 
 //------------------------------------------------------------------------------

@@ -2,6 +2,7 @@
 
 #include "sensors.h"
 
+#define PWM_CHECK_INTERVAL 1024
 #define DISPLAY_SENSOR_CHECK_INTERVAL 25
 #define DISTANCE_SENSOR_CHECK_INTERVAL 250
 #define PCF8591_SLAVE_ADDR	0x48
@@ -70,6 +71,8 @@ int GPIO_sensor()
 }
 #endif
 
+
+
 //------------------------------------------------------------------------------
 
 using namespace rotable;
@@ -84,6 +87,8 @@ Sensors::Sensors(QObject *parent) :
   _displaySensorCheckTimer.start(DISPLAY_SENSOR_CHECK_INTERVAL);
   connect(&_distanceSensorCheckTimer, SIGNAL(timeout()), this, SLOT(checkDistanceSensors()));
   _distanceSensorCheckTimer.start(DISTANCE_SENSOR_CHECK_INTERVAL);
+  connect(&_ledPWM_CheckTimer,SIGNAL(timeout()),this,SLOT(set_PWM_signal()));
+  _ledPWM_CheckTimer.start(PWM_CHECK_INTERVAL);
 
 #ifdef __arm__
   _i2cDevice = open("/dev/i2c-1", O_RDWR);
@@ -98,8 +103,37 @@ Sensors::Sensors(QObject *parent) :
       _i2cDevice = -1;
     }
   }
+  _intervalCounter=0;
+  _lighter=true;
 #endif
 }
+
+//------------------------------------------------------------------------------
+
+void Sensors::set_PWM_signal()
+{
+#ifdef __arm__
+    if(_intervalCounter==1023)
+    {
+          _lighter=false;
+    }
+    else if(_intervalCounter==0)
+    {
+        _lighter=true;
+    }
+    if(_lighter)
+        pwmWrite(LED_Pin, _intervalCounter);
+        _intervalCounter++;
+    }
+    else
+    {
+        pwmWrite(LED_Pin, _intervalCounter);
+        _intervalCounter--;
+    }
+#endif
+  _ledPWM_CheckTimer.start(PWM_CHECK_INTERVAL);
+}
+
 
 //------------------------------------------------------------------------------
 

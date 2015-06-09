@@ -11,11 +11,8 @@ ProductOrder::ProductOrder( ProductContainer &productcontainer, QObject *parent)
 {
     ClientProductHash=new QHash<int,productChoosen>;
     ClientProductHash->reserve(250);
-    //_Product
-    //ProductList=new QList<QObject*>;
-
-
 }
+
 
 void ProductOrder::sendOrderToServer()
 {
@@ -32,7 +29,6 @@ void ProductOrder::acceptOrder()
 
 int ProductOrder::getStopWatchTime()
 {
-
     return 0;
 }
 
@@ -63,9 +59,10 @@ ProductOrder *ProductOrder::fromJSON(const QJsonValue &jval)
     if (o.contains("id")
         && o.contains("pieces")
         && o.contains("orderState")
-        && o.contains("waitingTime"))
+        && o.contains("waitingTime")
+        && o.contains("orderID"))
     {
-        //ProductOrder* p = new ProductOrder();
+        //ProductOrder* p = new ProductOrder(*_productcontainer);
         //p->_id = o["id"].toInt();
         //p->_pieces = o["pieces"].toInt();
         //p->_orderState = o["orderState"].toInt();
