@@ -2,7 +2,8 @@
 
 #include "sensors.h"
 
-#define PWM_CHECK_INTERVAL 1024
+#define LED_Pin 1
+#define PWM_CHECK_INTERVAL 100
 #define DISPLAY_SENSOR_CHECK_INTERVAL 25
 #define DISTANCE_SENSOR_CHECK_INTERVAL 250
 #define PCF8591_SLAVE_ADDR	0x48
@@ -19,6 +20,7 @@
 //#include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+//#include <iostream>
 
 
 /*
@@ -113,23 +115,32 @@ Sensors::Sensors(QObject *parent) :
 void Sensors::set_PWM_signal()
 {
 #ifdef __arm__
-    if(_intervalCounter==1023)
+    if(_intervalCounter==60)
     {
           _lighter=false;
     }
-    else if(_intervalCounter==0)
+    else if(_intervalCounter==10)
     {
         _lighter=true;
     }
+    QString cons="gpio pwm 1 ";
+    QString num= QString::number(_intervalCounter);
+    QString sys=cons+num;
+
+    char *c_num = new char[sys.length() + 1];
+    strcpy(c_num, sys.toStdString().c_str());
+
     if(_lighter)
-        pwmWrite(LED_Pin, _intervalCounter);
-        _intervalCounter++;
+    {
+        system(c_num);
+       _intervalCounter++;
     }
     else
     {
-        pwmWrite(LED_Pin, _intervalCounter);
+        system(c_num);
         _intervalCounter--;
     }
+    qDebug()<<_intervalCounter;
 #endif
   _ledPWM_CheckTimer.start(PWM_CHECK_INTERVAL);
 }
@@ -216,9 +227,9 @@ void Sensors::checkDistanceSensors()
         }
       }
 
-      qDebug() << tr("Distance Sensor %1, %2, %3, %4")
-                  .arg(values[0]).arg(values[1])
-                  .arg(values[2]).arg(values[3]);
+      //qDebug() << tr("Distance Sensor %1, %2, %3, %4")
+      //            .arg(values[0]).arg(values[1])
+      //            .arg(values[2]).arg(values[3]);
     }
   }
 #endif
