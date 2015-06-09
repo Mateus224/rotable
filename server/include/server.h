@@ -122,6 +122,7 @@ private:
    */
   bool updateCategory(ProductCategory* category);
 
+  bool updateOrders(ProductOrder* order );
   /**
    * Add a new product to the database.
    * (Will automatically inform all connected clients)
@@ -176,16 +177,17 @@ private:
    *
    * @param package     login package
    * @param client      client socket, use to save to table with
-   * @return            ComPackageDataReturn with account information
+   * @return            true on success
    */
-  ComPackageDataReturn *login(ComPackageLogin* package, client_t client);
+  bool login(ComPackageConnectionRequest* package, client_t client);
 
   /**
-   * Method to send package to all waiters
+   * Method to send package to connected users
    *
-   * @param package     Package with data to send
+   * @param package         Package with data
+   * @param accountType     Account type
    */
-  inline void send_to_waiters(ComPackage &package);
+  inline void send_to_users(ComPackage &package, int accountType);
 
   /**
    * Load config from database
@@ -231,7 +233,7 @@ private:
    * Map with sockets on with connected are waiters
    * With that we can send information to any/all waiter(s)
    */
-  QMap<client_t, int> _waiters;
+  QMap<client_t, int> _users[3];
   Schedule* schedule;
 
 }; // class Server

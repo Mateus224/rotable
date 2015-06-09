@@ -54,6 +54,14 @@ Database::Database(QObject *parent) :
   SqlCommands configCmds;
   collectSqlCommands(configCmds, "configs");
   _sqlCommands.append(configCmds);
+
+  SqlCommands passwordCmds;
+  collectSqlCommands(passwordCmds, "configs");
+  _sqlCommands.append(passwordCmds);
+
+  SqlCommands macAdressCmds;
+  collectSqlCommands(macAdressCmds, "configs");
+  _sqlCommands.append(macAdressCmds);
 }
 
 //------------------------------------------------------------------------------
@@ -678,14 +686,14 @@ bool Database::addProduct(Product* product)
 
 //------------------------------------------------------------------------------
 
-bool Database::addWaiter(Waiter* waiter)
+bool Database::addUser(User* user)
 {
   if (!isConnected()) {
     return false;
   }
 
-  QString queryStr = _sqlCommands[Waiters]._insert
-                     .arg(_prefix, "NULL", ":nick", ":name", ":passwd");
+  QString queryStr = _sqlCommands[Clients]._insert
+                     .arg(_prefix, "NULL", ":name", ":type");
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -695,9 +703,27 @@ bool Database::addWaiter(Waiter* waiter)
     return false;
   }
 
-  q.bindValue(":name", waiter->name());
-  q.bindValue(":nick", waiter->nick());
-  q.bindValue(":passwd", waiter->hashPassword());
+  q.bindValue(":name", user->name());
+  q.bindValue(":type", user->accountType());
+
+  if (!q.exec()) {
+    qCritical() << tr("Query exec failed: (%1: %2")
+                   .arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  qint32 id = q.lastInsertId().toInt();
+
+  queryStr = _sqlCommands[Passwords]._insert
+                       .arg(_prefix, ":id", ":password");
+  q.clear();
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  q.bindValue(":id", id);
+  q.bindValue(":password", user->hashPassword());
 
   if (!q.exec()) {
     qCritical() << tr("Query exec failed: (%1: %2")
@@ -707,6 +733,7 @@ bool Database::addWaiter(Waiter* waiter)
 
   return true;
 }
+
 
 //------------------------------------------------------------------------------
 
@@ -901,6 +928,14 @@ bool Database::updateConfig(Config *config)
     parseConfig(config);
 
     return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::updateOrders(ProductOrder *order)
+{
+    qDebug() << "Not implemented yet";
+    return false;
 }
 
 //------------------------------------------------------------------------------
@@ -1153,6 +1188,32 @@ bool Database::createDatabase()
   QSqlQuery q16(_sqlCommands[Configs]._create.arg(_prefix), _db);
   if (q16.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q16.lastError().text());
+    return false;
+  }
+
+  // Configs table
+  QSqlQuery q17(QString("DROP TABLE IF EXISTS `%1mac_adresses`;").arg(_prefix), _db);
+  if (q17.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q17.lastError().text());
+    return false;
+  }
+
+  QSqlQuery q18(_sqlCommands[MacAdresses]._create.arg(_prefix), _db);
+  if (q18.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q18.lastError().text());
+    return false;
+  }
+
+  // Configs table
+  QSqlQuery q19(QString("DROP TABLE IF EXISTS `%1passwords`;").arg(_prefix), _db);
+  if (q19.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q19.lastError().text());
+    return false;
+  }
+
+  QSqlQuery q20(_sqlCommands[Passwords]._create.arg(_prefix), _db);
+  if (q20.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q20.lastError().text());
     return false;
   }
 
@@ -1418,18 +1479,19 @@ bool Database::hasProduct(int productId, int categoryId)
 
 //------------------------------------------------------------------------------
 
-int Database::hasWaiter(const QString nick, const QString passwdhash)
+int Database::hasUser(const QString nick, const QString passwdHash)
 {
-    if (!isConnected() || !nick.isEmpty() || !passwdhash.isEmpty()) {
+    if (!isConnected() || !nick.isEmpty() || !passwdHash.isEmpty()) {
       return false;
     }
 
-    QString queryStr = _sqlCommands[Waiters]._select
-                       .arg(_prefix, "`id`", "nick",QString("'%1'").arg(nick));
-    queryStr += QString(" AND `passwd` = %1").arg(passwdhash);
+    QString queryStr = _sqlCommands[Clients]._select
+                       .arg(_prefix, "`id`", "name", ":nick");
 
     QSqlQuery q(_db);
     q.setForwardOnly(true);
+
+    q.bindValue(":nick", nick);
 
     if (!q.prepare(queryStr)) {
       qCritical() << tr("Invalid query: %1").arg(queryStr);
@@ -1442,11 +1504,41 @@ int Database::hasWaiter(const QString nick, const QString passwdhash)
       return -1;
     }
 
-    if(q.next())
-    {
-        QSqlRecord rec = q.record();
+    if (!q.next()) {
+      return 0;
+    }
 
-        return rec.value(rec.indexOf("id")).toInt();
+    bool ok;
+    int id = q.value("id").toInt(&ok);
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("id").toString());
+      return 0;
+    }
+
+    queryStr = _sqlCommands[Passwords]._select
+            .arg(_prefix, "`id`", "id", ":id AND password = :password");
+
+
+
+    q.clear();
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return -1;
+    }
+
+    q.bindValue(":id", id);
+    q.bindValue(":password", passwdHash);
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return -1;
+    }
+
+    if (q.next()) {
+      return q.value("id").toInt(&ok);
     }
 
     return -1;
@@ -1718,7 +1810,20 @@ bool Database::add_init_data()
   day.setName(Config::day_begin);
   day.setValue("16:00");
 
-  return addConfig(&day);
+  bool ok = addConfig(&day);
+
+  Waiter waiter;
+  waiter.setName("TestWaiter");
+  waiter.setPassword("TestWaiter");
+
+  ok = ok && addUser(&waiter);
+
+  Admin admin;
+  admin.setName("debugAdmin");
+  admin.setPassword("debugAdmin");
+  ok = ok && addUser(&admin);
+
+  return ok;
 
 }
 

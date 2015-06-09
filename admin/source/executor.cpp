@@ -338,6 +338,7 @@ void Executor::onConnectionEstablished()
   ComPackageConnectionRequest request;
   request.setClientName(_username);
   request.setClientPass(_password);
+  request.setClientType(rotable::ComPackage::AdminAccount);
 
   if (!_tcp_client.send(request)) {
     qCritical() << tr("FATAL: Could not send connection request package!");

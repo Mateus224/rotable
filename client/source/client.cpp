@@ -131,6 +131,8 @@ void Client::connected()
 
   ComPackageConnectionRequest request;
   request.setClientName(_config.clientName());
+  request.setClientType(rotable::ComPackage::TableAccount);
+
   if (!_tcp.send(request)) {
     qCritical() << tr("FATAL: Could not send connection request package!");
     exit(EXIT_FAILURE);
@@ -233,8 +235,8 @@ void Client::setCurrentCategoryId(int id)
 
     if(id==-1)
     {
-        if (_state != "CALLWAITORPAGE") {
-          setState("CALLWAITORPAGE");
+        if (_state != "CALLWAITERPAGE") {
+          setState("CALLWAITERPAGE");
         }
     }
     else if(id==-2) //TODO implement games and waitor

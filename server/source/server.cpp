@@ -3,6 +3,7 @@
 #include "server.h"
 #include "settings.h"
 #include "logmanager.h"
+#include "productorder.h"
 
 //------------------------------------------------------------------------------
 
@@ -116,10 +117,14 @@ void Server::packageReceived(client_t client, ComPackage *package)
   case ComPackage::ConnectionRequest:
   {
     ComPackageConnectionRequest* p = static_cast<ComPackageConnectionRequest*>(package);
-    _tcp.setClientName(client, p->clientName());
-
-    ComPackageConnectionAccept accept;
-    _tcp.send(client, accept);
+    if (login(p, client)) {
+      _tcp.setClientName(client, p->clientName());
+      ComPackageConnectionAccept accept;
+      _tcp.send(client, accept);
+    } else {
+      ComPackageReject reject(package->id());
+      _tcp.send(client, reject);
+    }
   } break;
   case ComPackage::ConnectionAccept:
   {
@@ -190,25 +195,6 @@ void Server::packageReceived(client_t client, ComPackage *package)
       _tcp.send(client, reject);
     }
   } break;
-  case ComPackage::Login:
-  {
-    if (_tcp.isClientAccepted(client)) {
-      ComPackageLogin* p = static_cast<ComPackageLogin*>(package);
-
-      ComPackageDataReturn* ret = login(p, client);
-      if (ret) {
-        _tcp.send(client, *ret);
-      } else {
-        ComPackageReject reject(package->id());
-        _tcp.send(client, reject);
-      }
-    } else {
-      qDebug() << tr("WARNING: Unallowed Command from client \"%1\"")
-                  .arg(_tcp.clientName(client));
-      ComPackageReject reject(package->id());
-      _tcp.send(client, reject);
-    }
-  } break;
   case ComPackage::Reject:
   {
     qDebug() << tr("Did not expect to receive Reject package... doing nothing");
@@ -222,11 +208,12 @@ void Server::clientDisconnected(client_t client, const QString &clientName)
 {
   qDebug() << tr("Client %1 disconnected").arg(clientName);
 
-  // Find client in map
-  QMap<client_t, int>::Iterator it = _waiters.find(client);
-  // if client is in map (client is a waiter), remove client from list
-  if (it != _waiters.end())
-      _waiters.erase(it);
+  // remove client from _users
+  // we don't know in with QMap it is
+  // so we remove element from all QMap
+  for(int i=0; i<3;++i)
+    _users[i].remove(client);
+
 }
 
 //------------------------------------------------------------------------------
@@ -375,6 +362,11 @@ bool Server::setData(ComPackageDataSet *set)
       return false;
     }
   } break;
+  case ComPackage::SetProductOrder:
+  {
+    ProductOrder* po = ProductOrder::fromJSON(set->data());
+    return updateOrders(po);
+  }break;
   default:
   {
     qCritical() << tr("Unknown data set id: %d").arg(set->dataCategory());
@@ -427,6 +419,30 @@ bool Server::updateCategory(ProductCategory *category)
   _tcp.send(-1, dc);
 
   return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Server::updateOrders(ProductOrder *order)
+{
+    //Some valid here
+//    if (!_db.has) {
+//      qWarning() << tr("A does not exists!")
+//                    .arg(category->id());
+//      return false;
+//    }
+
+    if (!_db.updateOrders(order)) {
+      qWarning() << tr("Failed to update orders!");
+      return false;
+    }
+
+    // Inform clients about data change...
+//    ComPackageDataChanged dc;
+//    dc.setDataCategory();
+//    dc.setDataName(QString("%1").arg());
+//    _tcp.send(-1, dc);
+    return true;
 }
 
 //------------------------------------------------------------------------------
@@ -601,39 +617,33 @@ bool Server::executeCommand(ComPackageCommand *package)
 
 //------------------------------------------------------------------------------
 
-ComPackageDataReturn* Server::login(ComPackageLogin* package, client_t client)
+bool Server::login(ComPackageConnectionRequest* package, client_t client)
 {
+//    qDebug() << "Anvalible account type" << endl
+//             << "Admin Account:" << QString(ComPackage::AdminAccount) << endl
+//             << "Waiter Account:" << QString(ComPackage::WaiterAccount) << endl
+//             << "Table Account: " << QString(ComPackage::TableAccount) << endl;
     if(package)
     {
-        switch (package->loginType()) {
-        case ComPackage::WaiterAccount :
+        switch (package->clientType()) {
+        case rotable::ComPackage::WaiterAccount :
+        case rotable::ComPackage::AdminAccount :
         {
-            // Load data about waiter from Json
-            Waiter *w = Waiter::fromJSON(package->data());
             // Get waiter id
-            int id = _db.hasWaiter(w->nick(),w->hashPassword());
+            int id = _db.hasUser(package->clientName(),package->clientPass());
             if(!id) // If id < 0 then loggin failed, we can end it
-                return 0;
-            _waiters.insert(client, id);
-            // clean memory, we don't like memory leaks
-            delete w;
-            // get waiter data, base on id
-            w = _db.waiter(id);
-            // we don't need password any more, delate for safety
-            w->setHashPassword("");
-
-
-            // return data about waiter
-            ComPackageDataReturn *pkg = new ComPackageDataReturn();
-            pkg->setData(w->toJSON());
-            pkg->setDataCategory(ComPackage::RequestWaiter);
-            return pkg;
-        }   break;
+                return false;
+            _users[package->clientType()].insert(client, id);
+            return true;
+        }
+        case rotable::ComPackage::TableAccount :
+            //_users[package->clientType()].insert(client, id);
+            return true;
         default:
         {
-          qCritical() << tr("Unknown account type '%1'!").arg(package->loginType());
-          return 0;
-        } break;
+          qCritical() << tr("Unknown account type '%1'!").arg(package->clientType());
+          return false;
+        }
         }
     }
     return 0;
@@ -641,9 +651,9 @@ ComPackageDataReturn* Server::login(ComPackageLogin* package, client_t client)
 
 //------------------------------------------------------------------------------
 
-void Server::send_to_waiters(ComPackage &package)
+void Server::send_to_users(ComPackage &package, int accountType)
 {
-    foreach (client_t client, _waiters.keys()) {
+    foreach (client_t client, _users[accountType].keys()) {
         _tcp.send(client, package);
     }
 }

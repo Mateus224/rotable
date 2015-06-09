@@ -57,6 +57,11 @@ public:
   QList<int>* L_quantity;
 
 
+  //ProductOrder();
+   ProductOrder(const QJsonValue& jval, QObject *parent = 0);
+   ProductOrder( rotable::ProductContainer &Productcontainer,QObject *parent = 0);
+
+
    explicit ProductOrder(const QJsonValue& jval, QObject *parent = 0);
    ProductOrder( rotable::ProductContainer &Productcontainer,QObject *parent = 0);
    ProductOrder(QObject *parent = 0);
@@ -184,7 +189,7 @@ public slots:
 public:
   struct productChoosen{
       int _s_id;
-      int _s_quantity=0;
+      int _s_quantity;
   };
   productChoosen _Product;
 

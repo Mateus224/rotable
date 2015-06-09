@@ -112,7 +112,7 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
             },
             State {
-                name: "CALLWAITORPAGE"
+                name: "CALLWAITERPAGE"
                 PropertyChanges { target: connectionPage; visible: false }
                 PropertyChanges { target: screensaverPage; visible: false }
                 PropertyChanges { target: startPage; visible: false }
