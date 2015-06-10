@@ -116,7 +116,7 @@ public:
    *
    * @return            QJsonObject
    */
-  QJsonValue toJSON() const;
+  QJsonValue toJSON(int id, int pieces) const;
 
   /**
    * Create an order object from a JSON value.
@@ -133,6 +133,7 @@ public:
 signals:
   void productIdChanged();
   void piecesChanged();
+
 
 
 //------------------------------------------------------------------------------

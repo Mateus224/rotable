@@ -1,5 +1,6 @@
 #include "private/precomp.h"
 #include "productorder.h"
+#include "compackage.h"
 
 //------------------------------------------------------------------------------
 
@@ -17,7 +18,15 @@ ProductOrder::ProductOrder( ProductContainer &productcontainer, QObject *parent)
 
 void ProductOrder::sendOrderToServer()
 {
-    qDebug()<<"sending";
+    QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
+    while (i != ClientProductHash->constEnd()) {
+        if (_productcontainer._products->contains(i.value()._s_id)) {
+            ComPackageDataSet sendOrder;
+            sendOrder.setDataName("OrderFromClient");
+            sendOrder.setData(toJSON(i.value()._s_id, i.value()._s_quantity));
+        }
+        ++i;
+    }
 }
 
 
@@ -45,14 +54,14 @@ int ProductOrder::getStopWatchTime()
             if (_productcontainer._products->contains(i.value()._s_id)) {
                 _productcontainer.addForOrderProduct_(i.value()._s_id);
                 _productcontainer._orderProducts->value(i.value()._s_id)->setAmount(QString::number(i.value()._s_quantity));
-           }
-          ++i;
+            }
+            ++i;
       }
   }
 
 //------------------------------------------------------------------------------
 
-ProductOrder *ProductOrder::fromJSON(const QJsonValue &jval)
+/*ProductOrder *ProductOrder::fromJSON(const QJsonValue &jval)
 {
 
     QJsonObject o = jval.toObject();
@@ -73,17 +82,15 @@ ProductOrder *ProductOrder::fromJSON(const QJsonValue &jval)
     }
     return 0;
 
-}
+}*/
 
-QJsonValue ProductOrder::toJSON() const
+QJsonValue ProductOrder::toJSON(int id, int pieces) const
 {
-    /*QJsonObject o;
-    o["id"] = _id;
-    o["pieces"] = _categoryId;
-    o["orderState"] = _name;
-    o["waitingTime"] = _icon;*/
+    QJsonObject o;
+    o["id"] = id;
+    o["pieces"] = pieces;
 
-    //return QJsonValue(o);
+    return QJsonValue(o);
 }
 
 //------------------------------------------------------------------------------
