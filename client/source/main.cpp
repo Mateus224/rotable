@@ -48,7 +48,6 @@ int main(int argc, char *argv[])
   system("gpio export 08 IN");
   system("gpio export 24 IN");
   system("gpio export 25 IN");
-  system("gpio export 25 OUT");
 
   //called to setup PWM from console
   system("gpio pwm-ms");
@@ -62,10 +61,6 @@ int main(int argc, char *argv[])
 
   pinMode(1, PWM_OUTPUT); // PWM_LED
   pwmWrite(1, 0);
-//  pinMode(7, INPUT);
-//  pinMode(8, INPUT);
-//  pinMode(24, INPUT);
-//  pinMode(25, INPUT);
 #endif
 
 

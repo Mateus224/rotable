@@ -364,8 +364,8 @@ bool Server::setData(ComPackageDataSet *set)
   } break;
   case ComPackage::SetProductOrder:
   {
-    ProductOrder* po = ProductOrder::fromJSON(set->data());
-    return updateOrders(po);
+    //ProductOrder* po = ProductOrder::fromJSON(set->data());
+    //return updateOrders(po);
   }break;
   default:
   {

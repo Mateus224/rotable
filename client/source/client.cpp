@@ -219,12 +219,17 @@ void Client::rejected(ComPackageReject *rej)
 
 //------------------------------------------------------------------------------
 
-int Client::screenRotation() const
+int Client::screenRotation()
 {
-    if(_state != "GAMEPAGE")
+    if(state() != "GAMEPAGE")
+    {
+        qDebug()<<_sensors.screenRotation()<<"hier";
+        _lastRotation=_sensors.screenRotation();
         return _sensors.screenRotation();
+    }
     else
-        return 0;
+        qDebug()<<_lastRotation<<" not "<<state();
+        return _lastRotation;
 }
 
 
@@ -244,7 +249,7 @@ void Client::setCurrentCategoryId(int id)
   if (id != _currentCategoryId || _state != "PRODUCTSCREEN") {
     _currentCategoryId = id;
     emit currentCategoryIdChanged();
-
+    qDebug()<<"id:"<<id<<"  state:"<<_state;
     if(id==-1)
     {
         if (_state != "CALLWAITERPAGE") {

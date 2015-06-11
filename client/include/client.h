@@ -107,7 +107,7 @@ public:
    *
    * @return                screen rotation
    */
-  int screenRotation() const;
+  int screenRotation();
 
   /**
    * Get whether distance sensors have a contact.
@@ -331,6 +331,9 @@ private:
 
   /* Table sensors */
   rotable::Sensors _sensors;
+
+  /*save the last direction from the sensor (for games)*/
+  int _lastRotation;
 
   /* Product list model */
   ProductListModel* _productListModel;

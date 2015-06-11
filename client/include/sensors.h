@@ -39,9 +39,9 @@ public slots:
   void checkDistanceSensors();
   void set_PWM_signal();
 
+
 private:
   int _screenRotation;
-
   QTimer _displaySensorCheckTimer;
   QTimer _distanceSensorCheckTimer;
   QTimer _ledPWM_CheckTimer;

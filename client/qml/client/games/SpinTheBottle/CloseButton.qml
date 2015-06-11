@@ -7,7 +7,8 @@ Rectangle{
     MouseArea{
         anchors.fill: parent
         onClicked: {
-            client.state = "STARTSCREEN";
+            client.state = "STARTSCREEN"
+            client.screenRotation
         }
     }
 

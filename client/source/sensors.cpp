@@ -3,7 +3,7 @@
 #include "sensors.h"
 
 #define LED_Pin 1
-#define PWM_CHECK_INTERVAL 100
+#define PWM_CHECK_INTERVAL 50
 #define DISPLAY_SENSOR_CHECK_INTERVAL 25
 #define DISTANCE_SENSOR_CHECK_INTERVAL 250
 #define PCF8591_SLAVE_ADDR	0x48
@@ -16,64 +16,9 @@
 #include <time.h>
 #include <linux/types.h>
 #include <linux/stat.h>
-//#include <sys/types.h>
-//#include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-//#include <iostream>
-
-
-/*
-for(i=256;i<=1023;i++){
-      pwmWrite(LED_Pin, i);
-      delay(DELAY);
-    }
-    for(i=1023;i>=256;i--){
-      pwmWrite(LED_Pin, i);
-      delay(DELAY);
-    }
-    */
-
-//------------------------------------------------------------------------------
-
-int GPIO_sensor()
-{
-  unsigned short i;
-  int seconds;
-  //if(wiringPiSetupSys()==-1)
-  //  exit(1);
-
-  seconds = time(0);
-  //system("xset s reset");
-
-  while (time(0) < (seconds+10)) {
-    for (i = 0; i<=30;i++) {
-      if (digitalRead(i) == 1) {
-        switch(i) {
-        case (7):
-          return 0;
-          break;
-        case (8):
-          return 1;
-          break;
-        case (25):
-          return 2;
-          break;
-        case (24):
-          return 3;
-          break;
-        default:
-          break;
-        }
-      }
-    }
-  }
-
-  return -1;
-}
 #endif
-
-
 
 //------------------------------------------------------------------------------
 
@@ -115,7 +60,7 @@ Sensors::Sensors(QObject *parent) :
 void Sensors::set_PWM_signal()
 {
 #ifdef __arm__
-    if(_intervalCounter==60)
+    if(_intervalCounter==50)
     {
           _lighter=false;
     }
@@ -133,14 +78,14 @@ void Sensors::set_PWM_signal()
     if(_lighter)
     {
         system(c_num);
-       _intervalCounter++;
+       _intervalCounter=_intervalCounter+2;
     }
     else
     {
         system(c_num);
-        _intervalCounter--;
+        _intervalCounter=_intervalCounter-2;
     }
-    qDebug()<<_intervalCounter;
+    //qDebug()<<_intervalCounter;
 #endif
   _ledPWM_CheckTimer.start(PWM_CHECK_INTERVAL);
 }
@@ -162,10 +107,10 @@ Sensors::~Sensors()
 void Sensors::checkDisplaySensors()
 {
 #ifdef __arm__
-  /*qDebug() << tr("Sensors %1, %2, %3, %4")
+/*  qDebug() << tr("Sensors %1, %2, %3, %4")
               .arg(digitalRead(7)).arg(digitalRead(8))
-              .arg(digitalRead(24)).arg(digitalRead(25));*/
-
+              .arg(digitalRead(24)).arg(digitalRead(25));
+*/
   if (LOW == digitalRead(7)) {
     if (_screenRotation != 180) {
       _screenRotation = 180;
@@ -215,8 +160,6 @@ void Sensors::checkDistanceSensors()
             if (!_contact) {
               _contact = true;
               emit contactChanged();
-              //system("xset s reset");
-              //break;
             }
           } else {
             if (_contact) {
@@ -227,9 +170,9 @@ void Sensors::checkDistanceSensors()
         }
       }
 
-      //qDebug() << tr("Distance Sensor %1, %2, %3, %4")
-      //            .arg(values[0]).arg(values[1])
-      //            .arg(values[2]).arg(values[3]);
+     /* qDebug() << tr("Distance Sensor %1, %2, %3, %4")
+                  .arg(values[0]).arg(values[1])
+                  .arg(values[2]).arg(values[3]);*/
     }
   }
 #endif
