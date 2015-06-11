@@ -219,6 +219,18 @@ void Client::rejected(ComPackageReject *rej)
 
 //------------------------------------------------------------------------------
 
+int Client::screenRotation() const
+{
+    if(_state != "GAMEPAGE")
+        return _sensors.screenRotation();
+    else
+        return 0;
+}
+
+
+
+//------------------------------------------------------------------------------
+
 void Client::setState(const QString &state)
 {
   _state = state;

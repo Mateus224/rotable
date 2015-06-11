@@ -107,7 +107,7 @@ public:
    *
    * @return                screen rotation
    */
-  inline int screenRotation() const { return _sensors.screenRotation(); }
+  int screenRotation() const;
 
   /**
    * Get whether distance sensors have a contact.

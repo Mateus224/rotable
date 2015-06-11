@@ -49,6 +49,8 @@ int main(int argc, char *argv[])
   system("gpio export 24 IN");
   system("gpio export 25 IN");
   system("gpio export 25 OUT");
+
+  //called to setup PWM from console
   system("gpio pwm-ms");
   system("gpio mode 1 pwm");
 
