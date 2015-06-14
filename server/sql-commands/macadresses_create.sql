@@ -1,4 +1,4 @@
 CREATE TABLE IF NOT EXISTS `%1mac_adresses` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `mac_address` VARCHAR(64) NOT NULL,
+  `mac_address` VARCHAR(64) NOT NULL
 );
