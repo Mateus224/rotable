@@ -631,7 +631,7 @@ bool Server::login(ComPackageConnectionRequest* package, client_t client)
         {
             // Get waiter id
             int id = _db.hasUser(package->clientName(),package->clientPass());
-            if(!id) // If id < 0 then loggin failed, we can end it
+            if(id<1) // If id < 0 then loggin failed, we can end it
                 return false;
             _users[package->clientType()].insert(client, id);
             return true;

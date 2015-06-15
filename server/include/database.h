@@ -358,7 +358,7 @@ public:
    * @param passwdhash  password hash
    * @return            id if user with nick and password exists, otherwise -1
    */
-  int hasUser(const QString nick, const QString passwdHash);
+  int hasUser(const QString &nick, const QString &passwdHash);
 
   /**
    * Check if income exist base on date

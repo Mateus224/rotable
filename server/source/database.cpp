@@ -56,12 +56,14 @@ Database::Database(QObject *parent) :
   _sqlCommands.append(configCmds);
 
   SqlCommands passwordCmds;
-  collectSqlCommands(passwordCmds, "configs");
+  collectSqlCommands(passwordCmds, "passwords");
   _sqlCommands.append(passwordCmds);
 
   SqlCommands macAdressCmds;
-  collectSqlCommands(macAdressCmds, "configs");
+  collectSqlCommands(macAdressCmds, "macadresses");
   _sqlCommands.append(macAdressCmds);
+
+  qDebug() << "Sql commands load succesfull";
 }
 
 //------------------------------------------------------------------------------
@@ -1479,31 +1481,38 @@ bool Database::hasProduct(int productId, int categoryId)
 
 //------------------------------------------------------------------------------
 
-int Database::hasUser(const QString nick, const QString passwdHash)
+int Database::hasUser(const QString& nick, const QString& passwdHash)
 {
-    if (!isConnected() || !nick.isEmpty() || !passwdHash.isEmpty()) {
+    //Check if we have connection with database and nick and password
+    //are set
+    if (!isConnected() || nick.isEmpty() || passwdHash.isEmpty()) {
       return false;
     }
 
+//    QString queryStr = _sqlCommands[Clients]._select
+//                       .arg(_prefix, "`id`", "name", ":name");
+
     QString queryStr = _sqlCommands[Clients]._select
-                       .arg(_prefix, "`id`", "name", ":nick");
+                       .arg(_prefix, "`id`", "name", QString("\""+nick+"\""));
 
     QSqlQuery q(_db);
     q.setForwardOnly(true);
-
-    q.bindValue(":nick", nick);
 
     if (!q.prepare(queryStr)) {
       qCritical() << tr("Invalid query: %1").arg(queryStr);
       return -1;
     }
 
+    //Should work but don't work :'(
+    //q.bindValue(":nick", nick);
+
     if (!q.exec()) {
       qCritical() << tr("Query exec failed: (%1: %2")
                      .arg(queryStr, q.lastError().text());
       return -1;
     }
-
+    //qDebug << tr("Last query: ") << q.lastQuery();
+    qCritical()  << tr("Last query: ") << q.lastQuery();
     if (!q.next()) {
       return 0;
     }
@@ -1519,6 +1528,13 @@ int Database::hasUser(const QString nick, const QString passwdHash)
             .arg(_prefix, "`id`", "id", ":id AND password = :password");
 
 
+//    Waiter user;
+//    user.setPassword(passwdHash);
+
+//    queryStr = _sqlCommands[Passwords]._select
+//            .arg(_prefix, "`id`", "id", QString(QString::number(id) +" AND password = \"" +
+//                                               user.hashPassword() +"\""));
+
 
     q.clear();
     q.setForwardOnly(true);
@@ -1529,8 +1545,7 @@ int Database::hasUser(const QString nick, const QString passwdHash)
     }
 
     q.bindValue(":id", id);
-    q.bindValue(":password", passwdHash);
-
+    q.bindValue(":password", Waiter::generateHashPassword(passwdHash));
     if (!q.exec()) {
       qCritical() << tr("Query exec failed: (%1: %2")
                      .arg(queryStr, q.lastError().text());
