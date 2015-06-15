@@ -8,14 +8,24 @@ using namespace rotable;
 
 //------------------------------------------------------------------------------
 
-void User::setPassword(QString password)
+QString User::generateHashPassword(const QString& password)
 {
     // Create cryptograpy hash generator, initialized with hash type
     QCryptographicHash hash(QCryptographicHash::Sha512);    // I'm paranoid and I know it
     hash.addData(password.toUtf8().constData());            // add password
     QByteArray result = hash.result();                      // get hash from password
-    _passwd = QString(result);                              // set _passwd with hash
+    QString s_result(result);
+    return s_result;                                 // return paswword hash
 }
+
+//------------------------------------------------------------------------------
+
+void User::setPassword(const QString& password)
+{
+    _passwd = generateHashPassword(password);                              // set _passwd with hash
+}
+
+//------------------------------------------------------------------------------
 
 //QJsonValue Client::toJSON() const
 //{

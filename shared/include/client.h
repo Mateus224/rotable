@@ -57,7 +57,8 @@ public:
 
     inline QString hashPassword() const { return _passwd; }
     inline void setHashPassword(const QString  passwd) { _passwd = passwd; }
-    void setPassword(QString password);
+    static QString generateHashPassword(const QString &password);
+    void setPassword(const QString &password);
 private:
     QString _nick;
     /**
