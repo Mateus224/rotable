@@ -105,7 +105,7 @@ QAbstractListModel *Client::productListModel()
 QAbstractListModel *Client::productOrderListModel()
 {
   if (0 == _productorderlistmodel) {
-    _productorderlistmodel = new ProductOrderListModel(this, _productOrder);
+    _productorderlistmodel = new ProductOrderListModel(NULL, _productOrder);
   }
 
   return _productorderlistmodel;
