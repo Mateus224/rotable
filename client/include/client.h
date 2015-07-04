@@ -96,7 +96,7 @@ public:
   QAbstractListModel *productListModel();
 
 
-  QAbstractListModel *productOrderListModel();
+//  QAbstractListModel *productOrderListModel();
 
   /**
    * Get screen rotation.
@@ -338,7 +338,7 @@ private:
   /* Product list model */
   ProductListModel* _productListModel;
 
-  ProductOrderListModel* _productorderlistmodel;
+//  ProductOrderListModel* _productorderlistmodel;
 
   /* Image provider */
   ImageProvider* _imageProvider;

@@ -94,7 +94,7 @@ QAbstractListModel *Client::categoryListModel()
 QAbstractListModel *Client::productListModel()
 {
   if (0 == _productListModel) {
-    _productListModel = new ProductListModel(this, _products);
+    _productListModel = new ProductListModel(NULL, _products);
   }
 
   return _productListModel;
@@ -102,14 +102,14 @@ QAbstractListModel *Client::productListModel()
 
 //------------------------------------------------------------------------------
 
-QAbstractListModel *Client::productOrderListModel()
-{
-  if (0 == _productorderlistmodel) {
-    _productorderlistmodel = new ProductOrderListModel(NULL, _productOrder);
-  }
+//QAbstractListModel *Client::productOrderListModel()
+//{
+//  if (0 == _productorderlistmodel) {
+//    _productorderlistmodel = new ProductOrderListModel(NULL, _productOrder);
+//  }
 
-  return _productorderlistmodel;
-}
+//  return _productorderlistmodel;
+//}
 //------------------------------------------------------------------------------
 
 QString Client::currentCategoryName() const

@@ -80,7 +80,8 @@ int main(int argc, char *argv[])
   view->rootContext()->setContextProperty("ProductListModel", client->productListModel());
   view->engine()->addImageProvider("rotable", imageProvider);
   view->rootContext()->setContextProperty("MyOrder", client->_productOrder);
-   view->rootContext()->setContextProperty("MyProductOrderList", client->productOrderListModel());
+  ProductOrderListModel *_productorderlistmodel = new ProductOrderListModel(client, client->_productOrder);
+  view->rootContext()->setContextProperty("MyProductOrderList", _productorderlistmodel);
   QQmlContext *ctxt = view->engine()->rootContext();
   qmlContxt init(*ctxt);
   init.initContxt(1);
