@@ -19,6 +19,8 @@ Rectangle {
         anchors.fill: parent
         onClicked: {
             client.state= myorderscreen
+
+            //ToDo: fix this
             MyOrder.getListForMyOrderPage()
             MyOrder.getListForMyOrderPage()
         }
