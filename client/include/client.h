@@ -257,6 +257,11 @@ void payedSlot(int i){qDebug()<<i;}
    */
   void setCurrentCategoryId(int id);
 
+  /**
+   * Send order to server
+   */
+  void sendOrder();
+
 private:
   /**
    * Request all category ids.

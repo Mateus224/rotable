@@ -1,6 +1,6 @@
 #include "private/precomp.h"
 #include "productorder.h"
-#include "compackage.h"
+#include <QJsonArray>
 
 //------------------------------------------------------------------------------
 
@@ -16,17 +16,19 @@ ProductOrder::ProductOrder( ProductContainer &productcontainer, QObject *parent)
 }
 
 
-void ProductOrder::sendOrderToServer()
+ComPackageDataSet ProductOrder::prepareOrderToSend() const
 {
+    QJsonArray array;
     QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
     while (i != ClientProductHash->constEnd()) {
-        if (_productcontainer._products->contains(i.value()._s_id)) {
-            ComPackageDataSet sendOrder;
-            sendOrder.setDataName("OrderFromClient");
-            sendOrder.setData(toJSON(i.value()._s_id, i.value()._s_quantity));
-        }
+        if (_productcontainer._products->contains(i.value()._s_id))
+            array.append(toJSON(i.value()._s_id, i.value()._s_quantity));
         ++i;
     }
+    ComPackageDataSet sendOrder;
+    sendOrder.setDataName("OrderFromClient");
+    sendOrder.setData(array);
+    return sendOrder;
 }
 
 
