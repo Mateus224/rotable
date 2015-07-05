@@ -1,6 +1,6 @@
 #include "private/precomp.h"
 #include "productorder.h"
-#include "compackage.h"
+#include <QJsonArray>
 
 //------------------------------------------------------------------------------
 
@@ -16,73 +16,87 @@ ProductOrder::ProductOrder( ProductContainer &productcontainer, QObject *parent)
 }
 
 
-void ProductOrder::sendOrderToServer()
+//------------------------------------------------------------------------------
+
+ComPackageDataSet ProductOrder::prepareOrderToSend() const
 {
+    QJsonArray array;
     QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
     while (i != ClientProductHash->constEnd()) {
-        if (_productcontainer._products->contains(i.value()._s_id)) {
-            ComPackageDataSet sendOrder;
-            sendOrder.setDataName("OrderFromClient");
-            sendOrder.setData(toJSON(i.value()._s_id, i.value()._s_quantity));
-        }
+        if (_productcontainer._products->contains(i.value()._s_id))
+            array.append(toJSON(i.value()._s_id, i.value()._s_quantity));
         ++i;
     }
+    ComPackageDataSet sendOrder;
+    sendOrder.setDataCategory(ComPackage::SetOrder);
+    sendOrder.setData(array);
+    return sendOrder;
 }
 
+//------------------------------------------------------------------------------
 
 void ProductOrder::acceptOrder()
 {
 
 }
 
-
+//------------------------------------------------------------------------------
 
 int ProductOrder::getStopWatchTime()
 {
     return 0;
 }
 
-
-
 //------------------------------------------------------------------------------
 
-  void ProductOrder::getListForMyOrderPage()
-  {
-      _productcontainer._orderProducts->clear();
-      QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
-      while (i != ClientProductHash->constEnd()) {
-            if (_productcontainer._products->contains(i.value()._s_id)) {
-                _productcontainer.addForOrderProduct_(i.value()._s_id);
-                _productcontainer._orderProducts->value(i.value()._s_id)->setAmount(QString::number(i.value()._s_quantity));
-            }
-            ++i;
-      }
-  }
-
-//------------------------------------------------------------------------------
-
-/*ProductOrder *ProductOrder::fromJSON(const QJsonValue &jval)
+void ProductOrder::getListForMyOrderPage()
 {
-
-    QJsonObject o = jval.toObject();
-
-    if (o.contains("id")
-        && o.contains("pieces")
-        && o.contains("orderState")
-        && o.contains("waitingTime")
-        && o.contains("orderID"))
+    _productcontainer._orderProducts->clear();
+    QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
+    while (i != ClientProductHash->constEnd())
     {
-        //ProductOrder* p = new ProductOrder(*_productcontainer);
-        //p->_id = o["id"].toInt();
-        //p->_pieces = o["pieces"].toInt();
-        //p->_orderState = o["orderState"].toInt();
-        //p->_waitingTime = o["waitingTime"].toInt();
-
-        //return p;
+        if (_productcontainer._products->contains(i.value()._s_id))
+        {
+            _productcontainer.addForOrderProduct_(i.value()._s_id);
+            _productcontainer._orderProducts->value(i.value()._s_id)->setAmount(QString::number(i.value()._s_quantity));
+        }
+    ++i;
     }
-    return 0;
+}
 
-}*/
+//------------------------------------------------------------------------------
+
+//ProductOrder *ProductOrder::fromJSON(const QJsonValue &jval)
+//{
+
+//    QJsonObject o = jval.toObject();
+
+//    if (!o.contains("id") || !o.contains("pieces"))
+//        return 0;
+////        && o.contains("orderState")
+////        && o.contains("waitingTime")
+////        && o.contains("orderID"))
+
+
+//    ProductOrder *product =  new ProductOrder();
+//    product->setproductid(o["id"].toInt());
+//    product->setpieces(o["pieces"].toInt());
+//    return product;
+
+////    {
+////        //ProductOrder* p = new ProductOrder(*_productcontainer);
+////        //p->_id = o["id"].toInt();
+////        //p->_pieces = o["pieces"].toInt();
+////        //p->_orderState = o["orderState"].toInt();
+////        //p->_waitingTime = o["waitingTime"].toInt();
+
+////        //return p;
+////    }
+//    return 0;
+
+//}
+
+//------------------------------------------------------------------------------
 
 QJsonValue ProductOrder::toJSON(int id, int pieces) const
 {

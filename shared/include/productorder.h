@@ -8,6 +8,7 @@
 #include "product.h"
 #include "productcontainer.h"
 #include "private/precomp.h"
+#include "compackage.h"
 
 //------------------------------------------------------------------------------
 
@@ -178,7 +179,7 @@ public slots:
    * send order to the server and the server
    * @brief sendOrder
    */
-  void sendOrderToServer();
+  ComPackageDataSet prepareOrderToSend() const;
 
 //------------------------------------------------------------------------------
 //---------VALUES--------------------------------------------------------------
@@ -197,7 +198,7 @@ public:
 
 
   rotable::ProductContainer &_productcontainer;
-  rotable::ProductContainer *_newproductordercontainer;
+  //rotable::ProductContainer *_newproductordercontainer;
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------

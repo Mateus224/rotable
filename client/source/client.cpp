@@ -275,6 +275,13 @@ void Client::setCurrentCategoryId(int id)
 
 //------------------------------------------------------------------------------
 
+void Client::sendOrder()
+{
+    _tcp.send(_productOrder->prepareOrderToSend());
+}
+
+//------------------------------------------------------------------------------
+
 void Client::reconnect()
 {
   _tcp.startConnection(_config.serverAddress(), _config.port());

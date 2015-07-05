@@ -241,7 +241,7 @@ Rectangle {
                             MouseArea{
                                 anchors.fill: parent
                                 onClicked: {
-                                       MyOrder.sendOrderToServer()
+                                      client.sendOrder()
                                 }
 
                                 Text {
