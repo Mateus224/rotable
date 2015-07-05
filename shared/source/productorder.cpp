@@ -26,7 +26,7 @@ ComPackageDataSet ProductOrder::prepareOrderToSend() const
         ++i;
     }
     ComPackageDataSet sendOrder;
-    sendOrder.setDataName("OrderFromClient");
+    sendOrder.setDataCategory(ComPackage::SetOrder);
     sendOrder.setData(array);
     return sendOrder;
 }

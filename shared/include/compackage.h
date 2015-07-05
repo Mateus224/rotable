@@ -105,7 +105,8 @@ public:
     /* Set/Update a product */
     SetProduct,
 
-    SetProductOrder
+    /* Set/Update order*/
+    SetOrder
   };
 
   /**
