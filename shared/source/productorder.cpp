@@ -66,49 +66,42 @@ void ProductOrder::getListForMyOrderPage()
 
 //------------------------------------------------------------------------------
 
-//ProductOrder *ProductOrder::fromJSON(const QJsonValue &jval)
-//{
+////ProductOrder *ProductOrder::fromJSON(const QJsonValue &jval)
+////{
 
-//    QJsonObject o = jval.toObject();
+////    QJsonObject o = jval.toObject();
 
-//    if (!o.contains("id") || !o.contains("pieces"))
-//        return 0;
+////    if ( o.contains("pieces"))
 ////        && o.contains("orderState")
 ////        && o.contains("waitingTime")
-////        && o.contains("orderID"))
-
-
-//    ProductOrder *product =  new ProductOrder();
-//    product->setproductid(o["id"].toInt());
-//    product->setpieces(o["pieces"].toInt());
-//    return product;
-
+////        && o.contains("orderID")
+///         && o.contains("clientID"))
 ////    {
 ////        //ProductOrder* p = new ProductOrder(*_productcontainer);
 ////        //p->_id = o["id"].toInt();
 ////        //p->_pieces = o["pieces"].toInt();
 ////        //p->_orderState = o["orderState"].toInt();
 ////        //p->_waitingTime = o["waitingTime"].toInt();
+////        //p->_clientID= o["tableID"].toInt();
 
 ////        //return p;
 ////    }
-//    return 0;
-
-//}
+////}
 
 //------------------------------------------------------------------------------
 
 QJsonValue ProductOrder::toJSON(int id, int pieces) const
 {
     QJsonObject o;
-    o["id"] = id;
+    o["ID"] = id;
     o["pieces"] = pieces;
+    ////o["tableID"] = _clientID;
 
     return QJsonValue(o);
 }
 
 //------------------------------------------------------------------------------
-//get Gui Information
+//get Gui Information client
 //------------------------------------------------------------------------------
 
 
@@ -189,3 +182,7 @@ void ProductOrder::getpieces(int ProductID)
         setpieces (0);
     }
 }
+
+//-----------------------------------------------------------------
+
+
