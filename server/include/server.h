@@ -127,11 +127,8 @@ private:
    * @param order       List with product order
    * @return
    */
-<<<<<<< HEAD
   bool updateOrders(QList<OrderItem *> order );
-=======
-  bool updateOrders(QList<ProductOrder *> order );
->>>>>>> 5f42123cbf2b039f8425a37c4ede58ac7972ed15
+
   /**
    * Add a new product to the database.
    * (Will automatically inform all connected clients)
