@@ -229,6 +229,14 @@ public:
   bool addConfig(Config *config);
 
   /**
+   * Add new order to the database
+   *
+   * @param order       new order
+   * @return            true on success
+   */
+  bool addOrder(Order *order);
+
+  /**
    * Update a product category.
    *
    * @param category    product category
@@ -396,9 +404,16 @@ public:
   /**
    * Check Config record exist
    * @param id          record id
-   * @return            true on susses
+   * @return            true on success
    */
   bool hasConfig(int id);
+
+  /**
+   * Get id of MacAddress if exists
+   * @param macAdresses
+   * @return            id or -1
+   */
+  int hasMacAddress(QString macAdresses);
 
   /**
    * Check whether this object is connected to the database.
@@ -407,7 +422,17 @@ public:
    */
   bool isConnected() const;
 
+  /**
+   * Add initial data to database
+   * @return    true on success
+   */
   bool add_init_data();
+
+  /**
+   * Register table
+   * @return            table id
+   */
+  int registerTable(QString name, QString macAdresses);
 
 signals:
   void parseConfig(Config* c);

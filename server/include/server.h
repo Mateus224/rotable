@@ -102,7 +102,7 @@ private:
    * @return            false, if client was not allowed to set this data
    *                    or something failed during the process
    */
-  bool setData(ComPackageDataSet* set);
+  bool setData(ComPackageDataSet* set, client_t client);
 
   /**
    * Add a new product category to the database.
@@ -123,11 +123,18 @@ private:
   bool updateCategory(ProductCategory* category);
 
   /**
-   * Update or add order
+   * Update order
    * @param order       List with product order
    * @return
    */
   bool updateOrders(QList<OrderItem *> order );
+
+  /**
+   * Create new order
+   * @param ordes       List of item in order
+   * @return            true on succes
+   */
+  bool newOrder(QList<OrderItem *> orders, int clientId );
 
   /**
    * Add a new product to the database.

@@ -168,7 +168,7 @@ void Server::packageReceived(client_t client, ComPackage *package)
     if (_tcp.isClientAccepted(client)) {
       ComPackageDataSet* p = static_cast<ComPackageDataSet*>(package);
 
-      if (!setData(p)) {
+      if (!setData(p, client)) {
         ComPackageReject reject(package->id());
         _tcp.send(client, reject);
       }
@@ -326,7 +326,7 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request)
 
 //------------------------------------------------------------------------------
 
-bool Server::setData(ComPackageDataSet *set)
+bool Server::setData(ComPackageDataSet *set, client_t client)
 {
   switch (set->dataCategory())
   {
@@ -372,11 +372,11 @@ bool Server::setData(ComPackageDataSet *set)
     foreach (QJsonValue item, array) {
         order.append(OrderItem::fromJSON(item));
     }
-    bool operatonSucces = updateOrders(order);
+    bool operatonSucces = newOrder(order,_users[1][client]);
 //    Clear memory, we don't like memory leaks
-    foreach (OrderItem *item, order) {
-        delete item;
-    }
+//    foreach (OrderItem *item, order) {
+//        delete item;
+//    }
     if(operatonSucces)
         return true;
     else
@@ -458,6 +458,27 @@ bool Server::updateOrders(QList<OrderItem*> order)
 //    dc.setDataName(QString("%1").arg());
 //    _tcp.send(-1, dc);
     return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Server::newOrder(QList<OrderItem *> orders, int clientId)
+{
+    Order *order = new Order();
+    //Add order item to order
+    foreach (OrderItem* item, orders){
+        order->addItem(item);
+    }
+    // Set state of order
+    order->setState(Order::Sent);
+    // Set client id
+    order->setClientId(clientId);
+
+    // Add order
+    if(_db.addOrder(order))
+        return true;
+    return false;
+
 }
 
 //------------------------------------------------------------------------------
@@ -652,8 +673,11 @@ bool Server::login(ComPackageConnectionRequest* package, client_t client)
             return true;
         }
         case rotable::ComPackage::TableAccount :
-            //_users[package->clientType()].insert(client, id);
+        {
+            int id = _db.registerTable(package->clientName(), package->clientPass());
+            _users[package->clientType()].insert(client, id);
             return true;
+        }
         default:
         {
           qCritical() << tr("Unknown account type '%1'!").arg(package->clientType());

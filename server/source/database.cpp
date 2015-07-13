@@ -804,6 +804,13 @@ bool Database::addConfig(Config *config)
     return true;
 }
 
+//------------------------------------------------------------------------------
+
+bool Database::addOrder(Order *order)
+{
+
+}
+
 
 //------------------------------------------------------------------------------
 
@@ -1512,7 +1519,7 @@ int Database::hasUser(const QString& nick, const QString& passwdHash)
       return -1;
     }
     //qDebug << tr("Last query: ") << q.lastQuery();
-    qCritical()  << tr("Last query: ") << q.lastQuery();
+    // qCritical()  << tr("Last query: ") << q.lastQuery();
     if (!q.next()) {
       return 0;
     }
@@ -1766,6 +1773,43 @@ bool Database::hasConfig(int id)
 
 //------------------------------------------------------------------------------
 
+int Database::hasMacAddress(QString macAdresses)
+{
+    QString queryStr = _sqlCommands[MacAdresses]._select
+                       .arg(_prefix, "`id`", "`mac_address`", ":mac_address");
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return -1;
+    }
+
+    q.bindValue(":mac_address", macAdresses);
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return -1;
+    }
+    if (!q.next()) {
+      return -1;
+    }
+
+    bool ok;
+    int id = q.value("id").toInt(&ok);
+
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("id").toString());
+      return -1;
+    }
+
+    return id;
+
+}
+
+//------------------------------------------------------------------------------
+
 Income*  Database::getLastIncome()
 {
     int id = getLastIncomeId();
@@ -1840,6 +1884,61 @@ bool Database::add_init_data()
 
   return ok;
 
+}
+
+//------------------------------------------------------------------------------
+
+int Database::registerTable(QString name, QString macAdresses)
+{
+    if (!isConnected() || name.isEmpty() || macAdresses.isEmpty()) {
+      return false;
+    }
+
+    int id = hasMacAddress(macAdresses);
+    if(id == -1)
+    {
+        QString queryStr = _sqlCommands[Clients]._insert.arg(_prefix);
+        QSqlQuery q(_db);
+        q.setForwardOnly(true);
+
+        if (!q.prepare(queryStr)) {
+          qCritical() << tr("Invalid query: %1").arg(queryStr);
+          return -1;
+        }
+
+        q.bindValue(":name", name);
+        q.bindValue(":type", 1);
+
+        if (!q.exec()) {
+          qCritical() << tr("Query exec failed: (%1: %2")
+                         .arg(queryStr, q.lastError().text());
+          return -1;
+        }
+
+        id = q.lastInsertId().toInt();
+
+        q.clear();
+
+        queryStr = _sqlCommands[MacAdresses]._insert.arg(_prefix);
+        q.setForwardOnly(true);
+
+        if (!q.prepare(queryStr)) {
+          qCritical() << tr("Invalid query: %1").arg(queryStr);
+          return -1;
+        }
+
+        q.bindValue(":id", id);
+        q.bindValue(":mac_address", macAdresses);
+
+        if (!q.exec()) {
+          qCritical() << tr("Query exec failed: (%1: %2")
+                         .arg(queryStr, q.lastError().text());
+          return -1;
+        }
+
+    }
+
+    return id;
 }
 
 //------------------------------------------------------------------------------
