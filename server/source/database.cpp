@@ -934,7 +934,11 @@ bool Database::updateConfig(Config *config)
 
 //------------------------------------------------------------------------------
 
+<<<<<<< HEAD
 bool Database::updateOrders(QList<OrderItem*>  order)
+=======
+bool Database::updateOrders(QList<ProductOrder*>  order)
+>>>>>>> 5f42123cbf2b039f8425a37c4ede58ac7972ed15
 {
     qDebug() << "Not implemented yet";
     return false;

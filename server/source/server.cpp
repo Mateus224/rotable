@@ -364,6 +364,7 @@ bool Server::setData(ComPackageDataSet *set)
   } break;
   case ComPackage::SetOrder:
   {
+<<<<<<< HEAD
     //Covert data to array
     QJsonArray array = set->data().toArray();
 
@@ -381,6 +382,26 @@ bool Server::setData(ComPackageDataSet *set)
         return true;
     else
         return false;
+=======
+//    //Covert data to array
+//    QJsonArray array = set->data().toArray();
+
+//    //Crete QList with products
+//    QList<ProductOrder*> order;
+//    foreach (QJsonValue product, array) {
+//        //Append products to order
+//        //order.append(ProductOrder::fromJSON(product));
+//    }
+//    bool operatonSucces = updateOrders(order);
+//    //Clear memory, we don't like memory leaks
+//    foreach (ProductOrder *product, order) {
+//        delete product;
+//    }
+//    if(operatonSucces)
+//        return true;
+//    else
+//        return false;
+>>>>>>> 5f42123cbf2b039f8425a37c4ede58ac7972ed15
   }break;
   default:
   {
@@ -438,7 +459,11 @@ bool Server::updateCategory(ProductCategory *category)
 
 //------------------------------------------------------------------------------
 
+<<<<<<< HEAD
 bool Server::updateOrders(QList<OrderItem*> order)
+=======
+bool Server::updateOrders(QList<ProductOrder*> order)
+>>>>>>> 5f42123cbf2b039f8425a37c4ede58ac7972ed15
 {
     //Some valid here
 //    if (!_db.has) {

@@ -52,6 +52,23 @@ int ProductOrder::getStopWatchTime()
     return 0;
 }
 
+<<<<<<< HEAD
+//------------------------------------------------------------------------------
+
+void ProductOrder::getListForMyOrderPage()
+{
+    _productcontainer._orderProducts->clear();
+    QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
+    while (i != ClientProductHash->constEnd())
+    {
+        if (_productcontainer._products->contains(i.value()._s_id))
+        {
+            _productcontainer.addForOrderProduct_(i.value()._s_id);
+            _productcontainer._orderProducts->value(i.value()._s_id)->setAmount(QString::number(i.value()._s_quantity));
+        }
+    ++i;
+    }
+=======
 //------------------------------------------------------------------------------
 
 void ProductOrder::getListForMyOrderPage()
@@ -70,7 +87,44 @@ void ProductOrder::getListForMyOrderPage()
 }
 
 //------------------------------------------------------------------------------
-//get Gui Information
+
+////ProductOrder *ProductOrder::fromJSON(const QJsonValue &jval)
+////{
+
+////    QJsonObject o = jval.toObject();
+
+////    if ( o.contains("pieces"))
+////        && o.contains("orderState")
+////        && o.contains("waitingTime")
+////        && o.contains("orderID")
+///         && o.contains("clientID"))
+////    {
+////        //ProductOrder* p = new ProductOrder(*_productcontainer);
+////        //p->_id = o["id"].toInt();
+////        //p->_pieces = o["pieces"].toInt();
+////        //p->_orderState = o["orderState"].toInt();
+////        //p->_waitingTime = o["waitingTime"].toInt();
+////        //p->_clientID= o["tableID"].toInt();
+
+////        //return p;
+////    }
+////}
+
+//------------------------------------------------------------------------------
+
+QJsonValue ProductOrder::toJSON(int id, int pieces) const
+{
+    QJsonObject o;
+    o["ID"] = id;
+    o["pieces"] = pieces;
+    ////o["tableID"] = _clientID;
+
+    return QJsonValue(o);
+>>>>>>> 5f42123cbf2b039f8425a37c4ede58ac7972ed15
+}
+
+//------------------------------------------------------------------------------
+//get Gui Information client
 //------------------------------------------------------------------------------
 
 
@@ -151,3 +205,7 @@ void ProductOrder::getpieces(int ProductID)
         setpieces (0);
     }
 }
+
+//-----------------------------------------------------------------
+
+
