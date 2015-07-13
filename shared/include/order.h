@@ -19,6 +19,10 @@
 #include <QQmlListProperty>
 #endif
 
+#ifdef QJSONVALUE_H
+#include <QJsonValue>
+#endif
+
 //------------------------------------------------------------------------------
 
 namespace rotable {
@@ -39,11 +43,18 @@ class rotable::OrderItem : public QObject
   Q_PROPERTY(int amount READ amount WRITE setAmount NOTIFY amountChanged)
 
 public:
+
+  explicit OrderItem(QObject *parent = 0);
+  explicit OrderItem(const QJsonValue& jval, QObject *parent = 0);
+
   inline int id() const { return _id; }
   inline void setId(int id) { _id = id; }
 
   inline int amount() const { return _amount; }
   inline void setAmount(int amount) { _amount = amount; emit amountChanged(); }
+
+  QJsonValue toJSON() const;
+  static OrderItem* fromJSON(const QJsonValue& jval);
 
 signals:
   void amountChanged();

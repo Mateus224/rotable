@@ -362,10 +362,25 @@ bool Server::setData(ComPackageDataSet *set)
       return false;
     }
   } break;
-  case ComPackage::SetProductOrder:
+  case ComPackage::SetOrder:
   {
-    //ProductOrder* po = ProductOrder::fromJSON(set->data());
-    //return updateOrders(po);
+    //Covert data to array
+    QJsonArray array = set->data().toArray();
+
+    //Crete QList with items
+    QList<OrderItem*> order;
+    foreach (QJsonValue item, array) {
+        order.append(OrderItem::fromJSON(item));
+    }
+    bool operatonSucces = updateOrders(order);
+//    Clear memory, we don't like memory leaks
+    foreach (OrderItem *item, order) {
+        delete item;
+    }
+    if(operatonSucces)
+        return true;
+    else
+        return false;
   }break;
   default:
   {
@@ -423,7 +438,7 @@ bool Server::updateCategory(ProductCategory *category)
 
 //------------------------------------------------------------------------------
 
-bool Server::updateOrders(ProductOrder *order)
+bool Server::updateOrders(QList<OrderItem*> order)
 {
     //Some valid here
 //    if (!_db.has) {

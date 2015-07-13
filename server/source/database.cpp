@@ -934,7 +934,7 @@ bool Database::updateConfig(Config *config)
 
 //------------------------------------------------------------------------------
 
-bool Database::updateOrders(ProductOrder *order)
+bool Database::updateOrders(QList<OrderItem*>  order)
 {
     qDebug() << "Not implemented yet";
     return false;

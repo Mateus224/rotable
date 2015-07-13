@@ -122,7 +122,12 @@ private:
    */
   bool updateCategory(ProductCategory* category);
 
-  bool updateOrders(ProductOrder* order );
+  /**
+   * Update or add order
+   * @param order       List with product order
+   * @return
+   */
+  bool updateOrders(QList<OrderItem *> order );
   /**
    * Add a new product to the database.
    * (Will automatically inform all connected clients)

@@ -111,23 +111,6 @@ public:
   void getpieces(int ProductID);
 
 
-
-  /**
-   * Convert this order into a QJsonObject.
-   *
-   * @return            QJsonObject
-   */
-  QJsonValue toJSON(int id, int pieces) const;
-
-  /**
-   * Create an order object from a JSON value.
-   *
-   * @param jval        JSON value
-   * @return            created order or NULL on error
-   */
-  static ProductOrder *fromJSON(const QJsonValue& jval);
-
-
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
@@ -198,7 +181,7 @@ public:
 
 
   rotable::ProductContainer &_productcontainer;
-  rotable::ProductContainer *_newproductordercontainer;
+  //rotable::ProductContainer *_newproductordercontainer;
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
