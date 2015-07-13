@@ -8,6 +8,7 @@
 #include "productcontainer.h"
 #include "imageprovider.h"
 #include "productorder.h"
+#include <QtNetwork/QNetworkInterface>
 
 //------------------------------------------------------------------------------
 
@@ -132,6 +133,10 @@ void Client::connected()
   ComPackageConnectionRequest request;
   request.setClientName(_config.clientName());
   request.setClientType(rotable::ComPackage::TableAccount);
+  //TODO: add in config file name of using interface, "ip link" command in linux
+  //request.setClientPass(QNetworkInterface::interfaceFromName("eth0").hardwareAddress());
+  request.setClientPass("00:00:00:00:00:00:00:00:00:00");
+
 
   if (!_tcp.send(request)) {
     qCritical() << tr("FATAL: Could not send connection request package!");
