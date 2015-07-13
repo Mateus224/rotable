@@ -1776,7 +1776,7 @@ bool Database::hasConfig(int id)
 int Database::hasMacAddress(QString macAdresses)
 {
     QString queryStr = _sqlCommands[MacAdresses]._select
-                       .arg(_prefix, "`id`", "`mac_address`", ":mac_address");
+                       .arg(_prefix, "`id`", "mac_address", ":mac_address");
     QSqlQuery q(_db);
     q.setForwardOnly(true);
 
@@ -1897,7 +1897,7 @@ int Database::registerTable(QString name, QString macAdresses)
     int id = hasMacAddress(macAdresses);
     if(id == -1)
     {
-        QString queryStr = _sqlCommands[Clients]._insert.arg(_prefix);
+        QString queryStr = _sqlCommands[Clients]._insert.arg(_prefix, "NULL", ":name", ":type");
         QSqlQuery q(_db);
         q.setForwardOnly(true);
 
@@ -1919,7 +1919,7 @@ int Database::registerTable(QString name, QString macAdresses)
 
         q.clear();
 
-        queryStr = _sqlCommands[MacAdresses]._insert.arg(_prefix);
+        queryStr = _sqlCommands[MacAdresses]._insert.arg(_prefix, ":id", ":mac_address");
         q.setForwardOnly(true);
 
         if (!q.prepare(queryStr)) {
