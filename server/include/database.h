@@ -237,6 +237,14 @@ public:
   bool addOrder(Order *order);
 
   /**
+   * Add new order to database
+   *
+   * @param item        new item in order
+   * @return            true on success
+   */
+  bool addOrderItem(OrderItem *item, int orderId);
+
+  /**
    * Update a product category.
    *
    * @param category    product category

@@ -43,10 +43,6 @@ Database::Database(QObject *parent) :
   collectSqlCommands(orderItemCmds, "orderitems");
   _sqlCommands.append(orderItemCmds);
 
-  SqlCommands waiterCmds;
-  collectSqlCommands(waiterCmds, "waiters");
-  _sqlCommands.append(waiterCmds);
-
   SqlCommands incomeCmds;
   collectSqlCommands(incomeCmds, "incomes");
   _sqlCommands.append(incomeCmds);
@@ -453,63 +449,6 @@ Order*Database::order(int id)
 
 //------------------------------------------------------------------------------
 
-Waiter *Database::waiter(int id)
-{
-    if (!isConnected()) {
-      return 0;
-    }
-
-    QString queryStr = _sqlCommands[Waiters]._select.arg(_prefix, "*", "id").arg(id);
-
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return 0;
-    }
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return 0;
-    }
-
-    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
-      if (q.size() != 1) {
-        qCritical() << tr("Query: returned %1 results but we expected it to return 1!")
-                       .arg(q.size());
-        return 0;
-      }
-    }
-
-    if (!q.next()) {
-      return 0;
-    }
-
-    bool ok;
-    int waiterId = q.value("id").toInt(&ok);
-    if (!ok) {
-      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("id").toString());
-      return 0;
-    }
-
-    QString passwd = q.value("passwd").toString();
-    QString nick = q.value("nick").toString();
-    QString name = q.value("name").toString();
-
-    Waiter* w = new Waiter();
-
-    w->setId(waiterId);
-    w->setHashPassword(passwd);
-    w->setNick(nick);
-    w->setName(name);
-
-    return w;
-}
-
-//------------------------------------------------------------------------------
-
 Income *Database::income(int id)
 {
     if (!isConnected()) {
@@ -807,6 +746,44 @@ bool Database::addConfig(Config *config)
 //------------------------------------------------------------------------------
 
 bool Database::addOrder(Order *order)
+{
+    if (!isConnected()) {
+      return false;
+    }
+
+    QString queryStr = _sqlCommands[Orders]._insert.arg(
+                _prefix, "NULL", ":state", ":income_id", ":client_id");
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return false;
+    }
+
+    q.bindValue(":state", order->state());
+    q.bindValue(":income_id", getLastIncomeId());
+    q.bindValue(":client_id", order->clientId());
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    int id = q.lastInsertId().toInt();
+
+    for(int i=0; i<order->itemCount(); ++i)
+        if(!addOrderItem(order->item(i), id))
+            return false;
+
+    return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::addOrderItem(OrderItem *item, int orderId)
 {
 
 }
@@ -1136,19 +1113,6 @@ bool Database::createDatabase()
     return false;
   }
 
-  // Waiter table
-  QSqlQuery q7(QString("DROP TABLE IF EXISTS `%1waiters`;").arg(_prefix), _db);
-  if (q7.lastError().type() != QSqlError::NoError) {
-    qCritical() << tr("Query exec failed: %1").arg(q7.lastError().text());
-    return false;
-  }
-
-  QSqlQuery q8(_sqlCommands[Waiters]._create.arg(_prefix), _db);
-  if (q8.lastError().type() != QSqlError::NoError) {
-    qCritical() << tr("Query exec failed: %1").arg(q8.lastError().text());
-    return false;
-  }
-
   // Order table
   QSqlQuery q9(QString("DROP TABLE IF EXISTS `%1order`;").arg(_prefix), _db);
   if (q9.lastError().type() != QSqlError::NoError) {
@@ -1276,7 +1240,6 @@ bool Database::exportDatabase(QString &dest)
   dest += QString("DROP TABLE IF EXISTS `%1products`;\n").arg(_prefix);
   // TODO: chceck is it need'ed
   // dest += QString("DROP TABLE IF EXISTS `%1tables`;").arg(_prefix);
-  dest += QString("DROP TABLE IF EXISTS `%1waiters`;").arg(_prefix);
   dest += QString("DROP TABLE IF EXISTS `%1clients`;").arg(_prefix);
   dest += QString("DROP TABLE IF EXISTS `%1order`;").arg(_prefix);
   dest += QString("DROP TABLE IF EXISTS `%1order_item`;").arg(_prefix);
@@ -1287,7 +1250,6 @@ bool Database::exportDatabase(QString &dest)
   dest += _sqlCommands[Categories]._create.arg(_prefix) + '\n';
   dest += _sqlCommands[Products]._create.arg(_prefix) + '\n';
   dest += _sqlCommands[Clients]._create.arg(_prefix) + '\n';
-  dest += _sqlCommands[Waiters]._create.arg(_prefix) + '\n';
   dest += _sqlCommands[Orders]._create.arg(_prefix) + '\n';
   dest += _sqlCommands[OrderItems]._create.arg(_prefix) + '\n';
   dest += _sqlCommands[Incomes]._create.arg(_prefix) + '\n';
