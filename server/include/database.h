@@ -60,7 +60,6 @@ private:
     Clients,
     Orders,
     OrderItems,
-    Waiters,
     Incomes,
     Configs,
     Passwords,

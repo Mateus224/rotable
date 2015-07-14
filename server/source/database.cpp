@@ -785,7 +785,32 @@ bool Database::addOrder(Order *order)
 
 bool Database::addOrderItem(OrderItem *item, int orderId)
 {
+    if (!isConnected()) {
+      return false;
+    }
 
+    QString queryStr = _sqlCommands[OrderItems]._insert.arg(
+                _prefix, ":order_id", ":product_id", ":amount");
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return false;
+    }
+
+    q.bindValue(":order_id", orderId);
+    q.bindValue(":product_id", item->id());
+    q.bindValue(":amount", item->amount());
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    return true;
 }
 
 
