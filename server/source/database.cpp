@@ -261,7 +261,7 @@ bool Database::configIds(QList<int> &ids)
 
 //------------------------------------------------------------------------------
 
-bool Database::itemOrderIds(QList<int> &ids, int orderId)
+bool Database::orderItemIds(QList<int> &ids, int orderId)
 {
     ids.clear();
 
@@ -475,6 +475,7 @@ Order*Database::order(int id)
     return 0;
   }
 
+  // TODO: implement
   QDateTime orderSent = q.value("date_added").toDateTime();
 
   Order* o = new Order();
@@ -483,10 +484,17 @@ Order*Database::order(int id)
   o->setClientId(clientId);
   o->setState(state);
 
-  QList<OrderItem*> items;
+  QList<int> itemsId;
 
 
-  // TODO: continue here
+  // if something go wrong return 0
+  if(!orderItemIds(itemsId,orderId))
+      return 0;
+
+  // add order item base on id
+  foreach(int orderItemId, itemsId){
+        o->addItem(orderItem(orderItemId));
+  }
 
   return o;
 }
@@ -602,6 +610,66 @@ Config *Database::config(int id)
     c->setValue(value);
 
     return c;
+}
+
+//------------------------------------------------------------------------------
+
+OrderItem *Database::orderItem(int id)
+{
+    if (!isConnected()) {
+      return 0;
+    }
+
+    QString queryStr = _sqlCommands[OrderItems]._select.arg(_prefix, "*", "id", ":id");
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return 0;
+    }
+
+    q.bindValue(":id", id);
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return 0;
+    }
+
+    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+      if (q.size() != 1) {
+        qCritical() << tr("Query: returned %1 results but we expected it to return 1!")
+                       .arg(q.size());
+        return 0;
+      }
+    }
+
+    if (!q.next()) {
+      return 0;
+    }
+
+    bool ok;
+
+    int productId = q.value("product_id").toInt(&ok);
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("product_id").toString());
+      return 0;
+    }
+
+    int amount = q.value("amount").toInt(&ok);
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("amount").toString());
+      return 0;
+    }
+
+    OrderItem* oi = new OrderItem();
+
+    oi->setId(productId);
+    oi->setAmount(amount);
+
+    return oi;
 }
 
 //------------------------------------------------------------------------------
@@ -834,7 +902,7 @@ bool Database::addOrderItem(OrderItem *item, int orderId)
     }
 
     QString queryStr = _sqlCommands[OrderItems]._insert.arg(
-                _prefix, ":order_id", ":product_id", ":amount");
+                _prefix, "NULL", ":order_id", ":product_id", ":amount");
 
     QSqlQuery q(_db);
     q.setForwardOnly(true);

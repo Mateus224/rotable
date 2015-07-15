@@ -143,7 +143,7 @@ public:
    * @param orderId     order id
    * @return            true on success
    */
-  bool itemOrderIds(QList<int> &ids, int orderId);
+  bool orderItemIds(QList<int> &ids, int orderId);
 
   /**
    * Read category from database.
@@ -190,8 +190,15 @@ public:
    * @param id          config id
    * @return            config or NULL on error
    */
-
   Config *config(int id);
+
+  /**
+   * Read OrderItem form database
+   *
+   * @param id          orderItem id
+   * @return            orderItem or NULL on error
+   */
+  OrderItem *orderItem(int id);
 
   /**
    * Add a new product category to the database.
