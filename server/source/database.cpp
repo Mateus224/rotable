@@ -1830,7 +1830,7 @@ int Database::getLastIncomeId()
     {
         QSqlRecord rec = q.record();
 
-        return rec.value(rec.indexOf("id")).toInt();
+        return rec.value(rec.indexOf("MAX(id)")).toInt();
     }
 
     return -1;
