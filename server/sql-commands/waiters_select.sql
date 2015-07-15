@@ -1,1 +1,0 @@
-SELECT %2 FROM `%1waiters` WHERE `%3` = %4;
