@@ -261,6 +261,47 @@ bool Database::configIds(QList<int> &ids)
 
 //------------------------------------------------------------------------------
 
+bool Database::itemOrderIds(QList<int> &ids, int orderId)
+{
+    ids.clear();
+
+    if (!isConnected()) {
+      return false;
+    }
+
+    QString queryStr = _sqlCommands[OrderItems]._select.arg(_prefix, "`id`", "order_id", ":order_id");
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return false;
+    }
+
+    q.bindValue(":order_id", orderId);
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    while (q.next()) {
+      bool toIntOk;
+      ids << q.value("id").toInt(&toIntOk);
+      if (!toIntOk) {
+        qCritical() << tr("Could not convert entry '%1' to an integer!")
+                       .arg(q.value("id").toString());
+        ids.clear();
+        return false;
+      }
+    }
+
+    return true;
+}
+
+//------------------------------------------------------------------------------
+
 ProductCategory* Database::category(int id)
 {
   if (!isConnected()) {
@@ -441,6 +482,9 @@ Order*Database::order(int id)
   o->setId(orderId);
   o->setClientId(clientId);
   o->setState(state);
+
+  QList<OrderItem*> items;
+
 
   // TODO: continue here
 
