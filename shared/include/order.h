@@ -116,6 +116,8 @@ public:
    */
   explicit Order(QObject *parent = 0);
 
+  ~Order();
+
   inline int id() const { return _id; }
   inline void setId(int id) { _id = id; }
 

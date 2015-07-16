@@ -14,6 +14,22 @@ Order::Order(QObject* parent)
 
 }
 
+Order::~Order()
+{
+    qDeleteAll(_items.begin(), _items.end());
+    _items.clear();
+}
+
+QJsonValue Order::toJSON() const
+{
+    qCritical() << "No implemented yet";
+}
+
+rotable::Order *Order::fromJSON(const QJsonValue &jval)
+{
+    qCritical() << "No implemented yet";
+}
+
 QJsonValue OrderItem::toJSON() const
 {
     QJsonObject o;
