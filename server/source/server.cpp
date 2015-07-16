@@ -295,7 +295,7 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request)
         if (_db.orderIds(ids, tableId)) {
           QJsonArray arr;
           foreach (int id, ids) {
-            Order *order = _db.order(id)->toJSON();
+            Order *order = _db.order(id);
             if(order){
                 arr.append(_db.order(id)->toJSON());
                 delete order;
@@ -307,7 +307,7 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request)
 
           return new ComPackageDataReturn(*request, jsonVal);
         } else {
-          qCritical() << tr("Could not query product ids for table %1!").arg(categoryId);
+          qCritical() << tr("Could not query order ids for table %1!").arg(tableId);
         }
       } else {
         qCritical() << tr("Could not convert table id '%1' to an integer!")
@@ -329,7 +329,7 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request)
         return ret;
       } else {
         qCritical() << tr("Could not query order data of id %1!")
-                       .arg(categoryId);
+                       .arg(orderId);
       }
     } else {
       qCritical() << tr("Could not convert order id '%1' to an integer!")
