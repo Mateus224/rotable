@@ -89,7 +89,16 @@ public:
     RequestProduct,
 
     /* Request waiter data from a given product id or when login*/
-    RequestWaiter
+    RequestWaiter,
+
+    /* Request orderIds*/
+    RequestOrderIds,
+
+    /* Request list of connected table ids */
+    RequestTableIds,
+
+    /* Request list order on table*/
+    RequestOrderOnTable
   };
 
   /**

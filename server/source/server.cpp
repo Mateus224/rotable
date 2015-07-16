@@ -277,6 +277,15 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request)
                      .arg(request->dataName());
     }
   } break;
+  case ComPackage::RequestTableIds:
+  {
+    QJsonArray arr;
+    foreach (int id, _users[1]){
+        arr.append(id);
+    }
+    QJsonValue jsonVal(arr);
+    return new ComPackageDataReturn(*request, jsonVal);
+  } break;
   case ComPackage::RequestCategory:
   {
     bool ok;
