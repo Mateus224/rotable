@@ -286,6 +286,56 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request)
     QJsonValue jsonVal(arr);
     return new ComPackageDataReturn(*request, jsonVal);
   } break;
+  case ComPackage::RequestOrderOnTable:
+  {
+      bool ok;
+      int tableId = request->dataName().toInt(&ok);
+      if (ok) {
+        QList<int> ids;
+        if (_db.orderIds(ids, tableId)) {
+          QJsonArray arr;
+          foreach (int id, ids) {
+            Order *order = _db.order(id)->toJSON();
+            if(order){
+                arr.append(_db.order(id)->toJSON());
+                delete order;
+            }
+            else
+                qCritical() << tr("Could not query order from id %1!").arg(id);
+          }
+          QJsonValue jsonVal(arr);
+
+          return new ComPackageDataReturn(*request, jsonVal);
+        } else {
+          qCritical() << tr("Could not query product ids for table %1!").arg(categoryId);
+        }
+      } else {
+        qCritical() << tr("Could not convert table id '%1' to an integer!")
+                       .arg(request->dataName());
+      }
+  }
+    // Not implemented yet, for admin app perhaps
+  case ComPackage::RequestOrderIds:
+    break;
+  case ComPackage::RequestOrder:
+  {
+    bool ok;
+    int orderId = request->dataName().toInt(&ok);
+    if (ok) {
+      Order* order = _db.order(orderId);
+      if (order) {
+        ComPackageDataReturn* ret = new ComPackageDataReturn(*request, order->toJSON());
+        delete order;
+        return ret;
+      } else {
+        qCritical() << tr("Could not query order data of id %1!")
+                       .arg(categoryId);
+      }
+    } else {
+      qCritical() << tr("Could not convert order id '%1' to an integer!")
+                     .arg(request->dataName());
+    }
+  } break;
   case ComPackage::RequestCategory:
   {
     bool ok;

@@ -88,6 +88,9 @@ public:
     /* Request product data from a given product id */
     RequestProduct,
 
+    /* Request order data from a given order id */
+    RequestOrder,
+
     /* Request waiter data from a given product id or when login*/
     RequestWaiter,
 
