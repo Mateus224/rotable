@@ -110,6 +110,7 @@ void Waiter_Client::connected()
     qCritical() << tr("FATAL: Could not send connection request package!");
     exit(EXIT_FAILURE);
   }
+
 }
 
 //------------------------------------------------------------------------------
@@ -144,6 +145,7 @@ void Waiter_Client::packageReceived(ComPackage *package)
       qDebug() << tr("Client accepted by server.");
       _accepted = true;
       setState("SCREENSAVER");
+      requestTableList();
       //requestCategoryIds();
     } break;
 
@@ -200,6 +202,15 @@ void Waiter_Client::setState(const QString &state)
 
 //------------------------------------------------------------------------------
 
+void Waiter_Client::requestTableList()
+{
+    ComPackageDataRequest package;
+    package.setDataCategory(ComPackage::RequestTableIds);
+    _tcp.send(package);
+}
+
+//------------------------------------------------------------------------------
+
 void Waiter_Client::dataReturned(ComPackageDataReturn *package)
 {
   if (package) {
@@ -236,6 +247,13 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
     {
       Product* product = Product::fromJSON(package->data());
       _products->updateProduct(product);
+    } break;
+
+    case ComPackage::RequestTableIds:
+    {
+      //TODO: add code to implement that
+      // Temporary for check
+      qDebug() << "Request Table: " << endl << package->data();
     } break;
 
     default:

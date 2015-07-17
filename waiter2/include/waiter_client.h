@@ -100,6 +100,14 @@ private slots:
    */
   void setState(const QString& state);
 
+  /**
+   * Request server for table list
+   */
+  void requestTableList();
+
+signals:
+  void changeTableList();
+
 public:
   /* Products */
   rotable::ProductContainer* _products;
