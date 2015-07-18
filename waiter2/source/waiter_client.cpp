@@ -204,9 +204,14 @@ void Waiter_Client::setState(const QString &state)
 
 void Waiter_Client::requestTableList()
 {
-    ComPackageDataRequest package;
-    package.setDataCategory(ComPackage::RequestTableIds);
-    _tcp.send(package);
+    ComPackageDataRequest* request = new ComPackageDataRequest();
+    request->setDataCategory(ComPackage::RequestTableIds);
+
+    if (!_tcp.send(*request)) {
+      qCritical() << tr("Could not send request!");
+    } else {
+      _dataRequest[request->id()] = request;
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -251,9 +256,22 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
 
     case ComPackage::RequestTableIds:
     {
-      //TODO: add code to implement that
+      //TODO: create property table
+
+      //Load data about order
+      QJsonArray arr = package->data().toArray();
+      foreach(QJsonValue value, arr){
+          int tableId = value.toInt();
+          requestOrderOnTable(tableId);
+      }
       // Temporary for check
       qDebug() << "Request Table: " << endl << package->data();
+    } break;
+
+    case ComPackage::RequestOrderOnTable:
+    {
+        // Temporary for check
+        qDebug() << "Request Table: " << endl << package->data();
     } break;
 
     default:
@@ -307,6 +325,21 @@ void Waiter_Client::requestProductIds(int categoryId)
   } else {
     _dataRequest[request->id()] = request;
   }
+}
+
+//------------------------------------------------------------------------------
+
+void Waiter_Client::requestOrderOnTable(int tableId)
+{
+    ComPackageDataRequest* request = new ComPackageDataRequest();
+    request->setDataCategory(ComPackage::RequestOrderOnTable);
+    request->setDataName(QString("%1").arg(tableId));
+
+    if (!_tcp.send(*request)) {
+      qCritical() << tr("Could not send request!");
+    } else {
+      _dataRequest[request->id()] = request;
+    }
 }
 
 //------------------------------------------------------------------------------

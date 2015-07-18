@@ -147,6 +147,13 @@ private:
    */
   void requestProductIds(int categoryId);
 
+  /**
+   * Request order base on table
+   *
+   * @param tableId         table id
+   */
+  void requestOrderOnTable(int tableId);
+
     /**
      * Handle data received from the server.
      *
