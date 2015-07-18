@@ -284,6 +284,7 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request)
         arr.append(id);
     }
     QJsonValue jsonVal(arr);
+
     return new ComPackageDataReturn(*request, jsonVal);
   } break;
   case ComPackage::RequestOrderOnTable:

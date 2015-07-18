@@ -469,7 +469,7 @@ Order*Database::order(int id)
     return 0;
   }
 
-  int state = q.value("stat").toInt(&ok);
+  int state = q.value("state").toInt(&ok);
   if (!ok) {
     qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("state").toString());
     return 0;
@@ -1481,7 +1481,7 @@ bool Database::hasCategory(const QString &name)
 
   QString queryStr = _sqlCommands[Categories]._select
                      .arg(_prefix, "`id`", "name", QString("'%1'").arg(name));
-
+  qCritical() << queryStr;
   QSqlQuery q(_db);
   q.setForwardOnly(true);
 
