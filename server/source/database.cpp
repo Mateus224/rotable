@@ -1481,7 +1481,7 @@ bool Database::hasCategory(const QString &name)
 
   QString queryStr = _sqlCommands[Categories]._select
                      .arg(_prefix, "`id`", "name", QString("'%1'").arg(name));
-  qCritical() << queryStr;
+
   QSqlQuery q(_db);
   q.setForwardOnly(true);
 
