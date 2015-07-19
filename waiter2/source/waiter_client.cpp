@@ -271,7 +271,7 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
     case ComPackage::RequestOrderOnTable:
     {
         // Temporary for check
-        qDebug() << "Request Table: " << endl << package->data();
+        qDebug() << "Request Order on table:" << endl << package->data();
     } break;
 
     default:
@@ -388,6 +388,21 @@ void Waiter_Client::dataChanged(rotable::ComPackageDataChanged *package)
       } else {
         requestProduct(productId);
       }
+    } break;
+    case ComPackage::RequestTableIds:
+    {
+       requestTableList();
+    } break;
+    case ComPackage::RequestOrderIds:
+    {
+        bool ok;
+        int tableId = package->dataName().toInt(&ok);
+        if (!ok) {
+          qCritical() << tr("Could not convert product id '%1' to int!")
+                         .arg(package->dataName());
+        } else {
+          requestOrderOnTable(tableId);
+        }
     } break;
     default:
     {

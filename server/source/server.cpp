@@ -535,9 +535,17 @@ bool Server::newOrder(QList<OrderItem *> orders, int clientId)
     order->setClientId(clientId);
 
     // Add order
-    if(_db.addOrder(order))
-        return true;
-    return false;
+    if(!_db.addOrder(order))
+        return false;
+
+
+    ComPackageDataChanged dc;
+    dc.setDataCategory(ComPackage::RequestOrderIds);
+    dc.setDataName(QString("%1").arg(clientId));
+    send_to_users(dc, rotable::ComPackage::WaiterAccount);
+
+
+    return true;
 
 }
 
@@ -736,6 +744,12 @@ bool Server::login(ComPackageConnectionRequest* package, client_t client)
         {
             int id = _db.registerTable(package->clientName(), package->clientPass());
             _users[package->clientType()].insert(client, id);
+
+            //Prepare packahe inform waiters that, table count are chagne;
+            ComPackageDataChanged dc;
+            dc.setDataCategory(ComPackage::RequestTableIds);
+            send_to_users(dc, rotable::ComPackage::WaiterAccount);
+
             return true;
         }
         default:
