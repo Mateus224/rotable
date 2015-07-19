@@ -498,30 +498,6 @@ bool Server::updateCategory(ProductCategory *category)
 
 //------------------------------------------------------------------------------
 
-bool Server::updateOrders(QList<OrderItem*> order)
-{
-    //Some valid here
-//    if (!_db.has) {
-//      qWarning() << tr("A does not exists!")
-//                    .arg(category->id());
-//      return false;
-//    }
-
-    if (!_db.updateOrders(order)) {
-      qWarning() << tr("Failed to update orders!");
-      return false;
-    }
-
-    // Inform clients about data change...
-//    ComPackageDataChanged dc;
-//    dc.setDataCategory();
-//    dc.setDataName(QString("%1").arg());
-//    _tcp.send(-1, dc);
-    return true;
-}
-
-//------------------------------------------------------------------------------
-
 bool Server::newOrder(QList<OrderItem *> orders, int clientId)
 {
     Order *order = new Order();

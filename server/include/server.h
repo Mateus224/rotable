@@ -123,13 +123,6 @@ private:
   bool updateCategory(ProductCategory* category);
 
   /**
-   * Update order
-   * @param order       List with product order
-   * @return
-   */
-  bool updateOrders(QList<OrderItem *> order );
-
-  /**
    * Create new order
    * @param ordes       List of item in order
    * @return            true on succes

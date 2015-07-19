@@ -290,10 +290,6 @@ public:
    */
   bool updateConfig(Config *config);
 
-
-  bool updateOrders(QList<OrderItem *> order);
-
-
   /**
    * Remove a category.
    *
