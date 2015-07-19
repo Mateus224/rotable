@@ -273,7 +273,11 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
         // Temporary for check
         qDebug() << "Request Order on table:" << endl << package->data();
     } break;
-
+    case ComPackage::RequestOrder:
+    {
+        // Temporary for check
+        qDebug() << "Request Order:" << endl << package->data();
+    } break;
     default:
     {
       qCritical() << tr("Unknown data package returned");
@@ -344,6 +348,21 @@ void Waiter_Client::requestOrderOnTable(int tableId)
 
 //------------------------------------------------------------------------------
 
+void Waiter_Client::requestOrder(int orderId)
+{
+    ComPackageDataRequest* request = new ComPackageDataRequest();
+    request->setDataCategory(ComPackage::RequestOrder);
+    request->setDataName(QString("%1").arg(orderId));
+
+    if (!_tcp.send(*request)) {
+      qCritical() << tr("Could not send request!");
+    } else {
+      _dataRequest[request->id()] = request;
+    }
+}
+
+//------------------------------------------------------------------------------
+
 void Waiter_Client::dataChanged(rotable::ComPackageDataChanged *package)
 {
   if (package) {
@@ -402,6 +421,18 @@ void Waiter_Client::dataChanged(rotable::ComPackageDataChanged *package)
                          .arg(package->dataName());
         } else {
           requestOrderOnTable(tableId);
+        }
+    } break;
+
+    case ComPackage::RequestOrder:
+    {
+        bool ok;
+        int orderId = package->dataName().toInt(&ok);
+        if (!ok) {
+          qCritical() << tr("Could not convert product id '%1' to int!")
+                         .arg(package->dataName());
+        } else {
+          requestOrder(orderId);
         }
     } break;
     default:

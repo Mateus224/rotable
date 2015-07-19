@@ -154,6 +154,13 @@ private:
    */
   void requestOrderOnTable(int tableId);
 
+  /**
+   * Request order form database
+   *
+   * @param orderId         order id
+   */
+  void requestOrder(int orderId);
+
     /**
      * Handle data received from the server.
      *
