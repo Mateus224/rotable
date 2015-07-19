@@ -1055,6 +1055,36 @@ bool Database::updateConfig(Config *config)
 
 //------------------------------------------------------------------------------
 
+bool Database::updateOrder(Order *order)
+{
+    if (!isConnected()) {
+      return false;
+    }
+
+    QString queryStr = _sqlCommands[Orders]._update.arg(_prefix).arg(order->id());
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return false;
+    }
+
+    q.bindValue(":state", order->state());
+    q.bindValue(":client_id", order->clientId());
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    return true;
+}
+
+//------------------------------------------------------------------------------
+
 bool Database::removeCategory(int id)
 {
   if (!isConnected() || id == -1) {
@@ -1897,6 +1927,40 @@ int Database::hasMacAddress(QString macAdresses)
 
     return id;
 
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::hasOrder(int id)
+{
+    if (!isConnected()) {
+      return false;
+    }
+
+    QString queryStr = _sqlCommands[Orders]._select
+                       .arg(_prefix, "`id`", "`id`", ":id");
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return -1;
+    }
+
+    q.bindValue(":id", id);
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    if(q.next())
+    {
+       return true;
+    }
+
+    return false;
 }
 
 //------------------------------------------------------------------------------

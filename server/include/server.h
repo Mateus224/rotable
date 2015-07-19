@@ -123,6 +123,14 @@ private:
   bool updateCategory(ProductCategory* category);
 
   /**
+   * Update order
+   *
+   * @param order       order to update
+   * @return
+   */
+  bool updateOrder(Order* order);
+
+  /**
    * Create new order
    * @param ordes       List of item in order
    * @return            true on succes

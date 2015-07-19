@@ -498,6 +498,30 @@ bool Server::updateCategory(ProductCategory *category)
 
 //------------------------------------------------------------------------------
 
+bool Server::updateOrder(Order *order)
+{
+    if (!_db.hasOrder(order->id())) {
+      qWarning() << tr("A order with id '%1' does not exists!")
+                    .arg(order->id());
+      return false;
+    }
+
+    if (!_db.updateOrder(order)) {
+      qWarning() << tr("Failed to update order!");
+      return false;
+    }
+
+    // Inform clients about data change...
+    ComPackageDataChanged dc;
+    dc.setDataCategory(ComPackage::RequestOrder);
+    dc.setDataName(QString("%1").arg(order->id()));
+    send_to_users(dc, rotable::ComPackage::WaiterAccount);
+
+    return true;
+}
+
+//------------------------------------------------------------------------------
+
 bool Server::newOrder(QList<OrderItem *> orders, int clientId)
 {
     Order *order = new Order();

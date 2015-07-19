@@ -291,6 +291,14 @@ public:
   bool updateConfig(Config *config);
 
   /**
+   * Update order
+   *
+   * @param order       Order object
+   * @return            true on success
+   */
+  bool updateOrder(Order *order);
+
+  /**
    * Remove a category.
    *
    * @param id          id of category
@@ -433,6 +441,14 @@ public:
    * @return            id or -1
    */
   int hasMacAddress(QString macAdresses);
+
+  /**
+   * Check Order record exists
+   *
+   * @param id          record id
+   * @return            true on success
+   */
+  bool hasOrder(int id);
 
   /**
    * Check whether this object is connected to the database.
