@@ -3,7 +3,14 @@ a)	server send corect ids of tables connected to sever (ok)
 b)	server send corect orders (not check)
 2. send information about new order
 a)	waiter get information about tables (ok)
-b)	waiter get information about change state on table (not done)
+b)	waiter get information about change state on table (ok)
 c) 	waiter get state of table (not done)
-d) 	waiter get inforamtion about orders on table (not done) 
-
+d) 	waiter get inforamtion about orders on table (ok)
+3. save data in client app
+a)	save table in some object
+b)	save order in table
+c)	change order when order is change
+d)	change table state
+4)Return QQmlListProperty
+a)	for Order
+b)	for table
