@@ -18,7 +18,6 @@ namespace rotable {
     class User;
     class Waiter;
     class Admin;
-    class Table;
 }
 
 //------------------------------------------------------------------------------
@@ -84,13 +83,6 @@ public:
 private:
 
 };  // class Admin
-
-//------------------------------------------------------------------------------
-
-class rotable::Table :public Client{
-public:
-    inline virtual int accountType(){ return 1; }
-};  // class Table
 
 //------------------------------------------------------------------------------
 
