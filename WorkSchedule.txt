@@ -11,6 +11,7 @@ a)	save table in some object
 b)	save order in table
 c)	change order when order is change
 d)	change table state
-4)Return QQmlListProperty
+4.Return QQmlListProperty
 a)	for Order
 b)	for table
+5. Update database to shema database
