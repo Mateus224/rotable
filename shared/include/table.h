@@ -20,6 +20,7 @@ namespace rotable {
 
 class rotable::Table :public Client{
 public:
+    ~Table();
     // Return account type
     inline virtual int accountType(){ return 1; }
     // Get order from table
@@ -39,7 +40,7 @@ private:
     QMap<int,Order*> _orders;
 
 signals:
-    void orderChange();
+    //void orderChanged();
 };  // class Table
 
 //------------------------------------------------------------------------------
