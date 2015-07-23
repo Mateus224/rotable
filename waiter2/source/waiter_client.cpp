@@ -65,6 +65,13 @@ Waiter_Client::Waiter_Client(const QString &configFilePath, QObject *parent)
 
 Waiter_Client::~Waiter_Client()
 {
+    //Clear memory
+    qDeleteAll(_tables.begin(), _tables.end());
+    _tables.clear();     //Clear list
+
+    //Theoreticly that should be empty, buy it'd be nice if we also clear that map
+    qDeleteAll(_dataRequest.begin(), _dataRequest.end());
+    _dataRequest.clear();     //Clear list
    // _stopping=true;
 }
 
@@ -262,10 +269,15 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
       QJsonArray arr = package->data().toArray();
       foreach(QJsonValue value, arr){
           int tableId = value.toInt();
+          if(_tables.contains(tableId)){}
+          else{
+              Table *table = new Table();
+              table->setId(tableId);
+              _tables[tableId] = table;
+          }
+          //TODO:To change, in future that should send request about table status, etc.
           requestOrderOnTable(tableId);
       }
-      // Temporary for check
-      qDebug() << "Request Table: " << endl << package->data();
     } break;
 
     case ComPackage::RequestOrderOnTable:

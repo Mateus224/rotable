@@ -22,6 +22,7 @@
 #include "compackage.h"
 #include "utils.h"
 #include "productorderlistmodel.h"
+#include "table.h"
 
 //------------------------------------------------------------------------------
 
@@ -204,6 +205,9 @@ private:
 
     /* Currently pending data requests */
     QMap<QString, ComPackageDataRequest*> _dataRequest;
+
+    /* Table map with table id */
+    QMap<int, Table*> _tables;
 
     //----------------------------------------------------------------------------
 };
