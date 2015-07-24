@@ -282,13 +282,27 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
 
     case ComPackage::RequestOrderOnTable:
     {
-        // Temporary for check
-        qDebug() << "Request Order on table:" << endl << package->data();
+        QJsonArray arr = package->data().toArray();
+        //If array is empty it's no need add orders to table
+        if(arr.count() == 0)
+            break;
+        //Get tableId form first order
+        int tableId = Order::fromJSON(arr[0])->clientId();
+        //For each order
+        foreach(QJsonValue value, arr){
+            //Convert JSON to order
+            Order *order = Order::fromJSON(value);
+            //Add order to table
+            _tables[tableId]->addOrder(order);
+        }
     } break;
+    //When someone change order
     case ComPackage::RequestOrder:
     {
-        // Temporary for check
-        qDebug() << "Request Order:" << endl << package->data();
+        //Get order from json
+        Order *order = Order::fromJSON(package->data());
+        //Update order on table
+        _tables[order->clientId()]->updateOrder(order);
     } break;
     default:
     {
