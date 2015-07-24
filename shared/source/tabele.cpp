@@ -12,6 +12,8 @@ Table::~Table()
 //------------------------------------------------------------------------------
 
 void Table::updateOrder(Order* order){
+    if(_orders.contains(order->id()))
+        delete _orders[order->id()];
     _orders[order->id()] = order;
     //emit orderChanged();
 }
