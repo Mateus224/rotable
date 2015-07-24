@@ -32,7 +32,7 @@ public:
     inline int orderCount(){
         return _orders.count();
     }
-    inline addOrder(Order* order){
+    inline void addOrder(Order* order){
         _orders[order->id()] = order;
     }
     void updateOrder(Order* order);
