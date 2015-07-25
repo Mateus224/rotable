@@ -15,6 +15,7 @@ void Table::updateOrder(Order* order){
     if(_orders.contains(order->id()))
         delete _orders[order->id()];
     _orders[order->id()] = order;
+    _change = true;
     //emit orderChanged();
 }
 //------------------------------------------------------------------------------
