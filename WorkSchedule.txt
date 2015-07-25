@@ -7,11 +7,16 @@ b)	waiter get information about change state on table (ok)
 c) 	waiter get state of table (not done)
 d) 	waiter get inforamtion about orders on table (ok)
 3. save data in client app
-a)	save table in some object
-b)	save order in table
-c)	change order when order is change
-d)	change table state
+a)	save table in some object   (ok)
+b)	save order in table         (ok)
+c)	change order when order is change   (ok)
+d)	change table state          (not done)
 4.Return QQmlListProperty
 a)	for Order
 b)	for table
 5. Update database to shema database
+6. Table state implement (connect, disconnect, waiter call, some more?)
+a) add table state to class
+b) add table state to database
+    i) connect, disconnect status
+    ii) new table with waiter call
