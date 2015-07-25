@@ -24,6 +24,9 @@ public:
     // Default destructor
     ~Table();
 
+    //Default constructor
+    Table();
+
     //------------------------------------------------------------------------------
     // Implement inherit class
     //------------------------------------------------------------------------------
@@ -77,6 +80,13 @@ public:
      */
     void updateOrder(Order* order);
 
+    /**
+     * Ubdate table status base on table object
+     *
+     * @param table     table object
+     */
+    void updateTableStatus(const Table *table);
+
 
 private:
     /**
@@ -90,6 +100,11 @@ private:
      * When waiter check what is change set on false
      */
     bool _change;
+
+    /**
+     * Store information about waiter needed on table
+     */
+    bool _waiterIsNeeded;
 
 signals:
     //void orderChanged();
