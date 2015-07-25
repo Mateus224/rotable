@@ -1,6 +1,6 @@
 1. chcech code work (load order from database)
 a)	server send corect ids of tables connected to sever (ok)
-b)	server send corect orders (not check)
+b)	server send corect orders (ok)
 2. send information about new order
 a)	waiter get information about tables (ok)
 b)	waiter get information about change state on table (ok)
@@ -13,7 +13,7 @@ c)	change order when order is change   (ok)
 d)	change table state          (not done)
 4.Return QQmlListProperty
 a)	for Order
-b)	for table
+b)	for table ( state, order number, etc)
 5. Update database to shema database
 6. Table state implement (connect, disconnect, waiter call, some more?)
 a) add table state to class
