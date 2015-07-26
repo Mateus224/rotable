@@ -9,5 +9,6 @@
         <file alias="main2.qml">qml/waiter/main2.qml</file>
         <file alias="TableList.qml">qml/waiter/TableList.qml</file>
         <file alias="OrderList.qml">qml/waiter/OrderList.qml</file>
+        <file alias="Menu.qml">qml/waiter/Menu.qml</file>
     </qresource>
 </RCC>
