@@ -5,8 +5,8 @@ Rectangle {
 
     Rectangle {
         id: screen
-        width: Math.min(parent.height, parent.width)
-        height: Math.min(parent.height, parent.width)
+        width: parent.width
+        height: parent.height
 
         TableList{
             id: tableList
