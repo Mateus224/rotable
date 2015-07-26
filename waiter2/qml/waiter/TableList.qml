@@ -5,11 +5,12 @@ Rectangle {
     width: Math.max(100,parent.width/5)
     height:parent.heigh
     color:"lightblue"
-    //anchors.margins: 30
 
+    //Margin left
     anchors.left: parent.left
     anchors.leftMargin: 10
 
+    //margin top
     anchors.top: parent.top
     anchors.topMargin: 10
 

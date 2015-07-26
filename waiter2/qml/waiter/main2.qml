@@ -8,8 +8,14 @@ Rectangle {
         width: parent.width
         height: parent.height
 
+        color: "blue"
+
         TableList{
             id: tableList
+        }
+
+        OrderList{
+            id: orderList
         }
     }
 }

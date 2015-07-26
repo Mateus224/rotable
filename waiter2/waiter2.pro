@@ -82,4 +82,5 @@ INSTALLS    += target
 
 DISTFILES += \
     qml/waiter/main2.qml \
-    qml/waiter/TableList.qml
+    qml/waiter/TableList.qml \
+    qml/waiter/OrderList.qml
