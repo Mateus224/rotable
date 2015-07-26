@@ -79,3 +79,7 @@ LIBS += \
 
 target.path = /opt/rotable
 INSTALLS    += target
+
+DISTFILES += \
+    qml/waiter/main2.qml \
+    qml/waiter/TableList.qml

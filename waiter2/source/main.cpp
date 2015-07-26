@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
   QQuickView* view=new QQuickView;
   waiter_client->startup();
   view->setResizeMode(QQuickView::SizeRootObjectToView);
-  QQmlContext *ctxt = view->engine()->rootContext();//view.rootContext();
+  QQmlContext *ctxt = view->engine()->rootContext();//view.rootContext();sss
 
 
   ProductOrderListModel *_productorderlistmodel = new ProductOrderListModel(waiter_client, waiter_client->_productOrder);
@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
   //qmlContxt init(*ctxt);
   //init.initContxt(allTables);
 
-  view->setSource(QString("qrc:/waiter/main.qml"));
+  view->setSource(QString("qrc:/waiter/main2.qml"));
 
 
 
