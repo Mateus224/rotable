@@ -19,7 +19,9 @@ HEADERS += \
     include/tcpwaiter.h \
     include/tcpclient.h \
     #include/qmlcontxt.h \
-    include/waiter_client.h
+    include/waiter_client.h \
+    include/tablelist.h \
+    include/orderboard.h
 
 
 SOURCES += \
