@@ -20,6 +20,8 @@ namespace rotable{
 //Class for store Tables and show list them in qml
 class rotable::TableList: public QMap<int,rotable::Table*>{
 
+    Q_PROPERTY(QQmlListProperty<Table> tables READ tables)
+
 public:
     //-----------------------------------------------------
     // Constructor and Destructor
@@ -34,6 +36,12 @@ public:
      * Default destructor
      */
     ~TableList();
+
+    //-----------------------------------------------------
+    // For QML
+    //-----------------------------------------------------
+    QQmlListProperty<Table> tables();
+
 private:
 }; // TableList
 
