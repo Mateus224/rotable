@@ -23,6 +23,7 @@
 #include "utils.h"
 #include "productorderlistmodel.h"
 #include "table.h"
+#include "tablelist.h"
 
 //------------------------------------------------------------------------------
 
@@ -207,7 +208,7 @@ private:
     QMap<QString, ComPackageDataRequest*> _dataRequest;
 
     /* Table map with table id */
-    QMap<int, Table*> _tables;
+    TableList _tables;
 
     //----------------------------------------------------------------------------
 };

@@ -29,7 +29,8 @@ SOURCES += \
     source/configwaiter.cpp \
     source/tcpclient.cpp \
     #source/qmlcontxt.cpp \
-    source/waiter_client.cpp
+    source/waiter_client.cpp \
+    source/tablelist.cpp
 
 RESOURCES +=\
     resources.qrc \

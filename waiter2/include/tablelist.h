@@ -21,7 +21,19 @@ namespace rotable{
 class rotable::TableList: public QMap<int,rotable::Table*>{
 
 public:
+    //-----------------------------------------------------
+    // Constructor and Destructor
+    //-----------------------------------------------------
+
+    /**
+     * Default constructor
+     */
     TableList();
+
+    /**
+     * Default destructor
+     */
+    ~TableList();
 private:
 }; // TableList
 

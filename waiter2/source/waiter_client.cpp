@@ -60,15 +60,12 @@ Waiter_Client::Waiter_Client(const QString &configFilePath, QObject *parent)
     connect(&_reconnectTimer, SIGNAL(timeout()),
             this, SLOT(reconnect()));
 
+
 }
 
 
 Waiter_Client::~Waiter_Client()
 {
-    //Clear memory
-    qDeleteAll(_tables.begin(), _tables.end());
-    _tables.clear();     //Clear list
-
     //Theoreticly that should be empty, buy it'd be nice if we also clear that map
     qDeleteAll(_dataRequest.begin(), _dataRequest.end());
     _dataRequest.clear();     //Clear list
