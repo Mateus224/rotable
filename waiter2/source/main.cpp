@@ -68,9 +68,10 @@ int main(int argc, char *argv[])
 
   view->setSource(QString("qrc:/waiter/main2.qml"));
 
+  // Connect exit signal for exit
+  QObject::connect(view->engine(),  SIGNAL(quit()), qApp, SLOT(quit()));
 
-
-view->show();
+  view->show();
 
   return app.exec();
 }
