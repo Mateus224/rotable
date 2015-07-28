@@ -3,9 +3,6 @@ import QtQuick 2.0
 Rectangle {
     width: parent.width
 
-    anchors.top: menu.bottom
-    anchors.topMargin: 10
-
     //In future field with table data
     Rectangle {
 

@@ -1,65 +1,102 @@
-import QtQuick 2.0
+import QtQuick 2.1
+import QtQuick.Layouts 1.1
 
-Rectangle {
+RowLayout {
     id: mainScreen
+    anchors.fill: parent
+    spacing: 6
 
-    Rectangle {
-        id: screen
-        width: parent.width
-        height: parent.height
+    Column {
+        id: sidebar
 
-        color: "blue"
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        Layout.minimumWidth: 200
+        Layout.maximumWidth: 300
+        Layout.minimumHeight: 150
 
-        Rectangle{
-            id: leftSidebar
+        spacing: 5
 
-            // Set minimal size of left sidebar
-            width: Math.max(100,parent.width/5)
-            height: parent.heigh
-            color: "lightblue"
-
-            //Margin left
-            anchors.left: parent.left
-            anchors.leftMargin: 10
-
-            //margin top
-            anchors.top: parent.top
-            anchors.topMargin: 10
-
-            Menu{
-                id: menu
+        Rectangle {
+            Text {
+                anchors.centerIn: parent
+                text: 'Menu'
             }
-
-            TableList{
-                id: tableList
-            }
+            radius: 10.0
+            width: parent.width - 10; height: 30
         }
 
         Rectangle{
-            id: centerContent
 
-
-            // Margin left
-            anchors.left: leftSidebar.right
-            anchors.leftMargin: 10
-
-            //Margin top
-            anchors.top: parent.top
-            anchors.topMargin: 10
-
-            //Margin bottom
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 10
-
-            //Margin right
-            anchors.right: parent.right
-            anchors.rightMargin: 10
-
-            OrderList{
-                id: orderList
+            Text{
+                anchors.centerIn: parent
+                text: "Log out"
             }
+            color: "red";
+            radius: 10.0
+            width: parent.width - 10; height: 50
         }
+
+        Rectangle{
+
+            Text{
+                anchors.centerIn: parent
+                text: "Exit"
+            }
+
+            MouseArea{
+                anchors.fill: parent
+                onClicked: {
+                    Qt.quit()
+                }
+            }
+
+            color: "red";
+            radius: 10.0
+            width: parent.width - 10; height: 50
+        }
+
+        Rectangle {
+            Text {
+                anchors.centerIn: parent
+                text: 'Tables'
+            }
+            radius: 10.0
+            width: parent.width - 10; height: 30
+        }
+
+        Rectangle {
+
+            width: parent.width - 10; height: 50
+            color: "white"
+            border.color: "lightsteelblue"
+            border.width: 4
+            radius: 8
+
+
+        }
+
 
     }
+
+    Rectangle {
+
+        color: 'plum'
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        Layout.minimumWidth: 500
+        Layout.preferredWidth: 800
+        Layout.preferredHeight: 100
+
+        border.color: "lightsteelblue"
+        border.width: 4
+        radius: 8
+
+        Text {
+            anchors.centerIn: parent
+            text: 'Orders'
+        }
+    }
+
 }
 

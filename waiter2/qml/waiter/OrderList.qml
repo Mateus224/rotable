@@ -6,6 +6,9 @@ Rectangle {
     border.width: 4
     radius: 8
 
+    width: 400
+    height: 200
+
     //For orders
     Rectangle{
 //        width: parent.width
