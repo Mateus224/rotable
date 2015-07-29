@@ -14,6 +14,7 @@ namespace rotable{
 #endif
 
 #include "table.h"
+#include <QObject>
 
 
 //-----------------------------------------------------
@@ -21,6 +22,7 @@ namespace rotable{
 class rotable::TableList: public QMap<int,rotable::Table*>{
 
     Q_PROPERTY(QQmlListProperty<Table> tables READ tables)
+    Q_PROPERTY(int count READ count NOTIFY countChanged)
 
 public:
     //-----------------------------------------------------
@@ -44,6 +46,8 @@ public:
 
 private:
 }; // TableList
+
+Q_DECLARE_METATYPE(rotable::TableList)
 
 #endif // ROTABLE_TABLELIST_H
 

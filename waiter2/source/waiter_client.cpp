@@ -70,6 +70,9 @@ Waiter_Client::~Waiter_Client()
     qDeleteAll(_dataRequest.begin(), _dataRequest.end());
     _dataRequest.clear();     //Clear list
    // _stopping=true;
+
+    delete _productOrder;
+    delete _products;
 }
 
 

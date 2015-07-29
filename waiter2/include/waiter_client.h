@@ -116,6 +116,9 @@ public:
 
   rotable::ProductOrder* _productOrder;
 
+  /* Table map with table id */
+  TableList _tables;
+
 
 //------------------------------------------------------------------------------
 private:
@@ -184,8 +187,6 @@ private:
     /* Product list model */
     ProductOrderListModel* _productOrderListModel;
 
-
-
     /* Whether this client has been accepted by the server */
     bool _accepted;
 
@@ -206,9 +207,6 @@ private:
 
     /* Currently pending data requests */
     QMap<QString, ComPackageDataRequest*> _dataRequest;
-
-    /* Table map with table id */
-    TableList _tables;
 
     //----------------------------------------------------------------------------
 };

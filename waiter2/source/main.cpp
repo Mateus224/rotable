@@ -3,6 +3,8 @@
 #include "../include/orderinformation.h"
 #include "../include/waiter_client.h"
 #include "orderinformation.h"
+#include "tablelist.h"
+#include "table.h"
 #include <qqmlengine.h>
 #include <qqmlcontext.h>
 #include <qqml.h>
@@ -38,10 +40,8 @@ int main(int argc, char *argv[])
   parser.addHelpOption();
   parser.addVersionOption();
   parser.addPositionalArgument("config",
-    QCoreApplication::translate("main", "Path of the configuration file."));
+  QCoreApplication::translate("main", "Path of the configuration file."));
   parser.process(app);
-
-
 
   /* Connection to server building*/
 //-----------------------------------------------------
@@ -62,9 +62,10 @@ int main(int argc, char *argv[])
 
   ProductOrderListModel *_productorderlistmodel = new ProductOrderListModel(waiter_client, waiter_client->_productOrder);
   view->rootContext()->setContextProperty("MyProductOrderList", _productorderlistmodel);
-  //view->rootContext()->setContextProperty("ProductListModel", waiter_client->productOrderListModel());
   //qmlContxt init(*ctxt);
   //init.initContxt(allTables);
+
+  view->rootContext()->setContextProperty("TableList", (QObject*)&(waiter_client->_tables));
 
   view->setSource(QString("qrc:/waiter/main2.qml"));
 
