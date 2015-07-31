@@ -52,7 +52,7 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation,
                         int role = Qt::DisplayRole) const;
 private:
-    QMap _tables;
+    QMap<int, rotable::Table*> _tables;
 };
 
 #endif // ROTABLE_TABLEMODEL_H
