@@ -2,12 +2,11 @@
 
 //-----------------------------------------------------
 
-using rotable::TableModel;
 using rotable::Table;
 
 //-----------------------------------------------------
 
-TableModel::TableModel(QObject *parent): QObject(parent)
+TableModel::TableModel(QObject *parent): QAbstractListModel(parent)
 {
 
 }
@@ -47,7 +46,29 @@ int TableModel::columnCount(const QModelIndex &parent) const
 
 QVariant TableModel::data(const QModelIndex &index, int role) const
 {
-
+    if (index.column() == 0) {
+        if(_tables.count()>=index.row())
+            return QVariant();
+        Table *table = _tables[_tables.keys()[index.row()]];
+        switch (role) {
+        case NameRole:{
+            return QVariant(table->name());
+        }break;
+        case ChangeRole:{
+            //return QVariant(table->isStatusChange());
+        }break;
+        case IdRole:{
+            return QVariant(table->id());
+        }break;
+        case WaiterNeedRole:{
+            //return QVariant(table->isWaiterNeeded());
+        }break;
+        case OrderNumberRole:{
+            return QVariant(table->orderCount());
+        }break;
+        }
+    }
+    return QVariant();
 }
 
 //-----------------------------------------------------
@@ -61,6 +82,13 @@ QVariant TableModel::headerData(int section, Qt::Orientation orientation, int ro
     }
 
     return QVariant();
+}
+
+//-----------------------------------------------------
+
+int TableModel::count() const
+{
+    return _tables.count();
 }
 
 //-----------------------------------------------------

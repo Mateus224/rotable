@@ -28,6 +28,7 @@ namespace rotable{
 class TableModel: public QAbstractListModel{
 
     Q_OBJECT
+    Q_PROPERTY(int count READ count NOTIFY countChanged)
 
 public:
     enum TableRoles {
@@ -51,6 +52,12 @@ public:
 
     QVariant headerData(int section, Qt::Orientation orientation,
                         int role = Qt::DisplayRole) const;
+
+    int count() const;
+
+signals:
+    void countChanged();
+
 private:
     QMap<int, rotable::Table*> _tables;
 };
