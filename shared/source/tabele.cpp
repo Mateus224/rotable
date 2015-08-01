@@ -34,6 +34,7 @@ void Table::updateOrder(Order* order){
 }
 
 //------------------------------------------------------------------------------
+
 void Table::updateTableStatus(const rotable::Table *table)
 {
     // Change value create
@@ -50,4 +51,5 @@ void Table::updateTableStatus(const rotable::Table *table)
     // We do logic OR
     _change = _change || change;
 }
+
 //------------------------------------------------------------------------------
