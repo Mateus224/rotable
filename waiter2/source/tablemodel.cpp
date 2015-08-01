@@ -13,6 +13,14 @@ TableModel::TableModel(QObject *parent): QAbstractListModel(parent)
 
 //-----------------------------------------------------
 
+TableModel::~TableModel()
+{
+    qDeleteAll(_tables.begin(), _tables.end());
+    _tables.clear();     //Clear list
+}
+
+//-----------------------------------------------------
+
 QHash<int, QByteArray> TableModel::roleNames() const {
     QHash<int, QByteArray> roles;
 

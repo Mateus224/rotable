@@ -41,6 +41,8 @@ public:
 
     TableModel(QObject *parent = 0);
 
+    ~TableModel();
+
     QHash<int, QByteArray> roleNames() const;
 
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
