@@ -25,12 +25,20 @@ namespace rotable{
 
 //-----------------------------------------------------
 
-class TableModel: public QAbstractListModel{
+class rotable::TableModel: public QAbstractListModel{
 
     Q_OBJECT
     Q_PROPERTY(int count READ count NOTIFY countChanged)
 
 public:
+
+    //-----------------------------------------------------
+    // Enum
+    //-----------------------------------------------------
+
+    /**
+     * List with field (Roles)
+     */
     enum TableRoles {
         NameRole = Qt::UserRole + 1,
         ChangeRole,
@@ -39,30 +47,97 @@ public:
         OrderNumberRole
     };
 
+    //-----------------------------------------------------
+    // Constructor and Destructor
+    //-----------------------------------------------------
+
+    /**
+     * Default constructor
+     * @param parent
+     */
     TableModel(QObject *parent = 0);
 
+    /**
+     * Default destructor
+    */
     ~TableModel();
 
+    //-----------------------------------------------------
+    // Virtual method from QAbstractListModel
+    //-----------------------------------------------------
+
+    /**
+     * Method returns fields
+     *
+     * @return              QHash with fields name
+     */
     QHash<int, QByteArray> roleNames() const;
 
+    /**
+     * Get number of item
+     *
+     * @param parent
+     * @return              Number of item's(in _tables)
+     */
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
 
+    /**
+     * Return number of column, in our case 1
+     *
+     * @param parent
+     * @return              Number of column
+     */
     int columnCount(const QModelIndex & parent = QModelIndex()) const;
 
+    /**
+     * Get data in field
+     *
+     * @param index         index object(have number of row)
+     * @param role          From enum (field name)
+     * @return              QVariant with data
+     */
     QVariant data(const QModelIndex & index,
                   int role = Qt::DisplayRole) const;
 
+    /**
+     * We can implement that for screen rotation, etc. not implement
+     *
+     * @param section
+     * @param orientation
+     * @param role
+     * @return
+     */
     QVariant headerData(int section, Qt::Orientation orientation,
                         int role = Qt::DisplayRole) const;
 
-    int count() const;
+    //-----------------------------------------------------
+    // Method for manage tables
+    //-----------------------------------------------------
 
+    /**
+     * Add table to model
+     *
+     * @param table         Table object
+     */
     void addTable(rotable::Table *table);
 
+    /**
+     * Return number of tables in mode, use in Q_PROPERTY
+     *
+     * @return              count table
+     */
+    int count() const;
+
 signals:
+    /**
+     * Signal emiteed when count of table change
+     */
     void countChanged();
 
 private:
+    /**
+     * Container with tables
+     */
     QMap<int, rotable::Table*> _tables;
 };
 
