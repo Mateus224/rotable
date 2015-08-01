@@ -55,6 +55,8 @@ public:
 
     int count() const;
 
+    void addTable(rotable::Table *table);
+
 signals:
     void countChanged();
 

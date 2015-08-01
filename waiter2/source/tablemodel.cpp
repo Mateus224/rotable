@@ -92,3 +92,18 @@ int TableModel::count() const
 }
 
 //-----------------------------------------------------
+
+void TableModel::addTable(rotable::Table *table)
+{
+    if(_tables.contains(table->id()))
+    {
+        _tables[table->id()]->updateTableStatus(table);
+    }
+    else
+    {
+        _tables[table->id()] = table;
+        emit countChanged();
+    }
+}
+
+//-----------------------------------------------------
