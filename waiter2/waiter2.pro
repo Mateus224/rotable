@@ -20,7 +20,6 @@ HEADERS += \
     include/tcpclient.h \
     #include/qmlcontxt.h \
     include/waiter_client.h \
-    include/tablelist.h \
     include/orderboard.h \
     include/tablemodel.h
 
@@ -31,7 +30,6 @@ SOURCES += \
     source/tcpclient.cpp \
     #source/qmlcontxt.cpp \
     source/waiter_client.cpp \
-    source/tablelist.cpp \
     source/tablemodel.cpp
 
 RESOURCES +=\
