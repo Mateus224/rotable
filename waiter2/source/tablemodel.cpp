@@ -117,9 +117,12 @@ void TableModel::addTable(rotable::Table *table)
 
 //-----------------------------------------------------
 
-rotable::Table *rotable::TableModel::operator[]( int& idx)
+rotable::Table *rotable::TableModel::operator[](const std::size_t& id)
 {
-    return _tables[idx];
+    if(_tables.contains(id))
+        return _tables[id];
+    else
+        return NULL;
 }
 
 //-----------------------------------------------------
@@ -129,7 +132,7 @@ rotable::Table *rotable::TableModel::at(const std::size_t &id)
     if(_tables.contains(id))
         return _tables[id];
     else
-        NULL;
+        return NULL;
 }
 
 //-----------------------------------------------------

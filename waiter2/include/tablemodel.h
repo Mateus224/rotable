@@ -128,8 +128,18 @@ public:
      */
     int count() const;
 
-    rotable::Table *operator[]( int& idx);
+    /**
+     * Override operator [], for easier use, not work propety but it should
+     * @param id            table Id
+     * @return              Tabele pointer, or null if table not exists
+     */
+    rotable::Table *operator[](const std::size_t& id);
 
+    /**
+     * Get table
+     * @param id            table id
+     * @return              Tabele pointer, or null if table not exists
+     */
     rotable::Table *at(const std::size_t &id);
 
 signals:
