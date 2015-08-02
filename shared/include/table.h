@@ -25,7 +25,7 @@ public:
     ~Table();
 
     //Default constructor
-    Table();
+    Table(QObject *parent = 0);
 
     //------------------------------------------------------------------------------
     // Implement inherit class

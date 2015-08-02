@@ -12,7 +12,7 @@ Table::~Table()
 
 //------------------------------------------------------------------------------
 
-Table::Table(): rotable::Client()
+Table::Table(QObject *parent): rotable::Client(parent)
 {
     // Set default value
     _change = false;

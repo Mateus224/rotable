@@ -28,12 +28,20 @@ namespace rotable {
  */
 class rotable::Client : public QObject
 {
-public:
-  inline int id() const { return _id; }
-  inline void setId(int id) { _id = id; }
+    Q_OBJECT
 
-  inline QString name() const { return _name; }
-  inline void setName(const QString  name) { _name = name; }
+    Q_PROPERTY(int id READ id WRITE setId)
+    Q_PROPERTY(QString name READ name WRITE setName)
+public:
+
+    Client(QObject *parent = 0);
+
+
+    inline int id() const { return _id; }
+    inline void setId(int id) { _id = id; }
+
+    inline QString name() const { return _name; }
+    inline void setName(const QString  name) { _name = name; }
 
 //  QJsonValue toJSON() const;
 //  static Client *fromJSON(const QJsonValue &jval);
@@ -51,6 +59,9 @@ private:
 
 class rotable::User : public Client{
 public:
+
+    User(QObject *parent = 0);
+
     inline QString nick() const { return _nick; }
     inline void setNick(const QString  nick) { _nick = nick; }
 
@@ -70,6 +81,9 @@ private:
 
 class rotable::Waiter : public User{
 public:
+
+    Waiter(QObject *parent=0);
+
     inline virtual int accountType(){ return 0; }
 private:
 
@@ -79,6 +93,9 @@ private:
 
 class rotable::Admin : public User{
 public:
+
+    Admin(QObject *parent=0);
+
     inline virtual int accountType(){ return 2; }
 private:
 

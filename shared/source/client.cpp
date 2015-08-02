@@ -8,6 +8,13 @@ using namespace rotable;
 
 //------------------------------------------------------------------------------
 
+User::User(QObject *parent): Client(parent)
+{
+
+}
+
+//------------------------------------------------------------------------------
+
 QString User::generateHashPassword(const QString& password)
 {
     // Create cryptograpy hash generator, initialized with hash type
@@ -55,3 +62,24 @@ void User::setPassword(const QString& password)
 
 //  return 0;
 //}
+
+//------------------------------------------------------------------------------
+
+Client::Client(QObject *parent): QObject(parent)
+{
+
+}
+
+//------------------------------------------------------------------------------
+
+Waiter::Waiter(QObject *parent): User(parent)
+{
+
+}
+
+//------------------------------------------------------------------------------
+
+Admin::Admin(QObject *parent): User(parent)
+{
+
+}
