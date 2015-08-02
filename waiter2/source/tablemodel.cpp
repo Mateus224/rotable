@@ -3,6 +3,7 @@
 //-----------------------------------------------------
 
 using rotable::Table;
+using rotable::TableModel;
 
 //-----------------------------------------------------
 
@@ -112,6 +113,23 @@ void TableModel::addTable(rotable::Table *table)
         _tables[table->id()] = table;
         emit countChanged();
     }
+}
+
+//-----------------------------------------------------
+
+rotable::Table *rotable::TableModel::operator[]( int& idx)
+{
+    return _tables[idx];
+}
+
+//-----------------------------------------------------
+
+rotable::Table *rotable::TableModel::at(const std::size_t &id)
+{
+    if(_tables.contains(id))
+        return _tables[id];
+    else
+        NULL;
 }
 
 //-----------------------------------------------------

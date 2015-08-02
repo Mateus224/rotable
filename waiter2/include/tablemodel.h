@@ -128,6 +128,10 @@ public:
      */
     int count() const;
 
+    rotable::Table *operator[]( int& idx);
+
+    rotable::Table *at(const std::size_t &id);
+
 signals:
     /**
      * Signal emiteed when count of table change
