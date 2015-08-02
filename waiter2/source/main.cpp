@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
   //qmlContxt init(*ctxt);
   //init.initContxt(allTables);
 
-  //view->rootContext()->setContextProperty("Tables", (QObject*)&(waiter_client->_tables));
+  view->rootContext()->setContextProperty("Tables", waiter_client->_tables);
 
   view->setSource(QString("qrc:/waiter/main2.qml"));
 
