@@ -49,7 +49,7 @@ Waiter_Client::Waiter_Client(const QString &configFilePath, QObject *parent)
       break;
     }
     _products = new ProductContainer();
-    _productOrder = new ProductOrder(*_products);
+    _tables = new TableModel(this);
 
     connect(&_tcp, SIGNAL(connected()),
             this, SLOT(connected()));
@@ -71,8 +71,8 @@ Waiter_Client::~Waiter_Client()
     _dataRequest.clear();     //Clear list
    // _stopping=true;
 
-    delete _productOrder;
     delete _products;
+    delete _tables;
 }
 
 
@@ -269,12 +269,9 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
       QJsonArray arr = package->data().toArray();
       foreach(QJsonValue value, arr){
           int tableId = value.toInt();
-          if(_tables.contains(tableId)){}
-          else{
-              Table *table = new Table();
-              table->setId(tableId);
-              _tables[tableId] = table;
-          }
+          Table *table = new Table();
+          table->setId(tableId);
+          _tables->addTable(table);
           //TODO:To change, in future that should send request about table status, etc.
           requestOrderOnTable(tableId);
       }
@@ -293,7 +290,8 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
             //Convert JSON to order
             Order *order = Order::fromJSON(value);
             //Add order to table
-            _tables[tableId]->addOrder(order);
+            Table *table = _tables->at(tableId);
+            table->addOrder(order);
         }
     } break;
     //When someone change order
@@ -302,7 +300,8 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
         //Get order from json
         Order *order = Order::fromJSON(package->data());
         //Update order on table
-        _tables[order->clientId()]->updateOrder(order);
+        Table *table = _tables->at(order->clientId());
+        table->updateOrder(order);
     } break;
     default:
     {

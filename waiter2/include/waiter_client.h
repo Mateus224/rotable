@@ -23,7 +23,7 @@
 #include "utils.h"
 #include "productorderlistmodel.h"
 #include "table.h"
-#include "tablelist.h"
+#include "tablemodel.h"
 
 //------------------------------------------------------------------------------
 
@@ -114,10 +114,8 @@ public:
   /* Products */
   rotable::ProductContainer* _products;
 
-  rotable::ProductOrder* _productOrder;
-
   /* Table map with table id */
-  TableList _tables;
+  rotable::TableModel* _tables;
 
 
 //------------------------------------------------------------------------------
