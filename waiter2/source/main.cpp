@@ -3,7 +3,6 @@
 #include "../include/orderinformation.h"
 #include "../include/waiter_client.h"
 #include "orderinformation.h"
-#include "tablelist.h"
 #include "table.h"
 #include <qqmlengine.h>
 #include <qqmlcontext.h>
@@ -59,13 +58,10 @@ int main(int argc, char *argv[])
   view->setResizeMode(QQuickView::SizeRootObjectToView);
   QQmlContext *ctxt = view->engine()->rootContext();//view.rootContext();sss
 
-
-  ProductOrderListModel *_productorderlistmodel = new ProductOrderListModel(waiter_client, waiter_client->_productOrder);
-  view->rootContext()->setContextProperty("MyProductOrderList", _productorderlistmodel);
   //qmlContxt init(*ctxt);
   //init.initContxt(allTables);
 
-  view->rootContext()->setContextProperty("TableList", (QObject*)&(waiter_client->_tables));
+  //view->rootContext()->setContextProperty("Tables", (QObject*)&(waiter_client->_tables));
 
   view->setSource(QString("qrc:/waiter/main2.qml"));
 
