@@ -66,16 +66,32 @@ RowLayout {
         }
 
         Rectangle {
+            radius: 10.0
+            width: parent.width - 10; height: 100
 
-            width: parent.width - 10; height: 50
-            color: "white"
-            border.color: "lightsteelblue"
-            border.width: 4
-            radius: 8
+            ListView {
+                width: 100; height: 100
+                spacing: 5
 
-
+                model: tables
+                delegate: Rectangle {
+                    height: 25
+                    width: 100
+                    color: "blue"
+                    Text { text: "Table name: " + name }
+                    Text { text: "Table id: " + id }
+                }
+            }
         }
 
+        Rectangle {
+            Text {
+                anchors.centerIn: parent
+                text: 'End menu'
+            }
+            radius: 10.0
+            width: parent.width - 10; height: 30
+        }
 
     }
 
