@@ -38,8 +38,9 @@ public:
      * List with field (Roles)
      */
     enum BoardRoles {
-        TypeRole = Qt::UserRole + 1,
-        SizeRole
+        DateRole = Qt::UserRole + 1,
+        StatusRole,
+        ClientRole
     };
 
     //-----------------------------------------------------
@@ -75,20 +76,19 @@ public:
      */
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
 
-
     /**
      * Method for add order to model
      *
      * @param order       Order object
      */
-    void addOrder(const rotable::Order &order);
+    void addOrder(rotable::Order *order);
 
     /**
      * Read orders from table, used to update and load new order form table
      *
      * @param table       Table object
      */
-    void readOrderFromTable(const rotable::Table &table);
+    void readOrderFromTable(rotable::Table &table);
 
 protected:
     //-----------------------------------------------------
@@ -103,7 +103,7 @@ protected:
     QHash<int, QByteArray> roleNames() const;
 
 private:
-    QMap<int, rotable::Order> _orders;
+    QMap<int, rotable::Order*> _orders;
     int _tableId;
 };
 
