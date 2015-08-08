@@ -115,7 +115,7 @@ public:
   rotable::ProductContainer* _products;
 
   /* Table map with table id */
-  rotable::TableModel* _tables;
+  rotable::TableModel _tables;
 
 
 //------------------------------------------------------------------------------

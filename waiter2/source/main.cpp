@@ -66,12 +66,7 @@ int main(int argc, char *argv[])
   //qmlContxt init(*ctxt);
   //init.initContxt(allTables);
 
-  rotable::TableModel model;
-  rotable::Table *table = new rotable::Table();
-  table->setId(1);
-  table->setName("Stół dziwny");
-  model.addTable(table);
-  ctxt->setContextProperty("tables", &model);
+  ctxt->setContextProperty("tables", &(waiter_client->_tables));
 
   view->setSource(QString("qrc:/waiter/main2.qml"));
 
@@ -79,6 +74,11 @@ int main(int argc, char *argv[])
   QObject::connect(view->engine(),  SIGNAL(quit()), qApp, SLOT(quit()));
 
   view->show();
+
+  rotable::Table *table = new rotable::Table();
+  table->setId(1);
+  table->setName("Stół dziwny");
+  waiter_client->_tables.addTable(table);
 
   return app.exec();
 }
