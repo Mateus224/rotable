@@ -75,10 +75,5 @@ int main(int argc, char *argv[])
 
   view->show();
 
-  rotable::Table *table = new rotable::Table();
-  table->setId(1);
-  table->setName("Stół dziwny");
-  waiter_client->_tables.addTable(table);
-
   return app.exec();
 }

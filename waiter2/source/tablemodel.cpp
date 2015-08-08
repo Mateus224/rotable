@@ -81,14 +81,13 @@ void TableModel::addTable(rotable::Table *table)
 {
     if(_tables.contains(table->id()))
     {
-        beginInsertRows(QModelIndex(), rowCount(), rowCount());
         _tables[table->id()]->updateTableStatus(table);
-        endInsertRows();
     }
     else
     {
+        beginInsertRows(QModelIndex(), rowCount(), rowCount());
         _tables[table->id()] = table;
-        emit countChanged();
+        endInsertRows();
     }
 }
 

@@ -28,8 +28,6 @@ namespace rotable{
 class rotable::TableModel: public QAbstractListModel{
 
     Q_OBJECT
-    Q_PROPERTY(int count READ count NOTIFY countChanged)
-
 public:
 
     //-----------------------------------------------------
@@ -122,12 +120,6 @@ public:
      * @return              Tabele pointer, or null if table not exists
      */
     rotable::Table *at(const std::size_t &id);
-
-signals:
-    /**
-     * Signal emiteed when count of table change
-     */
-    void countChanged();
 
 private:
     /**
