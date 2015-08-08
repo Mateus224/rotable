@@ -4,12 +4,16 @@
 #include "../include/waiter_client.h"
 #include "orderinformation.h"
 #include "table.h"
+#include <QGuiApplication>
 #include <qqmlengine.h>
-#include <qqmlcontext.h>
+#include <QQmlContext>
 #include <qqml.h>
-#include <QtQuick/qquickitem.h>
-#include <QtQuick/qquickview.h>
+#include <QtQuick/QQuickItem>
+#include <QtQuick/QQuickView>
 #include <QtQuick>
+#include <tablemodel.h>
+
+
 
 //#include "client/linux/handler/exception_handler.h"
 
@@ -53,15 +57,21 @@ int main(int argc, char *argv[])
 
   rotable::Waiter_Client* waiter_client = new rotable::Waiter_Client(configFilePath);
 
-  QQuickView* view=new QQuickView;
   waiter_client->startup();
+  QQuickView* view=new QQuickView();
+
   view->setResizeMode(QQuickView::SizeRootObjectToView);
-  QQmlContext *ctxt = view->engine()->rootContext();//view.rootContext();sss
+  QQmlContext *ctxt = view->rootContext();//view.rootContext();sss
 
   //qmlContxt init(*ctxt);
   //init.initContxt(allTables);
 
-  view->rootContext()->setContextProperty("Tables", waiter_client->_tables);
+  rotable::TableModel model;
+  rotable::Table *table = new rotable::Table();
+  table->setId(1);
+  table->setName("Stół dziwny");
+  model.addTable(table);
+  ctxt->setContextProperty("tables", &model);
 
   view->setSource(QString("qrc:/waiter/main2.qml"));
 

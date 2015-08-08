@@ -74,13 +74,7 @@ RowLayout {
                 spacing: 5
 
                 model: tables
-                delegate: Rectangle {
-                    height: 25
-                    width: 100
-                    color: "blue"
-                    Text { text: "Table name: " + name }
-                    Text { text: "Table id: " + id }
-                }
+                delegate: Text { text: "Table: " + name + ", " + id }
             }
         }
 

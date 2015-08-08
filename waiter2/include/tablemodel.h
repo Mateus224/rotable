@@ -82,14 +82,6 @@ public:
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
 
     /**
-     * Return number of column, in our case 1
-     *
-     * @param parent
-     * @return              Number of column
-     */
-    int columnCount(const QModelIndex & parent = QModelIndex()) const;
-
-    /**
      * Get data in field
      *
      * @param index         index object(have number of row)
