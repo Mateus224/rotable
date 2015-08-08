@@ -30,7 +30,8 @@ SOURCES += \
     source/tcpclient.cpp \
     #source/qmlcontxt.cpp \
     source/waiter_client.cpp \
-    source/tablemodel.cpp
+    source/tablemodel.cpp \
+    source/orderboard.cpp
 
 RESOURCES +=\
     resources.qrc \
