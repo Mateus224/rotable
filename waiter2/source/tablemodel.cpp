@@ -70,19 +70,6 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
 
 //-----------------------------------------------------
 
-QVariant TableModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-    if (role == Qt::DisplayRole) {
-      if (section == 0) {
-        return QVariant(tr("Name"));
-      }
-    }
-
-    return QVariant();
-}
-
-//-----------------------------------------------------
-
 int TableModel::count() const
 {
     return _tables.count();

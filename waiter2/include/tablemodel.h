@@ -91,17 +91,6 @@ public:
     QVariant data(const QModelIndex & index,
                   int role = Qt::DisplayRole) const;
 
-    /**
-     * We can implement that for screen rotation, etc. not implement
-     *
-     * @param section
-     * @param orientation
-     * @param role
-     * @return
-     */
-    QVariant headerData(int section, Qt::Orientation orientation,
-                        int role = Qt::DisplayRole) const;
-
     //-----------------------------------------------------
     // Method for manage tables
     //-----------------------------------------------------
