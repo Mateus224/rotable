@@ -121,7 +121,7 @@ public:
      */
     rotable::Table *at(const std::size_t &id);
 
-    void sendOrderFromTable(int tableId);
+
 
 signals:
     /**
@@ -129,6 +129,13 @@ signals:
      * @param table
      */
     void updateOrderBoard(rotable::Table &table);
+
+public slots:
+    /**
+     * Send orders to
+     * @param tableId
+     */
+    void sendToBoardOrder(int tableId);
 
 private:
     /**

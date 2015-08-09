@@ -113,7 +113,7 @@ rotable::Table *rotable::TableModel::at(const std::size_t &id)
 
 //-----------------------------------------------------
 
-void TableModel::sendOrderFromTable(int tableId)
+void TableModel::sendToBoardOrder(int tableId)
 {
     emit updateOrderBoard(*_tables[tableId]);
 }

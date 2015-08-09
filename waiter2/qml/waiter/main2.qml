@@ -6,6 +6,8 @@ RowLayout {
     anchors.fill: parent
     spacing: 6
 
+    signal sendToBoardOrder(int id)
+
     Column {
         id: sidebar
 
@@ -70,23 +72,29 @@ RowLayout {
             width: parent.width - 10; height: 100
 
             ListView {
-                width: 100; height: 100
+                id: tableList
                 spacing: 5
+                width: parent.width;
 
                 model: tables
-                delegate: Text { text: "Table: " + name + ", " + id }
+                delegate: Rectangle {
+                    color: "#750a0a"
+                    height: 50
+                    radius: 10.0
+                    width: parent.width
+                    Text{
+                        anchors.centerIn: parent
+                        text: "Table: " + name + ", " + id
+                    }
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: {
+                            mainScreen.sendToBoardOrder(id)
+                        }
+                    }
+                }
             }
         }
-
-        Rectangle {
-            Text {
-                anchors.centerIn: parent
-                text: 'End menu'
-            }
-            radius: 10.0
-            width: parent.width - 10; height: 30
-        }
-
     }
 
     Rectangle {
@@ -102,9 +110,12 @@ RowLayout {
         border.width: 4
         radius: 8
 
-        Text {
-            anchors.centerIn: parent
-            text: 'Orders'
+        ListView {
+            width: 100; height: 100
+            spacing: 5
+
+            model: orderboard
+            delegate: Text { text: "Order id: " + id }
         }
     }
 

@@ -67,10 +67,12 @@ int main(int argc, char *argv[])
   //init.initContxt(allTables);
 
   ctxt->setContextProperty("tables", &(waiter_client->_tables));
+  ctxt->setContextProperty("orderboard", &(waiter_client->_board));
 
   view->setSource(QString("qrc:/waiter/main2.qml"));
 
   // Connect exit signal for exit
+  QObject::connect(view->rootObject(),  SIGNAL(sendToBoardOrder(int)), &(waiter_client->_tables), SLOT(sendToBoardOrder(int)));
   QObject::connect(view->engine(),  SIGNAL(quit()), qApp, SLOT(quit()));
 
   view->show();
