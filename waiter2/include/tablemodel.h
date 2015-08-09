@@ -121,6 +121,15 @@ public:
      */
     rotable::Table *at(const std::size_t &id);
 
+    void sendOrderFromTable(int tableId);
+
+signals:
+    /**
+     * Signal for update OrderBoard
+     * @param table
+     */
+    void updateOrderBoard(rotable::Table &table);
+
 private:
     /**
      * Container with tables

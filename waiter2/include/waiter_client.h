@@ -24,6 +24,7 @@
 #include "productorderlistmodel.h"
 #include "table.h"
 #include "tablemodel.h"
+#include "orderboard.h"
 
 //------------------------------------------------------------------------------
 
@@ -63,7 +64,7 @@ public:
      * @return                product list model
      */
     QAbstractListModel *productOrderListModel();
-
+    OrderBoard _board;
 
 private slots:
   /**

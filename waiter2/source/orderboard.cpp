@@ -13,6 +13,13 @@ OrderBoard::OrderBoard(QObject *parent): QAbstractListModel(parent)
 
 //-----------------------------------------------------
 
+OrderBoard::~OrderBoard(){
+    qDeleteAll(_orders.begin(), _orders.end());
+    _orders.clear();     //Clear list
+}
+
+//-----------------------------------------------------
+
 void OrderBoard::addOrder(Order *order)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());

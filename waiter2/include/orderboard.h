@@ -53,7 +53,10 @@ public:
      */
     OrderBoard(QObject *parent = 0);
 
-
+    /**
+    *  Default destructor
+    */
+    ~OrderBoard();
 
     //-----------------------------------------------------
     // Virtual method from QAbstractListModel
@@ -83,6 +86,7 @@ public:
      */
     void addOrder(rotable::Order *order);
 
+public slots:
     /**
      * Read orders from table, used to update and load new order form table
      *
