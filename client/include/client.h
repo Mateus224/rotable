@@ -50,10 +50,10 @@ class rotable::Client : public QObject
 
   //Q_PROPERTY(QString test READ test WRITE settest NOTIFY testChanged)
 
-  Q_PROPERTY(QString state READ state WRITE setState NOTIFY stateChanged)
+
   Q_PROPERTY(int currentCategoryId READ currentCategoryId WRITE setCurrentCategoryId NOTIFY currentCategoryIdChanged)
   Q_PROPERTY(QString currentCategoryName READ currentCategoryName NOTIFY currentCategoryIdChanged)
-
+  Q_PROPERTY(QString state READ state WRITE setState NOTIFY stateChanged)
   Q_PROPERTY(int screenRotation READ screenRotation NOTIFY rotationChanged)
   Q_PROPERTY(bool contact READ contact NOTIFY contactChanged)
 
