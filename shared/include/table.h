@@ -7,7 +7,11 @@
 #include "client.h"
 
 #ifndef QMAP_H
-#include<QMap>
+#include <QMap>
+#endif
+
+#ifndef QLIST_H
+#include <QList>
 #endif
 
 //------------------------------------------------------------------------------
@@ -50,7 +54,7 @@ public:
      * @param orderId           order Id
      * @return                  order object
      */
-    inline Order*  getOrder(int orderId){
+    inline rotable::Order*  getOrder(int orderId){
         if(_orders.contains(orderId))
             return _orders[orderId];
         return NULL;
@@ -69,7 +73,7 @@ public:
      *
      * @param order     order object
      */
-    inline void addOrder(Order* order){
+    inline void addOrder(rotable::Order* order){
         _orders[order->id()] = order;
     }
 
@@ -78,15 +82,21 @@ public:
      *
      * @param order     order object
      */
-    void updateOrder(Order* order);
+    void updateOrder(rotable::Order* order);
 
     /**
-     * Ubdate table status base on table object
+     * Update table status base on table object
      *
      * @param table     table object
      */
     void updateTableStatus(const Table *table);
 
+    /**
+     * Return list with orders
+     *
+     * @return          orderList
+     */
+    QList<rotable::Order*> orderList();
 
 private:
     /**

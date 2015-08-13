@@ -21,7 +21,7 @@ Table::Table(QObject *parent): rotable::Client(parent)
 
 //------------------------------------------------------------------------------
 
-void Table::updateOrder(Order* order){
+void Table::updateOrder(rotable::Order* order){
     // Check if order contains order
     if(_orders.contains(order->id()))
         //Clear memory
@@ -50,6 +50,11 @@ void Table::updateTableStatus(const rotable::Table *table)
 
     // We do logic OR
     _change = _change || change;
+}
+
+QList<rotable::Order*> Table::orderList()
+{
+    return _orders.values();
 }
 
 //------------------------------------------------------------------------------
