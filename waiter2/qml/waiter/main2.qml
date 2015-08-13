@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.1
 RowLayout {
     id: mainScreen
     anchors.fill: parent
-    spacing: 6
+    spacing: 10
 
     signal sendToBoardOrder(int id)
 
@@ -16,6 +16,9 @@ RowLayout {
         Layout.minimumWidth: 200
         Layout.maximumWidth: 300
         Layout.minimumHeight: 150
+
+        anchors.left: parent.left
+        anchors.leftMargin: 10
 
         spacing: 5
 
@@ -111,11 +114,24 @@ RowLayout {
         radius: 8
 
         ListView {
-            width: 100; height: 100
+            width: parent.width; height: parent.height
             spacing: 5
-
             model: orderboard
-            delegate: Text { text: "Order id: " + id }
+
+            anchors.top: parent.top
+            anchors.topMargin: 10
+            delegate:Rectangle{
+
+                width: parent.width - 20
+                height: 100
+                anchors.centerIn: parent
+                color: 'green'
+                radius: 8
+                Text {
+                    anchors.centerIn: parent
+                    text: "Order id: " + id
+                }
+            }
         }
     }
 

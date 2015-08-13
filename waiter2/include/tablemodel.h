@@ -28,6 +28,7 @@ namespace rotable{
 class rotable::TableModel: public QAbstractListModel{
 
     Q_OBJECT
+    Q_PROPERTY(int count READ count NOTIFY countChanged)
 public:
 
     //-----------------------------------------------------
@@ -121,14 +122,14 @@ public:
      */
     rotable::Table *at(const std::size_t &id);
 
-
-
 signals:
     /**
      * Signal for update OrderBoard
      * @param table
      */
     void updateOrderBoard(rotable::Table &table);
+
+    void countChanged();
 
 public slots:
     /**
