@@ -70,8 +70,10 @@ void OrderBoard::readOrderFromTable(Table &table)
         beginResetModel();
         _orders.clear();
         endResetModel();
-        for(int i=0;i<table.orderCount();++i)
-            addOrder(table.getOrder(i));
+        QList<rotable::Order *> orders = table.orderList();
+        foreach (Order *order, orders) {
+             addOrder(order);
+        }
         _tableId=table.id();
     }
 }
@@ -84,6 +86,7 @@ QHash<int, QByteArray> OrderBoard::roleNames() const
 
     roles[DateRole] = "date";
     roles[StatusRole] = "status";
+    roles[ClientRole] =  "id";
 
     return roles;
 }
