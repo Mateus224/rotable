@@ -71,8 +71,9 @@ int main(int argc, char *argv[])
 
   view->setSource(QString("qrc:/waiter/main2.qml"));
 
-  // Connect exit signal for exit
+  // Connect signal from table click to update order list
   QObject::connect(view->rootObject(),  SIGNAL(sendToBoardOrder(int)), &(waiter_client->_tables), SLOT(sendToBoardOrder(int)));
+  // Connect exit signal for exit
   QObject::connect(view->engine(),  SIGNAL(quit()), qApp, SLOT(quit()));
 
   view->show();
