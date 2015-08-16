@@ -40,7 +40,8 @@ public:
     enum BoardRoles {
         DateRole = Qt::UserRole + 1,
         StatusRole,
-        ClientRole
+        ClientRole,
+        ItemsRole
     };
 
     //-----------------------------------------------------

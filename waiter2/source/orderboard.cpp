@@ -54,6 +54,12 @@ QVariant OrderBoard::data(const QModelIndex &index, int role) const
     case ClientRole:{
         return QVariant(order->clientId());
     }break;
+    case ItemsRole:{
+        QList<QObject*> list;
+        for(int i=0;i<order->itemCount();++i)
+            list << order->item(i);
+        return QVariant::fromValue(list);
+    }break;
     }
 }
 
@@ -87,6 +93,7 @@ QHash<int, QByteArray> OrderBoard::roleNames() const
     roles[DateRole] = "date";
     roles[StatusRole] = "status";
     roles[ClientRole] =  "id";
+    roles[ItemsRole]  = "orderItems";
 
     return roles;
 }
