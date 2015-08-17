@@ -21,7 +21,8 @@ HEADERS += \
     #include/qmlcontxt.h \
     include/waiter_client.h \
     include/orderboard.h \
-    include/tablemodel.h
+    include/tablemodel.h \
+    include/productlist.h
 
 
 SOURCES += \
@@ -31,7 +32,8 @@ SOURCES += \
     #source/qmlcontxt.cpp \
     source/waiter_client.cpp \
     source/tablemodel.cpp \
-    source/orderboard.cpp
+    source/orderboard.cpp \
+    source/productlist.cpp
 
 RESOURCES +=\
     resources.qrc \
