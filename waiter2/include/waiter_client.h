@@ -21,7 +21,6 @@
 #include "private/precomp.h"
 #include "compackage.h"
 #include "utils.h"
-#include "productorderlistmodel.h"
 #include "table.h"
 #include "tablemodel.h"
 #include "orderboard.h"
@@ -40,9 +39,8 @@ namespace rotable {
   class ProductOrder;
 
 }
-class ProductOrderListModel;
+
 class QAbstractListModel;
-class ProductListModel;
 
 class rotable::Waiter_Client : public QObject
 {
@@ -58,13 +56,6 @@ public:
      * @return                false on critical error
      */
     bool startup();
-    /**
-     * Get a product list model.
-     *
-     * @return                product list model
-     */
-    QAbstractListModel *productOrderListModel();
-    OrderBoard _board;
 
 private slots:
   /**
@@ -118,6 +109,8 @@ public:
   /* Table map with table id */
   rotable::TableModel _tables;
 
+  /* Board with orders */
+  rotable::OrderBoard _board;
 
 //------------------------------------------------------------------------------
 private:
@@ -182,9 +175,6 @@ private:
 
 
     //------------------------------------------------------------------------------
-
-    /* Product list model */
-    ProductOrderListModel* _productOrderListModel;
 
     /* Whether this client has been accepted by the server */
     bool _accepted;

@@ -84,17 +84,6 @@ bool Waiter_Client::startup()
 
 //------------------------------------------------------------------------------
 
-QAbstractListModel *Waiter_Client::productOrderListModel()
-{
-  if (0 == _productOrderListModel) {
-    _productOrderListModel = new ProductOrderListModel(NULL, NULL);
-  }
-
-  return _productOrderListModel;
-}
-
-//------------------------------------------------------------------------------
-
 void Waiter_Client::reconnect()
 {
   _tcp.startConnection(_config.serverAddress(), _config.port());
