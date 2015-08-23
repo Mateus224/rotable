@@ -49,10 +49,18 @@ bool ProductList::updateProduct(const Product *product)
 
 bool ProductList::setContainer(ProductContainer *container)
 {
-       _container = container;
-       connect(container, SIGNAL(productAdded(int)), this, SLOT(productAdded(int)));
-       connect(container, SIGNAL(productUpdated(rotable::Product*)), this, SLOT(productUpdated(rotable::Product*)));
-       connect(container, SIGNAL(productRemoved(rotable::Product*)), this, SLOT(productRemoved(rotable::Product*)));
+    //Check if container exists
+    if(!_container)
+        return false;
+
+    //Assign pointer
+    _container = container;
+    //Connect slost
+    connect(container, SIGNAL(productAdded(int)), this, SLOT(productAdded(int)));
+    connect(container, SIGNAL(productUpdated(rotable::Product*)), this, SLOT(productUpdated(rotable::Product*)));
+    connect(container, SIGNAL(productRemoved(rotable::Product*)), this, SLOT(productRemoved(rotable::Product*)));
+    //Return true
+    return true;
 }
 
 //-----------------------------------------------------
@@ -72,21 +80,21 @@ QString ProductList::productName(const int &idx) const
 
 void ProductList::productAdded(int id)
 {
-
+    addProduct(_container->product(id));
 }
 
 //-----------------------------------------------------
 
 void ProductList::productRemoved(Product *product)
 {
-
+    removeProduct(product->id());
 }
 
 //-----------------------------------------------------
 
 void ProductList::productUpdated(Product *product)
 {
-
+    updateProduct(product);
 }
 
 //-----------------------------------------------------
