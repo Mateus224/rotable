@@ -49,6 +49,7 @@ Waiter_Client::Waiter_Client(const QString &configFilePath, QObject *parent)
       break;
     }
     _products = new ProductContainer();
+    _productsList.setContainer(_products);
 
     connect(&_tcp, SIGNAL(connected()),
             this, SLOT(connected()));
@@ -66,8 +67,6 @@ Waiter_Client::Waiter_Client(const QString &configFilePath, QObject *parent)
 
 Waiter_Client::~Waiter_Client()
 {
-    //Theoreticly that should be empty, buy it'd be nice if we also clear that map
-    qDeleteAll(_dataRequest.begin(), _dataRequest.end());
     _dataRequest.clear();     //Clear list
    // _stopping=true;
 
