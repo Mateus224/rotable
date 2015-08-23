@@ -89,6 +89,9 @@ public slots:
      */
     QString productName(const int &idx) const;
 
+    //-----------------------------------------------------
+    // Signals for ProductContainer
+    //-----------------------------------------------------
     void productAdded(int id);
     void productRemoved(rotable::Product* product);
     void productUpdated(rotable::Product* product);
