@@ -24,6 +24,7 @@
 #include "table.h"
 #include "tablemodel.h"
 #include "orderboard.h"
+#include "productlist.h"
 
 //------------------------------------------------------------------------------
 
@@ -105,6 +106,7 @@ signals:
 public:
   /* Products */
   rotable::ProductContainer* _products;
+  rotable::ProductList _productsList;
 
   /* Table map with table id */
   rotable::TableModel _tables;

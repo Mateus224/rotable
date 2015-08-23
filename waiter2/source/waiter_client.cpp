@@ -60,6 +60,7 @@ Waiter_Client::Waiter_Client(const QString &configFilePath, QObject *parent)
             this, SLOT(reconnect()));
 
     connect(&_tables, SIGNAL(updateOrderBoard(rotable::Table&)), &_board, SLOT(readOrderFromTable(rotable::Table&)));
+
 }
 
 

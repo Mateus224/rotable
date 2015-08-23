@@ -22,6 +22,7 @@ namespace rotable{
 #endif
 
 #include "product.h"
+#include "productcontainer.h"
 
 //-----------------------------------------------------
 
@@ -68,6 +69,14 @@ public:
      */
     bool updateProduct(const rotable::Product *product);
 
+    /**
+     * Add pointer of ProductContainer to ProductList
+     *
+     * @param container     ProductContainer obj
+     * @return              true if container exists
+     */
+    bool setContainer(rotable::ProductContainer *container);
+
 signals:
     void productNameChanged(int id);
 
@@ -80,8 +89,13 @@ public slots:
      */
     QString productName(const int &idx) const;
 
+    void productAdded(int id);
+    void productRemoved(rotable::Product* product);
+    void productUpdated(rotable::Product* product);
+
 private:
     QHash<int, QString> _productList;
+    rotable::ProductContainer *_container;
 };
 
 //-----------------------------------------------------

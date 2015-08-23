@@ -47,6 +47,16 @@ bool ProductList::updateProduct(const Product *product)
 
 //-----------------------------------------------------
 
+bool ProductList::setContainer(ProductContainer *container)
+{
+       _container = container;
+       connect(container, productAdded, this, productAdded);
+       connect(container, productUpdated, this, productUpdated);
+       connect(container, productRemoved, this, productRemoved);
+}
+
+//-----------------------------------------------------
+
 QString ProductList::productName(const int &idx) const
 {
     if(_productList.contains(idx))
