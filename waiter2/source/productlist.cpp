@@ -50,9 +50,9 @@ bool ProductList::updateProduct(const Product *product)
 bool ProductList::setContainer(ProductContainer *container)
 {
        _container = container;
-       connect(container, productAdded, this, productAdded);
-       connect(container, productUpdated, this, productUpdated);
-       connect(container, productRemoved, this, productRemoved);
+       connect(container, SIGNAL(productAdded(int)), this, SLOT(productAdded(int)));
+       connect(container, SIGNAL(productUpdated(rotable::Product*)), this, SLOT(productUpdated(rotable::Product*)));
+       connect(container, SIGNAL(productRemoved(rotable::Product*)), this, SLOT(productRemoved(rotable::Product*)));
 }
 
 //-----------------------------------------------------
@@ -66,6 +66,27 @@ QString ProductList::productName(const int &idx) const
         qCritical() << "Product don't exist";
         return QString("");
     }
+}
+
+//-----------------------------------------------------
+
+void ProductList::productAdded(int id)
+{
+
+}
+
+//-----------------------------------------------------
+
+void ProductList::productRemoved(Product *product)
+{
+
+}
+
+//-----------------------------------------------------
+
+void ProductList::productUpdated(Product *product)
+{
+
 }
 
 //-----------------------------------------------------
