@@ -26,7 +26,7 @@ namespace rotable{
 
 //-----------------------------------------------------
 
-class rotable::ProductList: QObject
+class rotable::ProductList: public QObject
 {
     Q_OBJECT
 public:
@@ -77,17 +77,18 @@ public:
      */
     bool setContainer(rotable::ProductContainer *container);
 
-signals:
-    void productNameChanged(int id);
-
-public slots:
     /**
      * Get name of product
      *
      * @param idx           Produt id
      * @return              Product name in QString
      */
-    QString productName(const int &idx) const;
+    Q_INVOKABLE QString productName(const int &idx) const;
+
+signals:
+    void productNameChanged(int id);
+
+public slots:
 
     //-----------------------------------------------------
     // Signals for ProductContainer

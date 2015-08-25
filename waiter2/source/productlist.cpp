@@ -72,7 +72,7 @@ QString ProductList::productName(const int &idx) const
     else
     {
         qCritical() << "Product don't exist";
-        return QString("");
+        return "";
     }
 }
 

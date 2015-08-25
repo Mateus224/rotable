@@ -127,27 +127,30 @@ RowLayout {
                 anchors.centerIn: parent
                 color: 'green'
                 radius: 8
+
                 Text {
+                    id : orderLabel
                     anchors.centerIn: parent
                     text: "Order id: " + id
+
                 }
+
                 ListView {
                     width: parent.width;
                     spacing: 5
                     model: orderItems
-
-                    anchors.top: parent.top
+                    anchors.top: orderLabel.bottom
                     anchors.topMargin: 10
                     delegate:Rectangle{
 
+                        anchors.top: parent.top
                         width: parent.width
-                        height: 100
                         anchors.centerIn: parent
-                        color: 'blue'
+
                         radius: 8
                         Text {
                             anchors.centerIn: parent
-                            text: "Order item id: " + id
+                            text: "Order item id: " + id + " name: " + productList.productName(id)
                         }
                     }
                 }
