@@ -85,6 +85,12 @@ public:
      */
     Q_INVOKABLE QString productName(const int &idx) const;
 
+    /**
+     * Return products count
+     * @return  count
+     */
+    int count() const;
+
 signals:
     void productNameChanged(int id);
 

@@ -138,9 +138,8 @@ void Waiter_Client::packageReceived(ComPackage *package)
     {
       qDebug() << tr("Client accepted by server.");
       _accepted = true;
-      setState("SCREENSAVER");
       requestTableList();
-      //requestCategoryIds();
+      requestCategoryIds();
     } break;
 
     case ComPackage::DataRequest:

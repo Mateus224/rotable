@@ -71,9 +71,14 @@ QString ProductList::productName(const int &idx) const
         return _productList[idx];
     else
     {
-        qCritical() << "Product don't exist";
+        qCritical() << "Product doesn't exist";
         return "";
     }
+}
+
+int ProductList::count() const
+{
+    return _productList.count();
 }
 
 //-----------------------------------------------------
