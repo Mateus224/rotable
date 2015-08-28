@@ -90,9 +90,9 @@ QHash<int, QByteArray> OrderBoard::roleNames() const
 {
     QHash<int, QByteArray> roles;
 
-    roles[DateRole] = "date";
-    roles[StatusRole] = "status";
-    roles[ClientRole] =  "id";
+    roles[DateRole] = "orderDate";
+    roles[StatusRole] = "orderStatus";
+    roles[ClientRole] =  "orderId";
     roles[ItemsRole]  = "orderItems";
 
     return roles;

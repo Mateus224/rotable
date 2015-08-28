@@ -1,4 +1,4 @@
-import QtQuick 2.1
+import QtQuick 2.3
 import QtQuick.Layouts 1.1
 
 RowLayout {
@@ -86,8 +86,8 @@ RowLayout {
                     radius: 10.0
                     width: parent.width
                     Text{
-                        anchors.centerIn: parent
-                        text: "Table: " + name + ", " + id
+                        //anchors.centerIn: parent
+                        text: "Table: " + name + ", " + id + "\nOrders: " + orderNumber
                     }
                     MouseArea{
                         anchors.fill: parent
@@ -113,12 +113,17 @@ RowLayout {
         border.width: 4
         radius: 8
 
+        Text{
+            text: orderboard.count
+        }
+
         ListView {
             width: parent.width; height: parent.height
             spacing: 5
             model: orderboard
+            id: board
 
-            anchors.top: parent.top
+            //anchors.top: parent.top
             anchors.topMargin: 10
             delegate:Rectangle{
 
@@ -131,7 +136,7 @@ RowLayout {
                 Text {
                     id : orderLabel
                     anchors.centerIn: parent
-                    text: "Order id: " + id
+                    text: "Order id: " + orderId
 
                 }
 
@@ -141,6 +146,7 @@ RowLayout {
                     model: orderItems
                     anchors.top: orderLabel.bottom
                     anchors.topMargin: 10
+                    id: items
                     delegate:Rectangle{
 
                         anchors.top: parent.top
@@ -150,7 +156,7 @@ RowLayout {
                         radius: 8
                         Text {
                             anchors.centerIn: parent
-                            text: "Order item id: " + id + " name: " + productList.productName(id)
+                            text: "Order item"//"Order item id: " + id + " name: " + productList.productName(id)
                         }
                     }
                 }

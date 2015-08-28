@@ -28,6 +28,8 @@ namespace rotable{
 
 class rotable::OrderBoard: public QAbstractListModel{
     Q_OBJECT
+
+    Q_PROPERTY(int count READ count)
 public:
 
     //-----------------------------------------------------
@@ -86,6 +88,10 @@ public:
      * @param order       Order object
      */
     void addOrder(rotable::Order *order);
+
+    int count(){
+        return _orders.count();
+    }
 
 public slots:
     /**

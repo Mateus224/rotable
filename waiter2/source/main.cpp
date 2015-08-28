@@ -4,14 +4,14 @@
 #include "../include/waiter_client.h"
 #include "orderinformation.h"
 #include "table.h"
+#include "tablemodel.h"
 #include <QGuiApplication>
-#include <qqmlengine.h>
+#include <QQmlEngine>
 #include <QQmlContext>
-#include <qqml.h>
 #include <QtQuick/QQuickItem>
 #include <QtQuick/QQuickView>
 #include <QtQuick>
-#include <tablemodel.h>
+
 
 
 
