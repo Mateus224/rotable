@@ -43,7 +43,6 @@ int OrderBoard::count() const
 int OrderBoard::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    qDebug() << "Row count" << _orders.count();
     return _orders.count();
 }
 
@@ -87,7 +86,6 @@ void OrderBoard::readOrderFromTable(Table &table)
         _orders.clear();
         endResetModel();
         QList<rotable::Order *> orders = table.orderList();
-        qDebug() << "Order list count "  << orders.count();
         foreach (Order *order, orders) {
              addOrder(order);
         }
@@ -98,7 +96,6 @@ void OrderBoard::readOrderFromTable(Table &table)
         _orders.clear();
         endResetModel();
         QList<rotable::Order *> orders = table.orderList();
-        qDebug() << "Order list count "  << orders.count();
         foreach (Order *order, orders) {
              addOrder(order);
         }
