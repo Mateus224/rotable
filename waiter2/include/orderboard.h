@@ -71,7 +71,7 @@ public:
     * @param parent
     * @return              Number of item's(in _orders)
     */
-    int rowCount(const QModelIndex & parent = QModelIndex()) const;
+    int rowCount(const QModelIndex & parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
     /**
      * Get data in field
@@ -80,7 +80,7 @@ public:
      * @param role          From enum (field name)
      * @return              QVariant with data
      */
-    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
+    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 
     /**
      * Method for add order to model
@@ -111,7 +111,7 @@ protected:
      *
      * @return              QHash with fields name
      */
-    QHash<int, QByteArray> roleNames() const;
+    QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
 
 private:
     QMap<int, rotable::Order*> _orders;

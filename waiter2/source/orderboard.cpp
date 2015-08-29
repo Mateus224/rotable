@@ -23,7 +23,10 @@ OrderBoard::~OrderBoard(){
 void OrderBoard::addOrder(Order *order)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    _orders[order->id()] = order;
+    if(order)
+        _orders[order->id()] = order;
+    else
+        qCritical() << "Empty order object";
     endInsertRows();
 }
 
@@ -77,6 +80,7 @@ void OrderBoard::readOrderFromTable(Table &table)
         _orders.clear();
         endResetModel();
         QList<rotable::Order *> orders = table.orderList();
+        qDebug() << "Order list count "  << orders.count();
         foreach (Order *order, orders) {
              addOrder(order);
         }
