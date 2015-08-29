@@ -29,7 +29,7 @@ namespace rotable{
 class rotable::OrderBoard: public QAbstractListModel{
     Q_OBJECT
 
-    Q_PROPERTY(int count READ count)
+    Q_PROPERTY(int count READ count NOTIFY countChange)
 public:
 
     //-----------------------------------------------------
@@ -89,9 +89,12 @@ public:
      */
     void addOrder(rotable::Order *order);
 
-    int count(){
-        return _orders.count();
-    }
+    /**
+     * Count of order in model
+     *
+     * @return  orders count
+     */
+    int count() const;
 
 public slots:
     /**
@@ -112,6 +115,9 @@ protected:
      * @return              QHash with fields name
      */
     QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
+
+signals:
+    void countChange();
 
 private:
     QMap<int, rotable::Order*> _orders;

@@ -26,12 +26,6 @@ int main(int argc, char *argv[])
   //google_breakpad::ExceptionHandler breakpad_handler(
   //  breakpad_descriptor, NULL, NULL, NULL, true, -1);
 
-  //Test values
-  //---------------------------------------------
-    int tableNr=0;
-    int allTables=7;
-
-
   //---------------------------------------------
   QGuiApplication app(argc, argv);
 

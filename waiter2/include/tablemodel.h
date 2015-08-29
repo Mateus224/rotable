@@ -65,6 +65,7 @@ public:
     // Virtual method from QAbstractListModel
     //-----------------------------------------------------
 
+protected:
     /**
      * Method returns fields
      *
@@ -72,6 +73,7 @@ public:
      */
     QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
 
+public:
     /**
      * Get number of item
      *

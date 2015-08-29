@@ -28,6 +28,14 @@ void OrderBoard::addOrder(Order *order)
     else
         qCritical() << "Empty order object";
     endInsertRows();
+    emit countChange();
+}
+
+//-----------------------------------------------------
+
+int OrderBoard::count() const
+{
+    return _orders.count();
 }
 
 //-----------------------------------------------------
@@ -35,6 +43,7 @@ void OrderBoard::addOrder(Order *order)
 int OrderBoard::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
+    qDebug() << "Row count" << _orders.count();
     return _orders.count();
 }
 
@@ -73,6 +82,15 @@ void OrderBoard::readOrderFromTable(Table &table)
     if(table.id()==_tableId)
     {
         //ToDo: Update order
+
+        beginResetModel();
+        _orders.clear();
+        endResetModel();
+        QList<rotable::Order *> orders = table.orderList();
+        qDebug() << "Order list count "  << orders.count();
+        foreach (Order *order, orders) {
+             addOrder(order);
+        }
     }
     else
     {
