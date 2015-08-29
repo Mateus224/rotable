@@ -70,7 +70,7 @@ public:
      *
      * @return              QHash with fields name
      */
-    QHash<int, QByteArray> roleNames() const;
+    QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
 
     /**
      * Get number of item
@@ -78,7 +78,7 @@ public:
      * @param parent
      * @return              Number of item's(in _tables)
      */
-    int rowCount(const QModelIndex & parent = QModelIndex()) const;
+    int rowCount(const QModelIndex & parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
     /**
      * Get data in field
@@ -88,7 +88,7 @@ public:
      * @return              QVariant with data
      */
     QVariant data(const QModelIndex & index,
-                  int role = Qt::DisplayRole) const;
+                  int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 
     //-----------------------------------------------------
     // Method for manage tables
@@ -121,6 +121,15 @@ public:
      * @return              Tabele pointer, or null if table not exists
      */
     rotable::Table *at(const std::size_t &id);
+
+    /**
+     * Add/Update order in table
+     *
+     * @param tableId       table id
+     * @param order         order object
+     * @return              true  on success(false e.i. table doesn't exists)
+     */
+    bool updateOrder(const int &tableId, rotable::Order *order);
 
 signals:
     /**

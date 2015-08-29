@@ -111,6 +111,28 @@ rotable::Table *rotable::TableModel::at(const std::size_t &id)
         return NULL;
 }
 
+bool TableModel::updateOrder(const int &tableId, rotable::Order *order)
+{
+    // Check if we have specific table
+    if(!_tables.contains(tableId))
+    {
+        qDebug() << "Table with id " + QString(tableId) + " doesn't exists";
+        return false;   //If no return false
+    }
+    // Access to table
+    Table * table = _tables[tableId];
+    // Inform model somethiong will be change
+    beginResetModel();
+    // Check if order exists
+    if(table->hasOrder(order->id()))
+        table->updateOrder(order);      // Update order
+    else
+        table->addOrder(order);         // Add order
+    endResetModel();                    // End modify model
+
+    return true;                        // Everything goes alright, return true
+}
+
 //-----------------------------------------------------
 
 void TableModel::sendToBoardOrder(int tableId)
