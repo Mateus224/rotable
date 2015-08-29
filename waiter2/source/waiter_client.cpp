@@ -276,8 +276,7 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
             //Convert JSON to order
             Order *order = Order::fromJSON(value);
             //Add order to table
-            Table *table = _tables.at(tableId);
-            table->addOrder(order);
+            _tables.updateOrder(tableId, order);
         }
     } break;
     //When someone change order
@@ -286,8 +285,7 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
         //Get order from json
         Order *order = Order::fromJSON(package->data());
         //Update order on table
-        Table *table = _tables.at(order->clientId());
-        table->updateOrder(order);
+        _tables.updateOrder(order->clientId(), order);
     } break;
     default:
     {
