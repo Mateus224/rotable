@@ -52,9 +52,20 @@ void Table::updateTableStatus(const rotable::Table *table)
     _change = _change || change;
 }
 
+//------------------------------------------------------------------------------
+
 QList<rotable::Order*> Table::orderList()
 {
     return _orders.values();
+}
+
+//------------------------------------------------------------------------------
+
+bool Table::hasOrder(const int &orderId) const
+{
+    if(_orders.contains(orderId))
+        return true;
+    return false;
 }
 
 //------------------------------------------------------------------------------

@@ -98,6 +98,15 @@ public:
      */
     QList<rotable::Order*> orderList();
 
+    /**
+     * Check if table has order
+     *
+     * @param orderId   order id
+     * @return          true if order exists
+     */
+    bool hasOrder(const int &orderId) const;
+
+
 private:
     /**
      * Store orders, int - orderId
