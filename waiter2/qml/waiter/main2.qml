@@ -14,7 +14,7 @@ RowLayout {
         Layout.fillWidth: true
         Layout.fillHeight: true
         Layout.minimumWidth: 200
-        Layout.maximumWidth: 300
+        Layout.maximumWidth: 250
         Layout.minimumHeight: 150
 
         anchors.left: parent.left
@@ -25,7 +25,7 @@ RowLayout {
         Rectangle {
             Text {
                 anchors.centerIn: parent
-                text: 'Menu'
+                text: qsTr('Menu')
             }
             radius: 10.0
             width: parent.width - 10; height: 30
@@ -103,24 +103,43 @@ RowLayout {
         }
     }
 
-    Rectangle {
+    Column {
 
-        color: 'plum'
         Layout.fillWidth: true
         Layout.fillHeight: true
         Layout.minimumWidth: 500
         Layout.preferredWidth: 800
         Layout.preferredHeight: 800
 
-        border.color: "lightsteelblue"
-        border.width: 4
-        radius: 8
+        anchors.left: sidebar.right
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+
+        spacing: 5
+
+        Rectangle {
+            Text {
+                anchors.centerIn: parent
+                text: qsTr('Order list')
+            }
+            radius: 10.0
+            width: parent.width - 10; height: 30
+        }
+
+//        border.color: "lightsteelblue"
+//        border.width: 4
+//        radius: 8
 
         ListView {
-            width: parent.width; height: parent.height
+//            color: 'plum'
+//            anchors.fill: parent
             spacing: 5
             model: orderboard
             id: board
+            width: parent.width - 10; height: parent.height - 35
+
+            visible: count == 0 ? false : true
 
             //anchors.top: parent.top
             anchors.topMargin: 10
