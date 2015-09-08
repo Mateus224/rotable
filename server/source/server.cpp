@@ -279,13 +279,17 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request)
   } break;
   case ComPackage::RequestTableIds:
   {
-    QJsonArray arr;
-    foreach (int id, _users[1]){
-        arr.append(id);
+    QList<int> ids;
+    if(_db.clientIds(ids, rotable::ComPackage::TableAccount))
+    {
+        QJsonArray arr;
+        foreach (int id, ids)
+            arr.append(id);
+        QJsonValue jsonVal(arr);
+        return new ComPackageDataReturn(*request, jsonVal);
     }
-    QJsonValue jsonVal(arr);
-
-    return new ComPackageDataReturn(*request, jsonVal);
+    else
+        qCritical() << tr("Could not query users ids for account type %1!").arg(rotable::ComPackage::TableAccount);
   } break;
   case ComPackage::RequestOrderOnTable:
   {

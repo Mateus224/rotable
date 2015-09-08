@@ -37,7 +37,7 @@ RowLayout {
                 anchors.centerIn: parent
                 text: "Log out"
             }
-            color: "red";
+            color: "gray";
             radius: 10.0
             width: parent.width - 10; height: 50
         }
@@ -72,21 +72,24 @@ RowLayout {
 
         Rectangle {
             radius: 10.0
-            width: parent.width - 10; height: 100
+            width: parent.width - 10; height: 200
 
             ListView {
                 id: tableList
                 spacing: 5
                 width: parent.width;
+                height: parent.height
 
                 model: tables
                 delegate: Rectangle {
-                    color: "#750a0a"
+                    color: orderNumber == 0  ? "gray" : "green"
                     height: 50
                     radius: 10.0
                     width: parent.width
                     Text{
-                        //anchors.centerIn: parent
+                        anchors.fill: parent
+                        anchors.leftMargin: 15
+                        anchors.topMargin: 5
                         text: "Table: " + name + ", " + id + "\nOrders: " + orderNumber
                     }
                     MouseArea{
@@ -107,15 +110,11 @@ RowLayout {
         Layout.fillHeight: true
         Layout.minimumWidth: 500
         Layout.preferredWidth: 800
-        Layout.preferredHeight: 100
+        Layout.preferredHeight: 800
 
         border.color: "lightsteelblue"
         border.width: 4
         radius: 8
-
-        Text{
-            text: orderboard.count
-        }
 
         ListView {
             width: parent.width; height: parent.height

@@ -146,6 +146,15 @@ public:
   bool orderItemIds(QList<int> &ids, int orderId);
 
   /**
+   * Get ids of users in group
+   *
+   * @param ids         list of ids
+   * @param userType    user type id (ComPackage::AcountType)
+   * @return            true on success
+   */
+  bool clientIds(QList<int> &ids, int userType);
+
+  /**
    * Read category from database.
    *
    * @param id          category id
