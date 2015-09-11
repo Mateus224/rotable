@@ -1,45 +1,40 @@
-import QtQuick 2.0
+import QtQuick 2.3
+import QtQuick.Layouts 1.1
 
-Item {
+Column{
 
-    width: parent.width
-    height:100
+    spacing: 10
 
-    Column {
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
+    Rectangle{
 
-        spacing: 5
-
-        Rectangle{
-
-            Text{
-                anchors.centerIn: parent
-                text: "Log out"
-            }
-            color: "red";
-            radius: 10.0
-            width: parent.width - 10; height: 50
+        Text{
+            anchors.centerIn: parent
+            text: qsTr("Log out")
         }
-
-        Rectangle{
-
-            Text{
-                anchors.centerIn: parent
-                text: "Exit"
-            }
-
-            MouseArea{
-                anchors.fill: parent
-                onClicked: {
-                    Qt.quit()
-                }
-            }
-
-            color: "red";
-            radius: 10.0
-            width: parent.width - 10; height: 50
-        }
+        color: "gray";
+        radius: 10.0
+        width: parent.width;
+        height: 50
     }
-}
 
+    Rectangle{
+
+        Text{
+            anchors.centerIn: parent
+            text: qsTr("Exit")
+        }
+
+        MouseArea{
+            anchors.fill: parent
+            onClicked: {
+                Qt.quit()
+            }
+        }
+
+        color: "red";
+        radius: 10.0
+        width: parent.width
+        height: 50
+    }
+
+}

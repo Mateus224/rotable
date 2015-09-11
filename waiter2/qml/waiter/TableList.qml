@@ -1,19 +1,34 @@
-import QtQuick 2.0
+import QtQuick 2.3
 
 Rectangle {
-    width: parent.width
+    radius: 10.0
+    width: parent.width - 10; height: parent.height
 
-    //In future field with table data
-    Rectangle {
+    ListView {
+        id: tableList
+        spacing: 5
+        width: parent.width;
+        height: parent.height
 
-        width: parent.width
-        height: 50
-        color: "white"
-        border.color: "lightsteelblue"
-        border.width: 4
-        radius: 8
-
-
+        model: tables
+        delegate: Rectangle {
+            color: orderNumber == 0  ? "gray" : "green"
+            height: 50
+            radius: 10.0
+            width: parent.width
+            Text{
+                anchors.fill: parent
+                anchors.leftMargin: 15
+                anchors.topMargin: 5
+                text: "Table: " + name + ", " + id + "\nOrders: " + orderNumber
+            }
+            MouseArea{
+                anchors.fill: parent
+                onClicked: {
+                    //mainScreen.sendToBoardOrder(id)
+                }
+            }
+        }
     }
 }
 

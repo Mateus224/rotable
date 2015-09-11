@@ -63,10 +63,10 @@ int main(int argc, char *argv[])
   ctxt->setContextProperty("tables", &(waiter_client->_tables));
   ctxt->setContextProperty("orderboard", &(waiter_client->_board));
   ctxt->setContextProperty("productList", &(waiter_client->_productsList));
-  view->setSource(QString("qrc:/waiter/main2.qml"));
+  view->setSource(QString("qrc:/waiter/main3.qml"));
 
   // Connect signal from table click to update order list
-  QObject::connect(view->rootObject(),  SIGNAL(sendToBoardOrder(int)), &(waiter_client->_tables), SLOT(sendToBoardOrder(int)));
+  //QObject::connect(view->rootObject(),  SIGNAL(sendToBoardOrder(int)), &(waiter_client->_tables), SLOT(sendToBoardOrder(int)));
   // Connect exit signal for exit
   QObject::connect(view->engine(),  SIGNAL(quit()), qApp, SLOT(quit()));
 

@@ -90,4 +90,7 @@ DISTFILES += \
     qml/waiter/main2.qml \
     qml/waiter/TableList.qml \
     qml/waiter/OrderList.qml \
-    qml/waiter/Menu.qml
+    qml/waiter/Menu.qml \
+    qml/waiter/main3.qml \
+    qml/waiter/Label.qml \
+    qml/waiter/TableButton.qml
