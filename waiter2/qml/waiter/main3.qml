@@ -18,6 +18,7 @@ GridLayout{
         Layout.preferredWidth: 150
         Layout.preferredHeight: 50
         Layout.maximumHeight: 50
+
     }
 
     Label{
@@ -25,8 +26,9 @@ GridLayout{
 
         text: qsTr("Orders")
 
-        Layout.preferredWidth: 500
-        Layout.preferredHeight: 50
+        height: 50
+
+        width: parent.width - menu.width
     }
 
     Menu{
@@ -36,14 +38,15 @@ GridLayout{
         Layout.minimumWidth: 150
         //Layout.preferredHeight: 100
 
-        Layout.columnSpan: 2
+        Layout.rowSpan: 2
     }
 
     OrderList{
         id: orders
-        Layout.columnSpan: 7
+        Layout.rowSpan: 7
 
         height: parent.height - orderLabel.height
+        width: parent.width - menu.width
     }
 
     Label{
@@ -62,8 +65,9 @@ GridLayout{
 
         Layout.preferredHeight: 200
 
-        Layout.row: 4
         Layout.column: 0
+        Layout.row: 4
+
 
     }
 

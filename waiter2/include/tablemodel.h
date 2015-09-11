@@ -133,6 +133,12 @@ public:
      */
     bool updateOrder(const int &tableId, rotable::Order *order);
 
+    /**
+     * Send orders to
+     * @param tableId
+     */
+    Q_INVOKABLE void sendToBoardOrder(int tableId);
+
 signals:
     /**
      * Signal for update OrderBoard
@@ -141,13 +147,6 @@ signals:
     void updateOrderBoard(rotable::Table &table);
 
     void countChanged();
-
-public slots:
-    /**
-     * Send orders to
-     * @param tableId
-     */
-    void sendToBoardOrder(int tableId);
 
 private:
     /**

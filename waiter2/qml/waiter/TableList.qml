@@ -2,7 +2,7 @@ import QtQuick 2.3
 
 Rectangle {
     radius: 10.0
-    width: parent.width - 10; height: parent.height
+    //width: parent.width - 10; height: parent.height
 
     ListView {
         id: tableList
@@ -25,7 +25,7 @@ Rectangle {
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
-                    //mainScreen.sendToBoardOrder(id)
+                    tables.sendToBoardOrder(id)
                 }
             }
         }
