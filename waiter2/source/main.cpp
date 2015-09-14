@@ -6,14 +6,7 @@
 #include "table.h"
 #include "tablemodel.h"
 #include <QGuiApplication>
-#include <QQmlEngine>
-#include <QQmlContext>
-#include <QtQuick/QQuickItem>
-#include <QtQuick/QQuickView>
-#include <QtQuick>
-
-
-
+#include <QtQml/QQmlApplicationEngine>
 
 //#include "client/linux/handler/exception_handler.h"
 
@@ -52,25 +45,20 @@ int main(int argc, char *argv[])
   rotable::Waiter_Client* waiter_client = new rotable::Waiter_Client(configFilePath);
 
   waiter_client->startup();
-  QQuickView* view=new QQuickView();
 
-  view->setResizeMode(QQuickView::SizeRootObjectToView);
-  QQmlContext *ctxt = view->rootContext();//view.rootContext();sss
+  QQmlApplicationEngine *engine = new QQmlApplicationEngine(NULL);
 
-  //qmlContxt init(*ctxt);
-  //init.initContxt(allTables);
+  QQmlContext *ctxt = engine->rootContext();//view.rootContext();sss
 
   ctxt->setContextProperty("tables", &(waiter_client->_tables));
   ctxt->setContextProperty("orderboard", &(waiter_client->_board));
   ctxt->setContextProperty("productList", &(waiter_client->_productsList));
-  view->setSource(QString("qrc:/waiter/main3.qml"));
+  //view->setSource(QString("qrc:/waiter/main3.qml"));
 
-  // Connect signal from table click to update order list
-  //QObject::connect(view->rootObject(),  SIGNAL(sendToBoardOrder(int)), &(waiter_client->_tables), SLOT(sendToBoardOrder(int)));
   // Connect exit signal for exit
-  QObject::connect(view->engine(),  SIGNAL(quit()), qApp, SLOT(quit()));
+  QObject::connect(engine,  SIGNAL(quit()), qApp, SLOT(quit()));
 
-  view->show();
+  engine->load(QUrl("qrc:/waiter/main3.qml"));
 
   return app.exec();
 }
