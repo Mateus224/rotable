@@ -165,10 +165,10 @@ ApplicationWindow {
                         }
                         ListView{
                             height: 50
-                            Layout.columnSpan: 2
                             model: orderItems
-                            delegate: Label{
-                                text: String(model.id)
+                            delegate: CheckBox{
+                                Layout.columnSpan: 2
+                                text: productList.productName(model.modelData.id)  + " Amount: " + model.modelData.amount
                             }
                         }
                     }

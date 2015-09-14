@@ -71,7 +71,7 @@ QVariant OrderBoard::data(const QModelIndex &index, int role) const
     case ItemsRole:{
         QList<QObject*> list;
         for(int i=0;i<order->itemCount();++i)
-            list << order->item(i);
+            list.append(order->item(i));
         return QVariant::fromValue(list);
     }break;
     }
