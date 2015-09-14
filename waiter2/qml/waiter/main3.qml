@@ -148,9 +148,29 @@ ApplicationWindow {
 
                 Component{
                     id: order
-                    Label {
-                        id: labelOrder
-                        text: String(model.orderId)
+                    Grid{
+                        columns: 2
+                        rows: 2
+                        flow: GridLayout.LeftToRight
+                        width: parent.width
+                        columnSpacing: width - labelOrder.width - buttonOrder.width
+                        height: 100
+                        Label {
+                            id: labelOrder
+                            text: String(model.orderId)
+                        }
+                        Button{
+                           id: buttonOrder
+                           text: qsTr("Select all")
+                        }
+                        ListView{
+                            height: 50
+                            Layout.columnSpan: 2
+                            model: orderItems
+                            delegate: Label{
+                                text: String(model.id)
+                            }
+                        }
                     }
                 }
 
