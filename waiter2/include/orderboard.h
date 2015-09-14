@@ -43,6 +43,7 @@ public:
         DateRole = Qt::UserRole + 1,
         StatusRole,
         ClientRole,
+        OrderRole,
         ItemsRole
     };
 
