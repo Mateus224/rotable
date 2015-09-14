@@ -110,10 +110,30 @@ ApplicationWindow {
         ColumnLayout{
             id: orderLayout
 
-            Layout.fillHeight: true
             Layout.fillWidth: true
 
             Layout.minimumWidth: board.width
+            spacing: margin
+
+            RowLayout{
+                height: 100
+                width: parent.width
+                spacing: margin
+                Button{
+                    text: "Payed"
+                    enabled: false
+                }
+                Button{
+                    text: "Remove"
+                    enabled: false
+                }
+                Button{
+                    text: "Something else"
+                    enabled: false
+                }
+
+            }
+
 
             ListView {
 
@@ -121,15 +141,16 @@ ApplicationWindow {
                 spacing: 5
                 model: orderboard
                 id: board
-                anchors.fill: parent
+                //anchors.fill: parent
                 width: 200
                 //Layout.fillWidth: true
+                Layout.fillHeight: true
 
                 Component{
                     id: order
                     Label {
                         id: labelOrder
-                        text: String(model.id)
+                        text: String(model.orderId)
                     }
                 }
 
