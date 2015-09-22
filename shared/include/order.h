@@ -39,7 +39,7 @@ class rotable::OrderItem : public QObject
 {
   Q_OBJECT
 
-  Q_PROPERTY(int id READ id)
+  Q_PROPERTY(int id READ id WRITE setId NOTIFY idChanged)
   Q_PROPERTY(int amount READ amount WRITE setAmount NOTIFY amountChanged)
 
 public:
@@ -48,7 +48,7 @@ public:
   explicit OrderItem(const QJsonValue& jval, QObject *parent = 0);
 
   inline int id() const { return _id; }
-  inline void setId(int id) { _id = id; }
+  inline void setId(int id) { _id = id; emit idChanged();}
 
   inline int amount() const { return _amount; }
   inline void setAmount(int amount) { _amount = amount; emit amountChanged(); }
@@ -58,6 +58,7 @@ public:
 
 signals:
   void amountChanged();
+  void idChanged();
 
 private:
   int _id;
