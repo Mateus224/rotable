@@ -95,10 +95,12 @@ ApplicationWindow {
                             delegate: Button{
                                 id: tableListButton
 
+                                enabled: model.orderNumber == 0 ? false : true
+
                                 width:  parent.width
                                 checkable: true
                                 exclusiveGroup: tableExclusiveGroup
-                                text: "Table: " + model.name + ", " + model.id + "\nOrders: " + orderNumber
+                                text: "Table: " + model.name + ", " + model.id + "\nOrders: " + model.orderNumber
 
                                 onClicked: tables.sendToBoardOrder(model.id)
                             }
