@@ -126,7 +126,10 @@ private:
     bool _waiterIsNeeded;
 
 signals:
-    //void orderChanged();
+    void tableChanged();
+
+private slots:
+    void orderChanged();
 };  // class Table
 
 //------------------------------------------------------------------------------

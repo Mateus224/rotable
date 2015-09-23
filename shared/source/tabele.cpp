@@ -24,13 +24,17 @@ Table::Table(QObject *parent): rotable::Client(parent)
 void Table::updateOrder(rotable::Order* order){
     // Check if order contains order
     if(_orders.contains(order->id()))
-        //Clear memory
-        delete _orders[order->id()];
-    // Add order
-    _orders[order->id()] = order;
+    {
+        _orders[order->id()]->updateOrder(order);
+        delete order;
+    }
+    else
+    {
+        // Add order
+        _orders[order->id()] = order;
+        emit tableChanged();
+    }
     //Change are made, set change value on true
-    _change = true;
-    //emit orderChanged();
 }
 
 //------------------------------------------------------------------------------
@@ -40,7 +44,7 @@ void Table::updateTableStatus(const rotable::Table *table)
     // Change value create
     bool change = false;
 
-    // Chaeck if something change
+    // Check if something change
     if(_waiterIsNeeded != table->_waiterIsNeeded)
     {
         // Change so we set change
@@ -66,6 +70,14 @@ bool Table::hasOrder(const int &orderId) const
     if(_orders.contains(orderId))
         return true;
     return false;
+}
+
+//------------------------------------------------------------------------------
+
+void Table::orderChanged()
+{
+    _change = true;
+    emit tableChanged();
 }
 
 //------------------------------------------------------------------------------

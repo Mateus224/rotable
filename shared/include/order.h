@@ -41,6 +41,7 @@ class rotable::OrderItem : public QObject
 
   Q_PROPERTY(int id READ id WRITE setId NOTIFY idChanged)
   Q_PROPERTY(int amount READ amount WRITE setAmount NOTIFY amountChanged)
+  Q_PROPERTY(int state READ state WRITE setState NOTIFY stateChanged)
 
 public:
 
@@ -53,16 +54,23 @@ public:
   inline int amount() const { return _amount; }
   inline void setAmount(int amount) { _amount = amount; emit amountChanged(); }
 
+  inline int state() const { return _state; }
+  inline void setState(int state) {_state = state; emit stateChanged();}
+
   QJsonValue toJSON() const;
   static OrderItem* fromJSON(const QJsonValue& jval);
+
+  void updateOrderItem(OrderItem *item);
 
 signals:
   void amountChanged();
   void idChanged();
+  void stateChanged();
 
 private:
   int _id;
   int _amount;
+  int _state;
 }; // class OrderItem
 
 //------------------------------------------------------------------------------
@@ -143,6 +151,13 @@ public:
    * @return            order item count
    */
   inline int itemCount() const { return _items.size(); }
+
+  /**
+   * Get item from order
+   *
+   * @param idx         idx of item
+   * @return
+   */
   inline OrderItem* item(int idx) { return _items.at(idx); }
 
   /**
@@ -170,6 +185,13 @@ public:
    * @return            created order object or NULL on error
    */
   static Order *fromJSON(const QJsonValue& jval);
+
+  /**
+   * Update order base on Order object
+   *
+   * @param order           Order object
+   */
+  void updateOrder(Order *order);
 
 signals:
   void stateChanged();

@@ -90,11 +90,31 @@ rotable::Order *Order::fromJSON(const QJsonValue &jval)
 
 //------------------------------------------------------------------------------
 
+void Order::updateOrder(rotable::Order *order)
+{
+    if(state() != order->state())
+    {
+        setState(order->state());
+    }
+
+    //That should never be happened
+    if(itemCount() != order->itemCount())
+        qCritical() << "Order items count are different!!";
+
+    for(int i=0;itemCount();++i)
+        _items[i]->updateOrderItem(order->_items[i]);
+
+}
+
+//------------------------------------------------------------------------------
+
 QJsonValue OrderItem::toJSON() const
 {
     QJsonObject o;
     o["id"] = _id;
     o["amount"] = _amount;
+    //It must be implement in database
+    //o["state"] = _state;
 
     return QJsonValue(o);
 }
@@ -119,6 +139,18 @@ rotable::OrderItem *OrderItem::fromJSON(const QJsonValue &jval)
     }
 
     return 0;
+}
+
+//------------------------------------------------------------------------------
+
+void OrderItem::updateOrderItem(rotable::OrderItem *item)
+{
+    if(amount() != item->amount())
+        setAmount(item->amount());
+
+    //It must be implement in database
+//    if(state() != item->state())
+//        setState(item->state());
 }
 
 //------------------------------------------------------------------------------
