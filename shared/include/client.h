@@ -30,24 +30,26 @@ class rotable::Client : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(int id READ id WRITE setId)
-    Q_PROPERTY(QString name READ name WRITE setName)
+    Q_PROPERTY(int id READ id WRITE setId NOTIFY idChanged )
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged )
 public:
 
     Client(QObject *parent = 0);
 
 
     inline int id() const { return _id; }
-    inline void setId(int id) { _id = id; }
+    inline void setId(int id) { _id = id; emit idChanged();}
 
     inline QString name() const { return _name; }
-    inline void setName(const QString  name) { _name = name; }
+    inline void setName(const QString  name) { _name = name; emit nameChanged();}
 
 //  QJsonValue toJSON() const;
 //  static Client *fromJSON(const QJsonValue &jval);
 
-  inline virtual int accountType() = 0;
+    inline virtual int accountType() = 0;
 signals:
+    void idChanged();
+    void nameChanged();
 
 private:
   int _id;
@@ -58,17 +60,26 @@ private:
 //------------------------------------------------------------------------------
 
 class rotable::User : public Client{
+    Q_OBJECT
+
+    Q_PROPERTY(QString nick READ nick WRITE setNick NOTIFY nickChanged)
+    Q_PROPERTY(QString hashPassword READ hashPassword WRITE setHashPassword NOTIFY hashPasswordChanged)
 public:
 
     User(QObject *parent = 0);
 
     inline QString nick() const { return _nick; }
-    inline void setNick(const QString  nick) { _nick = nick; }
+    inline void setNick(const QString  nick) { _nick = nick; emit nickChanged(); }
 
     inline QString hashPassword() const { return _passwd; }
-    inline void setHashPassword(const QString  passwd) { _passwd = passwd; }
+    inline void setHashPassword(const QString  passwd) { _passwd = passwd; emit hashPasswordChanged();}
     static QString generateHashPassword(const QString &password);
     void setPassword(const QString &password);
+
+signals:
+    void nickChanged();
+    void hashPasswordChanged();
+
 private:
     QString _nick;
     /**

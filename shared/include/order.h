@@ -96,7 +96,7 @@ public:
   };
 
 private:
-  Q_PROPERTY(int id READ id WRITE setId)
+  Q_PROPERTY(int id READ id WRITE setId NOTIFY idChanged)
   Q_PROPERTY(int state READ state WRITE setState NOTIFY stateChanged)
   Q_PROPERTY(int clientId READ clientId WRITE setClientId NOTIFY clientIdChanged)
   Q_PROPERTY(​QQmlListProperty<OrderItem> items READ items NOTIFY itemsChanged)
@@ -120,7 +120,7 @@ public:
   ~Order();
 
   inline int id() const { return _id; }
-  inline void setId(int id) { _id = id; }
+  inline void setId(int id) { _id = id; emit idChanged();}
 
   inline int state() const { return _state; }
   inline void setState(int state) { _state = state; emit stateChanged(); }
@@ -176,6 +176,7 @@ signals:
   void itemsChanged();
   void timeSentChanged();
   void clientIdChanged();
+  void idChanged();
 
 private:
   /* Unique order ID */

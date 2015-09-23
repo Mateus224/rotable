@@ -30,6 +30,7 @@ QString User::generateHashPassword(const QString& password)
 void User::setPassword(const QString& password)
 {
     _passwd = generateHashPassword(password);                              // set _passwd with hash
+    emit hashPasswordChanged();
 }
 
 //------------------------------------------------------------------------------
