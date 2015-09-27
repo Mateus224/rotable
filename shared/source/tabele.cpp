@@ -1,5 +1,5 @@
 #include "table.h"
-using rotable::Table;
+using namespace rotable;
 
 //------------------------------------------------------------------------------
 
@@ -12,11 +12,9 @@ Table::~Table()
 
 //------------------------------------------------------------------------------
 
-Table::Table(QObject *parent): rotable::Client(parent)
+Table::Table(QObject *parent): rotable::Client(parent), _change(false), _waiterIsNeeded(false)
 {
-    // Set default value
-    _change = false;
-    _waiterIsNeeded = false;
+
 }
 
 //------------------------------------------------------------------------------
@@ -32,8 +30,9 @@ void Table::updateOrder(rotable::Order* order){
     {
         // Add order
         _orders[order->id()] = order;
-        emit tableChanged();
+        connect(order, rotable::Order::itemsChanged, this, orderChanged);
     }
+    //emit tableChanged();
     //Change are made, set change value on true
 }
 
@@ -77,7 +76,7 @@ bool Table::hasOrder(const int &orderId) const
 void Table::orderChanged()
 {
     _change = true;
-    emit tableChanged();
+    //emit tableChanged();
 }
 
 //------------------------------------------------------------------------------

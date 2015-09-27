@@ -137,7 +137,7 @@ bool TableModel::updateOrder(const int &tableId, rotable::Order *order)
 
 void TableModel::sendToBoardOrder(int tableId)
 {
-    emit updateOrderBoard(*_tables[tableId]);
+    emit updateOrderBoard(_tables[tableId]);
 }
 
 //-----------------------------------------------------

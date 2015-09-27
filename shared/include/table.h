@@ -14,6 +14,10 @@
 #include <QList>
 #endif
 
+#ifndef QOBJECT_H
+#include <QObject>
+#endif
+
 //------------------------------------------------------------------------------
 
 namespace rotable {
@@ -22,14 +26,18 @@ namespace rotable {
 
 //------------------------------------------------------------------------------
 
-class rotable::Table : public Client{
+class rotable::Table : public rotable::Client{
+
+    Q_OBJECT
+    Q_PROPERTY(bool waiterIsNeeded READ waiterIsNeeded WRITE setwaiterIsNeedede NOTIFY waiterIsNeededChanged)
+
 public:
 
     // Default destructor
     ~Table();
 
     //Default constructor
-    Table(QObject *parent = 0);
+    explicit Table(QObject *parent = 0);
 
     //------------------------------------------------------------------------------
     // Implement inherit class
@@ -43,6 +51,13 @@ public:
     inline virtual int accountType(){
         return 1;
     }
+
+    //------------------------------------------------------------------------------
+    // Property
+    //------------------------------------------------------------------------------
+
+    inline bool waiterIsNeeded() const { return _waiterIsNeeded; }
+    inline void setwaiterIsNeedede(bool waiterIsNeeded) { _waiterIsNeeded = waiterIsNeeded; emit tableChanged();}
 
     //------------------------------------------------------------------------------
     // Method
@@ -59,6 +74,7 @@ public:
             return _orders[orderId];
         return NULL;
     }
+
     /**
      * Get order number from table
      *
@@ -111,7 +127,7 @@ private:
     /**
      * Store orders, int - orderId
      */
-    QMap<int,Order*> _orders;
+    QMap<int,rotable::Order*> _orders;
 
     /**
      * Store status table
@@ -127,6 +143,7 @@ private:
 
 signals:
     void tableChanged();
+    void waiterIsNeededChanged();
 
 private slots:
     void orderChanged();

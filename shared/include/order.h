@@ -167,7 +167,8 @@ public:
    */
   inline void addItem(OrderItem* item) {
     _items.append(item);
-    connect(item, SIGNAL(amountChanged()), this, SIGNAL(itemsChanged()));
+    connect(item, rotable::OrderItem::amountChanged, this, itemChanged);
+    connect(item, rotable::OrderItem::stateChanged, this, itemChanged);
     emit itemsChanged();
   }
 
@@ -199,6 +200,9 @@ signals:
   void timeSentChanged();
   void clientIdChanged();
   void idChanged();
+
+private slots:
+  void itemChanged();
 
 private:
   /* Unique order ID */

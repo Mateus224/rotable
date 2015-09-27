@@ -149,7 +149,7 @@ private:
   /**
    * Request order base on table
    *
-   * @param tableId         table id
+   * @param tableId         id
    */
   void requestOrderOnTable(int tableId);
 

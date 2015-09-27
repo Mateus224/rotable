@@ -34,7 +34,8 @@ class rotable::Client : public QObject
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged )
 public:
 
-    Client(QObject *parent = 0);
+    explicit  Client(QObject *parent = 0);
+    ~Client();
 
 
     inline int id() const { return _id; }
@@ -46,7 +47,7 @@ public:
 //  QJsonValue toJSON() const;
 //  static Client *fromJSON(const QJsonValue &jval);
 
-    inline virtual int accountType() = 0;
+    inline virtual int accountType() { return -1; }
 signals:
     void idChanged();
     void nameChanged();
@@ -59,14 +60,14 @@ private:
 
 //------------------------------------------------------------------------------
 
-class rotable::User : public Client{
+class rotable::User : public rotable::Client{
     Q_OBJECT
 
     Q_PROPERTY(QString nick READ nick WRITE setNick NOTIFY nickChanged)
     Q_PROPERTY(QString hashPassword READ hashPassword WRITE setHashPassword NOTIFY hashPasswordChanged)
 public:
 
-    User(QObject *parent = 0);
+    explicit User(QObject *parent = 0);
 
     inline QString nick() const { return _nick; }
     inline void setNick(const QString  nick) { _nick = nick; emit nickChanged(); }
@@ -90,10 +91,10 @@ private:
 
 //------------------------------------------------------------------------------
 
-class rotable::Waiter : public User{
+class rotable::Waiter : public rotable::User{
 public:
 
-    Waiter(QObject *parent=0);
+    explicit Waiter(QObject *parent=0);
 
     inline virtual int accountType(){ return 0; }
 private:
@@ -102,7 +103,7 @@ private:
 
 //------------------------------------------------------------------------------
 
-class rotable::Admin : public User{
+class rotable::Admin : public rotable::User{
 public:
 
     Admin(QObject *parent=0);

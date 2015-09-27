@@ -14,8 +14,7 @@ OrderBoard::OrderBoard(QObject *parent): QAbstractListModel(parent)
 //-----------------------------------------------------
 
 OrderBoard::~OrderBoard(){
-    qDeleteAll(_orders.begin(), _orders.end());
-    _orders.clear();     //Clear list
+    clearOrders();
 }
 
 //-----------------------------------------------------
@@ -79,31 +78,40 @@ QVariant OrderBoard::data(const QModelIndex &index, int role) const
 
 //-----------------------------------------------------
 
-void OrderBoard::readOrderFromTable(Table &table)
+void OrderBoard::readOrderFromTable(Table *table)
 {
-    if(table.id()==_tableId)
-    {
-        //ToDo: Update order
+//    if(table->id()==_tableId)
+//    {
+//        //ToDo: Update order
 
+//        beginResetModel();
+//        _orders.clear();
+//        endResetModel();
+//        QList<rotable::Order *> orders = table->orderList();
+//        foreach (Order *order, orders) {
+//             addOrder(order);
+//        }
+//    }
+//    else
+//    {
         beginResetModel();
-        _orders.clear();
+        loadOrders(table);
         endResetModel();
-        QList<rotable::Order *> orders = table.orderList();
-        foreach (Order *order, orders) {
-             addOrder(order);
-        }
-    }
+        _tableId=table->id();
+        //When table change (and table is selected) auto load orders to OrderBoard
+        connect(table, rotable::Table::tableChanged, this, OrderBoard::updateOrders);
+//            }
+}
+
+//-----------------------------------------------------
+
+void OrderBoard::updateOrders()
+{
+    Table *table = dynamic_cast<Table*>(QObject::sender());
+    if(table)
+      loadOrders(table);
     else
-    {
-        beginResetModel();
-        _orders.clear();
-        endResetModel();
-        QList<rotable::Order *> orders = table.orderList();
-        foreach (Order *order, orders) {
-             addOrder(order);
-        }
-        _tableId=table.id();
-    }
+        qCritical() << "Someone call method, forbiden";
 }
 
 //-----------------------------------------------------
@@ -119,6 +127,25 @@ QHash<int, QByteArray> OrderBoard::roleNames() const
     roles[ItemsRole]  = "orderItems";
 
     return roles;
+}
+
+//-----------------------------------------------------
+
+void OrderBoard::clearOrders()
+{
+    qDeleteAll(_orders.begin(), _orders.end());
+    _orders.clear();     //Clear list
+}
+
+//-----------------------------------------------------
+
+void OrderBoard::loadOrders(rotable::Table *table)
+{
+    clearOrders();
+    QList<rotable::Order *> orders = table->orderList();
+    foreach (Order *order, orders) {
+         addOrder(order);
+    }
 }
 
 //-----------------------------------------------------

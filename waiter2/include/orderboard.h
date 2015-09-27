@@ -70,7 +70,7 @@ public:
     * Get number of item
     *
     * @param parent
-    * @return              Number of item's(in _orders)
+    * @return               Number of item's(in _orders)
     */
     int rowCount(const QModelIndex & parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
@@ -86,7 +86,7 @@ public:
     /**
      * Method for add order to model
      *
-     * @param order       Order object
+     * @param order         Order object
      */
     void addOrder(rotable::Order *order);
 
@@ -101,9 +101,14 @@ public slots:
     /**
      * Read orders from table, used to update and load new order form table
      *
-     * @param table       Table object
+     * @param table         Table object
      */
-    void readOrderFromTable(rotable::Table &table);
+    void readOrderFromTable(rotable::Table *table);
+
+    /**
+     * Update orders on table when table send signal
+     */
+    void updateOrders();
 
 protected:
     //-----------------------------------------------------
@@ -121,6 +126,17 @@ signals:
     void countChange();
 
 private:
+    /**
+     * Clear _orders QMap
+     */
+
+    inline void clearOrders();
+    /**
+     * load orders form specific table
+     * @param table         Table object
+     */
+    void loadOrders(Table *table);
+
     QMap<int, rotable::Order*> _orders;
     int _tableId;
 };

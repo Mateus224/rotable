@@ -144,7 +144,7 @@ signals:
      * Signal for update OrderBoard
      * @param table
      */
-    void updateOrderBoard(rotable::Table &table);
+    void updateOrderBoard(rotable::Table* table);
 
     void countChanged();
 

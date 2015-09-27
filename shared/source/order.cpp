@@ -108,6 +108,13 @@ void Order::updateOrder(rotable::Order *order)
 
 //------------------------------------------------------------------------------
 
+void Order::itemChanged()
+{
+    emit itemsChanged();
+}
+
+//------------------------------------------------------------------------------
+
 QJsonValue OrderItem::toJSON() const
 {
     QJsonObject o;
