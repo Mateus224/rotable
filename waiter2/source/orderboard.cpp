@@ -80,6 +80,8 @@ QVariant OrderBoard::data(const QModelIndex &index, int role) const
 
 void OrderBoard::readOrderFromTable(Table *table)
 {
+    //ToDo: add remove last connected signal for slot updateOrders
+    //disconnect(updateOrders);
 //    if(table->id()==_tableId)
 //    {
 //        //ToDo: Update order
@@ -132,7 +134,7 @@ QHash<int, QByteArray> OrderBoard::roleNames() const
 void OrderBoard::clearOrders()
 {
     beginResetModel();
-//    qDeleteAll(_orders.begin(), _orders.end());
+    qDeleteAll(_orders.begin(), _orders.end());
     _orders.clear();     //Clear list
     endResetModel();
 }

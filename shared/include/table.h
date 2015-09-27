@@ -29,6 +29,7 @@ namespace rotable {
 class rotable::Table : public rotable::Client{
 
     Q_OBJECT
+
     Q_PROPERTY(bool waiterIsNeeded READ waiterIsNeeded WRITE setwaiterIsNeedede NOTIFY waiterIsNeededChanged)
 
 public:

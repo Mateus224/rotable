@@ -23,7 +23,7 @@ void Table::updateOrder(rotable::Order* order){
     // Check if order contains order
     if(_orders.contains(order->id()))
     {
-        _orders[order->id()]->updateOrder(order);
+        _orders.value(order->id())->updateOrder(order);
         delete order;
     }
     else
