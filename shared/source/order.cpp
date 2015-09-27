@@ -101,7 +101,8 @@ void Order::updateOrder(rotable::Order *order)
     if(itemCount() != order->itemCount())
         qCritical() << "Order items count are different!!";
 
-    for(int i=0;itemCount();++i)
+    int count = order->itemCount();
+    for(int i=0; i < count; ++i)
         _items[i]->updateOrderItem(order->_items[i]);
 
 }

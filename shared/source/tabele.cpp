@@ -32,7 +32,7 @@ void Table::updateOrder(rotable::Order* order){
         _orders[order->id()] = order;
         connect(order, rotable::Order::itemsChanged, this, orderChanged);
     }
-    //emit tableChanged();
+    emit tableChanged();
     //Change are made, set change value on true
 }
 
@@ -76,7 +76,7 @@ bool Table::hasOrder(const int &orderId) const
 void Table::orderChanged()
 {
     _change = true;
-    //emit tableChanged();
+    emit tableChanged();
 }
 
 //------------------------------------------------------------------------------

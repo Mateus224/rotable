@@ -150,7 +150,7 @@ public:
    *
    * @return            order item count
    */
-  inline int itemCount() const { return _items.size(); }
+  inline int itemCount() const { return _items.count(); }
 
   /**
    * Get item from order

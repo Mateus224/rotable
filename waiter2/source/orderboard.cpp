@@ -94,9 +94,7 @@ void OrderBoard::readOrderFromTable(Table *table)
 //    }
 //    else
 //    {
-        beginResetModel();
         loadOrders(table);
-        endResetModel();
         _tableId=table->id();
         //When table change (and table is selected) auto load orders to OrderBoard
         connect(table, rotable::Table::tableChanged, this, OrderBoard::updateOrders);
@@ -133,8 +131,10 @@ QHash<int, QByteArray> OrderBoard::roleNames() const
 
 void OrderBoard::clearOrders()
 {
-    qDeleteAll(_orders.begin(), _orders.end());
+    beginResetModel();
+//    qDeleteAll(_orders.begin(), _orders.end());
     _orders.clear();     //Clear list
+    endResetModel();
 }
 
 //-----------------------------------------------------
