@@ -99,7 +99,7 @@ void OrderBoard::readOrderFromTable(Table *table)
         loadOrders(table);
         _tableId=table->id();
         //When table change (and table is selected) auto load orders to OrderBoard
-        connect(table, rotable::Table::tableChanged, this, OrderBoard::updateOrders);
+        connect(table, &rotable::Table::tableChanged, this, &OrderBoard::updateOrders);
 //            }
 }
 

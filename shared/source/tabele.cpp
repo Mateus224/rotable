@@ -30,7 +30,7 @@ void Table::updateOrder(rotable::Order* order){
     {
         // Add order
         _orders[order->id()] = order;
-        connect(order, rotable::Order::itemsChanged, this, orderChanged);
+        connect(order, &rotable::Order::itemsChanged, this, &rotable::Table::orderChanged);
     }
     emit tableChanged();
     //Change are made, set change value on true

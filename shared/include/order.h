@@ -165,12 +165,7 @@ public:
    *
    * @param item        item to add
    */
-  inline void addItem(OrderItem* item) {
-    _items.append(item);
-    connect(item, rotable::OrderItem::amountChanged, this, itemChanged);
-    connect(item, rotable::OrderItem::stateChanged, this, itemChanged);
-    emit itemsChanged();
-  }
+  inline void addItem(OrderItem* item);
 
   /**
    * Convert this order into a QJsonObject.

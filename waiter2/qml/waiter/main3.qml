@@ -137,7 +137,7 @@ ApplicationWindow {
             }
 
             ScrollView {
-                horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOn
+                //horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOn
                 ListView {
 
                     //anchors.fill: parent
