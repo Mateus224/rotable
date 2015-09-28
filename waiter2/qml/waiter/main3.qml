@@ -1,5 +1,5 @@
 import QtQuick 2.2
-import QtQuick.Controls 1.2
+import QtQuick.Controls 1.3
 import QtQuick.Layouts 1.0
 
 ApplicationWindow {
@@ -36,7 +36,7 @@ ApplicationWindow {
                 GroupBox {
                     id: rowBox
                     title: qsTr("Menu")
-                    Layout.fillWidth: true
+                    //Layout.fillWidth: true
 
                     RowLayout {
                         id: rowLayout
@@ -80,10 +80,10 @@ ApplicationWindow {
 
                         ListView {
                             id: tableList
-                            Layout.fillWidth: true
+                            Layout.fillHeight: true
                             //height: implicitHeight
                             //height: tableList.count * (spacing + 50)
-                            height:200
+                            Layout.minimumWidth: 200
                             spacing: margin
 
                             ExclusiveGroup {
@@ -112,10 +112,10 @@ ApplicationWindow {
         ColumnLayout{
             id: orderLayout
 
-            Layout.fillWidth: true
+            //Layout.fillWidth: true
 
-            Layout.minimumWidth: board.width
             spacing: margin
+
 
             RowLayout{
                 height: 100
@@ -136,48 +136,55 @@ ApplicationWindow {
 
             }
 
+            ScrollView {
+                horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOn
+                ListView {
 
-            ListView {
+                    //anchors.fill: parent
+                    spacing: 5
+                    model: orderboard
+                    id: board
+                    //anchors.fill: parent
+                    Layout.minimumWidth: 200
+                    Layout.minimumHeight: 200
+                    Layout.preferredWidth: 1366
+                    Layout.preferredHeight: 700
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
 
-                //anchors.fill: parent
-                spacing: 5
-                model: orderboard
-                id: board
-                //anchors.fill: parent
-                width: 200
-                //Layout.fillWidth: true
-                Layout.fillHeight: true
-
-                Component{
-                    id: order
-                    Grid{
-                        columns: 2
-                        rows: 2
-                        flow: GridLayout.LeftToRight
-                        width: parent.width
-                        columnSpacing: width - labelOrder.width - buttonOrder.width
-                        height: 100
-                        Label {
-                            id: labelOrder
-                            text: String(model.orderId)
-                        }
-                        Button{
-                           id: buttonOrder
-                           text: qsTr("Select all")
-                        }
-                        ListView{
-                            height: 50
-                            model: orderItems
-                            delegate: CheckBox{
-                                Layout.columnSpan: 2
-                                text: productList.productName(model.modelData.id)  + " Amount: " + model.modelData.amount
+                    Component{
+                        id: order
+                        Grid{
+                            columns: 2
+                            rows: 2
+                            flow: GridLayout.LeftToRight
+                            width: parent.width
+                            columnSpacing: width - labelOrder.width - buttonOrder.width
+                            height: 100
+                            Label {
+                                id: labelOrder
+                                text: String(model.orderId)
+                            }
+                            Button{
+                               id: buttonOrder
+                               text: qsTr("Select all")
+                            }
+                            ListView{
+                                height: 50
+                                model: orderItems
+                                delegate: CheckBox{
+                                    Layout.columnSpan: 2
+                                    text: productList.productName(model.modelData.id)  + " Amount: " + model.modelData.amount
+                                }
                             }
                         }
                     }
+
+                    delegate:order
                 }
 
-                delegate:order
-            }
+                }
+
         }
     }
 

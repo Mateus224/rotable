@@ -92,6 +92,7 @@ public:
      */
     inline void addOrder(rotable::Order* order){
         _orders[order->id()] = order;
+        emit  tableChanged();
     }
 
     /**

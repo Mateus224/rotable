@@ -134,7 +134,6 @@ QHash<int, QByteArray> OrderBoard::roleNames() const
 void OrderBoard::clearOrders()
 {
     beginResetModel();
-    qDeleteAll(_orders.begin(), _orders.end());
     _orders.clear();     //Clear list
     endResetModel();
 }
