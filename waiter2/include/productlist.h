@@ -14,7 +14,7 @@ namespace rotable{
 #endif
 
 #ifndef QHASH_H
-#include <QHash>
+#include <QMap>
 #endif
 
 #ifndef QSTRING_H
@@ -51,7 +51,7 @@ public:
      *
      * @param product       Product object
      */
-    void addProduct(const rotable::Product *product);
+    void addProduct(rotable::Product *product);
 
     /**
      * Remove product from list
@@ -104,7 +104,7 @@ public slots:
     void productUpdated(rotable::Product* product);
 
 private:
-    QHash<int, QString> _productList;
+    QMap<int, QString> _productList;
     rotable::ProductContainer *_container;
 };
 

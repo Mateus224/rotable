@@ -145,10 +145,7 @@ ApplicationWindow {
                     model: orderboard
                     id: board
                     //anchors.fill: parent
-                    Layout.minimumWidth: 200
                     Layout.minimumHeight: 200
-                    Layout.preferredWidth: 1366
-                    Layout.preferredHeight: 700
                     Layout.fillWidth: true
                     Layout.fillHeight: true
 
@@ -160,7 +157,7 @@ ApplicationWindow {
                             flow: GridLayout.LeftToRight
                             width: parent.width
                             columnSpacing: width - labelOrder.width - buttonOrder.width
-                            height: 100
+                            height: 50
                             Label {
                                 id: labelOrder
                                 text: String(model.orderId)

@@ -35,15 +35,6 @@ Order::~Order()
 
 //------------------------------------------------------------------------------
 
-void Order::addItem(OrderItem *item) {
-    _items.append(item);
-    connect(item, &rotable::OrderItem::amountChanged, this, &rotable::Order::itemChanged);
-    connect(item, &rotable::OrderItem::stateChanged, this, &rotable::Order::itemChanged);
-    emit itemsChanged();
-}
-
-//------------------------------------------------------------------------------
-
 QJsonValue Order::toJSON() const
 {
     QJsonObject o;

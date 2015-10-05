@@ -48,7 +48,9 @@ Waiter_Client::Waiter_Client(const QString &configFilePath, QObject *parent)
       // everything is fine :)
       break;
     }
+
     _products = new ProductContainer();
+    //set container for productlist(connect sigals-slots, etc.)
     _productsList.setContainer(_products);
 
     connect(&_tcp, SIGNAL(connected()),
@@ -243,6 +245,7 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
 
     case ComPackage::RequestProduct:
     {
+
       Product* product = Product::fromJSON(package->data());
       _products->updateProduct(product);
     } break;
@@ -318,7 +321,6 @@ void Waiter_Client::requestProduct(int productId)
   ComPackageDataRequest* request = new ComPackageDataRequest();
   request->setDataCategory(ComPackage::RequestProduct);
   request->setDataName(QString("%1").arg(productId));
-
   if (!_tcp.send(*request)) {
     qCritical() << tr("Could not send request!");
   } else {
@@ -332,7 +334,6 @@ void Waiter_Client::requestProductIds(int categoryId)
   ComPackageDataRequest* request = new ComPackageDataRequest();
   request->setDataCategory(ComPackage::RequestProductIds);
   request->setDataName(QString("%1").arg(categoryId));
-
   if (!_tcp.send(*request)) {
     qCritical() << tr("Could not send request!");
   } else {
@@ -397,6 +398,7 @@ void Waiter_Client::dataChanged(rotable::ComPackageDataChanged *package)
     } break;
     case ComPackage::RequestCategory:
     {
+
       bool ok;
       int categoryId = package->dataName().toInt(&ok);
       if (!ok) {
@@ -408,8 +410,10 @@ void Waiter_Client::dataChanged(rotable::ComPackageDataChanged *package)
     } break;
     case ComPackage::RequestProduct:
     {
+
       bool ok;
       int productId = package->dataName().toInt(&ok);
+       qCritical() << "reqest product :" << productId;
       if (!ok) {
         qCritical() << tr("Could not convert product id '%1' to int!")
                        .arg(package->dataName());
