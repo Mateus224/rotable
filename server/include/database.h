@@ -31,6 +31,8 @@
 #include "income.h"
 #include "config.h"
 #include "productorder.h"
+#include "client.h"
+#include "table.h"
 
 //------------------------------------------------------------------------------
 
@@ -208,6 +210,14 @@ public:
    * @return            orderItem or NULL on error
    */
   OrderItem *orderItem(int id);
+
+  /**
+   * Read Client from database
+   * @param id          client id
+   * @return            client or NULL on error
+   */
+  rotable::Client *client(int id);
+
 
   /**
    * Add a new product category to the database.
@@ -488,6 +498,13 @@ private:
    * @param cmds        collected commands
    */
   void collectSqlCommands(SqlCommands& cmds, QString table);
+
+  /**
+   * Get additional data about table, e.i. check if waiter is needed
+   *
+   * @param table       Table object
+   */
+  void getTableAdditionalData(rotable::Table *table);
 
 
   /* Database handle */

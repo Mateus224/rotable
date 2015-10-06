@@ -26,7 +26,7 @@ namespace rotable {
 /**
  * @brief The rotable::Waiter class defines an ordered item.
  */
-class rotable::Client : public QObject
+class rotable:: Client : public QObject
 {
     Q_OBJECT
 

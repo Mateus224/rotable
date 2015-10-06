@@ -715,6 +715,81 @@ OrderItem *Database::orderItem(int id)
 
 //------------------------------------------------------------------------------
 
+Client *Database::client(int id)
+{
+    Client *client;
+
+    if (!isConnected()) {
+      return 0;
+    }
+
+    QString queryStr = _sqlCommands[Clients]._select.arg(_prefix, "*", "id", ":id");
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return 0;
+    }
+
+    q.bindValue(":id", id);
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return 0;
+    }
+
+    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+      if (q.size() != 1) {
+        qCritical() << tr("Query: returned %1 results but we expected it to return 1!")
+                       .arg(q.size());
+        return 0;
+      }
+    }
+
+    if (!q.next()) {
+      return 0;
+    }
+
+    bool ok;
+
+    int clienttId = q.value("id").toInt(&ok);
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("id").toString());
+      return 0;
+    }
+
+    int type = q.value("type").toInt(&ok);
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("type").toString());
+      return 0;
+    }
+
+    //Base on type create property account type
+
+    switch(type){
+    case 1:{
+            client = new Table();
+            client->setId(clienttId);
+            client->setName(q.value("name").toString());
+            getTableAdditionalData(reinterpret_cast<Table*>(client));
+        }  break;
+    case 2:
+        //ToDo: Add support for other accounts
+        break;
+    case 3:
+        break;
+    default:
+        client = NULL;
+    }
+
+    return client;
+}
+
+//------------------------------------------------------------------------------
+
 bool Database::addCategory(ProductCategory* category)
 {
   if (!isConnected()) {
@@ -2161,3 +2236,13 @@ void Database::collectSqlCommands(Database::SqlCommands& cmds, QString table)
   Q_ASSERT(!cmds._listIds.isEmpty());
   Q_ASSERT(!cmds._remove.isEmpty());
 }
+
+//------------------------------------------------------------------------------
+
+void Database::getTableAdditionalData(Table *table)
+{
+    //ToDo: Read additional data and add them to waiter
+    Q_UNUSED(table);
+}
+
+//------------------------------------------------------------------------------
