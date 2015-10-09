@@ -2246,7 +2246,11 @@ int Database::registerTable(QString name, QString macAdresses)
           return -1;
         }
 
+        return id;
+
     }
+
+    changeTableConnectStatus(id, true);
 
     return id;
 }
