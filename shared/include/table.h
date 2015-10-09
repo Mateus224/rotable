@@ -31,6 +31,7 @@ class rotable::Table : public rotable::Client{
     Q_OBJECT
 
     Q_PROPERTY(bool waiterIsNeeded READ waiterIsNeeded WRITE setwaiterIsNeedede NOTIFY waiterIsNeededChanged)
+    Q_PROPERTY(bool isConnected READ isConnected WRITE setIsConnected NOTIFY isConnectedChanged)
 
 public:
 
@@ -60,6 +61,9 @@ public:
     inline bool waiterIsNeeded() const { return _waiterIsNeeded; }
     inline void setwaiterIsNeedede(bool waiterIsNeeded) { _waiterIsNeeded = waiterIsNeeded; emit tableChanged();}
 
+
+    inline bool isConnected() const { return _isConnected; }
+    inline void setIsConnected(bool isConnected)  { _isConnected = isConnected; emit isConnectedChanged(); }
     //------------------------------------------------------------------------------
     // Method
     //------------------------------------------------------------------------------
@@ -143,9 +147,15 @@ private:
      */
     bool _waiterIsNeeded;
 
+    /**
+     * Store information about enabled of table (table is on/off)
+     */
+    bool _isConnected;
+
 signals:
     void tableChanged();
     void waiterIsNeededChanged();
+    void isConnectedChanged();
 
 private slots:
     void orderChanged();

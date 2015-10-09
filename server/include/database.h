@@ -505,7 +505,7 @@ private:
    *
    * @param table       Table object
    */
-  void getTableAdditionalData(rotable::Table *table);
+  int getTableAdditionalData(rotable::Table *table);
 
 
   /* Database handle */

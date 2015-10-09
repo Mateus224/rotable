@@ -1469,6 +1469,19 @@ bool Database::createDatabase()
     return false;
   }
 
+  // Configs table
+  QSqlQuery q21(QString("DROP TABLE IF EXISTS `%1table_details`;").arg(_prefix), _db);
+  if (q21.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q21.lastError().text());
+    return false;
+  }
+
+  QSqlQuery q22(_sqlCommands[TableDetails]._create.arg(_prefix), _db);
+  if (q22.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q22.lastError().text());
+    return false;
+  }
+
   add_init_data();
 
   return true;
@@ -1587,6 +1600,9 @@ bool Database::exportDatabase(QString &dest)
   //TODO: export OrderList table
   //TODO: export Incomes table
   //TODO: export Configs table
+  //TODO: export Passwords table
+  //TODO: export MacAdresses table
+  //TODO: export TableDetails tables
   return true;
 }
 
@@ -2211,6 +2227,25 @@ int Database::registerTable(QString name, QString macAdresses)
           return -1;
         }
 
+
+        q.clear();
+
+        queryStr = _sqlCommands[TableDetails]._insert.arg(_prefix, ":id", "false", "true");
+        q.setForwardOnly(true);
+
+        if (!q.prepare(queryStr)) {
+          qCritical() << tr("Invalid query: %1").arg(queryStr);
+          return -1;
+        }
+
+        q.bindValue(":id", id);
+
+        if (!q.exec()) {
+          qCritical() << tr("Query exec failed: (%1: %2")
+                         .arg(queryStr, q.lastError().text());
+          return -1;
+        }
+
     }
 
     return id;
@@ -2243,10 +2278,52 @@ void Database::collectSqlCommands(Database::SqlCommands& cmds, QString table)
 
 //------------------------------------------------------------------------------
 
-void Database::getTableAdditionalData(Table *table)
+int Database::getTableAdditionalData(Table *table)
 {
-    //ToDo: Read additional data and add them to waiter
-    Q_UNUSED(table);
+    if (!isConnected()) {
+      return 0;
+    }
+
+    QString queryStr = _sqlCommands[TableDetails]._select.arg(_prefix, "*", "id", ":id");
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return 0;
+    }
+
+    q.bindValue(":id", table->id());
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return 0;
+    }
+
+    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+      if (q.size() != 1) {
+        qCritical() << tr("Query: returned %1 results but we expected it to return 1!")
+                       .arg(q.size());
+        return 0;
+      }
+    }
+
+    if (!q.next()) {
+      return 0;
+    }
+
+
+    bool waiterIsNeeded = q.value("waiterIsNeeded").toBool();
+    bool connected = q.value("connected").toBool();
+
+
+    table->setwaiterIsNeedede(waiterIsNeeded);
+    table->setIsConnected(connected);
+
+    return true;
+
 }
 
 //------------------------------------------------------------------------------
