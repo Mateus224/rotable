@@ -489,6 +489,15 @@ public:
    */
   int registerTable(QString name, QString macAdresses);
 
+  /**
+   * Set connected value on true in database for specific table
+   *
+   * @param idTable     table id
+   * @param connected   table is connected (true/false)
+   * @return            true on succes
+   */
+  bool changeTableConnectStatus(int idTable, bool connected);
+
 signals:
   void parseConfig(Config* c);
 

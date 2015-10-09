@@ -2253,6 +2253,36 @@ int Database::registerTable(QString name, QString macAdresses)
 
 //------------------------------------------------------------------------------
 
+bool Database::changeTableConnectStatus(int idTable, bool connected)
+{
+    if (!isConnected()) {
+      return false;
+    }
+
+    QString queryStr = _sqlCommands[TableDetails]._update.arg(_prefix).arg(idTable);
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return false;
+    }
+
+    q.bindValue(":waiterIsNeeded", false);
+    q.bindValue(":connected", connected);
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    return true;
+}
+
+//------------------------------------------------------------------------------
+
 void Database::collectSqlCommands(Database::SqlCommands& cmds, QString table)
 {
   cmds._create = QString((const char*)QResource(
