@@ -54,5 +54,11 @@
         <file>sql-commands/passwords_select_ids.sql</file>
         <file>sql-commands/passwords_select.sql</file>
         <file>sql-commands/passwords_update.sql</file>
+        <file>sql-commands/tabledetails_create.sql</file>
+        <file>sql-commands/tabledetails_insert.sql</file>
+        <file>sql-commands/tabledetails_remove.sql</file>
+        <file>sql-commands/tabledetails_select.sql</file>
+        <file>sql-commands/tabledetails_select_ids.sql</file>
+        <file>sql-commands/tabledetails_update.sql</file>
     </qresource>
 </RCC>

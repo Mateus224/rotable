@@ -1,4 +1,4 @@
-#ifndef ROTABLE_DATABASE_H
+    #ifndef ROTABLE_DATABASE_H
 #define ROTABLE_DATABASE_H
 
 //------------------------------------------------------------------------------
@@ -65,7 +65,8 @@ private:
     Incomes,
     Configs,
     Passwords,
-    MacAdresses
+    MacAdresses,
+    TableDetails
   };
 
   /**

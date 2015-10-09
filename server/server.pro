@@ -66,3 +66,5 @@ LIBS += \
 
 RESOURCES += \
     sql-commands.qrc
+
+DISTFILES +=

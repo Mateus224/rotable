@@ -59,6 +59,10 @@ Database::Database(QObject *parent) :
   collectSqlCommands(macAdressCmds, "macadresses");
   _sqlCommands.append(macAdressCmds);
 
+  SqlCommands tablesDetailsCmds;
+  collectSqlCommands(tablesDetailsCmds, "tabledetails");
+  _sqlCommands.append(tablesDetailsCmds);
+
   qDebug() << "Sql commands load succesfull";
 }
 
