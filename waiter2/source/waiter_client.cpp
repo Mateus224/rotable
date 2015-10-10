@@ -440,6 +440,17 @@ void Waiter_Client::dataChanged(rotable::ComPackageDataChanged *package)
           requestOrderOnTable(tableId);
         }
     } break;
+    case ComPackage::RequestTable:
+    {
+        bool ok;
+        int tableId = package->dataName().toInt(&ok);
+        if (!ok) {
+          qCritical() << tr("Could not convert table id '%1' to int!")
+                         .arg(package->dataName());
+        } else {
+          requestTable(tableId);
+        }
+    } break;
 
     case ComPackage::RequestOrder:
     {

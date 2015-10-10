@@ -100,7 +100,8 @@ ApplicationWindow {
                                 width:  parent.width
                                 checkable: true
                                 exclusiveGroup: tableExclusiveGroup
-                                text: "Table: " + model.name + ", " + model.id + "\nOrders: " + model.orderNumber
+                                property var connected: model.isConnected ? "Connected" : "Disconnected"
+                                text: "Table: " + model.name + ", " + model.id + "\nOrders: " + model.orderNumber + "\n" + connected
 
                                 onClicked: tables.sendToBoardOrder(model.id)
                             }

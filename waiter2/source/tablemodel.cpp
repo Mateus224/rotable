@@ -30,6 +30,7 @@ QHash<int, QByteArray> TableModel::roleNames() const {
     roles[IdRole] = "id";
     roles[WaiterNeedRole] = "waiterNeeded";
     roles[OrderNumberRole] = "orderNumber";
+    roles[ConnectedRole] = "isConnected";
     return roles;
 }
 
@@ -65,6 +66,9 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
     case OrderNumberRole:{
         return QVariant(table->orderCount());
     }break;
+    case ConnectedRole:{
+        return QVariant(table->isConnected());
+    }break;
     }
 }
 
@@ -81,7 +85,9 @@ void TableModel::addTable(rotable::Table *table)
 {
     if(_tables.contains(table->id()))
     {
+        beginResetModel();
         _tables[table->id()]->updateTableStatus(table);
+        endResetModel();
     }
     else
     {

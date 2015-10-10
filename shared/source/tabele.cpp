@@ -51,6 +51,13 @@ void Table::updateTableStatus(const rotable::Table *table)
         _waiterIsNeeded = table->_waiterIsNeeded;
     }
 
+    if(_isConnected != table->_isConnected)
+    {
+        // Change so we set change
+        change = true;
+        _isConnected = table->_isConnected;
+    }
+
     // We do logic OR
     _change = _change || change;
 }

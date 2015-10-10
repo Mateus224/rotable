@@ -43,7 +43,8 @@ public:
         ChangeRole,
         IdRole,
         WaiterNeedRole,
-        OrderNumberRole
+        OrderNumberRole,
+        ConnectedRole
     };
 
     //-----------------------------------------------------
