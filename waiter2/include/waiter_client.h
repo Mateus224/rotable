@@ -175,6 +175,13 @@ private:
      */
     void dataChanged(rotable::ComPackageDataChanged* package);
 
+    /**
+     * Request table from database
+     *
+     * @param tableId       table id
+     */
+    void requestTable(int tableId);
+
 
     //------------------------------------------------------------------------------
 

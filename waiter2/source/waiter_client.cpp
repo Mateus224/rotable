@@ -258,12 +258,16 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
       QJsonArray arr = package->data().toArray();
       foreach(QJsonValue value, arr){
           int tableId = value.toInt();
-          Table *table = new Table();
-          table->setId(tableId);
-          _tables.addTable(table);
-          //TODO:To change, in future that should send request about table status, etc.
-          requestOrderOnTable(tableId);
+          requestTable(tableId);
       }
+    } break;
+
+    case ComPackage::RequestTable:
+    {
+      //Load data about order
+      Table *table = Table::fromJSON(package->data());
+      _tables.addTable(table);
+      requestOrderOnTable(table->id());
     } break;
 
     case ComPackage::RequestOrderOnTable:
@@ -455,6 +459,21 @@ void Waiter_Client::dataChanged(rotable::ComPackageDataChanged *package)
     } break;
     }
   }
+}
+
+//------------------------------------------------------------------------------
+
+void Waiter_Client::requestTable(int tableId)
+{
+    ComPackageDataRequest* request = new ComPackageDataRequest();
+    request->setDataCategory(ComPackage::RequestTable);
+    request->setDataName(QString("%1").arg(tableId));
+
+    if (!_tcp.send(*request)) {
+      qCritical() << tr("Could not send request!");
+    } else {
+      _dataRequest[request->id()] = request;
+    }
 }
 
 //------------------------------------------------------------------------------

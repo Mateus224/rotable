@@ -216,7 +216,7 @@ void Server::clientDisconnected(client_t client, const QString &clientName)
       _db.changeTableConnectStatus(_users[rotable::ComPackage::TableAccount].value(client), false);
       ComPackageDataChanged dc;
       dc.setDataCategory(ComPackage::RequestTable);
-      dc.setDataName(QString::number(_users[rotable::ComPackage::TableAccount].value(client));
+      dc.setDataName(QString::number(_users[rotable::ComPackage::TableAccount].value(client)));
       send_to_users(dc, ComPackage::WaiterAccount);
   }
   for(int i=0; i<3;++i)
@@ -304,7 +304,7 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request)
       bool ok;
       int tableId = request->dataName().toInt(&ok);
       if (ok) {
-        Table* table = _db.client(tableId);
+        Table* table = reinterpret_cast<Table*>(_db.client(tableId));
         if (table) {
           ComPackageDataReturn* ret = new ComPackageDataReturn(*request, table->toJSON());
           delete table;

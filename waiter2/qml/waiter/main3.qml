@@ -165,6 +165,7 @@ ApplicationWindow {
                             Button{
                                id: buttonOrder
                                text: qsTr("Select all")
+
                             }
                             ListView{
                                 height: 50
