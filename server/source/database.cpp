@@ -2230,7 +2230,7 @@ int Database::registerTable(QString name, QString macAdresses)
 
         q.clear();
 
-        queryStr = _sqlCommands[TableDetails]._insert.arg(_prefix, ":id", "false", "true");
+        queryStr = _sqlCommands[TableDetails]._insert.arg(_prefix, ":id", ":waiter", ":connected");
         q.setForwardOnly(true);
 
         if (!q.prepare(queryStr)) {
@@ -2239,7 +2239,8 @@ int Database::registerTable(QString name, QString macAdresses)
         }
 
         q.bindValue(":id", id);
-
+        q.bindValue(":waiter", false);
+        q.bindValue(":connected", true);
         if (!q.exec()) {
           qCritical() << tr("Query exec failed: (%1: %2")
                          .arg(queryStr, q.lastError().text());
