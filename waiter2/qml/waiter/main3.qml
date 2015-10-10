@@ -119,7 +119,7 @@ ApplicationWindow {
 
 
             RowLayout{
-                height: 100
+
                 width: parent.width
                 spacing: margin
                 Button{
@@ -152,29 +152,30 @@ ApplicationWindow {
 
                     Component{
                         id: order
-                        Grid{
-                            columns: 2
-                            rows: 2
-                            flow: GridLayout.LeftToRight
-                            width: parent.width
-                            columnSpacing: width - labelOrder.width - buttonOrder.width
-                            height: 50
+                        ColumnLayout{
+
+//                            width: parent.width
+
+                            spacing: 5
                             Label {
                                 id: labelOrder
                                 text: String(model.orderId)
+                            }
+                            ListView{
+                                id: orderItemsView
+                                height: 50
+                                //Layout.fillHeight: true
+
+                                model: orderItems
+                                width: parent.width
+                                delegate: CheckBox{
+                                    text: productList.productName(model.modelData.id)  + " Amount: " + model.modelData.amount
+                                }
                             }
                             Button{
                                id: buttonOrder
                                text: qsTr("Select all")
 
-                            }
-                            ListView{
-                                height: 50
-                                model: orderItems
-                                delegate: CheckBox{
-                                    Layout.columnSpan: 2
-                                    text: productList.productName(model.modelData.id)  + " Amount: " + model.modelData.amount
-                                }
                             }
                         }
                     }
