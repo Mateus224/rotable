@@ -128,6 +128,24 @@ public:
      */
     bool hasOrder(const int &orderId) const;
 
+    //------------------------------------------------------------------------------
+    // JSON ( for network communication )
+    //------------------------------------------------------------------------------
+
+    /**
+     * Convert Table to JSON
+     *
+     * @return          QJsonValue
+     */
+    QJsonValue toJSON() const;
+
+    /**
+     * Create Table object from JSON
+     *
+     * @param jval      JSON object
+     * @return          Table object
+     */
+    static Table *fromJSON(const QJsonValue &jval);
 
 private:
     /**

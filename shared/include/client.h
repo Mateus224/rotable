@@ -52,7 +52,7 @@ signals:
     void idChanged();
     void nameChanged();
 
-private:
+protected:
   int _id;
   QString _name;
 

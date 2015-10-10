@@ -100,6 +100,9 @@ public:
     /* Request list of connected table ids */
     RequestTableIds,
 
+    /* Request table data from a table id */
+    RequestTable,
+
     /* Request list order on table*/
     RequestOrderOnTable
   };

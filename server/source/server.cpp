@@ -294,6 +294,25 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request)
     else
         qCritical() << tr("Could not query users ids for account type %1!").arg(rotable::ComPackage::TableAccount);
   } break;
+  case ComPackage::RequestTable:
+  {
+      bool ok;
+      int tableId = request->dataName().toInt(&ok);
+      if (ok) {
+        Table* table = _db.client(tableId);
+        if (table) {
+          ComPackageDataReturn* ret = new ComPackageDataReturn(*request, table->toJSON());
+          delete table;
+          return ret;
+        } else {
+          qCritical() << tr("Could not query table data of id %1!")
+                         .arg(tableId);
+        }
+      } else {
+        qCritical() << tr("Could not convert table id '%1' to an integer!")
+                       .arg(request->dataName());
+      }
+  } break;
   case ComPackage::RequestOrderOnTable:
   {
       bool ok;
