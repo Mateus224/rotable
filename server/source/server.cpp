@@ -212,8 +212,13 @@ void Server::clientDisconnected(client_t client, const QString &clientName)
   // we don't know in with QMap it is
   // so we remove element from all QMap
 
-  if(_users[rotable::ComPackage::TableAccount].contains(client))
+  if(_users[rotable::ComPackage::TableAccount].contains(client)){
       _db.changeTableConnectStatus(_users[rotable::ComPackage::TableAccount].value(client), false);
+      ComPackageDataChanged dc;
+      dc.setDataCategory(ComPackage::RequestTable);
+      dc.setDataName(QString::number(_users[rotable::ComPackage::TableAccount].value(client));
+      send_to_users(dc, ComPackage::WaiterAccount);
+  }
   for(int i=0; i<3;++i)
     _users[i].remove(client);
 
