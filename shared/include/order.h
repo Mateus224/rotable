@@ -42,6 +42,8 @@ class rotable::OrderItem : public QObject
   Q_PROPERTY(int id READ id WRITE setId NOTIFY idChanged)
   Q_PROPERTY(int amount READ amount WRITE setAmount NOTIFY amountChanged)
   Q_PROPERTY(int state READ state WRITE setState NOTIFY stateChanged)
+  Q_PROPERTY(int productId READ productId WRITE setProductId NOTIFY productIdChanged)
+  Q_PROPERTY(double price READ price WRITE setPrice NOTIFY priceChanged)
 
 public:
 
@@ -51,11 +53,17 @@ public:
   inline int id() const { return _id; }
   inline void setId(int id) { _id = id; emit idChanged();}
 
+  inline int productId() const { return _productId; }
+  inline void setProductId(int productId) { _productId = productId; emit productIdChanged();}
+
   inline int amount() const { return _amount; }
   inline void setAmount(int amount) { _amount = amount; emit amountChanged(); }
 
   inline int state() const { return _state; }
   inline void setState(int state) {_state = state; emit stateChanged();}
+
+  inline double price() const { return _price; }
+  inline void setPrice(double price) {_price = price; emit priceChanged();}
 
   QJsonValue toJSON() const;
   static OrderItem* fromJSON(const QJsonValue& jval);
@@ -66,11 +74,16 @@ signals:
   void amountChanged();
   void idChanged();
   void stateChanged();
+  void productIdChanged();
+  void priceChanged();
 
 private:
   int _id;
+  int _productId;
   int _amount;
   int _state;
+  double _price;
+  QTime _time;
 }; // class OrderItem
 
 //------------------------------------------------------------------------------
