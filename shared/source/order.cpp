@@ -120,9 +120,11 @@ QJsonValue OrderItem::toJSON() const
 {
     QJsonObject o;
     o["id"] = _id;
+    o["productId"] = _productId;
+    o["state"] = _state;
     o["amount"] = _amount;
-    //It must be implement in database
-    //o["state"] = _state;
+    o["price"] = _price;
+    o["time"] = _time.msec();
 
     return QJsonValue(o);
 }
@@ -135,13 +137,21 @@ rotable::OrderItem *OrderItem::fromJSON(const QJsonValue &jval)
     // Check if all requaier fields are exists
     if (o.contains("id")
         && o.contains("amount")
+        && o.contains("productId")
+        && o.contains("state")
+        && o.contains("price")
+        && o.contains("time")
         )
     {
       // Create new OrederItem base one JSON
       OrderItem* oi = new OrderItem();
       oi->_id = o["id"].toInt();
       oi->_amount = o["amount"].toInt();
-
+      oi->_productId = o["productId"].toInt();
+      oi->_state = o["state"].toInt();
+      oi->_price = o["price"].toDouble();
+      QTime time; time = time.addMSecs(o["time"].toInt());
+      oi->_time = time;
 
       return oi;
     }

@@ -26,8 +26,11 @@ ComPackageDataSet ProductOrder::prepareOrderToSend() const
     while (i != ClientProductHash->constEnd()) {
         if (_productcontainer._products->contains(i.value()._s_id)){
             OrderItem item;
-            item.setId(i.value()._s_id);
+            item.setProductId(i.value()._s_id);
             item.setAmount(i.value()._s_quantity);
+            item.setState(rotable::OrderItem::New);
+            item.setPrice(0); //ToDo: Get property price
+            item.setTime(QTime());
             array.append(item.toJSON());
         }
         ++i;

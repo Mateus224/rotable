@@ -74,6 +74,13 @@ public:
 
   void updateOrderItem(OrderItem *item);
 
+  enum State{
+      New,
+      Accept,
+      Rejected,
+      Done
+  };
+
 signals:
   void amountChanged();
   void idChanged();
