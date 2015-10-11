@@ -1,1 +1,1 @@
-UPDATE `%1order_items` SET `order_id` = :order_id, `product_id` = :product_id, `amount` = :amount, `date_last_change` = now WHERE `id` = %2;
+UPDATE `%1order_items` SET `amount` = :amount, `state` = :state, `price` = :price, `time` = :time, `date_last_change` = date('now') WHERE `id` = %2;
