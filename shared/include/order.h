@@ -44,6 +44,7 @@ class rotable::OrderItem : public QObject
   Q_PROPERTY(int state READ state WRITE setState NOTIFY stateChanged)
   Q_PROPERTY(int productId READ productId WRITE setProductId NOTIFY productIdChanged)
   Q_PROPERTY(double price READ price WRITE setPrice NOTIFY priceChanged)
+  Q_PROPERTY(QTime time READ time WRITE setTime NOTIFY timeChanged)
 
 public:
 
@@ -60,10 +61,13 @@ public:
   inline void setAmount(int amount) { _amount = amount; emit amountChanged(); }
 
   inline int state() const { return _state; }
-  inline void setState(int state) {_state = state; emit stateChanged();}
+  inline void setState(int state) { _state = state; emit stateChanged();}
 
   inline double price() const { return _price; }
   inline void setPrice(double price) {_price = price; emit priceChanged();}
+
+  inline QTime time() const { return _time; }
+  inline void setTime(QTime time) { _time = time; emit timeChanged();}
 
   QJsonValue toJSON() const;
   static OrderItem* fromJSON(const QJsonValue& jval);
@@ -76,6 +80,7 @@ signals:
   void stateChanged();
   void productIdChanged();
   void priceChanged();
+  void timeChanged();
 
 private:
   int _id;
@@ -182,6 +187,8 @@ public:
       _items.append(item);
       connect(item, &rotable::OrderItem::amountChanged, this, &rotable::Order::itemChanged);
       connect(item, &rotable::OrderItem::stateChanged, this, &rotable::Order::itemChanged);
+      connect(item, &rotable::OrderItem::priceChanged, this, &rotable::Order::itemChanged);
+      connect(item, &rotable::OrderItem::timeChanged, this, &rotable::Order::itemChanged);
       emit itemsChanged();
   }
 
