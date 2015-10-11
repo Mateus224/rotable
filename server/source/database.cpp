@@ -709,10 +709,34 @@ OrderItem *Database::orderItem(int id)
       return 0;
     }
 
+    double price = q.value("price").toDouble(&ok);
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to double!").arg(q.value("price").toString());
+      return 0;
+    }
+
+    int state = q.value("state").toInt(&ok);
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("state").toString());
+      return 0;
+    }
+
+    int msec = q.value("time").toInt(&ok);
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("time").toString());
+      return 0;
+    }
+
+    QTime time; time = time.addMSecs(msec);
+
     OrderItem* oi = new OrderItem();
 
-    oi->setId(productId);
+    oi->setProductId(productId);
+    oi->setId(id);
     oi->setAmount(amount);
+    oi->setPrice(price);
+    oi->setState(state);
+    oi->setTime(time);
 
     return oi;
 }
@@ -1022,7 +1046,7 @@ bool Database::addOrderItem(OrderItem *item, int orderId)
     }
 
     QString queryStr = _sqlCommands[OrderItems]._insert.arg(
-                _prefix, "NULL", ":order_id", ":product_id", ":amount");
+                _prefix, "NULL", ":order_id", ":product_id", ":amount", ":status", ":price", ":time");
 
     QSqlQuery q(_db);
     q.setForwardOnly(true);
@@ -1033,8 +1057,11 @@ bool Database::addOrderItem(OrderItem *item, int orderId)
     }
 
     q.bindValue(":order_id", orderId);
-    q.bindValue(":product_id", item->id());
+    q.bindValue(":product_id", item->productId());
     q.bindValue(":amount", item->amount());
+    q.bindValue(":status", item->state());
+    q.bindValue(":price", item->price());
+    q.bindValue(":time", item->time().msec());
 
     if (!q.exec()) {
       qCritical() << tr("Query exec failed: (%1: %2")
