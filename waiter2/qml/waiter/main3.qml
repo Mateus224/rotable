@@ -1,6 +1,7 @@
 import QtQuick 2.2
 import QtQuick.Controls 1.3
 import QtQuick.Layouts 1.0
+import QtQuick.Controls.Styles 1.4
 
 ApplicationWindow {
 
@@ -147,7 +148,7 @@ ApplicationWindow {
                     id: board
                     //anchors.fill: parent
                     Layout.minimumHeight: 200
-                    Layout.fillWidth: true
+                    //Layout.fillWidth: true
                     Layout.fillHeight: true
 
                     Component{
@@ -167,11 +168,24 @@ ApplicationWindow {
                                 //Layout.fillHeight: true
 
                                 model: orderItems
-                                width: parent.width
                                 delegate: CheckBox{
+                                    Layout.fillWidth: true
                                     text: productList.productName(model.modelData.id)  + " Amount: " + model.modelData.amount
                                     onCheckedChanged: {
                                        model.modelData.readyToChange(checked)
+                                    }
+                                    style: CheckBoxStyle {
+                                        background:
+                                            Rectangle{
+                                                color: {
+                                                    switch(model.modelData.state)
+                                                    {
+                                                        case 0: "Green"; break;
+                                                        case 1: "Blue"; break;
+                                                        case 2: "Gray"; break;
+                                                    }
+                                                }
+                                        }
                                     }
                                 }
                             }
