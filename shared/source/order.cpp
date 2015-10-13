@@ -166,14 +166,20 @@ void OrderItem::updateOrderItem(rotable::OrderItem *item)
     if(amount() != item->amount())
         setAmount(item->amount());
 
-    //It must be implement in database
-//    if(state() != item->state())
-//        setState(item->state());
+    if(state() != item->state())
+            setState(item->state());
+
+
+    if(time() != item->time())
+            setTime(item->time());
+
+
 }
 
 //------------------------------------------------------------------------------
 
-OrderItem::OrderItem(QObject *parent): QObject(parent)
+
+OrderItem::OrderItem(QObject *parent): QObject(parent), _readyToChange(false)
 {
 
 }

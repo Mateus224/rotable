@@ -170,6 +170,9 @@ ApplicationWindow {
                                 width: parent.width
                                 delegate: CheckBox{
                                     text: productList.productName(model.modelData.id)  + " Amount: " + model.modelData.amount
+                                    onCheckedChanged: {
+                                       model.modelData.readyToChange(checked)
+                                    }
                                 }
                             }
                             Button{

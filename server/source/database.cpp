@@ -715,9 +715,9 @@ OrderItem *Database::orderItem(int id)
       return 0;
     }
 
-    int state = q.value("state").toInt(&ok);
+    int state = q.value("status").toInt(&ok);
     if (!ok) {
-      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("state").toString());
+      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("status").toString());
       return 0;
     }
 
@@ -727,7 +727,7 @@ OrderItem *Database::orderItem(int id)
       return 0;
     }
 
-    QTime time; time = time.addMSecs(msec);
+    QTime time(0,0,0); time = time.addMSecs(msec);
 
     OrderItem* oi = new OrderItem();
 

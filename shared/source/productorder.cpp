@@ -30,7 +30,7 @@ ComPackageDataSet ProductOrder::prepareOrderToSend() const
             item.setAmount(i.value()._s_quantity);
             item.setState(rotable::OrderItem::New);
             item.setPrice(0); //ToDo: Get property price
-            item.setTime(QTime());
+            item.setTime(QTime(0,0,0));
             array.append(item.toJSON());
         }
         ++i;

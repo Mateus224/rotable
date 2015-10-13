@@ -52,27 +52,29 @@ public:
   explicit OrderItem(const QJsonValue& jval, QObject *parent = 0);
 
   inline int id() const { return _id; }
-  inline void setId(int id) { _id = id; emit idChanged();}
+  inline void setId(int id) { _id = id; emit idChanged(); }
 
   inline int productId() const { return _productId; }
-  inline void setProductId(int productId) { _productId = productId; emit productIdChanged();}
+  inline void setProductId(int productId) { _productId = productId; emit productIdChanged(); }
 
   inline int amount() const { return _amount; }
   inline void setAmount(int amount) { _amount = amount; emit amountChanged(); }
 
   inline int state() const { return _state; }
-  inline void setState(int state) { _state = state; emit stateChanged();}
+  inline void setState(int state) { _state = state; emit stateChanged(); }
 
   inline double price() const { return _price; }
-  inline void setPrice(double price) {_price = price; emit priceChanged();}
+  inline void setPrice(double price) {_price = price; emit priceChanged(); }
 
   inline QTime time() const { return _time; }
-  inline void setTime(QTime time) { _time = time; emit timeChanged();}
+  inline void setTime(QTime time) { _time = time; emit timeChanged(); }
 
   QJsonValue toJSON() const;
   static OrderItem* fromJSON(const QJsonValue& jval);
 
   void updateOrderItem(OrderItem *item);
+
+  Q_INVOKABLE inline void readyToChange(bool state) { _readyToChange = state;  }
 
   enum State{
       New,
@@ -96,6 +98,9 @@ private:
   int _state;
   double _price;
   QTime _time;
+
+  /** This value will be store information: "do you want change _state of this orderItem" **/
+  bool _readyToChange;
 }; // class OrderItem
 
 //------------------------------------------------------------------------------
