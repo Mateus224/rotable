@@ -118,6 +118,15 @@ void Order::changeState(int state)
     }
 }
 
+void Order::prepareOrderToChange()
+{
+   static int changeStatus = true;
+   foreach(OrderItem *item, _items){
+        item->readyToChange(changeStatus);
+   }
+   changeStatus = false;
+}
+
 //------------------------------------------------------------------------------
 
 void Order::itemChanged()
@@ -127,7 +136,9 @@ void Order::itemChanged()
 
 void Order::itemIsReadyToChanged()
 {
-    emit readyToChanged();
+    OrderItem* item = dynamic_cast<OrderItem*>(QObject::sender());
+    if(item)
+        emit readyToChanged(item->isReadyToChange());
 }
 
 //------------------------------------------------------------------------------

@@ -134,7 +134,7 @@ public slots:
     void updateOrders();
 
 private slots:
-    void somethingReadyToChange();
+    void orderReadyToChange(bool change);
 
 private:
     /**

@@ -69,7 +69,7 @@ public:
   inline QTime time() const { return _time; }
   inline void setTime(QTime time) { _time = time; emit timeChanged(); }
 
-  inline int isReadyToChange() { return _readyToChange; }
+  inline bool isReadyToChange() { return _readyToChange; }
 
   QJsonValue toJSON() const;
   static OrderItem* fromJSON(const QJsonValue& jval);
@@ -231,13 +231,14 @@ public:
 
   Q_INVOKABLE void changeState(int state);
 
+  Q_INVOKABLE void prepareOrderToChange();
 signals:
   void stateChanged();
   void itemsChanged();
   void timeSentChanged();
   void clientIdChanged();
   void idChanged();
-  void readyToChanged();
+  void readyToChanged(bool);
 
 private slots:
   void itemChanged();

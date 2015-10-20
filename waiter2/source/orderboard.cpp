@@ -127,9 +127,13 @@ void OrderBoard::updateOrders()
 
 //-----------------------------------------------------
 
-void OrderBoard::somethingReadyToChange()
+void OrderBoard::orderReadyToChange(bool change)
 {
-   setIsSomethingSelected(true);
+   if(change)
+      ++_itemsSelect;
+   else
+       --_itemsSelect;
+   setIsSomethingSelected(_itemsSelect);
 }
 
 //-----------------------------------------------------
@@ -164,7 +168,7 @@ void OrderBoard::loadOrders(rotable::Table *table)
     QList<rotable::Order *> orders = table->orderList();
     foreach (Order *order, orders) {
          addOrder(order);
-         connect(order, &rotable::Order::readyToChanged, this, &OrderBoard::somethingReadyToChange);
+         connect(order, &rotable::Order::readyToChanged, this, &OrderBoard::orderReadyToChange);
     }
 }
 
