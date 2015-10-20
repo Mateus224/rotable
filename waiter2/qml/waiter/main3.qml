@@ -125,23 +125,23 @@ ApplicationWindow {
                 spacing: margin
                 Button{
                     text: "Payed"
-                    enabled: false
+                    enabled: orderboard.isSomethingSelected
+                    onClicked:{
+                        orderboard.changeState(1);
+                    }
+                }
+                Button{
+                    text: "Remove"
+                    enabled: orderboard.isSomethingSelected
                     onClicked:{
                         orderboard.changeState(2);
                     }
                 }
                 Button{
-                    text: "Remove"
-                    enabled: false
+                    text: "Something else"
+                    enabled: orderboard.isSomethingSelected
                     onClicked:{
                         orderboard.changeState(3);
-                    }
-                }
-                Button{
-                    text: "Something else"
-                    enabled: false
-                    onClicked:{
-                        orderboard.changeState(4);
                     }
                 }
 
@@ -192,6 +192,7 @@ ApplicationWindow {
                                                         case 0: "Green"; break;
                                                         case 1: "Blue"; break;
                                                         case 2: "Gray"; break;
+                                                        case 3: "Red"; break;
                                                     }
                                                 }
                                         }

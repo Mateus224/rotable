@@ -6,7 +6,8 @@ using namespace rotable;
 
 //-----------------------------------------------------
 
-OrderBoard::OrderBoard(QObject *parent): QAbstractListModel(parent)
+OrderBoard::OrderBoard(QObject *parent):
+    QAbstractListModel(parent), _isSomethingSelect(false), _itemsSelect(0)
 {
 
 }
@@ -109,6 +110,7 @@ void OrderBoard::readOrderFromTable(Table *table)
         _tableId=table->id();
         //When table change (and table is selected) auto load orders to OrderBoard
         connect(table, &rotable::Table::tableChanged, this, &OrderBoard::updateOrders);
+
 //            }
 }
 
@@ -121,6 +123,13 @@ void OrderBoard::updateOrders()
       loadOrders(table);
     else
         qCritical() << "Someone call method, forbiden";
+}
+
+//-----------------------------------------------------
+
+void OrderBoard::somethingReadyToChange()
+{
+   setIsSomethingSelected(true);
 }
 
 //-----------------------------------------------------
@@ -155,6 +164,7 @@ void OrderBoard::loadOrders(rotable::Table *table)
     QList<rotable::Order *> orders = table->orderList();
     foreach (Order *order, orders) {
          addOrder(order);
+         connect(order, &rotable::Order::readyToChanged, this, &OrderBoard::somethingReadyToChange);
     }
 }
 

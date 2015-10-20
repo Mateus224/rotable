@@ -30,6 +30,7 @@ class rotable::OrderBoard: public QAbstractListModel{
     Q_OBJECT
 
     Q_PROPERTY(int count READ count NOTIFY countChange)
+    Q_PROPERTY(bool isSomethingSelected READ isSomethingSelected WRITE setIsSomethingSelected NOTIFY isSomethingSelectedChanged)
 public:
 
     //-----------------------------------------------------
@@ -99,18 +100,9 @@ public:
 
     Q_INVOKABLE void changeState(int state);
 
-public slots:
-    /**
-     * Read orders from table, used to update and load new order form table
-     *
-     * @param table         Table object
-     */
-    void readOrderFromTable(rotable::Table *table);
-
-    /**
-     * Update orders on table when table send signal
-     */
-    void updateOrders();
+    inline bool isSomethingSelected() const { return _isSomethingSelect; }
+    inline void setIsSomethingSelected(bool changed)
+        { _isSomethingSelect = changed; emit isSomethingSelectedChanged(); }
 
 protected:
     //-----------------------------------------------------
@@ -126,6 +118,23 @@ protected:
 
 signals:
     void countChange();
+    void isSomethingSelectedChanged();
+
+public slots:
+    /**
+     * Read orders from table, used to update and load new order form table
+     *
+     * @param table         Table object
+     */
+    void readOrderFromTable(rotable::Table *table);
+
+    /**
+     * Update orders on table when table send signal
+     */
+    void updateOrders();
+
+private slots:
+    void somethingReadyToChange();
 
 private:
     /**
@@ -141,6 +150,8 @@ private:
 
     QMap<int, rotable::Order*> _orders;
     int _tableId;
+    bool _isSomethingSelect;
+    int _itemsSelect;
 };
 
 //-----------------------------------------------------

@@ -76,7 +76,7 @@ public:
 
   void updateOrderItem(OrderItem *item);
 
-  Q_INVOKABLE inline void readyToChange(bool state) { _readyToChange = state;  }
+  Q_INVOKABLE inline void readyToChange(bool state) { _readyToChange = state;  emit readyToChanged();}
 
   enum State{
       New,
@@ -92,6 +92,7 @@ signals:
   void productIdChanged();
   void priceChanged();
   void timeChanged();
+  void readyToChanged();
 
 private:
   int _id;
@@ -203,7 +204,7 @@ public:
       connect(item, &rotable::OrderItem::stateChanged, this, &rotable::Order::itemChanged);
       connect(item, &rotable::OrderItem::priceChanged, this, &rotable::Order::itemChanged);
       connect(item, &rotable::OrderItem::timeChanged, this, &rotable::Order::itemChanged);
-      emit itemsChanged();
+      connect(item, &rotable::OrderItem::readyToChanged, this, &rotable::Order::itemIsReadyToChanged);
   }
 
   /**
@@ -236,9 +237,11 @@ signals:
   void timeSentChanged();
   void clientIdChanged();
   void idChanged();
+  void readyToChanged();
 
 private slots:
   void itemChanged();
+  void itemIsReadyToChanged();
 
 private:
   /* Unique order ID */

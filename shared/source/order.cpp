@@ -125,6 +125,11 @@ void Order::itemChanged()
     emit itemsChanged();
 }
 
+void Order::itemIsReadyToChanged()
+{
+    emit readyToChanged();
+}
+
 //------------------------------------------------------------------------------
 
 QJsonValue OrderItem::toJSON() const
