@@ -126,14 +126,23 @@ ApplicationWindow {
                 Button{
                     text: "Payed"
                     enabled: false
+                    onClicked:{
+                        orderboard.changeState(2);
+                    }
                 }
                 Button{
                     text: "Remove"
                     enabled: false
+                    onClicked:{
+                        orderboard.changeState(3);
+                    }
                 }
                 Button{
                     text: "Something else"
                     enabled: false
+                    onClicked:{
+                        orderboard.changeState(4);
+                    }
                 }
 
             }

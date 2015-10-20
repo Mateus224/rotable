@@ -69,6 +69,8 @@ public:
   inline QTime time() const { return _time; }
   inline void setTime(QTime time) { _time = time; emit timeChanged(); }
 
+  inline int isReadyToChange() { return _readyToChange; }
+
   QJsonValue toJSON() const;
   static OrderItem* fromJSON(const QJsonValue& jval);
 
@@ -225,6 +227,8 @@ public:
    * @param order           Order object
    */
   void updateOrder(Order *order);
+
+  Q_INVOKABLE void changeState(int state);
 
 signals:
   void stateChanged();

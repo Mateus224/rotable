@@ -97,6 +97,8 @@ public:
      */
     int count() const;
 
+    Q_INVOKABLE void changeState(int state);
+
 public slots:
     /**
      * Read orders from table, used to update and load new order form table

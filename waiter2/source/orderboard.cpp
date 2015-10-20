@@ -39,6 +39,15 @@ int OrderBoard::count() const
 
 //-----------------------------------------------------
 
+void OrderBoard::changeState(int state)
+{
+    foreach (Order *order, _orders) {
+        order->changeState(state);
+    }
+}
+
+//-----------------------------------------------------
+
 int OrderBoard::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
