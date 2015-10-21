@@ -177,6 +177,9 @@ signals:
     void waiterIsNeededChanged();
     void isConnectedChanged();
 
+public slots:
+    void diconnectRemote();
+
 private slots:
     void orderChanged();
 };  // class Table

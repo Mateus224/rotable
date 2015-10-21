@@ -92,26 +92,20 @@ void OrderBoard::readOrderFromTable(Table *table)
 {
     //ToDo: add remove last connected signal for slot updateOrders
     //disconnect(updateOrders);
-//    if(table->id()==_tableId)
-//    {
-//        //ToDo: Update order
-
-//        beginResetModel();
-//        _orders.clear();
-//        endResetModel();
-//        QList<rotable::Order *> orders = table->orderList();
-//        foreach (Order *order, orders) {
-//             addOrder(order);
-//        }
+//    if(table->id()!=_tableId){
+    // Clear connect signals
+    emit diconnectTable();
+    disconnect(this, &OrderBoard::diconnectTable, 0, 0);
+    // Clear variable to activated button
+    setIsSomethingSelected(false);
+    _itemsSelect = 0;
+    // Connect new Table with OrderBoard
+    connect(table, &rotable::Table::tableChanged, this, &OrderBoard::updateOrders);
+    connect(this, &OrderBoard::diconnectTable, table, &rotable::Table::diconnectRemote);
 //    }
-//    else
-//    {
-        loadOrders(table);
-        _tableId=table->id();
-        //When table change (and table is selected) auto load orders to OrderBoard
-        connect(table, &rotable::Table::tableChanged, this, &OrderBoard::updateOrders);
 
-//            }
+    loadOrders(table);
+    _tableId=table->id();
 }
 
 //-----------------------------------------------------

@@ -119,6 +119,7 @@ protected:
 signals:
     void countChange();
     void isSomethingSelectedChanged();
+    void diconnectTable();
 
 public slots:
     /**

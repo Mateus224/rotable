@@ -129,6 +129,13 @@ rotable::Table *Table::fromJSON(const QJsonValue &jval)
 
 //------------------------------------------------------------------------------
 
+void Table::diconnectRemote()
+{
+    disconnectTable();
+}
+
+//------------------------------------------------------------------------------
+
 void Table::orderChanged()
 {
     _change = true;
