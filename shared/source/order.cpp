@@ -129,10 +129,19 @@ void Order::prepareOrderToChange()
 
 //------------------------------------------------------------------------------
 
+void Order::disconnectOrder()
+{
+        disconnect(this, &Order::readyToChanged, 0, 0);
+}
+
+//------------------------------------------------------------------------------
+
 void Order::itemChanged()
 {
     emit itemsChanged();
 }
+
+//------------------------------------------------------------------------------
 
 void Order::itemIsReadyToChanged()
 {

@@ -232,6 +232,8 @@ public:
   Q_INVOKABLE void changeState(int state);
 
   Q_INVOKABLE void prepareOrderToChange();
+
+  void disconnectOrder();
 signals:
   void stateChanged();
   void itemsChanged();

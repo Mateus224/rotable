@@ -128,6 +128,8 @@ public:
      */
     bool hasOrder(const int &orderId) const;
 
+    void disconnectTable();
+
     //------------------------------------------------------------------------------
     // JSON ( for network communication )
     //------------------------------------------------------------------------------

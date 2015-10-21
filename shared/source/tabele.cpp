@@ -80,6 +80,16 @@ bool Table::hasOrder(const int &orderId) const
 
 //------------------------------------------------------------------------------
 
+void Table::disconnectTable()
+{
+   disconnect(this, &Table::tableChanged, 0, 0);
+   disconnect(this, &Table::waiterIsNeededChanged, 0, 0);
+   foreach (Order *order, _orders) {
+        order->disconnectOrder();
+   }
+}
+//------------------------------------------------------------------------------
+
 QJsonValue Table::toJSON() const
 {
     QJsonObject o;
