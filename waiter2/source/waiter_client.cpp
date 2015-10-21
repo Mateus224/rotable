@@ -219,12 +219,14 @@ void Waiter_Client::sendOrders()
         return;
 
     QMap<int, QJsonValue> *list = table->getOrderJSON();
-    for(int i=0; i < list->count(); ++i)
+    QMap<int, QJsonValue>::const_iterator it = list->cbegin();
+    for(; it!=list->cend(); ++it)
     {
         rotable::ComPackageDataSet package;
         package.setDataCategory(ComPackage::SetOrder);
-//        package.setDataName(list-p);
-
+        package.setData(it.value());
+        package.setDataName(QString("%1").arg(it.key()));
+        _tcp.send(package);
     }
 
 
