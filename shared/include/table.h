@@ -149,6 +149,8 @@ public:
      */
     static Table *fromJSON(const QJsonValue &jval);
 
+    QMap<int, QJsonValue> *getOrderJSON() const;
+
 private:
     /**
      * Store orders, int - orderId
@@ -176,9 +178,11 @@ signals:
     void tableChanged();
     void waiterIsNeededChanged();
     void isConnectedChanged();
+    void sendOrders();
 
 public slots:
     void diconnectRemote();
+    void prepareOrderToSend();
 
 private slots:
     void orderChanged();

@@ -45,6 +45,7 @@ void OrderBoard::changeState(int state)
     foreach (Order *order, _orders) {
         order->changeState(state);
     }
+    emit prepareOrderToSend();
 }
 
 //-----------------------------------------------------
@@ -96,12 +97,14 @@ void OrderBoard::readOrderFromTable(Table *table)
     // Clear connect signals
     emit diconnectTable();
     disconnect(this, &OrderBoard::diconnectTable, 0, 0);
+    disconnect(this,&OrderBoard::prepareOrderToSend, 0, 0);
     // Clear variable to activated button
     setIsSomethingSelected(false);
     _itemsSelect = 0;
     // Connect new Table with OrderBoard
     connect(table, &rotable::Table::tableChanged, this, &OrderBoard::updateOrders);
     connect(this, &OrderBoard::diconnectTable, table, &rotable::Table::diconnectRemote);
+    connect(this, &OrderBoard::prepareOrderToSend, table, &rotable::Table::prepareOrderToSend);
 //    }
 
     loadOrders(table);

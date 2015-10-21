@@ -126,12 +126,29 @@ rotable::Table *Table::fromJSON(const QJsonValue &jval)
 
     return 0;
 }
+//------------------------------------------------------------------------------
+
+QMap<int, QJsonValue>* Table::getOrderJSON() const
+{
+    QMap<int, QJsonValue> *map = new QMap<int, QJsonValue>;
+    foreach (Order *order, _orders) {
+        //map.append(order->id(), _order->toJSON());
+    }
+    return map;
+}
 
 //------------------------------------------------------------------------------
 
 void Table::diconnectRemote()
 {
     disconnectTable();
+}
+
+//------------------------------------------------------------------------------
+
+void Table::prepareOrderToSend()
+{
+    emit sendOrders();
 }
 
 //------------------------------------------------------------------------------

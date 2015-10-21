@@ -211,6 +211,27 @@ void Waiter_Client::requestTableList()
 
 //------------------------------------------------------------------------------
 
+void Waiter_Client::sendOrders()
+{
+    //ToDo: Add code here
+    Table *table = dynamic_cast<Table*>(QObject::sender());
+    if(!table)
+        return;
+
+    QMap<int, QJsonValue> *list = table->getOrderJSON();
+    for(int i=0; i < list->count(); ++i)
+    {
+        rotable::ComPackageDataSet package;
+        package.setDataCategory(ComPackage::SetOrder);
+//        package.setDataName(list-p);
+
+    }
+
+
+}
+
+//------------------------------------------------------------------------------
+
 void Waiter_Client::dataReturned(ComPackageDataReturn *package)
 {
   if (package) {
@@ -267,6 +288,7 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
       //Load data about order
       Table *table = Table::fromJSON(package->data());
       _tables.addTable(table);
+      connect(table, &rotable::Table::sendOrders, this, &Waiter_Client::sendOrders);
       requestOrderOnTable(table->id());
     } break;
 

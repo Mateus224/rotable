@@ -100,6 +100,8 @@ private slots:
    */
   void requestTableList();
 
+  void sendOrders();
+
 signals:
   void changeTableList();
 

@@ -120,6 +120,7 @@ signals:
     void countChange();
     void isSomethingSelectedChanged();
     void diconnectTable();
+    void prepareOrderToSend();
 
 public slots:
     /**
