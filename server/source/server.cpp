@@ -455,23 +455,27 @@ bool Server::setData(ComPackageDataSet *set, client_t client)
   } break;
   case ComPackage::SetOrder:
   {
-    //Covert data to array
-    QJsonArray array = set->data().toArray();
+    if(set->dataName() == "")
+    {
+        //Covert data to array
+        QJsonArray array = set->data().toArray();
 
-    //Crete QList with items
-    QList<OrderItem*> order;
-    foreach (QJsonValue item, array) {
-        order.append(OrderItem::fromJSON(item));
+        //Crete QList with items
+        QList<OrderItem*> order;
+        foreach (QJsonValue item, array) {
+            order.append(OrderItem::fromJSON(item));
+        }
+        return newOrder(order,_users[1][client]);
+    //    Clear memory, we don't like memory leaks
+    //    foreach (OrderItem *item, order) {
+    //        delete item;
+    //    }
     }
-    bool operatonSucces = newOrder(order,_users[1][client]);
-//    Clear memory, we don't like memory leaks
-//    foreach (OrderItem *item, order) {
-//        delete item;
-//    }
-    if(operatonSucces)
-        return true;
     else
-        return false;
+    {
+        Order *order = rotable::Order::fromJSON(set->data());
+        return updateOrder(order);
+    }
   }break;
   default:
   {

@@ -1,4 +1,4 @@
-    #ifndef ROTABLE_DATABASE_H
+#ifndef ROTABLE_DATABASE_H
 #define ROTABLE_DATABASE_H
 
 //------------------------------------------------------------------------------
@@ -494,7 +494,7 @@ public:
    *
    * @param idTable     table id
    * @param connected   table is connected (true/false)
-   * @return            true on succes
+   * @return            true on success
    */
   bool changeTableConnectStatus(int idTable, bool connected);
 
@@ -515,6 +515,14 @@ private:
    * @param table       Table object
    */
   int getTableAdditionalData(rotable::Table *table);
+
+  /**
+   * Update OrderItem
+   * @param item        OrderItem object
+   *
+   * @return            true on success
+   */
+  bool updateOrderItem(OrderItem *item);
 
 
   /* Database handle */

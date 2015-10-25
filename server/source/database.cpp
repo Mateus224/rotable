@@ -1227,6 +1227,11 @@ bool Database::updateOrder(Order *order)
       return false;
     }
 
+    for (int i = 0; i < order->itemCount(); ++i) {
+        if (!updateOrderItem(order->item(i)))
+            return false;
+    }
+
     return true;
 }
 
@@ -2101,7 +2106,7 @@ bool Database::hasOrder(int id)
     }
 
     QString queryStr = _sqlCommands[Orders]._select
-                       .arg(_prefix, "`id`", "`id`", ":id");
+                       .arg(_prefix, "`id`", "id", ":id");
     QSqlQuery q(_db);
     q.setForwardOnly(true);
 
@@ -2386,6 +2391,39 @@ int Database::getTableAdditionalData(Table *table)
 
     return true;
 
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::updateOrderItem(OrderItem *item)
+{
+    if (!isConnected()) {
+      return false;
+    }
+
+    QString queryStr = _sqlCommands[OrderItems]._update.arg(_prefix);
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return false;
+    }
+
+    q.bindValue(":amount", item->amount());
+    q.bindValue(":price", item->price());
+    q.bindValue(":state", item->state());
+    q.bindValue(":time", 0);
+    q.bindValue(":id", item->id());
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    return true;
 }
 
 //------------------------------------------------------------------------------
