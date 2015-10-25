@@ -217,7 +217,6 @@ void Waiter_Client::sendOrders()
     Table *table = dynamic_cast<Table*>(QObject::sender());
     if(!table)
         return;
-
     QMap<int, QJsonValue> *list = table->getOrderJSON();
     QMap<int, QJsonValue>::const_iterator it = list->cbegin();
     for(; it!=list->cend(); ++it)
