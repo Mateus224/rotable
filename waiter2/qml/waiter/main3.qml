@@ -179,7 +179,7 @@ ApplicationWindow {
                                 model: orderItems
                                 delegate: CheckBox{
                                     Layout.fillWidth: true
-                                    text: productList.productName(model.modelData.id)  + " Amount: " + model.modelData.amount
+                                    text: productList.productName(model.modelData.productId)  + " Amount: " + model.modelData.amount
                                     onCheckedChanged: {
                                        model.modelData.readyToChange(checked)
                                     }
