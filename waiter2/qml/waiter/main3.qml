@@ -178,11 +178,20 @@ ApplicationWindow {
 
                                 model: orderItems
                                 delegate: CheckBox{
+                                    id: changeCheck
+
                                     Layout.fillWidth: true
                                     text: productList.productName(model.modelData.productId)  + " Amount: " + model.modelData.amount
-                                    onCheckedChanged: {
-                                       model.modelData.readyToChange(checked)
-                                    }
+                                    onClicked: model.modelData.change = checked
+                                    Component.onCompleted: checked = model.modelData.change
+//                                    Connections {
+//                                        target: model.modelData
+//                                        onChangeChange: changeCheck.checked = model.modelData.change
+//                                    }
+//                                    onCheckedChanged: {
+//                                       model.modelData.readyToChange(checked)
+//                                    }
+//                                    checked: model.modelData.change
                                     style: CheckBoxStyle {
                                         background:
                                             Rectangle{
@@ -202,6 +211,7 @@ ApplicationWindow {
                             Button{
                                id: buttonOrder
                                text: qsTr("Select all")
+                               onClicked: model.prepareOrderToChange
 
                             }
                         }

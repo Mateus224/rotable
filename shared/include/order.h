@@ -45,6 +45,8 @@ class rotable::OrderItem : public QObject
   Q_PROPERTY(int productId READ productId WRITE setProductId NOTIFY productIdChanged)
   Q_PROPERTY(double price READ price WRITE setPrice NOTIFY priceChanged)
   Q_PROPERTY(QTime time READ time WRITE setTime NOTIFY timeChanged)
+  Q_PROPERTY(bool change READ change WRITE setChange NOTIFY readyToChanged)
+
 
 public:
 
@@ -69,7 +71,11 @@ public:
   inline QTime time() const { return _time; }
   inline void setTime(QTime time) { _time = time; emit timeChanged(); }
 
-  inline bool isReadyToChange() { return _readyToChange; }
+  inline bool change() const { return _readyToChange; }
+  inline void setChange(bool change) { _readyToChange = change; emit readyToChanged();}
+
+  inline bool isReadyToChange() { return _readyToChange;}
+
 
   QJsonValue toJSON() const;
   static OrderItem* fromJSON(const QJsonValue& jval);

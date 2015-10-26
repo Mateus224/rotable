@@ -122,9 +122,9 @@ void Order::prepareOrderToChange()
 {
    static int changeStatus = true;
    foreach(OrderItem *item, _items){
-        item->readyToChange(changeStatus);
+        item->setChange(changeStatus);
    }
-   changeStatus = false;
+   changeStatus = !changeStatus;
 }
 
 //------------------------------------------------------------------------------
