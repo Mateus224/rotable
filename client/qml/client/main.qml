@@ -9,7 +9,9 @@ import "callWaiter"
 
 Rectangle {
     id: mainScreen
-    color: client.debug ? "#C0C0C0" : "#000000"
+    color: "#000000"
+    width: parent.width
+    height: parent.height
 
     Rectangle {
         id: screen
@@ -18,7 +20,7 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         color: "#000000"
-        state: client.state
+        state: client.state ? client.state: "STARTSCREEN"
         rotation: client.screenRotation
 
         ConnectionPage {
