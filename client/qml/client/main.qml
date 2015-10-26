@@ -9,12 +9,12 @@ import "callWaiter"
 
 Rectangle {
     id: mainScreen
-    color: "black" //client.debug ? "#C0C0C0" : "#000000"
+    color: client.debug ? "#C0C0C0" : "#000000"
 
     Rectangle {
         id: screen
-        width: Math.min(parent.height+25, parent.width+25)
-        height: Math.min(parent.height+25, parent.width+25)
+        width: Math.min(parent.height, parent.width)
+        height: Math.min(parent.height, parent.width)
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         color: "#000000"

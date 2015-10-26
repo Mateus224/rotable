@@ -31,7 +31,7 @@ Rectangle {
     MouseArea {
         id:te
         anchors.fill: parent
-        onClicked: client.state = "STARTSCREEN"
+        onClicked: client.state = startscreen
     }
 
     /*Image {
