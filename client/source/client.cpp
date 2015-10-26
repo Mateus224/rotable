@@ -244,7 +244,6 @@ int Client::screenRotation()
 void Client::setState(const QString &state)
 {
   _state = state;
-  qDebug()<<_state;
   emit stateChanged();
 }
 
@@ -269,12 +268,12 @@ void Client::setCurrentCategoryId(int id)
         }
     }
     else if (_productListModel) {  //else if
+      _productListModel->setCategoryId(id);
+
+
         if (_state != "PRODUCTSCREEN") {
           setState("PRODUCTSCREEN");
         }
-        _productListModel->setCategoryId(id);
-
-        //setState("PRODUCTSCREEN");
     }
   }
 }
