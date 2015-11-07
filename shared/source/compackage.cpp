@@ -22,8 +22,9 @@ struct TypeStr2Enum {
 #define ROTABLE_PACKAGE_COMMAND_REJECT_STR                  QString("RJ")
 #define ROTABLE_PACKAGE_COMMAND_COMMAND_STR                 QString("CC")
 #define ROTABLE_PACKAGE_COMMAND_SEND_ORDER_STR              QString("SO")
+#define ROTABLE_PACKAGE_COMMAND_NEED_STR                    QString("NE")
 
-static const int S_types_count = 9;
+static const int S_types_count = 10;
 static const TypeStr2Enum S_types[S_types_count] = {
   { ROTABLE_PACKAGE_COMMAND_CONNECTION_REQUEST_STR, ComPackage::ConnectionRequest },
   { ROTABLE_PACKAGE_COMMAND_CONNECTION_ACCEPT_STR, ComPackage::ConnectionAccept },
@@ -32,7 +33,8 @@ static const TypeStr2Enum S_types[S_types_count] = {
   { ROTABLE_PACKAGE_COMMAND_DATA_CHANGED_STR, ComPackage::DataChanged },
   { ROTABLE_PACKAGE_COMMAND_DATA_SET_STR, ComPackage::DataSet },
   { ROTABLE_PACKAGE_COMMAND_REJECT_STR, ComPackage::Reject },
-  { ROTABLE_PACKAGE_COMMAND_COMMAND_STR, ComPackage::Command }
+  { ROTABLE_PACKAGE_COMMAND_COMMAND_STR, ComPackage::Command },
+  { ROTABLE_PACKAGE_COMMAND_NEED_STR, ComPackage::WaiterNeed }
 };
 
 //------------------------------------------------------------------------------
@@ -50,6 +52,8 @@ static const TypeStr2Enum S_types[S_types_count] = {
 #define ROTABLE_PACKAGE_TIME_CREATED_STR                    QString("TC")
 #define ROTABLE_PACKAGE_LAST_CHANGED_STR                    QString("LC")
 #define ROTABLE_PACKAGE_ORDER_STATE_STR                     QString("OS")
+#define ROTABLE_PACKAGE_NEED_NEED_STR                       QString("NN")
+#define ROTABLE_PACKAGE_NEED_TABLE_STR                      QString("NY")
 
 //------------------------------------------------------------------------------
 
@@ -222,6 +226,13 @@ ComPackage* ComPackage::fromJson(const QJsonDocument& doc)
     ComPackageCommand* p = new ComPackageCommand();
     p->_commandType = o[ROTABLE_PACKAGE_COMMAND_TYPE_STR].toInt();
     p->_data = o.value(ROTABLE_PACKAGE_DATA_STR);
+
+    ret = p;
+  } break;
+  case WaiterNeed:{
+    ComPackageWaiterNeed* p = new ComPackageWaiterNeed();
+    p->_need = o[ROTABLE_PACKAGE_NEED_NEED_STR].toBool();
+    p->_tableId = o[ROTABLE_PACKAGE_NEED_TABLE_STR].toInt();
 
     ret = p;
   } break;
@@ -451,4 +462,15 @@ QByteArray ComPackageCommand::toByteArray() const
   o[ROTABLE_PACKAGE_COMMAND_TYPE_STR] = _commandType;
   o[ROTABLE_PACKAGE_DATA_STR] = _data;
   return QJsonDocument(o).toBinaryData();
+}
+
+//------------------------------------------------------------------------------
+QByteArray ComPackageWaiterNeed::toByteArray() const
+{
+    QJsonObject o;
+    addData(o);
+    o[ROTABLE_PACKAGE_COMMAND_STR] = ROTABLE_PACKAGE_COMMAND_NEED_STR;
+    o[ROTABLE_PACKAGE_NEED_NEED_STR] = _need;
+    o[ROTABLE_PACKAGE_NEED_TABLE_STR] = _tableId;
+    return QJsonDocument(o).toBinaryData();
 }

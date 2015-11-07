@@ -474,7 +474,7 @@ public:
   /**
    * Default constrcutor
    */
-  ComPackageWaiterNeed();
+  ComPackageWaiterNeed(): _tableId(-1) {}
 
   inline Type type() const { return WaiterNeed; }
 
@@ -486,17 +486,27 @@ public:
   inline bool need() const { return _need; }
 
   /**
+   * Get table id
+   *
+   * @return              table id
+   */
+  inline int tableId() const { return _tableId; }
+
+  /**
    * Set need.
    *
    * @param need          need
    */
-  inline void setNeed(bool need) { _need = need; }
+  inline void setNeed(const bool &need) { _need = need; }
+
+  inline void setTableId(const int &id) { _tableId = id; }
 
   QByteArray toByteArray() const;
 
 private:
   /* Command type */
   bool _need;
+  int _tableId;
 
 }; // class ComPackageWaiterNeed
 
