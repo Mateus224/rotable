@@ -254,7 +254,7 @@ void Client::setCurrentCategoryId(int id)
   if (id != _currentCategoryId || _state != "PRODUCTSCREEN") {
     _currentCategoryId = id;
     emit currentCategoryIdChanged();
-    qDebug()<<"id:"<<id<<"  state:"<<_state;
+    qDebug()<<"_productListModel:"<<_productListModel;
     if(id==-1)
     {
         if (_state != "CALLWAITERPAGE") {
@@ -267,12 +267,11 @@ void Client::setCurrentCategoryId(int id)
           setState("GAMEPAGE");
         }
     }
-    else if (_productListModel) {  //else if
-      _productListModel->setCategoryId(id);
 
-
-        if (_state != "PRODUCTSCREEN") {
-          setState("PRODUCTSCREEN");
+    else {
+         if (_productListModel) {
+            setState("PRODUCTSCREEN");
+            _productListModel->setCategoryId(id);
         }
     }
   }
