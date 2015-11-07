@@ -29,6 +29,7 @@ namespace rotable {
   class ComPackageCommand;
   class ComPackageSendOrder;
   class ComPackageLogin;
+  class ComPackageWaiterNeed;
 }
 
 //------------------------------------------------------------------------------
@@ -66,7 +67,10 @@ public:
     Reject,
 
     /* Client sends a command */
-    Command
+    Command,
+
+    /* Change waiter needed status on table*/
+    WaiterNeed
   };
 
   /**
@@ -456,6 +460,45 @@ private:
   /* Additional data */
   QJsonValue _data;
 }; // class ComPackageReject
+
+//------------------------------------------------------------------------------
+
+/**
+ * The waiter request package change waiter need on table.
+ */
+class rotable::ComPackageWaiterNeed : public ComPackage
+{
+  friend class ComPackage;
+
+public:
+  /**
+   * Default constrcutor
+   */
+  ComPackageWaiterNeed();
+
+  inline Type type() const { return WaiterNeed; }
+
+  /**
+   * Get need.
+   *
+   * @return              true if waiter is need
+   */
+  inline bool need() const { return _need; }
+
+  /**
+   * Set need.
+   *
+   * @param need          need
+   */
+  inline void setNeed(bool need) { _need = need; }
+
+  QByteArray toByteArray() const;
+
+private:
+  /* Command type */
+  bool _need;
+
+}; // class ComPackageWaiterNeed
 
 //------------------------------------------------------------------------------
 #endif // ROTABLE_COMPACKAGE_H
