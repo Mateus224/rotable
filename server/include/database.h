@@ -498,6 +498,15 @@ public:
    */
   bool changeTableConnectStatus(int idTable, bool connected);
 
+  /**
+   * Method to set waiter need
+   *
+   * @param need        if waiter need == true
+   * @param clientId    table Id
+   * @return            true on success
+   */
+  bool setWaiterNeed(bool need, int clientId);
+
 signals:
   void parseConfig(Config* c);
 

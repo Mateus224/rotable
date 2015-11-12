@@ -2320,6 +2320,13 @@ bool Database::changeTableConnectStatus(int idTable, bool connected)
 
 //------------------------------------------------------------------------------
 
+bool Database::setWaiterNeed(bool need, int clientId)
+{
+
+}
+
+//------------------------------------------------------------------------------
+
 void Database::collectSqlCommands(Database::SqlCommands& cmds, QString table)
 {
   cmds._create = QString((const char*)QResource(

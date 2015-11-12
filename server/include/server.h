@@ -174,9 +174,19 @@ private:
   /**
    * Create new income, base on actual date and last income
    * Used by ScheduleOperation
-   * @return            teue on success
+   * @return            true on success
    */
   bool newIncome();
+
+  /**
+   * Set status Waiter need on table
+   *
+   * @param need        true if waiter is needed
+   * @param tableId     table id
+   *
+   * @return            true on success
+   */
+  bool setWaiterNeed(bool need, int tableId);
 
   /**
    * Execute a command received from a client.

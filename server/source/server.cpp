@@ -195,6 +195,41 @@ void Server::packageReceived(client_t client, ComPackage *package)
       _tcp.send(client, reject);
     }
   } break;
+  case ComPackage::WaiterNeed:
+  {
+    if (_tcp.isClientAccepted(client)) {
+      ComPackageWaiterNeed* p = static_cast<ComPackageWaiterNeed*>(package);
+      int id;
+      if(p->tableId() != -1)
+          id = p->id();
+      else
+      {
+          if(_users[1].contains(client)) ;
+            id = users[1][client];
+          else if(_users[0].contains(client))
+            id = users[0][client];
+          else
+          {
+                qDebug() << tr("WARNING: Package send form unconnect devices ' \"%1\"")
+                            .arg(_tcp.clientName(id));
+                ComPackageReject reject(package->id());
+                _tcp.send(client, reject);
+            }
+      }
+
+      if (!setWaiterNeed(p->need(), id)) {
+          qDebug() << tr("WARNING: Can't set status for table' \"%1\"")
+                      .arg(_tcp.clientName(id));
+          ComPackageReject reject(package->id());
+          _tcp.send(client, reject);
+      }
+    } else {
+      qDebug() << tr("WARNING: Unallowed Command from client \"%1\"")
+                  .arg(_tcp.clientName(client));
+      ComPackageReject reject(package->id());
+      _tcp.send(client, reject);
+    }
+  } break;
   case ComPackage::Reject:
   {
     qDebug() << tr("Did not expect to receive Reject package... doing nothing");
@@ -685,6 +720,23 @@ bool Server::newIncome()
     income->setDate(QDate::currentDate());
 
     return addIncome(income);
+}
+
+//------------------------------------------------------------------------------
+
+bool Server::setWaiterNeed(bool need, int tableId)
+{
+    if(_db.setWaiterNeed(need, tableId))
+    {
+        ComPackageDataChanged dc;
+        dc.setDataCategory(ComPackage::RequestTable);
+        send_to_users(dc,2);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 //------------------------------------------------------------------------------
