@@ -9,6 +9,15 @@
 #include <QSqlRecord>
 
 //------------------------------------------------------------------------------
+// For debug class with error for not implemented code
+
+class NotImplementedException : public std::logic_error
+{
+public:
+    virtual char const * what() const { return "Function not yet implemented."; }
+};
+
+//------------------------------------------------------------------------------
 
 using namespace rotable;
 
@@ -1262,6 +1271,20 @@ bool Database::updateClient(Client *client)
       return false;
     }
 
+    switch(client->accountType())
+    {
+    case ComPackage::WaiterAccount:
+    throw new NotImplementedException();
+    case ComPackage::TableAccount:
+    {
+
+    } break;
+    case ComPackage::AdminAccount:
+        throw new NotImplementedException();
+    default:
+        qCritical() << tr("Account type don't exist");
+    }
+
     return true;
 
 }
@@ -1666,6 +1689,7 @@ bool Database::exportDatabase(QString &dest)
   //TODO: export Passwords table
   //TODO: export MacAdresses table
   //TODO: export TableDetails tables
+  throw new NotImplementedException();
   return true;
 }
 
