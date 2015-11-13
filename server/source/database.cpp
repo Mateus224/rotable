@@ -807,19 +807,18 @@ Client *Database::client(int id)
     //Base on type create property account type
 
     switch(type){
-    case 1:{
+    case ComPackage::TableAccount:{
             client = new Table();
             client->setId(clienttId);
             client->setName(q.value("name").toString());
             getTableAdditionalData(reinterpret_cast<Table*>(client));
         }  break;
-    case 2:
-        //ToDo: Add support for other accounts
-        break;
-    case 3:
-        break;
+    case ComPackage::WaiterAccount:
+    case ComPackage::AdminAccount:
+        throw new NotImplementedException();
     default:
-        client = NULL;
+        qCritical()<< tr("Account type don't exists");
+        return false;
     }
 
     return client;
