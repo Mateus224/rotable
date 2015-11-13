@@ -262,6 +262,13 @@ void payedSlot(int i){qDebug()<<i;}
    */
   void sendOrder();
 
+  /**
+   * Method to change waiter need status on table
+   *
+   * @param state       state of button
+   */
+  Q_INVOKABLE void changeStateWaiterNeed(bool state);
+
 private:
   /**
    * Request all category ids.

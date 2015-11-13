@@ -286,6 +286,18 @@ void Client::sendOrder()
 
 //------------------------------------------------------------------------------
 
+void Client::changeStateWaiterNeed(bool state)
+{
+    // Prepare package
+    rotable::ComPackageWaiterNeed* package = new ComPackageWaiterNeed();
+    package->setNeed(state);        //Set state
+    package->setTableId(-1);        //Server set id for us
+    if (!_tcp.send(*package))
+      qCritical() << tr("Could not send package!");
+}
+
+//------------------------------------------------------------------------------
+
 void Client::reconnect()
 {
   _tcp.startConnection(_config.serverAddress(), _config.port());

@@ -58,9 +58,15 @@ Rectangle {
                     anchors.margins: parent.height * 0.02
                     onClicked:  {
                         if(callwaiterbutton.state!="CALLWAITER")
+                        {
                             callwaiterbutton.state="CALLWAITER"
+                            client.changeStateWaiterNeed(true)
+                        }
                         else
+                        {
                             callwaiterbutton.state="DEFAULT"
+                            client.changeStateWaiterNeed(false)
+                        }
                     }
                 }
 
