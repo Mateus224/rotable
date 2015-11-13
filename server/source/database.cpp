@@ -1276,7 +1276,10 @@ bool Database::updateClient(Client *client)
     throw new NotImplementedException();
     case ComPackage::TableAccount:
     {
-
+        Table* tmp = reinterpret_cast<Table*>(client);
+        if(!updateTableAdditionalData(
+            tmp->id(), tmp->isConnected(), tmp->waiterIsNeeded()))
+            return false;
     } break;
     case ComPackage::AdminAccount:
         throw new NotImplementedException();
@@ -1286,6 +1289,36 @@ bool Database::updateClient(Client *client)
 
     return true;
 
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::updateTableAdditionalData(int id, int connected, int need)
+{
+    if (!isConnected()) {
+      return false;
+    }
+
+    QString queryStr = _sqlCommands[TableDetails]._update.arg(_prefix).arg(id);
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return false;
+    }
+
+    q.bindValue(":waiterIsNeeded", need);
+    q.bindValue(":connected", connected);
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    return true;
 }
 
 //------------------------------------------------------------------------------
@@ -2346,30 +2379,7 @@ int Database::registerTable(QString name, QString macAdresses)
 
 bool Database::changeTableConnectStatus(int idTable, bool connected)
 {
-    if (!isConnected()) {
-      return false;
-    }
-
-    QString queryStr = _sqlCommands[TableDetails]._update.arg(_prefix).arg(idTable);
-
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return false;
-    }
-
-    q.bindValue(":waiterIsNeeded", false);
-    q.bindValue(":connected", connected);
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return false;
-    }
-
-    return true;
+    return updateTableAdditionalData(id, connected, false);
 }
 
 //------------------------------------------------------------------------------

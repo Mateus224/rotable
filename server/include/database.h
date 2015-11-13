@@ -327,6 +327,16 @@ public:
   bool updateClient(Client *client);
 
   /**
+   * Update additional data about table
+   *
+   * @param id          Table id
+   * @param connected   true if table is connected
+   * @param need        if waiter is needed on table
+   * @return            true on success
+   */
+  bool updateTableAdditionalData(int id, int connected, int need);
+
+  /**
    * Remove a category.
    *
    * @param id          id of category
