@@ -1239,6 +1239,30 @@ bool Database::updateOrder(Order *order)
 
 bool Database::updateClient(Client *client)
 {
+    if (!isConnected() || id == -1) {
+      return false;
+    }
+
+    QString queryStr = QString()._sqlCommands[Clients]._update.(_prefix).arg(id);
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return false;
+    }
+
+    q.bindValue(":name", client->name());
+    q.bindValue(":type", client->accountType());
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    return true;
 
 }
 
