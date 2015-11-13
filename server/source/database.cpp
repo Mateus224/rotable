@@ -14,7 +14,7 @@
 class NotImplementedException : public std::logic_error
 {
 public:
-    virtual char const * what() const { return "Function not yet implemented."; }
+    NotImplementedException(): logic_error("Not implemented yet.") {}
 };
 
 //------------------------------------------------------------------------------
@@ -1247,11 +1247,11 @@ bool Database::updateOrder(Order *order)
 
 bool Database::updateClient(Client *client)
 {
-    if (!isConnected() || id == -1) {
+    if (!isConnected() || client->id() == -1) {
       return false;
     }
 
-    QString queryStr = QString()._sqlCommands[Clients]._update.(_prefix).arg(id);
+    QString queryStr = _sqlCommands[Clients]._update.arg(_prefix).arg(client->id());
 
     QSqlQuery q(_db);
     q.setForwardOnly(true);
@@ -2379,14 +2379,14 @@ int Database::registerTable(QString name, QString macAdresses)
 
 bool Database::changeTableConnectStatus(int idTable, bool connected)
 {
-    return updateTableAdditionalData(id, connected, false);
+    return updateTableAdditionalData(idTable, connected, false);
 }
 
 //------------------------------------------------------------------------------
 
 bool Database::setWaiterNeed(bool need, int clientId)
 {
-    Table *tmp = client(clientId);
+    Table *tmp = reinterpret_cast<Table*>(client(clientId));
     if(!tmp)
         return false;
     tmp->setwaiterIsNeedede(need);
