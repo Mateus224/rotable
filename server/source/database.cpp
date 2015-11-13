@@ -1237,6 +1237,13 @@ bool Database::updateOrder(Order *order)
 
 //------------------------------------------------------------------------------
 
+bool Database::updateClient(Client *client)
+{
+
+}
+
+//------------------------------------------------------------------------------
+
 bool Database::removeCategory(int id)
 {
   if (!isConnected() || id == -1) {
@@ -2322,7 +2329,11 @@ bool Database::changeTableConnectStatus(int idTable, bool connected)
 
 bool Database::setWaiterNeed(bool need, int clientId)
 {
-
+    Table *tmp = client(clientId);
+    if(!tmp)
+        return false;
+    tmp->setwaiterIsNeedede(need);
+    return updateClient(tmp);
 }
 
 //------------------------------------------------------------------------------

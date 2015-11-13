@@ -1,4 +1,4 @@
-#ifndef ROTABLE_DATABASE_H
+﻿#ifndef ROTABLE_DATABASE_H
 #define ROTABLE_DATABASE_H
 
 //------------------------------------------------------------------------------
@@ -317,6 +317,14 @@ public:
    * @return            true on success
    */
   bool updateOrder(Order *order);
+
+  /**
+   * Update client (table, waiter, etc.)
+   *
+   * @param client      Client object
+   * @return            true on success
+   */
+  bool updateClient(Client *client);
 
   /**
    * Remove a category.

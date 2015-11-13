@@ -201,13 +201,13 @@ void Server::packageReceived(client_t client, ComPackage *package)
       ComPackageWaiterNeed* p = static_cast<ComPackageWaiterNeed*>(package);
       int id;
       if(p->tableId() != -1)
-          id = p->id();
+          id = p->id().toInt();
       else
       {
-          if(_users[1].contains(client)) ;
-            id = users[1][client];
+          if(_users[1].contains(client))
+            id = _users[1][client];
           else if(_users[0].contains(client))
-            id = users[0][client];
+            id = _users[0][client];
           else
           {
                 qDebug() << tr("WARNING: Package send form unconnect devices ' \"%1\"")
@@ -730,6 +730,7 @@ bool Server::setWaiterNeed(bool need, int tableId)
     {
         ComPackageDataChanged dc;
         dc.setDataCategory(ComPackage::RequestTable);
+        dc.setDataName(QString(tableId));
         send_to_users(dc,2);
         return true;
     }
