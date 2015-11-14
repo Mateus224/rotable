@@ -62,8 +62,11 @@ Waiter_Client::Waiter_Client(const QString &configFilePath, QObject *parent)
     connect(&_reconnectTimer, SIGNAL(timeout()),
             this, SLOT(reconnect()));
 
-    connect(&_tables, SIGNAL(updateOrderBoard(rotable::Table*)), &_board, SLOT(readOrderFromTable(rotable::Table*)));
+    connect(&_tables, SIGNAL(updateOrderBoard(rotable::Table*)),
+            &_board, SLOT(readOrderFromTable(rotable::Table*)));
 
+    connect(&_needBoard, &rotable::NeedBoard::unsetWaiterNeed,
+            this, &rotable::Waiter_Client::tableNeedWaiterChanged);
 }
 
 
@@ -233,6 +236,18 @@ void Waiter_Client::sendOrders()
 
 //------------------------------------------------------------------------------
 
+void Waiter_Client::tableNeedWaiterChanged(int id)
+{
+    // Prepare package
+    rotable::ComPackageWaiterNeed* package = new ComPackageWaiterNeed();
+    package->setNeed(false);        //Set state
+    package->setTableId(id);        //Server set id for us
+    if (!_tcp.send(*package))
+      qCritical() << tr("Could not send package!");
+}
+
+//------------------------------------------------------------------------------
+
 void Waiter_Client::dataReturned(ComPackageDataReturn *package)
 {
   if (package) {
@@ -290,6 +305,7 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
       Table *table = Table::fromJSON(package->data());
       _tables.addTable(table);
       connect(table, &rotable::Table::sendOrders, this, &Waiter_Client::sendOrders);
+      connect(table, &rotable::Table::waiterIsNeededChanged, &_needBoard, &rotable::NeedBoard::tableNeedChanged);
       requestOrderOnTable(table->id());
     } break;
 

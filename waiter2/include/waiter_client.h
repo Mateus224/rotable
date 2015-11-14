@@ -25,6 +25,7 @@
 #include "tablemodel.h"
 #include "orderboard.h"
 #include "productlist.h"
+#include "neededboard.h"
 
 //------------------------------------------------------------------------------
 
@@ -100,7 +101,17 @@ private slots:
    */
   void requestTableList();
 
+  /**
+   * Signal for send order
+   */
   void sendOrders();
+
+  /**
+   * Signal for send information about waiter need changed
+   *
+   * @param id          table id
+   */
+  void tableNeedWaiterChanged(int id);
 
 signals:
   void changeTableList();
@@ -115,6 +126,9 @@ public:
 
   /* Board with orders */
   rotable::OrderBoard _board;
+
+  /* Board with table with need waiter */
+  rotable::NeedBoard _needBoard;
 
 //------------------------------------------------------------------------------
 private:
