@@ -49,6 +49,7 @@ void Table::updateTableStatus(const rotable::Table *table)
         // Change so we set change
         change = true;
         _waiterIsNeeded = table->_waiterIsNeeded;
+        emit waiterIsNeededChanged();
     }
 
     if(_isConnected != table->_isConnected)
@@ -56,6 +57,7 @@ void Table::updateTableStatus(const rotable::Table *table)
         // Change so we set change
         change = true;
         _isConnected = table->_isConnected;
+        emit isConnectedChanged();
     }
 
     // We do logic OR
