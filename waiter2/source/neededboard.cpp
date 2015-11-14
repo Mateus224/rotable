@@ -30,7 +30,18 @@ int NeedBoard::rowCount(const QModelIndex &parent) const
 
 QVariant NeedBoard::data(const QModelIndex &index, int role) const
 {
-    return QVariant();
+    if (index.row() < 0 || index.row() >= _needs.count())
+        return QVariant();
+
+
+    rotable::Table *table = _needs[index.row()];
+    switch(role){
+    case NameRole:
+        return QVariant(table->name());
+    default:
+        qCritical() << "Role don't exists";
+    }
+
 }
 
 //-----------------------------------------------------
@@ -42,9 +53,55 @@ int NeedBoard::count() const
 
 //-----------------------------------------------------
 
+void NeedBoard::unneedTable(int idx)
+{
+    emit unsetWaiterNeed(_needs.at(idx)->id());
+}
+
+//-----------------------------------------------------
+
+void NeedBoard::addTable(Table *table)
+{
+    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    _needs.append(table);
+    endInsertRows();
+}
+
+//-----------------------------------------------------
+
 QHash<int, QByteArray> NeedBoard::roleNames() const
 {
-    return QHash<int, QByteArray>();
+    QHash<int, QByteArray> roles;
+
+    roles[NameRole] = "tableName";
+
+    return roles;
+}
+
+//-----------------------------------------------------
+
+void NeedBoard::tableNeedChanged()
+{
+    Table *table = dynamic_cast<Table*>(QObject::sender());
+    if(table)
+    {
+        if(table->waiterIsNeeded())
+            addTable(table);
+        else
+            removeTable(table);
+    }
+    else
+        qCritical() << "Someone call method, forbiden";
+}
+
+//-----------------------------------------------------
+
+void NeedBoard::removeTable(Table* table)
+{
+    int idx = _needs.indexOf(table);
+    beginRemoveRows(QModelIndex(), idx, idx);
+    _needs.removeAt(idx);
+    endRemoveRows();
 }
 
 //-----------------------------------------------------

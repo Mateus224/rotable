@@ -10,7 +10,7 @@ namespace rotable{
 //-----------------------------------------------------
 
 #ifndef QMAP_H
-#include <QMap>
+#include <QList>
 #endif
 
 #ifndef QOBJECT_H
@@ -20,6 +20,8 @@ namespace rotable{
 #ifndef QABSTRACTITEMMODEL_H
 #include <QAbstractListModel>
 #endif
+
+#include  "table.h"
 
 //-----------------------------------------------------
 
@@ -37,7 +39,7 @@ public:
      * List with field (Roles)
      */
     enum BoardRoles {
-        NeedRole = Qt::UserRole + 1,
+        NameRole = Qt::UserRole + 1,
     };
 
     //-----------------------------------------------------
@@ -84,6 +86,13 @@ public:
      */
     inline int count() const;
 
+    /**
+     * Remove Table from model, change state need to false
+     *
+     * @param idx           Table index
+     */
+    Q_INVOKABLE void unneedTable(int idx);
+
 protected:
     //-----------------------------------------------------
     // Virtual method from QAbstractListModel
@@ -98,9 +107,34 @@ protected:
 
 signals:
     void countChange();
+    void unsetWaiterNeed(int);
 
-private:
-    QMap<int, bool> _needs;
+public slots:
+    /**
+     * Slot for read signal waiterIsNeededChanged
+     * and analize waiterIsNeeded
+     */
+    void tableNeedChanged();
+
+private :
+    /**
+     * Add table to model
+     *
+     * @param table         Table object
+     */
+    void addTable(rotable::Table *table);
+
+    /**
+     * Remove table from model
+     *
+     * @param table         Table object
+     */
+    void removeTable(Table *table);
+
+    /**
+     * List of tables
+     */
+    QList<rotable::Table*> _needs;
 };
 
 //-----------------------------------------------------

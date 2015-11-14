@@ -22,7 +22,8 @@ HEADERS += \
     include/waiter_client.h \
     include/orderboard.h \
     include/tablemodel.h \
-    include/productlist.h
+    include/productlist.h \
+    include/neededboard.h
 
 
 SOURCES += \
@@ -33,7 +34,8 @@ SOURCES += \
     source/waiter_client.cpp \
     source/tablemodel.cpp \
     source/orderboard.cpp \
-    source/productlist.cpp
+    source/productlist.cpp \
+    source/neededboard.cpp
 
 RESOURCES +=\
     resources.qrc \
