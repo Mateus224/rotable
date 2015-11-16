@@ -10,10 +10,10 @@ ApplicationWindow {
 
     property int margin: 10
 
-    width: mainLayout.implicitWidth + 2 * margin
-    height: mainLayout.implicitHeight + 2 * margin
-    minimumWidth: mainLayout.Layout.minimumWidth + 2 * margin
-    minimumHeight: mainLayout.Layout.minimumHeight + 2 * margin
+    width: 650
+    height: 400
+    minimumWidth: 650
+    minimumHeight: 400
 
     RowLayout{
         id: mainLayout
@@ -28,7 +28,11 @@ ApplicationWindow {
         //minimumHeight: Math.max(menuLayout.minimumHeight, orderLayout.minimumHeight)
 
         ColumnLayout {
-                id: menuLayout
+            id: menuLayout
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.leftMargin: 0
 
                 Layout.fillHeight: true
 
@@ -36,6 +40,13 @@ ApplicationWindow {
 
                 GroupBox {
                     id: rowBox
+                    anchors.right: parent.right
+                    anchors.rightMargin: 0
+                    anchors.left: parent.left
+                    anchors.leftMargin: 0
+                    anchors.bottom: tableMenuLabel.top
+                    anchors.top: parent.top
+                    anchors.topMargin: 0
                     title: qsTr("Menu")
                     //Layout.fillWidth: true
 
@@ -75,12 +86,19 @@ ApplicationWindow {
 //                        rows: 2
 //                        flow: GridLayout.LeftToRight
 //                        Layout.fillWidth: true
-                        Label{
-                            text: qsTr("Table list")
+                Label{
+                    id: tableMenuLabel
+                    text: qsTr("Table list")
+                    anchors.horizontalCenter: parent.horizontalCenter
                         }
 
                         ListView {
                             id: tableList
+                            anchors.bottom: parent.bottom
+                            anchors.top: tableMenuLabel.bottom
+                            anchors.right: parent.right
+                            anchors.left: parent.left
+                            anchors.leftMargin: 0
                             Layout.fillHeight: true
                             //height: implicitHeight
                             //height: tableList.count * (spacing + 50)
@@ -113,6 +131,10 @@ ApplicationWindow {
             }
         ColumnLayout{
             id: orderLayout
+            anchors.left: menuLayout.right
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.top: parent.top
 
             //Layout.fillWidth: true
 
@@ -120,8 +142,11 @@ ApplicationWindow {
 
 
             RowLayout{
+                id: orderButton
 
                 width: parent.width
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: parent.top
                 spacing: margin
                 Button{
                     text: "Payed"
@@ -148,6 +173,12 @@ ApplicationWindow {
             }
 
             ScrollView {
+                anchors.topMargin: 10
+                anchors.top: orderButton.bottom
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+                anchors.left: parent.left
+                anchors.leftMargin: 0
                 //horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOn
                 ListView {
 

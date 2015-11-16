@@ -53,7 +53,8 @@ int main(int argc, char *argv[])
   ctxt->setContextProperty("tables", &(waiter_client->_tables));
   ctxt->setContextProperty("orderboard", &(waiter_client->_board));
   ctxt->setContextProperty("productList", &(waiter_client->_productsList));
-  //view->setSource(QString("qrc:/waiter/main3.qml"));
+  ctxt->setContextProperty("needBoard", &(waiter_client->_needBoard));
+  //view->setSource(QString("qrc:/waiter/main2.qml"));
 
   // Connect exit signal for exit
   QObject::connect(engine,  SIGNAL(quit()), qApp, SLOT(quit()));
