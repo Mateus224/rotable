@@ -38,6 +38,8 @@ QVariant NeedBoard::data(const QModelIndex &index, int role) const
     switch(role){
     case NameRole:
         return QVariant(table->name());
+    case IdxRole:
+        return QVariant(index.row());
     default:
         qCritical() << "Role don't exists";
     }
@@ -74,6 +76,7 @@ QHash<int, QByteArray> NeedBoard::roleNames() const
     QHash<int, QByteArray> roles;
 
     roles[NameRole] = "tableName";
+    roles[IdxRole] = "tableIdx";
 
     return roles;
 }

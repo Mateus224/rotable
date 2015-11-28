@@ -40,6 +40,7 @@ public:
      */
     enum BoardRoles {
         NameRole = Qt::UserRole + 1,
+        IdxRole
     };
 
     //-----------------------------------------------------

@@ -17,22 +17,18 @@ ApplicationWindow {
 
     RowLayout{
         id: mainLayout
+        spacing: 0
 
-        spacing: 10
         anchors.margins: margin
         anchors.fill: parent
 
-        width: menuLayout.implicitWidth + orderLayout.implicitWidth + spacing
-        height: Math.max(menuLayout.height, orderLayout.height)
-        //minimumWidth: menuLayout.minimumWidth + orderLayout.minimumWidth + spacing
-        //minimumHeight: Math.max(menuLayout.minimumHeight, orderLayout.minimumHeight)
-
         ColumnLayout {
             id: menuLayout
-            anchors.top: parent.top
+            anchors.bottomMargin: 0
             anchors.bottom: parent.bottom
-            anchors.left: parent.left
-            anchors.leftMargin: 0
+            anchors.top: parent.top
+            anchors.topMargin: 0
+            spacing: 10
 
                 Layout.fillHeight: true
 
@@ -44,7 +40,6 @@ ApplicationWindow {
                     anchors.rightMargin: 0
                     anchors.left: parent.left
                     anchors.leftMargin: 0
-                    anchors.bottom: tableMenuLabel.top
                     anchors.top: parent.top
                     anchors.topMargin: 0
                     title: qsTr("Menu")
@@ -89,12 +84,14 @@ ApplicationWindow {
                 Label{
                     id: tableMenuLabel
                     text: qsTr("Table list")
+                    anchors.top: rowBox.bottom
+                    anchors.topMargin: 0
                     anchors.horizontalCenter: parent.horizontalCenter
                         }
 
                         ListView {
                             id: tableList
-                            anchors.bottom: parent.bottom
+                            height: 200
                             anchors.top: tableMenuLabel.bottom
                             anchors.right: parent.right
                             anchors.left: parent.left
@@ -127,6 +124,37 @@ ApplicationWindow {
                         }
                     //}
               //  }
+                        Label{
+                            id: labelneedList
+                            text: qsTr("Table need waiter")
+                            anchors.top: tableList.bottom
+                            anchors.horizontalCenter: parent.horizontalCenter
+                        }
+
+                        ListView {
+                            id: needList
+                            y: 300
+                            height: 100
+                            anchors.top: labelneedList.bottom
+                            anchors.right: parent.right
+                            anchors.left: parent.left
+                            anchors.leftMargin: 0
+                            Layout.fillHeight: true
+                            //height: implicitHeight
+                            //height: tableList.count * (spacing + 50)
+                            Layout.minimumWidth: 200
+                            spacing: margin
+
+                            model: needBoard
+
+                            delegate: Button{
+                                id: needBoardButton
+                                width:  parent.width
+                                text: "Table " + model.tableName
+
+                                onClicked: needBoard.unneedTable(model.tableIdx)
+                            }
+                        }
 
             }
         ColumnLayout{
