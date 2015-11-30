@@ -135,6 +135,14 @@ public:
     bool updateOrder(const int &tableId, rotable::Order *order);
 
     /**
+     * Update field WaiterIsNeeded in table object
+     * @param need          value of field
+     * @param tableId       id of table
+     * @return              true on success
+     */
+    bool updateWaiterIsNeed(const bool &need, const int &tableId);
+
+    /**
      * Send orders to
      * @param tableId
      */

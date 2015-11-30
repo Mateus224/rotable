@@ -172,7 +172,11 @@ void Waiter_Client::packageReceived(ComPackage *package)
       qDebug() << tr("WARNING: Package has been rejected!");
       //rejected(static_cast<ComPackageReject*>(package));
     } break;
-
+    case ComPackage::WaiterNeed:
+    {
+        ComPackageWaiterNeed *p = static_cast<ComPackageWaiterNeed*>(package);
+        _tables.updateWaiterIsNeed(p->need(), p->tableId());
+    } break;
     default:
     {
       qDebug() << tr("WARNING: Received unknown package!");
@@ -303,9 +307,10 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
     {
       //Load data about order
       Table *table = Table::fromJSON(package->data());
+      connect(table, &rotable::Table::waiterIsNeededChanged, &_needBoard, &rotable::NeedBoard::tableNeedChanged);
       _tables.addTable(table);
       connect(table, &rotable::Table::sendOrders, this, &Waiter_Client::sendOrders);
-      connect(table, &rotable::Table::waiterIsNeededChanged, &_needBoard, &rotable::NeedBoard::tableNeedChanged);
+
       requestOrderOnTable(table->id());
     } break;
 

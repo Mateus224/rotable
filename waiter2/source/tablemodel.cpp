@@ -141,6 +141,16 @@ bool TableModel::updateOrder(const int &tableId, rotable::Order *order)
 
 //-----------------------------------------------------
 
+bool TableModel::updateWaiterIsNeed(const bool &need, const int &tableId)
+{
+    if(!_tables.contains(tableId))
+        return false;
+
+    _tables[tableId]->setwaiterIsNeedede(need);
+}
+
+//-----------------------------------------------------
+
 void TableModel::sendToBoardOrder(int tableId)
 {
     emit updateOrderBoard(_tables[tableId]);
