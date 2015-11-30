@@ -59,7 +59,7 @@ public:
     //------------------------------------------------------------------------------
 
     inline bool waiterIsNeeded() const { return _waiterIsNeeded; }
-    inline void setwaiterIsNeedede(bool waiterIsNeeded) { _waiterIsNeeded = waiterIsNeeded; emit tableChanged();}
+    inline void setwaiterIsNeedede(bool waiterIsNeeded) { _waiterIsNeeded = waiterIsNeeded; emit waiterIsNeededChanged();}
 
 
     inline bool isConnected() const { return _isConnected; }
