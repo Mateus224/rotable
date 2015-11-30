@@ -102,9 +102,11 @@ void NeedBoard::tableNeedChanged()
 void NeedBoard::removeTable(Table* table)
 {
     int idx = _needs.indexOf(table);
-    beginRemoveRows(QModelIndex(), idx, idx);
-    _needs.removeAt(idx);
-    endRemoveRows();
+    if(idx != -1){
+        beginRemoveRows(QModelIndex(), idx, idx);
+        _needs.removeAt(idx);
+        endRemoveRows();
+    }
 }
 
 //-----------------------------------------------------

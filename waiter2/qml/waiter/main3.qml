@@ -134,7 +134,7 @@ ApplicationWindow {
                         ListView {
                             id: needList
                             y: 300
-                            height: 100
+                            height: 200
                             anchors.top: labelneedList.bottom
                             anchors.right: parent.right
                             anchors.left: parent.left
