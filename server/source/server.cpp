@@ -227,7 +227,7 @@ void Server::packageReceived(client_t client, ComPackage *package)
         ComPackageWaiterNeed *change = new ComPackageWaiterNeed();
         change->setNeed(p->need());
         change->setTableId(id);
-        send_to_users(change,rotable::ComPackage::WaiterAccount);
+        send_to_users(*change,rotable::ComPackage::WaiterAccount);
       }
     } else {
       qDebug() << tr("WARNING: Unallowed Command from client \"%1\"")
