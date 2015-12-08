@@ -201,7 +201,7 @@ void Server::packageReceived(client_t client, ComPackage *package)
       ComPackageWaiterNeed* p = static_cast<ComPackageWaiterNeed*>(package);
       int id;
       if(p->tableId() != -1)
-          id = p->id().toInt();
+          id = p->tableId();
       else
       {
           if(_users[1].contains(client))
