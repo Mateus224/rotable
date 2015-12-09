@@ -20,6 +20,7 @@
 #include "sensors.h"
 #include "productorder.h"
 #include "productorderlistmodel.h"
+#include "callwaiter.h"
 
 //------------------------------------------------------------------------------
 
@@ -182,8 +183,7 @@ public:
 public:
   /* Products */
   rotable::ProductContainer* _products;
-
-
+  rotable::CallWaiter _callWaiter;
   rotable::ProductOrder* _productOrder;
 
 signals:
@@ -263,11 +263,10 @@ void payedSlot(int i){qDebug()<<i;}
   void sendOrder();
 
   /**
-   * Method to change waiter need status on table
-   *
-   * @param state       state of button
+   * Slot allow modules of client send package
+   * @param package     package to send
    */
-  Q_INVOKABLE void changeStateWaiterNeed(bool state);
+  void sendPackage(rotable::ComPackage *package);
 
 private:
   /**

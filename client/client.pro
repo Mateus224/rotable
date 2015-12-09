@@ -23,7 +23,8 @@ HEADERS += \
     include/client.h \
     include/categorylistmodel.h \
     include/productlistmodel.h \
-    include/imageprovider.h
+    include/imageprovider.h \
+    include/callwaiter.h
 
 SOURCES += \
     source/main.cpp \
@@ -33,7 +34,8 @@ SOURCES += \
     source/client.cpp \
     source/categorylistmodel.cpp \
     source/productlistmodel.cpp \
-    source/imageprovider.cpp
+    source/imageprovider.cpp \
+    source/callwaiter.cpp
 
 
 RESOURCES +=\

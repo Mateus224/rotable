@@ -33,7 +33,10 @@ Rectangle {
                 }
 
             ]
-
+            state: {
+                if(CallWaiterObject.waiterNeed) "CALLWAITER"
+                else "DEFAULT"
+            }
             anchors.fill: parent
             anchors.margins: parent.height * 0.02
 
@@ -58,15 +61,11 @@ Rectangle {
                     anchors.margins: parent.height * 0.02
                     onClicked:  {
                         if(callwaiterbutton.state!="CALLWAITER")
-                        {
-                            callwaiterbutton.state="CALLWAITER"
-                            client.changeStateWaiterNeed(true)
-                        }
+                            CallWaiterObject.waiterNeed = true
+
                         else
-                        {
-                            callwaiterbutton.state="DEFAULT"
-                            client.changeStateWaiterNeed(false)
-                        }
+                            CallWaiterObject.waiterNeed = false
+                        CallWaiterObject.preparePackageToSend()
                     }
                 }
 

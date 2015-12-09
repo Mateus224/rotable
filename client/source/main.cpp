@@ -82,6 +82,7 @@ int main(int argc, char *argv[])
   view->rootContext()->setContextProperty("MyOrder", client->_productOrder);
   ProductOrderListModel *_productorderlistmodel = new ProductOrderListModel(client, client->_productOrder);
   view->rootContext()->setContextProperty("MyProductOrderList", _productorderlistmodel);
+  view->rootContext()->setContextProperty("CallWaiterObject", &(client->_callWaiter));
   QQmlContext *ctxt = view->engine()->rootContext();
   qmlContxt init(*ctxt);
   init.initContxt(1);

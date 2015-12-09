@@ -66,6 +66,10 @@ Client::Client(const QString &configFilePath, QObject *parent)
           this, SIGNAL(rotationChanged()));
   connect(&_sensors, SIGNAL(contactChanged()),
           this, SIGNAL(contactChanged()));
+
+  // Connect send package from callWaiter by Client
+  connect(&_callWaiter, &rotable::CallWaiter::sendCallWaiter,
+          this, &Client::sendPackage);
 }
 
 //------------------------------------------------------------------------------
@@ -205,6 +209,12 @@ void Client::packageReceived(ComPackage *package)
       rejected(static_cast<ComPackageReject*>(package));
     } break;
 
+    case rotable::ComPackage::WaiterNeed:
+    {
+      ComPackageWaiterNeed *need = static_cast<ComPackageWaiterNeed*>(package);
+      _callWaiter.setWaiterNeed(need->need());
+    } break;
+
     default:
     {
       qDebug() << tr("WARNING: Received unknown package!");
@@ -286,14 +296,10 @@ void Client::sendOrder()
 
 //------------------------------------------------------------------------------
 
-void Client::changeStateWaiterNeed(bool state)
+void Client::sendPackage(ComPackage *package)
 {
-    // Prepare package
-    rotable::ComPackageWaiterNeed* package = new ComPackageWaiterNeed();
-    package->setNeed(state);        //Set state
-    package->setTableId(-1);        //Server set id for us
     if (!_tcp.send(*package))
-      qCritical() << tr("Could not send package!");
+        qCritical() << tr("Could not send package!");
 }
 
 //------------------------------------------------------------------------------
