@@ -200,8 +200,12 @@ void Server::packageReceived(client_t client, ComPackage *package)
     if (_tcp.isClientAccepted(client)) {
       ComPackageWaiterNeed* p = static_cast<ComPackageWaiterNeed*>(package);
       int id;
+      bool updateTable = false;
       if(p->tableId() != -1)
+      {
           id = p->tableId();
+          updateTable = true;
+      }
       else
       {
           if(_users[1].contains(client))
@@ -228,6 +232,9 @@ void Server::packageReceived(client_t client, ComPackage *package)
         change->setNeed(p->need());
         change->setTableId(id);
         send_to_users(*change,rotable::ComPackage::WaiterAccount);
+        // TODO: Add safety code
+        if(updateTable)
+            _tcp.send(_users[rotable::ComPackage::TableAccount].key(id),*change);
       }
     } else {
       qDebug() << tr("WARNING: Unallowed Command from client \"%1\"")
