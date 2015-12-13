@@ -123,6 +123,7 @@ void OrderBoard::updateOrders()
       loadOrders(table);
     else
         qCritical() << "Someone call method, forbiden";
+
 }
 
 //-----------------------------------------------------
@@ -150,6 +151,19 @@ QHash<int, QByteArray> OrderBoard::roleNames() const
     roles[OrderPrice] = "orderPrice";
 
     return roles;
+}
+
+//-----------------------------------------------------
+
+double OrderBoard::ordersPrice() const
+{
+    double sum = 0;
+
+    foreach (Order *order, _orders) {
+        sum += order->toPay();
+    }
+
+    return sum;
 }
 
 //-----------------------------------------------------

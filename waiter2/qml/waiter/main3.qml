@@ -177,10 +177,17 @@ ApplicationWindow {
                 anchors.top: parent.top
                 spacing: margin
                 Button{
-                    text: "Payed"
+                    text: "To Pay"
                     enabled: orderboard.isSomethingSelected
                     onClicked:{
                         orderboard.changeState(1);
+                    }
+                }
+                Button{
+                    text: "Payed"
+                    enabled: orderboard.isSomethingSelected
+                    onClicked:{
+                        orderboard.changeState(3);
                     }
                 }
                 Button{
@@ -188,13 +195,6 @@ ApplicationWindow {
                     enabled: orderboard.isSomethingSelected
                     onClicked:{
                         orderboard.changeState(2);
-                    }
-                }
-                Button{
-                    text: "Something else"
-                    enabled: orderboard.isSomethingSelected
-                    onClicked:{
-                        orderboard.changeState(3);
                     }
                 }
 

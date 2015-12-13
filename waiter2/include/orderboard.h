@@ -30,6 +30,7 @@ class rotable::OrderBoard: public QAbstractListModel{
     Q_OBJECT
 
     Q_PROPERTY(int count READ count NOTIFY countChange)
+    Q_PROPERTY(double ordersPrice READ ordersPrice NOTIFY ordersPriceChange)
     Q_PROPERTY(bool isSomethingSelected READ isSomethingSelected WRITE setIsSomethingSelected NOTIFY isSomethingSelectedChanged)
 public:
 
@@ -105,6 +106,13 @@ public:
     inline void setIsSomethingSelected(bool changed)
         { _isSomethingSelect = changed; emit isSomethingSelectedChanged(); }
 
+    /**
+     * Calculate price for all order on table
+     *
+     * @return      sum price
+     */
+    double ordersPrice() const;
+
 protected:
     //-----------------------------------------------------
     // Virtual method from QAbstractListModel
@@ -119,6 +127,7 @@ protected:
 
 signals:
     void countChange();
+    void ordersPriceChange();
     void isSomethingSelectedChanged();
     void diconnectTable();
     void prepareOrderToSend();

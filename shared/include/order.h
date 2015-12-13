@@ -76,7 +76,7 @@ public:
 
   inline bool isReadyToChange() const { return _readyToChange;}
 
-  inline double toPay() const { return _state != Rejected ? _price : double(0); }
+  inline double toPay() const { return _state == Rejected || _state == Pay? double(0) : _price; }
 
 
   QJsonValue toJSON() const;
@@ -88,9 +88,9 @@ public:
 
   enum State{
       New,
-      Accept,
+      Pay,
       Rejected,
-      Done
+      ToPay
   };
 
 signals:
