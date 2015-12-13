@@ -9,7 +9,7 @@ using namespace rotable;
 OrderBoard::OrderBoard(QObject *parent):
     QAbstractListModel(parent), _isSomethingSelect(false), _itemsSelect(0)
 {
-
+    connect(this, &OrderBoard::prepareOrderToSend, this, &OrderBoard::clearBoard);
 }
 
 //-----------------------------------------------------
@@ -95,20 +95,11 @@ QVariant OrderBoard::data(const QModelIndex &index, int role) const
 void OrderBoard::readOrderFromTable(Table *table)
 {
     //ToDo: add remove last connected signal for slot updateOrders
-    //disconnect(updateOrders);
-//    if(table->id()!=_tableId){
-    // Clear connect signals
-    emit diconnectTable();
-    disconnect(this, &OrderBoard::diconnectTable, 0, 0);
-    disconnect(this,&OrderBoard::prepareOrderToSend, 0, 0);
-    // Clear variable to activated button
-    setIsSomethingSelected(false);
-    _itemsSelect = 0;
+    clearBoard();
     // Connect new Table with OrderBoard
     connect(table, &rotable::Table::tableChanged, this, &OrderBoard::updateOrders);
-    connect(this, &OrderBoard::diconnectTable, table, &rotable::Table::diconnectRemote);
+    connect(this, &OrderBoard::disconnectNotification, table, &rotable::Table::diconnectRemote);
     connect(this, &OrderBoard::prepareOrderToSend, table, &rotable::Table::prepareOrderToSend);
-//    }
 
     loadOrders(table);
     _tableId=table->id();
@@ -135,6 +126,23 @@ void OrderBoard::orderReadyToChange(bool change)
    else
        --_itemsSelect;
    setIsSomethingSelected(_itemsSelect);
+}
+
+//-----------------------------------------------------
+
+void OrderBoard::clearBoard()
+{
+    beginResetModel();
+    // Clear connect signals
+    disconnectSignals();
+    // Clear variable to activated button
+    setIsSomethingSelected(false);
+    _itemsSelect = 0;
+
+    clearOrders();
+
+    _tableId = -1;
+    endResetModel();
 }
 
 //-----------------------------------------------------
@@ -184,7 +192,19 @@ void OrderBoard::loadOrders(rotable::Table *table)
     foreach (Order *order, orders) {
          addOrder(order);
          connect(order, &rotable::Order::readyToChanged, this, &OrderBoard::orderReadyToChange);
+         connect(this, &OrderBoard::disconnectNotification, order, &rotable::Order::disconnectOrder);
     }
+}
+
+//-----------------------------------------------------
+
+void OrderBoard::disconnectSignals()
+{
+    emit disconnectNotification();
+
+    disconnect(this,&OrderBoard::prepareOrderToSend, 0, 0);
+    disconnect(this, &OrderBoard::disconnectNotification, 0, 0);
+
 }
 
 //-----------------------------------------------------

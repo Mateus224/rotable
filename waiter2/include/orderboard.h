@@ -129,8 +129,8 @@ signals:
     void countChange();
     void ordersPriceChange();
     void isSomethingSelectedChanged();
-    void diconnectTable();
     void prepareOrderToSend();
+    void disconnectNotification();
 
 public slots:
     /**
@@ -147,6 +147,7 @@ public slots:
 
 private slots:
     void orderReadyToChange(bool change);
+    void clearBoard();
 
 private:
     /**
@@ -159,6 +160,8 @@ private:
      * @param table         Table object
      */
     void loadOrders(Table *table);
+
+    void disconnectSignals();
 
     QMap<int, rotable::Order*> _orders;
     int _tableId;
