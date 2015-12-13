@@ -131,7 +131,17 @@ void Order::prepareOrderToChange()
 
 void Order::disconnectOrder()
 {
-        disconnect(this, &Order::readyToChanged, 0, 0);
+    disconnect(this, &Order::readyToChanged, 0, 0);
+}
+
+//------------------------------------------------------------------------------
+
+double Order::toPay()
+{
+    double sum = 0;
+    foreach (OrderItem *item, _items) {
+        sum += item->toPay();
+    }
 }
 
 //------------------------------------------------------------------------------

@@ -267,6 +267,9 @@ ApplicationWindow {
                                     }
                                 }
                             }
+                            Label{
+                                text: qsTr("To pay: ") + orderPrice
+                            }
                             Button{
                                id: buttonOrder
                                text: qsTr("Select all")

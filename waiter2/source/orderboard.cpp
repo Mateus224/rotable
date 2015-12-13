@@ -84,6 +84,9 @@ QVariant OrderBoard::data(const QModelIndex &index, int role) const
             list.append(order->item(i));
         return QVariant::fromValue(list);
     }break;
+    case OrderPrice:{
+        return QVariant(order->toPay());
+    }break;
     }
 }
 
@@ -144,6 +147,7 @@ QHash<int, QByteArray> OrderBoard::roleNames() const
     roles[ClientRole] =  "clientId";
     roles[OrderRole] =  "orderId";
     roles[ItemsRole]  = "orderItems";
+    roles[OrderPrice] = "orderPrice";
 
     return roles;
 }

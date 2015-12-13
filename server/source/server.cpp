@@ -616,6 +616,8 @@ bool Server::newOrder(QList<OrderItem *> orders, int clientId)
     Order *order = new Order();
     //Add order item to order
     foreach (OrderItem* item, orders){
+        Product *item_detail = _db.product(item->productId());
+        item->setPrice((double)(item_detail->price())/100*item->amount());
         order->addItem(item);
     }
     // Set state of order

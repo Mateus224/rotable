@@ -45,7 +45,8 @@ public:
         StatusRole,
         ClientRole,
         OrderRole,
-        ItemsRole
+        ItemsRole,
+        OrderPrice
     };
 
     //-----------------------------------------------------

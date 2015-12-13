@@ -74,7 +74,9 @@ public:
   inline bool change() const { return _readyToChange; }
   inline void setChange(bool change) { _readyToChange = change; emit readyToChanged();}
 
-  inline bool isReadyToChange() { return _readyToChange;}
+  inline bool isReadyToChange() const { return _readyToChange;}
+
+  inline double toPay() const { return _state != Rejected ? _price : double(0); }
 
 
   QJsonValue toJSON() const;
@@ -235,11 +237,20 @@ public:
    */
   void updateOrder(Order *order);
 
+
   Q_INVOKABLE void changeState(int state);
 
   Q_INVOKABLE void prepareOrderToChange();
 
   void disconnectOrder();
+
+  /**
+   * Method return price need to be payed for items
+   *
+   * @return    price
+   */
+  double toPay();
+
 signals:
   void stateChanged();
   void itemsChanged();
