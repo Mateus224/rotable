@@ -194,6 +194,7 @@ void OrderBoard::loadOrders(rotable::Table *table)
          connect(order, &rotable::Order::readyToChanged, this, &OrderBoard::orderReadyToChange);
          connect(this, &OrderBoard::disconnectNotification, order, &rotable::Order::disconnectOrder);
     }
+    emit ordersPriceChange();
 }
 
 //-----------------------------------------------------

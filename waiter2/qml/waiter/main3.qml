@@ -17,7 +17,7 @@ ApplicationWindow {
 
     RowLayout{
         id: mainLayout
-        spacing: 0
+        spacing: 10
 
         anchors.margins: margin
         anchors.fill: parent
@@ -30,133 +30,133 @@ ApplicationWindow {
             anchors.topMargin: 0
             spacing: 10
 
-                Layout.fillHeight: true
+            Layout.fillHeight: true
 
-                anchors.margins: margin
+            anchors.margins: margin
 
-                GroupBox {
-                    id: rowBox
-                    anchors.right: parent.right
-                    anchors.rightMargin: 0
-                    anchors.left: parent.left
-                    anchors.leftMargin: 0
-                    anchors.top: parent.top
-                    anchors.topMargin: 0
-                    title: qsTr("Menu")
-                    //Layout.fillWidth: true
+            GroupBox {
+                id: rowBox
+                anchors.right: parent.right
+                anchors.rightMargin: 0
+                anchors.left: parent.left
+                anchors.leftMargin: 0
+                anchors.top: parent.top
+                anchors.topMargin: 0
+                title: qsTr("Menu")
+                //Layout.fillWidth: true
 
-                    RowLayout {
-                        id: rowLayout
-                        anchors.fill: parent
-                        Button {
-                            text: qsTr("Log out")
-                            enabled: false
-                        }
-                        Button {
-                            text: qsTr("Settings")
-                            enabled: false
-                        }
-                        Button {
-                            text: qsTr("Exit")
-                            onClicked: Qt.quit()
-                        }
+                RowLayout {
+                    id: rowLayout
+                    anchors.fill: parent
+                    Button {
+                        text: qsTr("Log out")
+                        enabled: false
+                    }
+                    Button {
+                        text: qsTr("Settings")
+                        enabled: false
+                    }
+                    Button {
+                        text: qsTr("Exit")
+                        onClicked: Qt.quit()
                     }
                 }
-
-//                GroupBox {
-//                    id: gridBox
-//                    title: qsTr("Table list")
-//                    Layout.fillWidth: true
-//                    height: {
-//                        if(tables.count == 0){
-//                            0;
-//                        }
-//                        else{
-//                            tableList.implicitHeight;
-//                        }
-//                    }
-
-//                    GridLayout {
-//                        id: gridLayout
-//                        rows: 2
-//                        flow: GridLayout.LeftToRight
-//                        Layout.fillWidth: true
-                Label{
-                    id: tableMenuLabel
-                    text: qsTr("Table list")
-                    anchors.top: rowBox.bottom
-                    anchors.topMargin: 0
-                    anchors.horizontalCenter: parent.horizontalCenter
-                        }
-
-                        ListView {
-                            id: tableList
-                            height: 200
-                            anchors.top: tableMenuLabel.bottom
-                            anchors.right: parent.right
-                            anchors.left: parent.left
-                            anchors.leftMargin: 0
-                            Layout.fillHeight: true
-                            //height: implicitHeight
-                            //height: tableList.count * (spacing + 50)
-                            Layout.minimumWidth: 200
-                            spacing: margin
-
-                            ExclusiveGroup {
-                                id: tableExclusiveGroup
-                            }
-
-                            model: tables
-
-                            delegate: Button{
-                                id: tableListButton
-
-                                enabled: model.orderNumber == 0 ? false : true
-
-                                width:  parent.width
-                                checkable: true
-                                exclusiveGroup: tableExclusiveGroup
-                                property var connected: model.isConnected ? "Connected" : "Disconnected"
-                                text: "Table: " + model.name + ", " + model.id + "\nOrders: " + model.orderNumber + "\n" + connected
-
-                                onClicked: tables.sendToBoardOrder(model.id)
-                            }
-                        }
-                    //}
-              //  }
-                        Label{
-                            id: labelneedList
-                            text: qsTr("Table need waiter")
-                            anchors.top: tableList.bottom
-                            anchors.horizontalCenter: parent.horizontalCenter
-                        }
-
-                        ListView {
-                            id: needList
-                            y: 300
-                            height: 200
-                            anchors.top: labelneedList.bottom
-                            anchors.right: parent.right
-                            anchors.left: parent.left
-                            anchors.leftMargin: 0
-                            Layout.fillHeight: true
-                            //height: implicitHeight
-                            //height: tableList.count * (spacing + 50)
-                            Layout.minimumWidth: 200
-                            spacing: margin
-
-                            model: needBoard
-
-                            delegate: Button{
-                                id: needBoardButton
-                                width:  parent.width
-                                text: "Table " + model.tableName
-
-                                onClicked: needBoard.unneedTable(model.tableIdx)
-                            }
-                        }
-
             }
+
+            //                GroupBox {
+            //                    id: gridBox
+            //                    title: qsTr("Table list")
+            //                    Layout.fillWidth: true
+            //                    height: {
+            //                        if(tables.count == 0){
+            //                            0;
+            //                        }
+            //                        else{
+            //                            tableList.implicitHeight;
+            //                        }
+            //                    }
+
+            //                    GridLayout {
+            //                        id: gridLayout
+            //                        rows: 2
+            //                        flow: GridLayout.LeftToRight
+            //                        Layout.fillWidth: true
+            Label{
+                id: tableMenuLabel
+                text: qsTr("Table list")
+                anchors.top: rowBox.bottom
+                anchors.topMargin: 0
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
+            ListView {
+                id: tableList
+                height: 200
+                anchors.top: tableMenuLabel.bottom
+                anchors.right: parent.right
+                anchors.left: parent.left
+                anchors.leftMargin: 0
+                Layout.fillHeight: true
+                //height: implicitHeight
+                //height: tableList.count * (spacing + 50)
+                Layout.minimumWidth: 200
+                spacing: margin
+
+                ExclusiveGroup {
+                    id: tableExclusiveGroup
+                }
+
+                model: tables
+
+                delegate: Button{
+                    id: tableListButton
+
+                    enabled: model.orderNumber == 0 ? false : true
+
+                    width:  parent.width
+                    checkable: true
+                    exclusiveGroup: tableExclusiveGroup
+                    property var connected: model.isConnected ? "Connected" : "Disconnected"
+                    text: "Table: " + model.name + ", " + model.id + "\nOrders: " + model.orderNumber + "\n" + connected
+
+                    onClicked: tables.sendToBoardOrder(model.id)
+                }
+            }
+            //}
+            //  }
+            Label{
+                id: labelneedList
+                text: qsTr("Table need waiter")
+                anchors.top: tableList.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
+            ListView {
+                id: needList
+                y: 300
+                height: 200
+                anchors.top: labelneedList.bottom
+                anchors.right: parent.right
+                anchors.left: parent.left
+                anchors.leftMargin: 0
+                Layout.fillHeight: true
+                //height: implicitHeight
+                //height: tableList.count * (spacing + 50)
+                Layout.minimumWidth: 200
+                spacing: margin
+
+                model: needBoard
+
+                delegate: Button{
+                    id: needBoardButton
+                    width:  parent.width
+                    text: "Table " + model.tableName
+
+                    onClicked: needBoard.unneedTable(model.tableIdx)
+                }
+            }
+
+        }
         ColumnLayout{
             id: orderLayout
             anchors.left: menuLayout.right
@@ -180,14 +180,14 @@ ApplicationWindow {
                     text: "To Pay"
                     enabled: orderboard.isSomethingSelected
                     onClicked:{
-                        orderboard.changeState(1);
+                        orderboard.changeState(3);
                     }
                 }
                 Button{
                     text: "Payed"
                     enabled: orderboard.isSomethingSelected
                     onClicked:{
-                        orderboard.changeState(3);
+                        orderboard.changeState(1);
                     }
                 }
                 Button{
@@ -200,9 +200,20 @@ ApplicationWindow {
 
             }
 
+            Text {
+                id: text1
+                text: qsTr("Recive on table: ") + orderboard.ordersPrice
+                Layout.fillHeight: false
+                Layout.fillWidth: true
+                font.pixelSize: 12
+            }
+
             ScrollView {
+                Layout.fillWidth: false
+                Layout.fillHeight: false
+                transformOrigin: Item.Center
                 anchors.topMargin: 10
-                anchors.top: orderButton.bottom
+                anchors.top: text1.bottom
                 anchors.bottom: parent.bottom
                 anchors.right: parent.right
                 anchors.left: parent.left
@@ -223,7 +234,7 @@ ApplicationWindow {
                         id: order
                         ColumnLayout{
 
-//                            width: parent.width
+                            //                            width: parent.width
 
                             spacing: 5
                             Label {
@@ -243,26 +254,26 @@ ApplicationWindow {
                                     text: productList.productName(model.modelData.productId)  + " Amount: " + model.modelData.amount
                                     onClicked: model.modelData.change = checked
                                     Component.onCompleted: checked = model.modelData.change
-//                                    Connections {
-//                                        target: model.modelData
-//                                        onChangeChange: changeCheck.checked = model.modelData.change
-//                                    }
-//                                    onCheckedChanged: {
-//                                       model.modelData.readyToChange(checked)
-//                                    }
-//                                    checked: model.modelData.change
+                                    //                                    Connections {
+                                    //                                        target: model.modelData
+                                    //                                        onChangeChange: changeCheck.checked = model.modelData.change
+                                    //                                    }
+                                    //                                    onCheckedChanged: {
+                                    //                                       model.modelData.readyToChange(checked)
+                                    //                                    }
+                                    //                                    checked: model.modelData.change
                                     style: CheckBoxStyle {
                                         background:
                                             Rectangle{
-                                                color: {
-                                                    switch(model.modelData.state)
-                                                    {
-                                                        case 0: "Green"; break;
-                                                        case 1: "Blue"; break;
-                                                        case 2: "Gray"; break;
-                                                        case 3: "Red"; break;
-                                                    }
+                                            color: {
+                                                switch(model.modelData.state)
+                                                {
+                                                case 0: "Green"; break;
+                                                case 1: "Blue"; break;
+                                                case 2: "Gray"; break;
+                                                case 3: "Red"; break;
                                                 }
+                                            }
                                         }
                                     }
                                 }
@@ -271,9 +282,9 @@ ApplicationWindow {
                                 text: qsTr("To pay: ") + orderPrice
                             }
                             Button{
-                               id: buttonOrder
-                               text: qsTr("Select all")
-                               onClicked: model.prepareOrderToChange
+                                id: buttonOrder
+                                text: qsTr("Select all")
+                                onClicked: model.prepareOrderToChange
 
                             }
                         }
@@ -282,7 +293,8 @@ ApplicationWindow {
                     delegate:order
                 }
 
-                }
+            }
+
 
         }
     }
