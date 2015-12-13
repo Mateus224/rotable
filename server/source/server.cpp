@@ -198,28 +198,27 @@ void Server::packageReceived(client_t client, ComPackage *package)
   case ComPackage::WaiterNeed:
   {
     if (_tcp.isClientAccepted(client)) {
+
       ComPackageWaiterNeed* p = static_cast<ComPackageWaiterNeed*>(package);
       int id;
       bool updateTable = false;
-      if(p->tableId() != -1)
+
+      //Check account type
+      if(_users[rotable::ComPackage::TableAccount].contains(client))
+        id = _users[1][client];
+      else if(_users[rotable::ComPackage::WaiterAccount].contains(client))
       {
           id = p->tableId();
           updateTable = true;
       }
       else
       {
-          if(_users[1].contains(client))
-            id = _users[1][client];
-          else if(_users[0].contains(client))
-            id = _users[0][client];
-          else
-          {
-                qDebug() << tr("WARNING: Package send form unconnect devices ' \"%1\"")
-                            .arg(_tcp.clientName(id));
-                ComPackageReject reject(package->id());
-                _tcp.send(client, reject);
-            }
-      }
+            qDebug() << tr("WARNING: Package send form unconnect devices ' \"%1\"")
+                        .arg(_tcp.clientName(id));
+            ComPackageReject reject(package->id());
+            _tcp.send(client, reject);
+       }
+
 
       if (!setWaiterNeed(p->need(), id)) {
           qDebug() << tr("WARNING: Can't set status for table' \"%1\"")
@@ -228,13 +227,20 @@ void Server::packageReceived(client_t client, ComPackage *package)
           _tcp.send(client, reject);
       }
       else{
-        ComPackageWaiterNeed *change = new ComPackageWaiterNeed();
-        change->setNeed(p->need());
-        change->setTableId(id);
-        send_to_users(*change,rotable::ComPackage::WaiterAccount);
-        // TODO: Add safety code
+        //Send information to waiter about table change
+        ComPackageDataChanged dc;
+        dc.setDataCategory(rotable::ComPackage::RequestTable);
+        dc.setDataName(QString("%1").arg(id));
+        _tcp.send(-1, dc);
+        send_to_users(dc,rotable::ComPackage::WaiterAccount);
+
         if(updateTable)
+        {
+            ComPackageWaiterNeed *change = new ComPackageWaiterNeed();
+            change->setNeed(p->need());
+            change->setTableId(id);
             _tcp.send(_users[rotable::ComPackage::TableAccount].key(id),*change);
+        }
       }
     } else {
       qDebug() << tr("WARNING: Unallowed Command from client \"%1\"")
