@@ -10,7 +10,7 @@ import "callWaiter"
 Rectangle {
     id: mainScreen
     color: "#000000"
-    width: parent.width ? parent.width : 200
+    width: parent.width ? parent.width :  200
     height: parent.height ? parent.height : 200
 
     Rectangle {

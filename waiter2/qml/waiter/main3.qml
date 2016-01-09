@@ -202,7 +202,7 @@ ApplicationWindow {
 
             Text {
                 id: text1
-                text: qsTr("Recive on table: ") + orderboard.ordersPrice
+                text: qsTr("Bill on table: ") + orderboard.ordersPrice.toFixed(2)
                 Layout.fillHeight: false
                 Layout.fillWidth: true
                 font.pixelSize: 12
@@ -279,7 +279,7 @@ ApplicationWindow {
                                 }
                             }
                             Label{
-                                text: qsTr("To pay: ") + orderPrice
+                                text: qsTr("To pay: ") + orderPrice;
                             }
                             Button{
                                 id: buttonOrder
