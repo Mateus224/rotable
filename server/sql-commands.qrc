@@ -60,5 +60,6 @@
         <file>sql-commands/tabledetails_select.sql</file>
         <file>sql-commands/tabledetails_select_ids.sql</file>
         <file>sql-commands/tabledetails_update.sql</file>
+        <file>sql-commands/trigger_update_orderitem.sql</file>
     </qresource>
 </RCC>
