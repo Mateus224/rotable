@@ -747,6 +747,18 @@ bool Server::newIncome()
 
 bool Server::closeDay()
 {
+    // We must load all orders witch are not done
+    QList<Order*>* list;
+    list = _db.getNotCloseOrderList();
+
+    foreach (Order *order, *list) {
+        for(int i=0; ++i; order->itemCount())
+            order->item(i)->setState(0);    // TODO: change state, load state as parametr
+
+        if(!updateOrder(order))
+            return false;
+    }
+
     return true;
 }
 
@@ -919,7 +931,8 @@ void Server::config_parser(Config *config)
 
 //------------------------------------------------------------------------------
 
-void Server::day_begin_config(Config *config){
+void Server::day_begin_config(Config *config)
+{
 
     //Load last income from database
     Income *lastIncome = _db.getLastIncome();
@@ -947,10 +960,12 @@ void Server::day_begin_config(Config *config){
     dateTime.setTime(time);
     operation->setNext(dateTime);
     operation->setDayInterval(1);
+
+    // We can call many operation at once
     //Connect signal emit on time with method on server(create new income)
     connect(operation, &ScheduleOperation::on_time,this, &Server::newIncome);
     // ^^ Close day
-    onnect(operation, &ScheduleOperation::on_time,this, &Server::closeDay);
+    connect(operation, &ScheduleOperation::on_time,this, &Server::closeDay);
     //the easiest way is the best xD
 
     //Add operation to schedule

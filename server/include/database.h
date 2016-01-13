@@ -489,6 +489,13 @@ public:
   bool hasOrder(int id);
 
   /**
+   * Get from database not close order
+   *
+   * @return            QList on successs
+   */
+  QList<Order *>* getNotCloseOrderList();
+
+  /**
    * Check whether this object is connected to the database.
    *
    * @return            true if connected
