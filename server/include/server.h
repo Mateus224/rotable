@@ -179,6 +179,13 @@ private:
   bool newIncome();
 
   /**
+   * Close order after day is end
+   *
+   * @return            true on success
+   */
+  bool closeDay();
+
+  /**
    * Set status Waiter need on table
    *
    * @param need        true if waiter is needed

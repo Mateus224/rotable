@@ -745,6 +745,13 @@ bool Server::newIncome()
 
 //------------------------------------------------------------------------------
 
+bool Server::closeDay()
+{
+    return true;
+}
+
+//------------------------------------------------------------------------------
+
 bool Server::setWaiterNeed(bool need, int tableId)
 {
     if(_db.setWaiterNeed(need, tableId))
@@ -942,10 +949,13 @@ void Server::day_begin_config(Config *config){
     operation->setDayInterval(1);
     //Connect signal emit on time with method on server(create new income)
     connect(operation, &ScheduleOperation::on_time,this, &Server::newIncome);
+    // ^^ Close day
+    onnect(operation, &ScheduleOperation::on_time,this, &Server::closeDay);
     //the easiest way is the best xD
 
     //Add operation to schedule
     schedule->addOperiationToSchedule(operation);
+
 }
 
 //------------------------------------------------------------------------------
