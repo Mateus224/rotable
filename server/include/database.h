@@ -551,6 +551,13 @@ private:
    */
   bool updateOrderItem(OrderItem *item);
 
+  /**
+   * Add to database triggers
+   *
+   * @return            true on succes
+   */
+  bool initTriggers();
+
 
   /* Database handle */
   QSqlDatabase _db;

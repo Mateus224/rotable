@@ -1600,6 +1600,7 @@ bool Database::createDatabase()
     return false;
   }
 
+  initTriggers();
   add_init_data();
 
   return true;
@@ -1655,6 +1656,9 @@ bool Database::exportDatabase(QString &dest)
   dest += QString("DROP TABLE IF EXISTS `%1order_item`;").arg(_prefix);
   dest += QString("DROP TABLE IF EXISTS `%1daily_incomes`;").arg(_prefix);
   dest += QString("DROP TABLE IF EXISTS `%1configs`;").arg(_prefix);
+  dest += QString("DROP TRIGGER IF EXISTS `%1update_orderitem_status_add`;").arg(_prefix);
+  dest += QString("DROP TRIGGER IF EXISTS `%1update_orderitem_status_remove`;").arg(_prefix);
+
 
   // Add create table command
   dest += _sqlCommands[Categories]._create.arg(_prefix) + '\n';
@@ -1664,6 +1668,10 @@ bool Database::exportDatabase(QString &dest)
   dest += _sqlCommands[OrderItems]._create.arg(_prefix) + '\n';
   dest += _sqlCommands[Incomes]._create.arg(_prefix) + '\n';
   dest += _sqlCommands[Configs]._create.arg(_prefix) + '\n';
+
+  // Add triggers
+  dest +=  QString((const char*)QResource(QString("://sql-commands/trigger_update_orderitem_add.sql")). data());
+  dest +=  QString((const char*)QResource(QString("://sql-commands/trigger_update_orderitem_remove.sql")). data());
 
   //-------------------------------------------------------------------------------
   // Add insert command with data
@@ -2495,6 +2503,33 @@ bool Database::updateOrderItem(OrderItem *item)
     if (!q.exec()) {
       qCritical() << tr("Query exec failed: (%1: %2")
                      .arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::initTriggers()
+{
+    if (!isConnected()) {
+      return false;
+    }
+
+    //TODO: Add auto search triggers and load them
+    QString trigger1 =  QString((const char*)QResource(QString("://sql-commands/trigger_update_orderitem_add.sql")). data());
+    QString trigger2 =  QString((const char*)QResource(QString("://sql-commands/trigger_update_orderitem_remove.sql")). data());
+
+    QSqlQuery q01(trigger1.arg(_prefix), _db);
+    if (q01.lastError().type() != QSqlError::NoError) {
+      qCritical() << tr("Query exec fai led: %1").arg(q01.lastError().text());
+      return false;
+    }
+
+    QSqlQuery q02(trigger2.arg(_prefix), _db);
+    if (q02.lastError().type() != QSqlError::NoError) {
+      qCritical() << tr("Query exec fai led: %1").arg(q02.lastError().text());
       return false;
     }
 
