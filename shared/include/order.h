@@ -141,7 +141,10 @@ public:
     Delivered,
 
     /* Order has been paid */
-    Paid
+    Paid,
+
+    /* Order has been close*/
+    Close
   };
 
 private:
@@ -250,6 +253,15 @@ public:
    * @return    price
    */
   double toPay();
+
+  /**
+   * Method change ordersItem state and close order
+   *
+   * @param toChange        State to change
+   * @param newState        new state
+   */
+  void closeOrder(QList<int> toChange, int newState);
+
 
 signals:
   void stateChanged();
