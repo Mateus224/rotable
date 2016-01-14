@@ -142,6 +142,8 @@ double Order::toPay()
     foreach (OrderItem *item, _items) {
         sum += item->toPay();
     }
+
+    return sum;
 }
 
 //------------------------------------------------------------------------------
