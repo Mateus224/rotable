@@ -752,11 +752,12 @@ bool Server::closeDay()
     list = _db.getNotCloseOrderList();
 
     //TODO: Load from settings
-    QList<int> stateToChange = {rotable::OrderItem::State::ToPay};
+    QList<int> stateToChange;
+    stateToChange.append(rotable::OrderItem::ToPay);
 
     foreach (Order *order, *list) {
         for(int i=0; ++i; order->itemCount())
-            order->closeOrder(stateToChange, rotable::OrderItem::State::Pay);
+            order->closeOrder(stateToChange, rotable::OrderItem::Pay);
 
         if(!updateOrder(order))
             return false;

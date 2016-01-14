@@ -41,7 +41,8 @@ public:
   inline void setValue(QString value) { _value = value; emit valueChange();}
 
   enum {
-      day_begin = 0
+      day_begin = 0,
+      closeState
   };
 
 signals:

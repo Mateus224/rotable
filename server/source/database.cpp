@@ -975,7 +975,7 @@ bool Database::addIncome(Income *income)
 
 //------------------------------------------------------------------------------
 
-bool Database::addConfig(Config *config)
+bool Database:: addConfig(Config *config)
 {
     if (!isConnected()) {
       return false;
@@ -2378,6 +2378,10 @@ bool Database::add_init_data()
   Config day;
   day.setName(Config::day_begin);
   day.setValue("16:00");
+
+  Config closeState;
+  closeState.setName(Config::closeState);
+  closeState.setValue(QString("%1,%2;%3").arg(OrderItem::New, OrderItem::ToPay, OrderItem::Pay));
 
   bool ok = addConfig(&day);
 
