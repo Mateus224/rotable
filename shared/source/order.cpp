@@ -159,6 +159,13 @@ void Order::closeOrder(QList<int> toChange, int newState)
 
 //------------------------------------------------------------------------------
 
+bool Order::isClose() const
+{
+    return _state == Close;
+}
+
+//------------------------------------------------------------------------------
+
 void Order::itemChanged()
 {
     emit itemsChanged();

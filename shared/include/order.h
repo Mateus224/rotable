@@ -262,6 +262,12 @@ public:
    */
   void closeOrder(QList<int> toChange, int newState);
 
+  /**
+   * Check if order is close
+   *
+   * @return true if order have state CLOSE
+   */
+  bool isClose() const;
 
 signals:
   void stateChanged();
