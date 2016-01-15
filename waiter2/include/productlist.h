@@ -13,7 +13,7 @@ namespace rotable{
 #include <QObject>
 #endif
 
-#ifndef QHASH_H
+#ifndef QMAP_H
 #include <QMap>
 #endif
 
