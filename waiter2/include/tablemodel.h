@@ -157,6 +157,8 @@ signals:
 
     void countChanged();
 
+    void sendToHistory(rotable::Order* order);
+
 private:
     /**
      * Container with tables

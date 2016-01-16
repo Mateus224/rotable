@@ -975,7 +975,7 @@ bool Database::addIncome(Income *income)
 
 //------------------------------------------------------------------------------
 
-bool Database::addConfig(Config *config)
+bool Database:: addConfig(Config *config)
 {
     if (!isConnected()) {
       return false;
@@ -1600,6 +1600,7 @@ bool Database::createDatabase()
     return false;
   }
 
+  initTriggers();
   add_init_data();
 
   return true;
@@ -1655,6 +1656,9 @@ bool Database::exportDatabase(QString &dest)
   dest += QString("DROP TABLE IF EXISTS `%1order_item`;").arg(_prefix);
   dest += QString("DROP TABLE IF EXISTS `%1daily_incomes`;").arg(_prefix);
   dest += QString("DROP TABLE IF EXISTS `%1configs`;").arg(_prefix);
+  dest += QString("DROP TRIGGER IF EXISTS `%1update_orderitem_status_add`;").arg(_prefix);
+  dest += QString("DROP TRIGGER IF EXISTS `%1update_orderitem_status_remove`;").arg(_prefix);
+
 
   // Add create table command
   dest += _sqlCommands[Categories]._create.arg(_prefix) + '\n';
@@ -1664,6 +1668,10 @@ bool Database::exportDatabase(QString &dest)
   dest += _sqlCommands[OrderItems]._create.arg(_prefix) + '\n';
   dest += _sqlCommands[Incomes]._create.arg(_prefix) + '\n';
   dest += _sqlCommands[Configs]._create.arg(_prefix) + '\n';
+
+  // Add triggers
+  dest +=  QString((const char*)QResource(QString("://sql-commands/trigger_update_orderitem_add.sql")). data());
+  dest +=  QString((const char*)QResource(QString("://sql-commands/trigger_update_orderitem_remove.sql")). data());
 
   //-------------------------------------------------------------------------------
   // Add insert command with data
@@ -2220,6 +2228,98 @@ bool Database::hasOrder(int id)
 
 //------------------------------------------------------------------------------
 
+QList<Order *>* Database::getNotCloseOrderList()
+{
+    if (!isConnected()) {
+      return 0;
+    }
+
+    QList<Order *> *list = new QList<Order *>();
+
+    QString queryStr = _sqlCommands[Orders]._select.arg(_prefix, "*", "status", ":status");
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    q.bindValue(":status", 0);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      delete list;
+      return 0;
+    }
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      delete list;
+      return 0;
+    }
+
+    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+      if (q.size() != 1) {
+        qCritical() << tr("Query: returned %1 results but we expected it to return 1!")
+                       .arg(q.size());
+        delete list;
+        return 0;
+      }
+    }
+
+    if (!q.next()) {
+        delete list;
+        return 0;
+    }
+
+    do{
+
+        bool ok;
+        int orderId = q.value("id").toInt(&ok);
+        if (!ok) {
+          qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("id").toString());
+          delete list;
+          return 0;
+        }
+
+        int clientId = q.value("client_id").toInt(&ok);
+        if (!ok) {
+          qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("client_id").toString());
+          delete list;
+          return 0;
+        }
+
+        int state = q.value("state").toInt(&ok);
+        if (!ok) {
+          qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("state").toString());
+          delete list;
+          return 0;
+        }
+
+        QDateTime orderSent = q.value("date_added").toDateTime();
+
+        Order* o = new Order();
+
+        o->setId(orderId);
+        o->setClientId(clientId);
+        o->setState(state);
+
+        QList<int> itemsId;
+
+
+        // if something go wrong return 0
+        if(!orderItemIds(itemsId,orderId))
+            return 0;
+
+        // add order item base on id
+        foreach(int orderItemId, itemsId){
+              o->addItem(orderItem(orderItemId));
+        }
+    }while(q.next());
+
+    return list;
+}
+
+//------------------------------------------------------------------------------
+
 Income*  Database::getLastIncome()
 {
     int id = getLastIncomeId();
@@ -2278,6 +2378,10 @@ bool Database::add_init_data()
   Config day;
   day.setName(Config::day_begin);
   day.setValue("16:00");
+
+  Config closeState;
+  closeState.setName(Config::closeState);
+  closeState.setValue(QString("%1,%2;%3").arg(OrderItem::New, OrderItem::ToPay, OrderItem::Pay));
 
   bool ok = addConfig(&day);
 
@@ -2495,6 +2599,33 @@ bool Database::updateOrderItem(OrderItem *item)
     if (!q.exec()) {
       qCritical() << tr("Query exec failed: (%1: %2")
                      .arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::initTriggers()
+{
+    if (!isConnected()) {
+      return false;
+    }
+
+    //TODO: Add auto search triggers and load them
+    QString trigger1 =  QString((const char*)QResource(QString("://sql-commands/trigger_update_orderitem_add.sql")). data());
+    QString trigger2 =  QString((const char*)QResource(QString("://sql-commands/trigger_update_orderitem_remove.sql")). data());
+
+    QSqlQuery q01(trigger1.arg(_prefix), _db);
+    if (q01.lastError().type() != QSqlError::NoError) {
+      qCritical() << tr("Query exec fai led: %1").arg(q01.lastError().text());
+      return false;
+    }
+
+    QSqlQuery q02(trigger2.arg(_prefix), _db);
+    if (q02.lastError().type() != QSqlError::NoError) {
+      qCritical() << tr("Query exec fai led: %1").arg(q02.lastError().text());
       return false;
     }
 

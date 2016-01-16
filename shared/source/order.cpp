@@ -142,6 +142,26 @@ double Order::toPay()
     foreach (OrderItem *item, _items) {
         sum += item->toPay();
     }
+
+    return sum;
+}
+
+//------------------------------------------------------------------------------
+
+void Order::closeOrder(QList<int> toChange, int newState)
+{
+    foreach(OrderItem *item, _items)
+        if(toChange.contains(item->state()))
+            item->setState(newState);
+
+    setState(Close);
+}
+
+//------------------------------------------------------------------------------
+
+bool Order::isClose() const
+{
+    return _state == Close;
 }
 
 //------------------------------------------------------------------------------

@@ -125,6 +125,15 @@ bool TableModel::updateOrder(const int &tableId, rotable::Order *order)
         qDebug() << "Table with id " + QString(tableId) + " doesn't exists";
         return false;   //If no return false
     }
+
+    //C heck if we have close order
+    if(order->isClose())
+    {
+        // Use signal to send order
+        sendToHistory(order);
+        return true;    // End
+    }
+
     // Access to table
     Table * table = _tables[tableId];
     // Inform model somethiong will be change

@@ -745,6 +745,30 @@ bool Server::newIncome()
 
 //------------------------------------------------------------------------------
 
+bool Server::closeDay()
+{
+    // Config not load, we can't closeDay
+    if(_stateChange.toChange.count() == 0)
+        return false;
+
+    // We must load all orders witch are not done
+    QList<Order*>* list;
+    list = _db.getNotCloseOrderList();
+
+
+    foreach (Order *order, *list) {
+        for(int i=0; ++i; order->itemCount())
+            order->closeOrder(_stateChange.toChange, _stateChange.newState);
+
+        if(!updateOrder(order))
+            return false;
+    }
+
+    return true;
+}
+
+//------------------------------------------------------------------------------
+
 bool Server::setWaiterNeed(bool need, int tableId)
 {
     if(_db.setWaiterNeed(need, tableId))
@@ -905,6 +929,9 @@ void Server::config_parser(Config *config)
     case Config::day_begin:
         day_begin_config(config);
         break;
+    case Config::closeState:
+        closeStateConfig(config);
+        break;
     default:
         qCritical() << tr("Unknown config type '%1'!").arg(config->name());
     }
@@ -912,7 +939,8 @@ void Server::config_parser(Config *config)
 
 //------------------------------------------------------------------------------
 
-void Server::day_begin_config(Config *config){
+void Server::day_begin_config(Config *config)
+{
 
     //Load last income from database
     Income *lastIncome = _db.getLastIncome();
@@ -940,12 +968,53 @@ void Server::day_begin_config(Config *config){
     dateTime.setTime(time);
     operation->setNext(dateTime);
     operation->setDayInterval(1);
+
+    // We can call many operation at once
     //Connect signal emit on time with method on server(create new income)
     connect(operation, &ScheduleOperation::on_time,this, &Server::newIncome);
+    // ^^ Close day
+    connect(operation, &ScheduleOperation::on_time,this, &Server::closeDay);
     //the easiest way is the best xD
 
     //Add operation to schedule
     schedule->addOperiationToSchedule(operation);
+
+}
+
+//------------------------------------------------------------------------------
+
+void Server::closeStateConfig(Config *config)
+{
+    //exp. "1,2,3;4"
+    QStringList tmpList = config->value().split(";");
+
+    //If we haven't 2 element after split close
+    if(tmpList.count() != 2)
+        return;
+
+    //First element
+    //we have "1,2,3" => 1, 2, 3
+
+    QList<int> toCloseList;             //Store states
+    bool ok;                            //To convert
+
+    foreach (QString element, tmpList[0]) {
+
+        int state = element.toInt(&ok);
+
+        if(!ok)         //Something is wrong, close
+            return;
+
+        toCloseList.append(state);
+    }
+
+    int newState = tmpList[1].toInt(&ok);
+    if(!ok)         //Something is wrong, close
+        return;
+
+    //Set new value
+    _stateChange.toChange = toCloseList;
+    _stateChange.newState = newState;
 }
 
 //------------------------------------------------------------------------------

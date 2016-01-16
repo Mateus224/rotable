@@ -16,14 +16,15 @@ INCLUDEPATH += \
 
 HEADERS += \
     include/configwaiter.h \
-    include/tcpwaiter.h \
+    #include/tcpwaiter.h \
     include/tcpclient.h \
     #include/qmlcontxt.h \
     include/waiter_client.h \
     include/orderboard.h \
     include/tablemodel.h \
     include/productlist.h \
-    include/neededboard.h
+    include/neededboard.h \
+    include/orderhistory.h
 
 
 SOURCES += \
@@ -35,7 +36,8 @@ SOURCES += \
     source/tablemodel.cpp \
     source/orderboard.cpp \
     source/productlist.cpp \
-    source/neededboard.cpp
+    source/neededboard.cpp \
+    source/orderhistory.cpp
 
 RESOURCES +=\
     resources.qrc \

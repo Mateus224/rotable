@@ -179,6 +179,13 @@ private:
   bool newIncome();
 
   /**
+   * Close order after day is end
+   *
+   * @return            true on success
+   */
+  bool closeDay();
+
+  /**
    * Set status Waiter need on table
    *
    * @param need        true if waiter is needed
@@ -230,6 +237,7 @@ private:
    * @param config      Config
    */
   void day_begin_config(Config *config);
+  void closeStateConfig(Config *config);
 
   /* Configuration file access */
   ConfigServer _config;
@@ -258,7 +266,16 @@ private:
    * With that we can send information to any/all waiter(s)
    */
   QMap<client_t, int> _users[3];
+
+  /**
+   * @Schedule object
+   */
   Schedule* schedule;
+
+  struct{
+      QList<int> toChange;
+      int newState;
+  } _stateChange;
 
 }; // class Server
 
