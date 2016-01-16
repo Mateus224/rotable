@@ -11,10 +11,10 @@
 //------------------------------------------------------------------------------
 // For debug class with error for not implemented code
 
-class NotImplementedException : public std::logic_error
+class NotImplementedException //: public std::logic_error
 {
 public:
-    NotImplementedException(): logic_error("Not implemented yet.") {}
+    NotImplementedException(){}//: logic_error("Not implemented yet.") {}
 };
 
 //------------------------------------------------------------------------------
