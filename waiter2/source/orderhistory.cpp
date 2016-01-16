@@ -1,6 +1,8 @@
-#include "include/orderhistory.h"
+#include "orderhistory.h"
+using namespace rotable;
 
-OrderHistory::OrderHistory()
+
+OrderHistory::OrderHistory(QObject *parent)
 {
 
 }
