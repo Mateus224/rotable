@@ -74,10 +74,26 @@ public:
   inline bool change() const { return _readyToChange; }
   inline void setChange(bool change) { _readyToChange = change; emit readyToChanged();}
 
+  /**
+   * Check if OrderItem status will be change
+   *
+   * @return            True if status wiil be change
+   */
   inline bool isReadyToChange() const { return _readyToChange;}
 
-  inline double toPay() const { return _state == Rejected || _state == Pay? double(0) : _price; }
+  /**
+   * Price to be payed for orderitem base on OrderItem status
+   *
+   * @return            Price
+   */
+  inline double toPay() const { return _state == Rejected || _state == Pay ? double(0) : _price * _amount; }
 
+  /**
+   * Check if OrderItem is done ( order is payed or rejected )
+   *
+   * @return            True if done
+   */
+  inline bool isDone() const { return _state == Pay || _state == Rejected; }
 
   QJsonValue toJSON() const;
   static OrderItem* fromJSON(const QJsonValue& jval);
@@ -268,6 +284,20 @@ public:
    * @return true if order have state CLOSE
    */
   bool isClose() const;
+
+  /**
+   * Check if all order items are done
+   *
+   * @return                True if all orders is done
+   */
+  bool isDone() const;
+
+  /**
+   * Check if all ored items aren't done
+   *
+   * @return                True if all order are undone
+   */
+  bool isUnDone() const;
 
 signals:
   void stateChanged();

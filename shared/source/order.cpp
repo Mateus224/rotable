@@ -166,6 +166,34 @@ bool Order::isClose() const
 
 //------------------------------------------------------------------------------
 
+bool Order::isDone() const
+{
+    //We check if any item is not done
+
+    foreach (OrderItem *item, _items) {
+        if(!item->isDone())
+            return false;       // Not done so we return false
+    }
+
+    return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Order::isUnDone() const
+{
+    //We check if any item is done
+
+    foreach (OrderItem *item, _items) {
+        if(item->isDone())
+            return false;       // Done so we return false
+    }
+
+    return true;
+}
+
+//------------------------------------------------------------------------------
+
 void Order::itemChanged()
 {
     emit itemsChanged();
