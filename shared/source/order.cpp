@@ -43,7 +43,7 @@ QQmlListProperty<OrderItem> Order::doneItems()
         if(item->isDone())
             items.append(item);
 
-    return QQmlListProperty<OrderItem>(items);
+    return QQmlListProperty<OrderItem>(this, items);
 }
 
 //------------------------------------------------------------------------------
@@ -56,7 +56,7 @@ QQmlListProperty<OrderItem> Order::unDoneItems()
         if(!item->isDone())
             items.append(item);
 
-    return QQmlListProperty<OrderItem>(items);
+    return QQmlListProperty<OrderItem>(this, items);
 }
 
 //------------------------------------------------------------------------------
