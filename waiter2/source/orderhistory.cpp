@@ -9,10 +9,14 @@ OrderHistory::OrderHistory(QObject *parent): QAbstractListModel(parent)
 
 }
 
+//-----------------------------------------------------
+
 int OrderHistory::rowCount(const QModelIndex &parent) const
 {
     return 0;
 }
+
+//-----------------------------------------------------
 
 QVariant OrderHistory::data(const QModelIndex &index, int role) const
 {

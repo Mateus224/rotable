@@ -35,6 +35,32 @@ Order::~Order()
 
 //------------------------------------------------------------------------------
 
+QQmlListProperty<OrderItem> Order::doneItems()
+{
+
+    QList<rotable::OrderItem*> items;
+    foreach(OrderItem* item, _items)
+        if(item->isDone())
+            items.append(item);
+
+    return QQmlListProperty<OrderItem>(items);
+}
+
+//------------------------------------------------------------------------------
+
+QQmlListProperty<OrderItem> Order::unDoneItems()
+{
+
+    QList<rotable::OrderItem*> items;
+    foreach(OrderItem* item, _items)
+        if(!item->isDone())
+            items.append(item);
+
+    return QQmlListProperty<OrderItem>(items);
+}
+
+//------------------------------------------------------------------------------
+
 QJsonValue Order::toJSON() const
 {
     QJsonObject o;

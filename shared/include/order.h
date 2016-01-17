@@ -206,6 +206,20 @@ public:
   }
 
   /**
+   * Get QML list of done Items
+   *
+   * @return            list of items for QML
+   */
+  QQmlListProperty<OrderItem> doneItems();
+
+  /**
+   * Get QML list of undone Items
+   *
+   * @return            list of items for QML
+   */
+  QQmlListProperty<OrderItem> unDoneItems();
+
+  /**
    * Get number of order items.
    *
    * @return            order item count
