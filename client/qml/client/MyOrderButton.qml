@@ -23,6 +23,7 @@ Rectangle {
             //ToDo: fix this
             MyOrder.getListForMyOrderPage()
             MyOrder.getListForMyOrderPage()
+            MyOrder.setPriceOfOrder()
         }
 
 

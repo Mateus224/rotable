@@ -94,7 +94,6 @@ void ProductOrder::addToProductHash(int ProductID)
         ClientProductHash->insert(_Product->_s_id,*_Product);
         QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
         while (i != ClientProductHash->constEnd()) {
-            qDebug() <<  "first; quantity: " << i.value()._s_quantity <<  "id: " << i.value()._s_id ;
             ++i;
         }
         setpieces(1);
@@ -136,6 +135,7 @@ void ProductOrder::rmFromProductHash(int ProductID)
         qDebug()<<"Fehler in rmFromProductHash2";
     }
     setpieces(_Product._s_quantity);
+    qDebug()<<"vvvvvvvvvvvvvvvvv";
 }
 
 //-----------------------------------------------------------------
@@ -156,18 +156,17 @@ void ProductOrder::getpieces(int ProductID)
 
 //-----------------------------------------------------------------
 
-double ProductOrder::getPriceOfOrder()
+double ProductOrder::setPriceOfOrder()
 {
     _toPay=0;
-    QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
-    while (i != ClientProductHash->constEnd())
+    QHash<int, rotable::Product*>::const_iterator i = _productcontainer._orderProducts->constBegin();
+    while (i != _productcontainer._orderProducts->constEnd())
     {
-        QString qs_amountOfOrderedProduct=_productcontainer._orderProducts->value(i.value()._s_id)->amount();
+        QString qs_amountOfOrderedProduct=_productcontainer._orderProducts->value(i.value()->id())->amount();
         int amountOfOrderedProduct=qs_amountOfOrderedProduct.toInt();
-        double priceOfOrderedProduct=_productcontainer._orderProducts->value(i.value()._s_id)->price();
-        _toPay=+amountOfOrderedProduct*priceOfOrderedProduct;
+        double priceOfOrderedProduct=_productcontainer._orderProducts->value(i.value()->id())->price();
+        _toPay+=amountOfOrderedProduct*priceOfOrderedProduct;
     ++i;
     }
-    qDebug()<<"_toPay:"<<_toPay;
-    return _toPay;
+    emit PriceOfOrderChanged();
 }

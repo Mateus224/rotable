@@ -29,6 +29,7 @@ class rotable::ProductOrder : public QObject //, rotable::ProductContainer
 
   Q_PROPERTY(int productId READ productId NOTIFY productIdChanged)
   Q_PROPERTY(int quantity READ pieces WRITE setpieces NOTIFY piecesChanged)
+  Q_PROPERTY(double PriceOfOrder READ PriceOfOrder NOTIFY PriceOfOrderChanged)
 
 
 public:
@@ -96,16 +97,15 @@ public:
   //For Gui interface
   //------------------------------------------------------------------------------
   inline int productId() const { return _productId; }
-
-
   inline  int pieces() const { return  _Product._s_quantity; }
   void setpieces( int quantity);
+  inline double PriceOfOrder() const{return _toPay;}
   //------------------------------------------------------------------------------
 
   /**
    * @brief getpieces
    * @param ProductID
-   * gives you the pieces of a product
+   * gives you the  of a product
    * through ClientProductHash
    */
   void getpieces(int ProductID);
@@ -116,6 +116,7 @@ public:
 
 signals:
   void productIdChanged();
+  void PriceOfOrderChanged();
   void piecesChanged();
 
 
@@ -165,9 +166,9 @@ public slots:
   ComPackageDataSet prepareOrderToSend() const;
 
   /**
-   * Add prices all prices maked in THIS Order
+   * Add prices all prices maked in THIS Order and set it in the GUI
    */
-  double getPriceOfOrder();
+  double setPriceOfOrder();
 
 //------------------------------------------------------------------------------
 //---------VALUES--------------------------------------------------------------
@@ -196,7 +197,6 @@ private:
   /* Unique category ID */
   int _productId;
   int _quantity;
-
   int _orderID;
   int _clientID;
   double _toPay;
