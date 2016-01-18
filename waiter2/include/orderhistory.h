@@ -26,7 +26,7 @@ class rotable::OrderHistory : public QAbstractListModel
     Q_OBJECT
 
 public slots:
-    //void reciveOrder(rotable::Order *order);
+    void reciveOrder(rotable::Order *order);
 
 public:
     OrderHistory(QObject *parent = NULL);
@@ -57,8 +57,6 @@ public:
      * @param parent
      * @return              Number of item's(in _tables)
      */
-
-/*
     int rowCount(const QModelIndex & parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
     /**
@@ -68,8 +66,7 @@ public:
      * @param role          From enum (field name)
      * @return              QVariant with data
      */
-/*
-     QVariant data(const QModelIndex & index,
+    QVariant data(const QModelIndex & index,
                   int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 
 protected:
@@ -78,12 +75,10 @@ protected:
      *
      * @return              QHash with fields name
      */
-/*
     QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
 
 private:
     QMap<int, rotable::Order*> _list;
-    */
 };
 
 #endif // ORDERHISTORY_H

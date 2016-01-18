@@ -35,6 +35,32 @@ Order::~Order()
 
 //------------------------------------------------------------------------------
 
+QQmlListProperty<OrderItem> Order::doneItems()
+{
+
+    QList<rotable::OrderItem*> items;
+    foreach(OrderItem* item, _items)
+        if(item->isDone())
+            items.append(item);
+
+    return QQmlListProperty<OrderItem>(this, items);
+}
+
+//------------------------------------------------------------------------------
+
+QQmlListProperty<OrderItem> Order::unDoneItems()
+{
+
+    QList<rotable::OrderItem*> items;
+    foreach(OrderItem* item, _items)
+        if(!item->isDone())
+            items.append(item);
+
+    return QQmlListProperty<OrderItem>(this, items);
+}
+
+//------------------------------------------------------------------------------
+
 QJsonValue Order::toJSON() const
 {
     QJsonObject o;
@@ -162,6 +188,34 @@ void Order::closeOrder(QList<int> toChange, int newState)
 bool Order::isClose() const
 {
     return _state == Close;
+}
+
+//------------------------------------------------------------------------------
+
+bool Order::isDone() const
+{
+    //We check if any item is not done
+
+    foreach (OrderItem *item, _items) {
+        if(!item->isDone())
+            return false;       // Not done so we return false
+    }
+
+    return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Order::isUnDone() const
+{
+    //We check if any item is done
+
+    foreach (OrderItem *item, _items) {
+        if(item->isDone())
+            return false;       // Done so we return false
+    }
+
+    return true;
 }
 
 //------------------------------------------------------------------------------
