@@ -30,6 +30,7 @@ namespace rotable {
   class ComPackageSendOrder;
   class ComPackageLogin;
   class ComPackageWaiterNeed;
+  class ComPackageMessage;
 }
 
 //------------------------------------------------------------------------------
@@ -70,7 +71,10 @@ public:
     Command,
 
     /* Change waiter needed status on table*/
-    WaiterNeed
+    WaiterNeed,
+
+    /* Message system */
+    Message
   };
 
   /**
@@ -474,7 +478,7 @@ public:
   /**
    * Default constrcutor
    */
-  ComPackageWaiterNeed(): _tableId(-1) {}
+  ComPackageWaiterNeed(): ComPackage(), _tableId(-1) {}
 
   inline Type type() const { return WaiterNeed; }
 
@@ -501,7 +505,7 @@ public:
 
   inline void setTableId(const int &id) { _tableId = id; }
 
-  QByteArray toByteArray() const;
+  QByteArray toByteArray() const Q_DECL_OVERRIDE;
 
 private:
   /* Command type */
@@ -509,6 +513,33 @@ private:
   int _tableId;
 
 }; // class ComPackageWaiterNeed
+
+//------------------------------------------------------------------------------
+
+class rotable::ComPackageMessage : public ComPackage
+{
+  friend class ComPackage;
+public:
+
+  /**
+   * Default constructor
+   */
+  ComPackageMessage();
+
+  inline Type type() const { return Message; }
+
+  int msgType() const { return _msgType; }
+  void setMsgType(const int &type) { _msgType = type; }
+
+  QString message() const {return _msg; }
+  void setMessage(const QString &message) { _msg = message; }
+
+  QByteArray toByteArray() const Q_DECL_OVERRIDE;
+
+private:
+    int _msgType;
+    QString _msg;
+};
 
 //------------------------------------------------------------------------------
 #endif // ROTABLE_COMPACKAGE_H

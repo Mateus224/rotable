@@ -23,6 +23,7 @@ struct TypeStr2Enum {
 #define ROTABLE_PACKAGE_COMMAND_COMMAND_STR                 QString("CC")
 #define ROTABLE_PACKAGE_COMMAND_SEND_ORDER_STR              QString("SO")
 #define ROTABLE_PACKAGE_COMMAND_NEED_STR                    QString("NE")
+#define ROTABLE_PACKAGE_COMMAND_MESSAGE_STR                 QString("ME")
 
 static const int S_types_count = 10;
 static const TypeStr2Enum S_types[S_types_count] = {
@@ -34,7 +35,8 @@ static const TypeStr2Enum S_types[S_types_count] = {
   { ROTABLE_PACKAGE_COMMAND_DATA_SET_STR, ComPackage::DataSet },
   { ROTABLE_PACKAGE_COMMAND_REJECT_STR, ComPackage::Reject },
   { ROTABLE_PACKAGE_COMMAND_COMMAND_STR, ComPackage::Command },
-  { ROTABLE_PACKAGE_COMMAND_NEED_STR, ComPackage::WaiterNeed }
+  { ROTABLE_PACKAGE_COMMAND_NEED_STR, ComPackage::WaiterNeed },
+  { ROTABLE_PACKAGE_COMMAND_MESSAGE_STR, ComPackage::Message}
 };
 
 //------------------------------------------------------------------------------
@@ -54,7 +56,8 @@ static const TypeStr2Enum S_types[S_types_count] = {
 #define ROTABLE_PACKAGE_ORDER_STATE_STR                     QString("OS")
 #define ROTABLE_PACKAGE_NEED_NEED_STR                       QString("NN")
 #define ROTABLE_PACKAGE_NEED_TABLE_STR                      QString("NY")
-
+#define ROTABLE_PACKAGE_MESSAGE_TYPE_STR                    QString("MT")
+#define ROTABLE_PACKAGE_MESSAGE_MESSAGE_STR                 QString("MM")
 //------------------------------------------------------------------------------
 
 ComPackage* ComPackage::fromJson(const QJsonDocument& doc)
@@ -233,6 +236,13 @@ ComPackage* ComPackage::fromJson(const QJsonDocument& doc)
     ComPackageWaiterNeed* p = new ComPackageWaiterNeed();
     p->_need = o[ROTABLE_PACKAGE_NEED_NEED_STR].toBool();
     p->_tableId = o[ROTABLE_PACKAGE_NEED_TABLE_STR].toInt();
+
+    ret = p;
+  } break;
+  case Message:{
+    ComPackageMessage* p = new ComPackageMessage();
+    p->_msgType = o[ROTABLE_PACKAGE_MESSAGE_TYPE_STR].toInt();
+    p->_msg = o[ROTABLE_PACKAGE_MESSAGE_MESSAGE_STR].toString();
 
     ret = p;
   } break;
@@ -472,5 +482,24 @@ QByteArray ComPackageWaiterNeed::toByteArray() const
     o[ROTABLE_PACKAGE_COMMAND_STR] = ROTABLE_PACKAGE_COMMAND_NEED_STR;
     o[ROTABLE_PACKAGE_NEED_NEED_STR] = _need;
     o[ROTABLE_PACKAGE_NEED_TABLE_STR] = _tableId;
+    return QJsonDocument(o).toBinaryData();
+}
+
+//------------------------------------------------------------------------------
+
+ComPackageMessage::ComPackageMessage() :  ComPackage()
+{
+
+}
+
+//------------------------------------------------------------------------------
+
+QByteArray ComPackageMessage::toByteArray() const
+{
+    QJsonObject o;
+    addData(o);
+    o[ROTABLE_PACKAGE_COMMAND_STR] = ROTABLE_PACKAGE_COMMAND_MESSAGE_STR;
+    o[ROTABLE_PACKAGE_MESSAGE_TYPE_STR] = _msgType;
+    o[ROTABLE_PACKAGE_MESSAGE_MESSAGE_STR] = _msg;
     return QJsonDocument(o).toBinaryData();
 }
