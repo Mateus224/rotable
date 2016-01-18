@@ -224,7 +224,7 @@ public:
   QHash<int, rotable::ProductCategory*> _categories;
   /* Products (Mapping of product id to object) */
   QHash<int, rotable::Product*>* _products;
-  /* Products (Mapping of product id to object) */
+  /* Products (Mapping of productOrder id to object) */
   QHash<int, rotable::Product*>* _orderProducts;
 }; // class ProductContainer
 

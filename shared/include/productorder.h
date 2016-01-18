@@ -164,6 +164,11 @@ public slots:
    */
   ComPackageDataSet prepareOrderToSend() const;
 
+  /**
+   * Add prices all prices maked in THIS Order
+   */
+  double getPriceOfOrder();
+
 //------------------------------------------------------------------------------
 //---------VALUES--------------------------------------------------------------
 
@@ -194,6 +199,7 @@ private:
 
   int _orderID;
   int _clientID;
+  double _toPay;
 }; // class ProductOrder
 
 //------------------------------------------------------------------------------

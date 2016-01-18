@@ -274,7 +274,6 @@ QList<int> ProductContainer::categoryIds() const
 QList<int> ProductContainer::productIds() const
 {
   return (*_products).keys();
-    qDebug()<<"TEsST";
 }
 
 //------------------------------------------------------------------------------
@@ -299,7 +298,6 @@ QList<int> ProductContainer::productIds(int categoryId) const
 QList<int> ProductContainer::productIds_() const
 {
   return (*_orderProducts).keys();
-  qDebug()<<"TEsST";
 }
 
 //------------------------------------------------------------------------------

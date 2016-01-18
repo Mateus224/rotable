@@ -156,4 +156,18 @@ void ProductOrder::getpieces(int ProductID)
 
 //-----------------------------------------------------------------
 
-
+double ProductOrder::getPriceOfOrder()
+{
+    _toPay=0;
+    QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
+    while (i != ClientProductHash->constEnd())
+    {
+        QString qs_amountOfOrderedProduct=_productcontainer._orderProducts->value(i.value()._s_id)->amount();
+        int amountOfOrderedProduct=qs_amountOfOrderedProduct.toInt();
+        double priceOfOrderedProduct=_productcontainer._orderProducts->value(i.value()._s_id)->price();
+        _toPay=+amountOfOrderedProduct*priceOfOrderedProduct;
+    ++i;
+    }
+    qDebug()<<"_toPay:"<<_toPay;
+    return _toPay;
+}

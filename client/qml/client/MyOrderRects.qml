@@ -262,7 +262,7 @@ Rectangle {
                             gradient: clubcolorsrevers
                             Text {
                                 font.family: "FreeSans"; font.pointSize: fontSize; font.bold: true
-                                text:  "Price: 10.0 €"
+                                text:  MyOrder.getPriceOfOrder()
                                 //color: color_oderinfo
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.horizontalCenter: parent.horizontalCenter
