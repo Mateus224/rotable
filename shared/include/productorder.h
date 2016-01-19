@@ -170,6 +170,11 @@ public slots:
    */
   double setPriceOfOrder();
 
+  /**
+    *Clear OrderList if is sended to Waiter
+    */
+  void clearList();
+
 //------------------------------------------------------------------------------
 //---------VALUES--------------------------------------------------------------
 

@@ -120,7 +120,6 @@ Rectangle {
         Text {
             id: idProductInfo
             text:  info ? info:""
-//+ "test"
 
             wrapMode: Text.Wrap
 

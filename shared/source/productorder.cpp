@@ -170,6 +170,11 @@ double ProductOrder::setPriceOfOrder()
     }
     _toPay=_toPay/100;
     emit PriceOfOrderChanged();
-    qDebug()<<_toPay;
     return _toPay;
+}
+
+//-----------------------------------------------------------------
+void ProductOrder::clearList(){
+    _productcontainer._orderProducts->clear();
+    qDebug()<<"test";
 }
