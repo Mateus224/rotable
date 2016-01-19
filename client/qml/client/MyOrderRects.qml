@@ -245,8 +245,6 @@ Rectangle {
                                 }
                                 onPressed: parent.color= "#8772c0"
                                 onReleased: parent.color=defcolor
-
-
                                 Text {
                                     font.family: "FreeSans"; font.pointSize: fontSize; font.bold: true
                                     text:  "Send Order"
@@ -254,8 +252,6 @@ Rectangle {
                                     anchors.horizontalCenter: parent.horizontalCenter
                                 }
                             }
-
-
                         }
                         Rectangle {
                             id: endPriceDoub
