@@ -238,7 +238,7 @@ int Client::screenRotation()
 {
     if(state() != "GAMEPAGE")
     {
-        qDebug()<<_sensors.screenRotation()<<"hier";
+        qDebug()<<_sensors.screenRotation();
         _lastRotation=_sensors.screenRotation();
         return _sensors.screenRotation();
     }

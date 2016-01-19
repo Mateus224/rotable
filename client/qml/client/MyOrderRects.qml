@@ -11,7 +11,7 @@ Rectangle {
     property int widthINFO: parent.width*0.15
     property int heightINFO:parent.height*0.08
     property color defcolor:"#48A8C0" //"#1A1A80" //"#48A8C0"
-
+    property int buttonProductId: -1
     color: "#3f494a"
 
     Rectangle {
@@ -191,7 +191,7 @@ Rectangle {
                                         MouseArea {
                                             anchors.fill: parent
                                             onClicked:{
-
+                                                MyOrder.addToProductHash(1)
                                             }
                                         }
                                     }
@@ -210,7 +210,7 @@ Rectangle {
                                         MouseArea {
                                             anchors.fill: parent
                                             onClicked:{
-
+                                                //MyOrder.rmFromProductHash(1)
                                             }
                                         }
                                     }
@@ -244,7 +244,10 @@ Rectangle {
                                       client.sendOrder()
                                 }
                                 onPressed: parent.color= "#8772c0"
-                                onReleased: parent.color=defcolor
+                                onReleased: {
+                                    MyOrder.clearList()
+                                    parent.color=defcolor
+                                }
                                 Text {
                                     font.family: "FreeSans"; font.pointSize: fontSize; font.bold: true
                                     text:  "Send Order"

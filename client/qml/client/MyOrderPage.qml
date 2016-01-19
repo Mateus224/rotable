@@ -64,7 +64,7 @@ Rectangle {
 
     MyOrderRects {
         id: myOrderRects
-    }
+        }
 
 }
 
