@@ -168,5 +168,8 @@ double ProductOrder::setPriceOfOrder()
         _toPay+=amountOfOrderedProduct*priceOfOrderedProduct;
     ++i;
     }
+    _toPay=_toPay/100;
     emit PriceOfOrderChanged();
+    qDebug()<<_toPay;
+    return _toPay;
 }
