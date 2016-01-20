@@ -29,7 +29,8 @@ SOURCES += \
     source/qmlcontxt.cpp \
     source/productorderlistmodel.cpp \
     source/client.cpp \
-    source/tabele.cpp
+    source/tabele.cpp \
+    source/message.cpp
 
 
 HEADERS += \
@@ -54,7 +55,8 @@ HEADERS += \
     include/productorderlistmodel.h \
     include/client.h \
     include/waiter.h \
-    include/table.h
+    include/table.h \
+    include/message.h
 
 
 RESOURCES += shared_resources.qrc
