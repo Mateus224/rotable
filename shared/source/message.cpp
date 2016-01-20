@@ -13,14 +13,15 @@ rotable::Message::Message(QObject *parent) : QObject(parent)
 
 rotable::Message *Message::parser(ComPackageMessage *message)
 {
-    Message *message;
+    Message *msg;
 
     switch(message->msgType()){
     case OrderMessageType:
-        message = new OrderMessage();
+        msg = new OrderMessage(message);
         break;
     }
 
+    return msg;
 }
 
 //------------------------------------------------------------------------------
