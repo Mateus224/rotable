@@ -141,7 +141,7 @@ Rectangle {
                                     Text {
                                         font.family: "FreeSans"; font.pointSize: fontSize; font.bold: true
                                         id: contactInfo
-                                        text:  amount//+"x"
+                                        text:  MyProductOrderList.amount//+"x"
                                         //color: color_oderinfo
                                         anchors.verticalCenter: parent.verticalCenter
                                         anchors.horizontalCenter: parent.horizontalCenter

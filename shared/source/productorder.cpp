@@ -59,22 +59,19 @@ int ProductOrder::getStopWatchTime()
 
 void ProductOrder::getListForMyOrderPage()
 {
-    if(ClientProductHash->empty())
-    {
-        qDebug()<<"test222";
-        QHash<int,Product*> ::const_iterator i = _productcontainer._orderProducts->constBegin();
-        while (i != _productcontainer._orderProducts->constEnd())
-        {
-            qDebug()<<"test22";
-            _productcontainer._orderProducts->value(i.value()->id())->setAmount(QString::number(0));
-            ++i;
-        }
-    }
-    _productcontainer._orderProducts->clear();
-
     QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
+    if (ClientProductHash->empty())
+    {
+        qDebug()<<"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj";
+        QHash<int,Product*> ::const_iterator i = _productcontainer._orderProducts->constBegin();
+        _productcontainer._orderProducts->value(i.value()->id())->setAmount(QString::number(0));
+
+    }
+    else
+     {   _productcontainer._orderProducts->clear();
     while (i != ClientProductHash->constEnd())
     {
+
         if (_productcontainer._products->contains(i.value()._s_id))
         {
             _productcontainer.addForOrderProduct_(i.value()._s_id);
@@ -82,6 +79,7 @@ void ProductOrder::getListForMyOrderPage()
         }
     ++i;
     }
+}
 }
 //------------------------------------------------------------------------------
 //get Gui Information client
@@ -96,7 +94,6 @@ void ProductOrder::addToProductHash(int ProductID)
         _Product._s_quantity++;
         ClientProductHash->insert(_Product._s_id, _Product);
         setpieces(_Product._s_quantity);
-
     }
     else
     {
@@ -142,10 +139,8 @@ void ProductOrder::rmFromProductHash(int ProductID)
             {
                 setpieces(0);
                 ClientProductHash->remove(ProductID); //take(ProductID);
-                qDebug()<<"test1-1";
                 if(ClientProductHash->empty())
                 {
-                    qDebug()<<"test11";
                     ClientProductHash->clear();
                 }
             }
