@@ -222,6 +222,7 @@ void ProductOrderListModel::onCategoryUpdated(ProductCategory *category)
 
 void ProductOrderListModel::onProductAdded(int id)
 {
+    qDebug()<<"test";
   Product* product = _products->_productcontainer.product(id);
   if (product) {
     //if (product->categoryId() == _categoryId) {

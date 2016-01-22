@@ -59,7 +59,19 @@ int ProductOrder::getStopWatchTime()
 
 void ProductOrder::getListForMyOrderPage()
 {
+    if(ClientProductHash->empty())
+    {
+        qDebug()<<"test222";
+        QHash<int,Product*> ::const_iterator i = _productcontainer._orderProducts->constBegin();
+        while (i != _productcontainer._orderProducts->constEnd())
+        {
+            qDebug()<<"test22";
+            _productcontainer._orderProducts->value(i.value()->id())->setAmount(QString::number(0));
+            ++i;
+        }
+    }
     _productcontainer._orderProducts->clear();
+
     QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
     while (i != ClientProductHash->constEnd())
     {
@@ -98,6 +110,8 @@ void ProductOrder::addToProductHash(int ProductID)
         }
         setpieces(1);
     }
+    getListForMyOrderPage();
+
 }
 
 //-----------------------------------------------------------------
@@ -112,6 +126,7 @@ void ProductOrder::setpieces( int quantity)
 
 void ProductOrder::rmFromProductHash(int ProductID)
 {
+    qDebug()<<"ProductID"<<ProductID;
     if(ClientProductHash->contains(ProductID))
     {
         _Product=ClientProductHash->take(ProductID);
@@ -127,6 +142,12 @@ void ProductOrder::rmFromProductHash(int ProductID)
             {
                 setpieces(0);
                 ClientProductHash->remove(ProductID); //take(ProductID);
+                qDebug()<<"test1-1";
+                if(ClientProductHash->empty())
+                {
+                    qDebug()<<"test11";
+                    ClientProductHash->clear();
+                }
             }
         }
     }
@@ -135,7 +156,7 @@ void ProductOrder::rmFromProductHash(int ProductID)
         qDebug()<<"Fehler in rmFromProductHash2";
     }
     setpieces(_Product._s_quantity);
-    qDebug()<<"vvvvvvvvvvvvvvvvv";
+    getListForMyOrderPage();
 }
 
 //-----------------------------------------------------------------
@@ -176,5 +197,4 @@ double ProductOrder::setPriceOfOrder()
 //-----------------------------------------------------------------
 void ProductOrder::clearList(){
     _productcontainer._orderProducts->clear();
-    qDebug()<<"test";
 }
