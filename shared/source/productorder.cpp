@@ -62,10 +62,10 @@ void ProductOrder::getListForMyOrderPage()
     QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
     if (ClientProductHash->empty())
     {
-        qDebug()<<"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj";
+        if(!_productcontainer._orderProducts->empty()){ qDebug()<<"tt";
         QHash<int,Product*> ::const_iterator i = _productcontainer._orderProducts->constBegin();
-        _productcontainer._orderProducts->value(i.value()->id())->setAmount(QString::number(0));
-
+        _productcontainer.removeProduct(i.value()->id());
+        _productcontainer._orderProducts->clear();}
     }
     else
      {   _productcontainer._orderProducts->clear();
@@ -81,6 +81,25 @@ void ProductOrder::getListForMyOrderPage()
     }
 }
 }
+//------------------------------------------------------------------------------
+void ProductOrder::addProductFromGuiTo_orderProducts(int ProductID){
+    if (_productcontainer._products->contains(ProductID))
+    {
+        _productcontainer.addForOrderProduct_(ProductID);
+        _productcontainer._orderProducts->value(ProductID)->setAmount(QString::number(_Product._s_quantity));
+    }
+}
+
+//------------------------------------------------------------------------------
+void ProductOrder::removeProductFromGuiTo_orderProducts(int ProductID){
+    if (_productcontainer._products->contains(ProductID))
+    {
+        _productcontainer.removeProduct(ProductID);
+        _productcontainer._orderProducts->value(ProductID)->setAmount(QString::number(_Product._s_quantity));
+    }
+}
+
+
 //------------------------------------------------------------------------------
 //get Gui Information client
 //------------------------------------------------------------------------------

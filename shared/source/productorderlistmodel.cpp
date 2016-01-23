@@ -22,6 +22,8 @@ ProductOrderListModel::ProductOrderListModel(QObject *parent, ProductOrder *prod
       connect(&(_products->_productcontainer), SIGNAL(categoryUpdated(rotable::ProductCategory*)),
               this, SLOT(onCategoryUpdated(rotable::ProductCategory*)));
 
+      //connect(&(_products->_productcontainer), SIGNAL(productRemoved(int)),
+      //        this, SLOT(onProductRemoved(int)));
       connect(&(_products->_productcontainer), SIGNAL(productAdded(int)),
               this, SLOT(onProductAdded(int)));
       connect(&(_products->_productcontainer), SIGNAL(productRemoved(rotable::Product*)),
@@ -222,17 +224,15 @@ void ProductOrderListModel::onCategoryUpdated(ProductCategory *category)
 
 void ProductOrderListModel::onProductAdded(int id)
 {
-    qDebug()<<"test";
   Product* product = _products->_productcontainer.product(id);
   if (product) {
-    //if (product->categoryId() == _categoryId) {
-
       beginResetModel();
       endResetModel();
       emit countChanged();
-    //}
   }
 }
+
+//----------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
 
@@ -242,6 +242,7 @@ void ProductOrderListModel::onProductRemoved(Product *product)
     if (product->categoryId() == _categoryId) {
       beginResetModel();
       endResetModel();
+      qDebug()<<"ProductOrderListModel::onProductRemoved";
       emit countChanged();
     }
   }

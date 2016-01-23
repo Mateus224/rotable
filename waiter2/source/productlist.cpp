@@ -59,7 +59,7 @@ bool ProductList::setContainer(ProductContainer *container)
     //Connect slost
     connect(container, &ProductContainer::productAdded, this, &ProductList::productAdded);
     connect(container, &ProductContainer::productUpdated, this, &ProductList::productUpdated);
-    connect(container, &ProductContainer::productRemoved, this, &ProductList::productRemoved);
+    //connect(container, &ProductContainer::productRemoved, this, &ProductList::productRemoved);
     //Return true
     return true;
 }
