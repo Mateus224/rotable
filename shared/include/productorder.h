@@ -133,6 +133,7 @@ public slots:
    * and count the pieces
    */
   void addToProductHash(int ProductID);
+  void addProductFromGuiTo_orderProducts(int ProductID);
 
   /**
    * @brief rmFromProductHash
@@ -141,6 +142,7 @@ public slots:
    * and count the pieces
    */
   void rmFromProductHash(int ProductID);
+  void removeProductFromGuiTo_orderProducts(int ProductID);
 
   /**
    * @brief setproductid
@@ -176,6 +178,13 @@ public slots:
     */
   void clearList();
 
+  /**
+   * @brief clearGuiList
+   * Clear Order which is stored for the GUI
+   */
+
+  void clearGuiList();
+
 //------------------------------------------------------------------------------
 //---------VALUES--------------------------------------------------------------
 
@@ -199,8 +208,8 @@ public:
 //------------------------------------------------------------------------------
 
 private:
-  void removeProductFromGuiTo_orderProducts(int ProductID);
-  void addProductFromGuiTo_orderProducts(int ProductID);
+
+
 
   /* Unique category ID */
   int _productId;

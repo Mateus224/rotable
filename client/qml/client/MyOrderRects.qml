@@ -193,6 +193,7 @@ Rectangle {
                                             anchors.fill: parent
                                             onClicked:{
                                                 MyOrder.addToProductHash(productId)
+                                                MyOrder.addProductFromGuiTo_orderProducts(productId)
                                             }
                                         }
                                     }
@@ -211,6 +212,7 @@ Rectangle {
                                             anchors.fill: parent
                                             onClicked:{
                                                 MyOrder.rmFromProductHash(productId)
+                                                MyOrder.removeProductFromGuiTo_orderProducts(productId)
                                             }
                                         }
                                     }
@@ -242,6 +244,7 @@ Rectangle {
                                 anchors.fill: parent
                                 onClicked: {
                                       client.sendOrder()
+                                    MyOrder.clearList()
                                 }
                                 onPressed: parent.color= "#8772c0"
                                 onReleased: {
