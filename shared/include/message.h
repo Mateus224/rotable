@@ -7,11 +7,16 @@
 
 #include "compackage.h"
 
+#ifndef QMAP_H
+#include <QMap>
+#endif
+
 //------------------------------------------------------------------------------
 
 namespace rotable {
     class Message;
     class OrderMessage;
+    class QueueMessage;
 }
 
 //------------------------------------------------------------------------------
@@ -41,11 +46,16 @@ public:
     /**
      * Type of message
      *
-     * @return              return
+     * @return              message object type
      */
     virtual int messageType() const = 0;
 
-
+    /**
+     * Convert message to package
+     *
+     * @return              ComPackageMessage
+     */
+    virtual ComPackageMessage *toPackage() const = 0;
 signals:
 
 public slots:
@@ -53,7 +63,7 @@ public slots:
 protected:
     enum MessageType{
         OrderMessageType,
-        QueryMessageType
+        QueueMessageType
     };
 };
 
@@ -76,6 +86,40 @@ public:
     OrderMessage(ComPackageMessage *message, QObject *parent = 0);
 
     int messageType() const Q_DECL_OVERRIDE;
+
+    ComPackageMessage *toPackage() const Q_DECL_OVERRIDE;
+
+ private:
+    int _errorType;
 };
+
+//------------------------------------------------------------------------------
+
+class rotable::QueueMessage : public rotable::Message
+{
+
+public:
+
+    /**
+     * Default constructor
+     */
+    QueueMessage(QObject *parent = 0);
+
+    /**
+     * Constructor for QueueMessage
+     * @param message       message package
+     */
+    QueueMessage(ComPackageMessage *message, QObject *parent = 0);
+
+    int messageType() const Q_DECL_OVERRIDE;
+
+    ComPackageMessage *toPackage() const Q_DECL_OVERRIDE;
+
+private:
+
+    QMap<int, int> _orderQueue;
+};
+
+//------------------------------------------------------------------------------
 
 #endif // ROTABLE_MESSAGE_H
