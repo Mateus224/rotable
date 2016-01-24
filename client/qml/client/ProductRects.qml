@@ -44,12 +44,10 @@ Rectangle {
                     buttonProductId: productId ? productId:""
                 }
             }
-
             model: listModel
             delegate: productDelegate
         }
     }
-
 }
 
 

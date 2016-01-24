@@ -204,6 +204,7 @@ public:
 signals:
   void categoryAdded(int id);
   void productAdded(int id);
+  void productRemoved(int id);
 
 
 

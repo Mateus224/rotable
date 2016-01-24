@@ -11,7 +11,7 @@ Rectangle {
     property int widthINFO: parent.width*0.15
     property int heightINFO:parent.height*0.08
     property color defcolor:"#48A8C0" //"#1A1A80" //"#48A8C0"
-    property int buttonProductId: -1
+    //property int buttonProductId: -1
     color: "#3f494a"
 
     Rectangle {
@@ -55,6 +55,7 @@ Rectangle {
                         width: parent.width;
                         height: heightINFO
                         gradient: clubcolors
+                        //buttonProductId: productId ? productId:""
 
                         /*border {
                             gradient:clubcolors
@@ -191,7 +192,7 @@ Rectangle {
                                         MouseArea {
                                             anchors.fill: parent
                                             onClicked:{
-                                                MyOrder.addToProductHash(1)
+                                                MyOrder.addToProductHash(productId)
                                             }
                                         }
                                     }
@@ -206,11 +207,10 @@ Rectangle {
                                     anchors.fill: parent
                                     source: image_canc.source = "resources/minus_white.png"
 
-
                                         MouseArea {
                                             anchors.fill: parent
                                             onClicked:{
-                                                //MyOrder.rmFromProductHash(1)
+                                                MyOrder.rmFromProductHash(productId)
                                             }
                                         }
                                     }

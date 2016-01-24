@@ -63,6 +63,7 @@ public:
 
     void setCategoryId(int id);
 
+
   signals:
     void countChanged();
 
@@ -74,6 +75,7 @@ private slots:
     void onProductAdded(int id);
     void onProductRemoved(rotable::Product* product);
     void onProductUpdated(rotable::Product* product);
+    void AmountUpdated();
 
   private:
     rotable::ProductOrder* _products;

@@ -83,6 +83,7 @@ signals:
   void priceChanged();
   void infoChanged();
   void amountChanged();
+  void AmountChanged();
 
 private:
   /* Unique product ID */

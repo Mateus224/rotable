@@ -140,6 +140,7 @@ bool ProductContainer::removeProduct(int id)
   if (_products->contains(id)) {
     Product* product = (*_products)[id];
     (*_products).remove(id);
+    qDebug()<<"Hallo";
     emit productRemoved(product);
     delete product;
     return true;
@@ -227,6 +228,7 @@ Product *ProductContainer::product(int id)
 }
 
 //------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 
 void ProductContainer::addForOrderProduct_(int id)
@@ -244,6 +246,9 @@ void ProductContainer::addForOrderProduct_(int id)
   }
 }
 
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
 Product*ProductContainer::product(const QString& name, int categoryId)

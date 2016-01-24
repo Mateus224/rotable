@@ -118,6 +118,7 @@ signals:
   void productIdChanged();
   void PriceOfOrderChanged();
   void piecesChanged();
+  void AmountChanged();
 
 
 
@@ -198,6 +199,8 @@ public:
 //------------------------------------------------------------------------------
 
 private:
+  void removeProductFromGuiTo_orderProducts(int ProductID);
+  void addProductFromGuiTo_orderProducts(int ProductID);
 
   /* Unique category ID */
   int _productId;
