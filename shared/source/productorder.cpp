@@ -60,15 +60,7 @@ int ProductOrder::getStopWatchTime()
 void ProductOrder::getListForMyOrderPage()
 {
     QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
-    if (ClientProductHash->empty())
-    {
-        if(!_productcontainer._orderProducts->empty()){ qDebug()<<"tt";
-        QHash<int,Product*> ::const_iterator i = _productcontainer._orderProducts->constBegin();
-        _productcontainer.removeProduct(i.value()->id());
-        _productcontainer._orderProducts->clear();}
-    }
-    else
-     {   _productcontainer._orderProducts->clear();
+   _productcontainer._orderProducts->clear();
     while (i != ClientProductHash->constEnd())
     {
 
@@ -80,23 +72,27 @@ void ProductOrder::getListForMyOrderPage()
     ++i;
     }
 }
-}
+
 //------------------------------------------------------------------------------
 void ProductOrder::addProductFromGuiTo_orderProducts(int ProductID){
     if (_productcontainer._products->contains(ProductID))
     {
-        _productcontainer.addForOrderProduct_(ProductID);
+        if(!_productcontainer._orderProducts->contains(ProductID))
+            _productcontainer.addForOrderProduct_(ProductID);
         _productcontainer._orderProducts->value(ProductID)->setAmount(QString::number(_Product._s_quantity));
     }
+    _productcontainer.updateProduct(_productcontainer.product(ProductID));
+    emit AmountChanged();
 }
 
 //------------------------------------------------------------------------------
 void ProductOrder::removeProductFromGuiTo_orderProducts(int ProductID){
     if (_productcontainer._products->contains(ProductID))
     {
-        _productcontainer.removeProduct(ProductID);
+        //_productcontainer.removeProduct(ProductID);
         _productcontainer._orderProducts->value(ProductID)->setAmount(QString::number(_Product._s_quantity));
     }
+    AmountChanged();
 }
 
 
@@ -126,7 +122,7 @@ void ProductOrder::addToProductHash(int ProductID)
         }
         setpieces(1);
     }
-    getListForMyOrderPage();
+    addProductFromGuiTo_orderProducts(ProductID);
 
 }
 
@@ -170,7 +166,7 @@ void ProductOrder::rmFromProductHash(int ProductID)
         qDebug()<<"Fehler in rmFromProductHash2";
     }
     setpieces(_Product._s_quantity);
-    getListForMyOrderPage();
+    addProductFromGuiTo_orderProducts(ProductID);
 }
 
 //-----------------------------------------------------------------
@@ -205,10 +201,12 @@ double ProductOrder::setPriceOfOrder()
     }
     _toPay=_toPay/100;
     emit PriceOfOrderChanged();
+    AmountChanged();
     return _toPay;
 }
 
 //-----------------------------------------------------------------
 void ProductOrder::clearList(){
     _productcontainer._orderProducts->clear();
+    AmountChanged();
 }

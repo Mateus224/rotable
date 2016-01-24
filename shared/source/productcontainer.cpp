@@ -140,6 +140,7 @@ bool ProductContainer::removeProduct(int id)
   if (_products->contains(id)) {
     Product* product = (*_products)[id];
     (*_products).remove(id);
+    qDebug()<<"Hallo";
     emit productRemoved(product);
     delete product;
     return true;

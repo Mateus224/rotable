@@ -118,6 +118,7 @@ signals:
   void productIdChanged();
   void PriceOfOrderChanged();
   void piecesChanged();
+  void AmountChanged();
 
 
 
