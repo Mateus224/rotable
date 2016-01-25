@@ -24,6 +24,8 @@
         <file>resources/plus_white.png</file>
         <file alias="MyOrderPage.qml">qml/client/MyOrderPage.qml</file>
         <file alias="MyOrderRects.qml">qml/client/MyOrderRects.qml</file>
+        <file alias="SentPage.qml">qml/client/SentPage.qml</file>
+        <file alias="SentBox.qml">qml/client/SentBox.qml</file>
     </qresource>
     <qresource prefix="/client/games">
         <file alias="GamePage.qml">qml/client/games/GamePage.qml</file>
