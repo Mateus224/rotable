@@ -69,9 +69,7 @@ void Product::setAmount(const QString &amount)
 {
   if (_amount != amount) {
     _amount = amount;
-    qDebug()<<"yy:"<<_amount;
     emit amountChanged();
-    //emit AmountChanged();
   }
 }
 

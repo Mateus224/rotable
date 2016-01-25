@@ -16,15 +16,11 @@ Rectangle {
     Rectangle {
         anchors.fill: parent
         anchors.margins: parent.height * 0.02
-
         color: "#000000"
-
         Rectangle{
             id: tableWindow
             width: parent.width; height: parent.height
             color: "transparent"//"#70000000"
-
-
             ListView {
                 property int buttonMarginH: parent.width  * 0.015
                 property int buttonMarginV: parent.height * 0.025
@@ -43,28 +39,17 @@ Rectangle {
                 delegate: contactsDelegate
                 header: bannercomponentInfo
                 footer: sendOrder
-
-
                 Component {
                     id: bannercomponentInfo
-                    //Rectangle{
                     Rectangle {
 
                         id: banner
                         width: parent.width;
                         height: heightINFO
                         gradient: clubcolors
-                        //buttonProductId: productId ? productId:""
-
-                        /*border {
-                            gradient:clubcolors
-                            //color: "#f9a8d8"//"#7AAEEE"//"#9EDDF2";
-                            width: 2}*/
                         Row{
                             spacing: 20
                             Rectangle{
-
-
                                 width:widthINFO
                                 height:heightINFO
                                 color:"transparent"
@@ -75,7 +60,6 @@ Rectangle {
                                     text: "Amount"
                                     font.pixelSize: fontSizeHeader
                                     font.bold: true
-
                                 }
                             }
                             Rectangle{
@@ -127,16 +111,12 @@ Rectangle {
                             width:parent.width
                             height: heightINFO
                             color: "transparent"
-
                             Row {
-
                                 spacing: 20
-
                                 Rectangle{
                                     width:widthINFO
                                     height:heightINFO
                                     color: "transparent"
-
                                     Text {
                                         font.family: "FreeSans"; font.pointSize: fontSize; font.bold: true
                                         id: contactInfo
@@ -144,20 +124,16 @@ Rectangle {
                                         //color: color_oderinfo
                                         anchors.verticalCenter: parent.verticalCenter
                                         anchors.horizontalCenter: parent.horizontalCenter
-
                                     }
                                 }
-
                                 Rectangle{
                                     width:widthINFO
                                     height:heightINFO
-                                    color: "transparent" //"transparent"
-
+                                    color: "transparent"
                                     Text {
                                         font.family: "FreeSans"; font.pointSize: fontSize; font.bold: true
                                         id: contactInfoname
                                         text:  name
-                                        //color: color_oderinfo
                                         anchors.verticalCenter: parent.verticalCenter
                                         anchors.horizontalCenter: parent.horizontalCenter
                                     }
@@ -166,14 +142,11 @@ Rectangle {
                                     width:widthINFO
                                     height:heightINFO
                                     color: "transparent"
-
                                     Text {
                                         property string price:priceStr.replace(",",".")
                                         text: (parseFloat(price).toFixed(1)*amount).toFixed(1) +" € "
                                         font.family: "FreeSans"; font.pointSize: fontSize; font.bold: true
                                         id: contactInfoprice
-                                        //text:  priceStr
-                                        //color: clubcolors
                                         anchors.verticalCenter: parent.verticalCenter
                                         anchors.horizontalCenter: parent.horizontalCenter
                                     }
@@ -182,12 +155,10 @@ Rectangle {
                                     width:heightINFO*0.8
                                     height:heightINFO*0.8
                                     color: "transparent"
-
                                     Image {
                                         id: image_ready
                                         anchors.fill: parent
                                         source: image_ready.source= "resources/plus_white.png"
-
                                         MouseArea {
                                             anchors.fill: parent
                                             onClicked:{
@@ -220,7 +191,6 @@ Rectangle {
                         }
                     }
                 }
-
                 Component{
                     id:sendOrder
                     Rectangle {
@@ -234,8 +204,6 @@ Rectangle {
                             width: parent.width/4
                             id: sendOrderButton
                             height: parent.height*0.66
-                            //radius: 4
-                            //antialiasing: true
                             border.color: "#8772c0"
                             border.width: 2
                             color: defcolor
@@ -248,7 +216,6 @@ Rectangle {
                                 }
                                 onPressed: parent.color= "#8772c0"
                                 onReleased: {
-                                    //MyOrder.clearList()
                                     parent.color=defcolor
                                 }
                                 Text {
@@ -268,13 +235,11 @@ Rectangle {
                             Text {
                                 font.family: "FreeSans"; font.pointSize: fontSize; font.bold: true
                                 text:  MyOrder.PriceOfOrder+" € "
-                                //color: color_oderinfo
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.horizontalCenter: parent.horizontalCenter
                             }
                         }
                     }
-
                 }
             }
         }

@@ -83,6 +83,7 @@ void ProductOrder::addProductFromGuiTo_orderProducts(int ProductID){
     }
     _productcontainer.updateProduct(_productcontainer.product(ProductID));
     emit AmountChanged();
+    setPriceOfOrder();
 }
 
 //------------------------------------------------------------------------------
@@ -137,7 +138,6 @@ void ProductOrder::setpieces( int quantity)
 
 void ProductOrder::rmFromProductHash(int ProductID)
 {
-    qDebug()<<"ProductID"<<ProductID;
     if(ClientProductHash->contains(ProductID))
     {
         _Product=ClientProductHash->take(ProductID);
