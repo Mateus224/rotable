@@ -30,7 +30,8 @@ SOURCES += \
     source/productorderlistmodel.cpp \
     source/client.cpp \
     source/tabele.cpp \
-    source/message.cpp
+    source/message.cpp \
+    source/messageconnector.cpp
 
 
 HEADERS += \
@@ -56,7 +57,8 @@ HEADERS += \
     include/client.h \
     include/waiter.h \
     include/table.h \
-    include/message.h
+    include/message.h \
+    include/messageconnector.h
 
 
 RESOURCES += shared_resources.qrc
