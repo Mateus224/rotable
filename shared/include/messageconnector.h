@@ -11,17 +11,27 @@
 
 #include "message.h"
 
+//------------------------------------------------------------------------------
+
 namespace rotable {
     class MessageConnector;
+    class Connector;
 }
 
+//------------------------------------------------------------------------------
 
 class rotable::MessageConnector : public QObject
 {
     Q_OBJECT
 public:
-    explicit MessageConnector(QObject *parent = 0);
+    /**
+     * Default constructor
+     *
+     * @param parent                Pointer to parent
+     */
+    MessageConnector(QObject *parent = 0);
 
+    void addBindMethod(int msgType, void *toBind(Message*), QObject *reciver);
 signals:
 
 public slots:
@@ -34,7 +44,30 @@ public slots:
 
 
 private:
-    //QMap<int, int*(int)> _bindingFunction;
+    QMap<int, rotable::Connector*> _bindMsg;
 };
+
+//------------------------------------------------------------------------------
+
+/**
+ * @brief The Connector class
+ * For create connect with method from other class and package type
+ */
+class rotable::Connector: public QObject
+{
+    Q_OBJECT
+public:
+    /**
+     * Default constructor
+     *
+     * @param parent
+     */
+     Connector(QObject *parent = 0)
+        :QObject(parent){}
+signals:
+    void trigger(rotable::Message *msg);
+};
+
+//------------------------------------------------------------------------------
 
 #endif // ROTABLE_MESSAGECONNECTOR_H
