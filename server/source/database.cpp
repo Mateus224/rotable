@@ -2388,7 +2388,9 @@ bool Database::add_init_data()
 
   Config closeState;
   closeState.setName(Config::closeState);
-  closeState.setValue(QString("%1,%2;%3").arg(OrderItem::New, OrderItem::ToPay, OrderItem::Pay));
+  closeState.setValue(QString("%1,%2;%3").arg(QString::number(rotable::OrderItem::New),
+                                              QString::number(rotable::OrderItem::ToPay),
+                                              QString::number(rotable::OrderItem::Pay)));
 
   bool ok = addConfig(&day);
   ok = addConfig(&closeState);
