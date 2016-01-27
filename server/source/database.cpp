@@ -2391,6 +2391,7 @@ bool Database::add_init_data()
   closeState.setValue(QString("%1,%2;%3").arg(OrderItem::New, OrderItem::ToPay, OrderItem::Pay));
 
   bool ok = addConfig(&day);
+  ok = addConfig(&closeState);
 
   Waiter waiter;
   waiter.setName("TestWaiter");
