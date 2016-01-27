@@ -51,6 +51,10 @@ Rectangle {
             id: callWaiterPage
         }
 
+        SentPage{
+            id:sentPage
+        }
+
         //! [states]
         states: [
             State {
@@ -62,6 +66,7 @@ Rectangle {
                 PropertyChanges { target: myOrderPage; visible: false}
                 PropertyChanges { target: gamePage; visible: false}
                 PropertyChanges { target: callWaiterPage; visible: false}
+                PropertyChanges { target: sentPage; visible: false}
             },
             State {
                 name: "SCREENSAVER"
@@ -72,6 +77,7 @@ Rectangle {
                 PropertyChanges { target: myOrderPage; visible: false}
                 PropertyChanges { target: gamePage; visible: false}
                 PropertyChanges { target: callWaiterPage; visible: false}
+                PropertyChanges { target: sentPage; visible: false}
             },
             State {
                 name: "STARTSCREEN"
@@ -82,6 +88,7 @@ Rectangle {
                 PropertyChanges { target: myOrderPage; visible: false}
                 PropertyChanges { target: gamePage; visible: false}
                 PropertyChanges { target: callWaiterPage; visible: false}
+                PropertyChanges { target: sentPage; visible: false}
             },
             State {
                 name: "PRODUCTSCREEN"
@@ -92,6 +99,7 @@ Rectangle {
                 PropertyChanges { target: myOrderPage; visible: false}
                 PropertyChanges { target: gamePage; visible: false}
                 PropertyChanges { target: callWaiterPage; visible: false}
+                PropertyChanges { target: sentPage; visible: false}
             },
             State {
                 name: "MYORDERSCREEN"
@@ -102,6 +110,7 @@ Rectangle {
                 PropertyChanges { target: myOrderPage; visible: true}
                 PropertyChanges { target: gamePage; visible: false}
                 PropertyChanges { target: callWaiterPage; visible: false}
+                PropertyChanges { target: sentPage; visible: false}
             },
             State {
                 name: "GAMEPAGE"
@@ -112,6 +121,7 @@ Rectangle {
                 PropertyChanges { target: myOrderPage; visible: false}
                 PropertyChanges { target: gamePage; visible: true}
                 PropertyChanges { target: callWaiterPage; visible: false}
+                PropertyChanges { target: sentPage; visible: false}
             },
             State {
                 name: "CALLWAITERPAGE"
@@ -122,6 +132,19 @@ Rectangle {
                 PropertyChanges { target: myOrderPage; visible: false}
                 PropertyChanges { target: gamePage; visible: false}
                 PropertyChanges { target: callWaiterPage; visible: true}
+                PropertyChanges { target: sentPage; visible: false}
+
+            },
+            State {
+                name: "SENTPAGE"
+                PropertyChanges { target: connectionPage; visible: false }
+                PropertyChanges { target: screensaverPage; visible: false }
+                PropertyChanges { target: startPage; visible: false }
+                PropertyChanges { target: productPage; visible: false }
+                PropertyChanges { target: myOrderPage; visible: false}
+                PropertyChanges { target: gamePage; visible: false}
+                PropertyChanges { target: callWaiterPage; visible: false}
+                PropertyChanges { target: sentPage; visible: true}
 
             }
         ]

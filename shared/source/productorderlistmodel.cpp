@@ -255,14 +255,12 @@ void ProductOrderListModel::onProductUpdated(Product *product)
     if (product->categoryId() == _categoryId) {
       beginResetModel();
       endResetModel();
-      qDebug()<<"updated";
     }
   }
 }
 
 void ProductOrderListModel::AmountUpdated()
 {
-    qDebug()<<"hier";
     beginResetModel();
     endResetModel();
     emit countChanged();

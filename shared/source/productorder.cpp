@@ -83,16 +83,17 @@ void ProductOrder::addProductFromGuiTo_orderProducts(int ProductID){
     }
     _productcontainer.updateProduct(_productcontainer.product(ProductID));
     emit AmountChanged();
+    setPriceOfOrder();
 }
 
 //------------------------------------------------------------------------------
 void ProductOrder::removeProductFromGuiTo_orderProducts(int ProductID){
     if (_productcontainer._products->contains(ProductID))
     {
-        //_productcontainer.removeProduct(ProductID);
         _productcontainer._orderProducts->value(ProductID)->setAmount(QString::number(_Product._s_quantity));
+        emit AmountChanged();
+        setPriceOfOrder();
     }
-    AmountChanged();
 }
 
 
@@ -122,7 +123,6 @@ void ProductOrder::addToProductHash(int ProductID)
         }
         setpieces(1);
     }
-    addProductFromGuiTo_orderProducts(ProductID);
 
 }
 
@@ -138,7 +138,6 @@ void ProductOrder::setpieces( int quantity)
 
 void ProductOrder::rmFromProductHash(int ProductID)
 {
-    qDebug()<<"ProductID"<<ProductID;
     if(ClientProductHash->contains(ProductID))
     {
         _Product=ClientProductHash->take(ProductID);
@@ -166,7 +165,7 @@ void ProductOrder::rmFromProductHash(int ProductID)
         qDebug()<<"Fehler in rmFromProductHash2";
     }
     setpieces(_Product._s_quantity);
-    addProductFromGuiTo_orderProducts(ProductID);
+    setPriceOfOrder();
 }
 
 //-----------------------------------------------------------------
@@ -201,7 +200,6 @@ double ProductOrder::setPriceOfOrder()
     }
     _toPay=_toPay/100;
     emit PriceOfOrderChanged();
-    AmountChanged();
     return _toPay;
 }
 
@@ -209,4 +207,9 @@ double ProductOrder::setPriceOfOrder()
 void ProductOrder::clearList(){
     _productcontainer._orderProducts->clear();
     AmountChanged();
+    ClientProductHash->clear();
+}
+
+void ProductOrder::clearGuiList(){
+
 }

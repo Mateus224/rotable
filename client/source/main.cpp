@@ -21,7 +21,6 @@ int main(int argc, char *argv[])
   //google_breakpad::MinidumpDescriptor breakpad_descriptor("/tmp");
   //google_breakpad::ExceptionHandler breakpad_handler(
   //  breakpad_descriptor, NULL, NULL, NULL, true, -1);
-  qDebug()<<"Test22";
   QGuiApplication app(argc, argv);
 
   QCoreApplication::setApplicationName("rotable-client");
