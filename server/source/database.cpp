@@ -1015,6 +1015,8 @@ bool Database::addOrder(Order *order)
       return false;
     }
 
+    qDebug() << "Begin tras:" << _db.transaction();
+
     QString queryStr = _sqlCommands[Orders]._insert.arg(
                 _prefix, "NULL", ":state", ":income_id", ":client_id");
 
@@ -1023,6 +1025,7 @@ bool Database::addOrder(Order *order)
 
     if (!q.prepare(queryStr)) {
       qCritical() << tr("Invalid query: %1").arg(queryStr);
+      _db.rollback();
       return false;
     }
 
@@ -1033,6 +1036,7 @@ bool Database::addOrder(Order *order)
     if (!q.exec()) {
       qCritical() << tr("Query exec failed: (%1: %2")
                      .arg(queryStr, q.lastError().text());
+      _db.rollback();
       return false;
     }
 
@@ -1040,8 +1044,12 @@ bool Database::addOrder(Order *order)
 
     for(int i=0; i<order->itemCount(); ++i)
         if(!addOrderItem(order->item(i), id))
+        {
+            _db.rollback();
             return false;
+        }
 
+    _db.commit();
     return true;
 }
 
@@ -1079,7 +1087,6 @@ bool Database::addOrderItem(OrderItem *item, int orderId)
 
     return true;
 }
-
 
 //------------------------------------------------------------------------------
 
