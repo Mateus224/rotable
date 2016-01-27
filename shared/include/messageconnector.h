@@ -5,6 +5,10 @@
 #include <QObject>
 #endif
 
+#ifndef QMAP_H
+#include <QMap>
+#endif
+
 #include "message.h"
 
 namespace rotable {
@@ -21,6 +25,16 @@ public:
 signals:
 
 public slots:
+    /**
+     * Slot for recive message package
+     *
+     * @param msgPcg                package
+     */
+    void reciveMessagePackage(ComPackageMessage *msgPcg);
+
+
+private:
+    //QMap<int, int*(int)> _bindingFunction;
 };
 
 #endif // ROTABLE_MESSAGECONNECTOR_H
