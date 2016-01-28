@@ -13,5 +13,6 @@
         <file alias="Label.qml">qml/waiter/Label.qml</file>
         <file>qml/waiter/TableButton.qml</file>
         <file alias="OrderItem.qml">qml/waiter/OrderItem.qml</file>
+        <file alias="MenuLayout.qml">qml/waiter/MenuLayout.qml</file>
     </qresource>
 </RCC>
