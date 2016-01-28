@@ -86,7 +86,7 @@ public:
    *
    * @return            Price
    */
-  inline double toPay() const { return _state == Rejected || _state == Pay ? double(0) : _price * _amount; }
+  inline double toPay() const { return _state == Rejected || _state == Pay ? double(0) : _price; }
 
   /**
    * Check if OrderItem is done ( order is payed or rejected )
