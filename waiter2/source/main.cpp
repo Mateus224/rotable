@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
   // Connect exit signal for exit
   QObject::connect(engine,  SIGNAL(quit()), qApp, SLOT(quit()));
 
-  engine->load(QUrl("qrc:/waiter/main3.qml"));
-
+  //engine->load(QUrl("qrc:/waiter/main3.qml"));
+  engine->load(QUrl("qrc:/waiter/main2.qml"));
   return app.exec();
 }
