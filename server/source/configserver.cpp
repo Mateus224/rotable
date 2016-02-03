@@ -13,7 +13,7 @@ ConfigServer::ConfigServer(const QString& path, QObject* parent)
 {
   // If config is empyt
   if(value("Database/host", "") == "")
-      ;
+      initData();
   loaded();
 }
 
@@ -52,6 +52,7 @@ void ConfigServer::loaded()
 void ConfigServer::initData()
 {
 
+    saveData();
 }
 
 //------------------------------------------------------------------------------
