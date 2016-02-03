@@ -8,18 +8,13 @@ using namespace rotable;
 
 //------------------------------------------------------------------------------
 
-ConfigServer::ConfigServer(QObject* parent)
-  : ConfigBase(parent), _port(-1)
-{
-
-}
-
-//------------------------------------------------------------------------------
-
 ConfigServer::ConfigServer(const QString& path, QObject* parent)
- : ConfigBase(parent), _port(-1)
+ : ConfigBase(path ), _port(-1)
 {
-  load(path);
+  // If config is empyt
+  if(value("Database/host", "") == "")
+      ;
+  loaded();
 }
 
 //------------------------------------------------------------------------------
@@ -27,23 +22,23 @@ ConfigServer::ConfigServer(const QString& path, QObject* parent)
 void ConfigServer::loaded()
 {
   bool ok;
-  _port = _values["Network/port"].toInt(&ok);
+  _port = value("Network/port").toInt(&ok);
   if (!ok) {
     qWarning() << tr("Error reading Network/port! Using default value of 5000.");
     _port = 5000;
   }
 
-  _db_host = _values["Database/host"].toString();
-  _db_name = _values["Database/name"].toString();
-  _db_user = _values["Database/user"].toString();
-  _db_pass = _values["Database/pass"].toString();
-  _db_prefix = _values["Database/prefix"].toString();
+  _db_host = value("Database/host").toString();
+  _db_name = value("Database/name").toString();
+  _db_user = value("Database/user").toString();
+  _db_pass = value("Database/pass").toString();
+  _db_prefix = value("Database/prefix").toString();
 
-  foreach (const QString& key, _values.keys()) {
+  foreach (const QString& key, allKeys()) {
     if (key.startsWith("Images/")) {
       Image i;
       i.name = key.mid(7);
-      i.path = _values[key].toString();
+      i.path = value(key).toString();
       _images << i;
     }
   }
@@ -51,3 +46,19 @@ void ConfigServer::loaded()
   emit portChanged();
   emit dbSettingsChanged();
 }
+
+//------------------------------------------------------------------------------
+
+void ConfigServer::initData()
+{
+
+}
+
+//------------------------------------------------------------------------------
+
+void ConfigServer::saveData()
+{
+
+}
+
+//------------------------------------------------------------------------------
