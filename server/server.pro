@@ -22,7 +22,8 @@ SOURCES += \
     source/configserver.cpp \
     source/server.cpp \
     source/schedule.cpp \
-    source/operation.cpp
+    source/operation.cpp \
+    source/initconfigserver.cpp
 
 HEADERS += \
     include/tcpserver.h \
@@ -32,7 +33,8 @@ HEADERS += \
     include/server.h \
     include/settings.h \
     include/schedule.h \
-    include/operation.h
+    include/operation.h \
+    include/initconfigserver.h
 
 ########################################################################
 # DESTINATION:
@@ -68,3 +70,6 @@ RESOURCES += \
     sql-commands.qrc
 
 DISTFILES +=
+
+FORMS += \
+    ui/initconfigserver.ui
