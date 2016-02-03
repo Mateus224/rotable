@@ -8,6 +8,8 @@
 
 #include <QTextCodec>
 
+#include <QStandardPaths>
+
 //------------------------------------------------------------------------------
 
 int main(int argc, char *argv[])
@@ -32,13 +34,13 @@ int main(int argc, char *argv[])
   parser.addHelpOption();
   parser.addVersionOption();
   parser.addPositionalArgument("config",
-    QCoreApplication::translate("main", "Path of the configuration file."));
+  QCoreApplication::translate("main", "Path of the configuration file."));
 
   QCommandLineOption createDbOption("createDb", "Create a new database");
   parser.addOption(createDbOption);
   parser.process(app);
 
-  QString configFilePath("config.ini");
+  QString configFilePath(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) +"config.ini");
   QStringList args = parser.positionalArguments();
   if (args.size() > 0) {
     configFilePath = args[0];
