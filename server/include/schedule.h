@@ -15,6 +15,8 @@
 #include <QDateTime>
 #endif
 
+#include <QString>
+
 #ifndef QOBJECT_H
 #include <QObject>
 #endif
