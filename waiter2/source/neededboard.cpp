@@ -43,7 +43,6 @@ QVariant NeedBoard::data(const QModelIndex &index, int role) const
     default:
         qCritical() << "Role don't exists";
     }
-
 }
 
 //-----------------------------------------------------
