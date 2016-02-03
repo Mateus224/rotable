@@ -39,10 +39,11 @@ Server::~Server()
 
 bool Server::startup()
 {
-  if (_config.error() != NoError) {
-    qCritical() << tr("Config file error: %1").arg(_config.errorStr());
-    return false;
-  }
+    //Now config is always create
+//  if (_config.error() != NoError) {
+//    qCritical() << tr("Config file error: %1").arg(_config.errorStr());
+//    return false;
+//  }
 
   _images.clear();
 
