@@ -9,7 +9,7 @@ OrderInformation::OrderInformation(QObject *parent) : QObject(parent)
 
 OrderInformation::OrderInformation(const int &pieces,const QString &orderName,
                                    const float &price, const QString &info_orderInfo , QObject *parent)
-    : QObject(parent), m_pieces(pieces), m_orderName(orderName), m_price(price*pieces), m_info_orderInfo(info_orderInfo)
+    : QObject(parent), m_price(price*pieces), m_info_orderInfo(info_orderInfo), m_pieces(pieces), m_orderName(orderName)
 {
 
     stopwatch.start();
