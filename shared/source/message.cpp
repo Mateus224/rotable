@@ -111,6 +111,13 @@ ComPackageMessage *QueueMessage::toPackage() const
         values.append(QString(it.value()));
     }
     out = keys.join(";") + ";;" + values.join(";");
+
+    ComPackageMessage *messagePcg = new ComPackageMessage();
+
+    messagePcg->setMsgType(QueueMessage::QueueMessageType);
+    messagePcg->setMessage(out);
+
+    return messagePcg;
 }
 
 //------------------------------------------------------------------------------
