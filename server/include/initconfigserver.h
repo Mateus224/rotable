@@ -15,6 +15,11 @@ public:
     explicit InitConfigServer(QWidget *parent = 0);
     ~InitConfigServer();
 
+private slots:
+    void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
+
 private:
     Ui::InitConfigServer *ui;
 };
