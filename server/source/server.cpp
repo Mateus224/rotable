@@ -5,6 +5,9 @@
 #include "logmanager.h"
 #include "productorder.h"
 
+#include <QStandardPaths>
+
+
 //------------------------------------------------------------------------------
 
 using namespace rotable;
@@ -1015,6 +1018,15 @@ void Server::closeStateConfig(Config *config)
     //Set new value
     _stateChange.toChange = toCloseList;
     _stateChange.newState = newState;
+}
+
+//------------------------------------------------------------------------------
+
+QMap<int, ComPackageMessage *> Server::queueOrders()
+{
+    QMap<int, ComPackageMessage *>  result;
+
+    //QList<rotable::Order*> idList = _db.getNotCloseOrderList();
 }
 
 //------------------------------------------------------------------------------

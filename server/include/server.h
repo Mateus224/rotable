@@ -237,7 +237,18 @@ private:
    * @param config      Config
    */
   void day_begin_config(Config *config);
+
+  /**
+   * Load StateConfig settings to server
+   * @param config      Config
+   */
   void closeStateConfig(Config *config);
+
+  /**
+   * Prepre map with ComPackageMessage to send specific table
+   * @return            QMap<tableId, package>
+   */
+  QMap<int, ComPackageMessage*> queueOrders();
 
   /* Configuration file access */
   ConfigServer _config;
