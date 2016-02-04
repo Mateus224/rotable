@@ -19,6 +19,9 @@
 #include <QObject>
 #endif
 
+#include <QString>
+
+
 
 //------------------------------------------------------------------------------
 
@@ -80,7 +83,7 @@ signals:
     void stopSchedule();
 
 private:
-    QMap<QString,rotable::ScheduleOperation*> _scheduleOption;
+    QHash<QString,rotable::ScheduleOperation*> _scheduleOption;
 
     bool hasOperation(ScheduleOperation *operation);
     bool hasOperation(QString name);

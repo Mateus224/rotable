@@ -6,6 +6,7 @@
 #ifndef QDATETIME_H
 #include <QDate>
 #endif
+#include <QtGui>
 
 //------------------------------------------------------------------------------
 

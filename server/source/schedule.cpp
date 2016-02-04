@@ -7,6 +7,7 @@
 #ifndef QT_CORE_LIB
 #include <QtCore>
 #endif
+#include <QtGui>
 
 //------------------------------------------------------------------------------
 
