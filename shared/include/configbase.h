@@ -39,7 +39,7 @@ namespace rotable {
 class rotable::ConfigBase: public QSettings
 {
 public:
-    ConfigBase(const QString &path);
+    ConfigBase(const QString &path, QObject *parent);
 };
 
 //------------------------------------------------------------------------------

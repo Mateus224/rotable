@@ -110,8 +110,8 @@ using namespace rotable;
 
 //------------------------------------------------------------------------------
 
-ConfigBase::ConfigBase(const QString &path):
-    QSettings(path, QSettings::IniFormat)
+ConfigBase::ConfigBase(const QString &path, QObject *parent):
+    QSettings(path, QSettings::IniFormat, parent)
 {
 
 }

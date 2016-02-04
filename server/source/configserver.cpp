@@ -1,6 +1,7 @@
 #include "private/precomp.h"
 
 #include "configserver.h"
+#include "include/initconfigserver.h"
 
 //------------------------------------------------------------------------------
 
@@ -9,7 +10,7 @@ using namespace rotable;
 //------------------------------------------------------------------------------
 
 ConfigServer::ConfigServer(const QString& path, QObject* parent)
- : ConfigBase(path ), _port(-1)
+ : ConfigBase(path, parent ), _port(-1)
 {
   // If config is empyt
   if(value("Database/host", "") == "")
@@ -51,15 +52,8 @@ void ConfigServer::loaded()
 
 void ConfigServer::initData()
 {
-
-    saveData();
-}
-
-//------------------------------------------------------------------------------
-
-void ConfigServer::saveData()
-{
-
+    InitConfigServer dialog(this);
+    dialog.show();
 }
 
 //------------------------------------------------------------------------------
