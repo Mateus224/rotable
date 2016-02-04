@@ -3,7 +3,7 @@ QT += core network sql xml qml
 TARGET = rotable-shared
 TEMPLATE = lib
 
-CONFIG += staticlib precompile_header
+CONFIG += staticlib precompile_header c++11
 PRECOMPILED_HEADER = private/precomp.h
 
 ########################################################################
