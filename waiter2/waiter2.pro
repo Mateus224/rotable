@@ -1,10 +1,11 @@
-QT = core qml network gui quick #declarative
+QT = core qml network gui quick widgets
 TARGET = rotable-waiter_02
 
 CONFIG += precompile_header
 PRECOMPILED_HEADER = private/precomp.h
 
 QMAKE_CFLAGS_RELEASE = -g
+
 
 ########################################################################
 # FILES:

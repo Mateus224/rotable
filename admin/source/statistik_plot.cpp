@@ -1,4 +1,4 @@
-#include <qwt_plot_layout.h>
+/*#include <qwt_plot_layout.h>
 #include <qwt_plot_canvas.h>
 #include <qwt_plot_renderer.h>
 #include <qwt_legend.h>
@@ -221,4 +221,4 @@ void Statistik_Plot::showItem( const QVariant &itemInfo, bool on )
     if ( plotItem )
         plotItem->setVisible( on );
 }
-
+*/

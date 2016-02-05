@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
   _ui->_statusBar->showMessage(tr("Disconnected"));
 
-  _ui->d_plot->setMode(3);
+  //_ui->d_plot->setMode(3);
 
   // Initially hide ServerDebug tab
   int serverDebugTabIdx = _ui->_tabWidget->indexOf(_ui->_tabServerDebug);
@@ -81,7 +81,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::exportPdf()
 {
-  _ui->d_plot->exportPlot();
+  //_ui->d_plot->exportPlot();
 }
 
 //------------------------------------------------------------------------------

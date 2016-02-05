@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
   }
 
   //----------------------------------------------------------------------------
-
+/*
  double dUmsatz=7.9; //heutiger Umsatz
   Date dat;
   QList <double> QLumsatz_vorherErfassterTag;
@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
   write.schreibeInUmsatz(Dumsatz_vorherErfassterTag, dat.date.dayOfYear(),umsatz);
 
   Init.schreibeMonatsUmsatz();
-
+*/
   //----------------------------------------------------------------------------
 
 

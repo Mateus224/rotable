@@ -20,7 +20,7 @@ double* IO_ReadForDiagram::leseAusUmsatzDiesesJahr()
     QString ThisJahr= umsatz;
     ThisJahr.prepend("_");
     ThisJahr.prepend(QString::number(dat.date.year()));
-    qDebug()<<dat.date.year();
+    qDebug()<<dat.date.year()<<"ssss";
     iListeMonatsumsaetze=leseUmsatzUndSpeichereRueckwertsInListe(heutigerMonat,0,ThisJahr);
     if(!iListeMonatsumsaetze.isEmpty())
     {

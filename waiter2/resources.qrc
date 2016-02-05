@@ -1,17 +1,11 @@
 <RCC>
     <qresource prefix="/waiter">
         <file>resources/rotable_logo.png</file>
-        <file alias="main.qml">qml/waiter/main.qml</file>
         <file>resources/Cross.png</file>
         <file>resources/Check.png</file>
         <file>resources/Check_grey.png</file>
         <file>resources/Cross_grey.png</file>
         <file alias="main2.qml">qml/waiter/main2.qml</file>
-        <file alias="TableList.qml">qml/waiter/TableList.qml</file>
-        <file alias="Menu.qml">qml/waiter/Menu.qml</file>
         <file alias="main3.qml">qml/waiter/main3.qml</file>
-        <file alias="Label.qml">qml/waiter/Label.qml</file>
-        <file>qml/waiter/TableButton.qml</file>
-        <file alias="OrderItem.qml">qml/waiter/OrderItem.qml</file>
     </qresource>
 </RCC>

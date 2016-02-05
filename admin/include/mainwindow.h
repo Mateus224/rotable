@@ -99,6 +99,7 @@ protected:
  */
  void keyPressEvent(QKeyEvent *event);
 
+
 private:
  /* UI */
  Ui::MainWindow* _ui;

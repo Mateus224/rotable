@@ -2,11 +2,12 @@ import QtQuick 2.2
 import QtQuick.Controls 1.3
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.3
+import QtGraphicalEffects 1.0
 
 ApplicationWindow {
     id:applicationWindow
     visible: true
-    visibility: "FullScreen"
+    //visibility: "FullScreen"
     title: qsTr("Waiter client")
     color: "#7AAEEE"
     property int margin: 10
@@ -76,7 +77,7 @@ ApplicationWindow {
                 anchors.leftMargin: 0
                 Layout.fillHeight: true
                 clip: true
-                Layout.minimumWidth: 200
+                Layout.minimumWidth: 100
                 spacing: margin
                 header: bannercomponent
                 footer: Rectangle {
@@ -131,7 +132,7 @@ ApplicationWindow {
                         font.family: "Lobster two"
                         anchors.centerIn: parent
                         text: "Tables"
-                        font.pixelSize: 32
+                        font.pixelSize: 22
                         font.bold: true
                     }
                 }
@@ -152,21 +153,21 @@ ApplicationWindow {
                 text: qsTr("Table need waiter")
                 font.bold: true
                 font.family: "Lobster two"
-                font.pixelSize: 24
+                font.pixelSize: 20
                 anchors.top: tableList.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
             }
 
             ListView {
                 id: needList
-                y: 300
-                height: 200
+                y: 500 //300
+                height: 10
                 anchors.top: labelneedList.bottom
                 anchors.right: parent.right
                 anchors.left: parent.left
                 anchors.leftMargin: 0
                 Layout.fillHeight: true
-                Layout.minimumWidth: 200
+                Layout.minimumWidth: 100
                 spacing: margin
 
                 model: needBoard
@@ -325,7 +326,7 @@ ApplicationWindow {
                             font.family: "Lobster two"
                             anchors.centerIn: parent
                             text: qsTr("Bill on table: ") + orderboard.ordersPrice.toFixed(2)
-                            font.pixelSize: 32
+                            font.pixelSize: 22
                             font.bold: true
                         }
                     }
