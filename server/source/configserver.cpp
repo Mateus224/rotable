@@ -9,11 +9,11 @@ using namespace rotable;
 //------------------------------------------------------------------------------
 
 ConfigServer::ConfigServer(const QString& path, QObject* parent)
- : ConfigBase(path ), _port(-1)
+ : ConfigBase(path, parent), _port(-1)
 {
   // If config is empyt
   if(value("Database/host", "") == "")
-      ;
+      initData();
   loaded();
 }
 
@@ -51,14 +51,12 @@ void ConfigServer::loaded()
 
 void ConfigServer::initData()
 {
-
-}
-
-//------------------------------------------------------------------------------
-
-void ConfigServer::saveData()
-{
-
+    setValue("Network/port", 5000);
+    setValue("Database/host", "localhost");
+    setValue("Database/name", "rotable");
+    setValue("Database/user", "rotable");
+    setValue("Database/pass", "rotable");
+    setValue("Database/prefix", "rotable_");
 }
 
 //------------------------------------------------------------------------------

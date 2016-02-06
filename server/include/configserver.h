@@ -86,8 +86,6 @@ private:
 
   void initData();
 
-  void saveData();
-
   int _port;
   QString _db_host;
   QString _db_name;
