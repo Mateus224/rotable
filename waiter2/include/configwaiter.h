@@ -27,13 +27,6 @@ class rotable::ConfigWaiter : public ConfigBase
 
 public:
   /**
-   * Default constructor
-   *
-   * @param parent    parent element
-   */
-  ConfigWaiter(QObject* parent = 0);
-
-  /**
    * Constructor.
    *
    * @param path      path to config file
@@ -57,6 +50,8 @@ private:
    * Configuration has been loaded
    */
   virtual void loaded();
+
+  void initData();
 
   int _port;
   QString _serverAddress;

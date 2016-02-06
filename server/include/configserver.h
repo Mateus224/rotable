@@ -49,13 +49,6 @@ public:
   };
 
   /**
-   * Default constructor
-   *
-   * @param parent    parent element
-   */
-  ConfigServer(QObject* parent = 0);
-
-  /**
    * Constructor.
    *
    * @param path      path to config file
@@ -89,7 +82,9 @@ private:
   /**
    * Configuration has been loaded
    */
-  virtual void loaded();
+  void loaded();
+
+  void initData();
 
   int _port;
   QString _db_host;

@@ -17,13 +17,6 @@ class ConfigAdmin : public rotable::ConfigBase
 
 public:
   /**
-   * Default constructor
-   *
-   * @param parent    parent element
-   */
-  ConfigAdmin(QObject* parent = 0);
-
-  /**
    * Constructor.
    *
    * @param path      path to config file
@@ -46,6 +39,8 @@ private:
    * Configuration has been loaded
    */
   virtual void loaded();
+
+  void init();
 
   int _serverPort;
   QString _serverAddress;

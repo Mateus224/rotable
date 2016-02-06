@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
   parser.addPositionalArgument("config", QCoreApplication::translate("main", "Path of the configuration file."));
   parser.process(a);
 
-  QString configFilePath("config.ini");
+  QString configFilePath(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "config.ini");
 
   QStringList args = parser.positionalArguments();
   if (args.size() > 0) {

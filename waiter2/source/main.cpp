@@ -35,9 +35,10 @@ int main(int argc, char *argv[])
 
   /* Connection to server building*/
 //-----------------------------------------------------
-  QString configFilePath("config.ini");
+  QString configFilePath(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "config.ini");
 
   QStringList args = parser.positionalArguments();
+
   if (args.size() > 0) {
     configFilePath = args[0];
   }
