@@ -35,9 +35,9 @@ Executor::Executor(MainWindow* mainwindow, const QString& configFilePath,
   connect(&_serverLogListener, SIGNAL(log(rotable::LogManager::LogMessage)),
           this, SIGNAL(serverLog(rotable::LogManager::LogMessage)));
 
-  if (NoError != _config.load(configFilePath)) {
-    qDebug() << tr("Could not load %1: %2").arg(configFilePath).arg(_config.errorStr());
-  }
+//  if (NoError != _config.load(configFilePath)) {
+//    qDebug() << tr("Could not load %1: %2").arg(configFilePath).arg(_config.errorStr());
+//  }
 }
 
 //------------------------------------------------------------------------------
