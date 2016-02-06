@@ -8,18 +8,13 @@ using namespace rotable;
 
 //------------------------------------------------------------------------------
 
-ConfigWaiter::ConfigWaiter(QObject* parent)
-  : ConfigBase(parent), _port(-1)
-{
-
-}
-
-//------------------------------------------------------------------------------
-
 ConfigWaiter::ConfigWaiter(const QString& path, QObject* parent)
- : ConfigBase(parent), _port(-1)
+ : ConfigBase(path, parent), _port(-1)
 {
-  load(path);
+    // If config is empyt
+    if(value("Waiter/name", "") == "")
+        initData();
+    loaded();
 }
 
 //------------------------------------------------------------------------------
@@ -27,16 +22,30 @@ ConfigWaiter::ConfigWaiter(const QString& path, QObject* parent)
 void ConfigWaiter::loaded()
 {
   bool ok;
-  _port = _values["Network/port"].toInt(&ok);
+  _port = value("Network/port").toInt(&ok);
   if (!ok) {
     qDebug() << tr("Error reading Network/port! Using default value of 5000.");
     _port = 5000;
   }
 
-  _serverAddress = _values["Network/address"].toString();
-  _clientName = _values["Network/name"].toString();
+  _serverAddress = value("Network/address").toString();
+  _clientName = value("Waiter/name").toString();
 
   emit portChanged();
   emit serverAddressChanged();
   emit clientNameChanged();
+
 }
+
+//------------------------------------------------------------------------------
+
+void ConfigWaiter::initData()
+{
+    if(value("Network/address", "") == "")
+        setValue("Network/address", "127.0.0.1");
+    if(value("Network/port", 0) == 0)
+        setValue("Network/port", 5000);
+    setValue("Waiter/name", "debug_waiter");
+}
+
+//------------------------------------------------------------------------------
