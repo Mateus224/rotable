@@ -109,6 +109,8 @@ LIBS += \
 #LIBS += -L/home/rosynski/qwt-6.1/lib -lqwt
 #INCLUDEPATH += /usr/local/qwt-6.1.3-svn/include
 #DEPENDPATH += /usr/local/qwt-6.1.3-svn/include
-LIBS += -L/home/rosynski/qwt-6.1.2/lib -lqwt
-INCLUDEPATH += /usr/local/qwt-6.1.2/include
-DEPENDPATH += /usr/local/qwt-6.1.2/include
+
+
+#LIBS += -L/home/rosynski/qwt-6.1.2/lib -lqwt
+#INCLUDEPATH += /usr/local/qwt-6.1.2/include
+#DEPENDPATH += /usr/local/qwt-6.1.2/include
