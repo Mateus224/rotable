@@ -8,6 +8,8 @@
 #include <QGuiApplication>
 #include <QtQml/QQmlApplicationEngine>
 
+#include <QStandardPaths>
+
 //#include "client/linux/handler/exception_handler.h"
 
 //------------------------------------------------------------------------------

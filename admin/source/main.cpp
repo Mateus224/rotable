@@ -10,6 +10,8 @@
 #include "io_init.h"
 #include "io_writeinmonthwithnewdata.h"
 
+#include <QStandardPaths>
+
 #define ThisDay "ThisDay.data"
 #define umsatz "umsatz.data"
 
