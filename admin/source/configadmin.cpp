@@ -64,7 +64,7 @@ void ConfigAdmin::loaded()
 
 //------------------------------------------------------------------------------
 
-void ConfigAdmin::init()
+void ConfigAdmin::initData()
 {
     setValue("Admin/username", "debugAdmin");
     if(value("Network/address", "") == "")

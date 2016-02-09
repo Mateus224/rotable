@@ -40,7 +40,7 @@ private:
    */
   virtual void loaded();
 
-  void init();
+  void initData();
 
   int _serverPort;
   QString _serverAddress;
