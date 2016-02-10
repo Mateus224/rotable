@@ -27,13 +27,6 @@ class rotable::ConfigClient : public ConfigBase
 
 public:
   /**
-   * Default constructor
-   *
-   * @param parent    parent element
-   */
-  ConfigClient(QObject* parent = 0);
-
-  /**
    * Constructor.
    *
    * @param path      path to config file
@@ -43,9 +36,17 @@ public:
   ConfigClient(const QString& path, QObject* parent = 0);
 
   // Getters
-  inline const QString& serverAddress() const { return _serverAddress; }
-  inline int port() const { return _port; }
-  inline const QString& clientName() const { return _clientName; }
+  inline const QString serverAddress() const { return value("Network/address").toString();}
+  inline int port() const { return value("Network/port").toInt(); }
+  inline const QString clientName() const {return value("Client/name").toString();}
+
+  // Setter
+  inline void setServerAddress(const QString& address) { setValue("Network/address", address);
+                                                         emit serverAddressChanged();}
+  inline void setPort(const int &port){ setValue("Network/port", port); emit portChanged();}
+  inline void setClientName(const QString &name){ setValue("Client/name", name);
+                                                  emit clientNameChanged();}
+
 
 signals:
   void portChanged();
@@ -53,14 +54,8 @@ signals:
   void clientNameChanged();
 
 private:
-  /**
-   * Configuration has been loaded
-   */
-  virtual void loaded();
+  void initData();
 
-  int _port;
-  QString _serverAddress;
-  QString _clientName;
 }; // class ConfigClient
 
 //------------------------------------------------------------------------------

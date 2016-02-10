@@ -1,7 +1,7 @@
 QT = core qml network gui quick
 TARGET = rotable-client
 
-CONFIG += precompile_header
+CONFIG += precompile_header c++11
 PRECOMPILED_HEADER = private/precomp.h
 
 QMAKE_CFLAGS_RELEASE = -g
@@ -25,6 +25,7 @@ HEADERS += \
     include/productlistmodel.h \
     include/imageprovider.h \
     include/callwaiter.h
+    include/
 
 SOURCES += \
     source/main.cpp \

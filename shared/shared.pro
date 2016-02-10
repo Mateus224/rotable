@@ -3,7 +3,7 @@ QT += core network sql xml qml
 TARGET = rotable-shared
 TEMPLATE = lib
 
-CONFIG += staticlib precompile_header
+CONFIG += staticlib precompile_header  c++11
 PRECOMPILED_HEADER = private/precomp.h
 
 ########################################################################
@@ -24,9 +24,9 @@ SOURCES += \
     source/order.cpp \
     source/income.cpp \
     source/config.cpp \
-    #source/mytables.cpp \
-    #source/orderinformation.cpp \
-    #source/qmlcontxt.cpp \
+    source/mytables.cpp \
+    source/orderinformation.cpp \
+    source/qmlcontxt.cpp \
     source/productorderlistmodel.cpp \
     source/client.cpp \
     source/tabele.cpp \
@@ -49,9 +49,9 @@ HEADERS += \
     include/order.h \
     include/income.h \
     include/config.h \
-    #include/mytables.h \
-    #include/orderinformation.h \
-    #include/qmlcontxt.h \
+    include/mytables.h \
+    include/orderinformation.h \
+    include/qmlcontxt.h \
     include/productorderlistmodel.h \
     include/productorderlistmodel.h \
     include/client.h \

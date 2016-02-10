@@ -8,35 +8,23 @@ using namespace rotable;
 
 //------------------------------------------------------------------------------
 
-ConfigClient::ConfigClient(QObject* parent)
-  : ConfigBase(parent), _port(-1)
-{
-
-}
-
-//------------------------------------------------------------------------------
-
 ConfigClient::ConfigClient(const QString& path, QObject* parent)
- : ConfigBase(parent), _port(-1)
+ : ConfigBase(path, parent)
 {
-  load(path);
+    if(value("Client/name", "") == "")
+        initData();
 }
 
 //------------------------------------------------------------------------------
 
-void ConfigClient::loaded()
+void ConfigClient::initData()
 {
-  bool ok;
-  _port = _values["Network/port"].toInt(&ok);
-  if (!ok) {
-    qDebug() << tr("Error reading Network/port! Using default value of 5000.");
-    _port = 5000;
-  }
-
-  _serverAddress = _values["Network/address"].toString();
-  _clientName = _values["Network/name"].toString();
-
-  emit portChanged();
-  emit serverAddressChanged();
-  emit clientNameChanged();
+    if(value("Client/name", "") == "")
+        setClientName("debug_table");
+    if(value("Network/port", 0) == 0)
+        setPort(5000);
+    if(value("Network/address", "") == "")
+         setServerAddress("localhost");
 }
+
+//------------------------------------------------------------------------------
