@@ -1468,6 +1468,8 @@ bool Database::createDatabase()
     return false;
   }
 
+  if(_db.transaction())
+    qCritical() << tr("Create new trnsaction");
   // Set time zone is not available when using SQLITE
   //ret &= dbExec(QString("SET time_zone = \"%1\";").arg(ROTABLE_DATABASE_TIMEZONE));
 
@@ -1475,12 +1477,14 @@ bool Database::createDatabase()
   QSqlQuery q1(QString("DROP TABLE IF EXISTS `%1categories`;").arg(_prefix), _db);
   if (q1.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q1.lastError().text());
+    _db.rollback();
     return false;
   }
 
   QSqlQuery q2(_sqlCommands[Categories]._create.arg(_prefix), _db);
   if (q2.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q2.lastError().text());
+    _db.rollback();
     return false;
   }
 
@@ -1488,6 +1492,7 @@ bool Database::createDatabase()
   QSqlQuery q3(QString("DROP TABLE IF EXISTS `%1products`;").arg(_prefix), _db);
   if (q3.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q3.lastError().text());
+    _db.rollback();
     return false;
   }
 
@@ -1505,15 +1510,17 @@ bool Database::createDatabase()
 //  }
 
   // Client table
-  QSqlQuery q5(QString("DROP TABLE IF EXISTS `%1client`;").arg(_prefix), _db);
+  QSqlQuery q5(QString("DROP TABLE IF EXISTS `%1clients`;").arg(_prefix), _db);
   if (q5.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q5.lastError().text());
+    _db.rollback();
     return false;
   }
 
   QSqlQuery q6(_sqlCommands[Clients]._create.arg(_prefix), _db);
   if (q6.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q6.lastError().text());
+    _db.rollback();
     return false;
   }
 
@@ -1521,24 +1528,28 @@ bool Database::createDatabase()
   QSqlQuery q9(QString("DROP TABLE IF EXISTS `%1order`;").arg(_prefix), _db);
   if (q9.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q9.lastError().text());
+    _db.rollback();
     return false;
   }
 
   QSqlQuery q10(_sqlCommands[Orders]._create.arg(_prefix), _db);
   if (q10.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q10.lastError().text());
+    _db.rollback();
     return false;
   }
   // Order_item table
   QSqlQuery q11(QString("DROP TABLE IF EXISTS `%1order_items`;").arg(_prefix), _db);
   if (q11.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q11.lastError().text());
+    _db.rollback();
     return false;
   }
 
   QSqlQuery q12(_sqlCommands[OrderItems]._create.arg(_prefix), _db);
   if (q12.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q12.lastError().text());
+    _db.rollback();
     return false;
   }
 
@@ -1546,11 +1557,13 @@ bool Database::createDatabase()
   QSqlQuery q13(QString("DROP TABLE IF EXISTS `%1daily_incomes`;").arg(_prefix), _db);
   if (q13.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q13.lastError().text());
+    _db.rollback();
     return false;
   }
 
   QSqlQuery q14(_sqlCommands[Incomes]._create.arg(_prefix), _db);
   if (q14.lastError().type() != QSqlError::NoError) {
+    _db.rollback();
     qCritical() << tr("Query exec failed: %1").arg(q14.lastError().text());
     return false;
   }
@@ -1559,12 +1572,14 @@ bool Database::createDatabase()
   QSqlQuery q15(QString("DROP TABLE IF EXISTS `%1configs`;").arg(_prefix), _db);
   if (q15.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q15.lastError().text());
+    _db.rollback();
     return false;
   }
 
   QSqlQuery q16(_sqlCommands[Configs]._create.arg(_prefix), _db);
   if (q16.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q16.lastError().text());
+    _db.rollback();
     return false;
   }
 
@@ -1572,12 +1587,14 @@ bool Database::createDatabase()
   QSqlQuery q17(QString("DROP TABLE IF EXISTS `%1mac_adresses`;").arg(_prefix), _db);
   if (q17.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q17.lastError().text());
+    _db.rollback();
     return false;
   }
 
   QSqlQuery q18(_sqlCommands[MacAdresses]._create.arg(_prefix), _db);
   if (q18.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q18.lastError().text());
+    _db.rollback();
     return false;
   }
 
@@ -1585,12 +1602,14 @@ bool Database::createDatabase()
   QSqlQuery q19(QString("DROP TABLE IF EXISTS `%1passwords`;").arg(_prefix), _db);
   if (q19.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q19.lastError().text());
+    _db.rollback();
     return false;
   }
 
   QSqlQuery q20(_sqlCommands[Passwords]._create.arg(_prefix), _db);
   if (q20.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q20.lastError().text());
+    _db.rollback();
     return false;
   }
 
@@ -1598,17 +1617,27 @@ bool Database::createDatabase()
   QSqlQuery q21(QString("DROP TABLE IF EXISTS `%1table_details`;").arg(_prefix), _db);
   if (q21.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q21.lastError().text());
+    _db.rollback();
     return false;
   }
 
   QSqlQuery q22(_sqlCommands[TableDetails]._create.arg(_prefix), _db);
   if (q22.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q22.lastError().text());
+    _db.rollback();
     return false;
   }
 
-  initTriggers();
-  add_init_data();
+  if(!initTriggers()){
+      _db.rollback();
+      return false;
+  }
+  if(!add_init_data()){
+      _db.rollback();
+      return false;
+  }
+
+  _db.commit();
 
   return true;
 }
@@ -2627,15 +2656,26 @@ bool Database::initTriggers()
     QString trigger1 =  QString((const char*)QResource(QString("://sql-commands/trigger_update_orderitem_add.sql")). data());
     QString trigger2 =  QString((const char*)QResource(QString("://sql-commands/trigger_update_orderitem_remove.sql")). data());
 
+    QSqlQuery q00(QString("DROP TRIGGER IF EXISTS `%1update_orderitem_status_add`;").arg(_prefix), _db);
+    if (q00.lastError().type() != QSqlError::NoError) {
+      qCritical() << tr("Query exec failed: %1").arg(q00.lastError().text());
+      return false;
+    }
+
     QSqlQuery q01(trigger1.arg(_prefix), _db);
     if (q01.lastError().type() != QSqlError::NoError) {
       qCritical() << tr("Query exec fai led: %1").arg(q01.lastError().text());
       return false;
     }
 
-    QSqlQuery q02(trigger2.arg(_prefix), _db);
+    QSqlQuery q02(QString("DROP TRIGGER IF EXISTS `%1update_orderitem_status_remove`;").arg(_prefix), _db);
     if (q02.lastError().type() != QSqlError::NoError) {
-      qCritical() << tr("Query exec fai led: %1").arg(q02.lastError().text());
+      qCritical() << tr("Query exec failed: %1").arg(q02.lastError().text());
+      return false;
+    }
+    QSqlQuery q03(trigger2.arg(_prefix), _db);
+    if (q03.lastError().type() != QSqlError::NoError) {
+      qCritical() << tr("Query exec fai led: %1").arg(q03.lastError().text());
       return false;
     }
 

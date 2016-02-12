@@ -797,11 +797,14 @@ bool Server::executeCommand(ComPackageCommand *package)
     switch (package->commandType()) {
     case ComPackage::ResetDatabase:
     {
+//      _tcp.close();
       _db.createDatabase();
+//      _tcp.start(_config.port());
+//       Inform clients about data change...
 
-      // Inform clients about data change...
       ComPackageDataChanged dc;
       dc.setDataCategory(ComPackage::RequestCategoryIds);
+
       _tcp.send(-1, dc);
 
       return true;

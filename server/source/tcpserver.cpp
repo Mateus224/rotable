@@ -43,7 +43,7 @@ TcpServer::~TcpServer()
 
 bool TcpServer::start(int port)
 {
-  return _server.listen(QHostAddress::Any, port);
+    return _server.listen(QHostAddress::Any, port);
 }
 
 //------------------------------------------------------------------------------
@@ -117,6 +117,16 @@ QString TcpServer::clientName(client_t client) const
     qCritical() << tr("Invalid client: %1").arg(client);
     return QString();
   }
+}
+
+//------------------------------------------------------------------------------
+
+void TcpServer::close()
+{
+    _server.close();
+    for( int i=0; i < _clientCount; ++i)
+        if(_clients[i].id != -1)
+            _clients[i].socket->close();
 }
 
 //------------------------------------------------------------------------------

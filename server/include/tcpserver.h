@@ -48,6 +48,12 @@ public:
   bool start(int port);
 
   /**
+   * Stop server
+   * @return
+   */
+  void stop();
+
+  /**
    * Send given package to client.
    *
    * @param client      client to send to (-1 for all clients)
@@ -87,6 +93,8 @@ public:
    * @return            client name
    */
   QString clientName(client_t client) const;
+
+  void close();
 
 signals:
   /**

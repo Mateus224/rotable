@@ -15,7 +15,7 @@ QMAKE_CFLAGS_RELEASE = -g
 
 INCLUDEPATH += \
     include \
-    $$PWD/../shared/include \
+    $$PWD/../shared/include
 #    $$PWD/../third-party/google-breakpad-read-only/src \
 #    $$PWD/../third-party/qwt/src
 
@@ -102,7 +102,7 @@ CONFIG(debug, debug|release) {
 # LINK:
 
 LIBS += \
-    -L$$DESTDIR -lrotable-shared \
+    -L$$DESTDIR -lrotable-shared
    # -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux -lbreakpad_client \
    # -L$$PWD/../third-party/qwt/lib -lqwt -lqwt -lqwt
 
