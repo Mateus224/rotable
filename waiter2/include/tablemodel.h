@@ -102,7 +102,7 @@ public:
      *
      * @param table         Table object
      */
-    void addTable(rotable::Table *table);
+    bool addTable(rotable::Table *table);
 
     /**
      * Return number of tables in mode, use in Q_PROPERTY

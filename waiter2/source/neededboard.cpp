@@ -64,6 +64,9 @@ void NeedBoard::unneedTable(int idx)
 
 void NeedBoard::addTable(Table *table)
 {
+    if(_needs.contains(table))
+        return;
+
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     _needs.append(table);
     endInsertRows();

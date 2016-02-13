@@ -82,19 +82,23 @@ int TableModel::count() const
 
 //-----------------------------------------------------
 
-void TableModel::addTable(rotable::Table *table)
+bool TableModel::addTable(rotable::Table *table)
 {
     if(_tables.contains(table->id()))
     {
         beginResetModel();
         _tables[table->id()]->updateTableStatus(table);
         endResetModel();
+
+        return false;
     }
     else
     {
         beginInsertRows(QModelIndex(), rowCount(), rowCount());
         _tables[table->id()] = table;
         endInsertRows();
+
+        return true;
     }
 }
 

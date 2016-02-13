@@ -307,11 +307,16 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
     {
       //Load data about order
       Table *table = Table::fromJSON(package->data());    
-      _tables.addTable(table);
-      connect(table, &rotable::Table::sendOrders, this, &Waiter_Client::sendOrders);
-      connect(table, &rotable::Table::waiterIsNeededChanged, &_needBoard, &rotable::NeedBoard::tableNeedChanged);
-      emit table->waiterIsNeededChanged();
-      requestOrderOnTable(table->id());
+      if(_tables.addTable(table))
+      {
+          connect(table, &rotable::Table::sendOrders, this, &Waiter_Client::sendOrders);
+          connect(table, &rotable::Table::waiterIsNeededChanged, &_needBoard, &rotable::NeedBoard::tableNeedChanged);
+          requestOrderOnTable(table->id());
+          emit table->waiterIsNeededChanged();
+      }
+      else
+          delete table;
+
     } break;
 
     case ComPackage::RequestOrderOnTable:
