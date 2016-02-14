@@ -92,7 +92,7 @@ QVariant OrderBoard::data(const QModelIndex &index, int role) const
         return QVariant::fromValue(list);
     }break;
     case OrderPrice:{
-        return QVariant(order->toPay());
+        return QVariant(QString("%1").arg(order->toPay()));
     }break;
     }
 }
