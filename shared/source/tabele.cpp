@@ -90,6 +90,17 @@ void Table::disconnectTable()
         order->disconnectOrder();
    }
 }
+
+//------------------------------------------------------------------------------
+
+bool Table::isNewOrder() const
+{
+    foreach (Order *order, _orders)
+        if(order->isNew())
+            return true;
+
+    return false;
+}
 //------------------------------------------------------------------------------
 
 QJsonValue Table::toJSON() const

@@ -135,6 +135,13 @@ public:
 
     void disconnectTable();
 
+    /**
+     * Check if table has new order
+     *
+     * @return          true or false
+     */
+    bool isNewOrder() const;
+
     //------------------------------------------------------------------------------
     // JSON ( for network communication )
     //------------------------------------------------------------------------------

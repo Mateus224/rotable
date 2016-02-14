@@ -109,7 +109,7 @@ ApplicationWindow {
                             }
 
                             radius: 10
-                            gradient: model.isSelected ? gradientSelect : gradientNotSelect
+                            gradient: model.isChange ? gradientSelect : gradientNotSelect
                         }
                     }
 

@@ -226,6 +226,20 @@ bool Order::isUnDone() const
 
 //------------------------------------------------------------------------------
 
+bool Order::isNew() const
+{
+    //We check if any item is new
+
+    foreach (OrderItem *item, _items) {
+        if(item->isNew())
+            return true;       // Yes, so we return true
+    }
+
+    return false;
+}
+
+//------------------------------------------------------------------------------
+
 void Order::itemChanged()
 {
     emit itemsChanged();

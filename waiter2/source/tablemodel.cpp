@@ -27,7 +27,7 @@ QHash<int, QByteArray> TableModel::roleNames() const {
     QHash<int, QByteArray> roles;
 
     roles[NameRole] = "name";
-    roles[ChangeRole] = "change";
+    roles[ChangeRole] = "isChange";
     roles[IdRole] = "id";
     roles[WaiterNeedRole] = "waiterNeeded";
     roles[OrderNumberRole] = "orderNumber";
@@ -57,7 +57,7 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
         return QVariant(table->name());
     }break;
     case ChangeRole:{
-        //return QVariant(table->isStatusChange());
+        return QVariant(table->isNewOrder());
     }break;
     case IdRole:{
         return QVariant(table->id());
@@ -74,6 +74,7 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
     case SelectRole:{
         return QVariant(table->id() == _selectTable);
     }
+
     }
 }
 
