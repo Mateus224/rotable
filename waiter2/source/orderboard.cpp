@@ -83,7 +83,10 @@ QVariant OrderBoard::data(const QModelIndex &index, int role) const
     case ItemsRole:{
         QList<QObject*> list;
         for(int i=0;i<order->itemCount();++i)
-            list.append(order->item(i));
+        {
+            if(!order->item(i)->isDone())
+                list.append(order->item(i));
+        }
         return QVariant::fromValue(list);
     }break;
     case OrderPrice:{
@@ -192,6 +195,13 @@ void OrderBoard::loadOrders(rotable::Table *table)
     clearOrders();
     QList<rotable::Order *> orders = table->orderList();
     foreach (Order *order, orders) {
+         if(order->isClose()){
+             emit  oldOrder(order);
+             continue;
+         }
+         else if (!order->isUnDone()) {
+             emit  oldOrder(order);
+         }
          addOrder(order);
          connect(order, &rotable::Order::readyToChanged, this, &OrderBoard::orderReadyToChange);
          connect(this, &OrderBoard::disconnectNotification, order, &rotable::Order::disconnectOrder);

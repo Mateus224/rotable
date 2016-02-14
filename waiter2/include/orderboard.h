@@ -131,6 +131,7 @@ signals:
     void isSomethingSelectedChanged();
     void prepareOrderToSend();
     void disconnectNotification();
+    void oldOrder(rotable::Order*);
 
 public slots:
     /**

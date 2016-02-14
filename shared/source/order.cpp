@@ -143,7 +143,12 @@ void Order::changeState(int state)
             item->setState(state);
         }
     }
+
+    if(isDone())
+        setState(rotable::Order::Close);
 }
+
+//------------------------------------------------------------------------------
 
 void Order::prepareOrderToChange()
 {
