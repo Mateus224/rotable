@@ -29,6 +29,8 @@ class rotable::TableModel: public QAbstractListModel{
 
     Q_OBJECT
     Q_PROPERTY(int count READ count NOTIFY countChanged)
+    Q_PROPERTY(int selectTable READ selectTable WRITE setSelectTable NOTIFY selectTableChanged)
+
 public:
 
     //-----------------------------------------------------
@@ -44,7 +46,8 @@ public:
         IdRole,
         WaiterNeedRole,
         OrderNumberRole,
-        ConnectedRole
+        ConnectedRole,
+        SelectRole
     };
 
     //-----------------------------------------------------
@@ -148,6 +151,11 @@ public:
      */
     Q_INVOKABLE void sendToBoardOrder(int tableId);
 
+    inline int selectTable() const { return _selectTable;}
+    void setSelectTable(const int &selectTable) { _selectTable = selectTable;
+                                                  emit selectTableChanged();
+                                                  }
+
 signals:
     /**
      * Signal for update OrderBoard
@@ -156,6 +164,7 @@ signals:
     void updateOrderBoard(rotable::Table* table);
 
     void countChanged();
+    void selectTableChanged();
 
     void sendToHistory(rotable::Order* order);
 
@@ -164,6 +173,7 @@ private:
      * Container with tables
      */
     QMap<int, rotable::Table*> _tables;
+    int _selectTable;
 };
 
 #endif // ROTABLE_TABLEMODEL_H

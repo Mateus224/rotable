@@ -8,7 +8,7 @@ using rotable::TableModel;
 
 //-----------------------------------------------------
 
-TableModel::TableModel(QObject *parent): QAbstractListModel(parent)
+TableModel::TableModel(QObject *parent): QAbstractListModel(parent), _selectTable(0)
 {
 
 }
@@ -32,6 +32,7 @@ QHash<int, QByteArray> TableModel::roleNames() const {
     roles[WaiterNeedRole] = "waiterNeeded";
     roles[OrderNumberRole] = "orderNumber";
     roles[ConnectedRole] = "isConnected";
+    roles[SelectRole] = "isSelected";
     return roles;
 }
 
@@ -70,6 +71,9 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
     case ConnectedRole:{
         return QVariant(table->isConnected());
     }break;
+    case SelectRole:{
+        return QVariant(table->id() == _selectTable);
+    }
     }
 }
 
@@ -167,6 +171,9 @@ bool TableModel::updateWaiterIsNeed(const bool &need, const int &tableId)
 
 void TableModel::sendToBoardOrder(int tableId)
 {
+    beginResetModel();
+    setSelectTable(tableId);
+    endResetModel();
     emit updateOrderBoard(_tables[tableId]);
 }
 

@@ -98,15 +98,22 @@ ApplicationWindow {
                             implicitHeight: 70
                             border.width: control.activeFocus ? 2 : 1
                             border.color: "white"
-                            radius: 10
-                            gradient: Gradient {
-                                GradientStop { position: 0 ; color: control.pressed ? "#800000FF" : "#8EE2FE" }
-                                GradientStop { position: 1 ; color: control.pressed ? "#8EE2FE" : "#800000FF" }
+                            property var  gradientSelect: Gradient {
+                                GradientStop { position: 0 ; color: "red"}
+                                GradientStop { position: 1 ; color: "red"}
                             }
+
+                            property var gradientNotSelect: Gradient {
+                                GradientStop { position: 0 ; color: "#8EE2FE" }
+                                GradientStop { position: 1 ; color: "#800000FF" }
+                            }
+
+                            radius: 10
+                            gradient: model.isSelected ? gradientSelect : gradientNotSelect
                         }
                     }
-                    enabled: model.orderNumber === 0 ? false : true
 
+                    enabled: model.orderNumber === 0 ? false : true
                     width:  parent.width
                     checkable: true
                     exclusiveGroup: tableExclusiveGroup
@@ -116,7 +123,9 @@ ApplicationWindow {
                         font.family: "Lobster two"
                         text:model.name + "\n" + "Orders: " + model.orderNumber + "\n" + connected
                     }
-                    onClicked: tables.sendToBoardOrder(model.id)
+                    onClicked: {
+                        tables.sendToBoardOrder(model.id)
+                    }
                 }
             }
             Component {     //instantiated when header is processed
