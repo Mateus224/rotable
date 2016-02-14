@@ -99,8 +99,8 @@ ApplicationWindow {
                             border.width: control.activeFocus ? 2 : 1
                             border.color: "white"
                             property var  gradientSelect: Gradient {
-                                GradientStop { position: 0 ; color: "red"}
-                                GradientStop { position: 1 ; color: "red"}
+                                GradientStop { position: 0.00 ; color: control.pressed ? "RED" : "#8EE2FE" }
+                                GradientStop { position: 0.90 ; color: control.pressed ? "#8EE2FE" : "RED" }
                             }
 
                             property var gradientNotSelect: Gradient {
