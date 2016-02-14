@@ -171,10 +171,26 @@ bool TableModel::updateWaiterIsNeed(const bool &need, const int &tableId)
 
 void TableModel::sendToBoardOrder(int tableId)
 {
-    beginResetModel();
+
     setSelectTable(tableId);
-    endResetModel();
+
     emit updateOrderBoard(_tables[tableId]);
+}
+
+//-----------------------------------------------------
+
+void TableModel::setSelectTable(const int &selectTable) {
+    beginResetModel();
+    _selectTable = selectTable;
+    emit selectTableChanged();
+    endResetModel();
+}
+
+//-----------------------------------------------------
+
+void TableModel::unLoadTable()
+{
+    setSelectTable(-1);
 }
 
 //-----------------------------------------------------

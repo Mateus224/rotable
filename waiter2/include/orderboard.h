@@ -132,6 +132,7 @@ signals:
     void prepareOrderToSend();
     void disconnectNotification();
     void oldOrder(rotable::Order*);
+    void unLoadTable();
 
 public slots:
     /**

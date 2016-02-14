@@ -65,6 +65,9 @@ Waiter_Client::Waiter_Client(const QString &configFilePath, QObject *parent)
     connect(&_tables, SIGNAL(updateOrderBoard(rotable::Table*)),
             &_board, SLOT(readOrderFromTable(rotable::Table*)));
 
+    connect(&_board, &rotable::OrderBoard::unLoadTable,
+            &_tables, &rotable::TableModel::unLoadTable);
+
     connect(&_needBoard, &rotable::NeedBoard::unsetWaiterNeed,
             this, &rotable::Waiter_Client::tableNeedWaiterChanged);
 }

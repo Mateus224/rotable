@@ -48,6 +48,8 @@ void OrderBoard::changeState(int state)
         order->changeState(state);
     }
     emit prepareOrderToSend();
+    clearBoard();
+    emit unLoadTable();
 }
 
 //-----------------------------------------------------
@@ -217,7 +219,6 @@ void OrderBoard::disconnectSignals()
 
     disconnect(this,&OrderBoard::prepareOrderToSend, 0, 0);
     disconnect(this, &OrderBoard::disconnectNotification, 0, 0);
-
 }
 
 //-----------------------------------------------------

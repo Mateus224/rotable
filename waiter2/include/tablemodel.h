@@ -152,9 +152,7 @@ public:
     Q_INVOKABLE void sendToBoardOrder(int tableId);
 
     inline int selectTable() const { return _selectTable;}
-    void setSelectTable(const int &selectTable) { _selectTable = selectTable;
-                                                  emit selectTableChanged();
-                                                  }
+    void setSelectTable(const int &selectTable);
 
 signals:
     /**
@@ -167,6 +165,9 @@ signals:
     void selectTableChanged();
 
     void sendToHistory(rotable::Order* order);
+
+public slots:
+    void unLoadTable();
 
 private:
     /**
