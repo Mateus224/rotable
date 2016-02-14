@@ -86,7 +86,12 @@ public:
      * @return  order count
      */
     inline int orderCount(){
-        return _orders.count();
+        int count = 0;
+        foreach (Order* order, _orders) {
+            if(!order->isClose())
+                ++count;
+        }
+        return count;
     }
 
     /**
