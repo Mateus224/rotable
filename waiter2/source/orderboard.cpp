@@ -48,8 +48,8 @@ void OrderBoard::changeState(int state)
         order->changeState(state);
     }
     emit prepareOrderToSend();
-    clearBoard();
-    emit unLoadTable();
+//    clearBoard();
+//    emit unLoadTable();
 }
 
 //-----------------------------------------------------
@@ -101,6 +101,10 @@ QVariant OrderBoard::data(const QModelIndex &index, int role) const
 
 void OrderBoard::readOrderFromTable(Table *table)
 {
+    // If we want load this same table don't allow that
+    if(_tableId == table->id())
+        return;
+
     //ToDo: add remove last connected signal for slot updateOrders
     clearBoard();
     // Connect new Table with OrderBoard
