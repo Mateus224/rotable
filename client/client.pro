@@ -55,7 +55,20 @@ OTHER_FILES += \
     qml/client/MyOrderButton.qml \
     qml/client/MyOrderPage.qml \
     qml/client/ProductRects.qml \
-    qml/client/ProductPage.qml
+    qml/client/ProductPage.qml \
+    qml/client/callWaiter/CallWaiterPage.qml\
+    qml/client_LB/categoryCreation.js \
+    qml/client_LB/main.qml \
+    qml/client_LB/ProductButton.qml \
+    qml/client_LB/ProductCategoryPage.qml \
+    qml/client_LB/CategoryBar.qml \
+    qml/client_LB/ConnectionPage.qml \
+    qml/client_LB/ScreensaverPage.qml \
+    qml/client_LB/StartPage.qml \
+    qml/client_LB/MyOrderButton.qml \
+    qml/client_LB/MyOrderPage.qml \
+    qml/v/ProductRects.qml \
+    qml/client_LB/ProductPage.qml
 
 ########################################################################
 # DESTINATION:
@@ -104,4 +117,4 @@ target.path = /opt/rotable
 INSTALLS    += target
 
 DISTFILES += \
-    qml/client/callWaiter/CallWaiterPage.qml
+#    qml/client/callWaiter/CallWaiterPage.qml

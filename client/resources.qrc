@@ -26,6 +26,7 @@
         <file alias="MyOrderRects.qml">qml/client/MyOrderRects.qml</file>
         <file alias="SentPage.qml">qml/client/SentPage.qml</file>
         <file alias="SentBox.qml">qml/client/SentBox.qml</file>
+        <file alias="CallWaiterPage.qml">qml/client/CallWaiterPage.qml</file>
     </qresource>
     <qresource prefix="/client/games">
         <file alias="GamePage.qml">qml/client/games/GamePage.qml</file>
@@ -39,7 +40,29 @@
         <file alias="CloseButton.qml">qml/client/games/SpinTheBottle/CloseButton.qml</file>
         <file>qml/client/games/SpinTheBottle/pics/spin-the-bottle-ny2.png</file>
     </qresource>
-    <qresource prefix="/client/callWaiter">
-        <file alias="CallWaiterPage.qml">qml/client/callWaiter/CallWaiterPage.qml</file>
+    <qresource prefix="/client_LB">
+        <file alias="main_LB.qml">qml/client_LB/main_LB.qml</file>
+        <file alias="StartPage.qml">qml/client_LB/StartPage.qml</file>
+        <file alias="ScreensaverPage.qml">qml/client_LB/ScreensaverPage.qml</file>
+        <file alias="ProductPage.qml">qml/client_LB/ProductPage.qml</file>
+        <file alias="PageTitle.qml">qml/client_LB/PageTitle.qml</file>
+        <file alias="ConnectionPage.qml">qml/client_LB/ConnectionPage.qml</file>
+        <file alias="CategoryBar.qml">qml/client_LB/CategoryBar.qml</file>
+        <file alias="CallWaiterPage.qml">qml/client_LB/CallWaiterPage.qml</file>
+        <file alias="MyOrderButton.qml">qml/client_LB/MyOrderButton.qml</file>
+        <file alias="MyOrderPage.qml">qml/client_LB/MyOrderPage.qml</file>
+        <file alias="ProductRects.qml">qml/client_LB/ProductRects.qml</file>
+        <file alias="SentPage.qml">qml/client_LB/SentPage.qml</file>
+        <file alias="SentBox.qml">qml/client_LB/SentBox.qml</file>
+        <file alias="MyOrderRects.qml">qml/client_LB/MyOrderRects.qml</file>
+        <file alias="ProductButton.qml">qml/client_LB/ProductButton.qml</file>
+        <file>resources/rotable_logo.png</file>
+        <file>resources/plus_white.png</file>
+        <file>resources/minus_white.png</file>
+        <file>resources/bg_title.png</file>
+        <file>resources/bg_orange.png</file>
+        <file>resources/bg_categories.png</file>
+        <file>resources/TopBarRight.png</file>
+        <file>resources/TopBarLeft.png</file>
     </qresource>
 </RCC>

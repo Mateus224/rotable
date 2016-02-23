@@ -90,7 +90,9 @@ int main(int argc, char *argv[])
   init.contxt(0);
 
   //view.setSource(QUrl::fromLocalFile(QString(ROTABLE_QML_PATH) + QString("main.qml")));
-  view->setSource(QString("qrc:/client/main.qml"));
+
+  //view->setSource(QString("qrc:/client/main.qml"));
+  view->setSource(QString("qrc:/client_LB/main_LB.qml"));
   view->showFullScreen();
 
   return app.exec();

@@ -1,7 +1,6 @@
 import QtQuick 2.0
 import QtMultimedia 5.0
-import "globals.js" as Global
-import "games"
+import "../client/games"
 //import "callWaiter"
 
 
