@@ -143,7 +143,12 @@ void Order::changeState(int state)
             item->setState(state);
         }
     }
+
+    if(isDone())
+        setState(rotable::Order::Close);
 }
+
+//------------------------------------------------------------------------------
 
 void Order::prepareOrderToChange()
 {
@@ -217,6 +222,20 @@ bool Order::isUnDone() const
     }
 
     return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Order::isNew() const
+{
+    //We check if any item is new
+
+    foreach (OrderItem *item, _items) {
+        if(item->isNew())
+            return true;       // Yes, so we return true
+    }
+
+    return false;
 }
 
 //------------------------------------------------------------------------------

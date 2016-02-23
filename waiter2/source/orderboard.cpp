@@ -48,6 +48,8 @@ void OrderBoard::changeState(int state)
         order->changeState(state);
     }
     emit prepareOrderToSend();
+//    clearBoard();
+//    emit unLoadTable();
 }
 
 //-----------------------------------------------------
@@ -83,11 +85,14 @@ QVariant OrderBoard::data(const QModelIndex &index, int role) const
     case ItemsRole:{
         QList<QObject*> list;
         for(int i=0;i<order->itemCount();++i)
-            list.append(order->item(i));
+        {
+            if(!order->item(i)->isDone())
+                list.append(order->item(i));
+        }
         return QVariant::fromValue(list);
     }break;
     case OrderPrice:{
-        return QVariant(order->toPay());
+        return QVariant(QString("%1").arg(order->toPay()));
     }break;
     }
 }
@@ -96,6 +101,10 @@ QVariant OrderBoard::data(const QModelIndex &index, int role) const
 
 void OrderBoard::readOrderFromTable(Table *table)
 {
+    // If we want load this same table don't allow that
+    if(_tableId == table->id())
+        return;
+
     //ToDo: add remove last connected signal for slot updateOrders
     clearBoard();
     // Connect new Table with OrderBoard
@@ -192,6 +201,13 @@ void OrderBoard::loadOrders(rotable::Table *table)
     clearOrders();
     QList<rotable::Order *> orders = table->orderList();
     foreach (Order *order, orders) {
+         if(order->isClose()){
+             emit  oldOrder(order);
+             continue;
+         }
+         else if (!order->isUnDone()) {
+             emit  oldOrder(order);
+         }
          addOrder(order);
          connect(order, &rotable::Order::readyToChanged, this, &OrderBoard::orderReadyToChange);
          connect(this, &OrderBoard::disconnectNotification, order, &rotable::Order::disconnectOrder);
@@ -207,7 +223,6 @@ void OrderBoard::disconnectSignals()
 
     disconnect(this,&OrderBoard::prepareOrderToSend, 0, 0);
     disconnect(this, &OrderBoard::disconnectNotification, 0, 0);
-
 }
 
 //-----------------------------------------------------

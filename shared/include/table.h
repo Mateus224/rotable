@@ -86,7 +86,12 @@ public:
      * @return  order count
      */
     inline int orderCount(){
-        return _orders.count();
+        int count = 0;
+        foreach (Order* order, _orders) {
+            if(!order->isClose())
+                ++count;
+        }
+        return count;
     }
 
     /**
@@ -129,6 +134,13 @@ public:
     bool hasOrder(const int &orderId) const;
 
     void disconnectTable();
+
+    /**
+     * Check if table has new order
+     *
+     * @return          true or false
+     */
+    bool isNewOrder() const;
 
     //------------------------------------------------------------------------------
     // JSON ( for network communication )

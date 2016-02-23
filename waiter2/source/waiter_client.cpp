@@ -65,6 +65,9 @@ Waiter_Client::Waiter_Client(const QString &configFilePath, QObject *parent)
     connect(&_tables, SIGNAL(updateOrderBoard(rotable::Table*)),
             &_board, SLOT(readOrderFromTable(rotable::Table*)));
 
+//    connect(&_board, &rotable::OrderBoard::unLoadTable,
+//            &_tables, &rotable::TableModel::unLoadTable);
+
     connect(&_needBoard, &rotable::NeedBoard::unsetWaiterNeed,
             this, &rotable::Waiter_Client::tableNeedWaiterChanged);
 }
@@ -307,11 +310,16 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
     {
       //Load data about order
       Table *table = Table::fromJSON(package->data());    
-      _tables.addTable(table);
-      connect(table, &rotable::Table::sendOrders, this, &Waiter_Client::sendOrders);
-      connect(table, &rotable::Table::waiterIsNeededChanged, &_needBoard, &rotable::NeedBoard::tableNeedChanged);
-      emit table->waiterIsNeededChanged();
-      requestOrderOnTable(table->id());
+      if(_tables.addTable(table))
+      {
+          connect(table, &rotable::Table::sendOrders, this, &Waiter_Client::sendOrders);
+          connect(table, &rotable::Table::waiterIsNeededChanged, &_needBoard, &rotable::NeedBoard::tableNeedChanged);
+          requestOrderOnTable(table->id());
+          emit table->waiterIsNeededChanged();
+      }
+      else
+          delete table;
+
     } break;
 
     case ComPackage::RequestOrderOnTable:

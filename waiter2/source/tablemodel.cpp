@@ -8,7 +8,7 @@ using rotable::TableModel;
 
 //-----------------------------------------------------
 
-TableModel::TableModel(QObject *parent): QAbstractListModel(parent)
+TableModel::TableModel(QObject *parent): QAbstractListModel(parent), _selectTable(0)
 {
 
 }
@@ -27,11 +27,12 @@ QHash<int, QByteArray> TableModel::roleNames() const {
     QHash<int, QByteArray> roles;
 
     roles[NameRole] = "name";
-    roles[ChangeRole] = "change";
+    roles[ChangeRole] = "isChange";
     roles[IdRole] = "id";
     roles[WaiterNeedRole] = "waiterNeeded";
     roles[OrderNumberRole] = "orderNumber";
     roles[ConnectedRole] = "isConnected";
+    roles[SelectRole] = "isSelected";
     return roles;
 }
 
@@ -56,7 +57,7 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
         return QVariant(table->name());
     }break;
     case ChangeRole:{
-        //return QVariant(table->isStatusChange());
+        return QVariant(table->isNewOrder());
     }break;
     case IdRole:{
         return QVariant(table->id());
@@ -70,6 +71,10 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
     case ConnectedRole:{
         return QVariant(table->isConnected());
     }break;
+    case SelectRole:{
+        return QVariant(table->id() == _selectTable);
+    }
+
     }
 }
 
@@ -82,19 +87,23 @@ int TableModel::count() const
 
 //-----------------------------------------------------
 
-void TableModel::addTable(rotable::Table *table)
+bool TableModel::addTable(rotable::Table *table)
 {
     if(_tables.contains(table->id()))
     {
         beginResetModel();
         _tables[table->id()]->updateTableStatus(table);
         endResetModel();
+
+        return false;
     }
     else
     {
         beginInsertRows(QModelIndex(), rowCount(), rowCount());
         _tables[table->id()] = table;
         endInsertRows();
+
+        return true;
     }
 }
 
@@ -127,16 +136,18 @@ bool TableModel::updateOrder(const int &tableId, rotable::Order *order)
         return false;   //If no return false
     }
 
-    //C heck if we have close order
-    if(order->isClose())
-    {
-        // Use signal to send order
-        sendToHistory(order);
-        return true;    // End
-    }
-
     // Access to table
     Table * table = _tables[tableId];
+
+//    //Check if we have close order
+//    if(order->isClose())
+//    {
+//        // Use signal to send order
+//        sendToHistory(order);
+//        //return true;    // End
+//    }
+
+
     // Inform model somethiong will be change
     beginResetModel();
     // Check if order exists
@@ -163,7 +174,26 @@ bool TableModel::updateWaiterIsNeed(const bool &need, const int &tableId)
 
 void TableModel::sendToBoardOrder(int tableId)
 {
+
+    setSelectTable(tableId);
+
     emit updateOrderBoard(_tables[tableId]);
+}
+
+//-----------------------------------------------------
+
+void TableModel::setSelectTable(const int &selectTable) {
+    beginResetModel();
+    _selectTable = selectTable;
+    emit selectTableChanged();
+    endResetModel();
+}
+
+//-----------------------------------------------------
+
+void TableModel::unLoadTable()
+{
+    setSelectTable(-1);
 }
 
 //-----------------------------------------------------

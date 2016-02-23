@@ -95,6 +95,13 @@ public:
    */
   inline bool isDone() const { return _state == Pay || _state == Rejected; }
 
+  /**
+   * Check if OrderItem is new
+   *
+   * @return            True on success
+   */
+  inline bool isNew() const {return _state  == New;}
+
   QJsonValue toJSON() const;
   static OrderItem* fromJSON(const QJsonValue& jval);
 
@@ -312,6 +319,8 @@ public:
    * @return                True if all order are undone
    */
   bool isUnDone() const;
+
+  bool isNew() const;
 
 signals:
   void stateChanged();
