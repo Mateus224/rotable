@@ -439,7 +439,7 @@ void Client::dataChanged(rotable::ComPackageDataChanged *package)
     } break;
     case ComPackage::RequestCategoryIds:
     {
-      _products->clear();
+//      _products->clear();
       requestCategoryIds();
     } break;
     case ComPackage::RequestProductIds:
