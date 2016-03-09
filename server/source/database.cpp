@@ -1015,7 +1015,7 @@ bool Database::addOrder(Order *order)
       return false;
     }
 
-    qDebug() << "Begin tras:" << _db.transaction();
+//    qDebug() << "Begin tras:" << _db.transaction();
 
     QString queryStr = _sqlCommands[Orders]._insert.arg(
                 _prefix, "NULL", ":state", ":income_id", ":client_id");

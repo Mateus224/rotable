@@ -4,6 +4,7 @@
 #include "settings.h"
 #include "logmanager.h"
 #include "productorder.h"
+#include "message.h"
 
 #include <QStandardPaths>
 
@@ -176,6 +177,7 @@ void Server::packageReceived(client_t client, ComPackage *package)
         ComPackageReject reject(package->id());
         _tcp.send(client, reject);
       }
+
     } else {
       qDebug() << tr("WARNING: Unallowed DataSet from client \"%1\"")
                   .arg(_tcp.clientName(client));
@@ -513,6 +515,7 @@ bool Server::setData(ComPackageDataSet *set, client_t client)
   } break;
   case ComPackage::SetOrder:
   {
+    bool status = false;
     if(set->dataName() == "")
     {
         //Covert data to array
@@ -523,17 +526,34 @@ bool Server::setData(ComPackageDataSet *set, client_t client)
         foreach (QJsonValue item, array) {
             order.append(OrderItem::fromJSON(item));
         }
-        return newOrder(order,_users[1][client]);
-    //    Clear memory, we don't like memory leaks
-    //    foreach (OrderItem *item, order) {
-    //        delete item;
-    //    }
+        //Check if order create succesfull
+        if(newOrder(order,_users[1][client]))
+        {
+            rotable::OrderMessage* msg = new rotable::OrderMessage(0);
+            status = true;
+            _tcp.send(client, *(msg->toPackage()));
+        }
+        else
+        {
+            rotable::OrderMessage* msg = new rotable::OrderMessage(1);
+            status = false;
+            _tcp.send(client, *(msg->toPackage()));
+        }
     }
     else
     {
         Order *order = rotable::Order::fromJSON(set->data());
-        return updateOrder(order);
+        status = updateOrder(order);
     }
+
+    //If something change
+    if(status)
+    //TODO: Send new information about queue to all client
+        ;
+
+
+    return status;
+
   }break;
   default:
   {
