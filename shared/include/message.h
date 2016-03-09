@@ -79,8 +79,6 @@ public:
      */
     OrderMessage(QObject *parent = 0);
 
-    OrderMessage(int status, QObject *parent = 0);
-
     /**
      * Constructor for OrderMessage
      * @param message       message package

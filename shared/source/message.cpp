@@ -44,13 +44,6 @@ OrderMessage::OrderMessage(QObject *parent) : Message(parent)
 
 //------------------------------------------------------------------------------
 
-OrderMessage::OrderMessage(int status, QObject *parent): OrderMessage(parent)
-{
-    _errorType = status;
-}
-
-//------------------------------------------------------------------------------
-
 OrderMessage::OrderMessage(ComPackageMessage *message, QObject *parent): OrderMessage(parent)
 {
     QList<QString> list = message->message().split(";");
