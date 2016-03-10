@@ -118,3 +118,4 @@ INSTALLS    += target
 
 DISTFILES += \
 #    qml/client/callWaiter/CallWaiterPage.qml
+

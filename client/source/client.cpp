@@ -39,6 +39,8 @@ Client::Client(const QString &configFilePath, QObject *parent)
   connect(&_sensors, SIGNAL(contactChanged()),
           this, SIGNAL(contactChanged()));
 
+  connect(this, &Client::reciveMessagePackage, &_connector, &MessageConnector::reciveMessagePackage);
+
   // Connect send package from callWaiter by Client
   connect(&_callWaiter, &rotable::CallWaiter::sendCallWaiter,
           this, &Client::sendPackage);
@@ -187,6 +189,11 @@ void Client::packageReceived(ComPackage *package)
       _callWaiter.setWaiterNeed(need->need());
     } break;
 
+    case rotable::ComPackage::Message:
+    {
+        ComPackageMessage *msg = static_cast<ComPackageMessage*>(package);
+        emit reciveMessagePackage(msg);
+    } break;
     default:
     {
       qDebug() << tr("WARNING: Received unknown package!");

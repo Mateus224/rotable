@@ -21,6 +21,7 @@
 #include "productorder.h"
 #include "productorderlistmodel.h"
 #include "callwaiter.h"
+#include "messageconnector.h"
 
 //------------------------------------------------------------------------------
 
@@ -212,6 +213,11 @@ signals:
    */
   void debugChanged();
 
+  /**
+   * Recive new message
+   */
+  void reciveMessagePackage(ComPackageMessage *msgPcg);
+
 public slots:
 void payedSlot(int i){qDebug()<<i;}
   /**
@@ -353,6 +359,8 @@ private:
 
   /* Image provider */
   ImageProvider* _imageProvider;
+
+  MessageConnector _connector;
 
 }; // class Client
 

@@ -27,6 +27,7 @@
         <file alias="SentPage.qml">qml/client/SentPage.qml</file>
         <file alias="SentBox.qml">qml/client/SentBox.qml</file>
         <file alias="CallWaiterPage.qml">qml/client/CallWaiterPage.qml</file>
+        <file alias="SendAccept.qml">qml/client/SendAccept.qml</file>
     </qresource>
     <qresource prefix="/client/games">
         <file alias="GamePage.qml">qml/client/games/GamePage.qml</file>
