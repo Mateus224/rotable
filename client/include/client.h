@@ -274,6 +274,8 @@ void payedSlot(int i){qDebug()<<i;}
    */
   void sendPackage(rotable::ComPackage *package);
 
+  void orderSendSuccesfull(rotable::Message *msg);
+
 private:
   /**
    * Request all category ids.
@@ -360,7 +362,7 @@ private:
   /* Image provider */
   ImageProvider* _imageProvider;
 
-  MessageConnector _connector;
+  rotable::MessageConnector _connector;
 
 }; // class Client
 

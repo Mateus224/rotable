@@ -60,7 +60,7 @@ signals:
 
 public slots:
 
-protected:
+public:
     enum MessageType{
         OrderMessageType,
         QueueMessageType
@@ -90,6 +90,13 @@ public:
     int messageType() const Q_DECL_OVERRIDE;
 
     ComPackageMessage *toPackage() const Q_DECL_OVERRIDE;
+
+    /**
+     * Return errror type
+     *
+     * @return  status
+     */
+    int  getError() const { return _errorType;}
 
  private:
     int _errorType;

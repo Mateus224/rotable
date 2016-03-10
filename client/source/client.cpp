@@ -40,6 +40,7 @@ Client::Client(const QString &configFilePath, QObject *parent)
           this, SIGNAL(contactChanged()));
 
   connect(this, &Client::reciveMessagePackage, &_connector, &MessageConnector::reciveMessagePackage);
+  _connector.addBindMethod(rotable::Message::OrderMessageType, &Client::orderSendSuccesfull, this);
 
   // Connect send package from callWaiter by Client
   connect(&_callWaiter, &rotable::CallWaiter::sendCallWaiter,
@@ -279,6 +280,13 @@ void Client::sendPackage(ComPackage *package)
 {
     if (!_tcp.send(*package))
         qCritical() << tr("Could not send package!");
+}
+
+void Client::orderSendSuccesfull(Message *msg)
+{
+    OrderMessage *message = static_cast<OrderMessage*>(msg);
+    if(message->getError() == 0)
+        this->setState("SENDACCEPT");
 }
 
 //------------------------------------------------------------------------------
