@@ -46,6 +46,19 @@ void TcpClient::startConnection(const QString &hostname, int port)
 {
   QHostAddress addr(hostname);
   _client.connectToHost(addr, port);
+
+  int enableKeepAlive = 1;
+  int fd = _client.socketDescriptor();
+  setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, &enableKeepAlive, sizeof(enableKeepAlive));
+
+  int maxIdle = 10; /* seconds */
+  setsockopt(fd, IPPROTO_TCP, TCP_KEEPIDLE, &maxIdle, sizeof(maxIdle));
+
+  int count = 3;  // send up to 3 keepalive packets out, then disconnect if no response
+  setsockopt(fd, SOL_TCP, TCP_KEEPCNT, &count, sizeof(count));
+
+  int interval = 2;   // send a keepalive packet out every 2 seconds (after the 5 second idle period)
+  setsockopt(fd, SOL_TCP, TCP_KEEPINTVL, &interval, sizeof(interval));
 }
 
 //------------------------------------------------------------------------------
