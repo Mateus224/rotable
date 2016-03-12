@@ -274,7 +274,17 @@ void payedSlot(int i){qDebug()<<i;}
    */
   void sendPackage(rotable::ComPackage *package);
 
+  /**
+   * Slot for information about recive order by server
+   * @param msg         Message
+   */
   void orderSendSuccesfull(rotable::Message *msg);
+
+  /**
+   * Slot for recive order Queue
+   * @param msg         Message
+   */
+  void orderQueue(rotable::Message *msg);
 
 private:
   /**
@@ -360,7 +370,7 @@ private:
 //  ProductOrderListModel* _productorderlistmodel;
 
   /* Image provider */
-  ImageProvider* _imageProvider;
+  rotable::ImageProvider* _imageProvider;
 
   rotable::MessageConnector _connector;
 

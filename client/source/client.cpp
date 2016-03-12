@@ -41,6 +41,7 @@ Client::Client(const QString &configFilePath, QObject *parent)
 
   connect(this, &Client::reciveMessagePackage, &_connector, &MessageConnector::reciveMessagePackage);
   _connector.addBindMethod(rotable::Message::OrderMessageType, &Client::orderSendSuccesfull, this);
+  _connector.addBindMethod(rotable::Message::QueueMessageType, &Client::orderQueue, this);
 
   // Connect send package from callWaiter by Client
   connect(&_callWaiter, &rotable::CallWaiter::sendCallWaiter,
@@ -115,7 +116,6 @@ void Client::connected()
   //TODO: add in config file name of using interface, "ip link" command in linux
   //request.setClientPass(QNetworkInterface::interfaceFromName("eth0").hardwareAddress());
   request.setClientPass("00:00:00:00:00:00:00:00:00:00");
-
 
   if (!_tcp.send(request)) {
     qCritical() << tr("FATAL: Could not send connection request package!");
@@ -282,11 +282,23 @@ void Client::sendPackage(ComPackage *package)
         qCritical() << tr("Could not send package!");
 }
 
+//------------------------------------------------------------------------------
+
 void Client::orderSendSuccesfull(Message *msg)
 {
     OrderMessage *message = static_cast<OrderMessage*>(msg);
     if(message->getError() == 0)
         this->setState("SENDACCEPT");
+    delete message;
+}
+
+//------------------------------------------------------------------------------
+
+void Client::orderQueue(Message *msg)
+{
+    QueueMessage *message = static_cast<QueueMessage*>(msg);
+
+    delete message;
 }
 
 //------------------------------------------------------------------------------
