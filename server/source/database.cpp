@@ -2272,18 +2272,19 @@ QList<Order *>* Database::getNotCloseOrderList()
 
     QList<Order *> *list = new QList<Order *>();
 
-    QString queryStr = _sqlCommands[Orders]._select.arg(_prefix, "*", "status", ":status");
+    QString queryStr = _sqlCommands[Orders]._select.arg(_prefix, "*", "state", ":stat");
 
     QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    q.bindValue(":status", 0);
+    q.setForwardOnly(false);
 
     if (!q.prepare(queryStr)) {
       qCritical() << tr("Invalid query: %1").arg(queryStr);
       delete list;
       return 0;
     }
+
+    q.bindValue(":stat", 0);
+
 
     if (!q.exec()) {
       qCritical() << tr("Query exec failed: (%1: %2")

@@ -1054,6 +1054,8 @@ QMap<int, ComPackageMessage *> Server::queueOrders()
     QMap<int, QMap<int, int> >::iterator it;
 
     QList<rotable::Order*> *idList = _db.getNotCloseOrderList();
+    if(idList == NULL)
+        return result;
     int i = 1;
     foreach(Order* order, *idList)
     {
