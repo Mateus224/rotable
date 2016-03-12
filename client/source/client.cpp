@@ -402,18 +402,38 @@ void Client::dataReturned(ComPackageDataReturn *package)
     case ComPackage::RequestCategoryIds:
     {
       QJsonArray arr = package->data().toArray();
+      QList<int> newCategoryIds;
       foreach (QJsonValue val, arr) {
         int id = val.toInt();
+        newCategoryIds.append(id);
         requestCategory(id);
+      }
+      foreach (int categoryId, _products->categoryIds()) {
+        if(!newCategoryIds.contains(categoryId))
+        {
+            _products->removeCategory(categoryId);
+            if(categoryId == _currentCategoryId)
+                setState("STARTSCREEN");
+
+        }
       }
     } break;
 
     case ComPackage::RequestProductIds:
     {
+      QList<int> newProductIds;
       QJsonArray arr = package->data().toArray();
       foreach (QJsonValue val, arr) {
         int id = val.toInt();
+        newProductIds.append(id);
         requestProduct(id);
+      }
+
+      int categoryId  = package->dataName().toInt();
+
+      foreach (int productId, _products->productIds(categoryId)) {
+        if(!newProductIds.contains(productId))
+            _products->removeProduct(productId);
       }
     } break;
 
