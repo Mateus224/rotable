@@ -433,7 +433,14 @@ void Client::dataReturned(ComPackageDataReturn *package)
 
       foreach (int productId, _products->productIds(categoryId)) {
         if(!newProductIds.contains(productId))
+        {
             _products->removeProduct(productId);
+            if(_productOrder->productId() == productId)
+            {
+                _productOrder->setproductid(-1);
+            }
+
+        }
       }
     } break;
 
