@@ -1068,9 +1068,25 @@ QMap<int, ComPackageMessage *> Server::queueOrders()
     {
         QueueMessage msg(it.value());
         result[it.key()] = msg.toPackage();
+        ++it;
     }
 
     return result;
+}
+
+//------------------------------------------------------------------------------
+
+void Server::sendQueueOrders()
+{
+    QMap<int, ComPackageMessage*> queue(queueOrders());
+    QMap<int, ComPackageMessage*>::iterator it = queue.begin();
+
+    while(it != queue.end())
+    {
+        if(_users[1].contains(it.key()))
+           _tcp.send(_users[1].key(it.key()),*(it.value()));
+        ++it;
+    }
 }
 
 //------------------------------------------------------------------------------
