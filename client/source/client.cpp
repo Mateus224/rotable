@@ -429,10 +429,12 @@ void Client::dataReturned(ComPackageDataReturn *package)
         requestProduct(id);
       }
 
-//      foreach (int productId, _products->productIds()) {
-//        if(!newProductIds.contains(productId))
-//            _products->removeProduct(productId);
-//      }
+      int categoryId  = package->dataName().toInt();
+
+      foreach (int productId, _products->productIds(categoryId)) {
+        if(!newProductIds.contains(productId))
+            _products->removeProduct(productId);
+      }
     } break;
 
     case ComPackage::RequestCategory:
