@@ -548,8 +548,7 @@ bool Server::setData(ComPackageDataSet *set, client_t client)
 
     //If something change
     if(status)
-    //TODO: Send new information about queue to all client
-        ;
+        sendQueueOrders();
 
 
     return status;
