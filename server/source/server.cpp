@@ -826,7 +826,7 @@ bool Server::executeCommand(ComPackageCommand *package)
       dc.setDataCategory(ComPackage::RequestCategoryIds);
 
       _tcp.send(-1, dc);
-
+      send_to_users(dc, 1);
       return true;
     } break;
     case ComPackage::DeleteCategory:
@@ -840,6 +840,7 @@ bool Server::executeCommand(ComPackageCommand *package)
           ComPackageDataChanged dc;
           dc.setDataCategory(ComPackage::RequestCategoryIds);
           _tcp.send(-1, dc);
+          send_to_users(dc, 1);
           return true;
         }
       }
@@ -864,6 +865,7 @@ bool Server::executeCommand(ComPackageCommand *package)
           dc.setDataCategory(ComPackage::RequestProductIds);
           dc.setDataName(QString::number(product->categoryId()));
           _tcp.send(-1, dc);
+          send_to_users(dc, 1);
           return true;
         }
       }
