@@ -9,6 +9,8 @@
 
 #ifndef QMAP_H
 #include <QMap>
+
+#include <c++/5.3.0/bits/stl_map.h>
 #endif
 
 //------------------------------------------------------------------------------
@@ -111,14 +113,26 @@ public:
 
     /**
      * Default constructor
+     * @param parent        parent object
      */
     QueueMessage(QObject *parent = 0);
 
     /**
      * Constructor for QueueMessage
      * @param message       message package
+     * @param parent        parent object
      */
-    QueueMessage(ComPackageMessage *message, QObject *parent = 0);
+    explicit QueueMessage(ComPackageMessage *message, QObject *parent = 0);
+
+    /**
+     * Constructor for create new QueueMessage from orderOueue
+     *
+     * @param orderQueue    order Queue for specific table
+     * @param parent        parent object
+     */
+    explicit QueueMessage(QMap<int, int> orderQueue, QObject *parent = 0);
+
+    QMap<int, int> map();
 
     int messageType() const Q_DECL_OVERRIDE;
 

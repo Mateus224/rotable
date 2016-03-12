@@ -1051,9 +1051,26 @@ void Server::closeStateConfig(Config *config)
 QMap<int, ComPackageMessage *> Server::queueOrders()
 {
     QMap<int, ComPackageMessage *>  result;
+    QMap<int, QMap<int, int> > orderList;
+    QMap<int, QMap<int, int> >::iterator it;
 
-    //QList<rotable::Order*> idList = _db.getNotCloseOrderList();
-    //TODO:
+    QList<rotable::Order*> *idList = _db.getNotCloseOrderList();
+    int i = 1;
+    foreach(Order* order, *idList)
+    {
+        orderList[order->clientId()][i] = order->id();
+        ++i;
+    }
+    delete idList;
+
+    it = orderList.begin();
+    while(it != orderList.end())
+    {
+        QueueMessage msg(it.value());
+        result[it.key()] = msg.toPackage();
+    }
+
+    return result;
 }
 
 //------------------------------------------------------------------------------

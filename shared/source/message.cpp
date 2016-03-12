@@ -101,6 +101,20 @@ QueueMessage::QueueMessage(ComPackageMessage *message, QObject *parent): QueueMe
 
 //------------------------------------------------------------------------------
 
+QueueMessage::QueueMessage(QMap<int, int> orderQueue, QObject *parent): _orderQueue(orderQueue), Message(parent)
+{
+
+}
+
+//------------------------------------------------------------------------------
+
+QMap<int, int> QueueMessage::map()
+{
+    return _orderQueue;
+}
+
+//------------------------------------------------------------------------------
+
 int QueueMessage::messageType() const
 {
     return QueueMessageType;
