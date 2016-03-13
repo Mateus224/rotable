@@ -1,1 +1,1 @@
-SELECT `id` FROM `%1products`;
+SELECT `id` FROM `%1products` WHERE `removed` = 0;

@@ -1,1 +1,1 @@
-DELETE FROM `%1categories` WHERE `id` = %2;
+UPDATE `%1categories` SET `removed` = 1 WHERE `id` = %2;
