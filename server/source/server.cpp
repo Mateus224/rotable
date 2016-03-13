@@ -1084,8 +1084,8 @@ void Server::sendQueueOrders()
 
     while(it != queue.end())
     {
-        if(_users[1].contains(it.key()))
-           _tcp.send(_users[1].key(it.key()),*(it.value()));
+        if(_users[1].keys(it.key()).count() == 1)
+           _tcp.send(_users[1].keys(it.key())[0],*(it.value()));
         ++it;
     }
 }
