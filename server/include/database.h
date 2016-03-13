@@ -564,9 +564,10 @@ public:
   enum dbVersion{
       version0d0d0,
       version0d0d1,
+      version0d0d2,
   };
 
-  QString newestVesion = "0.0.1";
+  QString newestVesion = "0.0.2";
 
   /**
    * Check and update version of database
