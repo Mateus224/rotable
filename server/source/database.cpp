@@ -2583,17 +2583,21 @@ void Database::updateDatabase(QString actualVersion)
 
 bool Database::updateToVersion(QString version)
 {
-    QStringList updateList =  QString((const char*)QResource(QString("://sql-commands/"+version+".sql")). data()).split(";;");
+    QStringList updateList =  QString((const char*)QResource(QString("://sql-commands/update-database/"+version+".sql")). data()).split(";;");
 
     //SQLite can query one statment at time
     foreach(QString update, updateList)
     {
         QSqlQuery query(update.arg(_prefix), _db);
+        query.executedQuery();
+
         if (query.lastError().type() != QSqlError::NoError) {
           qCritical() << tr("Query exec failed: %1").arg(query.lastError().text());
           return false;
         }
     }
+
+    return true;
 }
 
 //------------------------------------------------------------------------------
@@ -2602,6 +2606,17 @@ int Database::versionToEnum(QString version)
 {
     if(version == "0.0.0")
         return version0d0d0;
+    else if(version == "0.0.1")
+        return version0d0d1;
+}
+
+//------------------------------------------------------------------------------
+
+void Database::update()
+{
+    QString version = databasebVersion();
+    if(versionToEnum(version) != newestVesion)
+        updateDatabase(version);
 }
 
 //------------------------------------------------------------------------------

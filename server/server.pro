@@ -2,7 +2,7 @@ QT = core network sql gui qml
 TARGET = rotable-server
 
 CONFIG   += console precompile_header
-CONFIG   -= app_bundle
+CONFIG   -= app_bundle c++11
 
 PRECOMPILED_HEADER = private/precomp.h
 

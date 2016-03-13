@@ -64,6 +64,8 @@ bool Server::startup()
         qCritical() << tr("Could not create database!");
       }
     }
+    else
+        _db.update();
 
   }  qDebug()<<"test";
 

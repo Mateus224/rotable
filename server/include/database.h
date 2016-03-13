@@ -566,6 +566,13 @@ public:
       version0d0d1,
   };
 
+  int newestVesion = version0d0d1;
+
+  /**
+   * Check and update version of database
+   */
+  void update();
+
 signals:
   void parseConfig(Config* c);
 
