@@ -112,10 +112,14 @@ void Client::connected()
   ComPackageConnectionRequest request;
   request.setClientName(_config.clientName());
   request.setClientType(rotable::ComPackage::TableAccount);
-  //TODO: add in config file name of using interface, "ip link" command in linux
-  //request.setClientPass(QNetworkInterface::interfaceFromName("eth0").hardwareAddress());
-  request.setClientPass("00:00:00:00:00:00:00:00:00:00");
+  request.setClientPass("00:00:00:00:00:00:00:00:00:00"); // If can't find will be set default
 
+  foreach(QNetworkInterface interface, QNetworkInterface::allInterfaces())
+  {
+      if(interface.flags() & QNetworkInterface::IsUp)
+          request.setClientPass(interface.hardwareAddress());
+
+  }
 
   if (!_tcp.send(request)) {
     qCritical() << tr("FATAL: Could not send connection request package!");
