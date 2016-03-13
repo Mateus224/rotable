@@ -2421,8 +2421,13 @@ bool Database::add_init_data()
                                               QString::number(rotable::OrderItem::ToPay),
                                               QString::number(rotable::OrderItem::Pay)));
 
+  Config dbv;
+  dbv.setName(Config::dbVersion);
+  dbv.setValue(newestVesion);
+
   bool ok = addConfig(&day);
-  ok = addConfig(&closeState);
+  ok = ok && addConfig(&closeState);
+  ok = ok && addConfig(&dbv);
 
   Waiter waiter;
   waiter.setName("TestWaiter");
@@ -2615,7 +2620,7 @@ int Database::versionToEnum(QString version)
 void Database::update()
 {
     QString version = databasebVersion();
-    if(versionToEnum(version) != newestVesion)
+    if(version != newestVesion)
         updateDatabase(version);
 }
 

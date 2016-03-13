@@ -566,7 +566,7 @@ public:
       version0d0d1,
   };
 
-  int newestVesion = version0d0d1;
+  QString newestVesion = "0.0.1";
 
   /**
    * Check and update version of database
