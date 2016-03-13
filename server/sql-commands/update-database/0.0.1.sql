@@ -1,3 +1,3 @@
 INSERT INTO `%1configs`
-(`id`, `name`, `value`)
-VALUES (NULL, 2, "0.0.1");;
+(`name`, `value`)
+VALUES (2, "0.0.1");;
