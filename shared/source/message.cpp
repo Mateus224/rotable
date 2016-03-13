@@ -128,8 +128,8 @@ ComPackageMessage *QueueMessage::toPackage() const
     QString out;
     for(QMap<int, int>::const_iterator it = _orderQueue.begin(); it != _orderQueue.end(); ++it)
     {
-        keys.append(QString(it.key()));
-        values.append(QString(it.value()));
+        keys.append(QString::number(it.key()));
+        values.append(QString::number(it.value()));
     }
     out = keys.join(";") + ";;" + values.join(";");
 

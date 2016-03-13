@@ -2272,7 +2272,7 @@ QList<Order *>* Database::getNotCloseOrderList()
 
     QList<Order *> *list = new QList<Order *>();
 
-    QString queryStr = QString("SELECT %2 FROM `%1orders` WHERE `%3` in (%4);").arg(_prefix, "*", "state", ":stat");
+    QString queryStr = QString("SELECT %2 FROM `%1orders` WHERE `%3` != %4;").arg(_prefix, "*", "state", ":stat");
 
     QSqlQuery q(_db);
     q.setForwardOnly(false);
@@ -2283,7 +2283,7 @@ QList<Order *>* Database::getNotCloseOrderList()
       return 0;
     }
 
-    q.bindValue(":stat", "1, 2");
+    q.bindValue(":stat", "5");
 
     if (!q.exec()) {
       qCritical() << tr("Query exec failed: (%1: %2")
@@ -2349,6 +2349,7 @@ QList<Order *>* Database::getNotCloseOrderList()
         foreach(int orderItemId, itemsId){
               o->addItem(orderItem(orderItemId));
         }
+        list->append(o);
     }while(q.next());
 
     return list;
