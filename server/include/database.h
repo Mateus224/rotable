@@ -532,6 +532,19 @@ public:
    */
   bool setWaiterNeed(bool need, int clientId);
 
+  /**
+   * Get version of database
+   *
+   * @return            database version
+   */
+  QString databasebVersion();
+
+  /**
+   * Update database version
+   *
+   * @param actualVersion   actual database version
+   */
+  void updateDatabase(QString actualVersion);
 signals:
   void parseConfig(Config* c);
 

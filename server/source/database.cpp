@@ -2538,6 +2538,46 @@ bool Database::setWaiterNeed(bool need, int clientId)
 
 //------------------------------------------------------------------------------
 
+QString Database::databasebVersion()
+{
+    if (!isConnected()) {
+      return 0;
+    }
+
+    QString queryStr = _sqlCommands[Configs]._select.arg(_prefix, "*", "name", ":name");
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return 0;
+    }
+
+    q.bindValue(":name", rotable::Config::dbVersion);
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      return 0;
+    }
+
+    if (!q.next()) {
+      return "0.0.0";
+    }
+
+    return q.value("value").toString();
+}
+
+//------------------------------------------------------------------------------
+
+void Database::updateDatabase(QString actualVersion)
+{
+
+}
+
+//------------------------------------------------------------------------------
+
 void Database::collectSqlCommands(Database::SqlCommands& cmds, QString table)
 {
   cmds._create = QString((const char*)QResource(
