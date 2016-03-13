@@ -545,6 +545,27 @@ public:
    * @param actualVersion   actual database version
    */
   void updateDatabase(QString actualVersion);
+
+  /**
+   * Method execute update
+   *
+   * @param version         version to execute
+   */
+  bool updateToVersion(QString version);
+
+  /**
+   * Convert enum to version
+   *
+   * @param version         Version
+   * @return                Enum
+   */
+  int versionToEnum(QString version);
+
+  enum dbVersion{
+      version0d0d0,
+      version0d0d1,
+  };
+
 signals:
   void parseConfig(Config* c);
 

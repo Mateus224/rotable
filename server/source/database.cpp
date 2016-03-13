@@ -2573,7 +2573,35 @@ QString Database::databasebVersion()
 
 void Database::updateDatabase(QString actualVersion)
 {
+    switch(versionToEnum(actualVersion)){
+    case version0d0d0:
+        updateToVersion("0.0.1");
+    }
+}
 
+//------------------------------------------------------------------------------
+
+bool Database::updateToVersion(QString version)
+{
+    QStringList updateList =  QString((const char*)QResource(QString("://sql-commands/"+version+".sql")). data()).split(";;");
+
+    //SQLite can query one statment at time
+    foreach(QString update, updateList)
+    {
+        QSqlQuery query(update.arg(_prefix), _db);
+        if (query.lastError().type() != QSqlError::NoError) {
+          qCritical() << tr("Query exec failed: %1").arg(query.lastError().text());
+          return false;
+        }
+    }
+}
+
+//------------------------------------------------------------------------------
+
+int Database::versionToEnum(QString version)
+{
+    if(version == "0.0.0")
+        return version0d0d0;
 }
 
 //------------------------------------------------------------------------------
@@ -2704,7 +2732,7 @@ bool Database::initTriggers()
 
     QSqlQuery q01(trigger1.arg(_prefix), _db);
     if (q01.lastError().type() != QSqlError::NoError) {
-      qCritical() << tr("Query exec fai led: %1").arg(q01.lastError().text());
+      qCritical() << tr("Query exec failed: %1").arg(q01.lastError().text());
       return false;
     }
 
@@ -2715,7 +2743,7 @@ bool Database::initTriggers()
     }
     QSqlQuery q03(trigger2.arg(_prefix), _db);
     if (q03.lastError().type() != QSqlError::NoError) {
-      qCritical() << tr("Query exec fai led: %1").arg(q03.lastError().text());
+      qCritical() << tr("Query exec failed: %1").arg(q03.lastError().text());
       return false;
     }
 
