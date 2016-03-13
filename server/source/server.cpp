@@ -963,6 +963,8 @@ void Server::config_parser(Config *config)
     case Config::closeState:
         closeStateConfig(config);
         break;
+    case Config::dbVersion:
+        break;
     default:
         qCritical() << tr("Unknown config type '%1'!").arg(config->name());
     }
