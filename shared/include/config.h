@@ -43,7 +43,8 @@ public:
 
   enum {
       day_begin = 0,
-      closeState
+      closeState,
+      dbVersion
   };
 
 signals:

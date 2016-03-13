@@ -532,6 +532,47 @@ public:
    */
   bool setWaiterNeed(bool need, int clientId);
 
+  /**
+   * Get version of database
+   *
+   * @return            database version
+   */
+  QString databasebVersion();
+
+  /**
+   * Update database version
+   *
+   * @param actualVersion   actual database version
+   */
+  void updateDatabase(QString actualVersion);
+
+  /**
+   * Method execute update
+   *
+   * @param version         version to execute
+   */
+  bool updateToVersion(QString version);
+
+  /**
+   * Convert enum to version
+   *
+   * @param version         Version
+   * @return                Enum
+   */
+  int versionToEnum(QString version);
+
+  enum dbVersion{
+      version0d0d0,
+      version0d0d1,
+  };
+
+  int newestVesion = version0d0d1;
+
+  /**
+   * Check and update version of database
+   */
+  void update();
+
 signals:
   void parseConfig(Config* c);
 

@@ -64,6 +64,8 @@ bool Server::startup()
         qCritical() << tr("Could not create database!");
       }
     }
+    else
+        _db.update();
 
   }  qDebug()<<"test";
 
@@ -960,6 +962,8 @@ void Server::config_parser(Config *config)
         break;
     case Config::closeState:
         closeStateConfig(config);
+        break;
+    case Config::dbVersion:
         break;
     default:
         qCritical() << tr("Unknown config type '%1'!").arg(config->name());
