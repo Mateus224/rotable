@@ -15,7 +15,7 @@ Rectangle {
 
         Text {
             id: tempText
-            text: "Order was sent"
+            text: "Sending..."
             font.family: "FreeSans"
             color: "#AAAAAA"
             font.bold: true

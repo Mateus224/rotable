@@ -1,18 +1,18 @@
 import QtQuick 2.0
 
 Rectangle {
-    anchors.top: parent.top
-    anchors.right: parent.right
-    anchors.topMargin: parent.height * 0.1
-    width: parent.width * 0.33333
-    height: parent.height * 0.05
-    color: "#00000000"
+    anchors.bottom: parent.bottom
+    anchors.horizontalCenter:  parent.horizontalCenter
+    anchors.bottomMargin: parent.height * 0.2
+    width: parent.width * 0.4
+    height: parent.height * 0.08
+    color: "#3f494a"
 
-    Image {
+   /* Image {
         anchors.fill: parent
         source: "qrc:/client/resources/TopBarRight.png"
         antialiasing: true
-    }
+    }*/
     property string myorderscreen: "MYORDERSCREEN"
     MouseArea {
         id:te
@@ -38,7 +38,7 @@ Rectangle {
         font.bold: true
         font.pixelSize: parent.height * 0.8
         anchors.verticalCenter: parent.verticalCenter
-        anchors.right: parent.right
+        anchors.horizontalCenter: parent.horizontalCenter
         anchors.rightMargin: parent.width * 0.1
     }
 }

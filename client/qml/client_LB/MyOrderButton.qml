@@ -6,13 +6,13 @@ Rectangle {
     anchors.topMargin: parent.height * 0.1
     width: parent.width * 0.33333
     height: parent.height * 0.05
-    color: "#00000000"
+    color: "#000000"
 
-    Image {
+    /*Image {
         anchors.fill: parent
         source: "qrc:/client/resources/TopBarRight.png"
         antialiasing: true
-    }
+    }*/
     property string myorderscreen: "MYORDERSCREEN"
     MouseArea {
         id:te

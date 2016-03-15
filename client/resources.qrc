@@ -5,7 +5,6 @@
         <file>resources/rotable_logo.png</file>
         <file alias="connection.gif">qml/client/icons/connection.gif</file>
         <file alias="CategoryBar.qml">qml/client/CategoryBar.qml</file>
-        <file alias="categoryCreation.js">qml/client/categoryCreation.js</file>
         <file alias="ConnectionPage.qml">qml/client/ConnectionPage.qml</file>
         <file alias="globals.js">qml/client/globals.js</file>
         <file alias="main.qml">qml/client/main.qml</file>

@@ -44,7 +44,7 @@ Rectangle {
         id: buttonMyOrder
     }
 
-    Image {
+    /*Image {
         id: logo
         source: "qrc:/client/resources/rotable_logo.png"
 
@@ -54,7 +54,7 @@ Rectangle {
         anchors.margins: 10
 
         fillMode: Image.PreserveAspectFit
-    }
+    }*/
 
     Rectangle {
         anchors.fill: parent
@@ -71,7 +71,7 @@ Rectangle {
 
             Text {
                 id: tempText
-                text: "Order was recive by server"
+                text: "Order was sent"
                 font.family: "FreeSans"
                 color: "#AAAAAA"
                 font.bold: true

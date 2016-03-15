@@ -44,7 +44,6 @@ RESOURCES +=\
     $$PWD/../shared/shared_resources.qrc
 
 OTHER_FILES += \
-    qml/client/categoryCreation.js \
     qml/client/main.qml \
     qml/client/ProductButton.qml \
     qml/client/ProductCategoryPage.qml \
@@ -57,7 +56,6 @@ OTHER_FILES += \
     qml/client/ProductRects.qml \
     qml/client/ProductPage.qml \
     qml/client/callWaiter/CallWaiterPage.qml\
-    qml/client_LB/categoryCreation.js \
     qml/client_LB/main.qml \
     qml/client_LB/ProductButton.qml \
     qml/client_LB/ProductCategoryPage.qml \
@@ -67,7 +65,7 @@ OTHER_FILES += \
     qml/client_LB/StartPage.qml \
     qml/client_LB/MyOrderButton.qml \
     qml/client_LB/MyOrderPage.qml \
-    qml/v/ProductRects.qml \
+    qml/client_LB/ProductRects.qml \
     qml/client_LB/ProductPage.qml
 
 ########################################################################

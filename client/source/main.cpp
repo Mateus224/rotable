@@ -14,6 +14,15 @@
 #include <wiringPi.h>
 #include <iostream>
 #endif
+//------------------------------------------------------------------------------
+///////////////////////////////////////////////////
+////define for which product the system will compile
+//////////////////////////////////////////////////
+//1=LB_Bar [LOW Budget (7" Display)]
+//2=LB_Cocktail
+//3=LB_Restaurant
+//4=DISCO (10"Display)
+#define ProductVersion 4
 
 //------------------------------------------------------------------------------
 
@@ -92,7 +101,20 @@ int main(int argc, char *argv[])
   //view.setSource(QUrl::fromLocalFile(QString(ROTABLE_QML_PATH) + QString("main.qml")));
 
   //view->setSource(QString("qrc:/client/main.qml"));
-  view->setSource(QString("qrc:/client_LB/main_LB.qml"));
+  switch (ProductVersion){
+  case 1:
+    view->setSource(QString("qrc:/client_LB/main_LB.qml"));
+    break;
+  case 2:
+    view->setSource(QString("qrc:/client_LB/main_LB.qml"));
+    break;
+  case 3:
+    view->setSource(QString("qrc:/client_LB/main_LB.qml"));
+    break;
+  case 4:
+    view->setSource(QString("qrc:/client/main.qml"));
+    break;
+  }
   view->showFullScreen();
 
   return app.exec();

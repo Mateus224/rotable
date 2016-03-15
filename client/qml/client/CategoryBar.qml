@@ -1,16 +1,16 @@
 import QtQuick 2.0
 
 Rectangle {
-    property int buttonSizeH: parent.height * 0.1 * 0.8
-    property int buttonSizeW: parent.height * 0.1 * 0.9
+    property int buttonSizeH: parent.height * 0.1 * 0.85
+    property int buttonSizeW: parent.height * 0.1 * 0.85
     property var listModel: CategoryListModel
 
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: parent.bottom
-    anchors.bottomMargin: parent.height * 0.125
+    anchors.bottomMargin: parent.height * 0.05
 
-    height: parent.height * 0.1
+    height: parent.height * 0.11
 
     Image {
         id: backgroundImage

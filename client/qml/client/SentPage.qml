@@ -44,7 +44,7 @@ Rectangle {
         id: buttonMyOrder
     }
 
-    Image {
+    /*Image {
         id: logo
         source: "qrc:/client/resources/rotable_logo.png"
 
@@ -54,7 +54,7 @@ Rectangle {
         anchors.margins: 10
 
         fillMode: Image.PreserveAspectFit
-    }
+    }*/
 
     SentBox{
         id:frame_gray

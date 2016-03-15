@@ -4,9 +4,9 @@ Rectangle {
     anchors.fill: parent
     color: "#00000000"
 
-    MyOrderButton {
+    /*MyOrderButton {
         id: buttonMyOrder
-    }
+    }*/
 
 
     Image {
