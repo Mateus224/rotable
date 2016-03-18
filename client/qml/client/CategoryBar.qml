@@ -29,6 +29,7 @@ Rectangle {
         interactive: false
 
         delegate: Rectangle {
+
             anchors.top: parent.top
 
             width: buttonSizeW
@@ -45,8 +46,13 @@ Rectangle {
 
             MouseArea {
                 anchors.fill: parent
-                onClicked: {
-                    client.currentCategoryId = categoryId;
+                onPressed: {
+                    parent.color= "#f9a8d8"
+
+                }
+                onReleased: {
+                    parent.color= index % 2 ? "#444041" : "#3f494a"
+                    client.currentCategoryId = categoryId
                 }
             }
         }
