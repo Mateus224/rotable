@@ -57,6 +57,7 @@ Rectangle {
                                     font.family: "FreeSans"
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
+                                    anchors.horizontalCenterOffset: 10
                                     text: "Amount"
                                     font.pixelSize: fontSizeHeader
                                     font.bold: true
@@ -64,7 +65,7 @@ Rectangle {
                             }
                             Rectangle{
 
-                                width:widthINFO
+                                width:widthINFO*1.2
                                 height:heightINFO
                                 color: "transparent"
                                 Text {
@@ -124,10 +125,11 @@ Rectangle {
                                         //color: color_oderinfo
                                         anchors.verticalCenter: parent.verticalCenter
                                         anchors.horizontalCenter: parent.horizontalCenter
+                                        anchors.horizontalCenterOffset: 10
                                     }
                                 }
                                 Rectangle{
-                                    width:widthINFO
+                                    width:widthINFO*1.2
                                     height:heightINFO
                                     color: "transparent"
                                     Text {

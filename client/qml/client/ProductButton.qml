@@ -49,7 +49,7 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
 
             font.bold: true
-            font.pixelSize: grid.buttonHeight * 0.2
+            font.pixelSize: grid.buttonHeight * 0.175
             font.family: buttonFontFamily
             font.capitalization: Font.AllUppercase
         }
@@ -76,8 +76,8 @@ Rectangle {
             anchors.leftMargin: contentMarginH
             anchors.topMargin: contentMarginV
 
-            height: parent.height * 0.3
-            width:  parent.width  * 0.7
+            height: parent.height * 0.5
+            width:  parent.width  * 0.6
 
             wrapMode: Text.Wrap
 
@@ -87,7 +87,7 @@ Rectangle {
             horizontalAlignment: Text.AlignLeft
 
             font.bold: true
-            font.pixelSize: parent.height * 0.2
+            font.pixelSize: parent.height * 0.15
             //font.family: productButton.buttonFontFamily
             font.capitalization: Font.AllUppercase
         }
@@ -96,13 +96,12 @@ Rectangle {
             id: idProductPriceStr
             property string price:productButton.productPriceStr.replace(",",".")
             text: parseFloat(price).toFixed(1)+"€ "
-            //text: productButton.productPriceStr
 
             font.bold: true
             anchors.left: productName.right
             anchors.right: parent.right
             anchors.top: parent.top
-            anchors.bottom: productName.bottom
+            //anchors.bottom: productName.bottom
             anchors.rightMargin: contentMarginH
             anchors.topMargin: contentMarginV
 
@@ -129,6 +128,7 @@ Rectangle {
             anchors.right: parent.right
             anchors.leftMargin: contentMarginH
             anchors.rightMargin: contentMarginH
+
             anchors.top: idProductNameExpanded.bottom
             //anchors.topMargin: parent.height * 0.1
 
@@ -164,7 +164,9 @@ Rectangle {
             }
 
             Image {
-                anchors.fill: parent
+                anchors.centerIn: parent
+                width: parent.width*0.75
+                height: parent.height*0.75
                 source: "qrc:/client/resources/plus_white.png"
                 anchors.margins: parent.height * 0.33
             }
@@ -221,7 +223,9 @@ Rectangle {
             }
 
             Image {
-                anchors.fill: parent
+                anchors.centerIn: parent
+                width: parent.width*0.75
+                height: parent.height*0.75
                 source: "qrc:/client/resources/minus_white.png"
                 anchors.margins: parent.height * 0.33
             }
@@ -248,7 +252,7 @@ Rectangle {
             horizontalAlignment: Text.AlignRight
 
             font.family: productButton.buttonFontFamily
-            font.pixelSize: idProductNameExpanded.font.pixelSize
+            font.pixelSize: parent.height * 0.2//idProductNameExpanded.font.pixelSize
         }
 
         Behavior on x {

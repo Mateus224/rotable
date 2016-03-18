@@ -11,6 +11,11 @@ Rectangle {
         GradientStop { position: 0.0; color:"#000000"}//"#8EE2FE"}
         GradientStop { position: 0.60; color: "#8772c0"}
     }
+    Gradient {
+        id: clubcolors
+        GradientStop { position: 0.0; color:"#f9a8d8"}//"#8EE2FE"}
+        GradientStop { position: 0.90; color: "#000000"}
+    }
     //color: "#3f494a"
     //color: "#f9a8d8"
     gradient: clubcolorsrevers
@@ -23,13 +28,17 @@ Rectangle {
     MouseArea {
         id:te
         anchors.fill: parent
-        onClicked: {
+        onPressed: parent.gradient=clubcolors
+        onReleased: {
             client.state= myorderscreen
 
             //ToDo: fix this
             MyOrder.getListForMyOrderPage()
             MyOrder.getListForMyOrderPage()
             MyOrder.setPriceOfOrder()
+            onPressed: parent.gradient=clubcolorsrevers
+
+
         }
 
     }
