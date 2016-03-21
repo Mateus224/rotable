@@ -36,7 +36,11 @@ ComPackageDataSet ProductOrder::prepareOrderToSend() const
         ++i;
     }
     ComPackageDataSet sendOrder;
-    sendOrder.setDataCategory(ComPackage::SetOrder);
+    if(array.count() != 0)
+        sendOrder.setDataCategory(ComPackage::SetOrder);
+    else
+        //If we don't have items change datacategory to invalid
+        sendOrder.setDataCategory((ComPackage::DataSetCategory)-1);
     sendOrder.setData(array);
     return sendOrder;
 }
