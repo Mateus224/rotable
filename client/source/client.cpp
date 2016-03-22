@@ -304,7 +304,7 @@ void Client::orderSendSuccesfull(Message *msg)
 
 void Client::invalidOrder()
 {
-    //TODO: add specific code for invalid order
+    _productOrder->b_acceptOrder();
 }
 
 //------------------------------------------------------------------------------
