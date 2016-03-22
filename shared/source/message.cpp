@@ -168,3 +168,19 @@ ComPackageMessage *NeedWaiterMessage::toPackage() const
 }
 
 //------------------------------------------------------------------------------
+
+void NeedWaiterMessage::unSuccess()
+{
+    _acceptStatusChange = false;
+    _queuePosition = -1;
+}
+
+//------------------------------------------------------------------------------
+
+void NeedWaiterMessage::success(int queuePosition)
+{
+    _acceptStatusChange = true;
+    _queuePosition = queuePosition;
+}
+
+//------------------------------------------------------------------------------

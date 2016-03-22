@@ -162,6 +162,18 @@ public:
       */
     ComPackageMessage *toPackage() const Q_DECL_OVERRIDE;
 
+    /**
+     * Operation change status was unsuccess
+     */
+    void unSuccess();
+
+    /**
+     * Operation change status was uccess
+     *
+     * @param queuePosition  position in queue
+     */
+    void success(int queuePosition);
+
 private:
     bool _acceptStatusChange;
     // Position in queue
