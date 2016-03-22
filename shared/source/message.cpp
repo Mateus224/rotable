@@ -128,3 +128,43 @@ ComPackageMessage *QueueMessage::toPackage() const
 }
 
 //------------------------------------------------------------------------------
+
+NeedWaiterMessage::NeedWaiterMessage(QObject *parent): Message(parent)
+{
+
+}
+
+//------------------------------------------------------------------------------
+
+NeedWaiterMessage::NeedWaiterMessage(ComPackageMessage *message, QObject *parent): Message(parent)
+{
+    QStringList messageText = message->message().split(";");
+
+    if(messageText.count() !=  2)
+        return; //TODO: change it
+
+    _acceptStatusChange =  messageText.at(0).toInt();
+    _queuePosition =  messageText.at(1).toInt();
+}
+
+//------------------------------------------------------------------------------
+
+int NeedWaiterMessage::messageType() const
+{
+    return NeedWaiterMessageType;
+}
+
+//------------------------------------------------------------------------------
+
+ComPackageMessage *NeedWaiterMessage::toPackage() const
+{
+    QString message;
+    message  = QString::number(_acceptStatusChange).append(";").append(QString::number(_queuePosition));
+    ComPackageMessage *msg = new ComPackageMessage();
+    msg->setMsgType(messageType());
+    msg->setMessage(message);
+
+    return msg;
+}
+
+//------------------------------------------------------------------------------

@@ -17,6 +17,7 @@ namespace rotable {
     class Message;
     class OrderMessage;
     class QueueMessage;
+    class NeedWaiterMessage;
 }
 
 //------------------------------------------------------------------------------
@@ -63,7 +64,8 @@ public slots:
 public:
     enum MessageType{
         OrderMessageType,
-        QueueMessageType
+        QueueMessageType,
+        NeedWaiterMessageType
     };
 };
 
@@ -127,6 +129,43 @@ public:
 private:
 
     QMap<int, int> _orderQueue;
+};
+
+//------------------------------------------------------------------------------
+
+class rotable::NeedWaiterMessage : public rotable::Message
+{
+public:
+
+    /**
+     * Default constructor
+     */
+    NeedWaiterMessage(QObject *parent = 0);
+
+    /**
+     * Constructor for NeedWaiterMessage
+     * @param message       message package
+     */
+    NeedWaiterMessage(ComPackageMessage *message, QObject *parent = 0);
+
+    /**
+     * Return type of message
+     * @return              enum MessageType
+     */
+    int messageType() const Q_DECL_OVERRIDE;
+
+    /**
+      * Convert Message to ComPackageMessage
+      * need to send
+      *
+      * @return             package to send
+      */
+    ComPackageMessage *toPackage() const Q_DECL_OVERRIDE;
+
+private:
+    bool _acceptStatusChange;
+    // Position in queue
+    int _queuePosition;
 };
 
 //------------------------------------------------------------------------------
