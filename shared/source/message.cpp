@@ -30,6 +30,9 @@ rotable::Message *Message::parser(ComPackageMessage *message)
     case QueueMessageType:
         msg = new QueueMessage(message);
         break;
+    case NeedWaiterMessageType:
+        msg = new NeedWaiterMessage(message);
+        break;
     }
 
     return msg;
