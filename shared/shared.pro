@@ -5,6 +5,7 @@ TEMPLATE = lib
 
 CONFIG += staticlib precompile_header  c++11
 PRECOMPILED_HEADER = private/precomp.h
+QMAKE_CXXFLAGS += -std=c++11
 
 ########################################################################
 # FILES:

@@ -7,6 +7,7 @@ CONFIG   -= app_bundle c++11
 PRECOMPILED_HEADER = private/precomp.h
 
 QMAKE_CFLAGS_RELEASE = -g
+QMAKE_CXXFLAGS += -std=c++11
 
 ########################################################################
 # FILES:

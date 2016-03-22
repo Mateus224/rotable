@@ -27,16 +27,18 @@ Rectangle {
                     PropertyChanges{target: callWaiterText; text:"Press to call the waiter"}
                 },
                 State{
+                    name: "TRYCALLWAITER"
+                    PropertyChanges{target: buttonChange; gradient:clubcolorsblue}
+                    PropertyChanges{target: callWaiterText; text:"Send called"}
+                },
+                State{
                     name: "CALLWAITER"
                     PropertyChanges{target: buttonChange; gradient:clubcolorsred}
                     PropertyChanges{target: callWaiterText; text:"Waiter is called"}
                 }
 
             ]
-            state: {
-                if(CallWaiterObject.waiterNeed) "CALLWAITER"
-                else "DEFAULT"
-            }
+            state: CallWaiterObject.callWaiterState ? CallWaiterObject.callWaiterState : "DEFAULT"
             anchors.fill: parent
             anchors.margins: parent.height * 0.02
 

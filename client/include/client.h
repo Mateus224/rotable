@@ -275,15 +275,28 @@ void payedSlot(int i){qDebug()<<i;}
   void sendPackage(rotable::ComPackage *package);
 
   /**
+<<<<<<< HEAD
    * Interpreting order status
    * @param msg
+=======
+   * Method to recive Message with order send status
+   * @param msg         message
+>>>>>>> 8af8c715f952178677bb7a58e503c926093c34e2
    */
   void orderSendSuccesfull(rotable::Message *msg);
 
   /**
+<<<<<<< HEAD
    * Order is invalid
    */
   void invalidOrder();
+=======
+   * Method to recive Message with NeedWaiter send status
+   *
+   * @param msg         message
+   */
+  void needWaiterStatus(rotable::Message *msg);
+>>>>>>> 8af8c715f952178677bb7a58e503c926093c34e2
 
 private:
   /**

@@ -818,7 +818,7 @@ Client *Database::client(int id)
         throw new NotImplementedException();
     default:
         qCritical()<< tr("Account type don't exists");
-        return false;
+        return nullptr;
     }
 
     return client;
@@ -2613,12 +2613,12 @@ bool Database::updateToVersion(QString version)
 
 int Database::versionToEnum(QString version)
 {
-    if(version == "0.0.0")
-        return version0d0d0;
-    else if(version == "0.0.1")
+    if(version == "0.0.1")
         return version0d0d1;
     else if(version == "0.0.2")
         return version0d0d2;
+
+    return version0d0d0;
 }
 
 //------------------------------------------------------------------------------
