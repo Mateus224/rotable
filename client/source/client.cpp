@@ -301,22 +301,19 @@ void Client::orderSendSuccesfull(Message *msg)
     OrderMessage *message = static_cast<OrderMessage*>(msg);
     if(message->getError() == 0)
         this->setState("SENDACCEPT");
-<<<<<<< HEAD
     else
         invalidOrder();
-=======
-
-    delete message;
->>>>>>> 8af8c715f952178677bb7a58e503c926093c34e2
 }
 
 //------------------------------------------------------------------------------
 
-<<<<<<< HEAD
 void Client::invalidOrder()
 {
     _productOrder->b_acceptOrder();
-=======
+}
+
+//------------------------------------------------------------------------------
+
 void Client::needWaiterStatus(Message *msg)
 {
     NeedWaiterMessage *message = static_cast<NeedWaiterMessage*>(msg);
@@ -324,7 +321,6 @@ void Client::needWaiterStatus(Message *msg)
     if(!message->acceptStatusChange())
         _callWaiter.changeWaiterNeed();
     _callWaiter.setPropertyState();
->>>>>>> 8af8c715f952178677bb7a58e503c926093c34e2
 }
 
 //------------------------------------------------------------------------------
