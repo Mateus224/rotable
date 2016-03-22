@@ -148,6 +148,9 @@ public:
      */
     NeedWaiterMessage(ComPackageMessage *message, QObject *parent = 0);
 
+
+    inline bool acceptStatusChange() const { return _acceptStatusChange; }
+
     /**
      * Return type of message
      * @return              enum MessageType

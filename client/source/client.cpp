@@ -306,7 +306,9 @@ void Client::needWaiterStatus(Message *msg)
 {
     NeedWaiterMessage *message = static_cast<NeedWaiterMessage*>(msg);
 
-    delete message;
+    if(!message->acceptStatusChange())
+        _callWaiter.changeWaiterNeed();
+    _callWaiter.setPropertyState();
 }
 
 //------------------------------------------------------------------------------
