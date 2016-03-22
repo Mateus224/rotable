@@ -17,14 +17,18 @@ Rectangle {
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.topMargin: parent.height * 0.1
-        width: parent.width * 0.33333
+        width: parent.width //* 0.33333
         height: parent.height * 0.05
-        color: "#00000000"
-
-        Image {
+        gradient: clubcolorsrevers
+        Gradient {
+            id: clubcolorsrevers
+            GradientStop { position: 0.0; color:"#8EE2FE"}//"#8EE2FE"}
+            GradientStop { position: 0.90; color: "#000000"}
+        }
+        /*Image {
             anchors.fill: parent
             source: "qrc:/client/resources/TopBarLeft.png"
-        }
+        }*/
 
         Text {
             id: categoryTitleLabel
@@ -34,7 +38,7 @@ Rectangle {
             font.bold: true
             font.pixelSize: parent.height * 0.8
             anchors.verticalCenter: parent.verticalCenter
-            anchors.left: parent.left
+            anchors.centerIn: parent
             anchors.leftMargin: parent.width * 0.1
             font.capitalization: Font.AllUppercase
         }
