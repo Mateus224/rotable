@@ -233,6 +233,11 @@ void Server::packageReceived(client_t client, ComPackage *package)
                       .arg(_tcp.clientName(id));
           ComPackageReject reject(package->id());
           _tcp.send(client, reject);
+
+          NeedWaiterMessage msg;
+          msg.unSuccess();
+          _tcp.send(client, *(msg.toPackage()));
+
       }
       else{
         //Send information to waiter about table change
@@ -249,6 +254,11 @@ void Server::packageReceived(client_t client, ComPackage *package)
             change->setTableId(id);
             _tcp.send(_users[rotable::ComPackage::TableAccount].key(id),*change);
         }
+
+        NeedWaiterMessage msg;
+        //ToDo: change to position in queue
+        msg.success(p->need() ? 0 : -1);
+        _tcp.send(client, *(msg.toPackage()));
       }
     } else {
       qDebug() << tr("WARNING: Unallowed Command from client \"%1\"")

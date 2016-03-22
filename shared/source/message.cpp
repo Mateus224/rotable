@@ -30,6 +30,9 @@ rotable::Message *Message::parser(ComPackageMessage *message)
     case QueueMessageType:
         msg = new QueueMessage(message);
         break;
+    case NeedWaiterMessageType:
+        msg = new NeedWaiterMessage(message);
+        break;
     }
 
     return msg;
@@ -125,6 +128,62 @@ ComPackageMessage *QueueMessage::toPackage() const
     messagePcg->setMessage(out);
 
     return messagePcg;
+}
+
+//------------------------------------------------------------------------------
+
+NeedWaiterMessage::NeedWaiterMessage(QObject *parent): Message(parent)
+{
+
+}
+
+//------------------------------------------------------------------------------
+
+NeedWaiterMessage::NeedWaiterMessage(ComPackageMessage *message, QObject *parent): Message(parent)
+{
+    QStringList messageText = message->message().split(";");
+
+    if(messageText.count() !=  2)
+        return; //TODO: change it
+
+    _acceptStatusChange =  messageText.at(0).toInt();
+    _queuePosition =  messageText.at(1).toInt();
+}
+
+//------------------------------------------------------------------------------
+
+int NeedWaiterMessage::messageType() const
+{
+    return NeedWaiterMessageType;
+}
+
+//------------------------------------------------------------------------------
+
+ComPackageMessage *NeedWaiterMessage::toPackage() const
+{
+    QString message;
+    message  = QString::number(_acceptStatusChange).append(";").append(QString::number(_queuePosition));
+    ComPackageMessage *msg = new ComPackageMessage();
+    msg->setMsgType(messageType());
+    msg->setMessage(message);
+
+    return msg;
+}
+
+//------------------------------------------------------------------------------
+
+void NeedWaiterMessage::unSuccess()
+{
+    _acceptStatusChange = false;
+    _queuePosition = -1;
+}
+
+//------------------------------------------------------------------------------
+
+void NeedWaiterMessage::success(int queuePosition)
+{
+    _acceptStatusChange = true;
+    _queuePosition = queuePosition;
 }
 
 //------------------------------------------------------------------------------
