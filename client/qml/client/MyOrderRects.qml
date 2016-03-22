@@ -212,9 +212,18 @@ Rectangle {
                             MouseArea{
                                 anchors.fill: parent
                                 onClicked: {
-                                    client.sendOrder()
-                                    client.state = "SENTPAGE"
-                                    MyOrder.clearList()
+                                    if(MyOrder.b_acceptOrder())
+                                    {
+                                        client.sendOrder()
+                                        client.state = "SENTPAGE"
+                                        MyOrder.clearList()
+                                        //MyOrder.s_acceptOrder()
+                                    }
+                                    else
+                                    {
+                                        client.state = "SENTPAGE"
+                                        //MyOrder.s_acceptOrder()
+                                    }
                                 }
                                 onPressed: parent.color= "#8772c0"
                                 onReleased: {

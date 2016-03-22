@@ -30,6 +30,7 @@ class rotable::ProductOrder : public QObject //, rotable::ProductContainer
   Q_PROPERTY(int productId READ productId NOTIFY productIdChanged)
   Q_PROPERTY(int quantity READ pieces WRITE setpieces NOTIFY piecesChanged)
   Q_PROPERTY(double PriceOfOrder READ PriceOfOrder NOTIFY PriceOfOrderChanged)
+  Q_PROPERTY(QString acceptOrder READ acceptOrder WRITE setacceptOrder NOTIFY acceptOrderChanged)
 
 
 public:
@@ -69,12 +70,6 @@ public:
    */
   void sendOrderToWaitor();
 
-  /**
-   * order is accepted or rejected by the waitor
-   * @brief acceptOrder
-   */
-  void acceptOrder();
-
 
   /**
    * @brief getStopWatchTime
@@ -99,7 +94,9 @@ public:
   inline int productId() const { return _productId; }
   inline  int pieces() const { return  _Product._s_quantity; }
   void setpieces( int quantity);
+  void setacceptOrder(QString _acceptOrder);
   inline double PriceOfOrder() const{return _toPay;}
+  QString acceptOrder()const{return _s_acceptOrder;}
   //------------------------------------------------------------------------------
 
   /**
@@ -119,6 +116,7 @@ signals:
   void PriceOfOrderChanged();
   void piecesChanged();
   void AmountChanged();
+  void acceptOrderChanged();
 
 
 
@@ -126,6 +124,13 @@ signals:
 //------------------------------------------------------------------------------
 
 public slots:
+
+  /**
+   * order is accepted or rejected by the waitor
+   * @brief acceptOrder
+   */
+  bool b_acceptOrder();
+
   /**
    * @brief addToProductHash
    * @param ProductID
@@ -185,6 +190,7 @@ public slots:
 
   void clearGuiList();
 
+
 //------------------------------------------------------------------------------
 //---------VALUES--------------------------------------------------------------
 
@@ -217,6 +223,8 @@ private:
   int _orderID;
   int _clientID;
   double _toPay;
+  bool _acceptOrder;
+  QString _s_acceptOrder;
 }; // class ProductOrder
 
 //------------------------------------------------------------------------------

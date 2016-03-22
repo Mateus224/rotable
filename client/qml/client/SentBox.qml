@@ -10,12 +10,10 @@ Rectangle {
     Rectangle {
         anchors.fill: parent
         anchors.margins: parent.height * 0.02
-
         color: "#000000"
-
         Text {
             id: tempText
-            text: "Sending..."
+            text: MyOrder.acceptOrder
             font.family: "FreeSans"
             color: "#AAAAAA"
             font.bold: true

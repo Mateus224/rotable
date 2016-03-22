@@ -13,6 +13,7 @@ ProductOrder::ProductOrder( ProductContainer &productcontainer, QObject *parent)
 {
     ClientProductHash=new QHash<int,productChoosen>;
     ClientProductHash->reserve(250);
+    _acceptOrder=1;
 
 }
 
@@ -21,6 +22,7 @@ ProductOrder::ProductOrder( ProductContainer &productcontainer, QObject *parent)
 
 ComPackageDataSet ProductOrder::prepareOrderToSend() const
 {
+    //if(acceptOrder())
     QJsonArray array;
     QHash<int,productChoosen> ::const_iterator i = ClientProductHash->constBegin();
     while (i != ClientProductHash->constEnd()) {
@@ -43,9 +45,26 @@ ComPackageDataSet ProductOrder::prepareOrderToSend() const
 
 //------------------------------------------------------------------------------
 
-void ProductOrder::acceptOrder()
+bool ProductOrder::b_acceptOrder()
 {
+    if(!ClientProductHash->empty())
+    {
+        _acceptOrder=1;
+        _s_acceptOrder="Sending...";
+    }
+    else
+    {
+        _acceptOrder=0;
+        _s_acceptOrder= "Order Empty";
+    }
+    setacceptOrder(_s_acceptOrder);
+    //qDebug()<<"_acceptOrder:"<<_acceptOrder;
+    return _acceptOrder;
+}
 
+void ProductOrder::setacceptOrder(QString _s_acceptOrder){
+    this->_s_acceptOrder=_s_acceptOrder;
+    emit acceptOrderChanged();
 }
 
 //------------------------------------------------------------------------------
