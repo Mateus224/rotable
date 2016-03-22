@@ -274,7 +274,16 @@ void payedSlot(int i){qDebug()<<i;}
    */
   void sendPackage(rotable::ComPackage *package);
 
+  /**
+   * Interpreting order status
+   * @param msg
+   */
   void orderSendSuccesfull(rotable::Message *msg);
+
+  /**
+   * Order is invalid
+   */
+  void invalidOrder();
 
 private:
   /**

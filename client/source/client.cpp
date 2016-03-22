@@ -275,7 +275,12 @@ void Client::setCurrentCategoryId(int id)
 
 void Client::sendOrder()
 {
-    _tcp.send(_productOrder->prepareOrderToSend());
+    ComPackageDataSet data = _productOrder->prepareOrderToSend();
+    //Block sending order withwout orderitem
+    if(data.dataCategory() != -1)
+        _tcp.send(data);
+    else
+        invalidOrder();
 }
 
 //------------------------------------------------------------------------------
@@ -291,6 +296,15 @@ void Client::orderSendSuccesfull(Message *msg)
     OrderMessage *message = static_cast<OrderMessage*>(msg);
     if(message->getError() == 0)
         this->setState("SENDACCEPT");
+    else
+        invalidOrder();
+}
+
+//------------------------------------------------------------------------------
+
+void Client::invalidOrder()
+{
+    //TODO: add specific code for invalid order
 }
 
 //------------------------------------------------------------------------------
