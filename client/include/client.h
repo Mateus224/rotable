@@ -274,7 +274,18 @@ void payedSlot(int i){qDebug()<<i;}
    */
   void sendPackage(rotable::ComPackage *package);
 
+  /**
+   * Method to recive Message with order send status
+   * @param msg         message
+   */
   void orderSendSuccesfull(rotable::Message *msg);
+
+  /**
+   * Method to recive Message with NeedWaiter send status
+   *
+   * @param msg         message
+   */
+  void needWaiterStatus(rotable::Message *msg);
 
 private:
   /**
