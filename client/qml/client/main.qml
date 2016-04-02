@@ -1,5 +1,4 @@
 import QtQuick 2.0
-import QtMultimedia 5.0
 import "globals.js" as Global
 import "games"
 //import "callWaiter"
@@ -10,8 +9,49 @@ import "games"
 Rectangle {
     id: mainScreen
     color: "#000000"
-    width: parent.width ? parent.width :  200
-    height: parent.height ? parent.height : 200
+    function device(){
+        var buttonColor
+        if(client.device_===1){
+            buttonColor= "grey"
+
+        }
+        else {
+            buttonColor= "black"
+        }
+        return buttonColor
+    }
+    //width: parent.width ? parent.width :  200
+    //height: parent.height ? parent.height : 200
+    Rectangle{
+        id: rotationButton_1
+        width: (parent.width-Math.min(parent.height, parent.width))/2
+        height: parent.height/2
+        anchors.left: parent.left
+        color: device()
+    }
+    Rectangle{
+        id: rotationButton_2
+        width: (parent.width-Math.min(parent.height, parent.width))/2
+        height: parent.height/2
+        anchors.right: parent.right
+        color: device()
+    }
+    Rectangle{
+        id: rotationButton_3
+        width: (parent.width-Math.min(parent.height, parent.width))/2
+        height: parent.height/2
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        color:device()
+    }
+    Rectangle{
+        id: rotationButton_4
+        width: (parent.width-Math.min(parent.height, parent.width))/2
+        height: parent.height/2
+        anchors.bottom: parent.bottom
+        color: device()
+    }
+
 
     Rectangle {
         id: screen

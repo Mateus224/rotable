@@ -24,7 +24,14 @@
 #include "messageconnector.h"
 
 
-#define device 1
+/////////////////////////////////////////
+////Define your device and the funktions
+/////////////////////////////////////////
+//1=raspberry without sensors
+//2=android
+//3=raspbery with rotation sensors
+//4=raspbery with rotation sensors and advertising sensors
+#define device 3
 //------------------------------------------------------------------------------
 
 namespace rotable {

@@ -15,15 +15,20 @@
 #include <iostream>
 #endif
 //------------------------------------------------------------------------------
-///////////////////////////////////////////////////
-////define for which product the system will compile
-//////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+////define for which product the system will compile ////
+/////////////////////////////////////////////////////////
 //1=LB_Bar [LOW Budget (7" Display)]
 //2=LB_Cocktail
 //3=LB_Restaurant
 //4=DISCO (10"Display)
 #define ProductVersion 4
-
+//-----------------------------------
+/////////////////////////////////////////
+////Define your device and the funktions
+/////////////////////////////////////////
+//define the device in client.h
+/////////////////////////////////////////
 //------------------------------------------------------------------------------
 
 int main(int argc, char *argv[])
@@ -73,7 +78,7 @@ int main(int argc, char *argv[])
   pwmWrite(1, 0);
 #endif
 
-
+  int _device=device;
   rotable::Client* client = new rotable::Client(configFilePath);
 
   rotable::ImageProvider* imageProvider = new rotable::ImageProvider(client);

@@ -10,6 +10,7 @@
 #define PCF8591_FORCE 0
 #define REG_CTL				0x40
 
+
 #ifdef __arm__
 #include <wiringPi.h>
 #include <linux/i2c-dev.h>
@@ -19,6 +20,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #endif
+
 
 //------------------------------------------------------------------------------
 
@@ -37,6 +39,9 @@ Sensors::Sensors(QObject *parent) :
   connect(&_ledPWM_CheckTimer,SIGNAL(timeout()),this,SLOT(set_PWM_signal()));
   _ledPWM_CheckTimer.start(PWM_CHECK_INTERVAL);
 
+
+ if(_device==3||_device==4)
+ {
 #ifdef __arm__
   _i2cDevice = open("/dev/i2c-1", O_RDWR);
   if (-1 == _i2cDevice) {
@@ -53,12 +58,15 @@ Sensors::Sensors(QObject *parent) :
   _intervalCounter=0;
   _lighter=true;
 #endif
+ }
 }
 
 //------------------------------------------------------------------------------
 
 void Sensors::set_PWM_signal()
 {
+    if(_device==4)
+    {
 #ifdef __arm__
     if(_intervalCounter==50)
     {
@@ -88,6 +96,7 @@ void Sensors::set_PWM_signal()
     //qDebug()<<_intervalCounter;
 #endif
   _ledPWM_CheckTimer.start(PWM_CHECK_INTERVAL);
+    }
 }
 
 
@@ -106,6 +115,12 @@ Sensors::~Sensors()
 
 void Sensors::checkDisplaySensors()
 {
+    if(_device==1||_device==2)
+    {
+        _screenRotation=0;
+    }
+    else{
+
 #ifdef __arm__
 /*  qDebug() << tr("Sensors %1, %2, %3, %4")
               .arg(digitalRead(7)).arg(digitalRead(8))
@@ -134,6 +149,7 @@ void Sensors::checkDisplaySensors()
   }
 #endif
   _displaySensorCheckTimer.start(DISPLAY_SENSOR_CHECK_INTERVAL);
+      }
 }
 
 //------------------------------------------------------------------------------

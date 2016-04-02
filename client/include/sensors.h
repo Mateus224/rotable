@@ -23,16 +23,20 @@ class rotable::Sensors : public QObject
 {
   Q_OBJECT
 
+
 public:
   explicit Sensors(QObject *parent = 0);
   ~Sensors();
 
   inline int screenRotation() const { return _screenRotation; }
   inline bool contact() const { return _contact; }
+    int _screenRotation;
+    int _device;
 
 signals:
   void rotationChanged();
   void contactChanged();
+
 
 public slots:
   void checkDisplaySensors();
@@ -41,7 +45,7 @@ public slots:
 
 
 private:
-  int _screenRotation;
+
   QTimer _displaySensorCheckTimer;
   QTimer _distanceSensorCheckTimer;
   QTimer _ledPWM_CheckTimer;
@@ -51,6 +55,7 @@ private:
   int _contactThreshold;
   int _intervalCounter;
   bool _lighter;
+
 }; // class Sensors
 
 //------------------------------------------------------------------------------
