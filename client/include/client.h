@@ -24,7 +24,6 @@
 #include "messageconnector.h"
 
 
-#define device 1
 //------------------------------------------------------------------------------
 
 namespace rotable {

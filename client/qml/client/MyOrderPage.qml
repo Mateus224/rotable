@@ -11,6 +11,10 @@ Rectangle {
         enabled: true
     }
 
+    Queue{
+        id: queue
+    }
+
     Rectangle {
         id: categoryTitle
 
