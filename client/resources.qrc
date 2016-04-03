@@ -29,6 +29,9 @@
         <file alias="SendAccept.qml">qml/client/SendAccept.qml</file>
         <file alias="Queue.qml">qml/client/Queue.qml</file>
         <file alias="RotationButton.qml">qml/client/RotationButton.qml</file>
+        <file>resources/Pfeil_01.png</file>
+        <file>resources/Pfeil_02.png</file>
+        <file>resources/Pfeil_03.png</file>
     </qresource>
     <qresource prefix="/client/games">
         <file alias="GamePage.qml">qml/client/games/GamePage.qml</file>

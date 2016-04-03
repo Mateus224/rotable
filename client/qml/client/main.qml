@@ -4,44 +4,37 @@ import "games"
 
 Rectangle {
     id: mainScreen
-    function device(){
-        var buttonColor
-        if(client.device_===1)
-            buttonColor= "grey"
-        else
-            buttonColor= "black"
-        return buttonColor
-    }
-    color: device()
+
+    color: "red"
 
     RotationButton{
         id: rotationButton_leftTop
         anchors.left: parent.left
-        property double topMargin: 0.01
-        property double bottomMargin: 0.005
+        //property double topMargin: 0.01
+        //property double bottomMargin: 0.005
         property int _rotation: 180
     }
     RotationButton{
         id: rotationButton_rightTop
         anchors.right: parent.right
-        property double topMargin: 0.01
-        property double bottomMargin: 0.005
+        //property double topMargin: 0.01
+        //property double bottomMargin: 0.005
         property int _rotation: 270
     }
     RotationButton{
         id: rotationButton_rightBottom
         anchors.bottom: parent.bottom
         anchors.right: parent.right
-        property double topMargin: 0.005
-        property double bottomMargin: 0.01
+        //property double topMargin: 0.005
+        //property double bottomMargin: 0.01
         property int _rotation: 0
     }
     RotationButton{
         id: rotationButton_leftBottom
         anchors.left: parent.left
         anchors.bottom: parent.bottom
-        property double topMargin: 0.005
-        property double bottomMargin: 0.01
+        //property double topMargin: 0.005
+        //property double bottomMargin: 0.01
         property int _rotation: 90
     }
 
