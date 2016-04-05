@@ -23,6 +23,8 @@ private:
     Ui::MainWindow *ui;
 private slots:
     void setLicenceDateEditValues(const QDate &date);
+    void on_plainTextEdit_textChanged();
+    void on_pushButton_2_clicked();
 };
 
 #endif // MAINWINDOW_H

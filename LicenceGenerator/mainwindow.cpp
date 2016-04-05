@@ -3,6 +3,7 @@
 
 #include <QCryptographicHash>
 #include <QTextCodec>
+#include <QFileDialog>
 
 #include <cryptopp/rsa.h>
 #include <cryptopp/osrng.h>
@@ -54,4 +55,14 @@ void MainWindow::setLicenceDateEditValues(const QDate &date)
     if(date > ui->licenceEndDateEdit->date())
         ui->licenceEndDateEdit->setDate(date.addDays(1));
     ui->licenceEndDateEdit->setDateRange(date.addDays(1), date.addYears(1));
+}
+
+void MainWindow::on_plainTextEdit_textChanged()
+{
+    ui->pushButton_2->setEnabled((ui->plainTextEdit->toPlainText() != QString("")));
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    auto fileName = QFileDialog::getOpenFileName(this, tr("Select private key"), QDir().dirName(), tr("Key files (*.txt)"));
 }
