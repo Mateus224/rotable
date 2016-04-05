@@ -33,7 +33,7 @@ class rotable::ProductOrder : public QObject //, rotable::ProductContainer
   Q_PROPERTY(int productId READ productId NOTIFY productIdChanged)
   Q_PROPERTY(int quantity READ pieces WRITE setpieces NOTIFY piecesChanged)
   Q_PROPERTY(double PriceOfOrder READ PriceOfOrder NOTIFY PriceOfOrderChanged)
-  Q_PROPERTY(QString acceptOrder READ acceptOrder WRITE setacceptOrder NOTIFY acceptOrderChanged)
+  Q_PROPERTY(QString acceptOrder READ acceptOrder NOTIFY acceptOrderChanged)
 
 
 public:
