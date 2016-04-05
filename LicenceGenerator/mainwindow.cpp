@@ -4,6 +4,7 @@
 #include <QCryptographicHash>
 #include <QTextCodec>
 #include <QFileDialog>
+#include <QFileInfo>
 
 #include <cryptopp/rsa.h>
 #include <cryptopp/osrng.h>
@@ -65,4 +66,30 @@ void MainWindow::on_plainTextEdit_textChanged()
 void MainWindow::on_pushButton_2_clicked()
 {
     auto fileName = QFileDialog::getOpenFileName(this, tr("Select private key"), QDir().dirName(), tr("Key files (*.txt)"));
+
+    string licence = ui->plainTextEdit->toPlainText().toStdString();
+
+    AutoSeededRandomPool rng;
+
+    CryptoPP::ByteQueue bytes;
+    FileSource file(fileName.toStdString().c_str(), true, new Base64Decoder);
+    file.TransferTo(bytes);
+    bytes.MessageEnd();
+    RSA::PrivateKey privateKey;
+    privateKey.Load(bytes);
+
+    RSASSA_PKCS1v15_SHA_Signer privkey(privateKey);
+    SecByteBlock sbbSignature(privkey.SignatureLength());
+    privkey.SignMessage(
+        rng,
+        (byte const*) licence.data(),
+        licence.size(),
+        sbbSignature);
+
+    auto dirPath = QFileDialog::getExistingDirectory(this, tr("Select directory for save licence and sig"), QDir().dirName());
+
+    FileSink sink(QDir(dirPath).filePath("licence.dat").toStdString().c_str());
+    sink.Put((byte const*) licence.data(), licence.size());
+    FileSink sinksig(QDir(dirPath).filePath("sig.dat").toStdString().c_str());
+    sinksig.Put(sbbSignature, sbbSignature.size());
 }
