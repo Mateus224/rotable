@@ -71,17 +71,41 @@ private:
      */
     void parseLicence(std::string licence) const;
 
+    /**
+     * @brief _maxTable
+     * Maximum number of table
+     */
     int _maxTable;
-    int _table;
+    /**
+     * @brief _connectedTable
+     * Actual connected table
+     */
+    int _connectedTable;
 
     //--------------------------------------------------------------------------
     // Exceptions
     //--------------------------------------------------------------------------
 
+    /**
+     * @brief The NoLicenceException class
+     * Exception when licence file not found
+     */
     class NoLicenceException: QException{};
+    /**
+     * @brief The NoPublKeyException class
+     * Exception when public key not found
+     */
     class NoPublKeyException: QException{};
+    /**
+     * @brief The UnvalidLiceneException class
+     * Exception when hash of licence is wrong
+     */
     class UnvalidLiceneException: QException{};
-    class SingLicenceException: QException{};
+    /**
+     * @brief The SingLicenceException class
+     * Exception when sign file don't responds to licence
+     */
+    class SignLicenceException: QException{};
 };
 
 //------------------------------------------------------------------------------

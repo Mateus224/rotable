@@ -86,7 +86,7 @@ void Licence::connectTable()
 
 void Licence::disconnectTable()
 {
-
+    --_connectedTable;
 }
 
 //------------------------------------------------------------------------------
