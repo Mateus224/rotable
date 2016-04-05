@@ -17,10 +17,20 @@
    <item>
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="1">
-      <widget class="QLineEdit" name="hostNameLineEdit"/>
+      <widget class="QLineEdit" name="hostNameLineEdit">
+       <property name="locale">
+        <locale language="English" country="UnitedKingdom"/>
+       </property>
+       <property name="placeholderText">
+        <string>e.i. myServer</string>
+       </property>
+      </widget>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="platformLabel">
+       <property name="locale">
+        <locale language="English" country="UnitedKingdom"/>
+       </property>
        <property name="text">
         <string>Platform</string>
        </property>
@@ -28,6 +38,9 @@
      </item>
      <item row="1" column="1">
       <widget class="QComboBox" name="platformComboBox">
+       <property name="locale">
+        <locale language="English" country="UnitedKingdom"/>
+       </property>
        <item>
         <property name="text">
          <string>PC</string>
@@ -42,13 +55,19 @@
      </item>
      <item row="2" column="0">
       <widget class="QLabel" name="tableCountLabel">
+       <property name="locale">
+        <locale language="English" country="UnitedKingdom"/>
+       </property>
        <property name="text">
-        <string>TableCount</string>
+        <string>Table count</string>
        </property>
       </widget>
      </item>
      <item row="2" column="1">
       <widget class="QSpinBox" name="tableCountSpinBox">
+       <property name="locale">
+        <locale language="English" country="UnitedKingdom"/>
+       </property>
        <property name="minimum">
         <number>1</number>
        </property>
@@ -59,8 +78,51 @@
      </item>
      <item row="0" column="0">
       <widget class="QLabel" name="hostNameLabel">
+       <property name="locale">
+        <locale language="English" country="UnitedKingdom"/>
+       </property>
        <property name="text">
         <string>Host Name</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="licenceBeginLabel">
+       <property name="locale">
+        <locale language="English" country="UnitedKingdom"/>
+       </property>
+       <property name="text">
+        <string>Licence begin</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QDateEdit" name="licenceBeginDateEdit">
+       <property name="locale">
+        <locale language="English" country="UnitedKingdom"/>
+       </property>
+       <property name="calendarPopup">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="licenceEndLabel">
+       <property name="locale">
+        <locale language="English" country="UnitedKingdom"/>
+       </property>
+       <property name="text">
+        <string>Licence end</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QDateEdit" name="licenceEndDateEdit">
+       <property name="locale">
+        <locale language="English" country="UnitedKingdom"/>
+       </property>
+       <property name="calendarPopup">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -71,6 +133,9 @@
      <property name="enabled">
       <bool>false</bool>
      </property>
+     <property name="locale">
+      <locale language="English" country="UnitedKingdom"/>
+     </property>
      <property name="text">
       <string>Generate</string>
      </property>
@@ -78,8 +143,21 @@
    </item>
    <item>
     <widget class="QPlainTextEdit" name="plainTextEdit">
+     <property name="locale">
+      <locale language="English" country="UnitedKingdom"/>
+     </property>
      <property name="readOnly">
       <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="pushButton_2">
+     <property name="locale">
+      <locale language="English" country="UnitedKingdom"/>
+     </property>
+     <property name="text">
+      <string>Sign licence</string>
      </property>
     </widget>
    </item>
@@ -87,5 +165,25 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>licenceBeginDateEdit</sender>
+   <signal>userDateChanged(QDate)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setLicenceDateEditValues(QDate)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>203</x>
+     <y>144</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>266</x>
+     <y>184</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>setLicenceDateEditValues(QDate)</slot>
+ </slots>
 </ui>

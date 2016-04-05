@@ -17,11 +17,12 @@ public:
 
 private slots:
     void on_hostNameLineEdit_textChanged(const QString &arg1);
-
     void on_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
+private slots:
+    void setLicenceDateEditValues(const QDate &date);
 };
 
 #endif // MAINWINDOW_H

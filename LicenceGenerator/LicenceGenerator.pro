@@ -18,3 +18,8 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
+
+RESOURCES +=
+
+LIBS += -L/usr/lib/crypto++ -lcryptopp
+INCS += -I/usr/include/crypto++

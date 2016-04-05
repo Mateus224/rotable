@@ -4,11 +4,24 @@
 #include <QCryptographicHash>
 #include <QTextCodec>
 
+#include <cryptopp/rsa.h>
+#include <cryptopp/osrng.h>
+#include <cryptopp/base64.h>
+#include <cryptopp/files.h>
+#include <string>
+
+using namespace CryptoPP;
+using namespace std;
+
 MainWindow::MainWindow(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->licenceBeginDateEdit->setDate(QDate::currentDate());
+    ui->licenceBeginDateEdit->setDateRange(QDate::currentDate(), QDate::currentDate().addYears(2));
+
 }
 
 MainWindow::~MainWindow()
@@ -25,10 +38,20 @@ void MainWindow::on_hostNameLineEdit_textChanged(const QString &arg1)
 void MainWindow::on_pushButton_clicked()
 {
     QString dataString;
-    dataString = ui->hostNameLineEdit->text() + ";" + ui->platformComboBox->currentText() + ";" + QString::number(ui->tableCountSpinBox->value());
-
+    dataString = ui->hostNameLineEdit->text() + ";" + ui->platformComboBox->currentText() + ";" + QString::number(ui->tableCountSpinBox->value())
+            + ";" + ui->licenceBeginDateEdit->date().toString("dd.MM.yyyy") + ";" + ui->licenceEndDateEdit->date().toString("dd.MM.yyyy");
     QString hash = QTextCodec::codecForName("UTF-8")->toUnicode(QCryptographicHash::hash(dataString.toUtf8(), QCryptographicHash::Sha3_512).toHex());
-
     QString tmp = dataString + ";;" + hash;
-    ui->plainTextEdit->setPlainText(tmp);
+
+
+    string plain = tmp.toStdString();
+
+    ui->plainTextEdit->setPlainText(plain.c_str());
+}
+
+void MainWindow::setLicenceDateEditValues(const QDate &date)
+{
+    if(date > ui->licenceEndDateEdit->date())
+        ui->licenceEndDateEdit->setDate(date.addDays(1));
+    ui->licenceEndDateEdit->setDateRange(date.addDays(1), date.addYears(1));
 }
