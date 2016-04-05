@@ -23,7 +23,8 @@ SOURCES += \
     source/configserver.cpp \
     source/server.cpp \
     source/schedule.cpp \
-    source/operation.cpp
+    source/operation.cpp \
+    source/licence.cpp
 
 HEADERS += \
     include/tcpserver.h \
@@ -33,7 +34,8 @@ HEADERS += \
     include/server.h \
     include/settings.h \
     include/schedule.h \
-    include/operation.h
+    include/operation.h \
+    include/licence.h
 
 ########################################################################
 # DESTINATION:

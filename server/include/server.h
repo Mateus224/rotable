@@ -250,6 +250,8 @@ private:
    */
   QMap<int, ComPackageMessage*> queueOrders();
 
+
+
   /* Configuration file access */
   ConfigServer _config;
 
