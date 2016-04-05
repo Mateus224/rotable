@@ -14,7 +14,6 @@ ProductOrder::ProductOrder( ProductContainer &productcontainer, QObject *parent)
     ClientProductHash=new QHash<int,productChoosen>;
     ClientProductHash->reserve(250);
     _acceptOrder=1;
-
 }
 
 
@@ -61,14 +60,21 @@ bool ProductOrder::b_acceptOrder()
         _acceptOrder=0;
         _s_acceptOrder= "Order Empty";
     }
-    setacceptOrder(_s_acceptOrder);
-    //qDebug()<<"_acceptOrder:"<<_acceptOrder;
+    setacceptOrder();
     return _acceptOrder;
 }
 
-void ProductOrder::setacceptOrder(QString _s_acceptOrder){
-    this->_s_acceptOrder=_s_acceptOrder;
+void ProductOrder::setacceptOrder(){
+    if(this->_s_acceptOrder.compare("Sending...")==0){
+        QTimer::singleShot(2000, this, SLOT(OrderQueueTextSlot()));
+
+    }
     emit acceptOrderChanged();
+}
+
+void ProductOrder::OrderQueueTextSlot(){
+    this->_s_acceptOrder="orders before you";
+    setacceptOrder();
 }
 
 //------------------------------------------------------------------------------
