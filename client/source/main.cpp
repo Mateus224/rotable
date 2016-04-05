@@ -27,7 +27,12 @@
 /////////////////////////////////////////
 ////Define your device and the funktions
 /////////////////////////////////////////
-//define the device in client.h
+//1= raspberry device without sensors
+//2= android device without sensors
+//3= raspberry device with sensors
+//4= raspberry device with sensors and pwm signal
+//5= raspberry device with sensors and pwm signal and advertising sensors
+#define device 1
 /////////////////////////////////////////
 //------------------------------------------------------------------------------
 
@@ -78,8 +83,11 @@ int main(int argc, char *argv[])
   pwmWrite(1, 0);
 #endif
 
-  int _device=device;
+
   rotable::Client* client = new rotable::Client(configFilePath);
+
+  client->_device=device;
+  client->_sensors._device=device;
 
   rotable::ImageProvider* imageProvider = new rotable::ImageProvider(client);
   client->setImageProvider(imageProvider);

@@ -1,57 +1,44 @@
 import QtQuick 2.0
 import "globals.js" as Global
 import "games"
-//import "callWaiter"
-
-
-//import "games/SpinBottle.qml"
 
 Rectangle {
     id: mainScreen
-    color: "#000000"
-    function device(){
-        var buttonColor
-        if(client.device_===1){
-            buttonColor= "grey"
 
-        }
-        else {
-            buttonColor= "black"
-        }
-        return buttonColor
-    }
-    //width: parent.width ? parent.width :  200
-    //height: parent.height ? parent.height : 200
-    Rectangle{
-        id: rotationButton_1
-        width: (parent.width-Math.min(parent.height, parent.width))/2
-        height: parent.height/2
+    color: "red"
+
+    RotationButton{
+        id: rotationButton_leftTop
         anchors.left: parent.left
-        color: device()
+        //property double topMargin: 0.01
+        //property double bottomMargin: 0.005
+        property int _rotation: 180
     }
-    Rectangle{
-        id: rotationButton_2
-        width: (parent.width-Math.min(parent.height, parent.width))/2
-        height: parent.height/2
+    RotationButton{
+        id: rotationButton_rightTop
         anchors.right: parent.right
-        color: device()
+        //property double topMargin: 0.01
+        //property double bottomMargin: 0.005
+        property int _rotation: 270
     }
-    Rectangle{
-        id: rotationButton_3
-        width: (parent.width-Math.min(parent.height, parent.width))/2
-        height: parent.height/2
+    RotationButton{
+        id: rotationButton_rightBottom
         anchors.bottom: parent.bottom
         anchors.right: parent.right
-        color:device()
+        //property double topMargin: 0.005
+        //property double bottomMargin: 0.01
+        property int _rotation: 0
     }
-    Rectangle{
-        id: rotationButton_4
-        width: (parent.width-Math.min(parent.height, parent.width))/2
-        height: parent.height/2
+    RotationButton{
+        id: rotationButton_leftBottom
+        anchors.left: parent.left
         anchors.bottom: parent.bottom
-        color: device()
+        //property double topMargin: 0.005
+        //property double bottomMargin: 0.01
+        property int _rotation: 90
     }
 
+//------------------------------------------------------------
 
     Rectangle {
         id: screen
