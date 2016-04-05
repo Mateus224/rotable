@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>publkey.txt</file>
+    </qresource>
+</RCC>

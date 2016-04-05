@@ -66,6 +66,7 @@ LIBS += \
   #  -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux
 
 RESOURCES += \
-    sql-commands.qrc
+    sql-commands.qrc \
+    keys.qrc
 
 DISTFILES +=
