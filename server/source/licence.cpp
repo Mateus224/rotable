@@ -1,7 +1,12 @@
 #include "licence.h"
 
+#include <cryptopp/osrng.h>
+#include <cryptopp/base64.h>
+#include <cryptopp/files.h>
+
 using namespace std;
 using namespace rotable;
+using namespace CryptoPP;
 
 #include <QByteArray>
 
@@ -15,14 +20,19 @@ rotable::Licence::Licence()
 
 //------------------------------------------------------------------------------
 
-string rotable::Licence::loadKeyFromFile() const
+RSA::PublicKey  rotable::Licence::loadKeyFromFile() const
 {
     //Open file from resource
     QFile file(":/publkey.txt");
     if (Q_UNLIKELY(!file.open(QIODevice::ReadOnly)))        //Check if we can read
         throw new NoPublKeyException();                     //Something is  wrong with key
-    QByteArray blob = file.readAll();                       //Read file
-    return blob.toStdString();                              // Convert to string and return
+    QByteArray data = file.readAll();                       //Read file
+    ByteQueue queue;
+    queue.Put2(reinterpret_cast<const byte *>(data.data()), data.size(), 0, true);
+    RSA::PublicKey key;
+    key.Load(queue);
+
+    return key;                                            // Convert to string and return
 }
 
 //------------------------------------------------------------------------------
@@ -34,7 +44,7 @@ string Licence::loadLicenceFromFile() const
 
 //------------------------------------------------------------------------------
 
-bool Licence::verifityLicence(string publicKey) const
+bool Licence::verifityLicence(RSA::PublicKey publicKey) const
 {
 
 }
@@ -79,7 +89,9 @@ string Licence::getLicenceStatus()
 
 void Licence::connectTable()
 {
-
+    if(Q_UNLIKELY(_maxTable == _connectedTable))
+        ;
+    ++_connectedTable;
 }
 
 //------------------------------------------------------------------------------

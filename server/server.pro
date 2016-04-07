@@ -72,3 +72,6 @@ RESOURCES += \
     keys.qrc
 
 DISTFILES +=
+
+LIBS += -L/usr/lib/crypto++ -lcryptopp
+INCS += -I/usr/include/crypto++

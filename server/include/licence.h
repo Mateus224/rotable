@@ -3,6 +3,9 @@
 #include <string>
 #include <QException>
 
+#include <cryptopp/rsa.h>
+
+
 //------------------------------------------------------------------------------
 
 namespace rotable{
@@ -47,7 +50,7 @@ private:
      * Get pubic key from resourse
      * @return              string with key
      */
-    std::string loadKeyFromFile() const;
+    CryptoPP::RSA::PublicKey loadKeyFromFile() const;
 
     /**
      * @brief loadLicenceFromFile
@@ -62,7 +65,7 @@ private:
      * @param publicKey     public key
      * @return              true on success
      */
-    bool verifityLicence(std::string publicKey) const;
+    bool verifityLicence(CryptoPP::RSA::PublicKey publicKey) const;
 
     /**
      * @brief parseLicence
