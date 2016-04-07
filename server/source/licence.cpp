@@ -1,14 +1,17 @@
 #include "licence.h"
 
+#include <QByteArray>
+
 #include <cryptopp/osrng.h>
 #include <cryptopp/base64.h>
 #include <cryptopp/files.h>
 
+#include <fstream>
+#include <streambuf>
+
 using namespace std;
 using namespace rotable;
 using namespace CryptoPP;
-
-#include <QByteArray>
 
 //------------------------------------------------------------------------------
 
@@ -37,16 +40,35 @@ RSA::PublicKey  rotable::Licence::loadKeyFromFile() const
 
 //------------------------------------------------------------------------------
 
-string Licence::loadLicenceFromFile() const
+string Licence::loadToString(string filePath) const
 {
-
+    std::ifstream t(filePath);
+    std::string str((std::istreambuf_iterator<char>(t)),
+                     std::istreambuf_iterator<char>());
+    return str;
 }
 
 //------------------------------------------------------------------------------
 
-bool Licence::verifityLicence(RSA::PublicKey publicKey) const
+void Licence::verifityLicence(RSA::PublicKey publicKey,string licence, string sig) const
 {
+    RSASSA_PKCS1v15_SHA_Verifier verifier(publicKey);
+    string combined(licence);
+    combined.append(sig);
 
+    try
+    {
+       StringSource(combined, true,
+           new SignatureVerificationFilter(
+               verifier, NULL,
+               SignatureVerificationFilter::THROW_EXCEPTION
+          )
+       );
+    }
+    catch(SignatureVerificationFilter::SignatureVerificationFailed &err)
+    {
+        throw new SignLicenceException;
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -63,10 +85,11 @@ void rotable::Licence::loadLicence(string path)
 {
     try{
         auto key = loadKeyFromFile();
-        if(Q_UNLIKELY(!verifityLicence(key)))
-            ;
-
-
+        //Change base on path
+        auto licence = loadToString("licence.data");
+        auto sig = loadToString("sig.data");
+        verifityLicence(key, licence, sig);
+        parseLicence(licence);
     }
     catch(NoPublKeyException){
 

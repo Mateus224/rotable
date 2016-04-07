@@ -31,14 +31,14 @@ public:
      * Provide load licence
      * @param path          path to licence
      */
-    void loadLicence(std::string path);
+    void loadLicence(std::__cxx11::string path);
 
     /**
      * @brief getLicenceStatus
      * prepare data about licence for admonistration application
      * @return              string with data
      */
-    std::string getLicenceStatus();
+    std::__cxx11::string getLicenceStatus();
 
 public slots:
     void connectTable();
@@ -48,31 +48,33 @@ private:
     /**
      * @brief loadKeyFromFile
      * Get pubic key from resourse
-     * @return              string with key
+     * @return              key
      */
     CryptoPP::RSA::PublicKey loadKeyFromFile() const;
 
     /**
-     * @brief loadLicenceFromFile
-     * Get licence from file
-     * @return              string with licence to encode
+     * @brief loadToString
+     * Read file and save it to string
+     * @param filePath      path to licence
+     * @return              string with licences
      */
-    std::string loadLicenceFromFile() const;
+    std::__cxx11::string loadToString(std::__cxx11::string filePath) const;
 
     /**
      * @brief verifityLicence
-     * Verifity licence from file
+     * Verifity licence
      * @param publicKey     public key
-     * @return              true on success
+     * @param licence       licence
+     * @param sig           signature of licence
      */
-    bool verifityLicence(CryptoPP::RSA::PublicKey publicKey) const;
+    void verifityLicence(CryptoPP::RSA::PublicKey publicKey, std::__cxx11::string licence, std::__cxx11::string sig) const;
 
     /**
      * @brief parseLicence
      * Parse licence and save options
      * @param licence       encode licence
      */
-    void parseLicence(std::string licence) const;
+    void parseLicence(std::__cxx11::string licence) const;
 
     /**
      * @brief _maxTable
