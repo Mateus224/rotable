@@ -1,6 +1,8 @@
 #include "licence.h"
 
 #include <QByteArray>
+#include <QCryptographicHash>
+#include <QTextCodec>
 
 #include <cryptopp/osrng.h>
 #include <cryptopp/base64.h>
@@ -75,7 +77,13 @@ void Licence::verifityLicence(RSA::PublicKey publicKey,string licence, string si
 
 void Licence::parseLicence(string licence) const
 {
+    auto splitLicence =  QString(licence.c_str()).split(";;");
+    if(Q_UNLIKELY(
+                splitLicence[1] != QTextCodec::codecForName("UTF-8")->toUnicode(QCryptographicHash::hash(splitLicence[0].toUtf8(),
+                                                            QCryptographicHash::Sha3_512).toHex())))
+            throw new UnvalidLiceneException;
 
+    //TODO: Parse
 }
 
 
@@ -95,6 +103,10 @@ void rotable::Licence::loadLicence(string path)
 
     }
     catch(NoLicenceException)
+    {
+
+    }
+    catch(SignLicenceException)
     {
 
     }
