@@ -116,8 +116,9 @@ void rotable::Licence::loadLicence(string path)
 //------------------------------------------------------------------------------
 
 string Licence::getLicenceStatus()
-{
-
+{  
+    //TODO: not needed now, add laetly
+    return string("");
 }
 
 //------------------------------------------------------------------------------
