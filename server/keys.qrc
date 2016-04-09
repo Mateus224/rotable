@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="publkey.txt">publkey.txt</file>
+    </qresource>
+</RCC>

@@ -23,7 +23,8 @@ SOURCES += \
     source/configserver.cpp \
     source/server.cpp \
     source/schedule.cpp \
-    source/operation.cpp
+    source/operation.cpp \
+    source/licence.cpp
 
 HEADERS += \
     include/tcpserver.h \
@@ -33,7 +34,8 @@ HEADERS += \
     include/server.h \
     include/settings.h \
     include/schedule.h \
-    include/operation.h
+    include/operation.h \
+    include/licence.h
 
 ########################################################################
 # DESTINATION:
@@ -66,6 +68,10 @@ LIBS += \
   #  -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux
 
 RESOURCES += \
-    sql-commands.qrc
+    sql-commands.qrc \
+    keys.qrc
 
 DISTFILES +=
+
+LIBS += -L/usr/lib/crypto++ -lcryptopp
+INCS += -I/usr/include/crypto++
