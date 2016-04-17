@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+
+#include <QTcpSocket>
 #include <QException>
 #include <QDate>
 #include <QObject>
@@ -55,6 +57,14 @@ public:
      */
     std::string getLicenceStatus();
 
+    /**
+     * @brief getLicence
+     * reserve licence for specific conncection
+     * @param socket        Socket with connection
+     * @return              true if licence is free
+     */
+    bool getLicence(QTcpSocket *socket);
+
 signals:
     /**
      * @brief getLastIncomeDate
@@ -65,7 +75,6 @@ signals:
     void getLastIncomeDate(QDate *date);
 
 public slots:
-    void connectTable();
     void disconnectTable();
 
 private:
