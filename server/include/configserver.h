@@ -58,12 +58,13 @@ public:
   ConfigServer(const QString& path, QObject* parent = 0);
 
   // Getters
-  inline int port() const { return _port; }
-  inline const QString& db_host() const { return _db_host; }
-  inline const QString& db_name() const { return _db_name; }
-  inline const QString& db_user() const { return _db_user; }
-  inline const QString& db_pass() const { return _db_pass; }
-  inline const QString& db_prefix() const { return _db_prefix; }
+  inline int port() const { return value("Network/port").toInt(); }
+  inline const QString db_host() const { return value("Database/host").toString();}
+  inline const QString db_name() const { return value("Database/name").toString(); }
+  inline const QString db_user() const { return value("Database/user").toString(); }
+  inline const QString db_pass() const { return value("Database/pass").toString(); }
+  inline const QString db_prefix() const { return value("Database/prefix").toString(); }
+  inline const QString licecne_path() const { return value("Licence/path").toString(); }
 
   /**
    * Get name/paths of all images.
@@ -84,14 +85,12 @@ private:
    */
   void loaded();
 
+  /**
+   * @brief initData
+   * Initialized config file
+   */
   void initData();
 
-  int _port;
-  QString _db_host;
-  QString _db_name;
-  QString _db_user;
-  QString _db_pass;
-  QString _db_prefix;
   QList<Image> _images;
 }; // class ConfigServer
 

@@ -9,7 +9,7 @@ using namespace rotable;
 //------------------------------------------------------------------------------
 
 ConfigServer::ConfigServer(const QString& path, QObject* parent)
- : ConfigBase(path, parent), _port(-1)
+ : ConfigBase(path, parent)
 {
   // If config is empyt
   if(value("Database/host", "") == "")
@@ -21,18 +21,6 @@ ConfigServer::ConfigServer(const QString& path, QObject* parent)
 
 void ConfigServer::loaded()
 {
-  bool ok;
-  _port = value("Network/port").toInt(&ok);
-  if (!ok) {
-    qWarning() << tr("Error reading Network/port! Using default value of 5000.");
-    _port = 5000;
-  }
-
-  _db_host = value("Database/host").toString();
-  _db_name = value("Database/name").toString();
-  _db_user = value("Database/user").toString();
-  _db_pass = value("Database/pass").toString();
-  _db_prefix = value("Database/prefix").toString();
 
   foreach (const QString& key, allKeys()) {
     if (key.startsWith("Images/")) {
@@ -57,6 +45,7 @@ void ConfigServer::initData()
     setValue("Database/user", "rotable");
     setValue("Database/pass", "rotable");
     setValue("Database/prefix", "rotable_");
+    setValue("Licence/path", "licence/");
 }
 
 //------------------------------------------------------------------------------
