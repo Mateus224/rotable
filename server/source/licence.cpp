@@ -88,18 +88,21 @@ void Licence::parseLicence(string licence)
    //Split to fields
    QStringList licenceFields = splitLicence[0].split(";");
    //Read data to check
-   QString hostName = "";
-   QString platform = "Android";
+   #ifdef Q_OS_ANDROID
+        QString platform = "Android";
+   #else
+        QString platform = "PC";
+   #endif
    //Check data with licene
-   if(Q_UNLIKELY(licenceFields[0] != hostName && licenceFields[1] != platform))
+   if(Q_UNLIKELY(licenceFields[0] != _hostname && licenceFields[1] != platform))
        throw new UnvalidLiceneException;
-    //Read licece time
+   //Read licece time
    _licenceBegin = QDate::fromString(licenceFields[3], "dd.MM.yyyy");
    _licenceEnd = QDate::fromString(licenceFields[4], "dd.MM.yyyy");
-    //Verification licence time
-    verifityTime();
+   //Verification licence time
+   verifityTime();
 
-    _maxTable = licenceFields[2].toInt();
+   _maxTable = licenceFields[2].toInt();
 }
 
 //------------------------------------------------------------------------------
