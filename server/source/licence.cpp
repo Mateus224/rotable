@@ -3,6 +3,7 @@
 #include <QByteArray>
 #include <QCryptographicHash>
 #include <QTextCodec>
+#include <QTcpSocket>
 
 #include <cryptopp/osrng.h>
 #include <cryptopp/base64.h>
@@ -151,9 +152,11 @@ string Licence::getLicenceStatus()
 
 void Licence::connectTable()
 {
+    QTcpSocket *socket = reinterpret_cast<QTcpSocket*>(sender());
     if(Q_UNLIKELY(_maxTable == _connectedTable))
-        ;
+        socket->close();
     ++_connectedTable;
+    connect(socket, &QTcpSocket::disconnected, this, &Licence::disconnectTable);
 }
 
 //------------------------------------------------------------------------------

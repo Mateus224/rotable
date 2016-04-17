@@ -38,6 +38,7 @@ Server::Server(const QString &configFilePath, QObject *parent)
 Server::~Server()
 {
     delete schedule;
+    delete _licence;
 }
 
 //------------------------------------------------------------------------------
