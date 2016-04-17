@@ -27,6 +27,10 @@ Server::Server(const QString &configFilePath, QObject *parent)
   // if we add or update any config we parse them
   connect(&_db, &Database::parseConfig, this, &Server::config_parser);
   schedule = new Schedule();
+
+  _licence = new Licence("", "");
+
+  connect(_licence, &rotable::Licence::getLastIncomeDate, &_db, &rotable::Database::getLastIncome);
 }
 
 //------------------------------------------------------------------------------

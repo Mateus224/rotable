@@ -2632,6 +2632,13 @@ void Database::update()
 
 //------------------------------------------------------------------------------
 
+void Database::getLastIncomeDate(QDate *date)
+{
+    date = nullptr;
+}
+
+//------------------------------------------------------------------------------
+
 void Database::collectSqlCommands(Database::SqlCommands& cmds, QString table)
 {
   cmds._create = QString((const char*)QResource(

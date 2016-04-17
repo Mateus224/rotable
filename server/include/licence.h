@@ -2,8 +2,11 @@
 
 #include <string>
 #include <QException>
+#include <QDate>
+#include <QObject>
 
 #include <cryptopp/rsa.h>
+
 
 
 //------------------------------------------------------------------------------
@@ -18,27 +21,48 @@ namespace rotable{
  * @brief The rotable::Licence class provide support for check, verifity licence and
  * control connected table
  */
-class rotable::Licence{
+class rotable::Licence: public QObject{
+private:
+    Q_OBJECT
 public:
+
     /**
      * @brief Licence
      * Default constructor, load licence key and parse it
+     * @param hostname      hostname
+     * @param path          path to licence
+     * @parent              parent object
      */
-    Licence();
+    Licence(const QString &hostname, const QString &path, QObject *parent = nullptr);
 
     /**
      * @brief loadLicence
      * Provide load licence
      * @param path          path to licence
      */
-    void loadLicence(std::__cxx11::string path);
+    void loadLicence(const QString &path);
+
+    /**
+     * @brief loadLicence
+     * Provide load licence from default path
+     */
+    void loadLicence() { loadLicence(_path); }
 
     /**
      * @brief getLicenceStatus
      * prepare data about licence for admonistration application
      * @return              string with data
      */
-    std::__cxx11::string getLicenceStatus();
+    std::string getLicenceStatus();
+
+signals:
+    /**
+     * @brief getLastIncomeDate
+     * Signal connect to database and return last date in income
+     * table to ansure if anyone change date
+     * @param date          last date in income table
+     */
+    void getLastIncomeDate(QDate *date);
 
 public slots:
     void connectTable();
@@ -58,7 +82,7 @@ private:
      * @param filePath      path to licence
      * @return              string with licences
      */
-    std::__cxx11::string loadToString(std::__cxx11::string filePath) const;
+    std::string loadToString(std::string filePath) const;
 
     /**
      * @brief verifityLicence
@@ -67,14 +91,20 @@ private:
      * @param licence       licence
      * @param sig           signature of licence
      */
-    void verifityLicence(CryptoPP::RSA::PublicKey publicKey, std::__cxx11::string licence, std::__cxx11::string sig) const;
+    void verifityLicence(CryptoPP::RSA::PublicKey publicKey, std::string licence, std::string sig) const;
 
     /**
      * @brief parseLicence
      * Parse licence and save options
      * @param licence       encode licence
      */
-    void parseLicence(std::__cxx11::string licence) const;
+    void parseLicence(std::string licence);
+
+    /**
+     * @brief verifityTime
+     * Check if time is system is property and if licence isn't aut of date
+     */
+    void verifityTime();
 
     /**
      * @brief _maxTable
@@ -86,6 +116,12 @@ private:
      * Actual connected table
      */
     int _connectedTable;
+
+    QDate _licenceBegin;
+    QDate _licenceEnd;
+
+    QString _hostname;
+    QString _path;
 
     //--------------------------------------------------------------------------
     // Exceptions
@@ -111,6 +147,12 @@ private:
      * Exception when sign file don't responds to licence
      */
     class SignLicenceException: QException{};
+
+    /**
+     * @brief The UnvalidTimeException class
+     * Exception when time of last income is older from actual date
+     */
+    class UnvalidTimeException: QException{};
 };
 
 //------------------------------------------------------------------------------

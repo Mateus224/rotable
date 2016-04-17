@@ -17,10 +17,9 @@ using namespace CryptoPP;
 
 //------------------------------------------------------------------------------
 
-rotable::Licence::Licence()
+rotable::Licence::Licence(const QString &hostname, const QString &path, QObject *parent): QObject(parent), _maxTable(0), _connectedTable(0),
+   _hostname(hostname),  _path(path)
 {
-    //TODO: add path to licence
-    loadLicence("");
 }
 
 //------------------------------------------------------------------------------
@@ -37,7 +36,7 @@ RSA::PublicKey  rotable::Licence::loadKeyFromFile() const
     RSA::PublicKey key;
     key.Load(queue);
 
-    return key;                                            // Convert to string and return
+    return key;                                            
 }
 
 //------------------------------------------------------------------------------
@@ -75,41 +74,68 @@ void Licence::verifityLicence(RSA::PublicKey publicKey,string licence, string si
 
 //------------------------------------------------------------------------------
 
-void Licence::parseLicence(string licence) const
+void Licence::parseLicence(string licence)
 {
+    //Split licence to fields and hash
     auto splitLicence =  QString(licence.c_str()).split(";;");
+    //Check hash licence with licence fields
     if(Q_UNLIKELY(
                 splitLicence[1] != QTextCodec::codecForName("UTF-8")->toUnicode(QCryptographicHash::hash(splitLicence[0].toUtf8(),
                                                             QCryptographicHash::Sha3_512).toHex())))
             throw new UnvalidLiceneException;
 
-    //TODO: Parse
+   //Split to fields
+   QStringList licenceFields = splitLicence[0].split(";");
+   //Read data to check
+   QString hostName = "";
+   QString platform = "Android";
+   //Check data with licene
+   if(Q_UNLIKELY(licenceFields[0] != hostName && licenceFields[1] != platform))
+       throw new UnvalidLiceneException;
+    //Read licece time
+   _licenceBegin = QDate::fromString(licenceFields[3], "dd.MM.yyyy");
+   _licenceEnd = QDate::fromString(licenceFields[4], "dd.MM.yyyy");
+    //Verification licence time
+    verifityTime();
+
+    _maxTable = licenceFields[2].toInt();
+}
+
+//------------------------------------------------------------------------------
+
+void Licence::verifityTime()
+{
+    QDate  lastDate;
+    lastDate =  QDate::currentDate();
+
+    QDate *lastIncomeDate = nullptr;
+    emit getLastIncomeDate(lastIncomeDate);\
+    if(Q_LIKELY(lastIncomeDate))
+        if(Q_UNLIKELY(*lastIncomeDate > lastDate))
+            throw new UnvalidTimeException;
+
+    if(Q_UNLIKELY(_licenceBegin < lastDate || _licenceEnd > lastDate))
+        throw new UnvalidLiceneException;
 }
 
 
 //------------------------------------------------------------------------------
 
-void rotable::Licence::loadLicence(string path)
+void rotable::Licence::loadLicence(const QString &path)
 {
     try{
         auto key = loadKeyFromFile();
         //Change base on path
-        auto licence = loadToString("licence.data");
-        auto sig = loadToString("sig.data");
+        auto licence = loadToString((path+QString("licence.data")).toStdString());
+        auto sig = loadToString((path+QString("sig.data")).toStdString());
         verifityLicence(key, licence, sig);
         parseLicence(licence);
     }
-    catch(NoPublKeyException){
-
-    }
-    catch(NoLicenceException)
-    {
-
-    }
-    catch(SignLicenceException)
-    {
-
-    }
+    catch(NoPublKeyException){ }
+    catch(NoLicenceException){ }
+    catch(SignLicenceException){ }
+    catch(UnvalidLiceneException){ }
+    catch(UnvalidTimeException){ }
 
 }
 

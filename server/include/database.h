@@ -577,6 +577,9 @@ public:
 signals:
   void parseConfig(Config* c);
 
+public slots:
+  void getLastIncomeDate(QDate *date);
+
 private:
   /**
    * Collect SQL commands from resource file.
