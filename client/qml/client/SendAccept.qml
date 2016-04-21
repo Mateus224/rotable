@@ -25,10 +25,7 @@ Rectangle {
             GradientStop { position: 0.0; color:"#8EE2FE"}//"#8EE2FE"}
             GradientStop { position: 0.90; color: "#000000"}
         }
-        /*Image {
-            anchors.fill: parent
-            source: "qrc:/client/resources/TopBarLeft.png"
-        }*/
+
 
         Text {
             id: categoryTitleLabel
@@ -47,18 +44,6 @@ Rectangle {
     MyOrderButton {
         id: buttonMyOrder
     }
-
-    /*Image {
-        id: logo
-        source: "qrc:/client/resources/rotable_logo.png"
-
-        anchors.top: categoryBar.bottom
-        anchors.bottom: parent.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.margins: 10
-
-        fillMode: Image.PreserveAspectFit
-    }*/
 
     Rectangle {
         anchors.fill: parent

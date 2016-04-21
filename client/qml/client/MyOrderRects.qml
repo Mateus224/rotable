@@ -209,20 +209,28 @@ Rectangle {
                             border.color: "#8772c0"
                             border.width: 2
                             color: defcolor
+                            Timer {
+                                id:sendOrderTimer
+                                interval:2000
+                                onTriggered: {
+                                  client.state="STARTPAGE_QUEUE"
+                                    sendOrderTimer.stop();
+                                }
+                            }
                             MouseArea{
                                 anchors.fill: parent
                                 onClicked: {
                                     if(MyOrder.b_acceptOrder())
                                     {
                                         client.sendOrder()
-                                        client.state = "SENTPAGE"
+                                        client.state = "SENTPAGE_QUEUE"
                                         MyOrder.clearList()
-                                        //MyOrder.s_acceptOrder()
+                                        sendOrderTimer.start()
                                     }
                                     else
                                     {
                                         client.state = "SENTPAGE"
-                                        //MyOrder.s_acceptOrder()
+                                        sendOrderTimer.start()
                                     }
                                 }
                                 onPressed: parent.color= "#8772c0"

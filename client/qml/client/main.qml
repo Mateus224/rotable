@@ -52,6 +52,7 @@ Rectangle {
 
         ConnectionPage {
             id: connectionPage
+
         }
 
         ScreensaverPage {
@@ -60,6 +61,7 @@ Rectangle {
 
         StartPage {
             id: startPage
+
         }
 
         ProductPage {
@@ -86,6 +88,10 @@ Rectangle {
             id: sendAccept
         }
 
+        Queue{
+            id:queue
+        }
+
         //! [states]
         states: [
             State {
@@ -99,6 +105,10 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges {target: queue; visible: false}
+
+
+
             },
             State {
                 name: "SCREENSAVER"
@@ -111,6 +121,7 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: queue; visible: false}
             },
             State {
                 name: "STARTSCREEN"
@@ -123,6 +134,7 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: queue; visible: false}
             },
             State {
                 name: "PRODUCTSCREEN"
@@ -135,6 +147,7 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: queue; visible: false}
             },
             State {
                 name: "MYORDERSCREEN"
@@ -147,6 +160,7 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: queue; visible: false}
             },
             State {
                 name: "GAMEPAGE"
@@ -159,6 +173,7 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: queue; visible: false}
             },
             State {
                 name: "CALLWAITERPAGE"
@@ -171,6 +186,7 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: true}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: queue; visible: false}
             },
             State {
                 name: "SENTPAGE"
@@ -183,6 +199,7 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: true}
                 PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: queue; visible: false}
             },
             State {
                 name: "SENDACCEPT"
@@ -195,8 +212,49 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: true}
+                PropertyChanges { target: queue; visible: false}
+            },
+            State {
+                name: "STARTPAGE_QUEUE"
+                PropertyChanges { target: connectionPage; visible: false }
+                PropertyChanges { target: screensaverPage; visible: false }
+                PropertyChanges { target: startPage; visible: true }
+                PropertyChanges { target: productPage; visible: false }
+                PropertyChanges { target: myOrderPage; visible: false}
+                PropertyChanges { target: gamePage; visible: false}
+                PropertyChanges { target: callWaiterPage; visible: false}
+                PropertyChanges { target: sentPage; visible: false}
+                PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: queue; visible: true}
+            },
+            State {
+                name: "PRODUCTPAGE_QUEUE"
+                PropertyChanges { target: connectionPage; visible: false }
+                PropertyChanges { target: screensaverPage; visible: false }
+                PropertyChanges { target: startPage; visible: false }
+                PropertyChanges { target: productPage; visible: true }
+                PropertyChanges { target: myOrderPage; visible: false}
+                PropertyChanges { target: gamePage; visible: false}
+                PropertyChanges { target: callWaiterPage; visible: false}
+                PropertyChanges { target: sentPage; visible: false}
+                PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: queue; visible: true}
+            },
+            State {
+                name: "SENTPAGE_QUEUE"
+                PropertyChanges { target: connectionPage; visible: false }
+                PropertyChanges { target: screensaverPage; visible: false }
+                PropertyChanges { target: startPage; visible: false }
+                PropertyChanges { target: productPage; visible: false }
+                PropertyChanges { target: myOrderPage; visible: false}
+                PropertyChanges { target: gamePage; visible: false}
+                PropertyChanges { target: callWaiterPage; visible: false}
+                PropertyChanges { target: sentPage; visible: true}
+                PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: queue; visible: true}
             }
         ]
         //! [states]
     }
+
 }
