@@ -35,6 +35,7 @@ class rotable::ConfigServer : public rotable::ConfigBase
   Q_PROPERTY(QString db_user READ db_user NOTIFY dbSettingsChanged)
   Q_PROPERTY(QString db_pass READ db_pass NOTIFY dbSettingsChanged)
   Q_PROPERTY(QString db_prefix READ db_prefix NOTIFY dbSettingsChanged)
+  Q_PROPERTY(QString licence_path READ licence_path WRITE setLicence_path NOTIFY licencePathChange)
 
 public:
   /**
@@ -66,6 +67,8 @@ public:
   inline const QString db_prefix() const { return value("Database/prefix").toString(); }
   inline const QString licecne_path() const { return value("Licence/path").toString(); }
 
+  inline void selLicence_path(const QString &path){setValue("Licence/path", path); emit licencePathChange();}
+
   /**
    * Get name/paths of all images.
    *
@@ -78,6 +81,7 @@ public:
 signals:
   void portChanged();
   void dbSettingsChanged();
+  void licencePathChange();
 
 private:
   /**

@@ -895,6 +895,11 @@ bool Server::executeCommand(ComPackageCommand *package)
         }
       }
     } break;
+    case ComPackage::SetLicencePath:
+    {
+          QString path = package->data().toString();
+          _config.selLicence_path(path);
+    } break;
     default:
     {
       qCritical() << tr("Unknown command type '%1'!").arg(package->commandType());

@@ -143,7 +143,10 @@ public:
     DeleteCategory,
 
     /* Delete a product from the database */
-    DeleteProduct
+    DeleteProduct,
+
+    /* Select licence path */
+    SetLicencePath
   };
 
   /**
