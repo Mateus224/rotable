@@ -251,7 +251,10 @@ private:
    */
   QMap<int, ComPackageMessage*> queueOrders();
 
-
+  /**
+   * Send QueueMessage to connected client
+   */
+  void sendQueueOrders();
 
   /* Configuration file access */
   ConfigServer _config;

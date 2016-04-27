@@ -299,6 +299,12 @@ void payedSlot(int i){qDebug()<<i;}
    */
   void needWaiterStatus(rotable::Message *msg);
 
+  /**
+   * Slot for recive order Queue
+   * @param msg         Message
+   */
+  void orderQueue(rotable::Message *msg);
+
 private:
   /**
    * Request all category ids.
@@ -371,6 +377,9 @@ private:
   /* Current category id */
   int _currentCategoryId;
 
+  /* Table sensors */
+  rotable::Sensors _sensors;
+
   /*save the last direction from the sensor (for games)*/
   int _lastRotation;
 
@@ -380,7 +389,7 @@ private:
 //  ProductOrderListModel* _productorderlistmodel;
 
   /* Image provider */
-  ImageProvider* _imageProvider;
+  rotable::ImageProvider* _imageProvider;
 
   rotable::MessageConnector _connector;
 

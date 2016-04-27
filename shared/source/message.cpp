@@ -104,6 +104,20 @@ QueueMessage::QueueMessage(ComPackageMessage *message, QObject *parent): QueueMe
 
 //------------------------------------------------------------------------------
 
+QueueMessage::QueueMessage(QMap<int, int> orderQueue, QObject *parent): _orderQueue(orderQueue), Message(parent)
+{
+
+}
+
+//------------------------------------------------------------------------------
+
+QMap<int, int> QueueMessage::map()
+{
+    return _orderQueue;
+}
+
+//------------------------------------------------------------------------------
+
 int QueueMessage::messageType() const
 {
     return QueueMessageType;
@@ -117,8 +131,8 @@ ComPackageMessage *QueueMessage::toPackage() const
     QString out;
     for(QMap<int, int>::const_iterator it = _orderQueue.begin(); it != _orderQueue.end(); ++it)
     {
-        keys.append(QString(it.key()));
-        values.append(QString(it.value()));
+        keys.append(QString::number(it.key()));
+        values.append(QString::number(it.value()));
     }
     out = keys.join(";") + ";;" + values.join(";");
 

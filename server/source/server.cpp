@@ -571,8 +571,7 @@ bool Server::setData(ComPackageDataSet *set, client_t client)
 
     //If something change
     if(status)
-    //TODO: Send new information about queue to all client
-        ;
+        sendQueueOrders();
 
 
     return status;
@@ -1083,9 +1082,44 @@ void Server::closeStateConfig(Config *config)
 QMap<int, ComPackageMessage *> Server::queueOrders()
 {
     QMap<int, ComPackageMessage *>  result;
+    QMap<int, QMap<int, int> > orderList;
+    QMap<int, QMap<int, int> >::iterator it;
 
-    //QList<rotable::Order*> idList = _db.getNotCloseOrderList();
-    //TODO:
+    QList<rotable::Order*> *idList = _db.getNotCloseOrderList();
+    if(idList == NULL)
+        return result;
+    int i = 1;
+    foreach(Order* order, *idList)
+    {
+        orderList[order->clientId()][i] = order->id();
+        ++i;
+    }
+    delete idList;
+
+    it = orderList.begin();
+    while(it != orderList.end())
+    {
+        QueueMessage msg(it.value());
+        result[it.key()] = msg.toPackage();
+        ++it;
+    }
+
+    return result;
+}
+
+//------------------------------------------------------------------------------
+
+void Server::sendQueueOrders()
+{
+    QMap<int, ComPackageMessage*> queue(queueOrders());
+    QMap<int, ComPackageMessage*>::iterator it = queue.begin();
+
+    while(it != queue.end())
+    {
+        if(_users[1].keys(it.key()).count() == 1)
+           _tcp.send(_users[1].keys(it.key())[0],*(it.value()));
+        ++it;
+    }
 }
 
 //------------------------------------------------------------------------------

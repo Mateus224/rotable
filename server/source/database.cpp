@@ -2272,18 +2272,18 @@ QList<Order *>* Database::getNotCloseOrderList()
 
     QList<Order *> *list = new QList<Order *>();
 
-    QString queryStr = _sqlCommands[Orders]._select.arg(_prefix, "*", "status", ":status");
+    QString queryStr = QString("SELECT %2 FROM `%1orders` WHERE `%3` != %4;").arg(_prefix, "*", "state", ":stat");
 
     QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    q.bindValue(":status", 0);
+    q.setForwardOnly(false);
 
     if (!q.prepare(queryStr)) {
       qCritical() << tr("Invalid query: %1").arg(queryStr);
       delete list;
       return 0;
     }
+
+    q.bindValue(":stat", "5");
 
     if (!q.exec()) {
       qCritical() << tr("Query exec failed: (%1: %2")
@@ -2292,14 +2292,14 @@ QList<Order *>* Database::getNotCloseOrderList()
       return 0;
     }
 
-    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
-      if (q.size() != 1) {
-        qCritical() << tr("Query: returned %1 results but we expected it to return 1!")
-                       .arg(q.size());
-        delete list;
-        return 0;
-      }
-    }
+//    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+//      if (q.size() != 1) {
+//        qCritical() << tr("Query: returned %1 results but we expected it to return 1!")
+//                       .arg(q.size());
+//        delete list;
+//        return 0;
+//      }
+//    }
 
     if (!q.next()) {
         delete list;
@@ -2349,6 +2349,7 @@ QList<Order *>* Database::getNotCloseOrderList()
         foreach(int orderItemId, itemsId){
               o->addItem(orderItem(orderItemId));
         }
+        list->append(o);
     }while(q.next());
 
     return list;
