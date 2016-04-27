@@ -9,6 +9,9 @@
 #include "productcontainer.h"
 #include "private/precomp.h"
 #include "compackage.h"
+#ifndef QTIMER_H
+#include <QTimer>
+#endif
 
 //------------------------------------------------------------------------------
 
@@ -30,7 +33,7 @@ class rotable::ProductOrder : public QObject //, rotable::ProductContainer
   Q_PROPERTY(int productId READ productId NOTIFY productIdChanged)
   Q_PROPERTY(int quantity READ pieces WRITE setpieces NOTIFY piecesChanged)
   Q_PROPERTY(double PriceOfOrder READ PriceOfOrder NOTIFY PriceOfOrderChanged)
-  Q_PROPERTY(QString acceptOrder READ acceptOrder WRITE setacceptOrder NOTIFY acceptOrderChanged)
+  Q_PROPERTY(QString acceptOrder READ acceptOrder NOTIFY acceptOrderChanged)
 
 
 public:
@@ -94,7 +97,7 @@ public:
   inline int productId() const { return _productId; }
   inline  int pieces() const { return  _Product._s_quantity; }
   void setpieces( int quantity);
-  void setacceptOrder(QString _acceptOrder);
+  void setacceptOrder();
   inline double PriceOfOrder() const{return _toPay;}
   QString acceptOrder()const{return _s_acceptOrder;}
   //------------------------------------------------------------------------------
@@ -189,6 +192,8 @@ public slots:
    */
 
   void clearGuiList();
+
+  void OrderQueueTextSlot();
 
 
 //------------------------------------------------------------------------------

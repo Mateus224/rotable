@@ -889,7 +889,9 @@ bool Server::executeCommand(ComPackageCommand *package)
           dc.setDataCategory(ComPackage::RequestProductIds);
           dc.setDataName(QString::number(product->categoryId()));
           _tcp.send(-1, dc);
-          send_to_users(dc, 1);
+//          send_to_users(dc, 1);
+//          send_to_users(dc, 0);
+//          send_to_users(dc, 2);
           return true;
         }
       }

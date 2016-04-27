@@ -39,8 +39,8 @@ Client::Client(const QString &configFilePath, QObject *parent)
   connect(&_sensors, SIGNAL(contactChanged()),
           this, SIGNAL(contactChanged()));
 
-   _device=device;
-   _sensors._device=device;
+   //_device=device;
+   //_sensors._device=device;
   //MessageConnector
   connect(this, &Client::reciveMessagePackage, &_connector, &MessageConnector::reciveMessagePackage);
   //Binding for Message type

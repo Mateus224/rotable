@@ -1,57 +1,44 @@
 import QtQuick 2.0
 import "globals.js" as Global
 import "games"
-//import "callWaiter"
-
-
-//import "games/SpinBottle.qml"
 
 Rectangle {
     id: mainScreen
-    color: "#000000"
-    function device(){
-        var buttonColor
-        if(client.device_===1){
-            buttonColor= "grey"
 
-        }
-        else {
-            buttonColor= "black"
-        }
-        return buttonColor
-    }
-    //width: parent.width ? parent.width :  200
-    //height: parent.height ? parent.height : 200
-    Rectangle{
-        id: rotationButton_1
-        width: (parent.width-Math.min(parent.height, parent.width))/2
-        height: parent.height/2
+    color: "red"
+
+    RotationButton{
+        id: rotationButton_leftTop
         anchors.left: parent.left
-        color: device()
+        //property double topMargin: 0.01
+        //property double bottomMargin: 0.005
+        property int _rotation: 180
     }
-    Rectangle{
-        id: rotationButton_2
-        width: (parent.width-Math.min(parent.height, parent.width))/2
-        height: parent.height/2
+    RotationButton{
+        id: rotationButton_rightTop
         anchors.right: parent.right
-        color: device()
+        //property double topMargin: 0.01
+        //property double bottomMargin: 0.005
+        property int _rotation: 270
     }
-    Rectangle{
-        id: rotationButton_3
-        width: (parent.width-Math.min(parent.height, parent.width))/2
-        height: parent.height/2
+    RotationButton{
+        id: rotationButton_rightBottom
         anchors.bottom: parent.bottom
         anchors.right: parent.right
-        color:device()
+        //property double topMargin: 0.005
+        //property double bottomMargin: 0.01
+        property int _rotation: 0
     }
-    Rectangle{
-        id: rotationButton_4
-        width: (parent.width-Math.min(parent.height, parent.width))/2
-        height: parent.height/2
+    RotationButton{
+        id: rotationButton_leftBottom
+        anchors.left: parent.left
         anchors.bottom: parent.bottom
-        color: device()
+        //property double topMargin: 0.005
+        //property double bottomMargin: 0.01
+        property int _rotation: 90
     }
 
+//------------------------------------------------------------
 
     Rectangle {
         id: screen
@@ -65,6 +52,7 @@ Rectangle {
 
         ConnectionPage {
             id: connectionPage
+
         }
 
         ScreensaverPage {
@@ -73,6 +61,7 @@ Rectangle {
 
         StartPage {
             id: startPage
+
         }
 
         ProductPage {
@@ -99,6 +88,10 @@ Rectangle {
             id: sendAccept
         }
 
+        Queue{
+            id:queue
+        }
+
         //! [states]
         states: [
             State {
@@ -112,6 +105,10 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges {target: queue; visible: false}
+
+
+
             },
             State {
                 name: "SCREENSAVER"
@@ -124,6 +121,7 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: queue; visible: false}
             },
             State {
                 name: "STARTSCREEN"
@@ -136,6 +134,7 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: queue; visible: false}
             },
             State {
                 name: "PRODUCTSCREEN"
@@ -148,6 +147,7 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: queue; visible: false}
             },
             State {
                 name: "MYORDERSCREEN"
@@ -160,6 +160,7 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: queue; visible: false}
             },
             State {
                 name: "GAMEPAGE"
@@ -172,6 +173,7 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: queue; visible: false}
             },
             State {
                 name: "CALLWAITERPAGE"
@@ -184,6 +186,7 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: true}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: queue; visible: false}
             },
             State {
                 name: "SENTPAGE"
@@ -196,6 +199,7 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: true}
                 PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: queue; visible: false}
             },
             State {
                 name: "SENDACCEPT"
@@ -208,8 +212,49 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: true}
+                PropertyChanges { target: queue; visible: false}
+            },
+            State {
+                name: "STARTPAGE_QUEUE"
+                PropertyChanges { target: connectionPage; visible: false }
+                PropertyChanges { target: screensaverPage; visible: false }
+                PropertyChanges { target: startPage; visible: true }
+                PropertyChanges { target: productPage; visible: false }
+                PropertyChanges { target: myOrderPage; visible: false}
+                PropertyChanges { target: gamePage; visible: false}
+                PropertyChanges { target: callWaiterPage; visible: false}
+                PropertyChanges { target: sentPage; visible: false}
+                PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: queue; visible: true}
+            },
+            State {
+                name: "PRODUCTPAGE_QUEUE"
+                PropertyChanges { target: connectionPage; visible: false }
+                PropertyChanges { target: screensaverPage; visible: false }
+                PropertyChanges { target: startPage; visible: false }
+                PropertyChanges { target: productPage; visible: true }
+                PropertyChanges { target: myOrderPage; visible: false}
+                PropertyChanges { target: gamePage; visible: false}
+                PropertyChanges { target: callWaiterPage; visible: false}
+                PropertyChanges { target: sentPage; visible: false}
+                PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: queue; visible: true}
+            },
+            State {
+                name: "SENTPAGE_QUEUE"
+                PropertyChanges { target: connectionPage; visible: false }
+                PropertyChanges { target: screensaverPage; visible: false }
+                PropertyChanges { target: startPage; visible: false }
+                PropertyChanges { target: productPage; visible: false }
+                PropertyChanges { target: myOrderPage; visible: false}
+                PropertyChanges { target: gamePage; visible: false}
+                PropertyChanges { target: callWaiterPage; visible: false}
+                PropertyChanges { target: sentPage; visible: true}
+                PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: queue; visible: true}
             }
         ]
         //! [states]
     }
+
 }

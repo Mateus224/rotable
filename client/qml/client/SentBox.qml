@@ -23,7 +23,5 @@ Rectangle {
             font.capitalization: Font.AllUppercase
         }
     }
-
-
 }
 

@@ -65,7 +65,7 @@ Sensors::Sensors(QObject *parent) :
 
 void Sensors::set_PWM_signal()
 {
-    if(_device==4)
+    if(_device==4 || _device==5)
     {
 #ifdef __arm__
     if(_intervalCounter==50)
@@ -122,33 +122,33 @@ void Sensors::checkDisplaySensors()
     else{
 
 #ifdef __arm__
-/*  qDebug() << tr("Sensors %1, %2, %3, %4")
-              .arg(digitalRead(7)).arg(digitalRead(8))
-              .arg(digitalRead(24)).arg(digitalRead(25));
-*/
-  if (LOW == digitalRead(7)) {
-    if (_screenRotation != 180) {
-      _screenRotation = 180;
-      emit rotationChanged();
-    }
-  } else if (LOW == digitalRead(8)) {
-    if (_screenRotation != 0) {
-      _screenRotation = 0;
-      emit rotationChanged();
-    }
-  } else if (LOW == digitalRead(24)) {
-    if (_screenRotation != 270) {
-      _screenRotation = 270;
-      emit rotationChanged();
-    }
-  } else if (LOW == digitalRead(25)) {
-    if (_screenRotation != 90) {
-      _screenRotation = 90;
-      emit rotationChanged();
-    }
-  }
+    /*  qDebug() << tr("Sensors %1, %2, %3, %4")
+                  .arg(digitalRead(7)).arg(digitalRead(8))
+                  .arg(digitalRead(24)).arg(digitalRead(25));
+    */
+        if (LOW == digitalRead(7)) {
+            if (_screenRotation != 180) {
+            _screenRotation = 180;
+            emit rotationChanged();
+            }
+        } else if (LOW == digitalRead(8)) {
+            if (_screenRotation != 0) {
+            _screenRotation = 0;
+            emit rotationChanged();
+            }
+        } else if (LOW == digitalRead(24)) {
+            if (_screenRotation != 270) {
+            _screenRotation = 270;
+            emit rotationChanged();
+            }
+        } else if (LOW == digitalRead(25)) {
+            if (_screenRotation != 90) {
+            _screenRotation = 90;
+            emit rotationChanged();
+            }
+        }
 #endif
-  _displaySensorCheckTimer.start(DISPLAY_SENSOR_CHECK_INTERVAL);
+      _displaySensorCheckTimer.start(DISPLAY_SENSOR_CHECK_INTERVAL);
       }
 }
 
@@ -156,42 +156,44 @@ void Sensors::checkDisplaySensors()
 
 void Sensors::checkDistanceSensors()
 {
+    if (_device==5)
+    {
 #ifdef __arm__
-  if (-1 != _i2cDevice) {
-    // ctl byte //output enable und die 4 analogen eingänge ins reg_ctl register schreiben
-    if (i2c_smbus_write_byte_data(_i2cDevice, REG_CTL, 0x43) < 0) {
-      qDebug() << tr("Error in i2c_smbus_write_byte_data: %1").arg(strerror(errno));
-    } else {
-
-      long values[4];
-
-      for (int i = 0; i < 4; ++i) {
-        long res = i2c_smbus_read_byte_data(_i2cDevice, 0x40 + i);
-        //qDebug() << res;
-        values[i] = res;
-        if (res < 0) {
-          qDebug() << tr("Error in i2c_smbus_read_byte_data: %1").arg(strerror(errno));
+      if (-1 != _i2cDevice) {
+        // ctl byte //output enable und die 4 analogen eingänge ins reg_ctl register schreiben
+        if (i2c_smbus_write_byte_data(_i2cDevice, REG_CTL, 0x43) < 0) {
+          qDebug() << tr("Error in i2c_smbus_write_byte_data: %1").arg(strerror(errno));
         } else {
-          if (res > _contactThreshold) {
-            if (!_contact) {
-              _contact = true;
-              emit contactChanged();
-            }
-          } else {
-            if (_contact) {
-              _contact = false;
-              emit contactChanged();
+
+          long values[4];
+
+          for (int i = 0; i < 4; ++i) {
+            long res = i2c_smbus_read_byte_data(_i2cDevice, 0x40 + i);
+            //qDebug() << res;
+            values[i] = res;
+            if (res < 0) {
+              qDebug() << tr("Error in i2c_smbus_read_byte_data: %1").arg(strerror(errno));
+            } else {
+              if (res > _contactThreshold) {
+                if (!_contact) {
+                  _contact = true;
+                  emit contactChanged();
+                }
+              } else {
+                if (_contact) {
+                  _contact = false;
+                  emit contactChanged();
+                }
+              }
             }
           }
+
+         /* qDebug() << tr("Distance Sensor %1, %2, %3, %4")
+                      .arg(values[0]).arg(values[1])
+                      .arg(values[2]).arg(values[3]);*/
         }
       }
-
-     /* qDebug() << tr("Distance Sensor %1, %2, %3, %4")
-                  .arg(values[0]).arg(values[1])
-                  .arg(values[2]).arg(values[3]);*/
-    }
-  }
 #endif
-
   _distanceSensorCheckTimer.start(DISTANCE_SENSOR_CHECK_INTERVAL);
+    }
 }
