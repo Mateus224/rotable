@@ -130,12 +130,12 @@ void Server::packageReceived(client_t client, ComPackage *package)
   {
     ComPackageConnectionRequest* p = static_cast<ComPackageConnectionRequest*>(package);
     if (login(p, client)) {
-      if(p->clientType() == rotable::ComPackage::TableAccount)
-          if(Q_UNLIKELY(!_licence->getLicence(_tcp.clientSocket(client))))
-          {
-              ComPackageReject reject(package->id());
-              _tcp.send(client, reject);
-          }
+//      if(p->clientType() == rotable::ComPackage::TableAccount)
+//          if(Q_UNLIKELY(!_licence->getLicence(_tcp.clientSocket(client))))
+//          {
+//              ComPackageReject reject(package->id());
+//              _tcp.send(client, reject);
+//          }
       _tcp.setClientName(client, p->clientName());
       ComPackageConnectionAccept accept;
       _tcp.send(client, accept);
@@ -899,7 +899,7 @@ bool Server::executeCommand(ComPackageCommand *package)
     case ComPackage::SetLicencePath:
     {
           QString path = package->data().toString();
-          _config.selLicence_path(path);
+          _config.setLicence_path(path);
     } break;
     default:
     {

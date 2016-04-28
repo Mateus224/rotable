@@ -65,9 +65,9 @@ public:
   inline const QString db_user() const { return value("Database/user").toString(); }
   inline const QString db_pass() const { return value("Database/pass").toString(); }
   inline const QString db_prefix() const { return value("Database/prefix").toString(); }
-  inline const QString licecne_path() const { return value("Licence/path").toString(); }
+  inline const QString licence_path() const { return value("Licence/path").toString(); }
 
-  inline void selLicence_path(const QString &path){setValue("Licence/path", path); emit licencePathChange();}
+  inline void setLicence_path(const QString &path){setValue("Licence/path", path); emit licencePathChange();}
 
   /**
    * Get name/paths of all images.
