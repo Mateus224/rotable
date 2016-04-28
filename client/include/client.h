@@ -377,7 +377,7 @@ private:
   int _currentCategoryId;
 
   /* Table sensors */
-  rotable::Sensors _sensors;
+  //rotable::Sensors _sensors;
 
   /*save the last direction from the sensor (for games)*/
   int _lastRotation;

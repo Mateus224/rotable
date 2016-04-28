@@ -82,11 +82,11 @@ contains(QMAKE_CC, gcc) {
     PLATFORM = rpi
 
     INCLUDEPATH += /home/rosynski/opt/third_party/wiringPi/wiringPi \#$$PWD/../third-party/wiringPi/wiringPi \
-                   /home/rosynski/opt/rpi/rootfs/usr/include \
+                   #/home/mateus/raspi//rootfs/usr/include \
 
     LIBS += \
             -L/home/rosynski/opt/third_party/wiringPi/wiringPi -lwiringPi \
-            -L/home/rosynski/opt/rpi/rasp-pi-rootfs/usr/include -lrt
+            -L/home/mateus/raspi/rpi/rasp-pi-rootfs/usr/include -lrt
            #-L$$PWD/../third-party/wiringPi/wiringPi -lwiringPi #\
         #-L$$PWD/../third-party/google-breakpad-read-only-rpi/src/client/linux -lbreakpad_client
 }
