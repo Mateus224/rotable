@@ -50,6 +50,8 @@ MainWindow::MainWindow(QWidget* parent) :
   _serverDebugTabIcon = _ui->_tabWidget->tabIcon(serverDebugTabIdx);
   _serverDebugTabLabel = _ui->_tabWidget->tabText(serverDebugTabIdx);
   _ui->_tabWidget->removeTab(serverDebugTabIdx);
+  //Always run this same tab
+  _ui->_tabWidget->setCurrentIndex(0);
 }
 
 //------------------------------------------------------------------------------
