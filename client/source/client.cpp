@@ -320,7 +320,12 @@ void Client::invalidOrder()
 void Client::orderQueue(Message *msg)
 {
     QueueMessage *message = static_cast<QueueMessage*>(msg);
-
+    if(!message->map().empty())
+    {
+        //int iOrderQueue=message->map().
+        _queue.setqueueOrder(3);
+        _queue.queueOrderChanged();
+    }
     delete message;
 
 }

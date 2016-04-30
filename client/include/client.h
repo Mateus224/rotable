@@ -22,6 +22,7 @@
 #include "productorderlistmodel.h"
 #include "callwaiter.h"
 #include "messageconnector.h"
+#include "queue.h"
 
 
 //------------------------------------------------------------------------------
@@ -186,6 +187,7 @@ public:
   /* Products */
   rotable::ProductContainer* _products;
   rotable::CallWaiter _callWaiter;
+  rotable::Queue _queue;
   rotable::ProductOrder* _productOrder;  
   /* Table sensors */
   rotable::Sensors _sensors;

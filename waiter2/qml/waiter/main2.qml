@@ -7,7 +7,6 @@ import QtGraphicalEffects 1.0
 ApplicationWindow {
     id:applicationWindow
     visible: true
-    //visibility: "FullScreen"
     title: qsTr("Waiter client")
     color: "#7AAEEE"
     property int margin: 10
@@ -70,7 +69,7 @@ ApplicationWindow {
 
             ListView {
                 id: tableList
-                height: 200
+                height: (applicationWindow.height/3)*2
                 anchors.top: tableMenuLabel.bottom
                 anchors.right: parent.right
                 anchors.left: parent.left
@@ -95,7 +94,7 @@ ApplicationWindow {
                     style: ButtonStyle {
                         background: Rectangle {
                             implicitWidth: 100
-                            implicitHeight: 70
+                            implicitHeight: 50
                             border.width: control.activeFocus ? 2 : 1
                             border.color: "white"
                             property var  gradientSelect: Gradient {
@@ -121,7 +120,7 @@ ApplicationWindow {
                     Text{
                         anchors.horizontalCenter: parent.horizontalCenter
                         font.family: "Lobster two"
-                        text:model.name + "\n" + "Orders: " + model.orderNumber + "\n" + connected
+                        text:"Table: "+model.name + "\n" + "Orders: " + model.orderNumber + "\n" + connected
                     }
                     onClicked: {
                         tables.sendToBoardOrder(model.id)
@@ -132,7 +131,8 @@ ApplicationWindow {
                 id: bannercomponent
                 Rectangle {
                     id: banner
-                    width: parent.width; height: 60
+                    width: parent.width;
+                    height: 60
                     gradient: clubcolors
                     border {
                         color: "#7AAEEE"//"#9EDDF2";
@@ -157,30 +157,44 @@ ApplicationWindow {
                 GradientStop { position: 0.66   ; color: "#8EE2FE"}
             }
 
-            Text{
-                id: labelneedList
-                text: qsTr("Table need waiter")
-                font.bold: true
-                font.family: "Lobster two"
-                font.pixelSize: 20
-                anchors.top: tableList.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
 
             ListView {
                 id: needList
-                y: 500 //300
-                height: 10
-                anchors.top: labelneedList.bottom
+                y: 500
+                height:applicationWindow.height/3
+                anchors.top: tableList.bottom
                 anchors.right: parent.right
                 anchors.left: parent.left
                 anchors.leftMargin: 0
-                Layout.fillHeight: true
+                //Layout.fillHeight: true
                 Layout.minimumWidth: 100
                 spacing: margin
+                header: banner_tableNeedWaiter
 
                 model: needBoard
+                Component {     //instantiated when header is processed
+                    id: banner_tableNeedWaiter
+                    Rectangle {
+                        id: banner
+                        width: parent.width;
+                        height: 60
+                        gradient: clubcolors
+                        border {
+                            color: "#7AAEEE"//"#9EDDF2";
+                            width: 2}
 
+                        Text{
+                            id: labelneedList
+                            text: qsTr("Table need waiter")
+                            font.bold: true
+                            font.family: "Lobster two"
+                            font.pixelSize: 20
+                            //anchors.bottom: needList.top
+                            //anchors.topMargin: -500
+                            anchors.horizontalCenter: parent.horizontalCenter
+                        }
+                    }
+                }
                 delegate: Button{
                     id: needBoardButton
                     width:  parent.width
@@ -248,18 +262,14 @@ ApplicationWindow {
             }
                 ListView {
                     anchors.topMargin: 10
-                    //anchors.top: text1.bottom
                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
                     anchors.left: parent.left
                     anchors.leftMargin: 0
-                    //anchors.fill: parent
                     spacing: 5
                     model: orderboard
                     id: board
-                    //anchors.fill: parent
                     Layout.minimumHeight: 200
-                    //Layout.fillWidth: true
                     Layout.fillHeight: true
                     header:bannerO
                     footer: Rectangle {
@@ -312,12 +322,12 @@ ApplicationWindow {
                             Label{
                                 text: qsTr("To pay: ") + orderPrice;
                             }
-                            Button{
-                                id: buttonOrder
-                                text: qsTr("Select all")
-                                onClicked: model.prepareOrderToChange
+                            //Button{
+                            //    id: buttonOrder
+                            //    text: qsTr("Select all")
+                            //    onClicked: model.prepareOrderToChange
 
-                            }
+                            //}
                         }
                     }
                     delegate:order

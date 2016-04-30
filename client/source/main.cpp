@@ -106,6 +106,7 @@ int main(int argc, char *argv[])
   ProductOrderListModel *_productorderlistmodel = new ProductOrderListModel(client, client->_productOrder);
   view->rootContext()->setContextProperty("MyProductOrderList", _productorderlistmodel);
   view->rootContext()->setContextProperty("CallWaiterObject", &(client->_callWaiter));
+  view->rootContext()->setContextProperty("OrderQueue", &(client->_queue));
   QQmlContext *ctxt = view->engine()->rootContext();
   qmlContxt init(*ctxt);
   init.initContxt(1);

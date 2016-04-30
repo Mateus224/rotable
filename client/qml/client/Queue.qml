@@ -12,7 +12,7 @@ Rectangle {
         GradientStop { position: 0.90; color: "#8EE2FE"}
     }
     Text{
-        text: "1"
+        text: OrderQueue.queueOrder
         font.family: "FreeSans"
         color: "#000000"
         font.bold: true
