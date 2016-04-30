@@ -52,6 +52,9 @@ Rectangle {
     MyOrderRects {
         id: myOrderRects
         }
+    Queue{
+
+    }
 
 }
 

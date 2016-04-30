@@ -211,9 +211,9 @@ Rectangle {
                             color: defcolor
                             Timer {
                                 id:sendOrderTimer
-                                interval:2000
+                                interval:1500
                                 onTriggered: {
-                                  client.state="STARTPAGE_QUEUE"
+                                  client.state="STARTSCREEN"
                                     sendOrderTimer.stop();
                                 }
                             }
@@ -223,7 +223,7 @@ Rectangle {
                                     if(MyOrder.b_acceptOrder())
                                     {
                                         client.sendOrder()
-                                        client.state = "SENTPAGE_QUEUE"
+                                        client.state = "SENTPAGE"
                                         MyOrder.clearList()
                                         sendOrderTimer.start()
                                     }

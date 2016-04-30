@@ -52,4 +52,7 @@ Rectangle {
     ProductRects {
         id: productRects
     }
+    Queue{
+
+    }
 }

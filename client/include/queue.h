@@ -18,8 +18,7 @@ class rotable::Queue: public QObject{
 
     Q_PROPERTY(int queueOrder READ queueOrder WRITE setqueueOrder NOTIFY queueOrderChanged)
 public:
-public:
-    Queue():_queueOrder(4){}
+    Queue():_queueOrder(0){}
 
     inline int queueOrder() const { return _queueOrder; }
     inline void setqueueOrder(int queueOrder)

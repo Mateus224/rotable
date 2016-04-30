@@ -24,4 +24,7 @@ Rectangle {
     CategoryBar {
         id: categoryBar
     }
+    Queue{
+
+    }
 }
