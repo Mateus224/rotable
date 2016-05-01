@@ -381,6 +381,7 @@ void Executor::onPackageReceived(ComPackage *package)
       emit connectionEstablished();
       emit statusMessage(tr("Connected"));
       requestCategoryIds();
+      requestServerConfigs();
       break;
 
     case ComPackage::DataRequest:
@@ -480,6 +481,20 @@ void Executor::requestProduct(int productId)
 
 //------------------------------------------------------------------------------
 
+void Executor::requestServerConfigs()
+{
+    ComPackageDataRequest* request = new ComPackageDataRequest();
+    request->setDataCategory(ComPackage::RequestConfig);
+
+    if (!_tcp_client.send(*request)) {
+      qCritical() << tr("Could not send request!");
+    } else {
+      _dataRequest[request->id()] = request;
+    }
+}
+
+//------------------------------------------------------------------------------
+
 void Executor::dataReturned(ComPackageDataReturn *package)
 {
   _dataRequest.remove(package->originId());
@@ -521,6 +536,10 @@ void Executor::dataReturned(ComPackageDataReturn *package)
     _products->addProduct(product);
   } break;
 
+  case ComPackage::RequestConfig:
+  {
+    loadServerConfigs(package->data().toString());
+  } break;
   default:
   {
     qCritical() << tr("Unknown data package returned");
@@ -584,3 +603,13 @@ void Executor::dataChanged(ComPackageDataChanged *package)
     }
   }
 }
+
+//------------------------------------------------------------------------------
+
+void Executor::loadServerConfigs(const QString &string)
+{
+    //TODO: load data
+
+}
+
+//------------------------------------------------------------------------------

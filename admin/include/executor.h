@@ -169,9 +169,12 @@ private:
   void requestProductIds(int categoryId);
   void requestCategory(int categoryId);
   void requestProduct(int productId);
+  void requestServerConfigs();
 
   void dataReturned(rotable::ComPackageDataReturn* package);
   void dataChanged(rotable::ComPackageDataChanged* package);
+
+  void loadServerConfigs(const QString& string);
 
   /* MainWindow object */
   MainWindow* _mainwindow;
