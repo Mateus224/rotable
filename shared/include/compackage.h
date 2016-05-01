@@ -112,7 +112,10 @@ public:
     RequestTable,
 
     /* Request list order on table*/
-    RequestOrderOnTable
+    RequestOrderOnTable,
+
+    /* Request config on server*/
+    RequestConfig
   };
 
   /**

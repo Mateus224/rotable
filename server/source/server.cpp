@@ -489,6 +489,11 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request)
                      .arg(request->dataName());
     }
   } break;
+  case  ComPackage::RequestConfig:
+  {
+     ComPackageDataReturn* ret = new ComPackageDataReturn(*request, configToJSON());
+     return ret;
+  }break;
   default:
   {
     qCritical() << tr("Unknown data request id: %d").arg(request->dataCategory());
@@ -541,7 +546,7 @@ bool Server::setData(ComPackageDataSet *set, client_t client)
     bool status = false;
     if(set->dataName() == "")
     {
-        //Covert data to array
+        //Covert data to array//TODO: Send
         QJsonArray array = set->data().toArray();
 
         //Crete QList with items
@@ -1086,6 +1091,14 @@ QMap<int, ComPackageMessage *> Server::queueOrders()
 
     //QList<rotable::Order*> idList = _db.getNotCloseOrderList();
     //TODO:
+}
+
+//------------------------------------------------------------------------------
+
+QJsonValue Server::configToJSON()
+{
+    auto path = _config.licecne_path();
+    return QJsonValue(path);
 }
 
 //------------------------------------------------------------------------------

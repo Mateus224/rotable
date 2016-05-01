@@ -251,6 +251,11 @@ private:
    */
   QMap<int, ComPackageMessage*> queueOrders();
 
+  /**
+   * Collect config and parse them to JSON object
+   * @return            JSON object with config
+   */
+  QJsonValue configToJSON();
 
 
   /* Configuration file access */
