@@ -55,7 +55,7 @@ public:
      * prepare data about licence for admonistration application
      * @return              string with data
      */
-    std::string getLicenceStatus();
+    QString getLicenceStatus();
 
     /**
      * @brief getLicence

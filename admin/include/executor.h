@@ -156,6 +156,11 @@ public slots:
    */
   void onStopDebugServerListening();
 
+  /**
+   * Method for send new licence to server
+   */
+  void onAddLicence();
+
 private slots:
   void onClientError(QAbstractSocket::SocketError error);
 
@@ -175,6 +180,7 @@ private:
   void dataChanged(rotable::ComPackageDataChanged* package);
 
   void loadServerConfigs(const QString& string);
+  void loadLicenceStatus(const QString& string);
 
   /* MainWindow object */
   MainWindow* _mainwindow;

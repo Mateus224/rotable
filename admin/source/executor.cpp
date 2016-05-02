@@ -9,6 +9,8 @@
 #include "productcategory.h"
 #include "productcontainer.h"
 
+#include <QBuffer>
+
 //------------------------------------------------------------------------------
 
 using namespace rotable;
@@ -317,7 +319,30 @@ void Executor::onStartDebugServerListening()
 
 void Executor::onStopDebugServerListening()
 {
-  _serverLogListener.stopConnection();
+    _serverLogListener.stopConnection();
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::onAddLicence()
+{
+    // TODO: new window
+    QFile file;
+    QStringList fileList;
+    QJsonArray array;
+
+    foreach(QString fileName, fileList)
+    {
+        file.setFileName(fileName);
+
+        QByteArray ba;
+        QBuffer buffer(&ba);
+
+        ba = file.readAll();
+        QString base64 = ba.toBase64(QByteArray::Base64UrlEncoding);
+
+        array.append(QJsonValue(base64));
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -540,6 +565,10 @@ void Executor::dataReturned(ComPackageDataReturn *package)
   {
     loadServerConfigs(package->data().toString());
   } break;
+  case ComPackage::RequestLicence:
+  {
+    loadLicenceStatus(package->data().toString());
+  } break;
   default:
   {
     qCritical() << tr("Unknown data package returned");
@@ -609,7 +638,13 @@ void Executor::dataChanged(ComPackageDataChanged *package)
 void Executor::loadServerConfigs(const QString &string)
 {
     //TODO: load data
+}
 
+//------------------------------------------------------------------------------
+
+void Executor::loadLicenceStatus(const QString &string)
+{
+    //TODO: load data
 }
 
 //------------------------------------------------------------------------------

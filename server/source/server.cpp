@@ -7,6 +7,7 @@
 #include "message.h"
 
 #include <QStandardPaths>
+#include <QFile>
 
 
 //------------------------------------------------------------------------------
@@ -494,6 +495,11 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request)
      ComPackageDataReturn* ret = new ComPackageDataReturn(*request, configToJSON());
      return ret;
   }break;
+  case ComPackage::RequestLicence:
+  {
+      ComPackageDataReturn* ret = new ComPackageDataReturn(*request, QJsonValue(_licence->getLicenceStatus()));
+      return ret;
+  } break;
   default:
   {
     qCritical() << tr("Unknown data request id: %d").arg(request->dataCategory());
@@ -583,6 +589,22 @@ bool Server::setData(ComPackageDataSet *set, client_t client)
     return status;
 
   }break;
+  case ComPackage::SetLicence:
+  {
+    QJsonArray arr = set->data().toArray();     // For store files
+    QStringList name = {"licence.dat", "licence.crt"};
+    int i  = 0;
+
+    foreach(QJsonValue file, arr)
+    {
+        QByteArray ba = QByteArray::fromBase64(file.toString().toLocal8Bit(),
+                                               QByteArray::Base64UrlEncoding);
+
+        QFile f;
+        f.setFileName("");
+        f.write(ba);
+    }
+  } break;
   default:
   {
     qCritical() << tr("Unknown data set id: %d").arg(set->dataCategory());

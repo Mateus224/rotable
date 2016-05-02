@@ -115,7 +115,10 @@ public:
     RequestOrderOnTable,
 
     /* Request config on server*/
-    RequestConfig
+    RequestConfig,
+
+    /* Request licence info from server*/
+    RequestLicence
   };
 
   /**
@@ -132,7 +135,10 @@ public:
     SetProduct,
 
     /* Set/Update order*/
-    SetOrder
+    SetOrder,
+
+    /* Set licence */
+    SetLicence
   };
 
   /**

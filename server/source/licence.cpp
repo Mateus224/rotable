@@ -144,10 +144,10 @@ void rotable::Licence::loadLicence(const QString &path)
 
 //------------------------------------------------------------------------------
 
-string Licence::getLicenceStatus()
+QString Licence::getLicenceStatus()
 {  
     //TODO: not needed now, add laetly
-    return string("");
+    return QString("");
 }
 
 //------------------------------------------------------------------------------
