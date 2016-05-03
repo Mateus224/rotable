@@ -7,7 +7,7 @@ Rectangle{
     MouseArea{
         anchors.fill: parent
         onClicked: {
-            client.state = "STARTSCREEN"
+            gamePage.state = "DEFAULT"
             client.screenRotation
         }
     }

@@ -155,8 +155,9 @@ Rectangle {
                 anchors.fill: parent
 
                 onClicked: {
-                    MyOrder.addToProductHash(buttonProductId)
-                    count=count+1
+                    MyOrder.rmFromProductHash(buttonProductId)
+                    if (count>0)
+                        count--
                 }
 
                 //onClicked: add_or_removeProduct(buttonProductId,true)
@@ -213,9 +214,8 @@ Rectangle {
                 anchors.fill: parent
 
                 onClicked: {
-                    MyOrder.rmFromProductHash(buttonProductId)
-                    if (count>0)
-                        count--
+                    MyOrder.addToProductHash(buttonProductId)
+                    count=count+1
                 }
 
                 //onClicked: add_or_removeProduct(buttonProductId,flase)

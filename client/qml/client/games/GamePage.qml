@@ -4,15 +4,11 @@ import ".."
 
 Rectangle {
     id:gamePage
+
+    property int stateChangeDuration: 100
     anchors.fill: parent
     color: "#00000000"
-
-
-    MouseArea {
-        id: idMouseAreaPayedPage
-        anchors.fill: parent
-        enabled: true
-    }
+    state: "DEFAULT"
 
     Rectangle {
         id: categoryTitle
@@ -28,11 +24,7 @@ Rectangle {
             GradientStop { position: 0.0; color:"#8EE2FE"}//"#8EE2FE"}
             GradientStop { position: 0.90; color: "#000000"}
         }
-
-
-
     }
-
 
     Rectangle {
         anchors.fill: parent
@@ -137,9 +129,67 @@ Rectangle {
         id: categoryBar
     }
     Queue{
+        id:queue
+        visible: true
 
     }
+    SpinBottle{
+        id:spinTheBottle
+        visible: false
 
+        Behavior on x {
+            NumberAnimation {
+                duration: stateChangeDuration
+                easing.type: Easing.InOutQuad
+            }
+        }
+        Behavior on y {
+            NumberAnimation {
+                duration: stateChangeDuration
+                easing.type: Easing.InOutQuad
+            }
+        }
+        Behavior on width {
+            NumberAnimation {
+                duration: stateChangeDuration
+                easing.type: Easing.InOutQuad
+            }
+        }
+        Behavior on height {
+            NumberAnimation {
+                duration: stateChangeDuration
+                easing.type: Easing.InOutQuad
+            }
+        }
+        Behavior on z {
+            NumberAnimation {
+                duration: stateChangeDuration
+                easing.type: Easing.InOutQuad
+            }
+        }
+    }
+
+    states: [
+        State {
+            name: "DEFAULT"
+            PropertyChanges { target: spinTheBottle; visible: false }
+            PropertyChanges { target: queue; visible: true }
+            PropertyChanges { target: spinTheBottle; z: 0 }
+            PropertyChanges { target: tete; z: 0 }
+            PropertyChanges { target: spinTheBottle; width: Math.min(mainScreen.height, mainScreen.width) }
+            PropertyChanges { target: spinTheBottle; height: Math.min(mainScreen.height, mainScreen.width) }
+            //PropertyChanges { target: spinTheBottle; z: 1 }
+        },
+        State {
+            name: "SPINTHEBOTTLE"
+            PropertyChanges { target: spinTheBottle; visible: true }
+            PropertyChanges { target: queue; visible: false }
+            PropertyChanges { target: spinTheBottle; z: 1 }
+            PropertyChanges { target: tete; z: 1 }
+            PropertyChanges { target: spinTheBottle; width: Math.min(mainScreen.height, mainScreen.width) }
+            PropertyChanges { target: spinTheBottle; height: Math.min(mainScreen.height, mainScreen.width) }
+        }
+    ]
 }
 
 

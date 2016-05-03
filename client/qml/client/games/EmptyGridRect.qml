@@ -75,27 +75,16 @@ Rectangle {
         anchors.fill: parent
         enabled: true
         onClicked:  {
-        if (gameGridRectTemplate.state == "COLLAPSED")
+        if (gamePage.state == "DEFAULT")
             {
-                gameGridRectTemplate.state = "EXPANDED"
+                gamePage.state = "SPINTHEBOTTLE"
+
             }
 
 
         }
     }
 
-
-   /* Connections {
-        target: idMouseAreaBProductPage
-        onClicked: {
-            //if (-1 != buttonProductId) {
-                if (gameGridRectTemplate.state == "EXPANDED") {
-                    gameGridRectTemplate.state = "COLLAPSED"
-                    //MyOrder.setproductid(buttonProductId)
-                }
-           // }
-        }
-    }*/
     states: [
         State {
             name: "EXPANDED"
