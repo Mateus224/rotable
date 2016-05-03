@@ -33,7 +33,53 @@ Rectangle {
         //anchors.verticalCenter: parent.verticalCenter
         //anchors.horizontalCenter: parent.horizontalCenter
         id: buttonExpanded
-        SpinBottle{
+        color: parent.color
+        visible: false
+
+        x: parent.x
+        y: parent.y
+        width: parent.width
+        height: parent.height
+        Text{
+            anchors.fill: parent
+            text: "FLASCHENDREHEN:\nauf wenn die Flsche zeigt nimmt ein schluck aus der Bierflasche bzw. vom seinen Drink"
+            font.family: "FreeSans"
+            color: "#FFFFFFFF"
+            font.bold: true
+            font.pixelSize: parent.height * 0.05
+            font.capitalization: Font.AllUppercase
+            wrapMode: Text.Wrap
+        }
+
+        Rectangle{
+            id: playGameButton
+            color:"red"
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.topMargin: 3*parent.height/4
+            Text{
+                anchors.fill: parent
+                text: "PLAY GAME"
+                font.family: "FreeSans"
+                color: "#FFFFFFFF"
+                font.bold: true
+                font.pixelSize: parent.height * 0.5
+                font.capitalization: Font.AllUppercase
+                wrapMode: Text.Wrap
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+            MouseArea{
+                anchors.fill: parent
+                onClicked:  {
+                    if (gamePage.state == "DEFAULT")
+                    {
+                        gamePage.state = "SPINTHEBOTTLE"
+                    }
+                }
+            }
 
         }
 
@@ -75,24 +121,28 @@ Rectangle {
         anchors.fill: parent
         enabled: true
         onClicked:  {
-        if (gamePage.state == "DEFAULT")
+        /*if (gamePage.state == "DEFAULT")
             {
                 gamePage.state = "SPINTHEBOTTLE"
-
-            }
+            }*/
+        if (gameGridRectTemplate.state == "COLLAPSED")
+        {
+            gameGridRectTemplate.state = "EXPANDED"
+        }
 
 
         }
     }
 
+
     states: [
         State {
             name: "EXPANDED"
             PropertyChanges { target: buttonExpanded; visible: true }
-            PropertyChanges { target: buttonExpanded; x: -Math.min(mainScreen.height, mainScreen.width)/2}
-            PropertyChanges { target: buttonExpanded; y: -Math.min(mainScreen.height, mainScreen.width)/2}
-            PropertyChanges { target: buttonExpanded; width: Math.min(mainScreen.height, mainScreen.width) }
-            PropertyChanges { target: buttonExpanded; height: Math.min(mainScreen.height, mainScreen.width) }
+            PropertyChanges { target: buttonExpanded; x: -gameGridRectTemplate.x}
+            PropertyChanges { target: buttonExpanded; y: -gameGridRectTemplate.y}
+            PropertyChanges { target: buttonExpanded; width: 5 * (gridGamePage.width  * 0.015 + gameGridRectTemplate.buttonWidth ) - gameGridRectTemplate.buttonMarginH }
+            PropertyChanges { target: buttonExpanded; height: 3 * (gridGamePage.height*0.025 + gameGridRectTemplate.buttonHeight)- gameGridRectTemplate.buttonMarginV }
             PropertyChanges { target: gameGridRectTemplate; z: 1 }
             PropertyChanges { target: buttonExpanded; z: 1 }
         },
