@@ -73,7 +73,8 @@ FORMS += \
     ui/mainwindow.ui \
     ui/connectToServer.ui \
     ui/addproductdialog.ui \
-    ui/addproductcategorydialog.ui
+    ui/addproductcategorydialog.ui \
+    ui/addnewlicence.ui
 
 RESOURCES += \
     resources/resources.qrc \

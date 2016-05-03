@@ -75,6 +75,7 @@ signals:
  void actionStartDebugServerListening();
  void actionStopDebugServerListening();
  void actionClearDebugServerLog();
+ void actionAddLicence();
 
 public slots:
  void onConnectionEstablished();

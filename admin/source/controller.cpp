@@ -116,6 +116,9 @@ void Controller::connect_signals()
   connect(_mainwindow->_ui->_listViewCategories, SIGNAL(selectionChanged(int)),
           &_executor, SLOT(onCategorySelectionChanged(int)));
 
+  connect(_mainwindow, &MainWindow::actionAddLicence,
+          &_executor, &Executor::onAddLicence);
+
   //----------------------------------------------------------------------------
 
   connect(&_products, SIGNAL(productAdded(int)),

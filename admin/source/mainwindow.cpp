@@ -39,6 +39,8 @@ MainWindow::MainWindow(QWidget* parent) :
           this, SIGNAL(actionStartDebugServerListening()));
   connect(_ui->_toolButtonStopDebugListening, SIGNAL(clicked()),
           this, SIGNAL(actionStopDebugServerListening()));
+  connect(_ui->_toolAddLicence, &QPushButton::clicked,
+          this, &MainWindow::actionAddLicence);
 
   _ui->_statusBar->showMessage(tr("Disconnected"));
 
