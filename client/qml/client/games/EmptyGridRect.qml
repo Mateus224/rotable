@@ -5,7 +5,8 @@ Rectangle {
     id: gameGridRectTemplate
     property int stateChangeDuration: 400
     property string gameName: ""
-    property string _center: ""
+    property string infoString: ""
+    property int id_: 15
     property int buttonMarginH: parent.parent.width  * 0.015
     property int buttonMarginV: parent.parent.height * 0.025
     property int buttonWidth:  (parent.parent.width  - buttonMarginH) / 5.01 - buttonMarginH
@@ -36,13 +37,14 @@ Rectangle {
         color: parent.color
         visible: false
 
+
         x: parent.x
         y: parent.y
         width: parent.width
         height: parent.height
         Text{
             anchors.fill: parent
-            text: "FLASCHENDREHEN:\nauf wenn die Flsche zeigt nimmt ein schluck aus der Bierflasche bzw. vom seinen Drink"
+            text: infoString
             font.family: "FreeSans"
             color: "#FFFFFFFF"
             font.bold: true
@@ -74,9 +76,98 @@ Rectangle {
             MouseArea{
                 anchors.fill: parent
                 onClicked:  {
-                    if (gamePage.state == "DEFAULT")
+                    switch (id_)
                     {
-                        gamePage.state = "SPINTHEBOTTLE"
+                    case 0:
+                        if (gamePage.state == "DEFAULT")
+                        {
+                            gamePage.state = "SPINTHEBOTTLE"
+                        }
+                        break
+                    case 1:
+                        if (gamePage.state == "DEFAULT")
+                        {
+                            gamePage.state = "SPINTHEBOTTLE"
+                        }
+                        break
+                    case 2:
+                        if (gamePage.state == "DEFAULT")
+                        {
+                            gamePage.state = "DEFAULT"
+                        }
+                        break
+                    case 3:
+                        if (gamePage.state == "DEFAULT")
+                        {
+                            gamePage.state = "DEFAULT"
+                        }
+                        break
+                    case 4:
+                        if (gamePage.state == "DEFAULT")
+                        {
+                            gamePage.state = "DEFAULT"
+                        }
+                        break
+                    case 5:
+                        if (gamePage.state == "DEFAULT")
+                        {
+                            gamePage.state = "DEFAULT"
+                        }
+                        break
+                    case 6:
+                        if (gamePage.state == "DEFAULT")
+                        {
+                            gamePage.state = "DEFAULT"
+                        }
+                        break
+                    case 7:
+                        if (gamePage.state == "DEFAULT")
+                        {
+                            gamePage.state = "SPINTHEBOTTLE"
+                        }
+                        break
+                    case 8:
+                        if (gamePage.state == "DEFAULT")
+                        {
+                            gamePage.state = "SPINTHEBOTTLE"
+                        }
+                        break
+                    case 9:
+                        if (gamePage.state == "DEFAULT")
+                        {
+                            gamePage.state = "DEFAULT"
+                        }
+                        break
+                    case 10:
+                        if (gamePage.state == "DEFAULT")
+                        {
+                            gamePage.state = "DEFAULT"
+                        }
+                        break
+                    case 11:
+                        if (gamePage.state == "DEFAULT")
+                        {
+                            gamePage.state = "DEFAULT"
+                        }
+                        break
+                    case 12:
+                        if (gamePage.state == "DEFAULT")
+                        {
+                            gamePage.state = "DEFAULT"
+                        }
+                        break
+                    case 13:
+                        if (gamePage.state == "DEFAULT")
+                        {
+                            gamePage.state = "DEFAULT"
+                        }
+                        break
+                    case 14:
+                        if (gamePage.state == "DEFAULT")
+                        {
+                            gamePage.state = "DEFAULT"
+                        }
+                        break
                     }
                 }
             }

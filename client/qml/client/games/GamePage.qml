@@ -68,15 +68,10 @@ Rectangle {
                 EmptyGridRect{
                     color:parent.color(0,0)
                     gameName:"Spin the Bottle"
-                    property int _center: 1
-                    MouseArea{
-                        onClicked: {
-
-                        }
-                    }
+                    infoString: "FLASCHENDREHEN:\nauf wenn die Flsche zeigt nimmt ein schluck aus der Bierflasche bzw. vom seinen Drink"
+                    id_: 1
                 }
                 EmptyGridRect{
-                    id:tete
                     color:parent.color(0,1)
                 }
                 EmptyGridRect{
