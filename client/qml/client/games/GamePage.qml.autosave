@@ -8,11 +8,6 @@ Rectangle {
     color: "#00000000"
 
 
-    MouseArea {
-        id: idMouseAreaPayedPage
-        anchors.fill: parent
-        enabled: true
-    }
 
     Rectangle {
         id: categoryTitle

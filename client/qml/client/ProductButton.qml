@@ -167,7 +167,7 @@ Rectangle {
                 anchors.centerIn: parent
                 width: parent.width*0.75
                 height: parent.height*0.75
-                source: "qrc:/client/resources/plus_white.png"
+                source: "qrc:/client/resources/minus_white.png"
                 anchors.margins: parent.height * 0.33
             }
         }
@@ -226,7 +226,7 @@ Rectangle {
                 anchors.centerIn: parent
                 width: parent.width*0.75
                 height: parent.height*0.75
-                source: "qrc:/client/resources/minus_white.png"
+                source: "qrc:/client/resources/plus_white.png"
                 anchors.margins: parent.height * 0.33
             }
         }
