@@ -52,15 +52,49 @@ Rectangle {
             font.capitalization: Font.AllUppercase
             wrapMode: Text.Wrap
         }
-
         Rectangle{
-            id: playGameButton
-            color:"red"
+            color: "black"
             anchors.bottom: parent.bottom
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.topMargin: 3*parent.height/4
+        Rectangle{
+            id: goBack
+            color: parent.parent.color
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            width: parent.width/2 -parent.height/40
+            anchors.top: parent.top
+            anchors.topMargin: parent.height/20
+            Text{
+                anchors.fill: parent
+                text: "Go back"
+                font.family: "FreeSans"
+                color: "#FFFFFFFF"
+                font.bold: true
+                font.pixelSize: parent.height * 0.5
+                font.capitalization: Font.AllUppercase
+                wrapMode: Text.Wrap
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+            MouseArea{
+                anchors.fill: parent
+                onClicked:  {
+                    gameGridRectTemplate.state = "COLLAPSED"
+                }
+            }
+        }
+
+        Rectangle{
+            id: playGameButton
+            color:parent.parent.color
+            anchors.bottom: parent.bottom
+            width: parent.width/2-parent.height/40
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.topMargin: parent.height/20
             Text{
                 anchors.fill: parent
                 text: "PLAY GAME"
@@ -123,13 +157,13 @@ Rectangle {
                     case 7:
                         if (gamePage.state == "DEFAULT")
                         {
-                            gamePage.state = "SPINTHEBOTTLE"
+                            gamePage.state = "DEFAULT"
                         }
                         break
                     case 8:
                         if (gamePage.state == "DEFAULT")
                         {
-                            gamePage.state = "SPINTHEBOTTLE"
+                            gamePage.state = "DEFAULT"
                         }
                         break
                     case 9:
@@ -173,6 +207,7 @@ Rectangle {
             }
 
         }
+        }
 
         Behavior on x {
             NumberAnimation {
@@ -212,14 +247,10 @@ Rectangle {
         anchors.fill: parent
         enabled: true
         onClicked:  {
-        /*if (gamePage.state == "DEFAULT")
+            if (gameGridRectTemplate.state == "COLLAPSED")
             {
-                gamePage.state = "SPINTHEBOTTLE"
-            }*/
-        if (gameGridRectTemplate.state == "COLLAPSED")
-        {
-            gameGridRectTemplate.state = "EXPANDED"
-        }
+                gameGridRectTemplate.state = "EXPANDED"
+            }
 
 
         }

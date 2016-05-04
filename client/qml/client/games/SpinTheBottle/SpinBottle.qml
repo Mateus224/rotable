@@ -11,7 +11,7 @@ Rectangle{
         height: parent.height
         width: parent.width
         source:  "qrc:/client/games/SpinTheBottle/qml/client/games/SpinTheBottle/pics/background.png"
-        //fillMode: "Tile"
+
     }
 
     Rectangle {

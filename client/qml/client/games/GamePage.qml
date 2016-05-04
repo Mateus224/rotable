@@ -39,7 +39,7 @@ Rectangle {
             id:gridGamePage
             anchors.fill: parent
             anchors.margins: parent.height * 0.02
-
+            property int colapsed_
 
             color: "#000000"
             Grid {
@@ -65,17 +65,20 @@ Rectangle {
                 anchors.leftMargin: parent.width  * 0.015
                 anchors.fill: parent
 
+
                 EmptyGridRect{
+                    id: game0
                     color:parent.color(0,0)
                     gameName:"Spin the Bottle"
                     infoString: "FLASCHENDREHEN:\nauf wenn die Flsche zeigt nimmt ein schluck aus der Bierflasche bzw. vom seinen Drink"
                     id_: 1
                 }
                 EmptyGridRect{
+                    gameName:"Kings Cup"
+                    infoString:"Spielregeln Kings Cup:\n-Wird eine Dame aufgedeckt trinken ale Frauen am Tisch.\n-Wird ein Bube aufgedeckt trinken alle Männer\n-Bei einer 8 trinkt der rechte Nachbar\n-Bei einer 7 der linke Nachbar"
                     color:parent.color(0,1)
                 }
                 EmptyGridRect{
-                    id:b
                    color: parent.color(0,2)
                 }
                 EmptyGridRect{
@@ -167,20 +170,27 @@ Rectangle {
     states: [
         State {
             name: "DEFAULT"
+            PropertyChanges { target: game0; state: "COLLAPSED" }
             PropertyChanges { target: spinTheBottle; visible: false }
             PropertyChanges { target: queue; visible: true }
             PropertyChanges { target: spinTheBottle; z: 0 }
-            PropertyChanges { target: tete; z: 0 }
             PropertyChanges { target: spinTheBottle; width: Math.min(mainScreen.height, mainScreen.width) }
             PropertyChanges { target: spinTheBottle; height: Math.min(mainScreen.height, mainScreen.width) }
-            //PropertyChanges { target: spinTheBottle; z: 1 }
+
         },
         State {
             name: "SPINTHEBOTTLE"
             PropertyChanges { target: spinTheBottle; visible: true }
             PropertyChanges { target: queue; visible: false }
             PropertyChanges { target: spinTheBottle; z: 1 }
-            PropertyChanges { target: tete; z: 1 }
+            PropertyChanges { target: spinTheBottle; width: Math.min(mainScreen.height, mainScreen.width) }
+            PropertyChanges { target: spinTheBottle; height: Math.min(mainScreen.height, mainScreen.width) }
+        },
+        State {
+            name: "KINGSCUP"
+            PropertyChanges { target: spinTheBottle; visible: true }
+            PropertyChanges { target: queue; visible: false }
+            PropertyChanges { target: spinTheBottle; z: 1 }
             PropertyChanges { target: spinTheBottle; width: Math.min(mainScreen.height, mainScreen.width) }
             PropertyChanges { target: spinTheBottle; height: Math.min(mainScreen.height, mainScreen.width) }
         }
