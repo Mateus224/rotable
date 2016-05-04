@@ -1,5 +1,6 @@
 import QtQuick 2.4
 import "SpinTheBottle/"
+import "BigKingsCup/"
 import ".."
 
 Rectangle {
@@ -193,6 +194,10 @@ Rectangle {
         }
     }
 
+    BigKingsCup{
+
+    }
+
     states: [
         State {
             name: "DEFAULT"
@@ -213,8 +218,8 @@ Rectangle {
             PropertyChanges { target: spinTheBottle; height: Math.min(mainScreen.height, mainScreen.width) }
         },
         State {
-            name: "KINGSCUP"
-            PropertyChanges { target: spinTheBottle; visible: true }
+            name: "BIGKINGSCUP"
+            PropertyChanges { target: bigKingsCUP; visible: true }
             PropertyChanges { target: queue; visible: false }
             PropertyChanges { target: spinTheBottle; z: 1 }
             PropertyChanges { target: spinTheBottle; width: Math.min(mainScreen.height, mainScreen.width) }
