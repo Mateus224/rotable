@@ -1,11 +1,15 @@
-import QtQuick 2.0
+import QtQuick 2.4
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
+import QtQuick.Layouts 1.1
 import "SpinTheBottle/"
 
 Rectangle {
     id: gameGridRectTemplate
     property int stateChangeDuration: 400
     property string gameName: ""
-    property string _center: ""
+    property string infoString: ""
+    property int id_: 15
     property int buttonMarginH: parent.parent.width  * 0.015
     property int buttonMarginV: parent.parent.height * 0.025
     property int buttonWidth:  (parent.parent.width  - buttonMarginH) / 5.01 - buttonMarginH
@@ -30,8 +34,6 @@ Rectangle {
 
     }
     Rectangle {
-        //anchors.verticalCenter: parent.verticalCenter
-        //anchors.horizontalCenter: parent.horizontalCenter
         id: buttonExpanded
         color: parent.color
         visible: false
@@ -40,47 +42,179 @@ Rectangle {
         y: parent.y
         width: parent.width
         height: parent.height
-        Text{
-            anchors.fill: parent
-            text: "FLASCHENDREHEN:\nauf wenn die Flsche zeigt nimmt ein schluck aus der Bierflasche bzw. vom seinen Drink"
+
+        TextArea{
+            textFormat:TextEdit.RichText
+            backgroundVisible: false
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: parent.height/4
+            text: infoString
             font.family: "FreeSans"
-            color: "#FFFFFFFF"
-            font.bold: true
-            font.pixelSize: parent.height * 0.05
+            textColor:  "black"
+            font.bold: false
+            font.pixelSize: parent.height * 0.04
             font.capitalization: Font.AllUppercase
             wrapMode: Text.Wrap
-        }
 
+        }
         Rectangle{
-            id: playGameButton
-            color:"red"
+            color: "black"
             anchors.bottom: parent.bottom
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.topMargin: 3*parent.height/4
-            Text{
-                anchors.fill: parent
-                text: "PLAY GAME"
-                font.family: "FreeSans"
-                color: "#FFFFFFFF"
-                font.bold: true
-                font.pixelSize: parent.height * 0.5
-                font.capitalization: Font.AllUppercase
-                wrapMode: Text.Wrap
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-            }
-            MouseArea{
-                anchors.fill: parent
-                onClicked:  {
-                    if (gamePage.state == "DEFAULT")
-                    {
-                        gamePage.state = "SPINTHEBOTTLE"
+            Rectangle{
+                id: goBack
+                color: parent.parent.color
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                width: parent.width/2 -parent.height/40
+                anchors.top: parent.top
+                anchors.topMargin: parent.height/20
+                Text{
+                    anchors.fill: parent
+                    text: "Go back"
+                    font.family: "FreeSans"
+                    color: "#FFFFFFFF"
+                    font.bold: true
+                    font.pixelSize: parent.height * 0.5
+                    font.capitalization: Font.AllUppercase
+                    wrapMode: Text.Wrap
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked:  {
+                        gameGridRectTemplate.state = "COLLAPSED"
                     }
                 }
             }
 
+            Rectangle{
+                id: playGameButton
+                color:parent.parent.color
+                anchors.bottom: parent.bottom
+                width: parent.width/2-parent.height/40
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.topMargin: parent.height/20
+                Text{
+                    anchors.fill: parent
+                    text: "PLAY GAME"
+                    font.family: "FreeSans"
+                    color: "#FFFFFFFF"
+                    font.bold: true
+                    font.pixelSize: parent.height * 0.5
+                    font.capitalization: Font.AllUppercase
+                    wrapMode: Text.Wrap
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked:  {
+                        switch (id_)
+                        {
+                        case 0:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "SPINTHEBOTTLE"
+                            }
+                            break
+                        case 1:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "BIGKINGSCUP"
+                            }
+                            break
+                        case 2:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        case 3:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        case 4:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        case 5:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        case 6:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        case 7:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        case 8:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        case 9:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        case 10:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        case 11:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        case 12:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        case 13:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        case 14:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        }
+                    }
+                }
+
+            }
         }
 
         Behavior on x {
@@ -121,14 +255,10 @@ Rectangle {
         anchors.fill: parent
         enabled: true
         onClicked:  {
-        /*if (gamePage.state == "DEFAULT")
+            if (gameGridRectTemplate.state == "COLLAPSED")
             {
-                gamePage.state = "SPINTHEBOTTLE"
-            }*/
-        if (gameGridRectTemplate.state == "COLLAPSED")
-        {
-            gameGridRectTemplate.state = "EXPANDED"
-        }
+                gameGridRectTemplate.state = "EXPANDED"
+            }
 
 
         }
