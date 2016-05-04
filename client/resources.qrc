@@ -71,4 +71,7 @@
         <file>resources/TopBarRight.png</file>
         <file>resources/TopBarLeft.png</file>
     </qresource>
+    <qresource prefix="/client/games/BigKingsCup">
+        <file alias="BigKingsCup.qml">qml/client/games/BigKingsCup/BigKingsCup.qml</file>
+    </qresource>
 </RCC>

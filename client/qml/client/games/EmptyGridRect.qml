@@ -1,4 +1,7 @@
-import QtQuick 2.0
+import QtQuick 2.4
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
+import QtQuick.Layouts 1.1
 import "SpinTheBottle/"
 
 Rectangle {
@@ -31,26 +34,31 @@ Rectangle {
 
     }
     Rectangle {
-        //anchors.verticalCenter: parent.verticalCenter
-        //anchors.horizontalCenter: parent.horizontalCenter
         id: buttonExpanded
         color: parent.color
         visible: false
-
 
         x: parent.x
         y: parent.y
         width: parent.width
         height: parent.height
-        Text{
-            anchors.fill: parent
+
+        TextArea{
+            textFormat:TextEdit.RichText
+            backgroundVisible: false
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: parent.height/4
             text: infoString
             font.family: "FreeSans"
-            color: "#FFFFFFFF"
-            font.bold: true
-            font.pixelSize: parent.height * 0.05
+            textColor:  "black"
+            font.bold: false
+            font.pixelSize: parent.height * 0.04
             font.capitalization: Font.AllUppercase
             wrapMode: Text.Wrap
+
         }
         Rectangle{
             color: "black"
@@ -59,154 +67,154 @@ Rectangle {
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.topMargin: 3*parent.height/4
-        Rectangle{
-            id: goBack
-            color: parent.parent.color
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-            width: parent.width/2 -parent.height/40
-            anchors.top: parent.top
-            anchors.topMargin: parent.height/20
-            Text{
-                anchors.fill: parent
-                text: "Go back"
-                font.family: "FreeSans"
-                color: "#FFFFFFFF"
-                font.bold: true
-                font.pixelSize: parent.height * 0.5
-                font.capitalization: Font.AllUppercase
-                wrapMode: Text.Wrap
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-            }
-            MouseArea{
-                anchors.fill: parent
-                onClicked:  {
-                    gameGridRectTemplate.state = "COLLAPSED"
+            Rectangle{
+                id: goBack
+                color: parent.parent.color
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                width: parent.width/2 -parent.height/40
+                anchors.top: parent.top
+                anchors.topMargin: parent.height/20
+                Text{
+                    anchors.fill: parent
+                    text: "Go back"
+                    font.family: "FreeSans"
+                    color: "#FFFFFFFF"
+                    font.bold: true
+                    font.pixelSize: parent.height * 0.5
+                    font.capitalization: Font.AllUppercase
+                    wrapMode: Text.Wrap
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
                 }
-            }
-        }
-
-        Rectangle{
-            id: playGameButton
-            color:parent.parent.color
-            anchors.bottom: parent.bottom
-            width: parent.width/2-parent.height/40
-            anchors.right: parent.right
-            anchors.top: parent.top
-            anchors.topMargin: parent.height/20
-            Text{
-                anchors.fill: parent
-                text: "PLAY GAME"
-                font.family: "FreeSans"
-                color: "#FFFFFFFF"
-                font.bold: true
-                font.pixelSize: parent.height * 0.5
-                font.capitalization: Font.AllUppercase
-                wrapMode: Text.Wrap
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-            }
-            MouseArea{
-                anchors.fill: parent
-                onClicked:  {
-                    switch (id_)
-                    {
-                    case 0:
-                        if (gamePage.state == "DEFAULT")
-                        {
-                            gamePage.state = "SPINTHEBOTTLE"
-                        }
-                        break
-                    case 1:
-                        if (gamePage.state == "DEFAULT")
-                        {
-                            gamePage.state = "SPINTHEBOTTLE"
-                        }
-                        break
-                    case 2:
-                        if (gamePage.state == "DEFAULT")
-                        {
-                            gamePage.state = "DEFAULT"
-                        }
-                        break
-                    case 3:
-                        if (gamePage.state == "DEFAULT")
-                        {
-                            gamePage.state = "DEFAULT"
-                        }
-                        break
-                    case 4:
-                        if (gamePage.state == "DEFAULT")
-                        {
-                            gamePage.state = "DEFAULT"
-                        }
-                        break
-                    case 5:
-                        if (gamePage.state == "DEFAULT")
-                        {
-                            gamePage.state = "DEFAULT"
-                        }
-                        break
-                    case 6:
-                        if (gamePage.state == "DEFAULT")
-                        {
-                            gamePage.state = "DEFAULT"
-                        }
-                        break
-                    case 7:
-                        if (gamePage.state == "DEFAULT")
-                        {
-                            gamePage.state = "DEFAULT"
-                        }
-                        break
-                    case 8:
-                        if (gamePage.state == "DEFAULT")
-                        {
-                            gamePage.state = "DEFAULT"
-                        }
-                        break
-                    case 9:
-                        if (gamePage.state == "DEFAULT")
-                        {
-                            gamePage.state = "DEFAULT"
-                        }
-                        break
-                    case 10:
-                        if (gamePage.state == "DEFAULT")
-                        {
-                            gamePage.state = "DEFAULT"
-                        }
-                        break
-                    case 11:
-                        if (gamePage.state == "DEFAULT")
-                        {
-                            gamePage.state = "DEFAULT"
-                        }
-                        break
-                    case 12:
-                        if (gamePage.state == "DEFAULT")
-                        {
-                            gamePage.state = "DEFAULT"
-                        }
-                        break
-                    case 13:
-                        if (gamePage.state == "DEFAULT")
-                        {
-                            gamePage.state = "DEFAULT"
-                        }
-                        break
-                    case 14:
-                        if (gamePage.state == "DEFAULT")
-                        {
-                            gamePage.state = "DEFAULT"
-                        }
-                        break
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked:  {
+                        gameGridRectTemplate.state = "COLLAPSED"
                     }
                 }
             }
 
-        }
+            Rectangle{
+                id: playGameButton
+                color:parent.parent.color
+                anchors.bottom: parent.bottom
+                width: parent.width/2-parent.height/40
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.topMargin: parent.height/20
+                Text{
+                    anchors.fill: parent
+                    text: "PLAY GAME"
+                    font.family: "FreeSans"
+                    color: "#FFFFFFFF"
+                    font.bold: true
+                    font.pixelSize: parent.height * 0.5
+                    font.capitalization: Font.AllUppercase
+                    wrapMode: Text.Wrap
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked:  {
+                        switch (id_)
+                        {
+                        case 0:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "SPINTHEBOTTLE"
+                            }
+                            break
+                        case 1:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "BIGKINGSCUP"
+                            }
+                            break
+                        case 2:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        case 3:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        case 4:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        case 5:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        case 6:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        case 7:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        case 8:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        case 9:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        case 10:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        case 11:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        case 12:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        case 13:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        case 14:
+                            if (gamePage.state == "DEFAULT")
+                            {
+                                gamePage.state = "DEFAULT"
+                            }
+                            break
+                        }
+                    }
+                }
+
+            }
         }
 
         Behavior on x {
