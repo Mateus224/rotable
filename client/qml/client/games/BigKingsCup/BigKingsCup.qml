@@ -81,12 +81,54 @@ Item {
             GradientStop { position: 1.0; color: "#006325" }
         }
     }
+    Item{
+        anchors.fill: parent
+        Image {
+            id:staticCard
+            width : parent.parent.width/8
+            height: parent.parent.height/7.5
+                   source: "qrc:/client/games/BigKingsCup/Bilder/VerdeckteKarte.png";
+                   anchors.bottomMargin: parent.height/2.5
+                   //anchors.leftMargin: 1.1*parent.width/2.5
+                   anchors.rightMargin: parent.width/3.15
+                   anchors.topMargin: parent.height/2.5
+                   anchors.bottom:  parent.bottom
+                   anchors.top: parent.top
+                   //anchors.left: parent.left
+                   anchors.right: parent.right
+                   //anchors.centerIn: parent.Center
+               }
+        Image {
+            width : parent.parent.width/8
+            height: parent.parent.height/7.5
+                   source: "qrc:/client/games/BigKingsCup/Bilder/VerdeckteKarte.png";
+                   anchors.bottomMargin: parent.height/2.5
+                   //anchors.leftMargin: 1.1*parent.width/2.5
+                   anchors.rightMargin: parent.width/3.125
+                   anchors.topMargin: parent.height/2.5
+                   anchors.bottom:  parent.bottom
+                   anchors.top: parent.top
+                   //anchors.left: parent.left
+                   anchors.right: parent.right
+                   //anchors.centerIn: parent.Center
+               }
+        MouseArea {
+            anchors.fill: staticCard
+            onClicked: flipable.flipped = true //!flipable.flipped
+        }
+    }
 
 
     Flipable{
         id: flipable
-        width: 360
-        height: 360
+        anchors.bottomMargin: parent.height/2.5
+        anchors.leftMargin: parent.width/2.5
+        anchors.rightMargin: parent.width/2.5
+        anchors.topMargin: parent.height/2.5
+        anchors.bottom:  parent.bottom
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
         property bool flipped: false
         transform: Rotation {
             id: rotation
@@ -98,59 +140,38 @@ Item {
 
         states: State {
             name: "back"
-            PropertyChanges { target: rotation; angle: 180 }
+            PropertyChanges { target: rotation; angle: -180 }
             when: flipable.flipped
         }
 
         transitions: Transition {
-            NumberAnimation { target: rotation; property: "angle"; duration: 4000 }
-        }
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: flipable.flipped = !flipable.flipped
+            NumberAnimation { target: rotation; property: "angle"; duration: 2000 }
         }
 
 
-        anchors.bottom:  parent.bottom
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
+
+
        front: Image {
+           width : parent.parent.width/8
+           height: parent.parent.height/7.5
            source: "qrc:/client/games/BigKingsCup/Bilder/VerdeckteKarte.png";
-           anchors.bottomMargin: parent.height/2.5
-           anchors.leftMargin: parent.width/1.9
-           anchors.rightMargin: parent.width/2.9
-           anchors.topMargin: parent.height/2.5
+           anchors.rightMargin: -parent.width/2.5
            anchors.bottom:  parent.bottom
            anchors.top: parent.top
-           anchors.left: parent.left
            anchors.right: parent.right
-           //anchors.centerIn: parent.Center
        }
         back:Image {
-            width: parent.width/9
-            height: parent.height/6
-            anchors.bottomMargin: parent.height/2.5
-            anchors.leftMargin: parent.width/1.9
-            anchors.rightMargin: parent.width/2.9
-            anchors.topMargin: parent.height/2.5
+            width : parent.parent.width/8
+            height: parent.parent.height/7.5
+            source: "qrc:/client/games/BigKingsCup/Bilder/10.png";
+            anchors.leftMargin: -parent.width/2.5
             anchors.bottom:  parent.bottom
             anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.right: parent.right
-            source: "qrc:/client/games/BigKingsCup/Bilder/10.png";
+            anchors.left: parent.right
 
         }
 
     }
-
-
-
-
-
-
-
 
     CloseButton{
 
