@@ -73,9 +73,10 @@ Rectangle {
                     gameName:"Spin the Bottle"
                     infoString: "<h1>FLASCHENDREHEN:</h1>
                                  <b>auf wenn die Flsche zeigt nimmt ein Schluck aus der Bierflasche bzw. vom seinen Drink</b>"
-                    id_: 1
+                    id_: 0
                 }
                 EmptyGridRect{
+                    id_: 1
                     gameName:"Big Kings Cup"
                     infoString:"<h1>Spielregeln Kings Cup:</h1>
 <b>2</b> steht für dich. Wenn ein Spieler eine 2 zieht (egal, welche Farbe), dann kann er einen anderen Spieler aussuchen, der dann trinken muss. Die gewählte Person muss so lange trinken, wie es zu Beginn des Spiels ausgemacht wurde.
@@ -174,7 +175,7 @@ Rectangle {
                 easing.type: Easing.InOutQuad
             }
         }
-        Behavior on width {
+        /*Behavior on width {
             NumberAnimation {
                 duration: stateChangeDuration
                 easing.type: Easing.InOutQuad
@@ -185,7 +186,7 @@ Rectangle {
                 duration: stateChangeDuration
                 easing.type: Easing.InOutQuad
             }
-        }
+        }*/
         Behavior on z {
             NumberAnimation {
                 duration: stateChangeDuration
@@ -195,7 +196,8 @@ Rectangle {
     }
 
     BigKingsCup{
-
+        id: bigKingsCup
+        visible: false
     }
 
     states: [
@@ -219,11 +221,11 @@ Rectangle {
         },
         State {
             name: "BIGKINGSCUP"
-            PropertyChanges { target: bigKingsCUP; visible: true }
+            PropertyChanges { target: bigKingsCup; visible: true }
             PropertyChanges { target: queue; visible: false }
-            PropertyChanges { target: spinTheBottle; z: 1 }
-            PropertyChanges { target: spinTheBottle; width: Math.min(mainScreen.height, mainScreen.width) }
-            PropertyChanges { target: spinTheBottle; height: Math.min(mainScreen.height, mainScreen.width) }
+            PropertyChanges { target: bigKingsCup; z: 1 }
+            PropertyChanges { target: bigKingsCup; width: Math.min(mainScreen.height, mainScreen.width) }
+            PropertyChanges { target: bigKingsCup; height: Math.min(mainScreen.height, mainScreen.width) }
         }
     ]
 }

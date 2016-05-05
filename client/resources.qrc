@@ -73,5 +73,63 @@
     </qresource>
     <qresource prefix="/client/games/BigKingsCup">
         <file alias="BigKingsCup.qml">qml/client/games/BigKingsCup/BigKingsCup.qml</file>
+        <file alias="moon.png">qml/client/games/BigKingsCup/moon.png</file>
+        <file alias="star.png">qml/client/games/BigKingsCup/star.png</file>
+        <file alias="sun.png">qml/client/games/BigKingsCup/sun.png</file>
+    </qresource>
+    <qresource prefix="/client/games/BigKingsCup/Bilder">
+        <file alias="1.png">qml/client/games/BigKingsCup/Bilder/1.png</file>
+        <file alias="2.png">qml/client/games/BigKingsCup/Bilder/2.png</file>
+        <file alias="3.png">qml/client/games/BigKingsCup/Bilder/3.png</file>
+        <file alias="4.png">qml/client/games/BigKingsCup/Bilder/4.png</file>
+        <file alias="5.png">qml/client/games/BigKingsCup/Bilder/5.png</file>
+        <file alias="6.png">qml/client/games/BigKingsCup/Bilder/6.png</file>
+        <file alias="7.png">qml/client/games/BigKingsCup/Bilder/7.png</file>
+        <file alias="8.png">qml/client/games/BigKingsCup/Bilder/8.png</file>
+        <file alias="9.png">qml/client/games/BigKingsCup/Bilder/9.png</file>
+        <file alias="11.png">qml/client/games/BigKingsCup/Bilder/11.png</file>
+        <file alias="12.png">qml/client/games/BigKingsCup/Bilder/12.png</file>
+        <file alias="13.png">qml/client/games/BigKingsCup/Bilder/13.png</file>
+        <file alias="14.png">qml/client/games/BigKingsCup/Bilder/14.png</file>
+        <file alias="15.png">qml/client/games/BigKingsCup/Bilder/15.png</file>
+        <file alias="16.png">qml/client/games/BigKingsCup/Bilder/16.png</file>
+        <file alias="17.png">qml/client/games/BigKingsCup/Bilder/17.png</file>
+        <file alias="18.png">qml/client/games/BigKingsCup/Bilder/18.png</file>
+        <file alias="19.png">qml/client/games/BigKingsCup/Bilder/19.png</file>
+        <file alias="20.png">qml/client/games/BigKingsCup/Bilder/20.png</file>
+        <file alias="21.png">qml/client/games/BigKingsCup/Bilder/21.png</file>
+        <file alias="22.png">qml/client/games/BigKingsCup/Bilder/22.png</file>
+        <file alias="23.png">qml/client/games/BigKingsCup/Bilder/23.png</file>
+        <file alias="24.png">qml/client/games/BigKingsCup/Bilder/24.png</file>
+        <file alias="25.png">qml/client/games/BigKingsCup/Bilder/25.png</file>
+        <file alias="26.png">qml/client/games/BigKingsCup/Bilder/26.png</file>
+        <file alias="27.png">qml/client/games/BigKingsCup/Bilder/27.png</file>
+        <file alias="28.png">qml/client/games/BigKingsCup/Bilder/28.png</file>
+        <file alias="29.png">qml/client/games/BigKingsCup/Bilder/29.png</file>
+        <file alias="30.png">qml/client/games/BigKingsCup/Bilder/30.png</file>
+        <file alias="31.png">qml/client/games/BigKingsCup/Bilder/31.png</file>
+        <file alias="32.png">qml/client/games/BigKingsCup/Bilder/32.png</file>
+        <file alias="33.png">qml/client/games/BigKingsCup/Bilder/33.png</file>
+        <file alias="34.png">qml/client/games/BigKingsCup/Bilder/34.png</file>
+        <file alias="35.png">qml/client/games/BigKingsCup/Bilder/35.png</file>
+        <file alias="36.png">qml/client/games/BigKingsCup/Bilder/36.png</file>
+        <file alias="37.png">qml/client/games/BigKingsCup/Bilder/37.png</file>
+        <file alias="38.png">qml/client/games/BigKingsCup/Bilder/38.png</file>
+        <file alias="39.png">qml/client/games/BigKingsCup/Bilder/39.png</file>
+        <file alias="40.png">qml/client/games/BigKingsCup/Bilder/40.png</file>
+        <file alias="41.png">qml/client/games/BigKingsCup/Bilder/41.png</file>
+        <file alias="42.png">qml/client/games/BigKingsCup/Bilder/42.png</file>
+        <file alias="43.png">qml/client/games/BigKingsCup/Bilder/43.png</file>
+        <file alias="44.png">qml/client/games/BigKingsCup/Bilder/44.png</file>
+        <file alias="45.png">qml/client/games/BigKingsCup/Bilder/45.png</file>
+        <file alias="46.png">qml/client/games/BigKingsCup/Bilder/46.png</file>
+        <file alias="47.png">qml/client/games/BigKingsCup/Bilder/47.png</file>
+        <file alias="48.png">qml/client/games/BigKingsCup/Bilder/48.png</file>
+        <file alias="49.png">qml/client/games/BigKingsCup/Bilder/49.png</file>
+        <file alias="50.png">qml/client/games/BigKingsCup/Bilder/50.png</file>
+        <file alias="51.png">qml/client/games/BigKingsCup/Bilder/51.png</file>
+        <file alias="52.png">qml/client/games/BigKingsCup/Bilder/52.png</file>
+        <file>qml/client/games/BigKingsCup/Bilder/licence.txt</file>
+        <file alias="10.png">qml/client/games/BigKingsCup/Bilder/10.png</file>
     </qresource>
 </RCC>
