@@ -1,12 +1,12 @@
-import QtQuick 2.4
-
-
-import QtQuick 2.0
+import QtQuick 2.5
 import QtQuick.Particles 2.0
+import "../SpinTheBottle/"
 
 Item {
     id: window
-    width: 320; height: 480
+    width: parent.width
+    height: parent.height
+    anchors.centerIn: parent.Center
 
     // Let's draw the sky...
     Rectangle {
@@ -82,18 +82,45 @@ Item {
         }
     }
 
+
+
     Item{
-        anchors.centerIn: parent.Center
-        width: parent.width/4
-        height: parent.height/4
+
+        anchors.bottom:  parent.bottom
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+
         Image {
-            anchors.centerIn: parent.Center
-            source: "qrc:/client/games/BigKingsCup/Bilder/10.png"; y: 10; anchors.horizontalCenter: parent.horizontalCenter
+            //width: parent.width/9
+            //height: parent.height/6
+            anchors.bottomMargin: parent.height/2.5
+            anchors.leftMargin: parent.width/1.9
+            anchors.rightMargin: parent.width/2.9
+            anchors.topMargin: parent.height/2.5
+            anchors.bottom:  parent.bottom
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            source: "qrc:/client/games/BigKingsCup/Bilder/10.png";
 
         }
         Image {
-            //source: "sun.png"; y: 10; anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottomMargin: parent.height/2.5
+            anchors.leftMargin: parent.width/2.9
+            anchors.rightMargin: parent.width/1.9
+            anchors.topMargin: parent.height/2.5
+            anchors.bottom:  parent.bottom
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            source: "qrc:/client/games/BigKingsCup/Bilder/VerdeckteKarte.png";
+
         }
 
     }
+    CloseButton{
+
+    }
+
 }
