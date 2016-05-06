@@ -1,13 +1,19 @@
 import QtQuick 2.5
 import QtQuick.Particles 2.0
 import "../SpinTheBottle/"
+import"../"
 
 Item {
     id: window
     width: parent.width
     height: parent.height
     anchors.centerIn: parent.Center
-
+    function nextCard(){
+        console.log("tt "+card)
+        icard=parseInt(card)
+        icard++
+        card=icard.toString()
+    }
     // Let's draw the sky...
     Rectangle {
         anchors { left: parent.left; top: parent.top; right: parent.right; bottom: parent.verticalCenter }
@@ -81,6 +87,57 @@ Item {
             GradientStop { position: 1.0; color: "#006325" }
         }
     }
+    Flipable{
+        id: flipable_
+        anchors.bottomMargin: parent.height/2.5
+        anchors.leftMargin: parent.width/2.5
+        anchors.rightMargin: parent.width/2.5
+        anchors.topMargin: parent.height/2.5
+        anchors.bottom:  parent.bottom
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        property bool flipped: false
+
+        transform: Rotation {
+            id: rotationB
+            origin.x: flipable_.width/2
+            origin.y: flipable_.height/2
+            axis.x: 0; axis.y: 1; axis.z: 0     // set axis.y to 1 to rotate around y-axis
+            angle: 0    // the default angle
+        }
+
+        states: State {
+            name: "back"
+            PropertyChanges { target: rotationB; angle: 180 }
+            when: flipable_.flipped
+        }
+
+        transitions: Transition {
+            NumberAnimation { target: rotationB; property: "angle"; duration: 2000;easing.type: Easing.InOutQuad }
+        }
+
+       front: Image {
+           width : parent.parent.width/8
+           height: parent.parent.height/7.5
+           source: "qrc:/client/games/BigKingsCup/Bilder/VerdeckteKarte.png";
+           anchors.rightMargin: -parent.width/2.5
+           anchors.bottom:  parent.bottom
+           anchors.top: parent.top
+           anchors.right: parent.right
+       }
+        back:Image {
+            width : parent.parent.width/8
+            height: parent.parent.height/7.5
+            source: "qrc:/client/games/BigKingsCup/Bilder/"+card+".png";
+            anchors.leftMargin: -parent.width/2.5
+            anchors.bottom:  parent.bottom
+            anchors.top: parent.top
+            anchors.left: parent.right
+        }
+    }
+    property string card: "1"
+    property int icard: 0
     Item{
         anchors.fill: parent
         Image {
@@ -108,7 +165,19 @@ Item {
                }
         MouseArea {
             anchors.fill: staticCard
-            onClicked: flipable.flipped = true //!flipable.flipped
+            onClicked:{
+                flipable.flipped = !flipable.flipped
+                flipable_.flipped = !flipable.flipped
+                console.log("b "+card)
+                nextCard()
+                if (ruleInformationTxt.state === "HIDDEN")
+                {
+                    ruleInformationTxt.state = "EXPANDED"
+                }
+
+
+
+            } //!flipable.flipped
         }
     }
 
@@ -124,6 +193,7 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         property bool flipped: false
+
         transform: Rotation {
             id: rotation
             origin.x: flipable.width/2
@@ -139,13 +209,10 @@ Item {
         }
 
         transitions: Transition {
-            NumberAnimation { target: rotation; property: "angle"; duration: 2000 }
+            NumberAnimation { target: rotation; property: "angle"; duration: 2000;easing.type: Easing.InOutQuad }
         }
 
-
-
-
-       front: Image {
+        front  : Image {
            width : parent.parent.width/8
            height: parent.parent.height/7.5
            source: "qrc:/client/games/BigKingsCup/Bilder/VerdeckteKarte.png";
@@ -157,15 +224,18 @@ Item {
         back:Image {
             width : parent.parent.width/8
             height: parent.parent.height/7.5
-            source: "qrc:/client/games/BigKingsCup/Bilder/10.png";
+            source: "qrc:/client/games/BigKingsCup/Bilder/"+card+".png";
             anchors.leftMargin: -parent.width/2.5
             anchors.bottom:  parent.bottom
             anchors.top: parent.top
             anchors.left: parent.right
-
         }
-
     }
+
+    Information{
+    id:ruleInformationTxt
+    }
+
 
     CloseButton{
 

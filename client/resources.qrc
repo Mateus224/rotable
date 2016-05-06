@@ -36,6 +36,7 @@
     <qresource prefix="/client/games">
         <file alias="GamePage.qml">qml/client/games/GamePage.qml</file>
         <file alias="EmptyGridRect.qml">qml/client/games/EmptyGridRect.qml</file>
+        <file alias="Information.qml">qml/client/games/Information.qml</file>
     </qresource>
     <qresource prefix="/client/games/SpinTheBottle">
         <file alias="SpinBottle.qml">qml/client/games/SpinTheBottle/SpinBottle.qml</file>
