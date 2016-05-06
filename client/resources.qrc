@@ -77,6 +77,7 @@
         <file alias="moon.png">qml/client/games/BigKingsCup/moon.png</file>
         <file alias="star.png">qml/client/games/BigKingsCup/star.png</file>
         <file alias="sun.png">qml/client/games/BigKingsCup/sun.png</file>
+        <file alias="KingsCupFunktions.js">qml/client/games/BigKingsCup/KingsCupFunktions.js</file>
     </qresource>
     <qresource prefix="/client/games/BigKingsCup/Bilder">
         <file alias="1.png">qml/client/games/BigKingsCup/Bilder/1.png</file>

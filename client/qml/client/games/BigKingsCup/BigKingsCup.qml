@@ -1,5 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Particles 2.0
+import "KingsCupFunktions.js" as KingsCupFunktions
 import "../SpinTheBottle/"
 import"../"
 
@@ -8,12 +9,7 @@ Item {
     width: parent.width
     height: parent.height
     anchors.centerIn: parent.Center
-    function nextCard(){
-        console.log("tt "+card)
-        icard=parseInt(card)
-        icard++
-        card=icard.toString()
-    }
+
     // Let's draw the sky...
     Rectangle {
         anchors { left: parent.left; top: parent.top; right: parent.right; bottom: parent.verticalCenter }
@@ -36,6 +32,15 @@ Item {
             }
         }
     }
+    /*property string  card: "1"
+    property int icard: 0
+    function nextCard(){
+        icard=parseInt(card)
+        icard=Math.floor((Math.random() * 52) + 1)
+        //icard++
+        card=icard.toString()
+        console.log(card+" test")
+    }*/
 
     // the sun, moon, and stars
     Item {
@@ -127,17 +132,17 @@ Item {
            anchors.right: parent.right
        }
         back:Image {
+            id:imagefront
             width : parent.parent.width/8
             height: parent.parent.height/7.5
-            source: "qrc:/client/games/BigKingsCup/Bilder/"+card+".png";
+            //source: "qrc:/client/games/BigKingsCup/Bilder/"+KingsCupFunktions.card+".png";
             anchors.leftMargin: -parent.width/2.5
             anchors.bottom:  parent.bottom
             anchors.top: parent.top
             anchors.left: parent.right
         }
     }
-    property string card: "1"
-    property int icard: 0
+
     Item{
         anchors.fill: parent
         Image {
@@ -176,8 +181,7 @@ Item {
             onClicked:{
                 flipable.flipped = !flipable.flipped
                 flipable_.flipped = !flipable.flipped
-                console.log("b "+card)
-                nextCard()
+                KingsCupFunktions.nextCard()
                 if (ruleInformationTxt.state === "HIDDEN")
                 {
                     ruleInformationTxt.state = "EXPANDED"
@@ -235,9 +239,10 @@ Item {
            anchors.right: parent.right
        }
         back:Image {
+            id:imageBack
             width : parent.parent.width/8
             height: parent.parent.height/7.5
-            source: "qrc:/client/games/BigKingsCup/Bilder/"+card+".png";
+            //source: "qrc:/client/games/BigKingsCup/Bilder/"+KingsCupFunktions.card+".png";
             anchors.leftMargin: -parent.width/2.5
             anchors.bottom:  parent.bottom
             anchors.top: parent.top
