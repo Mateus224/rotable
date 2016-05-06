@@ -163,6 +163,14 @@ Item {
                    anchors.top: parent.top
                    anchors.right: parent.right
                }
+        Timer {
+            id:sendOrderTimer
+            interval:1000
+            onTriggered: {
+              ruleInformationTxt.state = "EXPANDED"
+                sendOrderTimer.stop();
+            }
+        }
         MouseArea {
             anchors.fill: staticCard
             onClicked:{
@@ -173,6 +181,11 @@ Item {
                 if (ruleInformationTxt.state === "HIDDEN")
                 {
                     ruleInformationTxt.state = "EXPANDED"
+                }
+                else
+                {
+                    ruleInformationTxt.state = "HIDDEN"
+                    sendOrderTimer.start()
                 }
 
 
