@@ -38,6 +38,8 @@
         <file alias="EmptyGridRect.qml">qml/client/games/EmptyGridRect.qml</file>
         <file alias="Information.qml">qml/client/games/Information.qml</file>
         <file alias="CloseButton.qml">qml/client/games/CloseButton.qml</file>
+        <file alias="ReadInformationFile.js">qml/client/games/ReadInformationFile.js</file>
+        <file alias="test.txt">qml/client/games/test.txt</file>
     </qresource>
     <qresource prefix="/client/games/SpinTheBottle">
         <file alias="SpinBottle.qml">qml/client/games/SpinTheBottle/SpinBottle.qml</file>

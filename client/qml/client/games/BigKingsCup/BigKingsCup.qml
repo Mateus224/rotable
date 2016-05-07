@@ -1,6 +1,7 @@
 import QtQuick 2.5
 import QtQuick.Particles 2.0
 import "KingsCupFunktions.js" as KingsCupFunktions
+import "../ReadInformationFile.js" as ReadInformationFile
 import "../SpinTheBottle/"
 import"../"
 
@@ -32,15 +33,6 @@ Item {
             }
         }
     }
-    /*property string  card: "1"
-    property int icard: 0
-    function nextCard(){
-        icard=parseInt(card)
-        icard=Math.floor((Math.random() * 52) + 1)
-        //icard++
-        card=icard.toString()
-        console.log(card+" test")
-    }*/
 
     // the sun, moon, and stars
     Item {
@@ -182,6 +174,7 @@ Item {
                 flipable.flipped = !flipable.flipped
                 flipable_.flipped = !flipable.flipped
                 KingsCupFunktions.nextCard()
+                ReadInformationFile.readFile("2.txt")
                 if (ruleInformationTxt.state === "HIDDEN")
                 {
                     ruleInformationTxt.state = "EXPANDED"

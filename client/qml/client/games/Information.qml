@@ -2,6 +2,7 @@ import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.1
+import "ReadInformationFile.js" as ReadInformationFile
 Rectangle {
     id:windowInfoText
     y:parent.height
@@ -9,13 +10,14 @@ Rectangle {
     anchors.right: parent.right
     width: parent.width
     height: parent.height/4
-    property string infoText:"bla bli blub"
+    property string infoText:"2.txt"
     property int stateChangeDuration: 400
     color: "black"
     state: "HIDDEN"
 
 
     TextArea{
+        id:gameInfoText
         textFormat:TextEdit.RichText
         backgroundVisible: false
         anchors.top: parent.top
@@ -23,7 +25,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.bottomMargin: parent.height/4
-        text: infoText
+        text: ReadInformationFile.string
         font.family: "FreeSans"
         textColor:  "white"
         font.bold: false
@@ -81,11 +83,13 @@ Rectangle {
                 PropertyChanges { target: windowInfoText; visible: true }
                 PropertyChanges { target: windowInfoText; y: 3*parent.height/4}
                 PropertyChanges { target: windowInfoText; z: 1 }
+                PropertyChanges { target: gameInfoText; text:ReadInformationFile.string}
             },
             State {
                 name: "HIDDEN"
                 PropertyChanges { target: windowInfoText; visible: true }
                 PropertyChanges { target: windowInfoText; z: 0 }
+                PropertyChanges { target: gameInfoText; text:ReadInformationFile.string}
             }
         ]
 
