@@ -37,6 +37,7 @@
         <file alias="GamePage.qml">qml/client/games/GamePage.qml</file>
         <file alias="EmptyGridRect.qml">qml/client/games/EmptyGridRect.qml</file>
         <file alias="Information.qml">qml/client/games/Information.qml</file>
+        <file alias="CloseButton.qml">qml/client/games/CloseButton.qml</file>
     </qresource>
     <qresource prefix="/client/games/SpinTheBottle">
         <file alias="SpinBottle.qml">qml/client/games/SpinTheBottle/SpinBottle.qml</file>
@@ -44,7 +45,6 @@
         <file>qml/client/games/SpinTheBottle/pics/background.png</file>
         <file>qml/client/games/SpinTheBottle/pics/close.png</file>
         <file>qml/client/games/SpinTheBottle/pics/sky_vodka.png</file>
-        <file alias="CloseButton.qml">qml/client/games/SpinTheBottle/CloseButton.qml</file>
         <file>qml/client/games/SpinTheBottle/pics/spin-the-bottle-ny2.png</file>
     </qresource>
     <qresource prefix="/client_LB">
