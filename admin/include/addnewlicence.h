@@ -31,9 +31,16 @@ public:
    */
   ~AddNewLicence();
 
+private slots:
+    void on_addLicenceButton_clicked();
+
+    void on_addLicenceSignButton_clicked();
+
 private:
   /* UI object */
   Ui::Dialog *_ui;
+
+  QString licence, sign;
 
 }; // class AddNewLicence
 
