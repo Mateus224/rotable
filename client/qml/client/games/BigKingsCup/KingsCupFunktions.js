@@ -10,7 +10,7 @@ var sInfo=[]
 var w=1
 function nextCard(){
     icard_lastCard=icard
-    icard=Math.floor((Math.random() * 52) + 1)
+    icard=w//Math.floor((Math.random() * 52) + 1)
     if(!(playedCards.length===52))
         {
         for (var i = 0; i < playedCards.length; i++) {

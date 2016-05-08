@@ -9,7 +9,7 @@ Rectangle {
     anchors.left: parent.left
     anchors.right: parent.right
     width: parent.width
-    height: parent.height/4
+    height: parent.height/3
     property int stateChangeDuration: 400
     color: "black"
     state: "HIDDEN"
@@ -30,7 +30,7 @@ Rectangle {
         font.family: "FreeSans"
         textColor:  "white"
         font.bold: false
-        font.pixelSize: parent.height * 0.06
+        font.pixelSize: parent.height * 0.08
         font.capitalization: Font.AllUppercase
         wrapMode: Text.Wrap
     }

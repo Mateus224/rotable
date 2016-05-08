@@ -190,8 +190,6 @@ Item {
                     ruleInformationTxt.state = "EXPANDED"
                     ruleInformationTxt.sLastInfotext=ReadInformationFile.string
                 }
-
-
             } //!flipable.flipped
         }
     }
