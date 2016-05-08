@@ -117,7 +117,7 @@ Item {
        front: Image {
            width : parent.parent.width/8
            height: parent.parent.height/7.5
-           source: "qrc:/client/games/BigKingsCup/Bilder/VerdeckteKarte.png";
+           source: "qrc:/client/games/BigKingsCup/pictures/VerdeckteKarte.png";
            anchors.rightMargin: -parent.width/2.5
            anchors.bottom:  parent.bottom
            anchors.top: parent.top
@@ -127,7 +127,6 @@ Item {
             id:imagefront
             width : parent.parent.width/8
             height: parent.parent.height/7.5
-            //source: "qrc:/client/games/BigKingsCup/Bilder/"+KingsCupFunktions.card+".png";
             anchors.leftMargin: -parent.width/2.5
             anchors.bottom:  parent.bottom
             anchors.top: parent.top
@@ -141,7 +140,7 @@ Item {
             id:staticCard
             width : parent.parent.width/8
             height: parent.parent.height/7.5
-                   source: "qrc:/client/games/BigKingsCup/Bilder/VerdeckteKarte.png";
+                   source: "qrc:/client/games/BigKingsCup/pictures/VerdeckteKarte.png";
                    anchors.bottomMargin: parent.height/2.5
                    anchors.rightMargin: parent.width/3.15
                    anchors.topMargin: parent.height/2.5
@@ -152,7 +151,7 @@ Item {
         Image {
             width : parent.parent.width/8
             height: parent.parent.height/7.5
-                   source: "qrc:/client/games/BigKingsCup/Bilder/VerdeckteKarte.png";
+                   source: "qrc:/client/games/BigKingsCup/pictures/VerdeckteKarte.png";
                    anchors.bottomMargin: parent.height/2.5
                    anchors.rightMargin: parent.width/3.125
                    anchors.topMargin: parent.height/2.5
@@ -173,9 +172,7 @@ Item {
             onClicked:{
                 flipable.flipped = !flipable.flipped
                 flipable_.flipped = !flipable.flipped
-                KingsCupFunktions.nextCard()
-                ReadInformationFile.readFile("BigKingsCup/InformationFiles/2.txt")
-                console.log("ich bin jetzt hier:"+ReadInformationFile.string)
+                ReadInformationFile.readFile("BigKingsCup/gameInformationFiles/"+KingsCupFunktions.nextCard()+".txt")
                 ruleInformationTxt.sInfotext=ReadInformationFile.string
                 if (ruleInformationTxt.state === "HIDDEN")
                 {
@@ -227,7 +224,7 @@ Item {
         front  : Image {
            width : parent.parent.width/8
            height: parent.parent.height/7.5
-           source: "qrc:/client/games/BigKingsCup/Bilder/VerdeckteKarte.png";
+           source: "qrc:/client/games/BigKingsCup/pictures/VerdeckteKarte.png";
            anchors.rightMargin: -parent.width/2.5
            anchors.bottom:  parent.bottom
            anchors.top: parent.top
@@ -237,7 +234,7 @@ Item {
             id:imageBack
             width : parent.parent.width/8
             height: parent.parent.height/7.5
-            //source: "qrc:/client/games/BigKingsCup/Bilder/"+KingsCupFunktions.card+".png";
+            //source: "qrc:/client/games/BigKingsCup/pictures/"+KingsCupFunktions.card+".png";
             anchors.leftMargin: -parent.width/2.5
             anchors.bottom:  parent.bottom
             anchors.top: parent.top

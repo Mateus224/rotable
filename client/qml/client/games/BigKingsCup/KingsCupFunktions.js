@@ -35,25 +35,22 @@ function nextCard(){
     playedCards.push(icard)
     sCard=icard.toString()
     sCard_lastCard=icard_lastCard.toString()
-    console.log("j:"+j+" mod2:"+j%2)
     if(j===0)
     {
-        console.log("0lastCard: "+sCard_lastCard+ "this Card: "+sCard)
-        imagefront.source="qrc:/client/games/BigKingsCup/Bilder/"+sCard+".png";
-        imageBack.source="qrc:/client/games/BigKingsCup/Bilder/"+sCard+".png";
+        imagefront.source="qrc:/client/games/BigKingsCup/pictures/"+sCard+".png";
+        imageBack.source="qrc:/client/games/BigKingsCup/pictures/"+sCard+".png";
     }
     else if(j%2)
     {
-        console.log("1lastCard: "+sCard_lastCard+ "this Card: "+sCard)
-        imagefront.source="qrc:/client/games/BigKingsCup/Bilder/"+sCard+".png";
-        imageBack.source="qrc:/client/games/BigKingsCup/Bilder/"+sCard_lastCard+".png";
+        imagefront.source="qrc:/client/games/BigKingsCup/pictures/"+sCard+".png";
+        imageBack.source="qrc:/client/games/BigKingsCup/pictures/"+sCard_lastCard+".png";
     }else if(!(j%2))
     {
-        console.log("2lastCard: "+sCard_lastCard+ "this Card: "+sCard)
-        imagefront.source="qrc:/client/games/BigKingsCup/Bilder/"+sCard_lastCard+".png";
-        imageBack.source="qrc:/client/games/BigKingsCup/Bilder/"+sCard+".png";
+        imagefront.source="qrc:/client/games/BigKingsCup/pictures/"+sCard_lastCard+".png";
+        imageBack.source="qrc:/client/games/BigKingsCup/pictures/"+sCard+".png";
     }
 
     j++
+    return sCard%13+2
 }
 //----------------------------------------------------------
