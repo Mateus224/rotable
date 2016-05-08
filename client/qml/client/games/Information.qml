@@ -14,6 +14,7 @@ Rectangle {
     color: "black"
     state: "HIDDEN"
     property string sInfotext : ""
+    property string sLastInfotext : ""
 
 
     TextArea{
@@ -89,7 +90,7 @@ Rectangle {
                 name: "HIDDEN"
                 PropertyChanges { target: windowInfoText; visible: true }
                 PropertyChanges { target: windowInfoText; z: 0 }
-                PropertyChanges { target: gameInfoText; text:sInfotext}
+                PropertyChanges { target: gameInfoText; text:sLastInfotext}
             }
         ]
 

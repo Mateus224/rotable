@@ -1,4 +1,3 @@
-
 //----------------------------------------------------------
 var sCard
 var icard=100
@@ -7,6 +6,8 @@ var sCard_lastCard
 var playedCards =[]
 var Kings=[]
 var j=0
+var sInfo=[]
+var w=1
 function nextCard(){
     icard_lastCard=icard
     icard=Math.floor((Math.random() * 52) + 1)
@@ -49,8 +50,11 @@ function nextCard(){
         imagefront.source="qrc:/client/games/BigKingsCup/pictures/"+sCard_lastCard+".png";
         imageBack.source="qrc:/client/games/BigKingsCup/pictures/"+sCard+".png";
     }
-
     j++
-    return sCard%13+2
+    w++
+    sInfo[0]=sInfo[1]
+    sInfo[1]= (Math.floor(icard/4)+2).toString()
+
+    console.log("sInfo:    "+sInfo[0]+" "+sInfo[1])
 }
 //----------------------------------------------------------

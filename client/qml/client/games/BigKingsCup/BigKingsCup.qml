@@ -163,7 +163,9 @@ Item {
             id:sendOrderTimer
             interval:1000
             onTriggered: {
-              ruleInformationTxt.state = "EXPANDED"
+                ReadInformationFile.readFile("BigKingsCup/gameInformationFiles/"+KingsCupFunktions.sInfo[1]+".txt")
+                ruleInformationTxt.sLastInfotext=ReadInformationFile.string
+                ruleInformationTxt.state = "EXPANDED"
                 sendOrderTimer.stop();
             }
         }
@@ -172,18 +174,22 @@ Item {
             onClicked:{
                 flipable.flipped = !flipable.flipped
                 flipable_.flipped = !flipable.flipped
-                ReadInformationFile.readFile("BigKingsCup/gameInformationFiles/"+KingsCupFunktions.nextCard()+".txt")
-                ruleInformationTxt.sInfotext=ReadInformationFile.string
-                if (ruleInformationTxt.state === "HIDDEN")
+                KingsCupFunktions.nextCard()
+
+                if (ruleInformationTxt.state === "EXPANDED")
                 {
-                    ruleInformationTxt.state = "EXPANDED"
-                }
-                else
-                {
+                    ReadInformationFile.readFile("BigKingsCup/gameInformationFiles/"+KingsCupFunktions.sInfo[0]+".txt")
+                    ruleInformationTxt.sInfotext=ReadInformationFile.string
                     ruleInformationTxt.state = "HIDDEN"
                     sendOrderTimer.start()
                 }
-
+                else
+                {
+                    ReadInformationFile.readFile("BigKingsCup/gameInformationFiles/"+KingsCupFunktions.sInfo[0]+".txt")
+                    console.log("Expanded infoString "+ReadInformationFile.string)
+                    ruleInformationTxt.state = "EXPANDED"
+                    ruleInformationTxt.sLastInfotext=ReadInformationFile.string
+                }
 
 
             } //!flipable.flipped
@@ -234,7 +240,6 @@ Item {
             id:imageBack
             width : parent.parent.width/8
             height: parent.parent.height/7.5
-            //source: "qrc:/client/games/BigKingsCup/pictures/"+KingsCupFunktions.card+".png";
             anchors.leftMargin: -parent.width/2.5
             anchors.bottom:  parent.bottom
             anchors.top: parent.top
