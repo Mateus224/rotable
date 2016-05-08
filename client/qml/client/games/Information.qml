@@ -10,10 +10,10 @@ Rectangle {
     anchors.right: parent.right
     width: parent.width
     height: parent.height/4
-    property string infoText:"2.txt"
     property int stateChangeDuration: 400
     color: "black"
     state: "HIDDEN"
+    property string sInfotext : ""
 
 
     TextArea{
@@ -25,7 +25,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.bottomMargin: parent.height/4
-        text: ReadInformationFile.string
+        text: sInfotext
         font.family: "FreeSans"
         textColor:  "white"
         font.bold: false
@@ -83,13 +83,13 @@ Rectangle {
                 PropertyChanges { target: windowInfoText; visible: true }
                 PropertyChanges { target: windowInfoText; y: 3*parent.height/4}
                 PropertyChanges { target: windowInfoText; z: 1 }
-                PropertyChanges { target: gameInfoText; text:ReadInformationFile.string}
+                PropertyChanges { target: gameInfoText; text: sInfotext}
             },
             State {
                 name: "HIDDEN"
                 PropertyChanges { target: windowInfoText; visible: true }
                 PropertyChanges { target: windowInfoText; z: 0 }
-                PropertyChanges { target: gameInfoText; text:ReadInformationFile.string}
+                PropertyChanges { target: gameInfoText; text:sInfotext}
             }
         ]
 

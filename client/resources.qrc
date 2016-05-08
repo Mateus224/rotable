@@ -137,4 +137,7 @@
         <file alias="10.png">qml/client/games/BigKingsCup/Bilder/10.png</file>
         <file alias="VerdeckteKarte.png">qml/client/games/BigKingsCup/Bilder/VerdeckteKarte.png</file>
     </qresource>
+    <qresource prefix="/client/games/BigKingsCup/InformationFiles">
+        <file alias="2.txt">qml/client/games/BigKingsCup/GameInformationFiles/2.txt</file>
+    </qresource>
 </RCC>

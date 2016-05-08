@@ -174,7 +174,9 @@ Item {
                 flipable.flipped = !flipable.flipped
                 flipable_.flipped = !flipable.flipped
                 KingsCupFunktions.nextCard()
-                ReadInformationFile.readFile("2.txt")
+                ReadInformationFile.readFile("BigKingsCup/InformationFiles/2.txt")
+                console.log("ich bin jetzt hier:"+ReadInformationFile.string)
+                ruleInformationTxt.sInfotext=ReadInformationFile.string
                 if (ruleInformationTxt.state === "HIDDEN")
                 {
                     ruleInformationTxt.state = "EXPANDED"
