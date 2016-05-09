@@ -1,3 +1,4 @@
+.import "../ReadInformationFile.js" as ReadInformationFile
 //----------------------------------------------------------
 var sCard
 var icard=100
@@ -7,7 +8,6 @@ var playedCards =[]
 var Kings=[]
 var j=0
 var sInfo=[]
-var w=1
 function nextCard(){
     icard_lastCard=icard
     icard=Math.floor((Math.random() * 52) + 1)
@@ -51,11 +51,12 @@ function nextCard(){
         imageBack.source="qrc:/client/games/BigKingsCup/pictures/"+sCard+".png";
     }
     j++
-    w++
     sInfo[0]=sInfo[1]
     //iCard starts at 1 so we have to sub 1 take the floor.
     sInfo[1]= (Math.floor((icard-1)/4)+2).toString()
-
-    console.log("sInfo:    "+sInfo[0]+" "+sInfo[1])
+    ReadInformationFile.readFile("BigKingsCup/gameInformationFiles/"+sInfo[0]+".txt")
+    ruleInformationTxt.state = "HIDDEN"
+    sendOrderTimer.start()
 }
 //----------------------------------------------------------
+

@@ -164,7 +164,7 @@ Item {
             interval:1000
             onTriggered: {
                 ReadInformationFile.readFile("BigKingsCup/gameInformationFiles/"+KingsCupFunktions.sInfo[1]+".txt")
-                ruleInformationTxt.sLastInfotext=ReadInformationFile.string
+                ruleInformationTxt.sInfotext=ReadInformationFile.string
                 ruleInformationTxt.state = "EXPANDED"
                 sendOrderTimer.stop();
             }
@@ -172,24 +172,10 @@ Item {
         MouseArea {
             anchors.fill: staticCard
             onClicked:{
+                KingsCupFunktions.nextCard()
                 flipable.flipped = !flipable.flipped
                 flipable_.flipped = !flipable.flipped
-                KingsCupFunktions.nextCard()
 
-                if (ruleInformationTxt.state === "EXPANDED")
-                {
-                    ReadInformationFile.readFile("BigKingsCup/gameInformationFiles/"+KingsCupFunktions.sInfo[0]+".txt")
-                    ruleInformationTxt.sInfotext=ReadInformationFile.string
-                    ruleInformationTxt.state = "HIDDEN"
-                    sendOrderTimer.start()
-                }
-                else
-                {
-                    ReadInformationFile.readFile("BigKingsCup/gameInformationFiles/"+KingsCupFunktions.sInfo[0]+".txt")
-                    console.log("Expanded infoString "+ReadInformationFile.string)
-                    ruleInformationTxt.state = "EXPANDED"
-                    ruleInformationTxt.sLastInfotext=ReadInformationFile.string
-                }
             } //!flipable.flipped
         }
     }
