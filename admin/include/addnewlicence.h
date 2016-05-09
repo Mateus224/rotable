@@ -36,7 +36,10 @@ private slots:
 
     void on_addLicenceSignButton_clicked();
 
-private:
+private:    
+    bool checkLicenceHash(QString licence);
+
+
   /* UI object */
   Ui::Dialog *_ui;
 
