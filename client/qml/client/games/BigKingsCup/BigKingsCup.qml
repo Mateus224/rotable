@@ -235,6 +235,9 @@ Item {
     id:ruleInformationTxt
     }
 
+    NewGame{
+        id: gameLost
+    }
 
     CloseButton{
 

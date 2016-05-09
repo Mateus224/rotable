@@ -2,8 +2,10 @@ import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.1
+import "KingsCupFunktions.js" as KingsCupFunktions
+
 Rectangle {
-    id:GameLost
+    id:gameLost
     y:0
     anchors.left: parent.left
     anchors.right: parent.right
@@ -11,9 +13,10 @@ Rectangle {
     height: parent.height/3
     property int stateChangeDuration: 400
     color: "black"
-    state: "HIDDEN"
     property string sInfotext : ""
     property string sLastInfotext : ""
+    state: "HIDDEN"
+    visible:false
 
 
     TextArea{
@@ -70,9 +73,9 @@ Rectangle {
         anchors.fill: parent
         enabled: true
         onClicked:  {
-            if (windowInfoText.state === "EXPANDED")
+            if (gameLost.state === "EXPANDED")
             {
-                windowInfoText.state = "HIDDEN"
+                gameLost.state = "HIDDEN"
             }
         }
     }
@@ -80,16 +83,14 @@ Rectangle {
         states: [
             State {
                 name: "EXPANDED"
-                PropertyChanges { target: windowInfoText; visible: true }
-                PropertyChanges { target: windowInfoText; y: parent.height/4}
-                PropertyChanges { target: windowInfoText; z: 1 }
-                PropertyChanges { target: gameInfoText; text: sInfotext}
+                PropertyChanges { target: gameLost; visible: true }
+                PropertyChanges { target: gameLost; y: parent.height/4}
+                PropertyChanges { target: gameLost; z: 1 }
             },
             State {
                 name: "HIDDEN"
-                PropertyChanges { target: windowInfoText; visible: true }
-                PropertyChanges { target: windowInfoText; z: 0 }
-                PropertyChanges { target: gameInfoText; text:sLastInfotext}
+                PropertyChanges { target: gameLost; visible: false }
+                PropertyChanges { target: gameLost; z: 0 }
             }
         ]
 

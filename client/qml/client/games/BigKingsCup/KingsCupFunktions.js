@@ -24,7 +24,7 @@ function nextCard(){
         {
             if(Kings.length===3)
             {
-                console.log("Verloren :-D")
+                gameLost.state="EXPANDED"
                 playedCards=[]
             }
             else{
