@@ -2,16 +2,17 @@ import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.1
+import Qt.labs.controls 1.0
 import "KingsCupFunktions.js" as KingsCupFunktions
 
 Rectangle {
     id:gameLost
-    y:0
+    y:-2* parent.height/5
     anchors.left: parent.left
     anchors.right: parent.right
     width: parent.width
-    height: parent.height/3
-    property int stateChangeDuration: 400
+    height:2* parent.height/5
+    property int stateChangeDuration: 5000
     color: "black"
     property string sInfotext : ""
     property string sLastInfotext : ""
@@ -22,16 +23,19 @@ Rectangle {
     TextArea{
         id:gameLostText
         textFormat:TextEdit.RichText
-        backgroundVisible: false
+        //backgroundVisible: false
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: parent.height/4
-        text: "Du hast den vierten König gezogen viel Spaß beim Trinken des 6 cl Vodkas ;D"
+        anchors.topMargin: screen.height/10
+        anchors.bottomMargin: screen.height/10
+        anchors.leftMargin: screen.width/10
+        anchors.rightMargin: screen.width/10
+        text: "<center> Verloren ! !</center> Du hast den vierten König gezogen viel Spaß beim Exen !"
         font.family: "FreeSans"
-        textColor:  "white"
-        font.bold: false
+        color:  "white"
+        font.bold: true
         font.pixelSize: parent.height * 0.08
         font.capitalization: Font.AllUppercase
         wrapMode: Text.Wrap
@@ -84,7 +88,7 @@ Rectangle {
             State {
                 name: "EXPANDED"
                 PropertyChanges { target: gameLost; visible: true }
-                PropertyChanges { target: gameLost; y: parent.height/4}
+                PropertyChanges { target: gameLost; y: 2*parent.height/5}
                 PropertyChanges { target: gameLost; z: 1 }
             },
             State {

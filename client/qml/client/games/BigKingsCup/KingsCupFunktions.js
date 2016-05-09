@@ -9,7 +9,10 @@ var Kings=[]
 var j=0
 var sInfo=[]
 function nextCard(){
-    icard_lastCard=icard
+    if(j>0)
+        icard_lastCard=icard
+    else
+        icard_lastCard=Math.floor((Math.random() * 52) + 1)
     icard=Math.floor((Math.random() * 52) + 1)
     if(!(playedCards.length===52))
         {
@@ -24,8 +27,11 @@ function nextCard(){
         {
             if(Kings.length===3)
             {
+                ruleInformationTxt.state = "HIDDEN"
                 gameLost.state="EXPANDED"
-                playedCards=[]
+
+                //playedCards=[]
+                //Kings=[]
             }
             else{
                 Kings.push(icard)
@@ -56,7 +62,16 @@ function nextCard(){
     sInfo[1]= (Math.floor((icard-1)/4)+2).toString()
     ReadInformationFile.readFile("BigKingsCup/gameInformationFiles/"+sInfo[0]+".txt")
     ruleInformationTxt.state = "HIDDEN"
-    sendOrderTimer.start()
+    if(Kings.length===3)
+    {
+        ruleInformationTxt.state = "HIDDEN"
+        gameLost.state="EXPANDED"
+        newGame()
+
+    }
+    else{
+        sendOrderTimer.start()
+    }
 }
 //----------------------------------------------------------
 //Reset all variables
