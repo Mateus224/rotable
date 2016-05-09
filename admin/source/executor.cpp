@@ -4,6 +4,7 @@
 #include "connecttoserverdialog.h"
 #include "addproductdialog.h"
 #include "addproductcategory.h"
+#include "addnewlicence.h"
 #include "mainwindow.h"
 #include "utils.h"
 #include "productcategory.h"
@@ -326,23 +327,26 @@ void Executor::onStopDebugServerListening()
 
 void Executor::onAddLicence()
 {
-    // TODO: new window
-    QFile file;
-    QStringList fileList;
-    QJsonArray array;
+    AddNewLicence dlg(_mainwindow);
 
-    foreach(QString fileName, fileList)
-    {
-        file.setFileName(fileName);
-
-        QByteArray ba;
-        QBuffer buffer(&ba);
-
-        ba = file.readAll();
-        QString base64 = ba.toBase64(QByteArray::Base64UrlEncoding);
-
-        array.append(QJsonValue(base64));
+    if (dlg.exec() == QDialog::Accepted) {
     }
+//    QFile file;
+//    QStringList fileList;
+//    QJsonArray array;
+
+//    foreach(QString fileName, fileList)
+//    {
+//        file.setFileName(fileName);
+
+//        QByteArray ba;
+//        QBuffer buffer(&ba);
+
+//        ba = file.readAll();
+//        QString base64 = ba.toBase64(QByteArray::Base64UrlEncoding);
+
+//        array.append(QJsonValue(base64));
+//    }
 }
 
 //------------------------------------------------------------------------------

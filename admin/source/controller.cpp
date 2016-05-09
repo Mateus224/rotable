@@ -54,6 +54,9 @@ void Controller::connect_signals()
   connect(_mainwindow, SIGNAL(actionAddProductCategory()),
           &_executor, SLOT(onAddProductCategory()));
 
+  connect(_mainwindow, &MainWindow::actionAddLicence,
+          &_executor, &Executor::onAddLicence);
+
   connect(_mainwindow, SIGNAL(actionAddProduct()),
           &_executor, SLOT(onAddProduct()));
 

@@ -40,7 +40,7 @@ private:
   /* UI object */
   Ui::Dialog *_ui;
 
-  QString licence, sign;
+  QString _licence, _sign;
 
 }; // class AddNewLicence
 
