@@ -55,7 +55,7 @@ void Controller::connect_signals()
           &_executor, SLOT(onAddProductCategory()));
 
   connect(_mainwindow, SIGNAL(actionAddProduct()),
-          &_executor, SLOT(onAddProduct()));
+          &_executor, SLOT(onAddProduct()actionAddProduct));
 
   connect(_mainwindow, SIGNAL(actionResetDatabase()),
           &_executor, SLOT(onResetDatabase()));
