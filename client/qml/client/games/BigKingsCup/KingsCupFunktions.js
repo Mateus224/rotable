@@ -10,7 +10,7 @@ var sInfo=[]
 var w=1
 function nextCard(){
     icard_lastCard=icard
-    icard=w//Math.floor((Math.random() * 52) + 1)
+    icard=Math.floor((Math.random() * 52) + 1)
     if(!(playedCards.length===52))
         {
         for (var i = 0; i < playedCards.length; i++) {
@@ -20,7 +20,7 @@ function nextCard(){
                  i=-1
              }
         }
-        if(icard===21||icard===22||icard===23||icard===24)
+        if(icard===45||icard===46||icard===47||icard===48)
         {
             if(Kings.length===3)
             {
@@ -53,7 +53,8 @@ function nextCard(){
     j++
     w++
     sInfo[0]=sInfo[1]
-    sInfo[1]= (Math.floor(icard/4)+2).toString()
+    //iCard starts at 1 so we have to sub 1 take the floor.
+    sInfo[1]= (Math.floor((icard-1)/4)+2).toString()
 
     console.log("sInfo:    "+sInfo[0]+" "+sInfo[1])
 }
