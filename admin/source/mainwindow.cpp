@@ -41,6 +41,10 @@ MainWindow::MainWindow(QWidget* parent) :
           this, SIGNAL(actionStopDebugServerListening()));
   connect(_ui->_toolAddLicence, &QPushButton::clicked,
           this, &MainWindow::actionAddLicence);
+  connect(this, &MainWindow::onLicencePathSet,
+          _ui->licencePathLineEdit, &QLineEdit::setText);
+  connect(this, &MainWindow::onLicenceStatusSet,
+          _ui->licenceStatusLineEdit, &QLineEdit::setText);
 
   _ui->_statusBar->showMessage(tr("Disconnected"));
 

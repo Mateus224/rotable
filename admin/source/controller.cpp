@@ -119,6 +119,12 @@ void Controller::connect_signals()
   connect(_mainwindow, &MainWindow::actionAddLicence,
           &_executor, &Executor::onAddLicence);
 
+  connect(&_executor, &Executor::onLicenceConfig,
+          _mainwindow, &MainWindow::onLicencePathSet);
+
+  connect(&_executor, &Executor::onLicenceStatus,
+          _mainwindow, &MainWindow::onLicenceStatusSet);
+
   //----------------------------------------------------------------------------
 
   connect(&_products, SIGNAL(productAdded(int)),

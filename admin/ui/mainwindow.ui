@@ -36,7 +36,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>5</number>
       </property>
       <property name="iconSize">
        <size>
@@ -578,12 +578,12 @@
            <string>Licence path</string>
           </property>
           <property name="buddy">
-           <cstring>lineEdit</cstring>
+           <cstring>licencePathLineEdit</cstring>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit"/>
+         <widget class="QLineEdit" name="licencePathLineEdit"/>
         </item>
         <item>
          <widget class="QLabel" name="label_2">
@@ -593,7 +593,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit_2">
+         <widget class="QLineEdit" name="licenceStatusLineEdit">
           <property name="readOnly">
            <bool>true</bool>
           </property>

@@ -639,16 +639,16 @@ void Executor::dataChanged(ComPackageDataChanged *package)
 
 //------------------------------------------------------------------------------
 
-void Executor::loadServerConfigs(const QString &string)
+void Executor::loadServerConfigs(const QString &path)
 {
-    //TODO: load data
+    emit onLicenceConfig("path");
 }
 
 //------------------------------------------------------------------------------
 
-void Executor::loadLicenceStatus(const QString &string)
+void Executor::loadLicenceStatus(const QString &status)
 {
-    //TODO: load data
+    emit onLicenceStatus(status);
 }
 
 //------------------------------------------------------------------------------
