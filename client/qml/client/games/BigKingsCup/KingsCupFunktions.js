@@ -1,7 +1,7 @@
 .import "../ReadInformationFile.js" as ReadInformationFile
 //----------------------------------------------------------
 var sCard
-var icard=100
+var icard
 var icard_lastCard
 var sCard_lastCard
 var playedCards =[]
@@ -59,4 +59,12 @@ function nextCard(){
     sendOrderTimer.start()
 }
 //----------------------------------------------------------
-
+//Reset all variables
+function newGame(){
+    icard=0
+    icard_lastCard=0
+    playedCards =[]
+    Kings=[]
+    j=0
+    sInfo=[]
+}

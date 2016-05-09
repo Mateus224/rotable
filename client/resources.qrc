@@ -80,6 +80,7 @@
         <file alias="star.png">qml/client/games/BigKingsCup/star.png</file>
         <file alias="sun.png">qml/client/games/BigKingsCup/sun.png</file>
         <file alias="KingsCupFunktions.js">qml/client/games/BigKingsCup/KingsCupFunktions.js</file>
+        <file alias="NewGame.qml">qml/client/games/BigKingsCup/NewGame.qml</file>
     </qresource>
     <qresource prefix="/client/games/BigKingsCup/pictures">
         <file alias="1.png">qml/client/games/BigKingsCup/pictures/1.png</file>
