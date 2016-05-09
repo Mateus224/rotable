@@ -179,6 +179,7 @@ private:
   void requestCategory(int categoryId);
   void requestProduct(int productId);
   void requestServerConfigs();
+  void requestLicenceStatus();
 
   void dataReturned(rotable::ComPackageDataReturn* package);
   void dataChanged(rotable::ComPackageDataChanged* package);

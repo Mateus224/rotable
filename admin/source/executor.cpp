@@ -411,6 +411,7 @@ void Executor::onPackageReceived(ComPackage *package)
       emit statusMessage(tr("Connected"));
       requestCategoryIds();
       requestServerConfigs();
+      requestLicenceStatus();
       break;
 
     case ComPackage::DataRequest:
@@ -514,6 +515,20 @@ void Executor::requestServerConfigs()
 {
     ComPackageDataRequest* request = new ComPackageDataRequest();
     request->setDataCategory(ComPackage::RequestConfig);
+
+    if (!_tcp_client.send(*request)) {
+      qCritical() << tr("Could not send request!");
+    } else {
+      _dataRequest[request->id()] = request;
+    }
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::requestLicenceStatus()
+{
+    ComPackageDataRequest* request = new ComPackageDataRequest();
+    request->setDataCategory(ComPackage::RequestLicence);
 
     if (!_tcp_client.send(*request)) {
       qCritical() << tr("Could not send request!");
