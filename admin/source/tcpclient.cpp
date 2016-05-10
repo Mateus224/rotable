@@ -3,9 +3,11 @@
 #include "tcpclient.h"
 #include "utils.h"
 
+#ifdef Q_WS_WIN
 #include <sys/socket.h>
 #include <netinet/tcp.h>
 #include <arpa/inet.h>
+#endif
 
 //------------------------------------------------------------------------------
 
@@ -48,7 +50,7 @@ void TcpClient::startConnection(const QString &hostname, int port)
 {
   QHostAddress addr(hostname);
   _client.connectToHost(addr, port);
-
+#ifdef Q_WS_WIN
   int enableKeepAlive = 1;
   int fd = _client.socketDescriptor();
   setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, &enableKeepAlive, sizeof(enableKeepAlive));
@@ -61,6 +63,7 @@ void TcpClient::startConnection(const QString &hostname, int port)
 
   int interval = 2;   // send a keepalive packet out every 2 seconds (after the 5 second idle period)
   setsockopt(fd, SOL_TCP, TCP_KEEPINTVL, &interval, sizeof(interval));
+#endif
 }
 
 //------------------------------------------------------------------------------
