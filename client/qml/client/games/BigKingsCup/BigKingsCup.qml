@@ -16,6 +16,7 @@ Item {
         id: sky
         anchors { left: parent.left; top: parent.top; right: parent.right; bottom: parent.verticalCenter }
         gradient: Gradient {
+            id: skyGradient
             GradientStop {
                 position: 0.0
                 SequentialAnimation on color {
@@ -251,16 +252,17 @@ Item {
         width: parent.width/5
         height: parent.height/15
         Rectangle{
-            gradient: sky.gradient
+            id: gradientButton
+            gradient: skyGradient
             radius: 9
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.topMargin: parent.width/50
-            anchors.bottomMargin: parent.width/50
-            anchors.leftMargin: parent.width/50
-            anchors.rightMargin: parent.width/50
+            anchors.topMargin: parent.width/100
+            anchors.bottomMargin: parent.width/100
+            anchors.leftMargin: parent.width/100
+            anchors.rightMargin: parent.width/100
             Text {
                 id: categoryTitleLabel
                 text: "Neues Spiel"
@@ -273,9 +275,15 @@ Item {
                 anchors.leftMargin: parent.width * 0.1
                 font.capitalization: Font.AllUppercase
             }
+            Gradient {
+                id: clubcolorsreversSky
+                GradientStop { position: 0.0; color:"#0E1533"}
+                GradientStop { position: 1.0; color: "#14aaff"}
+            }
             MouseArea{
                 anchors.fill: parent
-                onClicked:  {
+                onPressed:  {
+                    parent.gradient= clubcolorsreversSky
                     KingsCupFunktions.newGame()
                     card_mousArea.enabled=true
                     rotation.angle=0
@@ -284,6 +292,9 @@ Item {
                     flipable_.flipped = false
                     ruleInformationTxt.state = "HIDDEN"
                     gameLost.state="HIDDEN"
+                }
+                onReleased: {
+                    parent.gradient=skyGradient
                 }
             }
 
