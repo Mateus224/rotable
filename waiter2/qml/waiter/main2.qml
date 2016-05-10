@@ -125,6 +125,7 @@ ApplicationWindow {
                     onClicked: {
                         tables.sendToBoardOrder(model.id)
                     }
+
                 }
             }
             Component {     //instantiated when header is processed
@@ -261,6 +262,7 @@ ApplicationWindow {
 
             }
                 ListView {
+                    clip: false
                     anchors.topMargin: 10
                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
@@ -272,31 +274,48 @@ ApplicationWindow {
                     Layout.minimumHeight: 200
                     Layout.fillHeight: true
                     header:bannerO
+                    orientation: ListView.Horizontal
                     footer: Rectangle {
-                        width: parent.width; height: 50;
+                        width: 300; height: 50;
                         gradient: clubcolors2
                     }
 
+
                     Component{
                         id: order
-                        ColumnLayout{
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            //                            width: parent.width
 
-                            spacing: 10
+                        ColumnLayout{
+                            //anchors.horizontalCenter: parent.horizontalCenter
+                            //
+                            width: 200
                            /* Label {
                                 id: labelOrder
                                 text: String(model.orderId)
                             }*/
-                            ListView{
-                                id: orderItemsView
-                                height: 100 // depending on the number of the orders <----------------------TODO-----
-                                //Layout.fillHeight: true
+                            Label{
+                                text: qsTr("To pay: ") + orderPrice;
+                            }
 
+                            ListView{
+                                //orientation: ListView.Horizontal
+                                id: orderItemsView
+                                height: 50 // depending on the number of the orders <----------------------TODO-----
+                                //Layout.fillHeight: true
+                                Layout.minimumHeight: 200
+                                Layout.fillHeight: true
+                                header:Rectangle {
+                                    width: parent.width; height: 50
+                                    gradient: clubcolors2
+                                }
+                                    footer: Rectangle {
+                                        width: parent.width; height: 50
+                                        gradient: clubcolors2
+                                    }
                                 model: orderItems
-                                delegate: CheckBox{
+                                delegate:
+                                    CheckBox{
                                     id: changeCheck
-                                    width: 200
+                                    width: 150
 
                                     Layout.fillWidth: true
                                     text: productList.productName(model.modelData.productId) +"   " + model.modelData.amount +"x"
@@ -319,15 +338,13 @@ ApplicationWindow {
                                     }
                                 }
                             }
-                            Label{
-                                text: qsTr("To pay: ") + orderPrice;
-                            }
-                            //Button{
-                            //    id: buttonOrder
-                            //    text: qsTr("Select all")
-                            //    onClicked: model.prepareOrderToChange
 
-                            //}
+                            /*Button{
+                                id: buttonOrder
+                                text: qsTr("Select all")
+                                onClicked: model.prepareOrderToChange
+
+                            }*/
                         }
                     }
                     delegate:order
@@ -336,7 +353,8 @@ ApplicationWindow {
                     id: bannerO
                     Rectangle {
                         id: banner
-                        width: parent.width; height: 60
+                        width: 300
+                        height: 60
                         gradient: clubcolors
                         border {
                             color: "#7AAEEE"//"#9EDDF2";
