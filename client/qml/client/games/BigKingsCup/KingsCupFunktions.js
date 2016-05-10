@@ -29,9 +29,8 @@ function nextCard(){
             {
                 ruleInformationTxt.state = "HIDDEN"
                 gameLost.state="EXPANDED"
+                card_mousArea.enabled=false
 
-                //playedCards=[]
-                //Kings=[]
             }
             else{
                 Kings.push(icard)
@@ -66,11 +65,15 @@ function nextCard(){
     {
         ruleInformationTxt.state = "HIDDEN"
         gameLost.state="EXPANDED"
-        newGame()
+        card_mousArea.enabled=false
 
     }
     else{
-        sendOrderTimer.start()
+        card_mousArea.enabled=false
+        delay(1100, function() {
+            card_mousArea.enabled=true;
+        })
+        expandedInformationWindowTimer.start()
     }
 }
 //----------------------------------------------------------
@@ -78,8 +81,22 @@ function nextCard(){
 function newGame(){
     icard=0
     icard_lastCard=0
+    sInfo=[]
     playedCards =[]
     Kings=[]
     j=0
-    sInfo=[]
+    rotation.angle=0
+    rotationB.angle=0
+    flipable.flipped = false
+    flipable_.flipped = false
 }
+//----------------------------------------------------------
+//This timer is need for the mouseArea so that it is not
+//possible to often to click on the cards
+function delay(delayTime, cb) {
+    mouseAreaTimer.interval = delayTime;
+    mouseAreaTimer.repeat = false;
+    mouseAreaTimer.triggered.connect(cb);
+    mouseAreaTimer.start();
+}
+

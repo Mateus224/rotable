@@ -13,6 +13,7 @@ Item {
 
     // Let's draw the sky...
     Rectangle {
+        id: sky
         anchors { left: parent.left; top: parent.top; right: parent.right; bottom: parent.verticalCenter }
         gradient: Gradient {
             GradientStop {
@@ -160,16 +161,26 @@ Item {
                    anchors.right: parent.right
                }
         Timer {
-            id:sendOrderTimer
+            id:expandedInformationWindowTimer
             interval:1000
             onTriggered: {
                 ReadInformationFile.readFile("BigKingsCup/gameInformationFiles/"+KingsCupFunktions.sInfo[1]+".txt")
                 ruleInformationTxt.sInfotext=ReadInformationFile.string
                 ruleInformationTxt.state = "EXPANDED"
-                sendOrderTimer.stop();
+                expandedInformationWindowTimer.stop();
             }
         }
+        Timer{
+            id:mouseAreaTimer
+            interval: 1000
+            onTriggered: {
+                mouseAreaTimer.stop()
+
+            }
+        }
+
         MouseArea {
+            id:card_mousArea
             anchors.fill: staticCard
             onClicked:{
                 KingsCupFunktions.nextCard()
@@ -231,11 +242,59 @@ Item {
         }
     }
 
-    Information{
-    id:ruleInformationTxt
+    Rectangle{
+        id:newGame
+        y: parent.height/6
+        anchors.horizontalCenter: parent.horizontalCenter
+        color: "white"
+        radius: 10
+        width: parent.width/5
+        height: parent.height/15
+        Rectangle{
+            gradient: sky.gradient
+            radius: 9
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.topMargin: parent.width/50
+            anchors.bottomMargin: parent.width/50
+            anchors.leftMargin: parent.width/50
+            anchors.rightMargin: parent.width/50
+            Text {
+                id: categoryTitleLabel
+                text: "Neues Spiel"
+                font.family: "FreeSans"
+                color: "white"
+                font.bold: true
+                font.pixelSize: parent.height * 0.4
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.centerIn: parent
+                anchors.leftMargin: parent.width * 0.1
+                font.capitalization: Font.AllUppercase
+            }
+            MouseArea{
+                anchors.fill: parent
+                onClicked:  {
+                    KingsCupFunktions.newGame()
+                    card_mousArea.enabled=true
+                    rotation.angle=0
+                    rotationB.angle=0
+                    flipable.flipped = false
+                    flipable_.flipped = false
+                    ruleInformationTxt.state = "HIDDEN"
+                    gameLost.state="HIDDEN"
+                }
+            }
+
+        }
     }
 
-    NewGame{
+    Information{
+        id:ruleInformationTxt
+    }
+
+    LostGame{
         id: gameLost
     }
 

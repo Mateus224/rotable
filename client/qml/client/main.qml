@@ -13,6 +13,7 @@ Rectangle {
         //property double topMargin: 0.01
         //property double bottomMargin: 0.005
         property int _rotation: 180
+        z:2
     }
     RotationButton{
         id: rotationButton_rightTop
@@ -20,6 +21,7 @@ Rectangle {
         //property double topMargin: 0.01
         //property double bottomMargin: 0.005
         property int _rotation: 270
+        z:2
     }
     RotationButton{
         id: rotationButton_rightBottom
@@ -28,6 +30,7 @@ Rectangle {
         //property double topMargin: 0.005
         //property double bottomMargin: 0.01
         property int _rotation: 0
+        z:2
     }
     RotationButton{
         id: rotationButton_leftBottom
@@ -36,6 +39,7 @@ Rectangle {
         //property double topMargin: 0.005
         //property double bottomMargin: 0.01
         property int _rotation: 90
+        z:2
     }
 
 //------------------------------------------------------------
