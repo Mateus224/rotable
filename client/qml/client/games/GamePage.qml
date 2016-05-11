@@ -135,9 +135,6 @@ Rectangle {
         id: categoryBar
     }
     Queue{
-        id:queue
-        visible: true
-
     }
     SpinBottle{
         id:spinTheBottle
@@ -185,7 +182,6 @@ Rectangle {
             name: "DEFAULT"
             PropertyChanges { target: game0; state: "COLLAPSED" }
             PropertyChanges { target: spinTheBottle; visible: false }
-            PropertyChanges { target: queue; visible: true }
             PropertyChanges { target: spinTheBottle; z: 0 }
             PropertyChanges { target: spinTheBottle; width: Math.min(mainScreen.height, mainScreen.width) }
             PropertyChanges { target: spinTheBottle; height: Math.min(mainScreen.height, mainScreen.width) }
@@ -194,7 +190,6 @@ Rectangle {
         State {
             name: "SPINTHEBOTTLE"
             PropertyChanges { target: spinTheBottle; visible: true }
-            PropertyChanges { target: queue; visible: false }
             PropertyChanges { target: spinTheBottle; z: 1 }
             PropertyChanges { target: spinTheBottle; width: Math.min(mainScreen.height, mainScreen.width) }
             PropertyChanges { target: spinTheBottle; height: Math.min(mainScreen.height, mainScreen.width) }
@@ -202,7 +197,6 @@ Rectangle {
         State {
             name: "BIGKINGSCUP"
             PropertyChanges { target: bigKingsCup; visible: true }
-            PropertyChanges { target: queue; visible: false }
             PropertyChanges { target: bigKingsCup; z: 1 }
             PropertyChanges { target: bigKingsCup; width: Math.min(mainScreen.height, mainScreen.width) }
             PropertyChanges { target: bigKingsCup; height: Math.min(mainScreen.height, mainScreen.width) }

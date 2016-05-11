@@ -326,6 +326,10 @@ void Client::orderQueue(Message *msg)
         _queue.setqueueOrder(iOrderQueue);
         _queue.queueOrderChanged();
     }
+    else{
+        _queue.setqueueOrder(0);
+        _queue.queueOrderChanged();
+    }
     delete message;
 
 }
