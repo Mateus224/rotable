@@ -1,5 +1,5 @@
-import QtQuick 2.2
-import QtQuick.Controls 1.3
+import QtQuick 2.5
+import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.3
 import QtGraphicalEffects 1.0
@@ -69,6 +69,7 @@ ApplicationWindow {
 
             ListView {
                 id: tableList
+                z:1
                 height: (applicationWindow.height/3)*2
                 anchors.top: tableMenuLabel.bottom
                 anchors.right: parent.right
@@ -80,6 +81,7 @@ ApplicationWindow {
                 spacing: margin
                 header: bannercomponent
                 footer: Rectangle {
+                    z:1
                     width: parent.width; height: 50;
                     gradient: clubcolors2
                 }
@@ -160,6 +162,7 @@ ApplicationWindow {
 
 
             ListView {
+                z:1
                 id: needList
                 y: 500
                 height:applicationWindow.height/3
@@ -190,8 +193,6 @@ ApplicationWindow {
                             font.bold: true
                             font.family: "Lobster two"
                             font.pixelSize: 20
-                            //anchors.bottom: needList.top
-                            //anchors.topMargin: -500
                             anchors.horizontalCenter: parent.horizontalCenter
                         }
                     }
@@ -220,6 +221,7 @@ ApplicationWindow {
         }
 
         ColumnLayout{
+            z:0
             id: orderLayout
             anchors.left: menuLayout.right
             anchors.right: parent.right
@@ -233,7 +235,7 @@ ApplicationWindow {
 
             RowLayout{
                 id: orderButton
-
+                z:0
                 width: parent.width
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: parent.top
@@ -261,9 +263,34 @@ ApplicationWindow {
                 }
 
             }
+            //------------------------------------------------------------
+            Rectangle{
+                color:"red"
+                anchors.topMargin: parent.height/5
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 2*parent.height/3
+                anchors.right: parent.right
+                anchors.left: parent.left
+                anchors.leftMargin: 0
+                gradient: clubcolors
+                border {
+                    color: "#7AAEEE"//"#9EDDF2";
+                    width: 2}
+                Text {
+                    font.family: "Lobster two"
+                    anchors.centerIn: parent
+                    text: qsTr("Bill on table: ") + orderboard.ordersPrice.toFixed(2)
+                    font.pixelSize: 22
+                    font.bold: true
+                }
+            }
+
+
                 ListView {
-                    clip: false
-                    anchors.topMargin: 10
+                    z:0
+                    anchors.topMargin: parent.height/3
+                    anchors.top: parent.top
                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
                     anchors.left: parent.left
@@ -271,14 +298,15 @@ ApplicationWindow {
                     spacing: 5
                     model: orderboard
                     id: board
-                    Layout.minimumHeight: 200
+                    //Layout.minimumHeight: 200
                     Layout.fillHeight: true
-                    header:bannerO
+                    //height: 250
+                    //header:bannerO
                     orientation: ListView.Horizontal
-                    footer: Rectangle {
+                    /*footer: Rectangle {
                         width: 300; height: 50;
                         gradient: clubcolors2
-                    }
+                    }*/
 
 
                     Component{
@@ -287,30 +315,32 @@ ApplicationWindow {
                         ColumnLayout{
                             //anchors.horizontalCenter: parent.horizontalCenter
                             //
-                            width: 200
+                            z:0
+                            width: 150
                            /* Label {
                                 id: labelOrder
                                 text: String(model.orderId)
                             }*/
                             Label{
+                                z:0
+                                font.bold: true
+                                font.family: "Lobster two"
+                                font.pixelSize: 20
                                 text: qsTr("To pay: ") + orderPrice;
                             }
 
                             ListView{
+                                z:0
                                 //orientation: ListView.Horizontal
                                 id: orderItemsView
                                 height: 50 // depending on the number of the orders <----------------------TODO-----
                                 //Layout.fillHeight: true
                                 Layout.minimumHeight: 200
                                 Layout.fillHeight: true
-                                header:Rectangle {
-                                    width: parent.width; height: 50
+                                footer: Rectangle {
+                                    width: 150; height: 50
                                     gradient: clubcolors2
                                 }
-                                    footer: Rectangle {
-                                        width: parent.width; height: 50
-                                        gradient: clubcolors2
-                                    }
                                 model: orderItems
                                 delegate:
                                     CheckBox{
