@@ -602,9 +602,10 @@ bool Server::setData(ComPackageDataSet *set, client_t client)
                                                QByteArray::Base64UrlEncoding);
 
         QFile f;
-        f.setFileName("");
+        f.setFileName(QDir(_config.licecne_path()).filePath(name[0]));
         f.write(ba);
     }
+    _licence->loadLicence();
   } break;
   default:
   {
