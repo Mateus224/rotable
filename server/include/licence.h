@@ -31,11 +31,10 @@ public:
     /**
      * @brief Licence
      * Default constructor, load licence key and parse it
-     * @param hostname      hostname
      * @param path          path to licence
      * @parent              parent object
      */
-    Licence(const QString &hostname, const QString &path, QObject *parent = nullptr);
+    Licence(const QString &path, QObject *parent = nullptr);
 
     /**
      * @brief loadLicence

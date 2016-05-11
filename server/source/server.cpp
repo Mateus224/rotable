@@ -29,7 +29,7 @@ Server::Server(const QString &configFilePath, QObject *parent)
   connect(&_db, &Database::parseConfig, this, &Server::config_parser);
   schedule = new Schedule();
 
-  _licence = new Licence("", "");
+  _licence = new Licence(_config.licecne_path());
 
   connect(_licence, &rotable::Licence::getLastIncomeDate, &_db, &rotable::Database::getLastIncome);
 }
@@ -136,6 +136,7 @@ void Server::packageReceived(client_t client, ComPackage *package)
           {
               ComPackageReject reject(package->id());
               _tcp.send(client, reject);
+              break;
           }
       _tcp.setClientName(client, p->clientName());
       ComPackageConnectionAccept accept;

@@ -3,6 +3,7 @@
 #include <QByteArray>
 #include <QCryptographicHash>
 #include <QTextCodec>
+#include <QHostInfo>
 
 #include <cryptopp/osrng.h>
 #include <cryptopp/base64.h>
@@ -17,9 +18,10 @@ using namespace CryptoPP;
 
 //------------------------------------------------------------------------------
 
-rotable::Licence::Licence(const QString &hostname, const QString &path, QObject *parent): QObject(parent), _maxTable(0), _connectedTable(0),
-   _hostname(hostname),  _path(path)
+rotable::Licence::Licence(const QString &path, QObject *parent): QObject(parent), _maxTable(0), _connectedTable(0),
+   _path(path)
 {
+    _hostname = QHostInfo::localHostName();
 }
 
 //------------------------------------------------------------------------------
@@ -124,30 +126,27 @@ void Licence::verifityTime()
 
 //------------------------------------------------------------------------------
 
-void rotable::Licence::loadLicence(const QString &path)
+void rotable::Licence::loadLicence(const QString &path) try
 {
-    try{
         auto key = loadKeyFromFile();
         //Change base on path
         auto licence = loadToString((path+QString("licence.data")).toStdString());
         auto sig = loadToString((path+QString("sig.data")).toStdString());
         verifityLicence(key, licence, sig);
         parseLicence(licence);
-    }
-    catch(NoPublKeyException){ }
-    catch(NoLicenceException){ }
-    catch(SignLicenceException){ }
-    catch(UnvalidLiceneException){ }
-    catch(UnvalidTimeException){ }
-
 }
+catch(NoPublKeyException){ }
+catch(NoLicenceException){ }
+catch(SignLicenceException){ }
+catch(UnvalidLiceneException){ }
+catch(UnvalidTimeException){ }
 
 //------------------------------------------------------------------------------
 
 QString Licence::getLicenceStatus()
 {  
     //TODO: not needed now, add laetly
-    return QString("");
+    return QString("aaa");
 }
 
 //------------------------------------------------------------------------------
