@@ -17,6 +17,14 @@ AddNewLicence::~AddNewLicence()
 
 }
 
+QStringList AddNewLicence::getList()
+{
+    QStringList list;
+    list.append(_licence);
+    list.append(_sign);
+    return list;
+}
+
 void AddNewLicence::on_addLicenceButton_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
@@ -54,7 +62,7 @@ void AddNewLicence::on_addLicenceSignButton_clicked()
 bool AddNewLicence::checkLicenceHash(QString licence)
 {
     QStringList splitLicence = licence.split(";;");
-    return splitLicence[1] != QTextCodec::codecForName("UTF-8")->toUnicode(
+    return splitLicence[1] == QTextCodec::codecForName("UTF-8")->toUnicode(
                     QCryptographicHash::hash(splitLicence[0].toUtf8(),
                     QCryptographicHash::Sha3_512).toHex());
 }

@@ -31,6 +31,8 @@ public:
    */
   ~AddNewLicence();
 
+  QStringList getList();
+
 private slots:
     void on_addLicenceButton_clicked();
 
