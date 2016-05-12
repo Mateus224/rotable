@@ -608,6 +608,7 @@ bool Server::setData(ComPackageDataSet *set, client_t client)
             return false;
         }
         QFile f(path.filePath(name[i++]));
+        f.open(QIODevice::WriteOnly);
         f.write(ba);
         f.close();
     }

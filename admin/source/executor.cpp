@@ -331,13 +331,15 @@ void Executor::onAddLicence()
 
     if (dlg.exec() != QDialog::Accepted)
         return;
-    QFile file;
+    ;
     QStringList fileList = dlg.getList();
     QJsonArray array;
 
     foreach(QString fileName, fileList)
     {
-        file.setFileName(fileName);
+
+        QFile file(fileName);
+        file.open(QIODevice::ReadOnly);
 
         QByteArray ba;
         QBuffer buffer(&ba);
