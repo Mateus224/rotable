@@ -40,7 +40,10 @@ int main(int argc, char *argv[])
   parser.addPositionalArgument("config", QCoreApplication::translate("main", "Path of the configuration file."));
   parser.process(a);
 
-  QString configFilePath(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "config.ini");
+  auto dir = QDir(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
+  dir.mkpath("rotable");
+  dir.cd("rotable");
+  QString configFilePath(dir.filePath("config.ini"));
 
   QStringList args = parser.positionalArguments();
   if (args.size() > 0) {
