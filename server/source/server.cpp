@@ -609,6 +609,7 @@ bool Server::setData(ComPackageDataSet *set, client_t client)
         }
         QFile f(path.filePath(name[i++]));
         f.write(ba);
+        f.close();
     }
     _licence->loadLicence();
   } break;
