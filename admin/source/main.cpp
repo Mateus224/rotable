@@ -11,6 +11,7 @@
 #include "io_writeinmonthwithnewdata.h"
 
 #include <QStandardPaths>
+#include <QDir>
 
 #define ThisDay "ThisDay.data"
 #define umsatz "umsatz.data"

@@ -20,7 +20,7 @@ AddNewLicence::~AddNewLicence()
 void AddNewLicence::on_addLicenceButton_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Select licence"), "~", tr("Licence file (*.lic)"));
+        tr("Select licence"), "~", tr("Licence file (*.dat)"));
 
     if(fileName != "")
     {
@@ -41,7 +41,7 @@ void AddNewLicence::on_addLicenceButton_clicked()
 void AddNewLicence::on_addLicenceSignButton_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Select licence"), "~", tr("Licence file (*.lic)"));
+        tr("Select licence"), "~", tr("Signed file (*.dat)"));
 
     if(fileName != "")
     {

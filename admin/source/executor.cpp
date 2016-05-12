@@ -331,22 +331,22 @@ void Executor::onAddLicence()
 
     if (dlg.exec() == QDialog::Accepted) {
     }
-//    QFile file;
-//    QStringList fileList;
-//    QJsonArray array;
+    QFile file;
+    QStringList fileList;
+    QJsonArray array;
 
-//    foreach(QString fileName, fileList)
-//    {
-//        file.setFileName(fileName);
+    foreach(QString fileName, fileList)
+    {
+        file.setFileName(fileName);
 
-//        QByteArray ba;
-//        QBuffer buffer(&ba);
+        QByteArray ba;
+        QBuffer buffer(&ba);
 
-//        ba = file.readAll();
-//        QString base64 = ba.toBase64(QByteArray::Base64UrlEncoding);
+        ba = file.readAll();
+        QString base64 = ba.toBase64(QByteArray::Base64UrlEncoding);
 
-//        array.append(QJsonValue(base64));
-//    }
+        array.append(QJsonValue(base64));
+    }
 }
 
 //------------------------------------------------------------------------------

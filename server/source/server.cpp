@@ -605,7 +605,7 @@ bool Server::setData(ComPackageDataSet *set, client_t client)
         if(i > name.length())
         {
             qWarning() << "Recive more file that we can save!";
-            return;
+            return false;
         }
         QFile f(path.filePath(name[i++]));
         f.write(ba);
