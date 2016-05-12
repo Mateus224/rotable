@@ -595,15 +595,19 @@ bool Server::setData(ComPackageDataSet *set, client_t client)
   {
     QJsonArray arr = set->data().toArray();     // For store files
     QStringList name = {"licence.dat", "licence.crt"};
+    auto path = QDir(_config.licecne_path());
     int i  = 0;
 
     foreach(QJsonValue file, arr)
     {
         QByteArray ba = QByteArray::fromBase64(file.toString().toLocal8Bit(),
                                                QByteArray::Base64UrlEncoding);
-
-        QFile f;
-        f.setFileName(QDir(_config.licecne_path()).filePath(name[0]));
+        if(i > name.length())
+        {
+            qWarning() << "Recive more file that we can save!";
+            return;
+        }
+        QFile f(path.filePath(name[i++]));
         f.write(ba);
     }
     _licence->loadLicence();
