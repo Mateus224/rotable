@@ -590,6 +590,7 @@ bool Server::setData(ComPackageDataSet *set, client_t client)
     return status;
 
   }break;
+
   case ComPackage::SetLicence:
   {
     QJsonArray arr = set->data().toArray();     // For store files
@@ -607,6 +608,7 @@ bool Server::setData(ComPackageDataSet *set, client_t client)
     }
     _licence->loadLicence();
   } break;
+
   default:
   {
     qCritical() << tr("Unknown data set id: %d").arg(set->dataCategory());

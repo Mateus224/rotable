@@ -656,7 +656,7 @@ void Executor::dataChanged(ComPackageDataChanged *package)
 
 void Executor::loadServerConfigs(const QString &path)
 {
-    emit onLicenceConfig("path");
+    emit onLicenceConfig(path);
 }
 
 //------------------------------------------------------------------------------
