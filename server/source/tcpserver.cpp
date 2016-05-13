@@ -11,6 +11,12 @@
 #include <arpa/inet.h>
 #endif
 
+//windows specific socket libraries
+#ifdef Q_OS_WIN
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#endif
+
 //------------------------------------------------------------------------------
 
 using namespace rotable;
@@ -183,6 +189,17 @@ void TcpServer::acceptConnection()
 
     int interval = 2;   // send a keepalive packet out every 2 seconds (after the 5 second idle period)
     setsockopt(fd, SOL_TCP, TCP_KEEPINTVL, &interval, sizeof(interval));
+    #endif
+
+    #ifdef Q_OS_WIN
+    setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, (char*)&enableKeepAlive, sizeof(enableKeepAlive));
+
+    tcp_keepalive info;           //structure holding keepalive data
+    info.keepaliveinterval = 2;   //interval between keepalive packets
+    info.keepalivetime = 10;      //seconds
+    info.onoff = 1;               //on
+
+    WSAIoctl(fd,SIO_KEEPALIVE_VALS,&info,sizeof(info),NULL,0,NULL,NULL,NULL);
     #endif
 
     emit clientConnected(id);

@@ -67,6 +67,8 @@ LIBS += \
     -L$$DESTDIR -lrotable-shared \
   #  -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux
 
+LIBS += -lws2_32
+
 RESOURCES += \
     sql-commands.qrc \
     keys.qrc
