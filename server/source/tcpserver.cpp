@@ -4,9 +4,12 @@
 #include "utils.h"
 #include "logmanager.h"
 
+//linux specific socket libraries
+#ifdef Q_OS_LINUX
 #include <sys/socket.h>
 #include <netinet/tcp.h>
 #include <arpa/inet.h>
+#endif
 
 //------------------------------------------------------------------------------
 
@@ -168,6 +171,8 @@ void TcpServer::acceptConnection()
 
     int enableKeepAlive = 1;
     int fd = _clients[id].socket->socketDescriptor();
+
+    #ifdef Q_OS_LINUX
     setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, &enableKeepAlive, sizeof(enableKeepAlive));
 
     int maxIdle = 10; /* seconds */
@@ -178,6 +183,7 @@ void TcpServer::acceptConnection()
 
     int interval = 2;   // send a keepalive packet out every 2 seconds (after the 5 second idle period)
     setsockopt(fd, SOL_TCP, TCP_KEEPINTVL, &interval, sizeof(interval));
+    #endif
 
     emit clientConnected(id);
 

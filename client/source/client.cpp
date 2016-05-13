@@ -119,10 +119,10 @@ void Client::connected()
   request.setClientType(rotable::ComPackage::TableAccount);
   request.setClientPass("00:00:00:00:00:00:00:00:00:00"); // If can't find will be set default
 
-  foreach(QNetworkInterface interface, QNetworkInterface::allInterfaces())
+  foreach(QNetworkInterface inter, QNetworkInterface::allInterfaces())
   {
-      if(interface.flags() & QNetworkInterface::IsUp)
-          request.setClientPass(interface.hardwareAddress());
+      if(inter.flags() & QNetworkInterface::IsUp)
+          request.setClientPass(inter.hardwareAddress());
 
   }
 
