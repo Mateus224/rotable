@@ -195,8 +195,8 @@ void TcpServer::acceptConnection()
     setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, (char*)&enableKeepAlive, sizeof(enableKeepAlive));
 
     tcp_keepalive info;           //structure holding keepalive data
-    info.keepaliveinterval = 2;   //interval between keepalive packets
-    info.keepalivetime = 10;      //seconds
+    info.keepaliveinterval = 2000;//if there is no resposne, how often next keepalive pakcets are sent in miliseconds
+    info.keepalivetime = 10000;   //how often in miliseconds tcp sends keepalive probe
     info.onoff = 1;               //on
 
     WSAIoctl(fd,SIO_KEEPALIVE_VALS,&info,sizeof(info),NULL,0,NULL,NULL,NULL);
