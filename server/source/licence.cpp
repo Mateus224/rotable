@@ -6,6 +6,7 @@
 #include <QResource>
 #include <QHostInfo>
 #include <QFile>
+#include <QDir>
 
 #include <cryptopp/osrng.h>
 #include <cryptopp/base64.h>
@@ -47,11 +48,13 @@ RSA::PublicKey  rotable::Licence::loadKeyFromFile() const
 
 //------------------------------------------------------------------------------
 
-string Licence::loadToString(string filePath) const
+string Licence::loadToString(const QString &filePath) const
 {
-    std::ifstream t(filePath);
-    std::string str((std::istreambuf_iterator<char>(t)),
-                     std::istreambuf_iterator<char>());
+    QFile file(filePath);
+    if (Q_UNLIKELY(!file.open(QIODevice::ReadOnly)))        //Check if we can read
+        throw new NoLicenceException();
+    QTextStream in(&file);
+    std::string str = in.readAll().toStdString();
     return str;
 }
 
@@ -134,8 +137,8 @@ void rotable::Licence::loadLicence(const QString &path) try
 {
         auto key = loadKeyFromFile();
         //Change base on path
-        auto licence = loadToString((path+QString("licence.data")).toStdString());
-        auto sig = loadToString((path+QString("sig.data")).toStdString());
+        auto licence = loadToString(QDir(path).filePath("licence.dat"));
+        auto sig = loadToString(QDir(path).filePath("licence.crt"));
         verifityLicence(key, licence, sig);
         parseLicence(licence);
 }

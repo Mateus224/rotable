@@ -90,7 +90,7 @@ private:
      * @param filePath      path to licence
      * @return              string with licences
      */
-    std::string loadToString(std::string filePath) const;
+    std::string loadToString(const QString& filePath) const;
 
     /**
      * @brief verifityLicence
