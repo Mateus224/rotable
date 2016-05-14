@@ -3,7 +3,9 @@
 #include <QByteArray>
 #include <QCryptographicHash>
 #include <QTextCodec>
+#include <QResource>
 #include <QHostInfo>
+#include <QFile>
 
 #include <cryptopp/osrng.h>
 #include <cryptopp/base64.h>
@@ -22,6 +24,7 @@ rotable::Licence::Licence(const QString &path, QObject *parent): QObject(parent)
    _path(path)
 {
     _hostname = QHostInfo::localHostName();
+    loadLicence();
 }
 
 //------------------------------------------------------------------------------
@@ -32,13 +35,14 @@ RSA::PublicKey  rotable::Licence::loadKeyFromFile() const
     QFile file(":/publkey.txt");
     if (Q_UNLIKELY(!file.open(QIODevice::ReadOnly)))        //Check if we can read
         throw new NoPublKeyException();                     //Something is  wrong with key
-    QByteArray data = file.readAll();                       //Read file
-    ByteQueue queue;
-    queue.Put2(reinterpret_cast<const byte *>(data.data()), data.size(), 0, true);
+    QTextStream in(&file);
+    std::string key_source = in.readAll().toStdString();
+    ArraySource as((const byte*)key_source.data(), key_source.size(),
+                                true, new Base64Decoder());
     RSA::PublicKey key;
-    key.Load(queue);
+    key.Load(as);
 
-    return key;                                            
+    return key;
 }
 
 //------------------------------------------------------------------------------
