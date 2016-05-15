@@ -60,15 +60,21 @@ string Licence::loadToString(const QString &filePath) const
 
 //------------------------------------------------------------------------------
 
-void Licence::verifityLicence(RSA::PublicKey publicKey,string licence, string sig) const
+void Licence::verifityLicence(RSA::PublicKey publicKey,string licencePath, string sigPath) const
 {
+    //Read signed message
+    string signedTxt;
+    FileSource(licencePath.c_str(), true, new StringSink(signedTxt));
+    string sig;
+    FileSource(sigPath.c_str(), true, new StringSink(sig));
+
     RSASSA_PKCS1v15_SHA_Verifier verifier(publicKey);
-    string combined(licence);
+    string combined(signedTxt);
     combined.append(sig);
 
     try
     {
-       StringSource(combined, true,
+        StringSource(combined, true,
            new SignatureVerificationFilter(
                verifier, NULL,
                SignatureVerificationFilter::THROW_EXCEPTION
@@ -77,6 +83,7 @@ void Licence::verifityLicence(RSA::PublicKey publicKey,string licence, string si
     }
     catch(SignatureVerificationFilter::SignatureVerificationFailed &err)
     {
+        cout << err.what() << endl;
         throw new SignLicenceException;
     }
 }
@@ -136,10 +143,9 @@ void Licence::verifityTime()
 void rotable::Licence::loadLicence(const QString &path) try
 {
         auto key = loadKeyFromFile();
-        //Change base on path
+        verifityLicence(key, QDir(path).filePath("licence.dat").toStdString(),
+                        QDir(path).filePath("licence.crt").toStdString());
         auto licence = loadToString(QDir(path).filePath("licence.dat"));
-        auto sig = loadToString(QDir(path).filePath("licence.crt"));
-        verifityLicence(key, licence, sig);
         parseLicence(licence);
 }
 catch(NoPublKeyException){ }
