@@ -21,8 +21,15 @@ using namespace CryptoPP;
 
 //------------------------------------------------------------------------------
 
-rotable::Licence::Licence(const QString &path, QObject *parent): QObject(parent), _maxTable(0), _connectedTable(0),
-   _path(path)
+rotable::Licence::Licence(const QString &path, QObject *parent): Licence(QDir(path), parent)
+{
+
+}
+
+//------------------------------------------------------------------------------
+
+Licence::Licence(const QDir &path, QObject *parent): QObject(parent), _maxTable(0), _connectedTable(0),
+    _path(path)
 {
     _hostname = QHostInfo::localHostName();
     loadLicence();
@@ -133,8 +140,6 @@ void Licence::verifityTime()
         if(Q_UNLIKELY(*lastIncomeDate > lastDate))
             throw new UnvalidTimeException;
 
-
-
     if(Q_UNLIKELY(_licenceBegin < lastDate || _licenceEnd < lastDate))
         throw new UnvalidLiceneException;
 }
@@ -142,12 +147,12 @@ void Licence::verifityTime()
 
 //------------------------------------------------------------------------------
 
-void rotable::Licence::loadLicence(const QString &path) try
+void rotable::Licence::loadLicence(const QDir &path) try
 {
         auto key = loadKeyFromFile();
-        verifityLicence(key, QDir(path).filePath("licence.dat").toStdString(),
-                        QDir(path).filePath("licence.crt").toStdString());
-        auto licence = loadToString(QDir(path).filePath("licence.dat"));
+        verifityLicence(key, path.filePath("licence.dat").toStdString(),
+                        path.filePath("licence.crt").toStdString());
+        auto licence = loadToString(path.filePath("licence.dat"));
         parseLicence(licence);
 }
 catch(NoPublKeyException){ }
