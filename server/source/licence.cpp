@@ -144,16 +144,30 @@ void Licence::verifityTime()
         throw new UnvalidLiceneException;
 }
 
+//------------------------------------------------------------------------------
+
+bool Licence::isLicenceExists()
+{
+    if(Q_LIKELY(QFile(_path.filePath("licence.dat")).exists()))
+        return true;
+    return false;
+}
+
 
 //------------------------------------------------------------------------------
 
 void rotable::Licence::loadLicence(const QDir &path) try
 {
-        auto key = loadKeyFromFile();
-        verifityLicence(key, path.filePath("licence.dat").toStdString(),
-                        path.filePath("licence.crt").toStdString());
-        auto licence = loadToString(path.filePath("licence.dat"));
-        parseLicence(licence);
+    _path = path;
+    if(Q_UNLIKELY(!isLicenceExists()))
+        return;
+
+    auto key = loadKeyFromFile();
+    verifityLicence(key, path.filePath("licence.dat").toStdString(),
+                    path.filePath("licence.crt").toStdString());
+    auto licence = loadToString(path.filePath("licence.dat"));
+    parseLicence(licence);
+
 }
 catch(NoPublKeyException){ }
 catch(NoLicenceException){ }

@@ -6,6 +6,7 @@
 #include <QException>
 #include <QDate>
 #include <QObject>
+#include <QDir>
 
 #include <cryptopp/rsa.h>
 
@@ -37,11 +38,19 @@ public:
     Licence(const QString &path, QObject *parent = nullptr);
 
     /**
+     * @brief Licence
+     * Default constructor, load licence key and parse it
+     * @param path          path to licence
+     * @parent              parent object
+     */
+    Licence(const QDir &path, QObject *parent = nullptr);
+
+    /**
      * @brief loadLicence
      * Provide load licence
      * @param path          path to licence
      */
-    void loadLicence(const QString &path);
+    void loadLicence(const QDir &path);
 
     /**
      * @brief loadLicence
@@ -115,6 +124,14 @@ private:
     void verifityTime();
 
     /**
+     * @brief isLicenceExists
+     * Check if licence exist in path
+     *
+     * @return              true if licence exists
+     */
+    bool isLicenceExists();
+
+    /**
      * @brief _maxTable
      * Maximum number of table
      */
@@ -129,7 +146,7 @@ private:
     QDate _licenceEnd;
 
     QString _hostname;
-    QString _path;
+    QDir _path;
 
     //--------------------------------------------------------------------------
     // Exceptions

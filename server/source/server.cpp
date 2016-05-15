@@ -613,6 +613,7 @@ bool Server::setData(ComPackageDataSet *set, client_t client)
         f.close();
     }
     _licence->loadLicence();
+    return true;
   } break;
 
   default:
