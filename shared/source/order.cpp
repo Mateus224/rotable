@@ -12,7 +12,7 @@
 using namespace rotable;
 
 rotable::Order::Order(const QJsonValue& jval, QObject* parent)
-  : QObject(parent)
+  : Order(parent)
 {
 
 }
@@ -20,7 +20,7 @@ rotable::Order::Order(const QJsonValue& jval, QObject* parent)
 //------------------------------------------------------------------------------
 
 Order::Order(QObject* parent)
-: QObject(parent)
+: QObject(parent), _change(false)
 {
 
 }
@@ -32,6 +32,19 @@ Order::~Order()
     // Clear memory from pointers
     qDeleteAll(_items.begin(), _items.end());
     _items.clear();     //Clear list
+}
+
+//------------------------------------------------------------------------------
+
+void Order::recalcChange()
+{
+    foreach(OrderItem* item, _items)
+        if(item->isReadyToChange())
+        {
+            _change =  true;
+            return;
+        }
+    _change =  false;
 }
 
 //------------------------------------------------------------------------------
@@ -242,6 +255,7 @@ bool Order::isNew() const
 
 void Order::itemChanged()
 {
+    recalcChange();
     emit itemsChanged();
 }
 

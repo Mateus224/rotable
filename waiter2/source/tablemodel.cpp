@@ -73,8 +73,11 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
     }break;
     case SelectRole:{
         return QVariant(table->id() == _selectTable);
-    }
-
+    } break;
+    default:
+    {
+        return QVariant();
+    } break;
     }
 }
 
@@ -168,6 +171,7 @@ bool TableModel::updateWaiterIsNeed(const bool &need, const int &tableId)
         return false;
 
     _tables[tableId]->setwaiterIsNeedede(need);
+    return true;
 }
 
 //-----------------------------------------------------
