@@ -3,6 +3,10 @@
 #include <QByteArray>
 #include <QCryptographicHash>
 #include <QTextCodec>
+#include <QResource>
+#include <QHostInfo>
+#include <QFile>
+#include <QDir>
 
 #include <cryptopp/osrng.h>
 #include <cryptopp/base64.h>
@@ -17,9 +21,18 @@ using namespace CryptoPP;
 
 //------------------------------------------------------------------------------
 
-rotable::Licence::Licence(const QString &hostname, const QString &path, QObject *parent): QObject(parent), _maxTable(0), _connectedTable(0),
-   _hostname(hostname),  _path(path)
+rotable::Licence::Licence(const QString &path, QObject *parent): Licence(QDir(path), parent)
 {
+
+}
+
+//------------------------------------------------------------------------------
+
+Licence::Licence(const QDir &path, QObject *parent): QObject(parent), _maxTable(0), _connectedTable(0),
+    _path(path)
+{
+    _hostname = QHostInfo::localHostName();
+    loadLicence();
 }
 
 //------------------------------------------------------------------------------
@@ -30,36 +43,45 @@ RSA::PublicKey  rotable::Licence::loadKeyFromFile() const
     QFile file(":/publkey.txt");
     if (Q_UNLIKELY(!file.open(QIODevice::ReadOnly)))        //Check if we can read
         throw new NoPublKeyException();                     //Something is  wrong with key
-    QByteArray data = file.readAll();                       //Read file
-    ByteQueue queue;
-    queue.Put2(reinterpret_cast<const byte *>(data.data()), data.size(), 0, true);
+    QTextStream in(&file);
+    std::string key_source = in.readAll().toStdString();
+    ArraySource as((const byte*)key_source.data(), key_source.size(),
+                                true, new Base64Decoder());
     RSA::PublicKey key;
-    key.Load(queue);
+    key.Load(as);
 
-    return key;                                            
+    return key;
 }
 
 //------------------------------------------------------------------------------
 
-string Licence::loadToString(string filePath) const
+string Licence::loadToString(const QString &filePath) const
 {
-    std::ifstream t(filePath);
-    std::string str((std::istreambuf_iterator<char>(t)),
-                     std::istreambuf_iterator<char>());
+    QFile file(filePath);
+    if (Q_UNLIKELY(!file.open(QIODevice::ReadOnly)))        //Check if we can read
+        throw new NoLicenceException();
+    QTextStream in(&file);
+    std::string str = in.readAll().toStdString();
     return str;
 }
 
 //------------------------------------------------------------------------------
 
-void Licence::verifityLicence(RSA::PublicKey publicKey,string licence, string sig) const
+void Licence::verifityLicence(RSA::PublicKey publicKey,string licencePath, string sigPath) const
 {
+    //Read signed message
+    string signedTxt;
+    FileSource(licencePath.c_str(), true, new StringSink(signedTxt));
+    string sig;
+    FileSource(sigPath.c_str(), true, new StringSink(sig));
+
     RSASSA_PKCS1v15_SHA_Verifier verifier(publicKey);
-    string combined(licence);
+    string combined(signedTxt);
     combined.append(sig);
 
     try
     {
-       StringSource(combined, true,
+        StringSource(combined, true,
            new SignatureVerificationFilter(
                verifier, NULL,
                SignatureVerificationFilter::THROW_EXCEPTION
@@ -68,6 +90,7 @@ void Licence::verifityLicence(RSA::PublicKey publicKey,string licence, string si
     }
     catch(SignatureVerificationFilter::SignatureVerificationFailed &err)
     {
+        cout << err.what() << endl;
         throw new SignLicenceException;
     }
 }
@@ -117,37 +140,47 @@ void Licence::verifityTime()
         if(Q_UNLIKELY(*lastIncomeDate > lastDate))
             throw new UnvalidTimeException;
 
-    if(Q_UNLIKELY(_licenceBegin < lastDate || _licenceEnd > lastDate))
+    if(Q_UNLIKELY(_licenceBegin < lastDate || _licenceEnd < lastDate))
         throw new UnvalidLiceneException;
 }
 
-
 //------------------------------------------------------------------------------
 
-void rotable::Licence::loadLicence(const QString &path)
+bool Licence::isLicenceExists()
 {
-    try{
-        auto key = loadKeyFromFile();
-        //Change base on path
-        auto licence = loadToString((path+QString("licence.data")).toStdString());
-        auto sig = loadToString((path+QString("sig.data")).toStdString());
-        verifityLicence(key, licence, sig);
-        parseLicence(licence);
-    }
-    catch(NoPublKeyException){ }
-    catch(NoLicenceException){ }
-    catch(SignLicenceException){ }
-    catch(UnvalidLiceneException){ }
-    catch(UnvalidTimeException){ }
-
+    if(Q_LIKELY(QFile(_path.filePath("licence.dat")).exists()))
+        return true;
+    return false;
 }
 
+
 //------------------------------------------------------------------------------
 
-string Licence::getLicenceStatus()
+void rotable::Licence::loadLicence(const QDir &path) try
+{
+    _path = path;
+    if(Q_UNLIKELY(!isLicenceExists()))
+        return;
+
+    auto key = loadKeyFromFile();
+    verifityLicence(key, path.filePath("licence.dat").toStdString(),
+                    path.filePath("licence.crt").toStdString());
+    auto licence = loadToString(path.filePath("licence.dat"));
+    parseLicence(licence);
+
+}
+catch(NoPublKeyException){ }
+catch(NoLicenceException){ }
+catch(SignLicenceException){ }
+catch(UnvalidLiceneException){ }
+catch(UnvalidTimeException){ }
+
+//------------------------------------------------------------------------------
+
+QString Licence::getLicenceStatus()
 {  
     //TODO: not needed now, add laetly
-    return string("");
+    return QString("aaa");
 }
 
 //------------------------------------------------------------------------------

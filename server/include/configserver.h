@@ -11,6 +11,8 @@
 #include <QPixmap>
 #endif
 
+#include <QStandardPaths>
+
 #include "configbase.h"
 
 //------------------------------------------------------------------------------
@@ -35,7 +37,7 @@ class rotable::ConfigServer : public rotable::ConfigBase
   Q_PROPERTY(QString db_user READ db_user NOTIFY dbSettingsChanged)
   Q_PROPERTY(QString db_pass READ db_pass NOTIFY dbSettingsChanged)
   Q_PROPERTY(QString db_prefix READ db_prefix NOTIFY dbSettingsChanged)
-  Q_PROPERTY(QString licence_path READ licence_path WRITE setLicence_path NOTIFY licencePathChange)
+//  Q_PROPERTY(QString licence_path READ licence_path WRITE setLicence_path NOTIFY licencePathChange)
 
 public:
   /**

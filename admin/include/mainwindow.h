@@ -75,6 +75,10 @@ signals:
  void actionStartDebugServerListening();
  void actionStopDebugServerListening();
  void actionClearDebugServerLog();
+ void actionAddLicence();
+ void actionSetLicencePath();
+ void onLicencePathSet(QString);
+ void onLicenceStatusSet(QString);
 
 public slots:
  void onConnectionEstablished();

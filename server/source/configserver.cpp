@@ -1,4 +1,5 @@
 #include "private/precomp.h"
+#include <QDir>
 
 #include "configserver.h"
 
@@ -11,7 +12,7 @@ using namespace rotable;
 ConfigServer::ConfigServer(const QString& path, QObject* parent)
  : ConfigBase(path, parent)
 {
-  // If config is empyt
+  // If config is empyt"licence/
   if(value("Database/host", "") == "")
       initData();
   loaded();
@@ -45,7 +46,9 @@ void ConfigServer::initData()
     setValue("Database/user", "rotable");
     setValue("Database/pass", "rotable");
     setValue("Database/prefix", "rotable_");
-    setValue("Licence/path", "licence/");
+    auto dir = QDir(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
+    dir.cd("rotable");
+    setValue("Licence/path", dir.absolutePath());
 }
 
 //------------------------------------------------------------------------------

@@ -6,6 +6,7 @@
 #include <QException>
 #include <QDate>
 #include <QObject>
+#include <QDir>
 
 #include <cryptopp/rsa.h>
 
@@ -31,18 +32,25 @@ public:
     /**
      * @brief Licence
      * Default constructor, load licence key and parse it
-     * @param hostname      hostname
      * @param path          path to licence
      * @parent              parent object
      */
-    Licence(const QString &hostname, const QString &path, QObject *parent = nullptr);
+    Licence(const QString &path, QObject *parent = nullptr);
+
+    /**
+     * @brief Licence
+     * Default constructor, load licence key and parse it
+     * @param path          path to licence
+     * @parent              parent object
+     */
+    Licence(const QDir &path, QObject *parent = nullptr);
 
     /**
      * @brief loadLicence
      * Provide load licence
      * @param path          path to licence
      */
-    void loadLicence(const QString &path);
+    void loadLicence(const QDir &path);
 
     /**
      * @brief loadLicence
@@ -55,7 +63,7 @@ public:
      * prepare data about licence for admonistration application
      * @return              string with data
      */
-    std::string getLicenceStatus();
+    QString getLicenceStatus();
 
     /**
      * @brief getLicence
@@ -91,7 +99,7 @@ private:
      * @param filePath      path to licence
      * @return              string with licences
      */
-    std::string loadToString(std::string filePath) const;
+    std::string loadToString(const QString& filePath) const;
 
     /**
      * @brief verifityLicence
@@ -116,6 +124,14 @@ private:
     void verifityTime();
 
     /**
+     * @brief isLicenceExists
+     * Check if licence exist in path
+     *
+     * @return              true if licence exists
+     */
+    bool isLicenceExists();
+
+    /**
      * @brief _maxTable
      * Maximum number of table
      */
@@ -130,7 +146,7 @@ private:
     QDate _licenceEnd;
 
     QString _hostname;
-    QString _path;
+    QDir _path;
 
     //--------------------------------------------------------------------------
     // Exceptions
