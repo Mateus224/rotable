@@ -29,7 +29,7 @@ Server::Server(const QString &configFilePath, QObject *parent)
   connect(&_db, &Database::parseConfig, this, &Server::config_parser);
   schedule = new Schedule();
 
-  _licence = new Licence(_config.licecne_path());
+  _licence = new Licence(_config.licence_path());
 
   connect(_licence, &rotable::Licence::getLastIncomeDate, &_db, &rotable::Database::getLastIncome);
 }
@@ -594,7 +594,7 @@ bool Server::setData(ComPackageDataSet *set, client_t client)
   {
     QJsonArray arr = set->data().toArray();     // For store files
     QStringList name = {"licence.dat", "licence.crt"};
-    auto path = QDir(_config.licecne_path());
+    auto path = QDir(_config.licence_path());
     int i  = 0;
 
     foreach(QJsonValue file, arr)
@@ -1164,7 +1164,7 @@ void Server::sendQueueOrders()
 
 QJsonValue Server::configToJSON()
 {
-    auto path = _config.licecne_path();
+    auto path = _config.licence_path();
     return QJsonValue(path);
 }
 

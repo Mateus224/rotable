@@ -263,7 +263,7 @@ private:
   void sendQueueOrders();
 
   /* Configuration file access */
-  ConfigServer _config;
+  rotable::ConfigServer _config;
 
   /* TCP-Server object */
   TcpServer _tcp;
