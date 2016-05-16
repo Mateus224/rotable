@@ -203,6 +203,8 @@ public:
   inline int clientId() const { return _clientId; }
   inline void setClientId(int clientId) { _clientId = clientId; emit clientIdChanged(); }
 
+  inline bool change() const { return _change; }
+  void recalcChange();
   /**
    * Get QML list of items.
    *
@@ -349,6 +351,14 @@ private:
 
   /* Table from which the order came from */
   int _clientId;
+
+  /**
+   * @brief _change
+   *
+   * Store information if something was changed
+   */
+  bool _change;
+
 }; // class Order
 
 //------------------------------------------------------------------------------
