@@ -75,8 +75,10 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
         return QVariant(table->id() == _selectTable);
     } break;
     default:
+    {
         return QVariant();
     } break;
+    }
 }
 
 //-----------------------------------------------------
