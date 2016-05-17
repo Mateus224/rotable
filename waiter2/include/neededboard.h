@@ -85,7 +85,7 @@ public:
      *
      * @return  orders count
      */
-    inline int count() const;
+     int count() const;
 
     /**
      * Remove Table from model, change state need to false
