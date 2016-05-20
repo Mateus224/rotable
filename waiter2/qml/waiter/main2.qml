@@ -70,7 +70,7 @@ ApplicationWindow {
             ListView {
                 id: tableList
                 z:1
-                height: (applicationWindow.height/3)*2
+                height: (applicationWindow.height/4)*3
                 anchors.top: tableMenuLabel.bottom
                 anchors.right: parent.right
                 anchors.left: parent.left
@@ -160,64 +160,6 @@ ApplicationWindow {
                 GradientStop { position: 0.66   ; color: "#8EE2FE"}
             }
 
-
-            ListView {
-                z:1
-                id: needList
-                y: 500
-                height:applicationWindow.height/3
-                anchors.top: tableList.bottom
-                anchors.right: parent.right
-                anchors.left: parent.left
-                anchors.leftMargin: 0
-                //Layout.fillHeight: true
-                Layout.minimumWidth: 100
-                spacing: margin
-                header: banner_tableNeedWaiter
-
-                model: needBoard
-                Component {     //instantiated when header is processed
-                    id: banner_tableNeedWaiter
-                    Rectangle {
-                        id: banner
-                        width: parent.width;
-                        height: 60
-                        gradient: clubcolors
-                        border {
-                            color: "#7AAEEE"//"#9EDDF2";
-                            width: 2}
-
-                        Text{
-                            id: labelneedList
-                            text: qsTr("Table need waiter")
-                            font.bold: true
-                            font.family: "Lobster two"
-                            font.pixelSize: 20
-                            anchors.horizontalCenter: parent.horizontalCenter
-                        }
-                    }
-                }
-                delegate: Button{
-                    id: needBoardButton
-                    width:  parent.width
-                    text: "Table: " + model.tableName
-                    style: ButtonStyle {
-                        background: Rectangle {
-                            implicitWidth: 100
-                            implicitHeight: 25
-                            border.width: control.activeFocus ? 2 : 1
-                            border.color: "white"
-                            radius: 5
-                            gradient: Gradient {
-                                GradientStop { position: 0.00 ; color: control.pressed ? "RED" : "#8EE2FE" }
-                                GradientStop { position: 0.90 ; color: control.pressed ? "#8EE2FE" : "RED" }
-                            }
-                        }
-                    }
-                    onClicked: needBoard.unneedTable(model.tableIdx)
-                }
-            }
-
         }
 
         ColumnLayout{
@@ -265,7 +207,7 @@ ApplicationWindow {
             }
             //------------------------------------------------------------
             Rectangle{
-                color:"red"
+
                 anchors.topMargin: parent.height/5
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
@@ -288,16 +230,18 @@ ApplicationWindow {
 
 
                 ListView {
+                    id: board
                     z:0
-                    anchors.topMargin: parent.height/3
+                    anchors.topMargin: parent.height/4
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
+                    anchors.bottomMargin: parent.height/4
                     anchors.right: parent.right
                     anchors.left: parent.left
                     anchors.leftMargin: 0
                     spacing: 5
                     model: orderboard
-                    id: board
+
                     //Layout.minimumHeight: 200
                     Layout.fillHeight: true
                     //height: 250
@@ -337,10 +281,10 @@ ApplicationWindow {
                                 //Layout.fillHeight: true
                                 Layout.minimumHeight: 200
                                 Layout.fillHeight: true
-                                footer: Rectangle {
+                                /*footer: Rectangle {
                                     width: 150; height: 50
                                     gradient: clubcolors2
-                                }
+                                }*/
                                 model: orderItems
                                 delegate:
                                     CheckBox{
@@ -396,6 +340,85 @@ ApplicationWindow {
                             font.pixelSize: 22
                             font.bold: true
                         }
+                    }
+                }
+
+                Rectangle{
+                    id: needWaiterText
+                    anchors.top: board.bottom
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: parent.height/5
+                    anchors.right: parent.right
+                    anchors.left: parent.left
+                    anchors.leftMargin: 0
+                    gradient: clubcolors
+                    border {
+                        color: "#7AAEEE"//"#9EDDF2";
+                        width: 2}
+                    Text {
+                        font.family: "Lobster two"
+                        //anchors.left: parent.left
+                        anchors.centerIn: parent
+                        text: qsTr("Table need waiter")
+                        font.pixelSize: 22
+                        font.bold: true
+                    }
+                }
+
+                ListView {
+                    z:1
+                    id: needList
+                    height:applicationWindow.height/5
+                    anchors.top: needWaiterText.bottom
+                    anchors.right: parent.right
+                    anchors.left: parent.left
+                    anchors.leftMargin: 0
+                    Layout.fillHeight: true
+                    //Layout.minimumWidth: 100
+                    spacing: margin
+                    //header: banner_tableNeedWaiter
+                    orientation: ListView.Horizontal
+
+                    model: needBoard
+                    Component {     //instantiated when header is processed
+                        id: banner_tableNeedWaiter
+                        Rectangle {
+                            id: banner
+                            width: 150;
+                            height: 60
+                            gradient: clubcolors
+                            border {
+                                color: "#7AAEEE"//"#9EDDF2";
+                                width: 2}
+
+                            Text{
+                                id: labelneedList
+                                text: qsTr("Table need waiter")
+                                font.bold: true
+                                font.family: "Lobster two"
+                                font.pixelSize: 20
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
+                        }
+                    }
+                    delegate: Button{
+                        id: needBoardButton
+                        width:  150
+                        text: "Table: " + model.tableName
+                        style: ButtonStyle {
+                            background: Rectangle {
+                                implicitWidth: 100
+                                implicitHeight: 25
+                                border.width: control.activeFocus ? 2 : 1
+                                border.color: "white"
+                                radius: 5
+                                gradient: Gradient {
+                                    GradientStop { position: 0.00 ; color: control.pressed ? "RED" : "#8EE2FE" }
+                                    GradientStop { position: 0.90 ; color: control.pressed ? "#8EE2FE" : "RED" }
+                                }
+                            }
+                        }
+                        onClicked: needBoard.unneedTable(model.tableIdx)
                     }
                 }
             //}

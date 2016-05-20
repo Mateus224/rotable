@@ -124,37 +124,7 @@ ApplicationWindow {
             }
             //}
             //  }
-            Label{
-                id: labelneedList
-                text: qsTr("Table need waiter")
-                anchors.top: tableList.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
 
-            ListView {
-                id: needList
-                y: 300
-                height: 200
-                anchors.top: labelneedList.bottom
-                anchors.right: parent.right
-                anchors.left: parent.left
-                anchors.leftMargin: 0
-                Layout.fillHeight: true
-                //height: implicitHeight
-                //height: tableList.count * (spacing + 50)
-                Layout.minimumWidth: 200
-                spacing: margin
-
-                model: needBoard
-
-                delegate: Button{
-                    id: needBoardButton
-                    width:  parent.width
-                    text: "Table " + model.tableName
-
-                    onClicked: needBoard.unneedTable(model.tableIdx)
-                }
-            }
 
         }
         ColumnLayout{
@@ -218,7 +188,7 @@ ApplicationWindow {
                 anchors.right: parent.right
                 anchors.left: parent.left
                 anchors.leftMargin: 0
-                //horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOn
+                horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOn
                 ListView {
 
                     //anchors.fill: parent
@@ -290,6 +260,37 @@ ApplicationWindow {
                         }
                     }
                     delegate:order
+                }
+                Label{
+                    id: labelneedList
+                    text: qsTr("Table need waiter")
+                    anchors.top: tableList.bottom
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                ListView {
+                    id: needList
+                    y: 300
+                    height: 200
+                    anchors.top: labelneedList.bottom
+                    anchors.right: parent.right
+                    anchors.left: parent.left
+                    anchors.leftMargin: 0
+                    Layout.fillHeight: true
+                    //height: implicitHeight
+                    //height: tableList.count * (spacing + 50)
+                    Layout.minimumWidth: 200
+                    spacing: margin
+
+                    model: needBoard
+
+                    delegate: Button{
+                        id: needBoardButton
+                        width:  parent.width
+                        text: "Table " + model.tableName
+
+                        onClicked: needBoard.unneedTable(model.tableIdx)
+                    }
                 }
             }
         }
