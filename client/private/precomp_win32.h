@@ -1,5 +1,8 @@
 #pragma once
 
+#include <winsock2.h>
+#include <errno.h>
+
 #include <QtGlobal>
 #include <QDebug>
 #include <QString>
