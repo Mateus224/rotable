@@ -26,7 +26,8 @@ HEADERS += \
     include/productlistmodel.h \
     include/imageprovider.h \
     include/callwaiter.h \
-    private/precomp_win32.h
+    private/precomp_win32.h \
+    private/precomp.h
     include/
 
 SOURCES += \
