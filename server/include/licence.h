@@ -3,8 +3,11 @@
 #include <string>
 #include <QException>
 
+#ifdef Q_OS_WIN
+#include <dependencies/cryptopp/include/rsa.h>
+#else
 #include <cryptopp/rsa.h>
-
+#endif
 
 //------------------------------------------------------------------------------
 

@@ -4,9 +4,15 @@
 #include <QCryptographicHash>
 #include <QTextCodec>
 
+#ifdef Q_OS_WIN
+#include <dependencies/cryptopp/include/osrng.h>
+#include <dependencies/cryptopp/include/base64.h>
+#include <dependencies/cryptopp/include/files.h>
+#else
 #include <cryptopp/osrng.h>
 #include <cryptopp/base64.h>
 #include <cryptopp/files.h>
+#endif
 
 #include <fstream>
 #include <streambuf>

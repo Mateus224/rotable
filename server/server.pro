@@ -77,3 +77,14 @@ DISTFILES +=
 
 LIBS += -L/usr/lib/crypto++ -lcryptopp
 INCS += -I/usr/include/crypto++
+
+##############################################################################################
+# Windows Cryptopp
+
+win32:LIBS -= -L/usr/lib/crypto++ -lcryptopp
+win32:INCS -= -I/usr/include/crypto++
+
+LIBS += -L"$$PWD/dependencies/cryptopp/libs/" -lcryptlib-d
+
+win32:INCLUDEPATH += "$$PWD/dependencies/cryptopp/include"
+win32:DEPENDPATH += "$$PWD/dependencies/cryptopp/include"
