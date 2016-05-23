@@ -155,8 +155,9 @@ Rectangle {
                 anchors.fill: parent
 
                 onClicked: {
-                    MyOrder.addToProductHash(buttonProductId)
-                    count=count+1
+                    MyOrder.rmFromProductHash(buttonProductId)
+                    if (count>0)
+                        count--
                 }
 
                 //onClicked: add_or_removeProduct(buttonProductId,true)
@@ -167,7 +168,7 @@ Rectangle {
                 anchors.centerIn: parent
                 width: parent.width*0.75
                 height: parent.height*0.75
-                source: "qrc:/client/resources/plus_white.png"
+                source: "qrc:/client/resources/minus_white.png"
                 anchors.margins: parent.height * 0.33
             }
         }
@@ -213,9 +214,8 @@ Rectangle {
                 anchors.fill: parent
 
                 onClicked: {
-                    MyOrder.rmFromProductHash(buttonProductId)
-                    if (count>0)
-                        count--
+                    MyOrder.addToProductHash(buttonProductId)
+                    count=count+1
                 }
 
                 //onClicked: add_or_removeProduct(buttonProductId,flase)
@@ -226,7 +226,7 @@ Rectangle {
                 anchors.centerIn: parent
                 width: parent.width*0.75
                 height: parent.height*0.75
-                source: "qrc:/client/resources/minus_white.png"
+                source: "qrc:/client/resources/plus_white.png"
                 anchors.margins: parent.height * 0.33
             }
         }

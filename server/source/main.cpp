@@ -40,7 +40,11 @@ int main(int argc, char *argv[])
   parser.addOption(createDbOption);
   parser.process(app);
 
-  QString configFilePath(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) +"config.ini");
+  auto dir = QDir(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
+  dir.mkpath("rotable");
+  dir.cd("rotable");
+  QString configFilePath(dir.filePath("config.ini"));
+
   QStringList args = parser.positionalArguments();
   if (args.size() > 0) {
     configFilePath = args[0];

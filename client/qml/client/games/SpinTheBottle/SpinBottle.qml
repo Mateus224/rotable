@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import "../"
 import "SpinBottle.js" as SpinBottle
 
 Rectangle{
@@ -11,7 +12,7 @@ Rectangle{
         height: parent.height
         width: parent.width
         source:  "qrc:/client/games/SpinTheBottle/qml/client/games/SpinTheBottle/pics/background.png"
-        //fillMode: "Tile"
+
     }
 
     Rectangle {
@@ -55,20 +56,7 @@ Rectangle{
     }
 
     CloseButton{
-        x:parent.width-50
-        y:25
-    }
-    CloseButton{
-        x:25
-        y:25
-    }
-    CloseButton{
-        x: 25
-        y:parent.height-50
-    }
-    CloseButton{
-        x:parent.width-50
-        y:parent.height-50
+
     }
 
     Rectangle

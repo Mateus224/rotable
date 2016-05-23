@@ -37,7 +37,10 @@ int main(int argc, char *argv[])
 
   /* Connection to server building*/
 //-----------------------------------------------------
-  QString configFilePath(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "config.ini");
+  auto dir = QDir(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
+  dir.mkpath("rotable");
+  dir.cd("rotable");
+  QString configFilePath(dir.filePath("config.ini"));
 
   QStringList args = parser.positionalArguments();
 

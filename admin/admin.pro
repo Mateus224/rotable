@@ -34,15 +34,16 @@ SOURCES += \
     source/categorylistmodel.cpp \
     source/producttablemodel.cpp \
     source/addproductdialog.cpp \
-    source/statistik_plot.cpp \
-    source/date.cpp \
-    source/io_writeinmonthwithnewdata.cpp \
-    source/iodevicefordata.cpp \
-    source/io_readfordiagram.cpp \
-    source/io_init.cpp \
+    #source/statistik_plot.cpp \
+    #source/date.cpp \
+    #source/io_writeinmonthwithnewdata.cpp \
+    #source/iodevicefordata.cpp \
+    #source/io_readfordiagram.cpp \
+    #source/io_init.cpp \
     source/serverloglistener.cpp \
     source/producttableiconcomboboxdelegate.cpp \
-    source/producttablepricespinboxdelegate.cpp
+    source/producttablepricespinboxdelegate.cpp \
+    source/addnewlicence.cpp
 
 HEADERS += \
     include/mainwindow.h \
@@ -58,22 +59,24 @@ HEADERS += \
     include/categorylistmodel.h \
     include/producttablemodel.h \
     include/addproductdialog.h \
-    include/statistik_plot.h \
-    include/date.h \
-    include/io_writeinmonthwithnewdata.h \
-    include/iodevicefordata.h \
-    include/io_readfordiagram.h \
-    include/io_init.h \
+    #include/statistik_plot.h \
+    #include/date.h \
+    #include/io_writeinmonthwithnewdata.h \
+    #include/iodevicefordata.h \
+    #include/io_readfordiagram.h \
+    #include/io_init.h \
     include/serverloglistener.h \
     include/producttableiconcomboboxdelegate.h \
     private/precomp.h \
-    include/producttablepricespinboxdelegate.h
+    include/producttablepricespinboxdelegate.h \
+    include/addnewlicence.h
 
 FORMS += \
     ui/mainwindow.ui \
     ui/connectToServer.ui \
     ui/addproductdialog.ui \
-    ui/addproductcategorydialog.ui
+    ui/addproductcategorydialog.ui \
+    ui/addnewlicencedialog.ui
 
 RESOURCES += \
     resources/resources.qrc \

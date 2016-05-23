@@ -46,6 +46,7 @@ Client::Client(const QString &configFilePath, QObject *parent)
   //Binding for Message type
   _connector.addBindMethod(rotable::Message::OrderMessageType, &Client::orderSendSuccesfull, this);
   _connector.addBindMethod(rotable::Message::NeedWaiterMessageType, &Client::needWaiterStatus, this);
+  _connector.addBindMethod(rotable::Message::QueueMessageType, &Client::orderQueue, this);
 
   // Connect send package from callWaiter by Client
   connect(&_callWaiter, &rotable::CallWaiter::sendCallWaiter,
@@ -305,6 +306,7 @@ void Client::orderSendSuccesfull(Message *msg)
         this->setState("SENDACCEPT");
     else
         invalidOrder();
+    delete message;
 }
 
 //------------------------------------------------------------------------------
@@ -312,6 +314,24 @@ void Client::orderSendSuccesfull(Message *msg)
 void Client::invalidOrder()
 {
     _productOrder->b_acceptOrder();
+}
+//------------------------------------------------------------------------------
+
+void Client::orderQueue(Message *msg)
+{
+    QueueMessage *message = static_cast<QueueMessage*>(msg);
+    if(!message->map().empty())
+    {
+        int iOrderQueue=message->map().lastKey();
+        _queue.setqueueOrder(iOrderQueue);
+        _queue.queueOrderChanged();
+    }
+    else{
+        _queue.setqueueOrder(0);
+        _queue.queueOrderChanged();
+    }
+    delete message;
+
 }
 
 //------------------------------------------------------------------------------

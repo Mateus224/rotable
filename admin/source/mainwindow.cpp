@@ -39,6 +39,12 @@ MainWindow::MainWindow(QWidget* parent) :
           this, SIGNAL(actionStartDebugServerListening()));
   connect(_ui->_toolButtonStopDebugListening, SIGNAL(clicked()),
           this, SIGNAL(actionStopDebugServerListening()));
+  connect(_ui->_toolAddLicence, &QPushButton::clicked,
+          this, &MainWindow::actionAddLicence);
+  connect(this, &MainWindow::onLicencePathSet,
+          _ui->licencePathLineEdit, &QLineEdit::setText);
+  connect(this, &MainWindow::onLicenceStatusSet,
+          _ui->licenceStatusLineEdit, &QLineEdit::setText);
 
   _ui->_statusBar->showMessage(tr("Disconnected"));
 
@@ -50,6 +56,8 @@ MainWindow::MainWindow(QWidget* parent) :
   _serverDebugTabIcon = _ui->_tabWidget->tabIcon(serverDebugTabIdx);
   _serverDebugTabLabel = _ui->_tabWidget->tabText(serverDebugTabIdx);
   _ui->_tabWidget->removeTab(serverDebugTabIdx);
+  //Always run this same tab
+  _ui->_tabWidget->setCurrentIndex(0);
 }
 
 //------------------------------------------------------------------------------

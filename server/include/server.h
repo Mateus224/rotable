@@ -18,6 +18,7 @@
 #include "compackage.h"
 #include "config.h"
 #include "schedule.h"
+#include "licence.h"
 
 //------------------------------------------------------------------------------
 
@@ -250,10 +251,19 @@ private:
    */
   QMap<int, ComPackageMessage*> queueOrders();
 
+  /**
+   * Collect config and parse them to JSON object
+   * @return            JSON object with config
+   */
+  QJsonValue configToJSON();
 
+  /**
+   * Send QueueMessage to connected client
+   */
+  void sendQueueOrders();
 
   /* Configuration file access */
-  ConfigServer _config;
+  rotable::ConfigServer _config;
 
   /* TCP-Server object */
   TcpServer _tcp;
@@ -283,7 +293,13 @@ private:
   /**
    * @Schedule object
    */
-  Schedule* schedule;
+  rotable::Schedule* schedule;
+
+  /**
+   * @brief _licence
+   * Licence object
+   */
+  rotable::Licence* _licence;
 
   struct{
       QList<int> toChange;

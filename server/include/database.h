@@ -496,6 +496,13 @@ public:
   QList<Order *>* getNotCloseOrderList();
 
   /**
+   * Get from database not done order
+   *
+   * @return            QList on successs
+   */
+  QList<Order *> *getNotDoneOrderList();
+
+  /**
    * Check whether this object is connected to the database.
    *
    * @return            true if connected
@@ -576,6 +583,9 @@ public:
 
 signals:
   void parseConfig(Config* c);
+
+public slots:
+  void getLastIncomeDate(QDate *date);
 
 private:
   /**

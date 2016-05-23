@@ -101,7 +101,7 @@ CONFIG(debug, debug|release) {
 LIBS += \
     -L$$DESTDIR -lrotable-shared
 
-LIBS += -lws2_32
+win32:LIBS += -lws2_32
 
 target.path = /opt/rotable
 INSTALLS    += target
