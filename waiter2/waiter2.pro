@@ -68,6 +68,19 @@ contains(QMAKE_CC, gcc) {
  #       -L$$PWD/../third-party/google-breakpad-read-only-rpi/src/client/linux
 }
 
+win32{
+    PLATFORM = host
+
+    INCLUDEPATH -= /home/rosynski/opt/third_party/wiringPi/wiringPi \#$$PWD/../third-party/wiringPi/wiringPi \
+                   /home/rosynski/opt/rpi/rootfs/usr/include \
+
+    LIBS -= \
+            -L/home/rosynski/opt/third_party/wiringPi/wiringPi -lwiringPi \
+            -L/home/rosynski/opt/rpi/rasp-pi-rootfs/usr/include -lrt
+           #-L$$PWD/../third-party/wiringPi/wiringPi -lwiringPi #\
+        #-L$$PWD/../third-party/google-breakpad-read-only-rpi/src/client/linux -lbreakpad_client
+}
+
 CONFIG(debug, debug|release) {
     DESTDIR     = $$PWD/../bin/debug/$$PLATFORM
     OBJECTS_DIR = $$PWD/../bin/tmp/obj/debug/$$PLATFORM/$$TARGET
