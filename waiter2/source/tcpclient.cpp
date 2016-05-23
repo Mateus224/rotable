@@ -8,7 +8,7 @@
 //windows specific socket libraries
 #ifdef Q_OS_WIN
 #include <winsock2.h>
-#include <ws2tcpip.h>
+#include <mstcpip.h>
 #else
 #include <sys/socket.h>
 #include <netinet/tcp.h>

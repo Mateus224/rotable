@@ -3,7 +3,6 @@ TARGET = rotable-client
 
 CONFIG += precompile_header c++11
 PRECOMPILED_HEADER = private/precomp.h
-win32:PRECOMPILED_HEADER = private/precomp_win32.h
 
 QMAKE_CFLAGS_RELEASE = -g
 
@@ -26,7 +25,6 @@ HEADERS += \
     include/productlistmodel.h \
     include/imageprovider.h \
     include/callwaiter.h \
-    private/precomp_win32.h \
     private/precomp.h
     include/
 
