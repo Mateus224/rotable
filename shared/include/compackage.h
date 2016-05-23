@@ -112,7 +112,13 @@ public:
     RequestTable,
 
     /* Request list order on table*/
-    RequestOrderOnTable
+    RequestOrderOnTable,
+
+    /* Request config on server*/
+    RequestConfig,
+
+    /* Request licence info from server*/
+    RequestLicence
   };
 
   /**
@@ -129,7 +135,10 @@ public:
     SetProduct,
 
     /* Set/Update order*/
-    SetOrder
+    SetOrder,
+
+    /* Set licence */
+    SetLicence
   };
 
   /**
@@ -143,7 +152,10 @@ public:
     DeleteCategory,
 
     /* Delete a product from the database */
-    DeleteProduct
+    DeleteProduct,
+
+    /* Select licence path */
+    SetLicencePath
   };
 
   /**

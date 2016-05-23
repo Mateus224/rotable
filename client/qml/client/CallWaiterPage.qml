@@ -88,5 +88,8 @@ Rectangle {
         GradientStop { position: 0.0; color:"White" }//"#8EE2FE"}
         GradientStop { position: 0.66; color: "red"}
     }
+    Queue{
+
+    }
 }
 

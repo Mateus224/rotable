@@ -13,6 +13,7 @@ Rectangle {
         //property double topMargin: 0.01
         //property double bottomMargin: 0.005
         property int _rotation: 180
+        z:2
     }
     RotationButton{
         id: rotationButton_rightTop
@@ -20,6 +21,7 @@ Rectangle {
         //property double topMargin: 0.01
         //property double bottomMargin: 0.005
         property int _rotation: 270
+        z:2
     }
     RotationButton{
         id: rotationButton_rightBottom
@@ -28,6 +30,7 @@ Rectangle {
         //property double topMargin: 0.005
         //property double bottomMargin: 0.01
         property int _rotation: 0
+        z:2
     }
     RotationButton{
         id: rotationButton_leftBottom
@@ -36,6 +39,7 @@ Rectangle {
         //property double topMargin: 0.005
         //property double bottomMargin: 0.01
         property int _rotation: 90
+        z:2
     }
 
 //------------------------------------------------------------
@@ -52,6 +56,7 @@ Rectangle {
 
         ConnectionPage {
             id: connectionPage
+
         }
 
         ScreensaverPage {
@@ -60,6 +65,7 @@ Rectangle {
 
         StartPage {
             id: startPage
+
         }
 
         ProductPage {
@@ -86,6 +92,7 @@ Rectangle {
             id: sendAccept
         }
 
+
         //! [states]
         states: [
             State {
@@ -99,6 +106,7 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
+
             },
             State {
                 name: "SCREENSAVER"
@@ -199,4 +207,5 @@ Rectangle {
         ]
         //! [states]
     }
+
 }

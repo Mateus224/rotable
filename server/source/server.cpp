@@ -7,6 +7,7 @@
 #include "message.h"
 
 #include <QStandardPaths>
+#include <QFile>
 
 
 //------------------------------------------------------------------------------
@@ -27,6 +28,10 @@ Server::Server(const QString &configFilePath, QObject *parent)
   // if we add or update any config we parse them
   connect(&_db, &Database::parseConfig, this, &Server::config_parser);
   schedule = new Schedule();
+
+  _licence = new Licence(_config.licence_path());
+
+  connect(_licence, &rotable::Licence::getLastIncomeDate, &_db, &rotable::Database::getLastIncome);
 }
 
 //------------------------------------------------------------------------------
@@ -34,6 +39,7 @@ Server::Server(const QString &configFilePath, QObject *parent)
 Server::~Server()
 {
     delete schedule;
+    delete _licence;
 }
 
 //------------------------------------------------------------------------------
@@ -125,6 +131,13 @@ void Server::packageReceived(client_t client, ComPackage *package)
   {
     ComPackageConnectionRequest* p = static_cast<ComPackageConnectionRequest*>(package);
     if (login(p, client)) {
+      if(p->clientType() == rotable::ComPackage::TableAccount)
+          if(Q_UNLIKELY(!_licence->getLicence(_tcp.clientSocket(client))))
+          {
+              ComPackageReject reject(package->id());
+              _tcp.send(client, reject);
+              break;
+          }
       _tcp.setClientName(client, p->clientName());
       ComPackageConnectionAccept accept;
       _tcp.send(client, accept);
@@ -478,6 +491,16 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request)
                      .arg(request->dataName());
     }
   } break;
+  case  ComPackage::RequestConfig:
+  {
+     ComPackageDataReturn* ret = new ComPackageDataReturn(*request, configToJSON());
+     return ret;
+  }break;
+  case ComPackage::RequestLicence:
+  {
+      ComPackageDataReturn* ret = new ComPackageDataReturn(*request, QJsonValue(_licence->getLicenceStatus()));
+      return ret;
+  } break;
   default:
   {
     qCritical() << tr("Unknown data request id: %d").arg(request->dataCategory());
@@ -560,13 +583,38 @@ bool Server::setData(ComPackageDataSet *set, client_t client)
 
     //If something change
     if(status)
-    //TODO: Send new information about queue to all client
-        ;
+        sendQueueOrders();
 
 
     return status;
 
   }break;
+
+  case ComPackage::SetLicence:
+  {
+    QJsonArray arr = set->data().toArray();     // For store files
+    QStringList name = {"licence.dat", "licence.crt"};
+    auto path = QDir(_config.licence_path());
+    int i  = 0;
+
+    foreach(QJsonValue file, arr)
+    {
+        QByteArray ba = QByteArray::fromBase64(file.toString().toLocal8Bit(),
+                                               QByteArray::Base64UrlEncoding);
+        if(i > name.length())
+        {
+            qWarning() << "Recive more file that we can save!";
+            return false;
+        }
+        QFile f(path.filePath(name[i++]));
+        f.open(QIODevice::WriteOnly);
+        f.write(ba);
+        f.close();
+    }
+    _licence->loadLicence();
+    return true;
+  } break;
+
   default:
   {
     qCritical() << tr("Unknown data set id: %d").arg(set->dataCategory());
@@ -879,12 +927,15 @@ bool Server::executeCommand(ComPackageCommand *package)
           dc.setDataCategory(ComPackage::RequestProductIds);
           dc.setDataName(QString::number(product->categoryId()));
           _tcp.send(-1, dc);
-//          send_to_users(dc, 1);
-//          send_to_users(dc, 0);
-//          send_to_users(dc, 2);
+          send_to_users(dc, 1);
           return true;
         }
       }
+    } break;
+    case ComPackage::SetLicencePath:
+    {
+          QString path = package->data().toString();
+          _config.setLicence_path(path);
     } break;
     default:
     {
@@ -1069,9 +1120,52 @@ void Server::closeStateConfig(Config *config)
 QMap<int, ComPackageMessage *> Server::queueOrders()
 {
     QMap<int, ComPackageMessage *>  result;
+    QMap<int, QMap<int, int> > orderList;
+    QMap<int, QMap<int, int> >::iterator it;
 
-    //QList<rotable::Order*> idList = _db.getNotCloseOrderList();
-    //TODO:
+    QList<rotable::Order*> *idList = _db.getNotDoneOrderList();
+    if(idList == NULL)
+        return result;
+    int i = 1;
+    foreach(Order* order, *idList)
+    {
+        orderList[order->clientId()][i] = order->id();
+        ++i;
+    }
+    delete idList;
+
+    it = orderList.begin();
+    while(it != orderList.end())
+    {
+        QueueMessage msg(it.value());
+        result[it.key()] = msg.toPackage();
+        ++it;
+    }
+
+    return result;
+}
+
+//------------------------------------------------------------------------------
+
+void Server::sendQueueOrders()
+{
+    QMap<int, ComPackageMessage*> queue(queueOrders());
+    QMap<int, ComPackageMessage*>::iterator it = queue.begin();
+
+    while(it != queue.end())
+    {
+        if(_users[1].keys(it.key()).count() == 1)
+           _tcp.send(_users[1].keys(it.key())[0],*(it.value()));
+        ++it;
+    }
+}
+
+//------------------------------------------------------------------------------
+
+QJsonValue Server::configToJSON()
+{
+    auto path = _config.licence_path();
+    return QJsonValue(path);
 }
 
 //------------------------------------------------------------------------------

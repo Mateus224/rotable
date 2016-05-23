@@ -209,6 +209,14 @@ Rectangle {
                             border.color: "#8772c0"
                             border.width: 2
                             color: defcolor
+                            Timer {
+                                id:sendOrderTimer
+                                interval:1500
+                                onTriggered: {
+                                  client.state="STARTSCREEN"
+                                    sendOrderTimer.stop();
+                                }
+                            }
                             MouseArea{
                                 anchors.fill: parent
                                 onClicked: {
@@ -217,12 +225,12 @@ Rectangle {
                                         client.sendOrder()
                                         client.state = "SENTPAGE"
                                         MyOrder.clearList()
-                                        //MyOrder.s_acceptOrder()
+                                        sendOrderTimer.start()
                                     }
                                     else
                                     {
                                         client.state = "SENTPAGE"
-                                        //MyOrder.s_acceptOrder()
+                                        sendOrderTimer.start()
                                     }
                                 }
                                 onPressed: parent.color= "#8772c0"

@@ -2272,18 +2272,18 @@ QList<Order *>* Database::getNotCloseOrderList()
 
     QList<Order *> *list = new QList<Order *>();
 
-    QString queryStr = _sqlCommands[Orders]._select.arg(_prefix, "*", "status", ":status");
+    QString queryStr = QString("SELECT %2 FROM `%1orders` WHERE `%3` != %4;").arg(_prefix, "*", "state", ":stat");
 
     QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    q.bindValue(":status", 0);
+    q.setForwardOnly(false);
 
     if (!q.prepare(queryStr)) {
       qCritical() << tr("Invalid query: %1").arg(queryStr);
       delete list;
       return 0;
     }
+
+    q.bindValue(":stat", "5");
 
     if (!q.exec()) {
       qCritical() << tr("Query exec failed: (%1: %2")
@@ -2292,14 +2292,14 @@ QList<Order *>* Database::getNotCloseOrderList()
       return 0;
     }
 
-    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
-      if (q.size() != 1) {
-        qCritical() << tr("Query: returned %1 results but we expected it to return 1!")
-                       .arg(q.size());
-        delete list;
-        return 0;
-      }
-    }
+//    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+//      if (q.size() != 1) {
+//        qCritical() << tr("Query: returned %1 results but we expected it to return 1!")
+//                       .arg(q.size());
+//        delete list;
+//        return 0;
+//      }
+//    }
 
     if (!q.next()) {
         delete list;
@@ -2349,6 +2349,100 @@ QList<Order *>* Database::getNotCloseOrderList()
         foreach(int orderItemId, itemsId){
               o->addItem(orderItem(orderItemId));
         }
+        list->append(o);
+    }while(q.next());
+
+    return list;
+}
+
+//------------------------------------------------------------------------------
+
+QList<Order *> *Database::getNotDoneOrderList()
+{
+    if (!isConnected()) {
+      return 0;
+    }
+
+    QList<Order *> *list = new QList<Order *>();
+
+    QString queryStr = QString("SELECT %2 FROM `%1orders` WHERE `%3` == %4;").arg(_prefix, "*", "state", ":stat");
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(false);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      delete list;
+      return 0;
+    }
+
+    q.bindValue(":stat", "1");
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      delete list;
+      return 0;
+    }
+
+//    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+//      if (q.size() != 1) {
+//        qCritical() << tr("Query: returned %1 results but we expected it to return 1!")
+//                       .arg(q.size());
+//        delete list;
+//        return 0;
+//      }
+//    }
+
+    if (!q.next()) {
+        delete list;
+        return 0;
+    }
+
+    do{
+
+        bool ok;
+        int orderId = q.value("id").toInt(&ok);
+        if (!ok) {
+          qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("id").toString());
+          delete list;
+          return 0;
+        }
+
+        int clientId = q.value("client_id").toInt(&ok);
+        if (!ok) {
+          qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("client_id").toString());
+          delete list;
+          return 0;
+        }
+
+        int state = q.value("state").toInt(&ok);
+        if (!ok) {
+          qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("state").toString());
+          delete list;
+          return 0;
+        }
+
+        QDateTime orderSent = q.value("date_added").toDateTime();
+
+        Order* o = new Order();
+
+        o->setId(orderId);
+        o->setClientId(clientId);
+        o->setState(state);
+
+        QList<int> itemsId;
+
+
+        // if something go wrong return 0
+        if(!orderItemIds(itemsId,orderId))
+            return 0;
+
+        // add order item base on id
+        foreach(int orderItemId, itemsId){
+              o->addItem(orderItem(orderItemId));
+        }
+        list->append(o);
     }while(q.next());
 
     return list;
@@ -2628,6 +2722,13 @@ void Database::update()
     QString version = databasebVersion();
     if(version != newestVesion)
         updateDatabase(version);
+}
+
+//------------------------------------------------------------------------------
+
+void Database::getLastIncomeDate(QDate *date)
+{
+    date = nullptr;
 }
 
 //------------------------------------------------------------------------------

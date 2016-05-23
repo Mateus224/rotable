@@ -25,8 +25,8 @@ HEADERS += \
     include/productlistmodel.h \
     include/imageprovider.h \
     include/callwaiter.h \
+    include/queue.h \
     private/precomp.h
-    include/
 
 SOURCES += \
     source/main.cpp \
@@ -37,7 +37,8 @@ SOURCES += \
     source/categorylistmodel.cpp \
     source/productlistmodel.cpp \
     source/imageprovider.cpp \
-    source/callwaiter.cpp
+    source/callwaiter.cpp \
+    source/queue.cpp
 
 
 RESOURCES +=\
@@ -83,7 +84,7 @@ contains(QMAKE_CC, gcc) {
     PLATFORM = rpi
 
     INCLUDEPATH += /home/rosynski/opt/third_party/wiringPi/wiringPi \#$$PWD/../third-party/wiringPi/wiringPi \
-                   /home/rosynski/opt/rpi/rootfs/usr/include \
+                   #/home/mateus/raspi//rootfs/usr/include \
 
     LIBS += \
             -L/home/rosynski/opt/third_party/wiringPi/wiringPi -lwiringPi \

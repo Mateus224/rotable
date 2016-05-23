@@ -1,5 +1,5 @@
-import QtQuick 2.2
-import QtQuick.Controls 1.3
+import QtQuick 2.5
+import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.3
 import QtGraphicalEffects 1.0
@@ -7,7 +7,6 @@ import QtGraphicalEffects 1.0
 ApplicationWindow {
     id:applicationWindow
     visible: true
-    //visibility: "FullScreen"
     title: qsTr("Waiter client")
     color: "#7AAEEE"
     property int margin: 10
@@ -70,7 +69,8 @@ ApplicationWindow {
 
             ListView {
                 id: tableList
-                height: 200
+                z:1
+                height: (applicationWindow.height/3)*2
                 anchors.top: tableMenuLabel.bottom
                 anchors.right: parent.right
                 anchors.left: parent.left
@@ -81,6 +81,7 @@ ApplicationWindow {
                 spacing: margin
                 header: bannercomponent
                 footer: Rectangle {
+                    z:1
                     width: parent.width; height: 50;
                     gradient: clubcolors2
                 }
@@ -95,7 +96,7 @@ ApplicationWindow {
                     style: ButtonStyle {
                         background: Rectangle {
                             implicitWidth: 100
-                            implicitHeight: 70
+                            implicitHeight: 50
                             border.width: control.activeFocus ? 2 : 1
                             border.color: "white"
                             property var  gradientSelect: Gradient {
@@ -121,18 +122,20 @@ ApplicationWindow {
                     Text{
                         anchors.horizontalCenter: parent.horizontalCenter
                         font.family: "Lobster two"
-                        text:model.name + "\n" + "Orders: " + model.orderNumber + "\n" + connected
+                        text:"Table: "+model.name + "\n" + "Orders: " + model.orderNumber + "\n" + connected
                     }
                     onClicked: {
                         tables.sendToBoardOrder(model.id)
                     }
+
                 }
             }
             Component {     //instantiated when header is processed
                 id: bannercomponent
                 Rectangle {
                     id: banner
-                    width: parent.width; height: 60
+                    width: parent.width;
+                    height: 60
                     gradient: clubcolors
                     border {
                         color: "#7AAEEE"//"#9EDDF2";
@@ -157,30 +160,43 @@ ApplicationWindow {
                 GradientStop { position: 0.66   ; color: "#8EE2FE"}
             }
 
-            Text{
-                id: labelneedList
-                text: qsTr("Table need waiter")
-                font.bold: true
-                font.family: "Lobster two"
-                font.pixelSize: 20
-                anchors.top: tableList.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
 
             ListView {
+                z:1
                 id: needList
-                y: 500 //300
-                height: 10
-                anchors.top: labelneedList.bottom
+                y: 500
+                height:applicationWindow.height/3
+                anchors.top: tableList.bottom
                 anchors.right: parent.right
                 anchors.left: parent.left
                 anchors.leftMargin: 0
-                Layout.fillHeight: true
+                //Layout.fillHeight: true
                 Layout.minimumWidth: 100
                 spacing: margin
+                header: banner_tableNeedWaiter
 
                 model: needBoard
+                Component {     //instantiated when header is processed
+                    id: banner_tableNeedWaiter
+                    Rectangle {
+                        id: banner
+                        width: parent.width;
+                        height: 60
+                        gradient: clubcolors
+                        border {
+                            color: "#7AAEEE"//"#9EDDF2";
+                            width: 2}
 
+                        Text{
+                            id: labelneedList
+                            text: qsTr("Table need waiter")
+                            font.bold: true
+                            font.family: "Lobster two"
+                            font.pixelSize: 20
+                            anchors.horizontalCenter: parent.horizontalCenter
+                        }
+                    }
+                }
                 delegate: Button{
                     id: needBoardButton
                     width:  parent.width
@@ -205,6 +221,7 @@ ApplicationWindow {
         }
 
         ColumnLayout{
+            z:0
             id: orderLayout
             anchors.left: menuLayout.right
             anchors.right: parent.right
@@ -218,7 +235,7 @@ ApplicationWindow {
 
             RowLayout{
                 id: orderButton
-
+                z:0
                 width: parent.width
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: parent.top
@@ -246,47 +263,89 @@ ApplicationWindow {
                 }
 
             }
+            //------------------------------------------------------------
+            Rectangle{
+                color:"red"
+                anchors.topMargin: parent.height/5
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 2*parent.height/3
+                anchors.right: parent.right
+                anchors.left: parent.left
+                anchors.leftMargin: 0
+                gradient: clubcolors
+                border {
+                    color: "#7AAEEE"//"#9EDDF2";
+                    width: 2}
+                Text {
+                    font.family: "Lobster two"
+                    anchors.centerIn: parent
+                    text: qsTr("Bill on table: ") + orderboard.ordersPrice.toFixed(2)
+                    font.pixelSize: 22
+                    font.bold: true
+                }
+            }
+
+
                 ListView {
-                    anchors.topMargin: 10
-                    //anchors.top: text1.bottom
+                    z:0
+                    anchors.topMargin: parent.height/3
+                    anchors.top: parent.top
                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
                     anchors.left: parent.left
                     anchors.leftMargin: 0
-                    //anchors.fill: parent
                     spacing: 5
                     model: orderboard
                     id: board
-                    //anchors.fill: parent
-                    Layout.minimumHeight: 200
-                    //Layout.fillWidth: true
+                    //Layout.minimumHeight: 200
                     Layout.fillHeight: true
-                    header:bannerO
-                    footer: Rectangle {
-                        width: parent.width; height: 50;
+                    //height: 250
+                    //header:bannerO
+                    orientation: ListView.Horizontal
+                    /*footer: Rectangle {
+                        width: 300; height: 50;
                         gradient: clubcolors2
-                    }
+                    }*/
+
 
                     Component{
                         id: order
-                        ColumnLayout{
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            //                            width: parent.width
 
-                            spacing: 10
+                        ColumnLayout{
+                            //anchors.horizontalCenter: parent.horizontalCenter
+                            //
+                            z:0
+                            width: 150
                            /* Label {
                                 id: labelOrder
                                 text: String(model.orderId)
                             }*/
-                            ListView{
-                                id: orderItemsView
-                                height: 100 // depending on the number of the orders <----------------------TODO-----
-                                //Layout.fillHeight: true
+                            Label{
+                                z:0
+                                font.bold: true
+                                font.family: "Lobster two"
+                                font.pixelSize: 20
+                                text: qsTr("To pay: ") + orderPrice;
+                            }
 
+                            ListView{
+                                z:0
+                                //orientation: ListView.Horizontal
+                                id: orderItemsView
+                                height: 50 // depending on the number of the orders <----------------------TODO-----
+                                //Layout.fillHeight: true
+                                Layout.minimumHeight: 200
+                                Layout.fillHeight: true
+                                footer: Rectangle {
+                                    width: 150; height: 50
+                                    gradient: clubcolors2
+                                }
                                 model: orderItems
-                                delegate: CheckBox{
+                                delegate:
+                                    CheckBox{
                                     id: changeCheck
-                                    width: 200
+                                    width: 150
 
                                     Layout.fillWidth: true
                                     text: productList.productName(model.modelData.productId) +"   " + model.modelData.amount +"x"
@@ -309,15 +368,13 @@ ApplicationWindow {
                                     }
                                 }
                             }
-                            Label{
-                                text: qsTr("To pay: ") + orderPrice;
-                            }
-                            Button{
+
+                            /*Button{
                                 id: buttonOrder
                                 text: qsTr("Select all")
                                 onClicked: model.prepareOrderToChange
 
-                            }
+                            }*/
                         }
                     }
                     delegate:order
@@ -326,7 +383,8 @@ ApplicationWindow {
                     id: bannerO
                     Rectangle {
                         id: banner
-                        width: parent.width; height: 60
+                        width: 300
+                        height: 60
                         gradient: clubcolors
                         border {
                             color: "#7AAEEE"//"#9EDDF2";

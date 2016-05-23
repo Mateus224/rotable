@@ -60,6 +60,9 @@ signals:
 
   void categoryReceived(rotable::ProductCategory* category);
 
+  void onLicenceStatus(const QString& string);
+  void onLicenceConfig(const QString& string);
+
 public slots:
   /**
    * Connect to rotable server.
@@ -156,6 +159,12 @@ public slots:
    */
   void onStopDebugServerListening();
 
+  /**
+   * Method for send new licence to server
+   */
+  void onAddLicence();
+
+
 private slots:
   void onClientError(QAbstractSocket::SocketError error);
 
@@ -169,9 +178,14 @@ private:
   void requestProductIds(int categoryId);
   void requestCategory(int categoryId);
   void requestProduct(int productId);
+  void requestServerConfigs();
+  void requestLicenceStatus();
 
   void dataReturned(rotable::ComPackageDataReturn* package);
   void dataChanged(rotable::ComPackageDataChanged* package);
+
+  void loadServerConfigs(const QString& path);
+  void loadLicenceStatus(const QString& status);
 
   /* MainWindow object */
   MainWindow* _mainwindow;
