@@ -59,19 +59,19 @@ ApplicationWindow {
                 }
             }
 
-            Label{
+            /*Label{
                 id: tableMenuLabel
                 text: qsTr("Table list")
                 anchors.top: rowBox.bottom
                 anchors.topMargin: 0
                 anchors.horizontalCenter: parent.horizontalCenter
-            }
+            }*/
 
             ListView {
                 id: tableList
                 z:1
                 height: (applicationWindow.height/4)*3
-                anchors.top: tableMenuLabel.bottom
+                anchors.top: rowBox.bottom
                 anchors.right: parent.right
                 anchors.left: parent.left
                 anchors.leftMargin: 0
@@ -115,11 +115,12 @@ ApplicationWindow {
                     }
 
                     enabled: model.orderNumber === 0 ? false : true
-                    width:  parent.width
+                    width:  2*parent.width/3
                     checkable: true
                     exclusiveGroup: tableExclusiveGroup
                     property var connected: model.isConnected ? "Connected" : "Disconnected"
                     Text{
+                        font.pixelSize: parent.height * 0.25
                         anchors.horizontalCenter: parent.horizontalCenter
                         font.family: "Lobster two"
                         text:"Table: "+model.name + "\n" + "Orders: " + model.orderNumber + "\n" + connected
@@ -207,7 +208,7 @@ ApplicationWindow {
             }
             //------------------------------------------------------------
             Rectangle{
-
+                id: billOnTableText
                 anchors.topMargin: parent.height/5
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
@@ -232,8 +233,7 @@ ApplicationWindow {
                 ListView {
                     id: board
                     z:0
-                    anchors.topMargin: parent.height/4
-                    anchors.top: parent.top
+                    anchors.top: billOnTableText.bottom
                     anchors.bottom: parent.bottom
                     anchors.bottomMargin: parent.height/4
                     anchors.right: parent.right
@@ -345,9 +345,9 @@ ApplicationWindow {
 
                 Rectangle{
                     id: needWaiterText
-                    anchors.top: board.bottom
+                    anchors.top: parent.bottom
                     anchors.bottom: parent.bottom
-                    anchors.bottomMargin: parent.height/5
+                    anchors.bottomMargin: parent.height/5.5
                     anchors.right: parent.right
                     anchors.left: parent.left
                     anchors.leftMargin: 0
@@ -368,12 +368,12 @@ ApplicationWindow {
                 ListView {
                     z:1
                     id: needList
-                    height:applicationWindow.height/5
+                    //height:applicationWindow.height/5
                     anchors.top: needWaiterText.bottom
+                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
                     anchors.left: parent.left
                     anchors.leftMargin: 0
-                    Layout.fillHeight: true
                     //Layout.minimumWidth: 100
                     spacing: margin
                     //header: banner_tableNeedWaiter
