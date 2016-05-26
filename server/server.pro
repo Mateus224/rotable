@@ -67,7 +67,7 @@ LIBS += \
     -L$$DESTDIR -lrotable-shared \
   #  -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux
 
-LIBS += -lws2_32
+win32:LIBS += -lws2_32
 
 RESOURCES += \
     sql-commands.qrc \
@@ -80,11 +80,13 @@ INCS += -I/usr/include/crypto++
 
 ##############################################################################################
 # Windows Cryptopp
+win32 {
+    LIBS -= -L/usr/lib/crypto++ -lcryptopp
+    INCS -= -I/usr/include/crypto++
 
-win32:LIBS -= -L/usr/lib/crypto++ -lcryptopp
-win32:INCS -= -I/usr/include/crypto++
+    Debug:LIBS += -L"$$PWD/dependencies/cryptopp/libs/" -lcryptlib-d
+    Release:LIBS += -L"$$PWD/dependencies/cryptopp/libs/" -lcryptlib
 
-LIBS += -L"$$PWD/dependencies/cryptopp/libs/" -lcryptlib-d
-
-win32:INCLUDEPATH += "$$PWD/dependencies/cryptopp/include"
-win32:DEPENDPATH += "$$PWD/dependencies/cryptopp/include"
+    INCLUDEPATH += "$$PWD/dependencies/cryptopp/include"
+    DEPENDPATH += "$$PWD/dependencies/cryptopp/include"
+}
