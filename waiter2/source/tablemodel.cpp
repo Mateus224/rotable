@@ -38,6 +38,25 @@ QHash<int, QByteArray> TableModel::roleNames() const {
 
 //-----------------------------------------------------
 
+void TableModel::sortTableKeys()
+{
+    QMap<int, int> map;     // For ids to sort
+    QList<int> listDone;    // Store table withwout new orders
+    foreach(Table *table, _tables)
+    {
+        if(table->lastOrderId() == -1)
+            listDone.append(table->id());
+        else
+           map.insert(table->lastOrderId(), table->id());
+    }
+
+    _orderList.clear();
+    _orderList.append(map.values());
+    _orderList.append(listDone);
+}
+
+//-----------------------------------------------------
+
 int TableModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
@@ -48,10 +67,10 @@ int TableModel::rowCount(const QModelIndex &parent) const
 
 QVariant TableModel::data(const QModelIndex &index, int role) const
 {
-    if (index.row() < 0 || index.row() >= _tables.count())
+    if (index.row() < 0 || index.row() > _tables.count())
         return QVariant();
 
-    Table *table = _tables[_tables.keys()[index.row()]];
+    Table *table = _tables[_orderList[index.row()]];
     switch (role) {
     case NameRole:{
         return QVariant(table->name());
@@ -104,6 +123,8 @@ bool TableModel::addTable(rotable::Table *table)
     {
         beginInsertRows(QModelIndex(), rowCount(), rowCount());
         _tables[table->id()] = table;
+        connect(table, &rotable::Table::tableChanged, this, &rotable::TableModel::sortTableKeys);
+        emit table->tableChanged();
         endInsertRows();
 
         return true;
@@ -129,6 +150,8 @@ rotable::Table *rotable::TableModel::at(const std::size_t &id)
     else
         return NULL;
 }
+
+//-----------------------------------------------------
 
 bool TableModel::updateOrder(const int &tableId, rotable::Order *order)
 {

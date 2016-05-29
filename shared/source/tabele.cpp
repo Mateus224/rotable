@@ -153,6 +153,23 @@ QMap<int, QJsonValue>* Table::getOrderJSON() const
 
 //------------------------------------------------------------------------------
 
+void Table::recalcLastOrder()
+{
+    // Check orders on table, orders are sorted by id
+    foreach(Order* order, _orders)
+        // If order has status new
+        if(order->isNew())
+        {
+            // Set id
+            _lastOrder = order->id();
+            return;     // End
+        }
+    // No find order, set -1
+    _lastOrder = -1;
+}
+
+//------------------------------------------------------------------------------
+
 void Table::diconnectRemote()
 {
     disconnectTable();
@@ -170,6 +187,7 @@ void Table::prepareOrderToSend()
 void Table::orderChanged()
 {
     _change = true;
+    recalcLastOrder();
     emit tableChanged();
 }
 

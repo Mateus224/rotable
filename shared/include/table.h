@@ -64,6 +64,8 @@ public:
 
     inline bool isConnected() const { return _isConnected; }
     inline void setIsConnected(bool isConnected)  { _isConnected = isConnected; emit isConnectedChanged(); }
+
+    inline int lastOrderId() const { return _lastOrder; }
     //------------------------------------------------------------------------------
     // Method
     //------------------------------------------------------------------------------
@@ -165,6 +167,11 @@ public:
 
 private:
     /**
+     * Calc last number of new order
+     */
+    void recalcLastOrder();
+
+    /**
      * Store orders, int - orderId
      */
     QMap<int,rotable::Order*> _orders;
@@ -185,6 +192,11 @@ private:
      * Store information about enabled of table (table is on/off)
      */
     bool _isConnected;
+
+    /**
+     * Store id of last new order, if not order, return -1
+     */
+    int _lastOrder;
 
 signals:
     void tableChanged();
