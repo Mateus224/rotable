@@ -87,6 +87,8 @@ win32 {
     Debug:LIBS += -L"$$PWD/dependencies/cryptopp/libs/" -lcryptlib-d
     Release:LIBS += -L"$$PWD/dependencies/cryptopp/libs/" -lcryptlib
 
+    Release:PRE_TARGETDEPS += $$PWD/dependencies/cryptopp/libs/cryptlib.lib
+
     INCLUDEPATH += "$$PWD/dependencies/cryptopp/include"
     DEPENDPATH += "$$PWD/dependencies/cryptopp/include"
 }
