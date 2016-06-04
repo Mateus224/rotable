@@ -9,6 +9,8 @@ PRECOMPILED_HEADER = private/precomp.h
 QMAKE_CFLAGS_RELEASE = -g
 QMAKE_CXXFLAGS += -std=c++11
 
+win32:CONFIG += windows
+
 ########################################################################
 # FILES:
 
@@ -81,13 +83,18 @@ INCS += -I/usr/include/crypto++
 ##############################################################################################
 # Windows Cryptopp
 win32 {
-    LIBS -= -L/usr/lib/crypto++ -lcryptopp
     INCS -= -I/usr/include/crypto++
 
-    Debug:LIBS += -L"$$PWD/dependencies/cryptopp/libs/" -lcryptlib-d
-    Release:LIBS += -L"$$PWD/dependencies/cryptopp/libs/" -lcryptlib
+    win32:!win32-g++ {
+        Debug:LIBS += -L"$$PWD/dependencies/cryptopp/libs/" -lcryptlib-d
+        Release:LIBS += -L"$$PWD/dependencies/cryptopp/libs/" -lcryptlib
 
-    Release:PRE_TARGETDEPS += $$PWD/dependencies/cryptopp/libs/cryptlib.lib
+        Release:PRE_TARGETDEPS += $$PWD/dependencies/cryptopp/libs/cryptlib.lib
+    }
+    else:win32-g++ {
+        LIBS += -L"$$PWD/dependencies/cryptopp/libs/" -llibcryptopp
+        PRE_TARGETDEPS += $$PWD/dependencies/cryptopp/libs/libcryptopp.a
+    }
 
     INCLUDEPATH += "$$PWD/dependencies/cryptopp/include"
     DEPENDPATH += "$$PWD/dependencies/cryptopp/include"

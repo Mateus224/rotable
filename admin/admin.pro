@@ -10,6 +10,8 @@ PRECOMPILED_HEADER = private/precomp.h
 
 QMAKE_CFLAGS_RELEASE = -g
 
+win32:CONFIG += windows
+
 ########################################################################
 # FILES:
 
