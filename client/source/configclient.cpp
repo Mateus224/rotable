@@ -1,6 +1,7 @@
 #include "private/precomp.h"
 
 #include "configclient.h"
+#include <QtNetwork/QNetworkInterface>
 
 //------------------------------------------------------------------------------
 
@@ -17,6 +18,32 @@ ConfigClient::ConfigClient(const QString& path, QObject* parent)
 
 //------------------------------------------------------------------------------
 
+const QString &ConfigClient::macAdress() {
+    QString mac("");
+    // If we don't have save mac adress
+    if ((mac = value("Network/mac", "").toString()) == "")
+    {
+        QString mac("");
+        // Try find  active connection
+        foreach(QNetworkInterface interface, QNetworkInterface::allInterfaces())
+        {
+            // Check if interface is up
+            if(interface.flags() & QNetworkInterface::IsUp)
+                mac = interface.hardwareAddress();
+        }
+        // If we don't find active connection
+        if(mac == "")
+            // Set mac of first interface
+            mac = QNetworkInterface::allInterfaces()[0].hardwareAddress();
+        setValue("Network/mac", mac);   // Set value to config
+    }
+
+    return mac;
+
+}
+
+//------------------------------------------------------------------------------
+
 void ConfigClient::initData()
 {
     if(value("Client/name", "") == "")
@@ -24,7 +51,7 @@ void ConfigClient::initData()
     if(value("Network/port", 0) == 0)
         setPort(5000);
     if(value("Network/address", "") == "")
-         setServerAddress("localhost");
+        setServerAddress("localhost");
 }
 
 //------------------------------------------------------------------------------
