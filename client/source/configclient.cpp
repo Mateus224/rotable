@@ -18,12 +18,11 @@ ConfigClient::ConfigClient(const QString& path, QObject* parent)
 
 //------------------------------------------------------------------------------
 
-const QString &ConfigClient::macAdress() {
+QString ConfigClient::macAdress() {
     QString mac("");
     // If we don't have save mac adress
     if ((mac = value("Network/mac", "").toString()) == "")
     {
-        QString mac("");
         // Try find  active connection
         foreach(QNetworkInterface interface, QNetworkInterface::allInterfaces())
         {
@@ -34,7 +33,7 @@ const QString &ConfigClient::macAdress() {
         // If we don't find active connection
         if(mac == "")
             // Set mac of first interface
-            mac = QNetworkInterface::allInterfaces()[0].hardwareAddress();
+            mac = QNetworkInterface::allInterfaces().last().hardwareAddress();
         setValue("Network/mac", mac);   // Set value to config
     }
 

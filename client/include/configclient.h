@@ -40,7 +40,7 @@ public:
   inline int port() const { return value("Network/port").toInt(); }
   inline const QString clientName() const {return value("Client/name").toString();}
 
-  const QString& macAdress();
+  QString macAdress();
 
   // Setter
   inline void setServerAddress(const QString& address) { setValue("Network/address", address);
