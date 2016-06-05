@@ -14,7 +14,8 @@ Table::~Table()
 
 Table::Table(QObject *parent): rotable::Client(parent), _change(false), _waiterIsNeeded(false)
 {
-
+    connect(this, &rotable::Table::orderStateChanged, this, &rotable::Table::recalcLastOrder);
+    connect(this, &rotable::Table::newOrder, this, &rotable::Table::recalcLastOrder);
 }
 
 //------------------------------------------------------------------------------
@@ -25,14 +26,10 @@ void Table::updateOrder(rotable::Order* order){
     {
         _orders.value(order->id())->updateOrder(order);
         delete order;
+        emit tableChanged();
     }
     else
-    {
-        // Add order
-        _orders[order->id()] = order;
-        connect(order, &rotable::Order::itemsChanged, this, &rotable::Table::orderChanged);
-    }
-    emit tableChanged();
+        addOrder(order);
     //Change are made, set change value on true
 }
 
@@ -187,7 +184,6 @@ void Table::prepareOrderToSend()
 void Table::orderChanged()
 {
     _change = true;
-    recalcLastOrder();
     emit tableChanged();
 }
 

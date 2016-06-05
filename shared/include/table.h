@@ -2,7 +2,6 @@
 #define TABLE_ROTABLE_H
 
 //------------------------------------------------------------------------------
-
 #include "order.h"
 #include "client.h"
 
@@ -103,6 +102,9 @@ public:
      */
     inline void addOrder(rotable::Order* order){
         _orders[order->id()] = order;
+        connect(order, &rotable::Order::itemsChanged, this, &rotable::Table::orderChanged);
+        connect(order, &rotable::Order::stateChanged, this, &rotable::Table::orderStateChanged);
+        emit newOrder();
         emit  tableChanged();
     }
 
@@ -203,6 +205,8 @@ signals:
     void waiterIsNeededChanged();
     void isConnectedChanged();
     void sendOrders();
+    void orderStateChanged();
+    void newOrder();
 
 public slots:
     void diconnectRemote();
@@ -210,6 +214,7 @@ public slots:
 
 private slots:
     void orderChanged();
+
 };  // class Table
 
 //------------------------------------------------------------------------------
