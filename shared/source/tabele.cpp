@@ -154,13 +154,17 @@ QMap<int, QJsonValue>* Table::getOrderJSON() const
 
 void Table::recalcLastOrder()
 {
+    //TODO: Warning, add check
+    Order *sendOrder = reinterpret_cast<Order*>(sender());
+    if(sendOrder->id() != _lastOrder && _lastOrder != -1)
+        return;
     // Check orders on table, orders are sorted by id
-    foreach(Order* order, _orders)
+    for(auto order = _orders.find(sendOrder->id());order !=  _orders.end();++order)
         // If order has status new
-        if(order->isNew())
+        if(order.value()->isNew())
         {
             // Set id
-            _lastOrder = order->id();
+            _lastOrder = order.value()->id();
             return;     // End
         }
     // No find order, set -1
