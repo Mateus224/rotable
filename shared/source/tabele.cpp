@@ -14,8 +14,10 @@ Table::~Table()
 
 Table::Table(QObject *parent): rotable::Client(parent), _change(false), _waiterIsNeeded(false)
 {
+    #ifdef WAITER
     connect(this, &rotable::Table::orderStateChanged, this, &rotable::Table::recalcLastOrder);
     connect(this, &rotable::Table::newOrder, this, &rotable::Table::recalcLastOrder);
+    #endif
 }
 
 //------------------------------------------------------------------------------
