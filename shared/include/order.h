@@ -255,6 +255,7 @@ public:
       connect(item, &rotable::OrderItem::priceChanged, this, &rotable::Order::itemChanged);
       connect(item, &rotable::OrderItem::timeChanged, this, &rotable::Order::itemChanged);
       connect(item, &rotable::OrderItem::readyToChanged, this, &rotable::Order::itemIsReadyToChanged);
+      connect(item, &rotable::OrderItem::stateChanged, this, &rotable::Order::checkOrderState);
   }
 
   /**
@@ -335,6 +336,7 @@ signals:
 private slots:
   void itemChanged();
   void itemIsReadyToChanged();
+  void checkOrderState();
 
 private:
   /* Unique order ID */
