@@ -1,0 +1,2 @@
+If you want to run server binary, copy dll files from debug/release from mingw folder to the folder containing .exe file.
+If you want to run other three apps, copy dll files form debug/release from msvc16 folder to the folder containing .exe file.
