@@ -84,17 +84,10 @@ INCS += -I/usr/include/crypto++
 # Windows Cryptopp
 win32 {
     INCS -= -I/usr/include/crypto++
+    LIBS -= -L/usr/lib/crypto++ -lcryptopp
 
-    win32:!win32-g++ {
-        Debug:LIBS += -L"$$PWD/dependencies/cryptopp/libs/" -lcryptlib-d
-        Release:LIBS += -L"$$PWD/dependencies/cryptopp/libs/" -lcryptlib
-
-        Release:PRE_TARGETDEPS += $$PWD/dependencies/cryptopp/libs/cryptlib.lib
-    }
-    else:win32-g++ {
-        LIBS += -L"$$PWD/dependencies/cryptopp/libs/" -llibcryptopp
-        PRE_TARGETDEPS += $$PWD/dependencies/cryptopp/libs/libcryptopp.a
-    }
+    LIBS += -L"$$PWD/dependencies/cryptopp/libs/" -llibcryptopp
+    PRE_TARGETDEPS += $$PWD/dependencies/cryptopp/libs/libcryptopp.a
 
     INCLUDEPATH += "$$PWD/dependencies/cryptopp/include"
     DEPENDPATH += "$$PWD/dependencies/cryptopp/include"
