@@ -162,10 +162,15 @@ void Table::recalcLastOrder()
         {
             // Set id
             _lastOrder = order.value()->id();
+            emit lastOrderChange();
             return;     // End
         }
     // No find order, set -1
-    _lastOrder = -1;
+    if(_lastOrder != -1)
+    {
+        _lastOrder = -1;
+        emit lastOrderChange();
+    }
 }
 
 //------------------------------------------------------------------------------

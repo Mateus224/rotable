@@ -207,7 +207,7 @@ signals:
     void waiterIsNeededChanged();
     void isConnectedChanged();
     void sendOrders();
-    void orderStateChanged();
+    void lastOrderChange();
 
 public slots:
     void diconnectRemote();

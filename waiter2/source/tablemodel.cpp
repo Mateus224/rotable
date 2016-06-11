@@ -123,8 +123,8 @@ bool TableModel::addTable(rotable::Table *table)
     {
         beginInsertRows(QModelIndex(), rowCount(), rowCount());
         _tables[table->id()] = table;
-        connect(table, &rotable::Table::tableChanged, this, &rotable::TableModel::sortTableKeys);
-        emit table->tableChanged();
+        connect(table, &rotable::Table::lastOrderChange, this, &rotable::TableModel::sortTableKeys);
+        emit table->lastOrderChange();
         endInsertRows();
 
         return true;
