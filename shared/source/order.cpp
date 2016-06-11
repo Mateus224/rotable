@@ -270,6 +270,16 @@ void Order::itemIsReadyToChanged()
 
 //------------------------------------------------------------------------------
 
+void Order::checkOrderState()
+{
+    if(isDone())
+        setState(true);
+    else
+        setState(false);
+}
+
+//------------------------------------------------------------------------------
+
 QJsonValue OrderItem::toJSON() const
 {
     QJsonObject o;

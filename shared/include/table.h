@@ -103,8 +103,10 @@ public:
     inline void addOrder(rotable::Order* order){
         _orders[order->id()] = order;
         connect(order, &rotable::Order::itemsChanged, this, &rotable::Table::orderChanged);
-        connect(order, &rotable::Order::stateChanged, this, &rotable::Table::orderStateChanged);
-        emit newOrder();
+        #ifdef WAITER
+        connect(order, &rotable::Order::stateChanged, this, &rotable::Table::recalcLastOrder);
+        order->setState(order->state());
+        #endif
         emit  tableChanged();
     }
 
@@ -206,7 +208,6 @@ signals:
     void isConnectedChanged();
     void sendOrders();
     void orderStateChanged();
-    void newOrder();
 
 public slots:
     void diconnectRemote();
