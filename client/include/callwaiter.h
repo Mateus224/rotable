@@ -26,7 +26,9 @@ class rotable::CallWaiter: public QObject{
     Q_PROPERTY(QString callWaiterState READ callWaiterState WRITE setCallWaiterState NOTIFY callWaiterStateChanged)
 public:
 
-    CallWaiter(): _waiterNeed(false), _callWaiterState("DEFAULT") { }
+    CallWaiter(): _waiterNeed(false), _callWaiterState("DEFAULT") {
+        connect(this, &CallWaiter::waiterNeedChanged, this, &CallWaiter::setPropertyState);
+    }
 
     inline bool waiterNeed() const { return _waiterNeed; }
     inline void setWaiterNeed(bool waiterNeed)
