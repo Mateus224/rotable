@@ -130,6 +130,7 @@ void Client::connected()
 void Client::disconnected()
 {
   setState("DISCONNECTED");
+  _accepted = false;
 
   if (!_stopping) {
     // Todo: do not reconnect if we want to close the app
@@ -211,6 +212,13 @@ void Client::rejected(ComPackageReject *rej)
 {
   if (_dataRequest.contains(rej->originId())) {
     _dataRequest.remove(rej->originId());
+  }
+
+  if(_accepted == false)
+  {
+      _reconnectTimer.setSingleShot(true);
+      _reconnectTimer.setInterval(5000);
+      _reconnectTimer.start();
   }
 }
 
