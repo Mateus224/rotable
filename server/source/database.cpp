@@ -2459,10 +2459,10 @@ QMap<int, QMap<int, int>> *Database::getOrderQueueList()
 
     QMap<int, QMap<int, int>> *result = new QMap<int,QMap<int, int>>();
 
-    QString queryStr = QString("SELECT %1clients.id as `client_id`, ifnull(%1orders.id, -1) as `order_id` FROM %1clients"
-                               "LEFT OUTER JOIN %1orders"
+    QString queryStr = QString("SELECT %1clients.id as `client_id`, ifnull(%1orders.id, -1) as `order_id` FROM %1clients "
+                               "LEFT OUTER JOIN %1orders "
                                "ON %1clients.id = %1orders.client_id and %1orders.state = %3 "
-                               "WHERE %1clients.type = %2 ORDER BY order_id  ").arg(_prefix, "*", ":type", ":stat");
+                               "WHERE %1clients.type = %2 ORDER BY order_id").arg(_prefix, ":type", ":stat");
 
     QSqlQuery q(_db);
     q.setForwardOnly(false);

@@ -1136,15 +1136,18 @@ QMap<int, ComPackageMessage *> Server::queueOrders()
 
     QMap<int, QMap<int,int>> *queue = _db.getOrderQueueList();
 
-    it = queue->begin();
-    while(it != queue->end())
+    if(queue)
     {
-        QueueMessage msg(it.value());
-        result[it.key()] = msg.toPackage();
-        ++it;
-    }
+        it = queue->begin();
+        while(it != queue->end())
+        {
+            QueueMessage msg(it.value());
+            result[it.key()] = msg.toPackage();
+            ++it;
+        }
 
-    delete queue;
+        delete queue;
+    }
 
     return result;
 }
