@@ -216,9 +216,12 @@ void Client::rejected(ComPackageReject *rej)
 
   if(_accepted == false)
   {
-      _reconnectTimer.setSingleShot(true);
-      _reconnectTimer.setInterval(5000);
-      _reconnectTimer.start();
+    QTimer *timer = new QTimer();
+    timer->setSingleShot(true);
+    timer->setInterval(5000);
+    connect(timer, &QTimer::timeout, this, &Client::connected);
+    connect(timer, &QTimer::timeout, timer, &QTimer::deleteLater);
+    timer->start();
   }
 }
 
