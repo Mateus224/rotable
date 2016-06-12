@@ -140,8 +140,8 @@ void Licence::verifityTime()
         if(Q_UNLIKELY(*lastIncomeDate > lastDate))
             throw new UnvalidTimeException;
 
-//    if(Q_UNLIKELY(_licenceBegin < lastDate || _licenceEnd < lastDate))
-//        throw new UnvalidLiceneException;
+    if(Q_UNLIKELY(_licenceBegin > lastDate || _licenceEnd < lastDate))
+        throw new UnvalidLiceneException;
 }
 
 //------------------------------------------------------------------------------
