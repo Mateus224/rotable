@@ -8,7 +8,6 @@
 #include "productcontainer.h"
 #include "imageprovider.h"
 #include "productorder.h"
-#include <QtNetwork/QNetworkInterface>
 
 //------------------------------------------------------------------------------
 
@@ -118,14 +117,7 @@ void Client::connected()
   ComPackageConnectionRequest request;
   request.setClientName(_config.clientName());
   request.setClientType(rotable::ComPackage::TableAccount);
-  request.setClientPass("00:00:00:00:00:00:00:00:00:00"); // If can't find will be set default
-
-  foreach(QNetworkInterface interface, QNetworkInterface::allInterfaces())
-  {
-      if(interface.flags() & QNetworkInterface::IsUp)
-          request.setClientPass(interface.hardwareAddress());
-
-  }
+  request.setClientPass(_config.macAdress());
 
   if (!_tcp.send(request)) {
     qCritical() << tr("FATAL: Could not send connection request package!");

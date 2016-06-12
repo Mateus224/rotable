@@ -169,11 +169,25 @@ signals:
 public slots:
     void unLoadTable();
 
+private slots:
+    /**
+     * Method sort table and return list with id's
+     *
+     * @return  QList with id's
+     */
+    void sortTableKeys();
+
 private:
     /**
      * Container with tables
      */
     QMap<int, rotable::Table*> _tables;
+
+    /**
+     * Contains ids of table base on order of new orders
+     */
+    QList<int> _orderList;
+
     int _selectTable;
 };
 
