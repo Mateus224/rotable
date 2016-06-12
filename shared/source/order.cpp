@@ -276,8 +276,8 @@ void Order::checkOrderState()
     case State::Sent:
         if(!isNew())
             setState(State::Prepared);
-    case State::Prepared:
-        is(isDone())
+    [[clang::fallthrough]]; case State::Prepared:
+        if(isDone())
             setState(State::Close);
     }
 }
