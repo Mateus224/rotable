@@ -206,7 +206,9 @@ void Order::closeOrder(QList<int> toChange, int newState)
 
 bool Order::isClose() const
 {
-    return _state == Close;
+    if(_state == Order::Close || _state == Order::Paid)
+        return true;
+    return false;
 }
 
 //------------------------------------------------------------------------------
