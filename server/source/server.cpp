@@ -501,6 +501,29 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request)
       ComPackageDataReturn* ret = new ComPackageDataReturn(*request, QJsonValue(_licence->getLicenceStatus()));
       return ret;
   } break;
+  case ComPackage::RequestIncome:
+  {
+      bool ok;
+      int incomeId = request->dataName().toInt(&ok);
+      if (ok) {
+        Income* income;
+        if(incomeId == -1)
+            income = _db.getLastIncome();
+        else
+            income = _db.income(incomeId);
+        if (income) {
+          ComPackageDataReturn* ret = new ComPackageDataReturn(*request, income->toJSON());
+          delete income;
+          return ret;
+        } else {
+          qCritical() << tr("Could not query income data of id %1!")
+                         .arg(incomeId);
+        }
+      } else {
+        qCritical() << tr("Could not convert income id '%1' to an integer!")
+                       .arg(request->dataName());
+      }
+  } break;
   default:
   {
     qCritical() << tr("Unknown data request id: %d").arg(request->dataCategory());
