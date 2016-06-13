@@ -329,7 +329,7 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
         rotable::Income *income = rotable::Income::fromJSON(package->data());
         if(income)
         {
-            qCritical() << tr("Dayly income ") << income->income();
+            _tables.setIncome(income->income());
             delete income;
         }
     } break;

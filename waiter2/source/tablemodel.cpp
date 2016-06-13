@@ -8,7 +8,7 @@ using rotable::TableModel;
 
 //-----------------------------------------------------
 
-TableModel::TableModel(QObject *parent): QAbstractListModel(parent), _selectTable(0)
+TableModel::TableModel(QObject *parent): QAbstractListModel(parent), _selectTable(0), _income(0)
 {
 
 }
