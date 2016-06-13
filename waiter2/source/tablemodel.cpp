@@ -180,7 +180,14 @@ bool TableModel::updateOrder(const int &tableId, rotable::Order *order)
     if(table->hasOrder(order->id()))
         table->updateOrder(order);      // Update order
     else
-        table->addOrder(order);         // Add order
+    {
+        if(order->isClose())
+            //TODO: Change
+            order->deleteLater();
+        else
+            table->addOrder(order);         // Add order
+
+    }
     endResetModel();                    // End modify model
 
     return true;                        // Everything goes alright, return true
