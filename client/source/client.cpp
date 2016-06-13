@@ -325,7 +325,7 @@ void Client::orderQueue(Message *msg)
     QueueMessage *message = static_cast<QueueMessage*>(msg);
     if(!message->map().empty())
     {
-        int iOrderQueue=message->map().lastKey();
+        int iOrderQueue=message->map().firstKey();
         _queue.setqueueOrder(iOrderQueue);
         _queue.queueOrderChanged();
     }
