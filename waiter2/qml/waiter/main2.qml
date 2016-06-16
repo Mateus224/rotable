@@ -59,13 +59,38 @@ ApplicationWindow {
                 }
             }
 
-            /*Label{
-                id: tableMenuLabel
-                text: qsTr("Table list")
-                anchors.top: rowBox.bottom
-                anchors.topMargin: 0
-                anchors.horizontalCenter: parent.horizontalCenter
-            }*/
+            Rectangle{
+                id: incomeText
+                anchors.top: parent.bottom
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: parent.height/5.5
+                anchors.right: parent.right
+                anchors.left: parent.left
+                anchors.leftMargin: 0
+                gradient: clubcolors
+                border {
+                    color: "#7AAEEE"//"#9EDDF2";
+                    width: 2}
+                Text {
+                    id: incomeTextLabel
+                    font.family: "Lobster two"
+                    height: 75
+                    anchors.top: parent.top
+                    anchors.centerIn: parent
+                    text: qsTr("Today income")
+                    font.pixelSize: 22
+                    font.bold: true
+                }
+                Text {
+                    font.family: "Lobster two"
+                    //anchors.left: parent.left
+                    anchors.top: incomeTextLabel.bottom
+                    anchors.centerIn: parent
+                    text: tables.incomeStr
+                    font.pixelSize: 22
+                    font.bold: true
+                }
+            }
 
             ListView {
                 id: tableList
