@@ -73,5 +73,5 @@ RESOURCES += \
 
 DISTFILES +=
 
-LIBS += -L/usr/lib/crypto++ -lcryptopp
-INCS += -I/usr/include/crypto++
+#LIBS += -L/usr/lib/crypto++ -lcryptopp
+#INCS += -I/usr/include/crypto++
