@@ -8,11 +8,12 @@
 #include <QObject>
 #include <QDir>
 
-#ifdef Q_OS_WIN
-#include <dependencies/cryptopp/include/rsa.h>
+#if defined(Q_OS_WIN) || defined(__ANDROID_API__)
+#include <rsa.h>
 #else
 #include <cryptopp/rsa.h>
 #endif
+
 
 
 //------------------------------------------------------------------------------

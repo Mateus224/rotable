@@ -8,14 +8,14 @@
 #include <QFile>
 #include <QDir>
 
-#ifdef Q_OS_WIN
-#include <dependencies/cryptopp/include/osrng.h>
-#include <dependencies/cryptopp/include/base64.h>
-#include <dependencies/cryptopp/include/files.h>
+#if defined(Q_OS_WIN) || defined(__ANDROID_API__)
+    #include <osrng.h>
+    #include <base64.h>
+    #include <files.h>
 #else
-#include <cryptopp/osrng.h>
-#include <cryptopp/base64.h>
-#include <cryptopp/files.h>
+    #include <cryptopp/osrng.h>
+    #include <cryptopp/base64.h>
+    #include <cryptopp/files.h>
 #endif
 
 #include <fstream>
