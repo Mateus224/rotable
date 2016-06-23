@@ -86,8 +86,22 @@ win32 {
     INCS -= -I/usr/include/crypto++
     LIBS -= -L/usr/lib/crypto++ -lcryptopp
 
-    LIBS += -L"$$PWD/dependencies/cryptopp/libs/" -llibcryptopp
-    PRE_TARGETDEPS += $$PWD/dependencies/cryptopp/libs/libcryptopp.a
+    LIBS += -L"$$PWD/dependencies/cryptopp/lib/windows/" -llibcryptopp
+    PRE_TARGETDEPS += $$PWD/dependencies/cryptopp/lib/windows/libcryptopp.a
+
+    INCLUDEPATH += "$$PWD/dependencies/cryptopp/include"
+    DEPENDPATH += "$$PWD/dependencies/cryptopp/include"
+}
+
+##############################################################################################
+# Android Cryptopp
+
+android {
+    INCS -= -I/usr/include/crypto++
+    LIBS -= -L/usr/lib/crypto++ -lcryptopp
+
+    LIBS += -L$$PWD/dependencies/cryptopp/lib/android/libcryptopp.so
+    ANDROID_EXTRA_LIBS += -L$$PWD/dependencies/cryptopp/lib/android/libcryptopp.so
 
     INCLUDEPATH += "$$PWD/dependencies/cryptopp/include"
     DEPENDPATH += "$$PWD/dependencies/cryptopp/include"
