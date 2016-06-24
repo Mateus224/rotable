@@ -50,7 +50,7 @@ void TcpClient::startConnection(const QString &hostname, int port)
 {
   QHostAddress addr(hostname);
   _client.connectToHost(addr, port);
-  if (_client.waitForConnected(1000))
+  if (_client.waitForConnected(1500))
       qCritical("Connected!");
   int enableKeepAlive = 1;
   int fd = _client.socketDescriptor();
@@ -58,12 +58,12 @@ void TcpClient::startConnection(const QString &hostname, int port)
   {
       qCritical()<<"setsockopt0 fd:"<<fd;
   }
-  int maxIdle = 6; /* seconds */
+  int maxIdle = 4; /* seconds */
   if(setsockopt(fd, IPPROTO_TCP, TCP_KEEPIDLE, &maxIdle, sizeof(maxIdle))<0)
   {
       qCritical()<<"setsockopt1";
   }
-  int count = 3;  // send up to 3 keepalive packets out, then disconnect if no response
+  int count = 2;  // send up to 3 keepalive packets out, then disconnect if no response
   if(setsockopt(fd, SOL_TCP, TCP_KEEPCNT, &count, sizeof(count))<0)
   {
       qCritical()<<"setsockopt2";
