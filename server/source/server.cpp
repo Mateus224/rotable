@@ -501,6 +501,29 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request)
       ComPackageDataReturn* ret = new ComPackageDataReturn(*request, QJsonValue(_licence->getLicenceStatus()));
       return ret;
   } break;
+  case ComPackage::RequestIncome:
+  {
+      bool ok;
+      int incomeId = request->dataName().toInt(&ok);
+      if (ok) {
+        Income* income;
+        if(incomeId == -1)
+            income = _db.getLastIncome();
+        else
+            income = _db.income(incomeId);
+        if (income) {
+          ComPackageDataReturn* ret = new ComPackageDataReturn(*request, income->toJSON());
+          delete income;
+          return ret;
+        } else {
+          qCritical() << tr("Could not query income data of id %1!")
+                         .arg(incomeId);
+        }
+      } else {
+        qCritical() << tr("Could not convert income id '%1' to an integer!")
+                       .arg(request->dataName());
+      }
+  } break;
   default:
   {
     qCritical() << tr("Unknown data request id: %d").arg(request->dataCategory());
@@ -1120,26 +1143,33 @@ void Server::closeStateConfig(Config *config)
 QMap<int, ComPackageMessage *> Server::queueOrders()
 {
     QMap<int, ComPackageMessage *>  result;
-    QMap<int, QMap<int, int> > orderList;
+//    QMap<int, QMap<int, int> > orderList;
     QMap<int, QMap<int, int> >::iterator it;
 
-    QList<rotable::Order*> *idList = _db.getNotDoneOrderList();
-    if(idList == NULL)
-        return result;
-    int i = 1;
-    foreach(Order* order, *idList)
-    {
-        orderList[order->clientId()][i] = order->id();
-        ++i;
-    }
-    delete idList;
+//    QList<rotable::Order*> *idList = _db.getNotDoneOrderList();
+//    if(idList == NULL)
+//        return result;
+//    int i = 1;
+//    foreach(Order* order, *idList)
+//    {
+//        orderList[order->clientId()][i] = order->id();
+//        ++i;
+//    }
+//    delete idList;
 
-    it = orderList.begin();
-    while(it != orderList.end())
+    QMap<int, QMap<int,int>> *queue = _db.getOrderQueueList();
+
+    if(queue)
     {
-        QueueMessage msg(it.value());
-        result[it.key()] = msg.toPackage();
-        ++it;
+        it = queue->begin();
+        while(it != queue->end())
+        {
+            QueueMessage msg(it.value());
+            result[it.key()] = msg.toPackage();
+            ++it;
+        }
+
+        delete queue;
     }
 
     return result;
@@ -1151,6 +1181,13 @@ void Server::sendQueueOrders()
 {
     QMap<int, ComPackageMessage*> queue(queueOrders());
     QMap<int, ComPackageMessage*>::iterator it = queue.begin();
+    QList<int> emptyTable;
+
+    foreach(int userId, _users[1])
+    {
+        if(!queue.contains(userId))
+            emptyTable.append(userId);
+    }
 
     while(it != queue.end())
     {

@@ -6,6 +6,7 @@
 //#include "categorylistmodel.h"
 //#include "productlistmodel.h"
 #include "productcontainer.h"
+#include "income.h"
 
 
 //------------------------------------------------------------------------------
@@ -261,6 +262,7 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
     switch (package->dataCategory())
     {
     case ComPackage::RequestImage:
+    {} break;
 
     case ComPackage::RequestCategoryIds:
     {
@@ -320,6 +322,16 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
       else
           delete table;
 
+    } break;
+
+    case ComPackage::RequestIncome:
+    {
+        rotable::Income *income = rotable::Income::fromJSON(package->data());
+        if(income)
+        {
+            _tables.setIncome(income->income());
+            delete income;
+        }
     } break;
 
     case ComPackage::RequestOrderOnTable:
@@ -409,6 +421,7 @@ void Waiter_Client::requestOrderOnTable(int tableId)
       qCritical() << tr("Could not send request!");
     } else {
       _dataRequest[request->id()] = request;
+      requestLastIncome();
     }
 }
 
@@ -419,6 +432,22 @@ void Waiter_Client::requestOrder(int orderId)
     ComPackageDataRequest* request = new ComPackageDataRequest();
     request->setDataCategory(ComPackage::RequestOrder);
     request->setDataName(QString("%1").arg(orderId));
+
+    if (!_tcp.send(*request)) {
+      qCritical() << tr("Could not send request!");
+    } else {
+      _dataRequest[request->id()] = request;
+      requestLastIncome();
+    }
+}
+
+//------------------------------------------------------------------------------
+
+void Waiter_Client::requestLastIncome()
+{
+    ComPackageDataRequest* request = new ComPackageDataRequest();
+    request->setDataCategory(ComPackage::RequestIncome);
+    request->setDataName(QString("%1").arg(-1));
 
     if (!_tcp.send(*request)) {
       qCritical() << tr("Could not send request!");

@@ -206,7 +206,9 @@ void Order::closeOrder(QList<int> toChange, int newState)
 
 bool Order::isClose() const
 {
-    return _state == Close;
+    if(_state == Order::Close || _state == Order::Paid)
+        return true;
+    return false;
 }
 
 //------------------------------------------------------------------------------
@@ -266,6 +268,20 @@ void Order::itemIsReadyToChanged()
     OrderItem* item = dynamic_cast<OrderItem*>(QObject::sender());
     if(item)
         emit readyToChanged(item->isReadyToChange());
+}
+
+//------------------------------------------------------------------------------
+
+void Order::checkOrderState()
+{
+    switch (state()) {
+    case State::Sent:
+        if(!isNew())
+            setState(State::Prepared);
+    [[clang::fallthrough]]; case State::Prepared:
+        if(isDone())
+            setState(State::Close);
+    }
 }
 
 //------------------------------------------------------------------------------

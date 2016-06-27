@@ -118,7 +118,10 @@ public:
     RequestConfig,
 
     /* Request licence info from server*/
-    RequestLicence
+    RequestLicence,
+
+    /* Request income from certain day */
+    RequestIncome
   };
 
   /**
