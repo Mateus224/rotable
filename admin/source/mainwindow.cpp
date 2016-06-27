@@ -3,6 +3,7 @@
 #include "producttablemodel.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "producttableview.h"
 
 //------------------------------------------------------------------------------
 
@@ -45,7 +46,7 @@ MainWindow::MainWindow(QWidget* parent) :
           _ui->licencePathLineEdit, &QLineEdit::setText);
   connect(this, &MainWindow::onLicenceStatusSet,
           _ui->licenceStatusLineEdit, &QLineEdit::setText);
-
+  connect(_ui->_tableViewProducts, SIGNAL(selectionChanged(int)), this, SLOT(onProductTableViewSelected(int)));
   _ui->_statusBar->showMessage(tr("Disconnected"));
 
   //_ui->d_plot->setMode(3);
@@ -58,6 +59,7 @@ MainWindow::MainWindow(QWidget* parent) :
   _ui->_tabWidget->removeTab(serverDebugTabIdx);
   //Always run this same tab
   _ui->_tabWidget->setCurrentIndex(0);
+
 }
 
 //------------------------------------------------------------------------------
@@ -227,4 +229,11 @@ void MainWindow::onServerLog(rotable::LogManager::LogMessage message)
   }
 
   _ui->_textEditServerLog->append(message.message());
+}
+
+void MainWindow::onProductTableViewSelected(int id)
+{
+    bool state = id != -1;
+    _ui->_toolButtonUp->setEnabled(state);
+    _ui->_toolButtonDown->setEnabled(state);
 }

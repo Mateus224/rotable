@@ -87,6 +87,7 @@ public slots:
  void onServerLogConnectionEstablished();
  void onServerLogConnectionLost();
  void onServerLog(rotable::LogManager::LogMessage message);
+ void onProductTableViewSelected(int id);
 
 protected:
  /**
