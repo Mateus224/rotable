@@ -64,5 +64,6 @@
         <file>sql-commands/trigger_update_orderitem_add.sql</file>
         <file>sql-commands/update-database/0.0.1.sql</file>
         <file>sql-commands/update-database/0.0.2.sql</file>
+        <file>sql-commands/update-database/0.0.3.sql</file>
     </qresource>
 </RCC>
