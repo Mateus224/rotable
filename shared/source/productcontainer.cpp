@@ -285,15 +285,18 @@ QList<int> ProductContainer::productIds() const
 
 QList<int> ProductContainer::productIds(int categoryId) const
 {
-  QList<int> ids;
+  QMap<int, int> sortedIds;
+//  QList<int> ids;
 
   foreach (Product* product, (*_products).values()) {
     if (product->categoryId() == categoryId) {
-      ids << product->id();
+      sortedIds[product->sequence()] = product->id();
+//      ids << product->id();
     }
   }
 
-  return ids;
+//  return ids;
+  return sortedIds.values();
 }
 
 //------------------------------------------------------------------------------
