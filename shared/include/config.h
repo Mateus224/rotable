@@ -44,7 +44,8 @@ public:
   enum {
       day_begin = 0,
       closeState,
-      dbVersion
+      dbVersion,
+      triggerProductUpdate
   };
 
 signals:
