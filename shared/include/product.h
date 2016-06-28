@@ -33,6 +33,7 @@ class rotable::Product : public QObject
   Q_PROPERTY(QString info READ info WRITE setInfo NOTIFY infoChanged)
   Q_PROPERTY(int id READ id WRITE setId)
   Q_PROPERTY(QString amount READ amount WRITE setAmount NOTIFY amountChanged)
+  Q_PROPERTY(int sequence READ sequence WRITE setSequence NOTIFY sequenceChanged)
 
 public:
   explicit Product(const QJsonValue& jval, QObject *parent = 0);
@@ -60,7 +61,8 @@ public:
   inline const QString& amount() const { return _amount; }
   void setAmount(const QString& amount);
 
-
+  inline  int sequence() const { return _sequence; }
+  inline void setSequence(int sequence) { _sequence = sequence; }
 
   /**
    * Convert this product category into a QJsonObject.
@@ -83,7 +85,7 @@ signals:
   void priceChanged();
   void infoChanged();
   void amountChanged();
-  void AmountChanged();
+  void sequenceChanged();
 
 private:
   /* Unique product ID */
@@ -109,6 +111,9 @@ private:
 
   /* Product amount information */
   QString _amount;
+
+  /* Sequence in category*/
+  int _sequence;
 }; // class Product
 
 //------------------------------------------------------------------------------
