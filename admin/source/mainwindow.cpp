@@ -46,8 +46,11 @@ MainWindow::MainWindow(QWidget* parent) :
           _ui->licencePathLineEdit, &QLineEdit::setText);
   connect(this, &MainWindow::onLicenceStatusSet,
           _ui->licenceStatusLineEdit, &QLineEdit::setText);
-  connect(_ui->_tableViewProducts, SIGNAL(selectionChanged(int)), this, SLOT(onProductTableViewSelected(int)));
+  connect(_ui->_tableViewProducts, SIGNAL(selectionChanged(int)), this, SLOT(onViewSelected(int)));
+   connect(_ui->_listViewCategories, SIGNAL(selectionChanged(int)), this, SLOT(onViewSelected(int)));
   _ui->_statusBar->showMessage(tr("Disconnected"));
+  connect(_ui->_toolButtonUp, &QToolButton::clicked, this, &MainWindow::onUp);
+  connect(_ui->_toolButtonDown, &QToolButton::clicked, this, &MainWindow::onDown);
 
   //_ui->d_plot->setMode(3);
 
@@ -231,9 +234,30 @@ void MainWindow::onServerLog(rotable::LogManager::LogMessage message)
   _ui->_textEditServerLog->append(message.message());
 }
 
-void MainWindow::onProductTableViewSelected(int id)
+void MainWindow::onViewSelected(int id)
 {
-    bool state = id != -1;
+    bool state = false;
+    auto model1 = _ui->_listViewCategories->selectionModel();
+    if(model1)
+        state |= model1->hasSelection();
+    auto model2 = _ui->_tableViewProducts->selectionModel();
+    if(model2)
+        state |= model2->hasSelection();
     _ui->_toolButtonUp->setEnabled(state);
     _ui->_toolButtonDown->setEnabled(state);
+}
+
+void MainWindow::onUp()
+{
+    if(_ui->_tableViewProducts->selectionModel()->hasSelection())
+    {
+        return;
+    }
+    if(_ui->_listViewCategories->selectionModel()->hasSelection())
+    {}
+}
+
+void MainWindow::onDown()
+{
+
 }

@@ -62,6 +62,7 @@ bool ProductContainer::addProduct(Product *product)
   connect(product, SIGNAL(nameChanged()), this, SLOT(onProductUpdated()));
   connect(product, SIGNAL(infoChanged()), this, SLOT(onProductUpdated()));
   connect(product, SIGNAL(priceChanged()), this, SLOT(onProductUpdated()));
+  connect(product, SIGNAL(sequenceChanged()), this, SLOT(onProductUpdated()));
   emit productAdded(product->id());
 
   return true;
@@ -391,3 +392,5 @@ void ProductContainer::onProductUpdated()
   Product* product = static_cast<Product*>(QObject::sender());
   emit productUpdated(product);
 }
+
+//------------------------------------------------------------------------------
