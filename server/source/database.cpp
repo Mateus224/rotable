@@ -2733,8 +2733,10 @@ void Database::updateDatabase(QString actualVersion)
     switch(versionToEnum(actualVersion)){
     case version0d0d0:
         updateToVersion("0.0.1");
-    case version0d0d1:
+    [[clang::fallthrough]]; case version0d0d1:
         updateToVersion("0.0.2");
+    [[clang::fallthrough]]; case version0d0d2:
+        updateToVersion("0.0.3");
     }
 }
 
@@ -2769,7 +2771,8 @@ int Database::versionToEnum(QString version)
         return version0d0d1;
     else if(version == "0.0.2")
         return version0d0d2;
-
+    else if(version == "0.0.3")
+        return version0d0d2;
     return version0d0d0;
 }
 
