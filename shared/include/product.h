@@ -62,7 +62,9 @@ public:
   void setAmount(const QString& amount);
 
   inline  int sequence() const { return _sequence; }
-  inline void setSequence(int sequence) { _sequence = sequence; }
+  inline void setSequence(int sequence) { _sequence = sequence; emit sequenceChanged();}
+  inline void up() { --_sequence; emit sequenceChanged(); }
+  inline void down() { ++_sequence; emit sequenceChanged(); }
 
   /**
    * Convert this product category into a QJsonObject.

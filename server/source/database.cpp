@@ -460,9 +460,9 @@ Product* Database::product(int id)
     return 0;
   }
 
-  int sequence = q.value("price").toInt(&ok);
+  int sequence = q.value("sequence").toInt(&ok);
   if (!ok) {
-    qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("price").toString());
+    qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("sequence").toString());
     return 0;
   }
 
@@ -476,7 +476,7 @@ Product* Database::product(int id)
   p->setCategoryId(categoryId);
   p->setId(productId);
   p->setPrice(price);
-  p->setSequence(price);
+  p->setSequence(sequence);
 
   return p;
 }

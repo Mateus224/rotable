@@ -236,6 +236,7 @@ void MainWindow::onServerLog(rotable::LogManager::LogMessage message)
 
 void MainWindow::onViewSelected(int id)
 {
+    Q_UNUSED(id);
     bool state = false;
     auto model1 = _ui->_listViewCategories->selectionModel();
     if(model1)
@@ -249,15 +250,30 @@ void MainWindow::onViewSelected(int id)
 
 void MainWindow::onUp()
 {
+    //First we check if we select prodct (when product is selected also category is selected)
     if(_ui->_tableViewProducts->selectionModel()->hasSelection())
     {
+        emit actionProductUp(_ui->_tableViewProducts->selectionModel()->currentIndex());
         return;
     }
     if(_ui->_listViewCategories->selectionModel()->hasSelection())
-    {}
+    {
+        emit actionCategoryUp(_ui->_listViewCategories->selectionModel()->currentIndex());
+        return;
+    }
 }
 
 void MainWindow::onDown()
 {
-
+    //First we check if we select prodct (when product is selected also category is selected)
+    if(_ui->_tableViewProducts->selectionModel()->hasSelection())
+    {
+        emit actionProductDown(_ui->_tableViewProducts->selectionModel()->currentIndex());
+        return;
+    }
+    if(_ui->_listViewCategories->selectionModel()->hasSelection())
+    {
+        emit actionCategoryDown(_ui->_listViewCategories->selectionModel()->currentIndex());
+        return;
+    }
 }

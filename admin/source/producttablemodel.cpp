@@ -324,3 +324,43 @@ void ProductTableModel::onCategoryChanged(int id)
 }
 
 //------------------------------------------------------------------------------
+
+void ProductTableModel::onProductUp(const QModelIndex &index)
+{
+    QList<int> productIds = _products->productIds(_currentCategoryId);
+    Q_ASSERT(index.row() >= 0 && index.row() < productIds.count());
+    Product* product = _products->product(productIds[index.row()]);
+    Q_ASSERT(product);
+    if (product) {
+      if(product->sequence() > 1)
+      {
+        beginResetModel();
+        Product* product_second = _products->product(productIds[index.row()-1]);
+        product->up();
+        product_second->down();
+        endResetModel();
+      }
+    }
+}
+
+//------------------------------------------------------------------------------
+
+void ProductTableModel::onProductDown(const QModelIndex &index)
+{
+    QList<int> productIds = _products->productIds(_currentCategoryId);
+    Q_ASSERT(index.row() >= 0 && index.row() < productIds.count());
+    Product* product = _products->product(productIds[index.row()]);
+    Q_ASSERT(product);
+    if (product) {
+      if(product->sequence() < productIds.count())
+      {
+        beginResetModel();
+        Product* product_second = _products->product(productIds[index.row()+1]);
+        product->down();
+        product_second->up();
+        endResetModel();
+      }
+    }
+}
+
+//------------------------------------------------------------------------------
