@@ -2923,8 +2923,6 @@ bool Database::initTriggers()
     //TODO: Add auto search triggers and load them
     QString trigger1 =  QString((const char*)QResource(QString("://sql-commands/trigger_update_orderitem_add.sql")).data());
     QString trigger2 =  QString((const char*)QResource(QString("://sql-commands/trigger_update_orderitem_remove.sql")).data());
-    QString trigger3 =  QString((const char*)QResource(QString("://sql-commands/trigger_update_products.sql")).data());
-    QString trigger4 =  QString((const char*)QResource(QString("://sql-commands/trigger_remove_products.sql")).data());
 
     QSqlQuery q00(QString("DROP TRIGGER IF EXISTS `%1update_orderitem_status_add`;").arg(_prefix), _db);
     if (q00.lastError().type() != QSqlError::NoError) {
@@ -2946,29 +2944,6 @@ bool Database::initTriggers()
     QSqlQuery q03(trigger2.arg(_prefix), _db);
     if (q03.lastError().type() != QSqlError::NoError) {
       qCritical() << tr("Query exec failed: %1").arg(q03.lastError().text());
-      return false;
-    }
-
-    QSqlQuery q04(QString("DROP TRIGGER IF EXISTS `%1update_product`;").arg(_prefix), _db);
-    if (q04.lastError().type() != QSqlError::NoError) {
-      qCritical() << tr("Query exec failed: %1").arg(q04.lastError().text());
-      return false;
-    }
-
-    QSqlQuery q05(trigger3.arg(_prefix), _db);
-    if (q05.lastError().type() != QSqlError::NoError) {
-      qCritical() << tr("Query exec failed: %1").arg(q05.lastError().text());
-      return false;
-    }
-
-    QSqlQuery q06(QString("DROP TRIGGER IF EXISTS `%1remove_product`;").arg(_prefix), _db);
-    if (q06.lastError().type() != QSqlError::NoError) {
-      qCritical() << tr("Query exec failed: %1").arg(q06.lastError().text());
-      return false;
-    }
-    QSqlQuery q07(trigger4.arg(_prefix), _db);
-    if (q07.lastError().type() != QSqlError::NoError) {
-      qCritical() << tr("Query exec failed: %1").arg(q07.lastError().text());
       return false;
     }
 
