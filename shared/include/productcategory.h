@@ -69,6 +69,7 @@ public:
 signals:
   void nameChanged();
   void iconChanged();
+  void sequenceChanged();
 
 private:
   /* Category name */
@@ -79,6 +80,8 @@ private:
 
   /* Unique category ID */
   int _id;
+
+  int _sequence;
 }; // class ProductCategory
 
 //------------------------------------------------------------------------------

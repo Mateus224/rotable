@@ -42,6 +42,7 @@ QJsonValue ProductCategory::toJSON() const
   o["name"] = _name;
   o["icon"] = _icon;
   o["id"] = _id;
+  o["sequence"] = _sequence;
   return QJsonValue(o);
 }
 
@@ -53,12 +54,14 @@ ProductCategory *ProductCategory::fromJSON(const QJsonValue &jval)
 
   if (o.contains("name")
       && o.contains("icon")
-      && o.contains("id"))
+      && o.contains("id")
+      && o.contains("sequence"))
   {
     ProductCategory* c = new ProductCategory();
     c->_name = o["name"].toString();
     c->_icon = o["icon"].toString();
     c->_id = o["id"].toInt();
+    c->_sequence = o["sequence"].toInt();
 
     return c;
   }
