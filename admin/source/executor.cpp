@@ -156,6 +156,7 @@ void Executor::onAddProduct()
     p.setPrice(dlg.productPrice());
     p.setCategoryId(dlg.categoryId());
     p.setAmount(dlg.productAmount());
+    p.setSequence(_products->productIds(dlg.categoryId()).count()+1);
 
     ComPackageDataSet set;
     set.setDataCategory(ComPackage::SetProduct);
@@ -241,6 +242,13 @@ void Executor::onRemoveCurrentEntry()
 
       com.setData(_selectedProduct->id());
       com.setCommandType(ComPackage::DeleteProduct);
+      QList<int> productIds = _products->productIds(_selectedProduct->categoryId());
+      auto it = productIds.rend();
+      while(*it != _selectedProduct->id())
+      {
+          _products->product(*it)->up();
+          ++it;
+      }
     } else {
       //_products->removeCategory(_selectedCategory);
       //_selectedCategory = 0;
@@ -248,6 +256,7 @@ void Executor::onRemoveCurrentEntry()
       com.setData(_selectedCategory->id());
 
       com.setCommandType(ComPackage::DeleteCategory);
+      emit updateSequenceCategory(_selectedProduct->id());
     }
 
     if (!_tcp_client.send(com)) {

@@ -63,6 +63,9 @@ signals:
   void onLicenceStatus(const QString& string);
   void onLicenceConfig(const QString& string);
 
+  void updateSequenceProduct(int);
+  void updateSequenceCategory(int);
+
 public slots:
   /**
    * Connect to rotable server.
