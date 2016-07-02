@@ -4,5 +4,6 @@ CREATE TABLE IF NOT EXISTS `%1categories` (
   `icon` VARCHAR(128) NOT NULL,
   `date_added` TIMESTAMP NOT NULL,
   `date_last_change` TIMESTAMP NOT NULL,
+  `sequence` INTEGER NOT NULL,
   `removed` INTEGER NOT NULL DEFAULT 0
 );
