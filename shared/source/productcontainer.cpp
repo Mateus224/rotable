@@ -272,7 +272,11 @@ Product*ProductContainer::product(const QString& name, int categoryId)
 
 QList<int> ProductContainer::categoryIds() const
 {
-  return _categories.keys();
+  QMap<int, int> sortedIds;
+  foreach (ProductCategory* catrgory, _categories.values())
+    sortedIds[catrgory->sequence()] = catrgory->id();
+  return sortedIds.values();
+  //return _categories.keys();
 }
 
 //------------------------------------------------------------------------------
