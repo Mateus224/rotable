@@ -243,11 +243,12 @@ void Executor::onRemoveCurrentEntry()
       com.setData(_selectedProduct->id());
       com.setCommandType(ComPackage::DeleteProduct);
       QList<int> productIds = _products->productIds(_selectedProduct->categoryId());
-      auto it = productIds.rend();
+      auto it = productIds.end();
+      --it;
       while(*it != _selectedProduct->id())
       {
           _products->product(*it)->up();
-          ++it;
+          --it;
       }
     } else {
       //_products->removeCategory(_selectedCategory);
