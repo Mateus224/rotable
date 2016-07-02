@@ -9,7 +9,7 @@ using namespace rotable;
 //------------------------------------------------------------------------------
 
 ProductCategory::ProductCategory(QObject* parent) :
-  QObject(parent), _id(-1)
+  QObject(parent), _id(-1), _sequence(-1)
 {
 
 }
