@@ -397,10 +397,17 @@ ProductCategory* Database::category(int id)
     return 0;
   }
 
+  int sequence = q.value("sequence").toInt(&ok);
+  if (!ok) {
+    qDebug() << tr("Could not convert '%1' to integer!").arg(q.value("sequence").toString());
+    return 0;
+  }
+
   ProductCategory* c = new ProductCategory();
   c->setName(q.value("name").toString());
   c->setIcon(q.value("icon").toString());
   c->setId(category_id);
+  c->setSequence(sequence);
 
   return c;
 }
@@ -839,7 +846,7 @@ bool Database::addCategory(ProductCategory* category)
     return false;
   }
 
-  QString queryStr = _sqlCommands[Categories]._insert.arg(_prefix, "NULL", ":name", ":icon");
+  QString queryStr = _sqlCommands[Categories]._insert.arg(_prefix, "NULL", ":name", ":icon", ":sequence");
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -851,6 +858,7 @@ bool Database::addCategory(ProductCategory* category)
 
   q.bindValue(":name", category->name());
   q.bindValue(":icon", category->icon());
+  q.bindValue(":sequence", category->sequence());
 
   if (!q.exec()) {
     qCritical() << tr("Query exec failed: (%1: %2")
@@ -1115,6 +1123,7 @@ bool Database::updateCategory(ProductCategory *category)
 
   q.bindValue(":name", category->name());
   q.bindValue(":icon", category->icon());
+  q.bindValue(":sequence", category->sequence());
 
   if (!q.exec()) {
     qCritical() << tr("Query exec failed: (%1: %2")
