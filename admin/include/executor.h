@@ -167,6 +167,11 @@ public slots:
    */
   void onAddLicence();
 
+  void onProductUp();
+  void onProductDown();
+  void onCategoryUp();
+  void onCategoryDown();
+
 
 private slots:
   void onClientError(QAbstractSocket::SocketError error);

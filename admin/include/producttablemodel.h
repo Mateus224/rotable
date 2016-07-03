@@ -160,10 +160,6 @@ public slots:
    */
   void onCategoryChanged(int id);
 
-  void onProductUp(const QModelIndex &index);
-
-  void onProductDown(const QModelIndex &index);
-
 private:
   /* Product container */
   rotable::ProductContainer* _products;
