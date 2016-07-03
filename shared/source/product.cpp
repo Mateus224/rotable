@@ -9,7 +9,7 @@ using namespace rotable;
 //------------------------------------------------------------------------------
 
 Product::Product(QObject *parent) :
-  QObject(parent), _id(-1)
+  QObject(parent), _id(-1), _sequence(-1)
 {
 
 }
@@ -86,6 +86,7 @@ QJsonValue Product::toJSON() const
   o["priceStr"] = _priceStr;
   o["info"] = _info;
   o["amount"] = _amount;
+  o["sequence"] = _sequence;
   return QJsonValue(o);
 }
 
@@ -108,11 +109,10 @@ Product *Product::fromJSON(const QJsonValue &jval)
     p->_info = o["info"].toString();
     p->_icon = o["icon"].toString();
     p->_id = o["id"].toInt();
-    p->_price = o["price"].toInt();
-    p->setPrice(p->_price);
+    p->setPrice(o["price"].toInt());
     p->_categoryId = o["categoryId"].toInt();
     p->_amount = o["amount"].toString();
-
+    p->_sequence = o["sequence"].toInt();
     return p;
   }
 

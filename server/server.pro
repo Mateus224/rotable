@@ -71,7 +71,9 @@ RESOURCES += \
     sql-commands.qrc \
     keys.qrc
 
-DISTFILES +=
+DISTFILES += \
+    sql-commands/update-database/0.0.3.sql \
+    sql-commands/trigger_update_product
 
 LIBS += -L/usr/lib/crypto++ -lcryptopp
 INCS += -I/usr/include/crypto++

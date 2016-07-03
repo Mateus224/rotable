@@ -322,3 +322,5 @@ void ProductTableModel::onCategoryChanged(int id)
   _currentCategoryId = id;
   endResetModel();
 }
+
+//------------------------------------------------------------------------------

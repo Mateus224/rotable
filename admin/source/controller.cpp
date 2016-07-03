@@ -127,6 +127,13 @@ void Controller::connect_signals()
 
   //----------------------------------------------------------------------------
 
+  connect(_mainwindow, &MainWindow::actionProductUp, &_executor, &Executor::onProductUp);
+  connect(_mainwindow, &MainWindow::actionProductDown, &_executor, &Executor::onProductDown);
+  connect(_mainwindow, &MainWindow::actionCategoryUp, &_executor, &Executor::onCategoryUp);
+  connect(_mainwindow, &MainWindow::actionCategoryDown, &_executor, &Executor::onCategoryDown);
+
+  //----------------------------------------------------------------------------
+
   connect(&_products, SIGNAL(productAdded(int)),
           _productTableModel, SLOT(onProductAdded(int)));
 

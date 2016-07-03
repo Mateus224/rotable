@@ -62,6 +62,7 @@ bool ProductContainer::addProduct(Product *product)
   connect(product, SIGNAL(nameChanged()), this, SLOT(onProductUpdated()));
   connect(product, SIGNAL(infoChanged()), this, SLOT(onProductUpdated()));
   connect(product, SIGNAL(priceChanged()), this, SLOT(onProductUpdated()));
+  connect(product, SIGNAL(sequenceChanged()), this, SLOT(onProductUpdated()));
   emit productAdded(product->id());
 
   return true;
@@ -84,6 +85,7 @@ bool ProductContainer::updateProduct(Product* product)
       p->setIcon(product->icon());
       p->setInfo(product->info());
       p->setPrice(product->price());
+      p->setSequence(product->sequence());
       emit productUpdated(p);
       return true;
     }
@@ -160,6 +162,7 @@ bool ProductContainer::addCategory(ProductCategory *category)
     _categories[category->id()] = category;
     connect(category, SIGNAL(nameChanged()), this, SLOT(onCategoryUpdated()));
     connect(category, SIGNAL(iconChanged()), this, SLOT(onCategoryUpdated()));
+    connect(category, &ProductCategory::sequenceChanged, this, &ProductContainer::onCategoryUpdated);
     emit categoryAdded(category->id());
     return true;
   } else {
@@ -178,7 +181,7 @@ bool ProductContainer::updateCategory(ProductCategory* category)
       ProductCategory* c = _categories[category->id()];
       c->setIcon(category->icon());
       c->setName(category->name());
-
+      c->setSequence(category->sequence());
       foreach (Product* p, (*_products)) {
         if (p->categoryId() == c->id()) {
           _products->remove(p->id());
@@ -246,6 +249,31 @@ void ProductContainer::addForOrderProduct_(int id)
   }
 }
 
+//------------------------------------------------------------------------------
+
+QMap<int, int> ProductContainer::productSequence(const int &categoryId)
+{
+    QMap<int, int> sortedIds;
+
+    foreach (Product* product, (*_products).values()) {
+      if (product->categoryId() == categoryId) {
+        sortedIds[product->sequence()] = product->id();
+      }
+    }
+
+    return sortedIds;
+}
+
+//------------------------------------------------------------------------------
+
+QMap<int, int> ProductContainer::productCategorySequence()
+{
+    QMap<int, int> sortedIds;
+    foreach (ProductCategory* catrgory, _categories.values())
+      sortedIds[catrgory->sequence()] = catrgory->id();
+    return sortedIds;
+}
+
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
@@ -271,7 +299,13 @@ Product*ProductContainer::product(const QString& name, int categoryId)
 
 QList<int> ProductContainer::categoryIds() const
 {
-  return _categories.keys();
+  QMap<int, int> sortedIds;
+  foreach (ProductCategory* catrgory, _categories.values())
+        sortedIds[catrgory->sequence()] = catrgory->id();
+  if(sortedIds.count() != _categories.count())
+      return _categories.keys();
+  return sortedIds.values();
+
 }
 
 //------------------------------------------------------------------------------
@@ -285,15 +319,16 @@ QList<int> ProductContainer::productIds() const
 
 QList<int> ProductContainer::productIds(int categoryId) const
 {
-  QList<int> ids;
+  QMap<int, int> sortedIds;
+//  QList<int> ids;
 
   foreach (Product* product, (*_products).values()) {
     if (product->categoryId() == categoryId) {
-      ids << product->id();
+      sortedIds[product->sequence()] = product->id();
+//      ids << product->id();
     }
   }
-
-  return ids;
+  return sortedIds.values();
 }
 
 //------------------------------------------------------------------------------
@@ -388,3 +423,5 @@ void ProductContainer::onProductUpdated()
   Product* product = static_cast<Product*>(QObject::sender());
   emit productUpdated(product);
 }
+
+//------------------------------------------------------------------------------

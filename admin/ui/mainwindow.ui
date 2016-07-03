@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>655</width>
+    <width>750</width>
     <height>650</height>
    </rect>
   </property>
@@ -36,7 +36,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>1</number>
       </property>
       <property name="iconSize">
        <size>
@@ -290,6 +290,23 @@
                </property>
                <property name="toolButtonStyle">
                 <enum>Qt::ToolButtonTextUnderIcon</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="_toolButtonUp">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="text">
+                <string>UP</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="_toolButtonDown">
+               <property name="text">
+                <string>DOWN</string>
                </property>
               </widget>
              </item>
@@ -641,7 +658,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>655</width>
+     <width>750</width>
      <height>28</height>
     </rect>
    </property>

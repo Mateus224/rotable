@@ -32,6 +32,7 @@ class rotable::ProductCategory : public QObject
   Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
   Q_PROPERTY(QString icon READ icon WRITE setIcon NOTIFY iconChanged)
   Q_PROPERTY(int id READ id WRITE setId)
+  Q_PROPERTY(int sequence READ sequence WRITE setSequence NOTIFY sequenceChanged)
 
 public:
   explicit ProductCategory(QObject *parent = 0);
@@ -44,6 +45,11 @@ public:
 
   inline int id() const { return _id; }
   inline void setId(int id) { _id = id; }
+
+  inline  int sequence() const { return _sequence; }
+  inline void setSequence(int sequence) { _sequence = sequence; emit sequenceChanged();}
+  inline void up() { --_sequence; emit sequenceChanged(); }
+  inline void down() { ++_sequence; emit sequenceChanged(); }
 
   /**
    * Convert this product category into a QJsonObject.
@@ -63,6 +69,7 @@ public:
 signals:
   void nameChanged();
   void iconChanged();
+  void sequenceChanged();
 
 private:
   /* Category name */
@@ -73,6 +80,8 @@ private:
 
   /* Unique category ID */
   int _id;
+
+  int _sequence;
 }; // class ProductCategory
 
 //------------------------------------------------------------------------------

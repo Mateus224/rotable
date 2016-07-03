@@ -18,8 +18,8 @@ using namespace rotable;
 
 Client::Client(const QString &configFilePath, QObject *parent)
   : QObject(parent),
-    _accepted(false), _state("DISCONNECTED"), _stopping(false),
-    _currentCategoryId(-1), _productListModel(0), _imageProvider(0), _config(configFilePath, parent)
+    _config(configFilePath, parent), _accepted(false), _state("DISCONNECTED"), _stopping(false),
+    _currentCategoryId(-1),  _productListModel(0), _imageProvider(0)
 {
   _products = new ProductContainer();
 

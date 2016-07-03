@@ -79,6 +79,11 @@ signals:
  void actionSetLicencePath();
  void onLicencePathSet(QString);
  void onLicenceStatusSet(QString);
+ void actionProductUp();
+ void actionProductDown();
+ void actionCategoryUp();
+ void actionCategoryDown();
+
 
 public slots:
  void onConnectionEstablished();
@@ -87,6 +92,9 @@ public slots:
  void onServerLogConnectionEstablished();
  void onServerLogConnectionLost();
  void onServerLog(rotable::LogManager::LogMessage message);
+ void onViewSelected(int id);
+ void onUp();
+ void onDown();
 
 protected:
  /**
@@ -102,7 +110,6 @@ protected:
  * @param event event
  */
  void keyPressEvent(QKeyEvent *event);
-
 
 private:
  /* UI */

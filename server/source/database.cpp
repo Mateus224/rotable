@@ -397,10 +397,17 @@ ProductCategory* Database::category(int id)
     return 0;
   }
 
+  int sequence = q.value("sequence").toInt(&ok);
+  if (!ok) {
+    qDebug() << tr("Could not convert '%1' to integer!").arg(q.value("sequence").toString());
+    return 0;
+  }
+
   ProductCategory* c = new ProductCategory();
   c->setName(q.value("name").toString());
   c->setIcon(q.value("icon").toString());
   c->setId(category_id);
+  c->setSequence(sequence);
 
   return c;
 }
@@ -460,6 +467,12 @@ Product* Database::product(int id)
     return 0;
   }
 
+  int sequence = q.value("sequence").toInt(&ok);
+  if (!ok) {
+    qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("sequence").toString());
+    return 0;
+  }
+
 
   Product* p = new Product();
 
@@ -470,6 +483,7 @@ Product* Database::product(int id)
   p->setCategoryId(categoryId);
   p->setId(productId);
   p->setPrice(price);
+  p->setSequence(sequence);
 
   return p;
 }
@@ -832,7 +846,7 @@ bool Database::addCategory(ProductCategory* category)
     return false;
   }
 
-  QString queryStr = _sqlCommands[Categories]._insert.arg(_prefix, "NULL", ":name", ":icon");
+  QString queryStr = _sqlCommands[Categories]._insert.arg(_prefix, "NULL", ":name", ":icon", ":sequence");
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -844,6 +858,7 @@ bool Database::addCategory(ProductCategory* category)
 
   q.bindValue(":name", category->name());
   q.bindValue(":icon", category->icon());
+  q.bindValue(":sequence", category->sequence());
 
   if (!q.exec()) {
     qCritical() << tr("Query exec failed: (%1: %2")
@@ -1108,6 +1123,7 @@ bool Database::updateCategory(ProductCategory *category)
 
   q.bindValue(":name", category->name());
   q.bindValue(":icon", category->icon());
+  q.bindValue(":sequence", category->sequence());
 
   if (!q.exec()) {
     qCritical() << tr("Query exec failed: (%1: %2")
@@ -1142,6 +1158,7 @@ bool Database::updateProduct(Product *product)
   q.bindValue(":category_id", product->categoryId());
   q.bindValue(":icon", product->icon());
   q.bindValue(":amount", product->amount());
+  q.bindValue(":sequence", product->sequence());
 
   if (!q.exec()) {
     qCritical() << tr("Query exec failed: (%1: %2")
@@ -2577,6 +2594,10 @@ bool Database::add_init_data()
   dbv.setName(Config::dbVersion);
   dbv.setValue(newestVesion);
 
+  Config trigger;
+  trigger.setName(Config::triggerProductUpdate);
+  trigger.setValue("1");
+
   bool ok = addConfig(&day);
   ok = ok && addConfig(&closeState);
   ok = ok && addConfig(&dbv);
@@ -2733,8 +2754,10 @@ void Database::updateDatabase(QString actualVersion)
     switch(versionToEnum(actualVersion)){
     case version0d0d0:
         updateToVersion("0.0.1");
-    case version0d0d1:
+    [[clang::fallthrough]]; case version0d0d1:
         updateToVersion("0.0.2");
+    [[clang::fallthrough]]; case version0d0d2:
+        updateToVersion("0.0.3");
     }
 }
 
@@ -2769,7 +2792,8 @@ int Database::versionToEnum(QString version)
         return version0d0d1;
     else if(version == "0.0.2")
         return version0d0d2;
-
+    else if(version == "0.0.3")
+        return version0d0d3;
     return version0d0d0;
 }
 
@@ -2906,8 +2930,8 @@ bool Database::initTriggers()
     }
 
     //TODO: Add auto search triggers and load them
-    QString trigger1 =  QString((const char*)QResource(QString("://sql-commands/trigger_update_orderitem_add.sql")). data());
-    QString trigger2 =  QString((const char*)QResource(QString("://sql-commands/trigger_update_orderitem_remove.sql")). data());
+    QString trigger1 =  QString((const char*)QResource(QString("://sql-commands/trigger_update_orderitem_add.sql")).data());
+    QString trigger2 =  QString((const char*)QResource(QString("://sql-commands/trigger_update_orderitem_remove.sql")).data());
 
     QSqlQuery q00(QString("DROP TRIGGER IF EXISTS `%1update_orderitem_status_add`;").arg(_prefix), _db);
     if (q00.lastError().type() != QSqlError::NoError) {
