@@ -86,6 +86,7 @@ bool ProductContainer::updateProduct(Product* product)
       p->setInfo(product->info());
       p->setPrice(product->price());
       p->setSequence(product->sequence());
+      p->setName(product->name());
       emit productUpdated(p);
       return true;
     }
