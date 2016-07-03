@@ -251,14 +251,24 @@ void Executor::onRemoveCurrentEntry()
           _products->product(*it)->up();
           --it;
       }
+      _products->removeProduct(_selectedProduct);
     } else {
       //_products->removeCategory(_selectedCategory);
       //_selectedCategory = 0;
 
       com.setData(_selectedCategory->id());
+      QList<int> categoryIds = _products->categoryIds();
+      auto it = categoryIds.end();
+      --it;
+      while(*it != _selectedCategory->id())
+      {
+          _products->category(*it)->up();
+          --it;
+      }
 
       com.setCommandType(ComPackage::DeleteCategory);
-      emit updateSequenceCategory(_selectedProduct->id());
+      _products->removeCategory(_selectedCategory);
+//      emit updateSequenceCategory(_selectedCategory->id());
     }
 
     if (!_tcp_client.send(com)) {
