@@ -253,12 +253,12 @@ void MainWindow::onUp()
     //First we check if we select prodct (when product is selected also category is selected)
     if(_ui->_tableViewProducts->selectionModel()->hasSelection())
     {
-        emit actionProductUp(_ui->_tableViewProducts->selectionModel()->currentIndex());
+        emit actionProductUp();
         return;
     }
     if(_ui->_listViewCategories->selectionModel()->hasSelection())
     {
-        emit actionCategoryUp(_ui->_listViewCategories->selectionModel()->currentIndex());
+        emit actionCategoryUp();
         return;
     }
 }
@@ -268,12 +268,12 @@ void MainWindow::onDown()
     //First we check if we select prodct (when product is selected also category is selected)
     if(_ui->_tableViewProducts->selectionModel()->hasSelection())
     {
-        emit actionProductDown(_ui->_tableViewProducts->selectionModel()->currentIndex());
+        emit actionProductDown();
         return;
     }
     if(_ui->_listViewCategories->selectionModel()->hasSelection())
     {
-        emit actionCategoryDown(_ui->_listViewCategories->selectionModel()->currentIndex());
+        emit actionCategoryDown();
         return;
     }
 }

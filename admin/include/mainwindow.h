@@ -79,10 +79,10 @@ signals:
  void actionSetLicencePath();
  void onLicencePathSet(QString);
  void onLicenceStatusSet(QString);
- void actionProductUp(QModelIndex);
- void actionProductDown(QModelIndex);
- void actionCategoryUp(QModelIndex);
- void actionCategoryDown(QModelIndex);
+ void actionProductUp();
+ void actionProductDown();
+ void actionCategoryUp();
+ void actionCategoryDown();
 
 
 public slots:

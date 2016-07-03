@@ -127,8 +127,10 @@ void Controller::connect_signals()
 
   //----------------------------------------------------------------------------
 
-  connect(_mainwindow, &MainWindow::actionProductUp, _productTableModel, &ProductTableModel::onProductUp);
-  connect(_mainwindow, &MainWindow::actionProductDown, _productTableModel, &ProductTableModel::onProductDown);
+  connect(_mainwindow, &MainWindow::actionProductUp, &_executor, &Executor::onProductUp);
+  connect(_mainwindow, &MainWindow::actionProductDown, &_executor, &Executor::onProductDown);
+  connect(_mainwindow, &MainWindow::actionCategoryUp, &_executor, &Executor::onCategoryUp);
+  connect(_mainwindow, &MainWindow::actionCategoryDown, &_executor, &Executor::onCategoryDown);
 
   //----------------------------------------------------------------------------
 
