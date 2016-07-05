@@ -30,6 +30,8 @@ class rotable::TableModel: public QAbstractListModel{
     Q_OBJECT
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_PROPERTY(int selectTable READ selectTable WRITE setSelectTable NOTIFY selectTableChanged)
+    Q_PROPERTY(double income READ income NOTIFY incomeChanged)
+    Q_PROPERTY(QString incomeStr READ incomeStr NOTIFY incomeChanged)
 
 public:
 
@@ -154,6 +156,10 @@ public:
     inline int selectTable() const { return _selectTable;}
     void setSelectTable(const int &selectTable);
 
+    inline double income() const{ return _income;}
+    inline QString incomeStr() const{ return QString("%1").arg(QString::number(_income, 'q', 2));}
+    void setIncome(double income){ _income = income; emit incomeChanged(); }
+
 signals:
     /**
      * Signal for update OrderBoard
@@ -165,15 +171,30 @@ signals:
     void selectTableChanged();
 
     void sendToHistory(rotable::Order* order);
+    void incomeChanged();
 
 public slots:
     void unLoadTable();
+
+private slots:
+    /**
+     * Method sort table and return list with id's
+     *
+     * @return  QList with id's
+     */
+    void sortTableKeys();
 
 private:
     /**
      * Container with tables
      */
     QMap<int, rotable::Table*> _tables;
+
+    /**
+     * Contains ids of table base on order of new orders
+     */
+    QList<int> _orderList;
+    double _income;
     int _selectTable;
 };
 

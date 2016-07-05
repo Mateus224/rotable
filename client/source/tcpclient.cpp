@@ -72,17 +72,25 @@ void TcpClient::startConnection(const QString &hostname, int port)
   WSAIoctl(fd,SIO_KEEPALIVE_VALS,&info,sizeof(info),NULL,0,NULL,NULL,NULL);
 
   #else
-  setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, &enableKeepAlive, sizeof(enableKeepAlive));
-
-  int maxIdle = 10; /* seconds */
-  setsockopt(fd, IPPROTO_TCP, TCP_KEEPIDLE, &maxIdle, sizeof(maxIdle));
-
-  int count = 3;  // send up to 3 keepalive packets out, then disconnect if no response
-  setsockopt(fd, SOL_TCP, TCP_KEEPCNT, &count, sizeof(count));
-
-  int interval = 2;   // send a keepalive packet out every 2 seconds (after the 5 second idle period)
-  setsockopt(fd, SOL_TCP, TCP_KEEPINTVL, &interval, sizeof(interval));
-
+  if(setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, &enableKeepAlive, sizeof(enableKeepAlive))<0)
+  {
+      qCritical()<<"setsockopt0 fd:"<<fd;
+  }
+  int maxIdle = 4; /* seconds */
+  if(setsockopt(fd, IPPROTO_TCP, TCP_KEEPIDLE, &maxIdle, sizeof(maxIdle))<0)
+  {
+      qCritical()<<"setsockopt1";
+  }
+  int count = 2;  // send up to 3 keepalive packets out, then disconnect if no response
+  if(setsockopt(fd, SOL_TCP, TCP_KEEPCNT, &count, sizeof(count))<0)
+  {
+      qCritical()<<"setsockopt2";
+  }
+  int interval = 1;   // send a keepalive packet out every 2 seconds (after the 5 second idle period)
+  if(setsockopt(fd, SOL_TCP, TCP_KEEPINTVL, &interval, sizeof(interval))<0)
+  {
+      qCritical()<<"setsockopt";
+  }
   #endif
 }
 

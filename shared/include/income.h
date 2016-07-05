@@ -32,8 +32,8 @@ public:
   inline int id() const { return _id; }
   inline void setId(int id) { _id = id; }
 
-  inline float income() const { return _income; }
-  inline void setIncome(float income) { _income = income; emit incomeChange(); }
+  inline double income() const { return _income; }
+  inline void setIncome(double income) { _income = income; emit incomeChange(); }
 
   inline QDate date() const { return _date; }
   inline void setDate(QDate income) { _date = income;}
@@ -41,12 +41,15 @@ public:
   inline QString formatedDate(){ return _date.toString(_format); }
   inline void setFormatedDate(QString date){ _date=QDate::fromString(date, _format); }
 
+  QJsonValue toJSON() const;
+  static Income* fromJSON(const QJsonValue& jval);
+
 signals:
   void incomeChange();
 
 private:
   int _id;
-  float _income;
+  double _income;
   QDate _date;
   static QString _format;
 

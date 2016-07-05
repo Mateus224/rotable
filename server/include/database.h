@@ -502,6 +502,8 @@ public:
    */
   QList<Order *> *getNotDoneOrderList();
 
+  QMap<int, QMap<int, int>> *getOrderQueueList();
+
   /**
    * Check whether this object is connected to the database.
    *

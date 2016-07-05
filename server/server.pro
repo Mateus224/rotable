@@ -25,8 +25,8 @@ SOURCES += \
     source/configserver.cpp \
     source/server.cpp \
     source/schedule.cpp \
-    source/operation.cpp \
-    source/licence.cpp
+    source/operation.cpp #\
+#    source/licence.cpp
 
 HEADERS += \
     include/tcpserver.h \
@@ -36,8 +36,8 @@ HEADERS += \
     include/server.h \
     include/settings.h \
     include/schedule.h \
-    include/operation.h \
-    include/licence.h
+    include/operation.h #\
+#    include/licence.h
 
 ########################################################################
 # DESTINATION:
@@ -77,32 +77,5 @@ RESOURCES += \
 
 DISTFILES +=
 
-LIBS += -L/usr/lib/crypto++ -lcryptopp
-INCS += -I/usr/include/crypto++
-
-##############################################################################################
-# Windows Cryptopp
-win32 {
-    INCS -= -I/usr/include/crypto++
-    LIBS -= -L/usr/lib/crypto++ -lcryptopp
-
-    LIBS += -L"$$PWD/dependencies/cryptopp/lib/windows/" -llibcryptopp
-    PRE_TARGETDEPS += $$PWD/dependencies/cryptopp/lib/windows/libcryptopp.a
-
-    INCLUDEPATH += "$$PWD/dependencies/cryptopp/include"
-    DEPENDPATH += "$$PWD/dependencies/cryptopp/include"
-}
-
-##############################################################################################
-# Android Cryptopp
-
-android {
-    INCS -= -I/usr/include/crypto++
-    LIBS -= -L/usr/lib/crypto++ -lcryptopp
-
-    LIBS += -L$$PWD/dependencies/cryptopp/lib/android/libcryptopp.so
-    ANDROID_EXTRA_LIBS += -L$$PWD/dependencies/cryptopp/lib/android/libcryptopp.so
-
-    INCLUDEPATH += "$$PWD/dependencies/cryptopp/include"
-    DEPENDPATH += "$$PWD/dependencies/cryptopp/include"
-}
+#LIBS += -L/usr/lib/crypto++ -lcryptopp
+#INCS += -I/usr/include/crypto++
