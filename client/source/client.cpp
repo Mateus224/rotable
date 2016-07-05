@@ -118,14 +118,7 @@ void Client::connected()
   ComPackageConnectionRequest request;
   request.setClientName(_config.clientName());
   request.setClientType(rotable::ComPackage::TableAccount);
-  request.setClientPass("00:00:00:00:00:00:00:00:00:00"); // If can't find will be set default
-
-  foreach(QNetworkInterface inter, QNetworkInterface::allInterfaces())
-  {
-      if(inter.flags() & QNetworkInterface::IsUp)
-          request.setClientPass(inter.hardwareAddress());
-
-  }
+  request.setClientPass(_config.macAdress());
 
   if (!_tcp.send(request)) {
     qCritical() << tr("FATAL: Could not send connection request package!");
@@ -138,6 +131,7 @@ void Client::connected()
 void Client::disconnected()
 {
   setState("DISCONNECTED");
+  _accepted = false;
 
   if (!_stopping) {
     // Todo: do not reconnect if we want to close the app
@@ -219,6 +213,16 @@ void Client::rejected(ComPackageReject *rej)
 {
   if (_dataRequest.contains(rej->originId())) {
     _dataRequest.remove(rej->originId());
+  }
+
+  if(_accepted == false)
+  {
+    QTimer *timer = new QTimer();
+    timer->setSingleShot(true);
+    timer->setInterval(5000);
+    connect(timer, &QTimer::timeout, this, &Client::connected);
+    connect(timer, &QTimer::timeout, timer, &QTimer::deleteLater);
+    timer->start();
   }
 }
 
@@ -322,7 +326,7 @@ void Client::orderQueue(Message *msg)
     QueueMessage *message = static_cast<QueueMessage*>(msg);
     if(!message->map().empty())
     {
-        int iOrderQueue=message->map().lastKey();
+        int iOrderQueue=message->map().firstKey();
         _queue.setqueueOrder(iOrderQueue);
         _queue.queueOrderChanged();
     }

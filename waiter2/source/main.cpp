@@ -3,12 +3,12 @@
 #include "../include/orderinformation.h"
 #include "../include/waiter_client.h"
 #include "orderinformation.h"
-#include "table.h"
 #include "tablemodel.h"
 #include <QGuiApplication>
 #include <QtQml/QQmlApplicationEngine>
 
 #include <QStandardPaths>
+
 
 //#include "client/linux/handler/exception_handler.h"
 

@@ -12,7 +12,7 @@
 using namespace rotable;
 
 rotable::Order::Order(const QJsonValue& jval, QObject* parent)
-  : QObject(parent)
+  : Order(parent)
 {
 
 }
@@ -20,7 +20,7 @@ rotable::Order::Order(const QJsonValue& jval, QObject* parent)
 //------------------------------------------------------------------------------
 
 Order::Order(QObject* parent)
-: QObject(parent)
+: QObject(parent), _change(false)
 {
 
 }
@@ -32,6 +32,19 @@ Order::~Order()
     // Clear memory from pointers
     qDeleteAll(_items.begin(), _items.end());
     _items.clear();     //Clear list
+}
+
+//------------------------------------------------------------------------------
+
+void Order::recalcChange()
+{
+    foreach(OrderItem* item, _items)
+        if(item->isReadyToChange())
+        {
+            _change =  true;
+            return;
+        }
+    _change =  false;
 }
 
 //------------------------------------------------------------------------------
@@ -193,7 +206,9 @@ void Order::closeOrder(QList<int> toChange, int newState)
 
 bool Order::isClose() const
 {
-    return _state == Close;
+    if(_state == Order::Close || _state == Order::Paid)
+        return true;
+    return false;
 }
 
 //------------------------------------------------------------------------------
@@ -242,6 +257,7 @@ bool Order::isNew() const
 
 void Order::itemChanged()
 {
+    recalcChange();
     emit itemsChanged();
 }
 
@@ -252,6 +268,20 @@ void Order::itemIsReadyToChanged()
     OrderItem* item = dynamic_cast<OrderItem*>(QObject::sender());
     if(item)
         emit readyToChanged(item->isReadyToChange());
+}
+
+//------------------------------------------------------------------------------
+
+void Order::checkOrderState()
+{
+    switch (state()) {
+    case State::Sent:
+        if(!isNew())
+            setState(State::Prepared);
+    [[clang::fallthrough]]; case State::Prepared:
+        if(isDone())
+            setState(State::Close);
+    }
 }
 
 //------------------------------------------------------------------------------
