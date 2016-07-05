@@ -10,7 +10,7 @@
 #ifndef QMAP_H
 #include <QMap>
 
-#include <c++/5.3.0/bits/stl_map.h>
+//#include <c++/5.3.0/bits/stl_map.h>
 #endif
 
 //------------------------------------------------------------------------------

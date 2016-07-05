@@ -14,7 +14,7 @@ Table::~Table()
 
 Table::Table(QObject *parent): rotable::Client(parent), _change(false), _waiterIsNeeded(false)
 {
-
+    _lastOrder = -1;
 }
 
 //------------------------------------------------------------------------------
@@ -25,14 +25,10 @@ void Table::updateOrder(rotable::Order* order){
     {
         _orders.value(order->id())->updateOrder(order);
         delete order;
+        emit tableChanged();
     }
     else
-    {
-        // Add order
-        _orders[order->id()] = order;
-        connect(order, &rotable::Order::itemsChanged, this, &rotable::Table::orderChanged);
-    }
-    emit tableChanged();
+        addOrder(order);
     //Change are made, set change value on true
 }
 
@@ -145,9 +141,36 @@ QMap<int, QJsonValue>* Table::getOrderJSON() const
 {
     QMap<int, QJsonValue> *map = new QMap<int, QJsonValue>;
     foreach (Order *order, _orders) {
-        map->insert(order->id(), order->toJSON());
+        if(order->change())
+            map->insert(order->id(), order->toJSON());
     }
     return map;
+}
+
+//------------------------------------------------------------------------------
+
+void Table::recalcLastOrder()
+{
+    //TODO: Warning, add check
+    Order *sendOrder = reinterpret_cast<Order*>(sender());
+    if(sendOrder->id() != _lastOrder && _lastOrder != -1)
+        return;
+    // Check orders on table, orders are sorted by id
+    for(auto order = _orders.find(sendOrder->id());order !=  _orders.end();++order)
+        // If order has status new
+        if(order.value()->isNew())
+        {
+            // Set id
+            _lastOrder = order.value()->id();
+            emit lastOrderChange();
+            return;     // End
+        }
+    // No find order, set -1
+    if(_lastOrder != -1)
+    {
+        _lastOrder = -1;
+        emit lastOrderChange();
+    }
 }
 
 //------------------------------------------------------------------------------
