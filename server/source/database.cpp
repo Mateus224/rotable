@@ -2450,6 +2450,64 @@ QList<Order *> *Database::getNotDoneOrderList()
 
 //------------------------------------------------------------------------------
 
+QMap<int, QMap<int, int>> *Database::getOrderQueueList()
+{
+
+    if (!isConnected()) {
+        return nullptr;
+    }
+
+    QMap<int, QMap<int, int>> *result = new QMap<int,QMap<int, int>>();
+
+    QString queryStr = QString("SELECT %1clients.id as `client_id`, ifnull(%1orders.id, -1) as `order_id` FROM %1clients "
+                               "LEFT OUTER JOIN %1orders "
+                               "ON %1clients.id = %1orders.client_id and %1orders.state = %3 "
+                               "WHERE %1clients.type = %2 ORDER BY order_id").arg(_prefix, ":type", ":stat");
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(false);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      delete result;
+      return nullptr;
+    }
+
+    q.bindValue(":type", "1");
+    q.bindValue(":stat", "1");
+
+
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                     .arg(queryStr, q.lastError().text());
+      delete result;
+      return nullptr;
+    }
+
+    if (!q.next()) {
+        delete result;
+        return nullptr;
+    }
+
+    int i = 1;
+    do{
+        int order_id = q.value("order_id").toInt();
+        int client_id = q.value("client_id").toInt();
+        if(order_id == -1)
+            (*result)[client_id].clear();
+        else
+        {
+            (*result)[client_id][i] = order_id;
+            ++i;
+        }
+
+    }while(q.next());
+
+    return result;
+}
+
+//------------------------------------------------------------------------------
+
 Income*  Database::getLastIncome()
 {
     int id = getLastIncomeId();

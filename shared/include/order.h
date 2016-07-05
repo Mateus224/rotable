@@ -160,6 +160,9 @@ public:
     /* Order has been accepted by a waiter */
     Accepted,
 
+    /* Order has been prepared */
+    Prepared,
+
     /* Order has been delivered by a waiter */
     Delivered,
 
@@ -203,6 +206,8 @@ public:
   inline int clientId() const { return _clientId; }
   inline void setClientId(int clientId) { _clientId = clientId; emit clientIdChanged(); }
 
+  inline bool change() const { return _change; }
+  void recalcChange();
   /**
    * Get QML list of items.
    *
@@ -253,6 +258,7 @@ public:
       connect(item, &rotable::OrderItem::priceChanged, this, &rotable::Order::itemChanged);
       connect(item, &rotable::OrderItem::timeChanged, this, &rotable::Order::itemChanged);
       connect(item, &rotable::OrderItem::readyToChanged, this, &rotable::Order::itemIsReadyToChanged);
+      connect(item, &rotable::OrderItem::stateChanged, this, &rotable::Order::checkOrderState);
   }
 
   /**
@@ -333,6 +339,7 @@ signals:
 private slots:
   void itemChanged();
   void itemIsReadyToChanged();
+  void checkOrderState();
 
 private:
   /* Unique order ID */
@@ -349,6 +356,14 @@ private:
 
   /* Table from which the order came from */
   int _clientId;
+
+  /**
+   * @brief _change
+   *
+   * Store information if something was changed
+   */
+  bool _change;
+
 }; // class Order
 
 //------------------------------------------------------------------------------
