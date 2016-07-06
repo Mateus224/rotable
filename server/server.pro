@@ -70,6 +70,7 @@ LIBS += \
   #  -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux
 
 win32:LIBS += -lws2_32
+win32:PLATFORM = host
 
 RESOURCES += \
     sql-commands.qrc \
