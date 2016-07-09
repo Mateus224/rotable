@@ -32,7 +32,7 @@ Rectangle {
             cellWidth: buttonWidth + buttonMarginH
             cellHeight: buttonHeight + buttonMarginV
 
-            interactive: model.rowCount() > 15
+            interactive: model.count > 15
 
             Component {
                 id: productDelegate
