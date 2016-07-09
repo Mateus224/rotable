@@ -74,7 +74,7 @@ void ProductTableIconComboboxDelegate::paint(
     QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
   QStyleOptionViewItemV4 myOption = option;
-  myOption.text = _items[index.row()];
+  myOption.text = index.model()->data(index, Qt::EditRole).toString();
 
   QApplication::style()->drawControl(QStyle::CE_ItemViewItem, &myOption, painter);
 }
