@@ -1,0 +1,3 @@
+[submodule "bin/dll"]
+	path = bin/dll
+	url = git@gitlab.com:rotable/dll.git
