@@ -12,6 +12,7 @@ Rectangle {
     Rectangle {
         anchors.fill: parent
         anchors.margins: parent.height * 0.02
+        clip: true
 
         color: "#000000"
 
