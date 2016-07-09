@@ -13,5 +13,7 @@
         <file>resources/soft.png</file>
         <file>resources/wine.png</file>
         <file>resources/waiter.png</file>
+        <file>resources/food.png</file>
+        <file>resources/shisha.png</file>
     </qresource>
 </RCC>

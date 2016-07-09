@@ -8,6 +8,7 @@
 #include "productcontainer.h"
 #include "imageprovider.h"
 #include "productorder.h"
+#include <QtNetwork/QNetworkInterface>
 
 //------------------------------------------------------------------------------
 

@@ -1,8 +1,13 @@
 import QtQuick 2.0
+import QtQuick.Controls 1.4
+import QtQuick.Window 2.2
+import QtQuick.Layouts 1.1
 
 Rectangle {
     property int buttonSizeH: parent.height * 0.1 * 0.85
     property int buttonSizeW: parent.height * 0.1 * 0.85
+    property int buttonsShown: 9 //best number is nine
+    property int spaceBetweenIcons : 10 //in px
     property var listModel: CategoryListModel
 
     anchors.left: parent.left
@@ -12,6 +17,8 @@ Rectangle {
 
     height: parent.height * 0.11
 
+    clip: true
+
     Image {
         id: backgroundImage
         anchors.fill: parent
@@ -19,18 +26,19 @@ Rectangle {
     }
 
     ListView {
-        anchors.centerIn: parent
+        width: buttonSizeW * buttonsShown + spaceBetweenIcons * (buttonsShown-1)
         height: buttonSizeH
-        width: buttonSizeW * model.count
+        anchors.centerIn: parent
         orientation: ListView.Horizontal
+        spacing: spaceBetweenIcons
+
+        clip: true
+        boundsBehavior: Flickable.DragAndOvershootBounds
+        highlightFollowsCurrentItem: false
 
         model: listModel
 
-        interactive: false
-
         delegate: Rectangle {
-
-            anchors.top: parent.top
 
             width: buttonSizeW
             height: buttonSizeH
@@ -46,9 +54,12 @@ Rectangle {
 
             MouseArea {
                 anchors.fill: parent
+                hoverEnabled: true
                 onPressed: {
                     parent.color= "#f9a8d8"
-
+                }
+                onExited: {
+                    parent.color= index % 2 ? "#444041" : "#3f494a"
                 }
                 onReleased: {
                     parent.color= index % 2 ? "#444041" : "#3f494a"

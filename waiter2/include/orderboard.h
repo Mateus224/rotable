@@ -21,7 +21,7 @@ namespace rotable{
 #include <QAbstractListModel>
 #endif
 
-#include "table.h"
+#include <table.h>
 #include "order.h"
 
 //-----------------------------------------------------

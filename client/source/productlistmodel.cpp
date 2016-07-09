@@ -41,7 +41,7 @@ int ProductListModel::rowCount(const QModelIndex &parent) const
   } else {
     //QList<int> ids = _products->productIds(_categoryId);
     //return ids.count();
-    return 15;
+    return 10;
   }
 }
 

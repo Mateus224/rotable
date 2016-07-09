@@ -152,4 +152,7 @@
         <file alias="4.txt">qml/client/games/BigKingsCup/gameInformationFiles/4.txt</file>
         <file alias="3.txt">qml/client/games/BigKingsCup/gameInformationFiles/3.txt</file>
     </qresource>
+    <qresource prefix="/">
+        <file>config.ini</file>
+    </qresource>
 </RCC>
