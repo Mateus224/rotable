@@ -15,6 +15,8 @@ ProductTableIconComboboxDelegate::ProductTableIconComboboxDelegate(QObject *pare
   _items.append("shot");
   _items.append("soft");
   _items.append("wine");
+  _items.append("shisha");
+  _items.append("food");
 }
 
 //------------------------------------------------------------------------------
