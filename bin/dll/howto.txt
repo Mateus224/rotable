@@ -1,2 +1,0 @@
-If you want to run any binary, copy dll files from debug/release from mingw folder to the folder containing .exe file.
-For now QT is required to run any application.
