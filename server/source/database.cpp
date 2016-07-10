@@ -878,7 +878,7 @@ bool Database::addProduct(Product* product)
   }
 
   QString queryStr = _sqlCommands[Products]._insert
-                     .arg(_prefix, "NULL", ":name", ":price", ":info", ":category_id", ":icon", ":amount");
+                     .arg(_prefix, "NULL", ":name", ":price", ":info", ":category_id", ":icon", ":amount", ":sequence");
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -894,6 +894,7 @@ bool Database::addProduct(Product* product)
   q.bindValue(":category_id", product->categoryId());
   q.bindValue(":icon", product->icon());
   q.bindValue(":amount", product->amount());
+  q.bindValue(":sequence", product->sequence());
 
   if (!q.exec()) {
     qCritical() << tr("Query exec failed: (%1: %2")
