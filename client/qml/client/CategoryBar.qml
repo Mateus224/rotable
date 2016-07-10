@@ -6,8 +6,8 @@ import QtQuick.Layouts 1.1
 Rectangle {
     property int buttonSizeH: parent.height * 0.1 * 0.85
     property int buttonSizeW: parent.height * 0.1 * 0.85
-    property int buttonsShown: 9 //best number is nine
-    property int spaceBetweenIcons : 10 //in px
+    //this tries to calculate optimal number of shown icons based on the bar length (in theory should work on smaller screens)
+    property int maxButtonsShown: Math.floor(width / buttonSizeW)
     property var listModel: CategoryListModel
 
     anchors.left: parent.left
@@ -26,15 +26,13 @@ Rectangle {
     }
 
     ListView {
-        width: buttonSizeW * buttonsShown + spaceBetweenIcons * (buttonsShown-1)
+        width: Math.min(buttonSizeW * model.count, buttonSizeW * maxButtonsShown)
         height: buttonSizeH
         anchors.centerIn: parent
         orientation: ListView.Horizontal
-        spacing: spaceBetweenIcons
 
         clip: true
         boundsBehavior: Flickable.DragAndOvershootBounds
-        highlightFollowsCurrentItem: false
 
         model: listModel
 
