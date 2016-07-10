@@ -26,6 +26,7 @@ AddProductCategory::AddProductCategory(ImageContainer* images, QWidget *parent) 
       QIcon ico(QPixmap::fromImage(*image));
       _ui->_comboBoxIcons->addItem(ico, name, QVariant(name));
     }
+    _ui->_comboBoxIcons->setCurrentIndex(0);
   }
 
   _ui->_labelNameError->clear();
