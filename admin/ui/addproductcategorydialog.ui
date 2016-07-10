@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>378</width>
+    <width>390</width>
     <height>190</height>
    </rect>
   </property>
@@ -112,5 +112,22 @@
  <resources>
   <include location="../resources/resources.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>_lineEditName</sender>
+   <signal>returnPressed()</signal>
+   <receiver>_pushButtonAdd</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>158</x>
+     <y>52</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>320</x>
+     <y>171</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
