@@ -539,6 +539,8 @@ void Executor::onPackageReceived(ComPackage *package)
       msgBox.setStandardButtons(QMessageBox::Ok);
       msgBox.setIcon(QMessageBox::Warning);
       msgBox.exec();
+
+      onDisconnectFromServer();
     } break;
 
     default:
