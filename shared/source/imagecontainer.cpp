@@ -22,7 +22,8 @@ ImageContainer::ImageContainer(QObject* parent)
 
 ImageContainer::~ImageContainer()
 {
-
+    qDeleteAll(_images);
+    _images.clear();
 }
 
 //------------------------------------------------------------------------------

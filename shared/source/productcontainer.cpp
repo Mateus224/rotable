@@ -23,7 +23,9 @@ ProductContainer::ProductContainer(QObject* parent)
 
 ProductContainer::~ProductContainer()
 {
-  clear();
+  qDeleteAll(_products->begin(), _products->end());
+  qDeleteAll(_orderProducts->begin(), _orderProducts->end());
+  _orderProducts->clear();
 }
 
 //------------------------------------------------------------------------------

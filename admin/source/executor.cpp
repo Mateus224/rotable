@@ -40,7 +40,15 @@ Executor::Executor(MainWindow* mainwindow, const QString& configFilePath,
 
 //  if (NoError != _config.load(configFilePath)) {
 //    qDebug() << tr("Could not load %1: %2").arg(configFilePath).arg(_config.errorStr());
-//  }
+  //  }
+}
+
+//------------------------------------------------------------------------------
+
+Executor::~Executor()
+{
+    qDeleteAll(_dataRequest);
+    _dataRequest.clear();
 }
 
 //------------------------------------------------------------------------------
@@ -547,6 +555,8 @@ void Executor::onPackageReceived(ComPackage *package)
       qDebug() << tr("WARNING: Received unknown package!");
       break;
     }
+
+    delete package;
   }
 }
 
@@ -574,6 +584,7 @@ void Executor::requestProductIds(int categoryId)
 
   if (!_tcp_client.send(*request)) {
     qCritical() << tr("Could not send request!");
+    delete request;
   } else {
     _dataRequest[request->id()] = request;
   }
@@ -589,6 +600,7 @@ void Executor::requestCategory(int categoryId)
 
   if (!_tcp_client.send(*request)) {
     qCritical() << tr("Could not send request!");
+    delete request;
   } else {
     _dataRequest[request->id()] = request;
   }
@@ -604,6 +616,7 @@ void Executor::requestProduct(int productId)
 
   if (!_tcp_client.send(*request)) {
     qCritical() << tr("Could not send request!");
+    delete request;
   } else {
     _dataRequest[request->id()] = request;
   }
@@ -618,6 +631,7 @@ void Executor::requestServerConfigs()
 
     if (!_tcp_client.send(*request)) {
       qCritical() << tr("Could not send request!");
+      delete request;
     } else {
       _dataRequest[request->id()] = request;
     }
@@ -632,6 +646,7 @@ void Executor::requestLicenceStatus()
 
     if (!_tcp_client.send(*request)) {
       qCritical() << tr("Could not send request!");
+      delete request;
     } else {
       _dataRequest[request->id()] = request;
     }

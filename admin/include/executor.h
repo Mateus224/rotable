@@ -37,6 +37,11 @@ public:
                     QObject *parent = 0);
 
   /**
+   * Destructor
+   */
+  ~Executor();
+
+  /**
    * Set the image container.
    *
    * @param images          image container
