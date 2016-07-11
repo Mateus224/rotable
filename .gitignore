@@ -4,7 +4,9 @@
 third-party/**
 qt/**
 /.project
-bin/**
+bin/debug/**
+bin/release/**
+bin/tmp/**
 Makefile-build-rotable*
 Makefile
 games/bottle_spin/build-tet**

@@ -15,6 +15,8 @@ ProductTableIconComboboxDelegate::ProductTableIconComboboxDelegate(QObject *pare
   _items.append("shot");
   _items.append("soft");
   _items.append("wine");
+  _items.append("shisha");
+  _items.append("food");
 }
 
 //------------------------------------------------------------------------------
@@ -72,7 +74,7 @@ void ProductTableIconComboboxDelegate::paint(
     QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
   QStyleOptionViewItemV4 myOption = option;
-  myOption.text = _items[index.row()];
+  myOption.text = index.model()->data(index, Qt::EditRole).toString();
 
   QApplication::style()->drawControl(QStyle::CE_ItemViewItem, &myOption, painter);
 }

@@ -225,12 +225,12 @@ Rectangle {
                                         client.sendOrder()
                                         client.state = "SENTPAGE"
                                         MyOrder.clearList()
-                                        sendOrderTimer.start()
+                                        //sendOrderTimer.start()
                                     }
                                     else
                                     {
                                         client.state = "SENTPAGE"
-                                        sendOrderTimer.start()
+                                        //sendOrderTimer.start()
                                     }
                                 }
                                 onPressed: parent.color= "#8772c0"
