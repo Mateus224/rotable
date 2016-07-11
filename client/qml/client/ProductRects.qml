@@ -12,6 +12,7 @@ Rectangle {
     Rectangle {
         anchors.fill: parent
         anchors.margins: parent.height * 0.02
+        clip: true
 
         color: "#000000"
 
@@ -30,6 +31,8 @@ Rectangle {
 
             cellWidth: buttonWidth + buttonMarginH
             cellHeight: buttonHeight + buttonMarginV
+
+            interactive: model.count > 15
 
             Component {
                 id: productDelegate

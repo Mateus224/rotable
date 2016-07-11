@@ -10,6 +10,8 @@ PRECOMPILED_HEADER = private/precomp.h
 
 QMAKE_CFLAGS_RELEASE = -g
 
+win32:CONFIG += windows
+
 ########################################################################
 # FILES:
 
@@ -108,6 +110,8 @@ LIBS += \
     -L$$DESTDIR -lrotable-shared
    # -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux -lbreakpad_client \
    # -L$$PWD/../third-party/qwt/lib -lqwt -lqwt -lqwt
+
+win32:LIBS += -lws2_32
 
 #LIBS += -L/home/rosynski/qwt-6.1/lib -lqwt
 #INCLUDEPATH += /usr/local/qwt-6.1.3-svn/include
