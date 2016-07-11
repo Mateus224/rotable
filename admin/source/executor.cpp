@@ -627,14 +627,14 @@ void Executor::requestServerConfigs()
 
 void Executor::requestLicenceStatus()
 {
-    ComPackageDataRequest* request = new ComPackageDataRequest();
-    request->setDataCategory(ComPackage::RequestLicence);
+//    ComPackageDataRequest* request = new ComPackageDataRequest();
+//    request->setDataCategory(ComPackage::RequestLicence);
 
-    if (!_tcp_client.send(*request)) {
-      qCritical() << tr("Could not send request!");
-    } else {
-      _dataRequest[request->id()] = request;
-    }
+//    if (!_tcp_client.send(*request)) {
+//      qCritical() << tr("Could not send request!");
+//    } else {
+//      _dataRequest[request->id()] = request;
+//    }
 }
 
 //------------------------------------------------------------------------------

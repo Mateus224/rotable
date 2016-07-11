@@ -1,5 +1,4 @@
-
-#include <errno.h>
+#define WIN32_LEAN_AND_MEAN
 
 #include <QtGlobal>
 #include <QDebug>

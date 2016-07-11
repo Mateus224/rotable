@@ -109,6 +109,8 @@ void ImageContainer::setDir(const QString &dir)
   _images["soft"] = new QImage(":/images/resources/soft.png");
   _images["wine"] = new QImage(":/images/resources/wine.png");
   _images["waiter"] = new QImage(":/images/resources/waiter.png");
+  _images["shisha"] = new QImage(":/images/resources/shisha.png");
+  _images["food"] = new QImage(":/images/resources/food.png");
 
   // Load images from imageDir
   QDirIterator dirIt(_imageDir, QDirIterator::NoIteratorFlags);
