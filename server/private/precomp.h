@@ -18,3 +18,7 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QResource>
+
+#ifdef __ANDROID__
+#include <android/api-level.h>
+#endif
