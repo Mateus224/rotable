@@ -72,8 +72,8 @@ Rectangle {
                     color:parent.color(0,0)
                     gameName:"Spin the Bottle"
                     infoString: "<h1>FLASCHENDREHEN</h1><blockquote></blockquote>
-                                 <h2>Anforderungen:</h2>Jeder Spieler benötigt ein Alkoholisches Getränk<blockquote></blockquote>
-                                 <h2>Spielregeln:</h2> auf wenn die Flsche zeigt nimmt ein Schluck aus der Bierflasche bzw. vom seinen Drink"
+                                 <h2>Anforderungen:</h2>Jeder Spieler benötigt ein Alkoholisches Getränk.<blockquote></blockquote>
+                                 <h2>Spielregeln:</h2> Die Person, auf die die Flasche zeigt, nimmt einen Schluck von ihrem Getränk."
                     id_: 0
                 }
                 EmptyGridRect{
