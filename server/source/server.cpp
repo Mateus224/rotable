@@ -29,9 +29,9 @@ Server::Server(const QString &configFilePath, QObject *parent)
   connect(&_db, &Database::parseConfig, this, &Server::config_parser);
   schedule = new Schedule();
 
-//  _licence = new Licence(_config.licence_path());
+  _licence = new Licence(_config.licence_path());
 
-//  connect(_licence, &rotable::Licence::getLastIncomeDate, &_db, &rotable::Database::getLastIncome);
+  connect(_licence, &rotable::Licence::getLastIncomeDate, &_db, &rotable::Database::getLastIncome);
 }
 
 //------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ Server::Server(const QString &configFilePath, QObject *parent)
 Server::~Server()
 {
     delete schedule;
-//    delete _licence;
+    delete _licence;
 }
 
 //------------------------------------------------------------------------------
@@ -131,13 +131,13 @@ void Server::packageReceived(client_t client, ComPackage *package)
   {
     ComPackageConnectionRequest* p = static_cast<ComPackageConnectionRequest*>(package);
     if (login(p, client)) {
-      if(p->clientType() == rotable::ComPackage::TableAccount) ;
-//          if(Q_UNLIKELY(!_licence->getLicence(_tcp.clientSocket(client))))
-//          {
-//              ComPackageReject reject(package->id());
-//              _tcp.send(client, reject);
-//              break;
-//          }
+      if(p->clientType() == rotable::ComPackage::TableAccount)
+          if(Q_UNLIKELY(!_licence->getLicence(_tcp.clientSocket(client))))
+          {
+              ComPackageReject reject(package->id());
+              _tcp.send(client, reject);
+              break;
+          }
       _tcp.setClientName(client, p->clientName());
       ComPackageConnectionAccept accept;
       _tcp.send(client, accept);
@@ -498,8 +498,8 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request)
   }break;
   case ComPackage::RequestLicence:
   {
-//      ComPackageDataReturn* ret = new ComPackageDataReturn(*request, QJsonValue(_licence->getLicenceStatus()));
-//      return ret;
+      ComPackageDataReturn* ret = new ComPackageDataReturn(*request, QJsonValue(_licence->getLicenceStatus()));
+      return ret;
   } break;
   case ComPackage::RequestIncome:
   {
@@ -634,7 +634,7 @@ bool Server::setData(ComPackageDataSet *set, client_t client)
         f.write(ba);
         f.close();
     }
-//    _licence->loadLicence();
+    _licence->loadLicence();
     return true;
   } break;
 

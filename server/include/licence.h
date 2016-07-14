@@ -8,11 +8,11 @@
 #include <QObject>
 #include <QDir>
 
-#if defined(Q_OS_WIN) || defined(__ANDROID_API__)
-#include <rsa.h>
-#else
-#include <cryptopp/rsa.h>
-#endif
+//#if defined(Q_OS_WIN) || defined(__ANDROID_API__)
+//#include <rsa.h>
+//#else
+//#include <cryptopp/rsa.h>
+//#endif
 
 
 
@@ -90,12 +90,12 @@ public slots:
     void disconnectTable();
 
 private:
-    /**
-     * @brief loadKeyFromFile
-     * Get pubic key from resourse
-     * @return              key
-     */
-    CryptoPP::RSA::PublicKey loadKeyFromFile() const;
+//    /**
+//     * @brief loadKeyFromFile
+//     * Get pubic key from resourse
+//     * @return              key
+//     */
+//    CryptoPP::RSA::PublicKey loadKeyFromFile() const;
 
     /**
      * @brief loadToString
@@ -112,7 +112,7 @@ private:
      * @param licence       licence
      * @param sig           signature of licence
      */
-    void verifityLicence(CryptoPP::RSA::PublicKey publicKey, std::string licence, std::string sig) const;
+//    void verifityLicence(CryptoPP::RSA::PublicKey publicKey, std::string licence, std::string sig) const;
 
     /**
      * @brief parseLicence

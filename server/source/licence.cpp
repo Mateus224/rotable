@@ -8,22 +8,23 @@
 #include <QFile>
 #include <QDir>
 
-#if defined(Q_OS_WIN) || defined(__ANDROID_API__)
-    #include <osrng.h>
-    #include <base64.h>
-    #include <files.h>
-#else
-    #include <cryptopp/osrng.h>
-    #include <cryptopp/base64.h>
-    #include <cryptopp/files.h>
-#endif
+
+//#if defined(Q_OS_WIN) || defined(__ANDROID_API__)
+//    #include <osrng.h>
+//    #include <base64.h>
+//    #include <files.h>
+//#else
+//    #include <cryptopp/osrng.h>
+//    #include <cryptopp/base64.h>
+//    #include <cryptopp/files.h>
+//#endif
 
 #include <fstream>
 #include <streambuf>
 
 using namespace std;
 using namespace rotable;
-using namespace CryptoPP;
+//using namespace CryptoPP;
 
 //------------------------------------------------------------------------------
 
@@ -43,21 +44,21 @@ Licence::Licence(const QDir &path, QObject *parent): QObject(parent), _maxTable(
 
 //------------------------------------------------------------------------------
 
-RSA::PublicKey  rotable::Licence::loadKeyFromFile() const
-{
-    //Open file from resource
-    QFile file(":/publkey.txt");
-    if (Q_UNLIKELY(!file.open(QIODevice::ReadOnly)))        //Check if we can read
-        throw new NoPublKeyException();                     //Something is  wrong with key
-    QTextStream in(&file);
-    std::string key_source = in.readAll().toStdString();
-    ArraySource as((const byte*)key_source.data(), key_source.size(),
-                                true, new Base64Decoder());
-    RSA::PublicKey key;
-    key.Load(as);
+//RSA::PublicKey  rotable::Licence::loadKeyFromFile() const
+//{
+//    //Open file from resource
+//    QFile file(":/publkey.txt");
+//    if (Q_UNLIKELY(!file.open(QIODevice::ReadOnly)))        //Check if we can read
+//        throw new NoPublKeyException();                     //Something is  wrong with key
+//    QTextStream in(&file);
+//    std::string key_source = in.readAll().toStdString();
+//    ArraySource as((const byte*)key_source.data(), key_source.size(),
+//                                true, new Base64Decoder());
+//    RSA::PublicKey key;
+//    key.Load(as);
 
-    return key;
-}
+//    return key;
+//}
 
 //------------------------------------------------------------------------------
 
@@ -73,25 +74,25 @@ string Licence::loadToString(const QString &filePath) const
 
 //------------------------------------------------------------------------------
 
-void Licence::verifityLicence(RSA::PublicKey publicKey,string licencePath, string sigPath) const
-{
-    //Read signed message
-    string signedTxt;
-    FileSource(licencePath.c_str(), true, new StringSink(signedTxt));
-    string sig;
-    FileSource(sigPath.c_str(), true, new StringSink(sig));
+//void Licence::verifityLicence(RSA::PublicKey publicKey,string licencePath, string sigPath) const
+//{
+//    //Read signed message
+//    string signedTxt;
+//    FileSource(licencePath.c_str(), true, new StringSink(signedTxt));
+//    string sig;
+//    FileSource(sigPath.c_str(), true, new StringSink(sig));
 
-    RSASSA_PKCS1v15_SHA_Verifier verifier(publicKey);
-    string combined(signedTxt);
-    combined.append(sig);
+//    RSASSA_PKCS1v15_SHA_Verifier verifier(publicKey);
+//    string combined(signedTxt);
+//    combined.append(sig);
 
-    StringSource(combined, true,
-       new SignatureVerificationFilter(
-           verifier, NULL,
-           SignatureVerificationFilter::THROW_EXCEPTION
-      )
-   );
-}
+//    StringSource(combined, true,
+//       new SignatureVerificationFilter(
+//           verifier, NULL,
+//           SignatureVerificationFilter::THROW_EXCEPTION
+//      )
+//   );
+//}
 
 //------------------------------------------------------------------------------
 
@@ -160,9 +161,9 @@ void rotable::Licence::loadLicence(const QDir &path) try
     if(Q_UNLIKELY(!isLicenceExists()))
         return;
 
-    auto key = loadKeyFromFile();
-    verifityLicence(key, path.filePath("licence.dat").toStdString(),
-                    path.filePath("licence.crt").toStdString());
+//    auto key = loadKeyFromFile();
+//    verifityLicence(key, path.filePath("licence.dat").toStdString(),
+//                    path.filePath("licence.crt").toStdString());
     auto licence = loadToString(path.filePath("licence.dat"));
     parseLicence(licence);
 
@@ -172,7 +173,7 @@ catch(NoLicenceException){ }
 catch(SignLicenceException){ }
 catch(UnvalidLiceneException){ }
 catch(UnvalidTimeException){ }
-catch(SignatureVerificationFilter::SignatureVerificationFailed){}
+//catch(SignatureVerificationFilter::SignatureVerificationFailed){}
 
 //------------------------------------------------------------------------------
 
