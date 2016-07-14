@@ -66,6 +66,6 @@ int main(int argc, char *argv[])
   QObject::connect(engine,  SIGNAL(quit()), qApp, SLOT(quit()));
 
   //engine->load(QUrl("qrc:/waiter/main3.qml"));
-  engine->load(QUrl("qrc:/waiter/main2.qml"));
+  engine->load(QUrl("qrc:/waiter/loginform.qml"));
   return app.exec();
 }
