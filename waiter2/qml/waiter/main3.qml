@@ -223,7 +223,8 @@ ApplicationWindow {
                                     Layout.fillWidth: true
                                     text: productList.productName(model.modelData.productId)  + " Amount: " + model.modelData.amount
                                     onClicked: model.modelData.change = checked
-                                    Component.onCompleted: checked = model.modelData.change
+                                    checked: model.modelData.change
+//                                    Component.onCompleted: checked = model.modelData.change
                                     //                                    Connections {
                                     //                                        target: model.modelData
                                     //                                        onChangeChange: changeCheck.checked = model.modelData.change
