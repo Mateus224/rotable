@@ -7,5 +7,6 @@
         <file>resources/Cross_grey.png</file>
         <file alias="main2.qml">qml/waiter/main2.qml</file>
         <file alias="main3.qml">qml/waiter/main3.qml</file>
+        <file alias="loginform.qml">qml/waiter/loginform.qml</file>
     </qresource>
 </RCC>
