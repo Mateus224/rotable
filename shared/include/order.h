@@ -63,7 +63,7 @@ public:
   inline void setAmount(int amount) { _amount = amount; emit amountChanged(); }
 
   inline int state() const { return _state; }
-  inline void setState(int state) { _state = state; emit stateChanged(); }
+  inline void setState(int state) { _state = state; emit stateChanged(); setChange(false); }
 
   inline double price() const { return _price; }
   inline void setPrice(double price) {_price = price; emit priceChanged(); }
