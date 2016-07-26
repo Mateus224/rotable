@@ -24,16 +24,20 @@ QString ConfigClient::macAdress() {
     if ((mac = value("Network/mac", "").toString()) == "")
     {
         // Try find  active connection
-        foreach(QNetworkInterface interface, QNetworkInterface::allInterfaces())
+        foreach(QNetworkInterface inter, QNetworkInterface::allInterfaces())
         {
             // Check if interface is up
-            if(interface.flags() & QNetworkInterface::IsUp)
-                mac = interface.hardwareAddress();
+            if(inter.flags() & QNetworkInterface::IsUp)
+            {
+                mac = inter.hardwareAddress();
+                if (mac!="") break;
+            }
         }
+
         // If we don't find active connection
         if(mac == "")
             // Set mac of first interface
-            mac = QNetworkInterface::allInterfaces().last().hardwareAddress();
+            mac = QNetworkInterface::allInterfaces().first().hardwareAddress();
         setValue("Network/mac", mac);   // Set value to config
     }
 
