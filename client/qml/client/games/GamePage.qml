@@ -61,11 +61,16 @@ Rectangle {
 
                 columns: 5
                 rows: 3
+
+                property int buttonMarginH: parent.width  * 0.015
+                property int buttonMarginV: parent.height * 0.025
+                property int buttonWidth:  (parent.width  - buttonMarginH) / 5.01 - buttonMarginH
+                property int buttonHeight: (parent.height - buttonMarginV) / 3.01 - buttonMarginV
+
                 spacing: parent.width  * 0.015
                 anchors.topMargin: parent.height * 0.025
                 anchors.leftMargin: parent.width  * 0.015
                 anchors.fill: parent
-
 
                 EmptyGridRect{
                     id: game0
