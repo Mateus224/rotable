@@ -52,20 +52,25 @@ int main(int argc, char *argv[])
 
   waiter_client->startup();
 
-  QQmlApplicationEngine *engine = new QQmlApplicationEngine(NULL);
+  QQuickView* view = new QQuickView();
 
-  QQmlContext *ctxt = engine->rootContext();//view.rootContext();sss
+  QQmlContext *ctxt = view->rootContext();//view.rootContext();sss
 
   ctxt->setContextProperty("tables", &(waiter_client->_tables));
   ctxt->setContextProperty("orderboard", &(waiter_client->_board));
   ctxt->setContextProperty("productList", &(waiter_client->_productsList));
   ctxt->setContextProperty("needBoard", &(waiter_client->_needBoard));
+  ctxt->setContextProperty("waiter", waiter_client);
   //view->setSource(QString("qrc:/waiter/main2.qml"));
+
+  QQmlEngine *engine = ctxt->engine();
 
   // Connect exit signal for exit
   QObject::connect(engine,  SIGNAL(quit()), qApp, SLOT(quit()));
 
-  //engine->load(QUrl("qrc:/waiter/main3.qml"));
-  engine->load(QUrl("qrc:/waiter/loginform.qml"));
+  view->setSource(QUrl("qrc:/waiter/qml/main.qml"));
+//  engine->load(QUrl("qrc:/waiter/loginform.qml"));
+//  waiter_client->setApplicationEngine(engine);
+  view->show();
   return app.exec();
 }
