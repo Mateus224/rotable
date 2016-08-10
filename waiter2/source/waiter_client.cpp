@@ -20,7 +20,7 @@ using namespace rotable;
 
 Waiter_Client::Waiter_Client(const QString &configFilePath, QObject *parent)
   : QObject(parent),
-    _accepted(false), _state("DISCONNECTED"), _stopping(false), _config(configFilePath)
+    _accepted(false), _state("DISCONNECTED"), _stopping(false), _config(configFilePath), _tryLogin(false), _loginViewState("")
 {
 
 //  Always work, not need
@@ -71,13 +71,16 @@ Waiter_Client::Waiter_Client(const QString &configFilePath, QObject *parent)
 
     connect(&_needBoard, &rotable::NeedBoard::unsetWaiterNeed,
             this, &rotable::Waiter_Client::tableNeedWaiterChanged);
+
+//    connect(this, &Waiter_Client::logOff, &_tcp, &TcpClient::close);
+    setState("Login");
 }
 
 
 Waiter_Client::~Waiter_Client()
 {
     _dataRequest.clear();     //Clear list
-   // _stopping=true;
+    _stopping=true;
 
     delete _products;
 }
@@ -87,8 +90,40 @@ Waiter_Client::~Waiter_Client()
 
 bool Waiter_Client::startup()
 {
-  reconnect();
+//  reconnect();
   return true;
+}
+
+//------------------------------------------------------------------------------
+
+void Waiter_Client::setApplicationEngine(QQmlApplicationEngine *engine)
+{
+    _engine = engine;
+}
+
+//------------------------------------------------------------------------------
+
+void Waiter_Client::logIn()
+{
+//    _engine->clearComponentCache();
+//    _engine->load(QUrl("qrc:/waiter/main3.qml"));
+    _stopping = false;
+    reconnect();
+//    QObject *rootObject = _engine->rootObjects().first();
+//    QObject *qmlObject = rootObject->findChild<QObject*>("pageLoader");
+
+    //    qmlObject->setProperty("source", "qrc:/waiter/main3.qml");
+
+}
+
+//------------------------------------------------------------------------------
+
+void Waiter_Client::logOff()
+{
+    _stopping = true;
+    _tcp.close();
+    setState("Login");
+    setLoginViewState("");
 }
 
 //------------------------------------------------------------------------------
@@ -107,8 +142,9 @@ void Waiter_Client::connected()
   ComPackageConnectionRequest request;
   request.setClientType(rotable::ComPackage::WaiterAccount);
   //Add login window
-  request.setClientName("TestWaiter");
-  request.setClientPass("TestWaiter");
+  _tryLogin = true;
+  request.setClientName(_login);
+  request.setClientPass(_password);
   if (!_tcp.send(request)) {
     qCritical() << tr("FATAL: Could not send connection request package!");
     exit(EXIT_FAILURE);
@@ -147,6 +183,7 @@ void Waiter_Client::packageReceived(ComPackage *package)
     {
       qDebug() << tr("Client accepted by server.");
       _accepted = true;
+      setState("WaiterView");
       requestTableList();
       requestCategoryIds();
     } break;
@@ -174,6 +211,13 @@ void Waiter_Client::packageReceived(ComPackage *package)
     case ComPackage::Reject:
     {
       qDebug() << tr("WARNING: Package has been rejected!");
+      if(_tryLogin)
+      {
+        setLoginViewState("WrongLogin");
+        _stopping = true;
+        _tcp.close();
+        setState("Login");
+      }
       //rejected(static_cast<ComPackageReject*>(package));
     } break;
 //    case ComPackage::WaiterNeed:
@@ -200,10 +244,17 @@ void Waiter_Client::rejected(ComPackageReject *rej)
 
 //------------------------------------------------------------------------------
 
+QString Waiter_Client::state() const
+{
+    return _state;
+}
+
+//------------------------------------------------------------------------------
+
 void Waiter_Client::setState(const QString &state)
 {
   _state = state;
-  //emit stateChanged();
+  emit stateChanged();
 }
 
 //------------------------------------------------------------------------------
