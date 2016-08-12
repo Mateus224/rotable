@@ -24,7 +24,8 @@ HEADERS += \
     include/orderboard.h \
     include/productlist.h \
     include/neededboard.h \
-    include/orderhistory.h
+    include/orderhistory.h \
+    include/languagesupport.h
 
 
 SOURCES += \
@@ -37,7 +38,8 @@ SOURCES += \
     source/orderboard.cpp \
     source/productlist.cpp \
     source/neededboard.cpp \
-    source/orderhistory.cpp
+    source/orderhistory.cpp \
+    source/languagesupport.cpp
 
 RESOURCES +=\
     resources.qrc \
@@ -113,3 +115,8 @@ DISTFILES += \
     qml/waiter/Label.qml \
     qml/waiter/TableButton.qml \
     qml/waiter/OrderItem.qml
+
+########################################################################
+# TRANSLATION:
+
+TRANSLATIONS = localisation/main2_pl.ts
