@@ -35,6 +35,13 @@ int main(int argc, char *argv[])
   QCoreApplication::translate("main", "Path of the configuration file."));
   parser.process(app);
 
+  /* Load translator */
+  QTranslator translator;
+  QString locale = QLocale::system().name();
+  locale.truncate(locale.lastIndexOf("_"));
+  bool result = translator.load("localisation/main2_"+locale);
+  app.installTranslator(&translator);
+
   /* Connection to server building*/
 //-----------------------------------------------------
   auto dir = QDir(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
