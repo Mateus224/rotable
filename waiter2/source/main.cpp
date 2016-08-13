@@ -4,6 +4,7 @@
 #include "../include/waiter_client.h"
 #include "orderinformation.h"
 #include "tablemodel.h"
+#include "languagesupport.h"
 #include <QGuiApplication>
 #include <QtQml/QQmlApplicationEngine>
 
@@ -36,11 +37,8 @@ int main(int argc, char *argv[])
   parser.process(app);
 
   /* Load translator */
-  QTranslator translator;
-  QString locale = QLocale::system().name();
-  locale.truncate(locale.lastIndexOf("_"));
-  bool result = translator.load("localisation/main2_"+locale);
-  app.installTranslator(&translator);
+
+  rotable::LanguageSupport langSupp;
 
   /* Connection to server building*/
 //-----------------------------------------------------
@@ -67,6 +65,8 @@ int main(int argc, char *argv[])
   ctxt->setContextProperty("orderboard", &(waiter_client->_board));
   ctxt->setContextProperty("productList", &(waiter_client->_productsList));
   ctxt->setContextProperty("needBoard", &(waiter_client->_needBoard));
+
+  ctxt->setContextProperty("langObject", &langSupp);
   //view->setSource(QString("qrc:/waiter/main2.qml"));
 
   // Connect exit signal for exit
