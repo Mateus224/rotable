@@ -3,18 +3,18 @@
 
 //------------------------------------------------------------------------------
 
-#include "configadmin.h"
-#include "tcpclient.h"
 #include "compackage.h"
+#include "configadmin.h"
 #include "serverloglistener.h"
+#include "tcpclient.h"
 
 #include <QObject>
 
 //------------------------------------------------------------------------------
 
 namespace rotable {
-  class ImageContainer;
-  class ProductContainer;
+class ImageContainer;
+class ProductContainer;
 }
 
 class MainWindow;
@@ -25,8 +25,7 @@ class MainWindow;
  * @brief
  *
  */
-class Executor : public QObject
-{
+class Executor : public QObject {
   Q_OBJECT
 
 public:
@@ -37,7 +36,7 @@ public:
    * @param configFilePath  path to config file
    * @param parent          parent object
    */
-  explicit Executor(MainWindow* mainwindow, const QString &configFilePath,
+  explicit Executor(MainWindow *mainwindow, const QString &configFilePath,
                     QObject *parent = 0);
 
   /**
@@ -45,14 +44,14 @@ public:
    *
    * @param images          image container
    */
-  void setImageContainer(rotable::ImageContainer* images);
+  void setImageContainer(rotable::ImageContainer *images);
 
   /**
    * Set the product container.
    *
    * @param products              product container
    */
-  void setProductContainer(rotable::ProductContainer* products);
+  void setProductContainer(rotable::ProductContainer *products);
 
 signals:
   /**
@@ -93,20 +92,20 @@ signals:
    *
    * @param category
    */
-  void categoryReceived(rotable::ProductCategory* category);
+  void categoryReceived(rotable::ProductCategory *category);
 
   /**
    * @brief
    *
    * @param string
    */
-  void onLicenceStatus(const QString& string);
+  void onLicenceStatus(const QString &string);
   /**
    * @brief
    *
    * @param string
    */
-  void onLicenceConfig(const QString& string);
+  void onLicenceConfig(const QString &string);
 
   /**
    * @brief
@@ -142,7 +141,7 @@ public slots:
    *
    * @param category      updated category
    */
-  void onUpdateCategory(rotable::ProductCategory* category);
+  void onUpdateCategory(rotable::ProductCategory *category);
 
   /**
    * Button to add a new product has been clicked.
@@ -154,7 +153,7 @@ public slots:
    *
    * @param product       updated product
    */
-  void onUpdateProduct(rotable::Product* product);
+  void onUpdateProduct(rotable::Product *product);
 
   /**
    * Button to reset the complete database has been clicked.
@@ -172,12 +171,14 @@ public slots:
   void onImportDatabase();
 
   /**
-   * Button to remove the currently selected product or category has been clicked.
+   * Button to remove the currently selected product or category has been
+   * clicked.
    */
   void onRemoveCurrentEntry();
 
   /**
-   * Button to rename the currently selected product or category has been clicked.
+   * Button to rename the currently selected product or category has been
+   * clicked.
    */
   void onRenameCurrentEntry();
 
@@ -239,7 +240,6 @@ public slots:
    */
   void onCategoryDown();
 
-
 private slots:
   /**
    * @brief
@@ -264,7 +264,7 @@ private slots:
    *
    * @param package
    */
-  void onPackageReceived(rotable::ComPackage* package);
+  void onPackageReceived(rotable::ComPackage *package);
 
 private:
   /**
@@ -290,6 +290,7 @@ private:
    * @param productId
    */
   void requestProduct(int productId);
+  void requestUser(int userId);
   /**
    * @brief
    *
@@ -302,33 +303,38 @@ private:
   void requestLicenceStatus();
 
   /**
-   * @brief
-   *
-   * @param package
+   * @brief requestClientList
    */
-  void dataReturned(rotable::ComPackageDataReturn* package);
+  void requestClientIds();
+
   /**
    * @brief
    *
    * @param package
    */
-  void dataChanged(rotable::ComPackageDataChanged* package);
+  void dataReturned(rotable::ComPackageDataReturn *package);
+  /**
+   * @brief
+   *
+   * @param package
+   */
+  void dataChanged(rotable::ComPackageDataChanged *package);
 
   /**
    * @brief
    *
    * @param path
    */
-  void loadServerConfigs(const QString& path);
+  void loadServerConfigs(const QString &path);
   /**
    * @brief
    *
    * @param status
    */
-  void loadLicenceStatus(const QString& status);
+  void loadLicenceStatus(const QString &status);
 
   /* MainWindow object */
-  MainWindow* _mainwindow;
+  MainWindow *_mainwindow;
 
   /* Config object */
   ConfigAdmin _config;
@@ -343,19 +349,19 @@ private:
   bool _disconnectRequested;
 
   /* Currently pending data requests */
-  QMap<QString, rotable::ComPackageDataRequest*> _dataRequest;
+  QMap<QString, rotable::ComPackageDataRequest *> _dataRequest;
 
   /* Images */
-  rotable::ImageContainer* _images;
+  rotable::ImageContainer *_images;
 
   /* Products and categories */
-  rotable::ProductContainer* _products;
+  rotable::ProductContainer *_products;
 
-  rotable::ProductCategory* _selectedCategory;
-  rotable::Product* _selectedProduct; /**< TODO: describe */
+  rotable::ProductCategory *_selectedCategory;
+  rotable::Product *_selectedProduct; /**< TODO: describe */
 
   ServerLogListener _serverLogListener; /**< TODO: describe */
-}; // class Executor
+};                                      // class Executor
 
 //------------------------------------------------------------------------------
 
