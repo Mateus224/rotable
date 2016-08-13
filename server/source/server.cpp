@@ -292,7 +292,8 @@ void Server::clientDisconnected(client_t client, const QString &clientName) {
 
 //------------------------------------------------------------------------------
 
-ComPackageDataReturn *Server::getData(ComPackageDataRequest *request, client_t client) {
+ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
+                                      client_t client) {
   switch (request->dataCategory()) {
   case ComPackage::RequestImage: {
     if (_images.contains(request->dataName())) {
@@ -494,16 +495,16 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request, client_t c
   } break;
   case ComPackage::RequestUserIds: {
     if (ifAdmin(client)) {
-        QList<int> ids;
-        if (_db.userIds(ids)) {
-          QJsonArray arr;
-          foreach (int id, ids)
-            arr.append(id);
-          QJsonValue jsonVal(arr);
-          return new ComPackageDataReturn(*request, jsonVal);
-        } else
-          qCritical() << tr("Could not query users ids for account type %1!")
-                             .arg(rotable::ComPackage::TableAccount);
+      QList<int> ids;
+      if (_db.userIds(ids)) {
+        QJsonArray arr;
+        foreach (int id, ids)
+          arr.append(id);
+        QJsonValue jsonVal(arr);
+        return new ComPackageDataReturn(*request, jsonVal);
+      } else
+        qCritical() << tr("Could not query users ids for account type %1!")
+                           .arg(rotable::ComPackage::TableAccount);
     }
   } break;
   default: {
