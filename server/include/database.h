@@ -157,6 +157,15 @@ public:
    */
   bool clientIds(QList<int> &ids, int userType);
 
+
+  /**
+   * @brief             Get ids of users (waiters and admins)
+   *
+   * @param ids         list of ids - output
+   * @return bool       true on success
+   */
+  bool userIds(QList<int> &ids);
+
   /**
    * Read category from database.
    *
