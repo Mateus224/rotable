@@ -10,6 +10,17 @@ Rectangle{
     property int margin: 10
     width: 1333
     height: 786
+    gradient: Gradient {
+        GradientStop {
+            position: 0
+            color: "#ffffff"
+        }
+
+        GradientStop {
+            position: 1
+            color: "#000000"
+        }
+    }
 
     WaiterView {
         id: waiterView1
