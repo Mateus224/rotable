@@ -123,7 +123,10 @@ public:
     RequestIncome,
 
     /* Request user ids (admins + waiters) */
-    RequestUserIds
+    RequestUserIds,
+
+    /* Request user data*/
+    RequestUser
   };
 
   /**

@@ -356,7 +356,7 @@ bool Database::userIds(QList<int> &ids) {
     }
 
     QString queryStr =
-        _sqlCommands[Clients]._select.arg(_prefix, "`id`", "type", ":type and type = :type2");
+        _sqlCommands[Clients]._select.arg(_prefix, "`id`", "type", ":type or type = :type2");
     QSqlQuery q(_db);
     q.setForwardOnly(true);
 
