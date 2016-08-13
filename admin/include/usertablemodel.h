@@ -22,6 +22,7 @@ public:
      */
     enum Columns {
       name = 0,
+      nick,
       accountType
     };
 
