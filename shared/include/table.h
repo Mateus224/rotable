@@ -25,6 +25,10 @@ namespace rotable {
 
 //------------------------------------------------------------------------------
 
+/**
+ * @brief
+ *
+ */
 class rotable::Table : public rotable::Client{
 
     Q_OBJECT
@@ -35,9 +39,18 @@ class rotable::Table : public rotable::Client{
 public:
 
     // Default destructor
+    /**
+     * @brief
+     *
+     */
     ~Table();
 
     //Default constructor
+    /**
+     * @brief
+     *
+     * @param parent
+     */
     explicit Table(QObject *parent = 0);
 
     //------------------------------------------------------------------------------
@@ -57,13 +70,38 @@ public:
     // Property
     //------------------------------------------------------------------------------
 
+    /**
+     * @brief
+     *
+     * @return bool
+     */
     inline bool waiterIsNeeded() const { return _waiterIsNeeded; }
+    /**
+     * @brief
+     *
+     * @param waiterIsNeeded
+     */
     inline void setwaiterIsNeedede(bool waiterIsNeeded) { _waiterIsNeeded = waiterIsNeeded; emit waiterIsNeededChanged();}
 
 
+    /**
+     * @brief
+     *
+     * @return bool
+     */
     inline bool isConnected() const { return _isConnected; }
+    /**
+     * @brief
+     *
+     * @param isConnected
+     */
     inline void setIsConnected(bool isConnected)  { _isConnected = isConnected; emit isConnectedChanged(); }
 
+    /**
+     * @brief
+     *
+     * @return int
+     */
     inline int lastOrderId() const { return _lastOrder; }
     //------------------------------------------------------------------------------
     // Method
@@ -203,17 +241,49 @@ private:
     int _lastOrder;
 
 signals:
+    /**
+     * @brief
+     *
+     */
     void tableChanged();
+    /**
+     * @brief
+     *
+     */
     void waiterIsNeededChanged();
+    /**
+     * @brief
+     *
+     */
     void isConnectedChanged();
+    /**
+     * @brief
+     *
+     */
     void sendOrders();
+    /**
+     * @brief
+     *
+     */
     void lastOrderChange();
 
 public slots:
+    /**
+     * @brief
+     *
+     */
     void diconnectRemote();
+    /**
+     * @brief
+     *
+     */
     void prepareOrderToSend();
 
 private slots:
+    /**
+     * @brief
+     *
+     */
     void orderChanged();
 
 };  // class Table

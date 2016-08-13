@@ -71,6 +71,11 @@ public:
   }
 
 signals:
+  /**
+   * @brief
+   *
+   * @param level
+   */
   void gimmeLogHistory(int level);
 
 private slots:
@@ -94,7 +99,7 @@ private slots:
   }
 
 private:
-  QAbstractSocket* _socket;
+  QAbstractSocket* _socket; /**< TODO: describe */
 }; // class LogListenerRemote
 
 //------------------------------------------------------------------------------
