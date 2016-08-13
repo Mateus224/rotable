@@ -54,9 +54,6 @@ int ProductTableModel::rowCount(const QModelIndex& parent) const
 
 QVariant ProductTableModel::data(const QModelIndex& index, int role) const
 {
-
-  qDebug() << index.column();
-
   if (role ==  Qt::BackgroundRole) {
     if (index.row() % 2) {
       return QVariant(QBrush(QColor(200, 250, 200)));

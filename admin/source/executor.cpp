@@ -20,8 +20,8 @@ using namespace rotable;
 
 Executor::Executor(MainWindow* mainwindow, const QString& configFilePath,
                    QObject *parent)
-  : QObject(parent), _mainwindow(mainwindow), _disconnectRequested(false),
-    _images(0), _products(0), _config(configFilePath)
+  : QObject(parent), _mainwindow(mainwindow), _config(configFilePath), _disconnectRequested(false),
+    _images(0), _products(0)
 {
   connect(&_tcp_client, SIGNAL(connected()), this, SLOT(onConnectionEstablished()));
   connect(&_tcp_client, SIGNAL(disconnected()), this, SLOT(onConnectionLost()));
