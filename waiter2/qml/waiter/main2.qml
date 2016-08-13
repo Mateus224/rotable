@@ -7,7 +7,7 @@ import QtGraphicalEffects 1.0
 ApplicationWindow {
     id:applicationWindow
     visible: true
-    title: qsTr("Waiter client")
+    title: qsTr("Waiter client") + langObject.emptyString
     color: "#7AAEEE"
     property int margin: 10
 
@@ -38,25 +38,50 @@ ApplicationWindow {
                 anchors.leftMargin: 0
                 anchors.top: parent.top
                 anchors.topMargin: 0
-                title: qsTr("Menu")
+                title: qsTr("Menu") + langObject.emptyString
                 //Layout.fillWidth: true
 
                 RowLayout {
                     id: rowLayout
                     anchors.fill: parent
                     Button {
-                        text: qsTr("Log out")
+                        text: qsTr("Log out") + langObject.emptyString
                         enabled: false
                     }
                     Button {
-                        text: qsTr("Settings")
+                        text: qsTr("Settings") + langObject.emptyString
                         enabled: false
                     }
                     Button {
-                        text: qsTr("Exit")
+                        text: qsTr("Exit") + langObject.emptyString
                         onClicked: Qt.quit()
                     }
                 }
+            }
+
+            GroupBox {
+                id: langSelect
+                anchors.right: parent.right
+                anchors.rightMargin: 0
+                anchors.left: parent.left
+                anchors.leftMargin: 0
+                anchors.top: rowBox.bottom
+                anchors.topMargin: 0
+                title: "Language"
+
+                RowLayout {
+                    id: langButtons
+                    anchors.fill: parent
+                    Button {
+                        text: qsTr("English") + langObject.emptyString
+                        onClicked: langObject.selectLanguage("en")
+                    }
+                    Button {
+                        text: qsTr("Polish") + langObject.emptyString
+                        onClicked: langObject.selectLanguage("pl")
+                    }
+                }
+
             }
 
             Rectangle{
@@ -77,7 +102,7 @@ ApplicationWindow {
                     height: 75
                     anchors.top: parent.top
                     anchors.centerIn: parent
-                    text: qsTr("Today income")
+                    text: qsTr("Today income") + langObject.emptyString
                     font.pixelSize: 22
                     font.bold: true
                 }
@@ -96,7 +121,7 @@ ApplicationWindow {
                 id: tableList
                 z:1
                 height: (applicationWindow.height/4)*3
-                anchors.top: rowBox.bottom
+                anchors.top: langSelect.bottom
                 anchors.right: parent.right
                 anchors.left: parent.left
                 anchors.leftMargin: 0
@@ -248,7 +273,7 @@ ApplicationWindow {
                 Text {
                     font.family: "Lobster two"
                     anchors.centerIn: parent
-                    text: qsTr("Bill on table: ") + orderboard.ordersPrice.toFixed(2)
+                    text: qsTr("Bill on table: ") + langObject.emptyString + orderboard.ordersPrice.toFixed(2)
                     font.pixelSize: 22
                     font.bold: true
                 }
@@ -295,7 +320,7 @@ ApplicationWindow {
                                 font.bold: true
                                 font.family: "Lobster two"
                                 font.pixelSize: 20
-                                text: qsTr("To pay: ") + orderPrice;
+                                text: qsTr("To pay: ") + langObject.emptyString + orderPrice;
                             }
 
                             ListView{
@@ -361,7 +386,7 @@ ApplicationWindow {
                         Text {
                             font.family: "Lobster two"
                             anchors.centerIn: parent
-                            text: qsTr("Bill on table: ") + orderboard.ordersPrice.toFixed(2)
+                            text: qsTr("Bill on table: ") + langObject.emptyString + orderboard.ordersPrice.toFixed(2)
                             font.pixelSize: 22
                             font.bold: true
                         }
@@ -384,7 +409,7 @@ ApplicationWindow {
                         font.family: "Lobster two"
                         //anchors.left: parent.left
                         anchors.centerIn: parent
-                        text: qsTr("Table need waiter")
+                        text: qsTr("Table need waiter") + langObject.emptyString
                         font.pixelSize: 22
                         font.bold: true
                     }
@@ -418,7 +443,7 @@ ApplicationWindow {
 
                             Text{
                                 id: labelneedList
-                                text: qsTr("Table need waiter")
+                                text: qsTr("Table need waiter") + langObject.emptyString
                                 font.bold: true
                                 font.family: "Lobster two"
                                 font.pixelSize: 20
