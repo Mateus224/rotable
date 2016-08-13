@@ -18,19 +18,19 @@
 //------------------------------------------------------------------------------
 
 namespace rotable {
-  class ComPackage;
-  class ComPackageConnectionRequest;
-  class ComPackageConnectionAccept;
-  class ComPackageDataRequest;
-  class ComPackageDataReturn;
-  class ComPackageDataChanged;
-  class ComPackageDataSet;
-  class ComPackageReject;
-  class ComPackageCommand;
-  class ComPackageSendOrder;
-  class ComPackageLogin;
-  class ComPackageWaiterNeed;
-  class ComPackageMessage;
+class ComPackage;
+class ComPackageConnectionRequest;
+class ComPackageConnectionAccept;
+class ComPackageDataRequest;
+class ComPackageDataReturn;
+class ComPackageDataChanged;
+class ComPackageDataSet;
+class ComPackageReject;
+class ComPackageCommand;
+class ComPackageSendOrder;
+class ComPackageLogin;
+class ComPackageWaiterNeed;
+class ComPackageMessage;
 }
 
 //------------------------------------------------------------------------------
@@ -39,8 +39,7 @@ namespace rotable {
  * The ComPackage class encapsulates a client/server communication package.
  * This is just the base class.
  */
-class rotable::ComPackage
-{
+class rotable::ComPackage {
 public:
   /**
    * Enumeration of package types.
@@ -121,7 +120,10 @@ public:
     RequestLicence,
 
     /* Request income from certain day */
-    RequestIncome
+    RequestIncome,
+
+    /* Request user ids (admins + waiters) */
+    RequestUserIds
   };
 
   /**
@@ -178,7 +180,7 @@ public:
    * @param doc               JSON document
    * @return                  package object or 0 on error
    */
-  static ComPackage* fromJson(const QJsonDocument& doc);
+  static ComPackage *fromJson(const QJsonDocument &doc);
 
   /**
    * Default constructor.
@@ -212,7 +214,7 @@ protected:
    *
    * @param o                 JSON object
    */
-  void addData(QJsonObject& o) const;
+  void addData(QJsonObject &o) const;
 
 private:
   /* Package id */
@@ -224,8 +226,7 @@ private:
 /**
  * This package is used by a client to request a new connection.
  */
-class rotable::ComPackageConnectionRequest : public ComPackage
-{
+class rotable::ComPackageConnectionRequest : public ComPackage {
   friend class ComPackage;
 
 public:
@@ -234,19 +235,19 @@ public:
    */
   ComPackageConnectionRequest();
 
-  inline const QString& clientName() const { return _clientName; }
+  inline const QString &clientName() const { return _clientName; }
   /**
    * @brief
    *
    * @return const QString
    */
-  inline const QString& clientPass() const { return _clientPass; }
+  inline const QString &clientPass() const { return _clientPass; }
   /**
    * @brief
    *
    * @return const int
    */
-  inline const int& clientType() const { return _clientType; }
+  inline const int &clientType() const { return _clientType; }
   /**
    * @brief
    *
@@ -266,13 +267,17 @@ public:
    *
    * @param clientName
    */
-  inline void setClientName(const QString& clientName) { _clientName = clientName; }
+  inline void setClientName(const QString &clientName) {
+    _clientName = clientName;
+  }
   /**
    * @brief
    *
    * @param clientPass
    */
-  inline void setClientPass(const QString& clientPass) { _clientPass = clientPass; }
+  inline void setClientPass(const QString &clientPass) {
+    _clientPass = clientPass;
+  }
   /**
    * @brief
    *
@@ -297,8 +302,7 @@ private:
  * @brief
  *
  */
-class rotable::ComPackageConnectionAccept : public ComPackage
-{
+class rotable::ComPackageConnectionAccept : public ComPackage {
   friend class ComPackage;
 
 public:
@@ -323,8 +327,7 @@ public:
  * @brief
  *
  */
-class rotable::ComPackageDataRequest : public ComPackage
-{
+class rotable::ComPackageDataRequest : public ComPackage {
   friend class ComPackage;
 
 public:
@@ -346,20 +349,22 @@ public:
    *
    * @return const QString
    */
-  inline const QString& dataName() const { return _dataName; }
+  inline const QString &dataName() const { return _dataName; }
 
   /**
    * @brief
    *
    * @param dataCategory
    */
-  inline void setDataCategory(DataRequestCategory dataCategory) { _dataCategory = dataCategory; }
+  inline void setDataCategory(DataRequestCategory dataCategory) {
+    _dataCategory = dataCategory;
+  }
   /**
    * @brief
    *
    * @param dataName
    */
-  inline void setDataName(const QString& dataName) { _dataName = dataName; }
+  inline void setDataName(const QString &dataName) { _dataName = dataName; }
 
   /**
    * @brief
@@ -369,10 +374,10 @@ public:
   QByteArray toByteArray() const;
 
 private:
-  int _dataCategory; /**< TODO: describe */
+  int _dataCategory;    /**< TODO: describe */
   int _databaseRequest; /**< TODO: describe */
-  QString _dataName; /**< TODO: describe */
-}; // class ComPackageConnectionRequest
+  QString _dataName;    /**< TODO: describe */
+};                      // class ComPackageConnectionRequest
 
 //------------------------------------------------------------------------------
 
@@ -380,8 +385,7 @@ private:
  * @brief
  *
  */
-class rotable::ComPackageDataReturn : public ComPackage
-{
+class rotable::ComPackageDataReturn : public ComPackage {
   friend class ComPackage;
 
 public:
@@ -396,7 +400,7 @@ public:
    * @param r           request package
    * @param data        returned data
    */
-  ComPackageDataReturn(const ComPackageDataRequest& r, const QJsonValue& data);
+  ComPackageDataReturn(const ComPackageDataRequest &r, const QJsonValue &data);
 
   inline Type type() const { return DataReturn; }
 
@@ -411,38 +415,40 @@ public:
    *
    * @return const QString
    */
-  inline const QString& dataName() const { return _dataName; }
+  inline const QString &dataName() const { return _dataName; }
   /**
    * @brief
    *
    * @return const QJsonValue
    */
-  inline const QJsonValue& data() const { return _data; }
+  inline const QJsonValue &data() const { return _data; }
   /**
    * @brief
    *
    * @return const QString
    */
-  inline const QString& originId() const { return _originId; }
+  inline const QString &originId() const { return _originId; }
 
   /**
    * @brief
    *
    * @param dataCategory
    */
-  inline void setDataCategory(DataRequestCategory dataCategory) { _dataCategory = dataCategory; }
+  inline void setDataCategory(DataRequestCategory dataCategory) {
+    _dataCategory = dataCategory;
+  }
   /**
    * @brief
    *
    * @param dataName
    */
-  inline void setDataName(const QString& dataName) { _dataName = dataName; }
+  inline void setDataName(const QString &dataName) { _dataName = dataName; }
   /**
    * @brief
    *
    * @param data
    */
-  inline void setData(const QJsonValue& data) { _data = data; }
+  inline void setData(const QJsonValue &data) { _data = data; }
 
   /**
    * @brief
@@ -461,7 +467,7 @@ public:
 private:
   int _dataCategory; /**< TODO: describe */
   QString _dataName; /**< TODO: describe */
-  QJsonValue _data; /**< TODO: describe */
+  QJsonValue _data;  /**< TODO: describe */
 
   /* ID of the package that requested the data */
   QString _originId;
@@ -473,8 +479,7 @@ private:
  * @brief
  *
  */
-class rotable::ComPackageDataChanged : public ComPackage
-{
+class rotable::ComPackageDataChanged : public ComPackage {
   friend class ComPackage;
 
 public:
@@ -496,20 +501,22 @@ public:
    *
    * @return const QString
    */
-  inline const QString& dataName() const { return _dataName; }
+  inline const QString &dataName() const { return _dataName; }
 
   /**
    * @brief
    *
    * @param dataCategory
    */
-  inline void setDataCategory(DataRequestCategory dataCategory) { _dataCategory = dataCategory; }
+  inline void setDataCategory(DataRequestCategory dataCategory) {
+    _dataCategory = dataCategory;
+  }
   /**
    * @brief
    *
    * @param dataName
    */
-  inline void setDataName(const QString& dataName) { _dataName = dataName; }
+  inline void setDataName(const QString &dataName) { _dataName = dataName; }
 
   /**
    * @brief
@@ -521,7 +528,7 @@ public:
 private:
   int _dataCategory; /**< TODO: describe */
   QString _dataName; /**< TODO: describe */
-}; // class ComPackageDataChanged
+};                   // class ComPackageDataChanged
 
 //------------------------------------------------------------------------------
 
@@ -529,8 +536,7 @@ private:
  * @brief
  *
  */
-class rotable::ComPackageDataSet : public ComPackage
-{
+class rotable::ComPackageDataSet : public ComPackage {
   friend class ComPackage;
 
 public:
@@ -552,32 +558,34 @@ public:
    *
    * @return const QString
    */
-  inline const QString& dataName() const { return _dataName; }
+  inline const QString &dataName() const { return _dataName; }
   /**
    * @brief
    *
    * @return const QJsonValue
    */
-  inline const QJsonValue& data() const { return _data; }
+  inline const QJsonValue &data() const { return _data; }
 
   /**
    * @brief
    *
    * @param dataCategory
    */
-  inline void setDataCategory(DataSetCategory dataCategory) { _dataCategory = dataCategory; }
+  inline void setDataCategory(DataSetCategory dataCategory) {
+    _dataCategory = dataCategory;
+  }
   /**
    * @brief
    *
    * @param dataName
    */
-  inline void setDataName(const QString& dataName) { _dataName = dataName; }
+  inline void setDataName(const QString &dataName) { _dataName = dataName; }
   /**
    * @brief
    *
    * @param data
    */
-  inline void setData(const QJsonValue& data) { _data = data; }
+  inline void setData(const QJsonValue &data) { _data = data; }
 
   /**
    * @brief
@@ -589,8 +597,8 @@ public:
 private:
   int _dataCategory; /**< TODO: describe */
   QString _dataName; /**< TODO: describe */
-  QJsonValue _data; /**< TODO: describe */
-}; // class ComPackageDataSet
+  QJsonValue _data;  /**< TODO: describe */
+};                   // class ComPackageDataSet
 
 //------------------------------------------------------------------------------
 
@@ -598,8 +606,7 @@ private:
  * @brief
  *
  */
-class rotable::ComPackageReject : public ComPackage
-{
+class rotable::ComPackageReject : public ComPackage {
   friend class ComPackage;
 
 public:
@@ -613,7 +620,7 @@ public:
    *
    * @param originId        id of rejected package
    */
-  ComPackageReject(const QString& originId);
+  ComPackageReject(const QString &originId);
 
   inline Type type() const { return Reject; }
 
@@ -622,7 +629,7 @@ public:
    *
    * @return const QString
    */
-  inline const QString& originId() const { return _originId; }
+  inline const QString &originId() const { return _originId; }
 
   /**
    * @brief
@@ -641,8 +648,7 @@ private:
 /**
  * The command package can be user to send special commands to the server.
  */
-class rotable::ComPackageCommand : public ComPackage
-{
+class rotable::ComPackageCommand : public ComPackage {
   friend class ComPackage;
 
 public:
@@ -659,15 +665,17 @@ public:
    * @return              command type
    */
   inline int commandType() const { return _commandType; }
-  inline const QJsonValue& data() const { return _data; }
+  inline const QJsonValue &data() const { return _data; }
 
   /**
    * Set command type.
    *
    * @param commandType   command type
    */
-  inline void setCommandType(CommandType commandType) { _commandType = commandType; }
-  inline void setData(const QJsonValue& data) { _data = data; }
+  inline void setCommandType(CommandType commandType) {
+    _commandType = commandType;
+  }
+  inline void setData(const QJsonValue &data) { _data = data; }
 
   /**
    * @brief
@@ -689,15 +697,14 @@ private:
 /**
  * The waiter request package change waiter need on table.
  */
-class rotable::ComPackageWaiterNeed : public ComPackage
-{
+class rotable::ComPackageWaiterNeed : public ComPackage {
   friend class ComPackage;
 
 public:
   /**
    * Default constrcutor
    */
-  ComPackageWaiterNeed(): ComPackage(), _tableId(-1) {}
+  ComPackageWaiterNeed() : ComPackage(), _tableId(-1) {}
 
   inline Type type() const { return WaiterNeed; }
 
@@ -744,11 +751,10 @@ private:
  * @brief
  *
  */
-class rotable::ComPackageMessage : public ComPackage
-{
+class rotable::ComPackageMessage : public ComPackage {
   friend class ComPackage;
-public:
 
+public:
   /**
    * Default constructor
    */
@@ -774,7 +780,7 @@ public:
    *
    * @return QString
    */
-  QString message() const {return _msg; }
+  QString message() const { return _msg; }
   /**
    * @brief
    *
@@ -790,8 +796,8 @@ public:
   QByteArray toByteArray() const Q_DECL_OVERRIDE;
 
 private:
-    int _msgType; /**< TODO: describe */
-    QString _msg; /**< TODO: describe */
+  int _msgType; /**< TODO: describe */
+  QString _msg; /**< TODO: describe */
 };
 
 //------------------------------------------------------------------------------
