@@ -309,13 +309,13 @@ private:
   Q_PROPERTY(​QQmlListProperty<OrderItem> items READ items NOTIFY itemsChanged)
 
 public:
-  /**
-   * Constructor
-   *
-   * @param jval          JSON value
-   * @param parent        parent object
-   */
-  explicit Order(const QJsonValue& jval, QObject *parent = 0);
+//  /**
+//   * Constructor
+//   *
+//   * @param jval          JSON value
+//   * @param parent        parent object
+//   */
+//  explicit Order(const QJsonValue& jval, QObject *parent = 0);
 
   /**
    * Constructor

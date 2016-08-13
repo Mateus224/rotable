@@ -44,6 +44,15 @@ public:
      * @return int
      */
     int count() const;
+
+    /**
+     * @brief Get user base on id
+     * @param id    user id
+     * @return      user object
+     */
+    User* user(int idx) const;
+
+    void changeAccountType(int id, int accountType) const;
 signals:
     /**
      * @brief
@@ -67,7 +76,7 @@ signals:
      */
     void updateView();
 private:
-    QHash <int, User*> _users; /**< TODO: describe */
+    QHash <int, User*> _users; /** Container with users */
 };
 
 //------------------------------------------------------------------------------

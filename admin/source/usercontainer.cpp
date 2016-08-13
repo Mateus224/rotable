@@ -41,3 +41,20 @@ int rotable::UserContainter::count() const
 }
 
 //------------------------------------------------------------------------------
+
+rotable::User *rotable::UserContainter::user(int idx) const
+{
+    return _users[idx];
+}
+
+//------------------------------------------------------------------------------
+
+void rotable::UserContainter::changeAccountType(int id, int accountType) const
+{
+    Q_UNIMPLEMENTED();
+    Q_UNUSED(id)
+    Q_UNUSED(accountType)
+    //TODO: implement
+}
+
+//------------------------------------------------------------------------------

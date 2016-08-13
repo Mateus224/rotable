@@ -54,7 +54,6 @@ HEADERS += \
     include/orderinformation.h \
     include/qmlcontxt.h \
     include/productorderlistmodel.h \
-    include/productorderlistmodel.h \
     include/client.h \
     include/waiter.h \
     include/table.h \
