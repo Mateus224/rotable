@@ -35,20 +35,73 @@ class rotable::ProductCategory : public QObject
   Q_PROPERTY(int sequence READ sequence WRITE setSequence NOTIFY sequenceChanged)
 
 public:
+  /**
+   * @brief
+   *
+   * @param parent
+   */
   explicit ProductCategory(QObject *parent = 0);
 
+  /**
+   * @brief
+   *
+   * @return const QString
+   */
   inline const QString& name() const { return _name; }
+  /**
+   * @brief
+   *
+   * @param str
+   */
   void setName(const QString &str);
 
+  /**
+   * @brief
+   *
+   * @return const QString
+   */
   inline const QString& icon() const { return _icon; }
+  /**
+   * @brief
+   *
+   * @param ico
+   */
   void setIcon(const QString &ico);
 
+  /**
+   * @brief
+   *
+   * @return int
+   */
   inline int id() const { return _id; }
+  /**
+   * @brief
+   *
+   * @param id
+   */
   inline void setId(int id) { _id = id; }
 
+  /**
+   * @brief
+   *
+   * @return int
+   */
   inline  int sequence() const { return _sequence; }
+  /**
+   * @brief
+   *
+   * @param sequence
+   */
   inline void setSequence(int sequence) { _sequence = sequence; emit sequenceChanged();}
+  /**
+   * @brief
+   *
+   */
   inline void up() { --_sequence; emit sequenceChanged(); }
+  /**
+   * @brief
+   *
+   */
   inline void down() { ++_sequence; emit sequenceChanged(); }
 
   /**
@@ -67,8 +120,20 @@ public:
   static ProductCategory *fromJSON(const QJsonValue& jval);
 
 signals:
+  /**
+   * @brief
+   *
+   */
   void nameChanged();
+  /**
+   * @brief
+   *
+   */
   void iconChanged();
+  /**
+   * @brief
+   *
+   */
   void sequenceChanged();
 
 private:

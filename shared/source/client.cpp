@@ -10,7 +10,8 @@ using namespace rotable;
 
 User::User(QObject *parent): Client(parent)
 {
-
+    connect(this, &User::nickChanged, this, &User::userChanged);
+    connect(this, &User::hashPasswordChanged, this, &User::userChanged);
 }
 
 //------------------------------------------------------------------------------
@@ -31,6 +32,15 @@ void User::setPassword(const QString& password)
 {
     _passwd = generateHashPassword(password);                              // set _passwd with hash
     emit hashPasswordChanged();
+}
+
+//------------------------------------------------------------------------------
+
+void User::updateData(rotable::User *user)
+{
+    _passwd = user->_passwd;
+    _name = user->_name;
+    _nick = user->_nick;
 }
 
 //------------------------------------------------------------------------------
