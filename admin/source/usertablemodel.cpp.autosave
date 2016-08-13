@@ -1,0 +1,60 @@
+#include "usertablemodel.h"
+
+//------------------------------------------------------------------------------
+
+int UserTableModel::rowCount(const QModelIndex &parent) const
+{
+    _container.count();
+}
+
+//------------------------------------------------------------------------------s
+
+QVariant UserTableModel::data(const QModelIndex &index, int role) const
+{
+
+}
+
+//------------------------------------------------------------------------------
+
+bool UserTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+
+}
+
+//------------------------------------------------------------------------------
+
+Qt::ItemFlags UserTableModel::flags(const QModelIndex &index) const
+{
+    return Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled;
+}
+
+//------------------------------------------------------------------------------
+
+int UserTableModel::columnCount(const QModelIndex &parent) const
+{
+    Q_UNUSED(parent)
+    return accountType + 1;
+}
+
+//------------------------------------------------------------------------------
+
+QModelIndex UserTableModel::index(int row, int column, const QModelIndex &parent) const
+{
+    if (!parent.isValid()) {
+      QList<int> ids = _conta->productIds(_currentCategoryId);
+      if (row >= 0 && row < ids.size() && column >= 0 && column <= info) {
+        return createIndex(row, column, ids[row]);
+      }
+    }
+  
+    return QModelIndex();
+}
+
+//------------------------------------------------------------------------------
+
+QVariant UserTableModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+
+}
+
+//------------------------------------------------------------------------------

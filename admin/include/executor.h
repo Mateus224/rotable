@@ -21,6 +21,10 @@ class MainWindow;
 
 //------------------------------------------------------------------------------
 
+/**
+ * @brief
+ *
+ */
 class Executor : public QObject
 {
   Q_OBJECT
@@ -51,19 +55,70 @@ public:
   void setProductContainer(rotable::ProductContainer* products);
 
 signals:
+  /**
+   * @brief
+   *
+   */
   void connectionEstablished();
+  /**
+   * @brief
+   *
+   */
   void connectionLost();
+  /**
+   * @brief
+   *
+   */
   void serverLogConnectionEstablished();
+  /**
+   * @brief
+   *
+   */
   void serverLogConnectionLost();
+  /**
+   * @brief
+   *
+   * @param text
+   */
   void statusMessage(QString text);
+  /**
+   * @brief
+   *
+   * @param message
+   */
   void serverLog(rotable::LogManager::LogMessage message);
 
+  /**
+   * @brief
+   *
+   * @param category
+   */
   void categoryReceived(rotable::ProductCategory* category);
 
+  /**
+   * @brief
+   *
+   * @param string
+   */
   void onLicenceStatus(const QString& string);
+  /**
+   * @brief
+   *
+   * @param string
+   */
   void onLicenceConfig(const QString& string);
 
+  /**
+   * @brief
+   *
+   * @param int
+   */
   void updateSequenceProduct(int);
+  /**
+   * @brief
+   *
+   * @param int
+   */
   void updateSequenceCategory(int);
 
 public slots:
@@ -168,31 +223,108 @@ public slots:
   void onAddLicence();
 
   void onProductUp();
+  /**
+   * @brief
+   *
+   */
   void onProductDown();
+  /**
+   * @brief
+   *
+   */
   void onCategoryUp();
+  /**
+   * @brief
+   *
+   */
   void onCategoryDown();
 
 
 private slots:
+  /**
+   * @brief
+   *
+   * @param error
+   */
   void onClientError(QAbstractSocket::SocketError error);
 
+  /**
+   * @brief
+   *
+   */
   void onConnectionEstablished();
+  /**
+   * @brief
+   *
+   */
   void onConnectionLost();
 
+  /**
+   * @brief
+   *
+   * @param package
+   */
   void onPackageReceived(rotable::ComPackage* package);
 
 private:
+  /**
+   * @brief
+   *
+   */
   void requestCategoryIds();
+  /**
+   * @brief
+   *
+   * @param categoryId
+   */
   void requestProductIds(int categoryId);
+  /**
+   * @brief
+   *
+   * @param categoryId
+   */
   void requestCategory(int categoryId);
+  /**
+   * @brief
+   *
+   * @param productId
+   */
   void requestProduct(int productId);
+  /**
+   * @brief
+   *
+   */
   void requestServerConfigs();
+  /**
+   * @brief
+   *
+   */
   void requestLicenceStatus();
 
+  /**
+   * @brief
+   *
+   * @param package
+   */
   void dataReturned(rotable::ComPackageDataReturn* package);
+  /**
+   * @brief
+   *
+   * @param package
+   */
   void dataChanged(rotable::ComPackageDataChanged* package);
 
+  /**
+   * @brief
+   *
+   * @param path
+   */
   void loadServerConfigs(const QString& path);
+  /**
+   * @brief
+   *
+   * @param status
+   */
   void loadLicenceStatus(const QString& status);
 
   /* MainWindow object */
@@ -205,7 +337,7 @@ private:
   TcpClient _tcp_client;
 
   QString _username;
-  QString _password;
+  QString _password; /**< TODO: describe */
 
   /* Whether the user clicked disconnect (Avoid notification in that case) */
   bool _disconnectRequested;
@@ -220,9 +352,9 @@ private:
   rotable::ProductContainer* _products;
 
   rotable::ProductCategory* _selectedCategory;
-  rotable::Product* _selectedProduct;
+  rotable::Product* _selectedProduct; /**< TODO: describe */
 
-  ServerLogListener _serverLogListener;
+  ServerLogListener _serverLogListener; /**< TODO: describe */
 }; // class Executor
 
 //------------------------------------------------------------------------------
