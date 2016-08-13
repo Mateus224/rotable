@@ -34,11 +34,25 @@ public:
   QStringList getList();
 
 private slots:
+    /**
+     * @brief
+     *
+     */
     void on_addLicenceButton_clicked();
 
+    /**
+     * @brief
+     *
+     */
     void on_addLicenceSignButton_clicked();
 
 private:    
+    /**
+     * @brief
+     *
+     * @param licence
+     * @return bool
+     */
     bool checkLicenceHash(QString licence);
 
 

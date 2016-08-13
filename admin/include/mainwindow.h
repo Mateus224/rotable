@@ -62,38 +62,163 @@ public:
  void restore();
 
 signals:
+ /**
+  * @brief
+  *
+  */
  void actionConnect();
+ /**
+  * @brief
+  *
+  */
  void actionDisconnect();
+ /**
+  * @brief
+  *
+  */
  void actionAddProductCategory();
+ /**
+  * @brief
+  *
+  */
  void actionAddProduct();
+ /**
+  * @brief
+  *
+  */
  void actionResetDatabase();
+ /**
+  * @brief
+  *
+  */
  void actionExportDatabase();
+ /**
+  * @brief
+  *
+  */
  void actionImportDatabase();
+ /**
+  * @brief
+  *
+  */
  void actionRemoveCurrentEntry();
+ /**
+  * @brief
+  *
+  */
  void actionRenameCurrentEntry();
+ /**
+  * @brief
+  *
+  */
  void actionExportStatistic();
+ /**
+  * @brief
+  *
+  */
  void actionStartDebugServerListening();
+ /**
+  * @brief
+  *
+  */
  void actionStopDebugServerListening();
+ /**
+  * @brief
+  *
+  */
  void actionClearDebugServerLog();
+ /**
+  * @brief
+  *
+  */
  void actionAddLicence();
+ /**
+  * @brief
+  *
+  */
  void actionSetLicencePath();
+ /**
+  * @brief
+  *
+  * @param QString
+  */
  void onLicencePathSet(QString);
+ /**
+  * @brief
+  *
+  * @param QString
+  */
  void onLicenceStatusSet(QString);
+ /**
+  * @brief
+  *
+  */
  void actionProductUp();
+ /**
+  * @brief
+  *
+  */
  void actionProductDown();
+ /**
+  * @brief
+  *
+  */
  void actionCategoryUp();
+ /**
+  * @brief
+  *
+  */
  void actionCategoryDown();
 
 
 public slots:
+ /**
+  * @brief
+  *
+  */
  void onConnectionEstablished();
+ /**
+  * @brief
+  *
+  */
  void onConnectionLost();
+ /**
+  * @brief
+  *
+  * @param text
+  */
  void onStatusBarTextChanged(QString text);
+ /**
+  * @brief
+  *
+  */
  void onServerLogConnectionEstablished();
+ /**
+  * @brief
+  *
+  */
  void onServerLogConnectionLost();
+ /**
+  * @brief
+  *
+  * @param message
+  */
  void onServerLog(rotable::LogManager::LogMessage message);
+ /**
+  * @brief
+  *
+  * @param id
+  */
  void onViewSelected(int id);
+ /**
+  * @brief
+  *
+  */
  void onUp();
+ /**
+  * @brief
+  *
+  */
  void onDown();
 
 protected:
@@ -119,7 +244,7 @@ private:
  bool _isClosing;
 
  QIcon _serverDebugTabIcon;
- QString _serverDebugTabLabel;
+ QString _serverDebugTabLabel; /**< TODO: describe */
 }; // class MainWindow
 
 //------------------------------------------------------------------------------
