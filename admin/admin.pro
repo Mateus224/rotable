@@ -45,7 +45,9 @@ SOURCES += \
     source/serverloglistener.cpp \
     source/producttableiconcomboboxdelegate.cpp \
     source/producttablepricespinboxdelegate.cpp \
-    source/addnewlicence.cpp
+    source/addnewlicence.cpp \
+    source/usertablemodel.cpp \
+    source/usercontainer.cpp
 
 HEADERS += \
     include/mainwindow.h \
@@ -71,7 +73,9 @@ HEADERS += \
     include/producttableiconcomboboxdelegate.h \
     private/precomp.h \
     include/producttablepricespinboxdelegate.h \
-    include/addnewlicence.h
+    include/addnewlicence.h \
+    include/usertablemodel.h \
+    include/usercontainer.h
 
 FORMS += \
     ui/mainwindow.ui \

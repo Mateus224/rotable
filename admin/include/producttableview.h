@@ -12,6 +12,10 @@ class ProductTablePriceSpinBoxDelegate;
 
 //------------------------------------------------------------------------------
 
+/**
+ * @brief
+ *
+ */
 class ProductTableView : public QTableView
 {
   Q_OBJECT
@@ -45,8 +49,8 @@ protected slots:
                         const QItemSelection & deselected);
 
 private:
-  ProductTableIconComboboxDelegate* _comboBoxDelegate;
-  ProductTablePriceSpinBoxDelegate* _spinBoxDelegate;
+  ProductTableIconComboboxDelegate* _comboBoxDelegate; /**< TODO: describe */
+  ProductTablePriceSpinBoxDelegate* _spinBoxDelegate; /**< TODO: describe */
 }; // class ProductTableView
 
 //------------------------------------------------------------------------------
