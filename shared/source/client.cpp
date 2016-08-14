@@ -1,4 +1,5 @@
 #include "client.h"
+#include "table.h"
 
 using namespace rotable;
 
@@ -8,96 +9,126 @@ using namespace rotable;
 
 //------------------------------------------------------------------------------
 
-User::User(QObject *parent): Client(parent)
-{
-    connect(this, &User::nickChanged, this, &User::userChanged);
-    connect(this, &User::hashPasswordChanged, this, &User::userChanged);
+User::User(QObject *parent) : Client(parent) {
+  connect(this, &User::nickChanged, this, &User::userChanged);
+  connect(this, &User::hashPasswordChanged, this, &User::userChanged);
 }
 
 //------------------------------------------------------------------------------
 
-QString User::generateHashPassword(const QString& password)
-{
-    // Create cryptograpy hash generator, initialized with hash type
-    QCryptographicHash hash(QCryptographicHash::Sha512);    // I'm paranoid and I know it
-    hash.addData(password.toUtf8().constData());            // add password
-    QByteArray result = hash.result();                      // get hash from password
-    QString s_result(result);
-    return s_result;                                 // return paswword hash
+QString User::generateHashPassword(const QString &password) {
+  // Create cryptograpy hash generator, initialized with hash type
+  QCryptographicHash hash(
+      QCryptographicHash::Sha512);             // I'm paranoid and I know it
+  hash.addData(password.toUtf8().constData()); // add password
+  QByteArray result = hash.result();           // get hash from password
+  QString s_result(result);
+  return s_result; // return paswword hash
 }
 
 //------------------------------------------------------------------------------
 
-void User::setPassword(const QString& password)
-{
-    _passwd = generateHashPassword(password);                              // set _passwd with hash
-    emit hashPasswordChanged();
+void User::setPassword(const QString &password) {
+  _passwd = generateHashPassword(password); // set _passwd with hash
+  emit hashPasswordChanged();
 }
 
 //------------------------------------------------------------------------------
 
-void User::updateData(rotable::User *user)
-{
-    _passwd = user->_passwd;
-    _name = user->_name;
-    _nick = user->_nick;
+void User::updateData(rotable::User *user) {
+  _passwd = user->_passwd;
+  _name = user->_name;
+  _nick = user->_nick;
 }
 
 //------------------------------------------------------------------------------
 
-//QJsonValue Client::toJSON() const
-//{
-//    QJsonObject o;
-//    o["nick"] = _nick;
-//    o["name"] = _name;
-//    o["passwd"] = _passwd;
-
-//    return QJsonValue(o);
-//}
-
-//Client *Client::fromJSON(const QJsonValue &jval)
-//{
-//  QJsonObject o = jval.toObject();
-
-//  if (o.contains("nick")
-//      && o.contains("name")
-//      && o.contains("passwd"))
-//  {
-//    Client* c = new Client();
-//    c->_nick = o["nick"].toString();
-//    c->_name = o["name"].toString();
-//    c->_passwd = o["passwd"].toString();
-
-//    return c;
-//  }
-
-//  return 0;
-//}
-
-//------------------------------------------------------------------------------
-
-Client::Client(QObject *parent): QObject(parent)
-{
-
+void User::addAdditionalData(QJsonObject &obj) const {
+  // obj["nick"] = _nick;
 }
 
 //------------------------------------------------------------------------------
 
-Client::~Client()
-{
-
+void User::setAdditionalData(QJsonObject &obj) {
+  //  _nick = obj["nick"].toString();
 }
 
 //------------------------------------------------------------------------------
 
-Waiter::Waiter(QObject *parent): User(parent)
-{
-
+QJsonValue Client::toJSON() const {
+  QJsonObject o;
+  o["name"] = name();
+  o["type"] = accountType();
+  addAdditionalData(o);
+  return QJsonValue(o);
 }
 
 //------------------------------------------------------------------------------
 
-Admin::Admin(QObject *parent): User(parent)
-{
+Client *Client::fromJSON(const QJsonValue &jval) {
+  QJsonObject o = jval.toObject();
 
+  if (o.contains("name") && o.contains("type")) {
+    Client *c;
+
+    switch (o["type"].toInt()) {
+    case 0: {
+      c = new Waiter();
+    } break;
+    case 1: {
+      c = new Table();
+    } break;
+    case 2: {
+      c = new Admin();
+    } break;
+    }
+    c->setAdditionalData(o);
+    c->_name = o["name"].toString();
+
+    return c;
+  }
+
+  return 0;
 }
+
+//------------------------------------------------------------------------------
+
+Client::Client(QObject *parent) : QObject(parent) {}
+
+//------------------------------------------------------------------------------
+
+Client::~Client() {}
+
+//------------------------------------------------------------------------------
+
+Waiter::Waiter(QObject *parent) : User(parent) {}
+
+//------------------------------------------------------------------------------
+
+void Waiter::addAdditionalData(QJsonObject &obj) const {
+  User::addAdditionalData(obj);
+}
+
+//------------------------------------------------------------------------------
+
+void Waiter::setAdditionalData(QJsonObject &obj) {
+  User::setAdditionalData(obj);
+}
+
+//------------------------------------------------------------------------------
+
+Admin::Admin(QObject *parent) : User(parent) {}
+
+//------------------------------------------------------------------------------
+
+void Admin::addAdditionalData(QJsonObject &obj) const {
+  User::addAdditionalData(obj);
+}
+
+//------------------------------------------------------------------------------
+
+void Admin::setAdditionalData(QJsonObject &obj) {
+  User::setAdditionalData(obj);
+}
+
+//------------------------------------------------------------------------------

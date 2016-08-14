@@ -507,6 +507,20 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
                            .arg(rotable::ComPackage::TableAccount);
     }
   } break;
+  case ComPackage::RequestUser:{
+    if (ifAdmin(client)) {
+      Client *user = _db.client(request->dataName().toInt());
+      if (user) {
+        ComPackageDataReturn *ret =
+            new ComPackageDataReturn(*request, user->toJSON());
+        delete user;
+        return ret;
+      } else {
+        qCritical()
+            << tr("Could not query income data of id %1!").arg(request->dataName().toInt());
+      }
+    }
+  } break;
   default: {
     qCritical()
         << tr("Unknown data request id: %d").arg(request->dataCategory());
