@@ -12,8 +12,9 @@
  * @brief User model for repressent user list as table
  *
  */
-class UserTableModel: QAbstractTableModel
+class UserTableModel: public QAbstractTableModel
 {
+
 Q_OBJECT
 
 public:
@@ -25,6 +26,12 @@ public:
 //      nick,
       accountType
     };
+
+    /**
+     * @brief Default constructor
+     *
+     */
+    explicit UserTableModel();
 
     /**
      * Returns the number of rows under the given parent.
@@ -97,8 +104,22 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation,
                         int role = Qt::DisplayRole) const;
 
+    /**
+     * @brief Set container with users
+     *
+     * @param model             user model
+     */
+    void setUserContainer(rotable::UserContainter *model);
+public slots:
+
+    /**
+     * @brief Slot used for update model
+     * @related UserContainer::updateView
+     */
+    void updateModel();
+
 private:
-    rotable::UserContainter _container; /** Containet object, store users */
+    rotable::UserContainter* _container; /** Containet object, store users */
 
 };
 
