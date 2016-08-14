@@ -820,7 +820,7 @@ OrderItem *Database::orderItem(int id) {
 //------------------------------------------------------------------------------
 
 Client *Database::client(int id) {
-  Client *client;
+  Client *client = nullptr;
 
   if (!isConnected()) {
     return 0;
@@ -860,7 +860,7 @@ Client *Database::client(int id) {
 
   bool ok;
 
-  int clienttId = q.value("id").toInt(&ok);
+  int clientId = q.value("id").toInt(&ok);
   if (!ok) {
     qCritical() << tr("Could not convert '%1' to integer!")
                        .arg(q.value("id").toString());
@@ -879,13 +879,20 @@ Client *Database::client(int id) {
   switch (type) {
   case ComPackage::TableAccount: {
     client = new Table();
-    client->setId(clienttId);
+    client->setId(clientId);
     client->setName(q.value("name").toString());
     getTableAdditionalData(reinterpret_cast<Table *>(client));
   } break;
-  case ComPackage::WaiterAccount:
-  case ComPackage::AdminAccount:
-    throw new NotImplementedException();
+  case ComPackage::WaiterAccount: {
+      client = new Waiter();
+      client->setId(clientId);
+      client->setName(q.value("name").toString());
+  } break;
+  case ComPackage::AdminAccount:{
+      client = new Admin();
+      client->setId(clientId);
+      client->setName(q.value("name").toString());
+  } break;
   default:
     qCritical() << tr("Account type don't exists");
     return nullptr;
