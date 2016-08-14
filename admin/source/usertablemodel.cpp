@@ -30,17 +30,17 @@ QVariant UserTableModel::data(const QModelIndex &index, int role) const {
       }
     }
   } break;
-  case nick: {
-    if (role == Qt::DisplayRole || role == Qt::EditRole) {
-      QList<int> ids = _container.userIds();
-      Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
-      User *user = _container.user(ids[index.row()]);
-      Q_ASSERT(user);
-      if (user) {
-        return QVariant(user->nick());
-      }
-    }
-  } break;
+//  case nick: {
+//    if (role == Qt::DisplayRole || role == Qt::EditRole) {
+//      QList<int> ids = _container.userIds();
+//      Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
+//      User *user = _container.user(ids[index.row()]);
+//      Q_ASSERT(user);
+//      if (user) {
+//        return QVariant(user->nick());
+//      }
+//    }
+//  } break;
   case accountType: {
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
       QList<int> ids = _container.userIds();
@@ -73,16 +73,16 @@ bool UserTableModel::setData(const QModelIndex &index, const QVariant &value,
         return true;
       }
     } break;
-    case nick: {
-      QList<int> ids = _container.userIds();
-      Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
-      User *user = _container.user(ids[index.row()]);
-      Q_ASSERT(user);
-      if (user) {
-        user->setNick(value.toString());
-        return true;
-      }
-    } break;
+//    case nick: {
+//      QList<int> ids = _container.userIds();
+//      Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
+//      User *user = _container.user(ids[index.row()]);
+//      Q_ASSERT(user);
+//      if (user) {
+//        user->setNick(value.toString());
+//        return true;
+//      }
+//    } break;
     case accountType: {
       QList<int> ids = _container.userIds();
       Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
@@ -136,10 +136,10 @@ QVariant UserTableModel::headerData(int section, Qt::Orientation orientation,
         {
           return QVariant("Name");
         } break;
-        case nick:
-        {
-          return QVariant("Nick");
-        } break;
+//        case nick:
+//        {
+//          return QVariant("Nick");
+//        } break;
         case accountType:
         {
           return QVariant("AccountType");
