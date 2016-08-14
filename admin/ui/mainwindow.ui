@@ -619,7 +619,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QTableView" name="tableView"/>
+         <widget class="QTableView" name="_userTableView"/>
         </item>
        </layout>
       </widget>

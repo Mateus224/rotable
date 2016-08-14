@@ -4,7 +4,17 @@
 
 rotable::UserContainter::UserContainter(QObject *parent): QObject(parent), _users()
 {
+    connect(this, &UserContainter::userAdded, this, &UserContainter::updateView);
+    connect(this, &UserContainter::userRemoved, this, &UserContainter::updateView);
+    connect(this, &UserContainter::userUpdated, this, &UserContainter::updateView);
+}
 
+//------------------------------------------------------------------------------
+
+rotable::UserContainter::~UserContainter()
+{
+    qDeleteAll(_users.begin(), _users.end());
+    _users.clear();
 }
 
 //------------------------------------------------------------------------------
