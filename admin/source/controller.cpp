@@ -13,10 +13,11 @@ using namespace rotable;
 //------------------------------------------------------------------------------
 
 Controller::Controller(MainWindow* mainwindow, const QString& configFilePath) :
-  QObject(0), _mainwindow(mainwindow), _executor(mainwindow, configFilePath)
+  QObject(0), _mainwindow(mainwindow), _executor(mainwindow, configFilePath), _users()
 {
   _executor.setImageContainer(&_images);
   _executor.setProductContainer(&_products);
+  _executor.setUserContainer(&_users);
 
   _categoryListModel = new CategoryListModel(this);
   _categoryListModel->setProductContainer(&_products);
@@ -29,6 +30,12 @@ Controller::Controller(MainWindow* mainwindow, const QString& configFilePath) :
   _productTableModel->setImageContainer(&_images);
 
   _mainwindow->_ui->_tableViewProducts->setModel(_productTableModel);
+
+  _userTableModel = new UserTableModel();
+  _userTableModel->setUserContainer(&_users);
+
+  _mainwindow->_ui->_userTableView->setModel(reinterpret_cast<QAbstractItemModel*>(_userTableModel));
+
 
   _mainwindow->restore();
 
@@ -151,4 +158,8 @@ void Controller::connect_signals()
 
   connect(_mainwindow->_ui->_tableViewProducts, SIGNAL(selectionChanged(int)),
           &_executor, SLOT(onProductSelectionChanged(int)));
+
+  //----------------------------------------------------------------------------
+
+  connect(&_users, &UserContainter::updateView, _userTableModel, &UserTableModel::updateModel);
 }

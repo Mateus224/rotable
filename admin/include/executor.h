@@ -7,6 +7,7 @@
 #include "configadmin.h"
 #include "serverloglistener.h"
 #include "tcpclient.h"
+#include "usercontainer.h"
 
 #include <QObject>
 
@@ -52,6 +53,13 @@ public:
    * @param products              product container
    */
   void setProductContainer(rotable::ProductContainer *products);
+
+  /**
+   * Set the user container
+   *
+   * @param users               user container
+   */
+  void setUserContainer(rotable::UserContainter *users);
 
 signals:
   /**
@@ -356,6 +364,9 @@ private:
 
   /* Products and categories */
   rotable::ProductContainer *_products;
+
+  /* Users */
+  rotable::UserContainter *_users;
 
   rotable::ProductCategory *_selectedCategory;
   rotable::Product *_selectedProduct; /**< TODO: describe */

@@ -56,6 +56,10 @@ void Executor::setProductContainer(ProductContainer *products) {
 
 //------------------------------------------------------------------------------
 
+void Executor::setUserContainer(UserContainter *users) { _users = users; }
+
+//------------------------------------------------------------------------------
+
 void Executor::onConnectToServer() {
   ConnectToServerDialog dlg(_mainwindow);
 
@@ -667,7 +671,10 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
       int id = val.toInt();
       requestUser(id);
     }
-
+  } break;
+  case ComPackage::RequestUser: {
+    User *user = reinterpret_cast<User *>(Client::fromJSON(package->data()));
+    _users->addUser(user);
   } break;
   default: { qCritical() << tr("Unknown data package returned"); } break;
   }
