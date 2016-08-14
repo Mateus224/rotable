@@ -365,8 +365,8 @@ bool Database::userIds(QList<int> &ids) {
       return false;
     }
 
-    q.bindValue(":type", 1);
-    q.bindValue(":type", 2);
+    q.bindValue(":type", 0);
+    q.bindValue(":type2", 2);
 
     if (!q.exec()) {
       qCritical()
