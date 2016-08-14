@@ -59,6 +59,7 @@ QJsonValue Client::toJSON() const {
   QJsonObject o;
   o["name"] = name();
   o["type"] = accountType();
+  o["cid"] = id();
   addAdditionalData(o);
   return QJsonValue(o);
 }
@@ -84,6 +85,7 @@ Client *Client::fromJSON(const QJsonValue &jval) {
     }
     c->setAdditionalData(o);
     c->_name = o["name"].toString();
+    c->_id = o["cid"].toInt();
 
     return c;
   }
