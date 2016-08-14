@@ -31,6 +31,11 @@ public:
     explicit UserContainter(QObject *parent = nullptr);
 
     /**
+      * @brief Default destructor
+      */
+    ~UserContainter();
+
+    /**
      * @brief Method for add user
      * @
      * @param user
