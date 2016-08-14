@@ -456,6 +456,7 @@ void Executor::onConnectionLost() {
   }
 
   _products->clear();
+  _users->clear();
   _disconnectRequested = false;
 }
 

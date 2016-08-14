@@ -57,7 +57,20 @@ public:
      */
     User* user(int idx) const;
 
+    /**
+     * @brief Function for change property account type
+     *
+     * @param id   user id
+     * @param accountType   new account tyoe
+     */
     void changeAccountType(int id, int accountType) const;
+
+
+    /**
+     * @brief Clear object
+     *
+     */
+    void clear();
 signals:
     /**
      * @brief
