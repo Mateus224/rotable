@@ -13,8 +13,7 @@ rotable::UserContainter::UserContainter(QObject *parent): QObject(parent), _user
 
 rotable::UserContainter::~UserContainter()
 {
-    qDeleteAll(_users.begin(), _users.end());
-    _users.clear();
+    clear();
 }
 
 //------------------------------------------------------------------------------
@@ -26,7 +25,7 @@ void rotable::UserContainter::addUser(rotable::User *user)
     if(_users.contains(user->id()))
     {
         _users[user->id()]->updateData(user);
-        emit updateView();
+        emit userUpdated();
     }
     else
     {
@@ -65,6 +64,15 @@ void rotable::UserContainter::changeAccountType(int id, int accountType) const
     Q_UNUSED(id)
     Q_UNUSED(accountType)
     //TODO: implement
+}
+
+//------------------------------------------------------------------------------
+
+void rotable::UserContainter::clear()
+{
+    qDeleteAll(_users.begin(), _users.end());
+    _users.clear();
+    emit updateView();
 }
 
 //------------------------------------------------------------------------------
