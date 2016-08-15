@@ -35,6 +35,9 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="locale">
+       <locale language="English" country="UnitedStates"/>
+      </property>
       <property name="currentIndex">
        <number>5</number>
       </property>
@@ -592,34 +595,56 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_5">
           <item>
-           <widget class="QToolButton" name="toolButton_2">
+           <widget class="QToolButton" name="_toolButtonAddUser">
+            <property name="locale">
+             <locale language="English" country="UnitedStates"/>
+            </property>
             <property name="text">
-             <string>New Waiter</string>
+             <string>New user</string>
             </property>
             <property name="icon">
              <iconset resource="../resources/resources.qrc">
               <normaloff>:/rotable/add.png</normaloff>:/rotable/add.png</iconset>
             </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QToolButton" name="toolButton">
-            <property name="text">
-             <string>Remove waiter</string>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="toolButton_3">
+           <widget class="QToolButton" name="_toolButtonRemoveUser">
+            <property name="locale">
+             <locale language="English" country="UnitedStates"/>
+            </property>
+            <property name="text">
+             <string>Remove user</string>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="_toolButtonChangePassword">
+            <property name="locale">
+             <locale language="English" country="UnitedStates"/>
+            </property>
             <property name="text">
              <string>Change password</string>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
             </property>
            </widget>
           </item>
          </layout>
         </item>
         <item>
-         <widget class="QTableView" name="_userTableView"/>
+         <widget class="QTableView" name="_userTableView">
+          <property name="locale">
+           <locale language="English" country="UnitedStates"/>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>

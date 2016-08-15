@@ -1,4 +1,4 @@
-#ifndef ROTABLE_COMPACKAGE_H
+﻿#ifndef ROTABLE_COMPACKAGE_H
 #define ROTABLE_COMPACKAGE_H
 
 //------------------------------------------------------------------------------
@@ -163,7 +163,14 @@ public:
     DeleteProduct,
 
     /* Select licence path */
-    SetLicencePath
+    SetLicencePath,
+
+    /* Create user with specific privlage*/
+    CreateUser,
+
+    DeleteUser,  /**< Delete specific user */
+
+    ChangePassword /**< Change password for specific user */
   };
 
   /**

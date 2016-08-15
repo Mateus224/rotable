@@ -47,7 +47,9 @@ SOURCES += \
     source/producttablepricespinboxdelegate.cpp \
     source/addnewlicence.cpp \
     source/usertablemodel.cpp \
-    source/usercontainer.cpp
+    source/usercontainer.cpp \
+    source/adduserdialog.cpp \
+    source/setwaitercategory.cpp
 
 HEADERS += \
     include/mainwindow.h \
@@ -75,14 +77,18 @@ HEADERS += \
     include/producttablepricespinboxdelegate.h \
     include/addnewlicence.h \
     include/usertablemodel.h \
-    include/usercontainer.h
+    include/usercontainer.h \
+    include/adduserdialog.h \
+    include/setwaitercategory.h
 
 FORMS += \
     ui/mainwindow.ui \
     ui/connectToServer.ui \
     ui/addproductdialog.ui \
     ui/addproductcategorydialog.ui \
-    ui/addnewlicencedialog.ui
+    ui/addnewlicencedialog.ui \
+    ui/adduserdialog.ui \
+    ui/setwaitercategory.ui
 
 RESOURCES += \
     resources/resources.qrc \

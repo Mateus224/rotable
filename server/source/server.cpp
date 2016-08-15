@@ -921,6 +921,17 @@ bool Server::executeCommand(ComPackageCommand *package) {
       QString path = package->data().toString();
       _config.setLicence_path(path);
     } break;
+    case ComPackage::CommandType::CreateUser: {
+      User *user = reinterpret_cast<User*>(Client::fromJSON(package->data()));
+      if(_db.addUser(user)){
+        // Inform admins about data change...
+        ComPackageDataChanged dc;
+        dc.setDataCategory(ComPackage::RequestUserIds);
+        send_to_users(dc, 2);
+        return true;
+      }
+
+    } break;
     default: {
       qCritical()
           << tr("Unknown command type '%1'!").arg(package->commandType());
