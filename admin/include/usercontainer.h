@@ -13,8 +13,6 @@ namespace rotable{
     class UserContainter;
 }
 
-using rotable::User;
-
 //------------------------------------------------------------------------------
 
 /**

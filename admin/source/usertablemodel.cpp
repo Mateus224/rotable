@@ -30,7 +30,7 @@ QVariant UserTableModel::data(const QModelIndex &index, int role) const {
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
       QList<int> ids = _container->userIds();
       Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
-      User *user = _container->user(ids[index.row()]);
+      rotable::User *user = _container->user(ids[index.row()]);
       Q_ASSERT(user);
       if (user) {
         return QVariant(user->name());
@@ -52,7 +52,7 @@ QVariant UserTableModel::data(const QModelIndex &index, int role) const {
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
       QList<int> ids = _container->userIds();
       Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
-      User *user = _container->user(ids[index.row()]);
+      rotable::User *user = _container->user(ids[index.row()]);
       Q_ASSERT(user);
       if (user) {
         return QVariant(user->accountType());
@@ -73,7 +73,7 @@ bool UserTableModel::setData(const QModelIndex &index, const QVariant &value,
     case name: {
       QList<int> ids = _container->userIds();
       Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
-      User *user = _container->user(ids[index.row()]);
+      rotable::User *user = _container->user(ids[index.row()]);
       Q_ASSERT(user);
       if (user) {
         user->setName(value.toString());
@@ -93,7 +93,7 @@ bool UserTableModel::setData(const QModelIndex &index, const QVariant &value,
     case accountType: {
       QList<int> ids = _container->userIds();
       Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
-      User *user = _container->user(ids[index.row()]);
+      rotable::User *user = _container->user(ids[index.row()]);
       Q_ASSERT(user);
       if (user) {
         _container->changeAccountType(user->id(), value.toInt());
