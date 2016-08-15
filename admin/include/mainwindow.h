@@ -170,6 +170,12 @@ signals:
   */
  void actionCategoryDown();
 
+ /**
+  * @brief Open new dialog for add user
+  * @related Executor::onAddUser
+  */
+ void actionAddUser();
+
 
 public slots:
  /**
