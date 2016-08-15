@@ -51,6 +51,7 @@ MainWindow::MainWindow(QWidget* parent) :
   _ui->_statusBar->showMessage(tr("Disconnected"));
   connect(_ui->_toolButtonUp, &QToolButton::clicked, this, &MainWindow::onUp);
   connect(_ui->_toolButtonDown, &QToolButton::clicked, this, &MainWindow::onDown);
+  connect(_ui->_toolButtonAddUser, &QToolButton::clicked, this,&MainWindow::actionAddUser);
 
   //_ui->d_plot->setMode(3);
 

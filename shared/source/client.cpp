@@ -45,12 +45,14 @@ void User::updateData(rotable::User *user) {
 
 void User::addAdditionalData(QJsonObject &obj) const {
   // obj["nick"] = _nick;
+  obj["hash"] = _passwd;
 }
 
 //------------------------------------------------------------------------------
 
 void User::setAdditionalData(QJsonObject &obj) {
   //  _nick = obj["nick"].toString();
+  _passwd = obj["hash"].toString();
 }
 
 //------------------------------------------------------------------------------

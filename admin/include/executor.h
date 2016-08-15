@@ -145,6 +145,12 @@ public slots:
   void onAddProductCategory();
 
   /**
+   * @brief Button to add a new user has been clicked
+   *
+   */
+  void onAddUser();
+
+  /**
    * Category has been updated.
    *
    * @param category      updated category
