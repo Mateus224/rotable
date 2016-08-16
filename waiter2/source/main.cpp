@@ -38,7 +38,8 @@ int main(int argc, char *argv[])
 
   /* Load translator */
 
-  rotable::LanguageSupport langSupp;
+  rotable::LanguageSupport* langSupp = new rotable::LanguageSupport(rotable::LanguageSupport::AppType::waiter);
+  langSupp->LoadInit();
 
   /* Connection to server building*/
 //-----------------------------------------------------
@@ -66,7 +67,7 @@ int main(int argc, char *argv[])
   ctxt->setContextProperty("productList", &(waiter_client->_productsList));
   ctxt->setContextProperty("needBoard", &(waiter_client->_needBoard));
 
-  ctxt->setContextProperty("langObject", &langSupp);
+  ctxt->setContextProperty("langObject", langSupp);
   //view->setSource(QString("qrc:/waiter/main2.qml"));
 
   // Connect exit signal for exit

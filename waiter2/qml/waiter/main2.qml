@@ -80,6 +80,10 @@ ApplicationWindow {
                         text: qsTr("Polish") + langObject.emptyString
                         onClicked: langObject.selectLanguage("pl")
                     }
+                    Button {
+                        text: qsTr("German") + langObject.emptyString
+                        onClicked: langObject.selectLanguage("de")
+                    }
                 }
 
             }
