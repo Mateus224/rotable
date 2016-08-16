@@ -32,7 +32,8 @@ SOURCES += \
     source/client.cpp \
     source/tabele.cpp \
     source/message.cpp \
-    source/messageconnector.cpp
+    source/messageconnector.cpp \
+    source/languagesupport.cpp
 
 
 HEADERS += \
@@ -59,7 +60,8 @@ HEADERS += \
     include/waiter.h \
     include/table.h \
     include/message.h \
-    include/messageconnector.h
+    include/messageconnector.h \
+    include/languagesupport.h
 
 
 RESOURCES += shared_resources.qrc
