@@ -139,7 +139,7 @@ void Executor::onAddUser() {
     }
 
     user->setName(dlg.name());
-    user->generateHashPassword(dlg.password());
+    user->setPassword(dlg.password());
 
     ComPackageCommand pc;
     pc.setCommandType(rotable::ComPackage::CommandType::CreateUser);
