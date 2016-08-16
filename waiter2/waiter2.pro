@@ -24,8 +24,7 @@ HEADERS += \
     include/orderboard.h \
     include/productlist.h \
     include/neededboard.h \
-    include/orderhistory.h \
-    include/languagesupport.h
+    include/orderhistory.h
 
 
 SOURCES += \
@@ -38,8 +37,7 @@ SOURCES += \
     source/orderboard.cpp \
     source/productlist.cpp \
     source/neededboard.cpp \
-    source/orderhistory.cpp \
-    source/languagesupport.cpp
+    source/orderhistory.cpp
 
 RESOURCES +=\
     resources.qrc \
@@ -119,4 +117,5 @@ DISTFILES += \
 ########################################################################
 # TRANSLATION:
 
-TRANSLATIONS = localisation/main2_pl.ts
+TRANSLATIONS =  localisation/waiter_pl.ts \
+                localisation/waiter_de.ts
