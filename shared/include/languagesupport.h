@@ -6,7 +6,6 @@
 #ifndef QSTRING_H
 #include <QObject>
 #include <QTranslator>
-#include <QDir>
 #endif
 
 namespace rotable
@@ -22,9 +21,13 @@ class rotable::LanguageSupport : public QObject
     Q_PROPERTY(QString emptyString READ getEmptyString NOTIFY languageChanged)
 
 public:
-    LanguageSupport();
+    enum AppType {server,client,waiter,admin};
+
+    LanguageSupport(AppType apptype);
 
     QString getEmptyString();
+
+    void LoadInit();
 
     Q_INVOKABLE void selectLanguage(QString language);
 
@@ -35,9 +38,9 @@ private:
     QTranslator* _translator1;
     QTranslator* _translator2;
 
-    QStringList _qmlFileNames;
+    AppType _applicationType;
 
-    void loadQmlTranslations(QDir directory);
+    bool loadSingleFile(QString qmFileName);
 };
 
 //------------------------------------------------------------------------------
