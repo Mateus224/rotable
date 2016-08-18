@@ -70,6 +70,10 @@ Database::Database(QObject *parent) : QObject(parent), _connected(false) {
   collectSqlCommands(tablesDetailsCmds, "tabledetails");
   _sqlCommands.append(tablesDetailsCmds);
 
+  SqlCommands waiterCategoriesCmds;
+  collectSqlCommands(waiterCategoriesCmds, "waitercategories");
+  _sqlCommands.append(waiterCategoriesCmds);
+
   qDebug() << "Sql commands load succesfull";
 }
 
@@ -351,41 +355,41 @@ bool Database::clientIds(QList<int> &ids, int userType) {
 //------------------------------------------------------------------------------
 
 bool Database::userIds(QList<int> &ids) {
-    if (!isConnected()) {
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr = _sqlCommands[Clients]._select.arg(
+      _prefix, "`id`", "type", ":type or type = :type2");
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  q.bindValue(":type", 0);
+  q.bindValue(":type2", 2);
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  while (q.next()) {
+    bool toIntOk;
+    ids << q.value("id").toInt(&toIntOk);
+    if (!toIntOk) {
+      qCritical() << tr("Could not convert entry '%1' to an integer!")
+                         .arg(q.value("id").toString());
+      ids.clear();
       return false;
     }
+  }
 
-    QString queryStr =
-        _sqlCommands[Clients]._select.arg(_prefix, "`id`", "type", ":type or type = :type2");
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return false;
-    }
-
-    q.bindValue(":type", 0);
-    q.bindValue(":type2", 2);
-
-    if (!q.exec()) {
-      qCritical()
-          << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
-      return false;
-    }
-
-    while (q.next()) {
-      bool toIntOk;
-      ids << q.value("id").toInt(&toIntOk);
-      if (!toIntOk) {
-        qCritical() << tr("Could not convert entry '%1' to an integer!")
-                           .arg(q.value("id").toString());
-        ids.clear();
-        return false;
-      }
-    }
-
-    return true;
+  return true;
 }
 
 //------------------------------------------------------------------------------
@@ -884,14 +888,15 @@ Client *Database::client(int id) {
     getTableAdditionalData(reinterpret_cast<Table *>(client));
   } break;
   case ComPackage::WaiterAccount: {
-      client = new Waiter();
-      client->setId(clientId);
-      client->setName(q.value("name").toString());
+    client = new Waiter();
+    client->setId(clientId);
+    client->setName(q.value("name").toString());
+    getWaiterAdditionalData(reinterpret_cast<Waiter*>(client));
   } break;
-  case ComPackage::AdminAccount:{
-      client = new Admin();
-      client->setId(clientId);
-      client->setName(q.value("name").toString());
+  case ComPackage::AdminAccount: {
+    client = new Admin();
+    client->setId(clientId);
+    client->setName(q.value("name").toString());
   } break;
   default:
     qCritical() << tr("Account type don't exists");
@@ -2784,10 +2789,8 @@ void Database::updateDatabase(QString actualVersion) {
   switch (versionToEnum(actualVersion)) {
   case version0d0d0:
     updateToVersion("0.0.1");
-    [[clang::fallthrough]];
   case version0d0d1:
     updateToVersion("0.0.2");
-    [[clang::fallthrough]];
   case version0d0d2:
     updateToVersion("0.0.3");
   case version0d0d3:
@@ -2925,6 +2928,66 @@ int Database::getTableAdditionalData(Table *table) {
 
   table->setwaiterIsNeedede(waiterIsNeeded);
   table->setIsConnected(connected);
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::getWaiterAdditionalData(Waiter *waiter)
+{
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr =
+      _sqlCommands[DatabaseTables::WaiterCategories]._select.arg(_prefix, "*", "waiter_id", ":id");
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  q.bindValue(":id", waiter->id());
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+    if (q.size() != 1) {
+      qCritical()
+          << tr("Query: returned %1 results but we expected it to return 1!")
+                 .arg(q.size());
+      return 0;
+    }
+  }
+
+  if (!q.next()) {
+    return false;
+  }
+
+
+  QList<int> *list = nullptr;
+
+  while (q.next()) {
+    bool toIntOk;
+    *list << q.value("category_id").toInt(&toIntOk);
+    if (!toIntOk) {
+      qCritical() << tr("Could not convert entry '%1' to an integer!")
+                         .arg(q.value("id").toString());
+      list->clear();
+      return false;
+    }
+  }
+
+  if(list)
+    waiter->setCategories(list);
 
   return true;
 }
