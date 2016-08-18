@@ -23,15 +23,15 @@
 #include <QJsonObject>
 #endif
 
-#include "productcategory.h"
-#include "product.h"
-#include "order.h"
+#include "client.h"
+#include "client.h"
 #include "compackage.h"
-#include "client.h"
-#include "income.h"
 #include "config.h"
+#include "income.h"
+#include "order.h"
+#include "product.h"
+#include "productcategory.h"
 #include "productorder.h"
-#include "client.h"
 #include "table.h"
 
 //------------------------------------------------------------------------------
@@ -48,8 +48,7 @@ class Database;
  *
  * This abstraction allows an easy replacing of the underlying database.
  */
-class rotable::Database : public QObject
-{
+class rotable::Database : public QObject {
   Q_OBJECT
 
 private:
@@ -100,10 +99,9 @@ public:
    * @param prefix      table prefix
    * @return            true, if connection has been established
    */
-  bool startConnection(const QString& driver,
-                       const QString& host, const QString& database,
-                       const QString& user, const QString& pass,
-                       const QString& prefix);
+  bool startConnection(const QString &driver, const QString &host,
+                       const QString &database, const QString &user,
+                       const QString &pass, const QString &prefix);
 
   /**
    * Get list of category ids.
@@ -111,7 +109,7 @@ public:
    * @param ids         (result) list of category ids
    * @return            true on successs
    */
-  bool categoryIds(QList<int>& ids);
+  bool categoryIds(QList<int> &ids);
 
   /**
    * Get list of product ids.
@@ -120,7 +118,7 @@ public:
    * @param categoryId  category id (-1 for all categories)
    * @return            true on success
    */
-  bool productIds(QList<int>& ids, int categoryId);
+  bool productIds(QList<int> &ids, int categoryId);
 
   /**
    * Get list of order ids.
@@ -129,7 +127,7 @@ public:
    * @param clientId    client id (-1 for all orders)
    * @return            true on success
    */
-  bool orderIds(QList<int>& ids, int clientId);
+  bool orderIds(QList<int> &ids, int clientId);
 
   /**
    * Get list of config ids
@@ -137,7 +135,7 @@ public:
    * @param ids (result) list of config ids
    * @return true on success
    */
-  bool configIds(QList<int>& ids);
+  bool configIds(QList<int> &ids);
 
   /**
    * Get ids of items
@@ -156,7 +154,6 @@ public:
    * @return            true on success
    */
   bool clientIds(QList<int> &ids, int userType);
-
 
   /**
    * @brief             Get ids of users (waiters and admins)
@@ -228,7 +225,6 @@ public:
    */
   rotable::Client *client(int id);
 
-
   /**
    * Add a new product category to the database.
    * (Will not check whether a category with this name already exists!)
@@ -236,7 +232,7 @@ public:
    * @param category    new category
    * @return            true on success
    */
-  bool addCategory(ProductCategory* category);
+  bool addCategory(ProductCategory *category);
 
   /**
    * Add a new product to the database.
@@ -246,7 +242,7 @@ public:
    * @param categoryId  category id
    * @return            true on success
    */
-  bool addProduct(Product* product);
+  bool addProduct(Product *product);
 
   /**
    * Add a new user to the database.
@@ -254,7 +250,7 @@ public:
    * @param user        new user
    * @return            true on success
    */
-  bool addUser(User* user);
+  bool addUser(User *user);
 
   /**
    * Add new income record to the database
@@ -294,7 +290,7 @@ public:
    * @param category    product category
    * @return            true on success
    */
-  bool updateCategory(ProductCategory* category);
+  bool updateCategory(ProductCategory *category);
 
   /**
    * Update a product.
@@ -302,7 +298,7 @@ public:
    * @param product     product
    * @return            true on success
    */
-  bool updateProduct(Product* product);
+  bool updateProduct(Product *product);
 
   /**
    * Update dayly income
@@ -391,7 +387,7 @@ public:
    * @param binary      whether to save the database in compressed binary format
    * @return            true on success
    */
-  bool exportDatabase(const QString& path, bool binary);
+  bool exportDatabase(const QString &path, bool binary);
 
   /**
    * Export the database as SQL command to given string.
@@ -399,7 +395,7 @@ public:
    * @param dest        destination string
    * @return            true on success
    */
-  bool exportDatabase(QString& dest);
+  bool exportDatabase(QString &dest);
 
   /**
    * Import database from given file.
@@ -407,7 +403,7 @@ public:
    * @param path        database file to import
    * @return            true on success
    */
-  bool importDatabase(const QString& path);
+  bool importDatabase(const QString &path);
 
   /**
    * Check whether the database is already installed.
@@ -422,7 +418,7 @@ public:
    * @param name        category name
    * @return            true if category already exists
    */
-  bool hasCategory(const QString& name);
+  bool hasCategory(const QString &name);
   bool hasCategory(int id);
 
   /**
@@ -432,7 +428,7 @@ public:
    * @param categoryId  category id
    * @return            true if product already exists
    */
-  bool hasProduct(const QString& name, int categoryId);
+  bool hasProduct(const QString &name, int categoryId);
   bool hasProduct(int productId, int categoryId);
 
   /**
@@ -466,7 +462,7 @@ public:
    */
   int hasIncome(int id);
 
-  Income* getLastIncome();
+  Income *getLastIncome();
   int getLastIncomeId();
   /**
    * Check Config record exist
@@ -502,7 +498,7 @@ public:
    *
    * @return            QList on successs
    */
-  QList<Order *>* getNotCloseOrderList();
+  QList<Order *> *getNotCloseOrderList();
 
   /**
    * Get from database not done order
@@ -579,14 +575,15 @@ public:
    */
   int versionToEnum(QString version);
 
-  enum dbVersion{
-      version0d0d0,
-      version0d0d1,
-      version0d0d2,
-      version0d0d3,
+  enum dbVersion {
+    version0d0d0,
+    version0d0d1,
+    version0d0d2,
+    version0d0d3,
+    version0d0d4,
   };
 
-  QString newestVesion = "0.0.3";
+  QString newestVesion = "0.0.4";
 
   /**
    * Check and update version of database
@@ -594,7 +591,7 @@ public:
   void update();
 
 signals:
-  void parseConfig(Config* c);
+  void parseConfig(Config *c);
 
 public slots:
   void getLastIncomeDate(QDate *date);
@@ -605,7 +602,7 @@ private:
    *
    * @param cmds        collected commands
    */
-  void collectSqlCommands(SqlCommands& cmds, QString table);
+  void collectSqlCommands(SqlCommands &cmds, QString table);
 
   /**
    * Get additional data about table, e.i. check if waiter is needed
@@ -628,7 +625,6 @@ private:
    * @return            true on succes
    */
   bool initTriggers();
-
 
   /* Database handle */
   QSqlDatabase _db;

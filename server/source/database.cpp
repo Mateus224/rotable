@@ -2790,6 +2790,8 @@ void Database::updateDatabase(QString actualVersion) {
     [[clang::fallthrough]];
   case version0d0d2:
     updateToVersion("0.0.3");
+  case version0d0d3:
+    updateToVersion("0.0.4");
   }
 }
 
