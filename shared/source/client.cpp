@@ -16,6 +16,10 @@ User::User(QObject *parent) : Client(parent) {
 
 //------------------------------------------------------------------------------
 
+User::~User() {}
+
+//------------------------------------------------------------------------------
+
 QString User::generateHashPassword(const QString &password) {
   // Create cryptograpy hash generator, initialized with hash type
   QCryptographicHash hash(
@@ -105,7 +109,11 @@ Client::~Client() {}
 
 //------------------------------------------------------------------------------
 
-Waiter::Waiter(QObject *parent) : User(parent) {}
+Waiter::Waiter(QObject *parent) : User(parent) { _categories = nullptr; }
+
+//------------------------------------------------------------------------------
+
+Waiter::~Waiter() { delete _categories; }
 
 //------------------------------------------------------------------------------
 
@@ -117,6 +125,20 @@ void Waiter::addAdditionalData(QJsonObject &obj) const {
 
 void Waiter::setAdditionalData(QJsonObject &obj) {
   User::setAdditionalData(obj);
+}
+
+//------------------------------------------------------------------------------
+
+QList<int> *Waiter::categories() const
+{
+  return _categories;
+}
+
+//------------------------------------------------------------------------------
+
+void Waiter::setCategories(QList<int> *categories)
+{
+  _categories = categories;
 }
 
 //------------------------------------------------------------------------------
