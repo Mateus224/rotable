@@ -120,11 +120,18 @@ class rotable::User : public rotable::Client {
                  hashPasswordChanged)
 public:
   /**
-   * @brief
+   * @brief Default constructor
    *
    * @param parent
    */
   explicit User(QObject *parent = 0);
+
+
+  /**
+   * @brief Default destructor
+   *
+   */
+  ~User();
 
   /**
    * @brief
@@ -214,11 +221,18 @@ private:
 class rotable::Waiter : public rotable::User {
 public:
   /**
-   * @brief
+   * @brief Default constructor
    *
    * @param parent
    */
   explicit Waiter(QObject *parent = 0);
+
+
+  /**
+   * @brief Default destructor
+   *
+   */
+  ~Waiter();
 
   /**
    * @brief
@@ -227,10 +241,25 @@ public:
    */
   inline virtual int accountType() const { return 0; }
 
+  /**
+   * @brief Get list with allow categories
+   *
+   * @return QList<int> nullptr or list
+   */
+  QList<int> *categories() const;
+
+  /**
+   * @brief set list with allow categories
+   *
+   * @param categories  QList with categories id
+   */
+  void setCategories(QList<int> *categories);
+
 protected:
   virtual void addAdditionalData(QJsonObject &obj) const;
   virtual void setAdditionalData(QJsonObject &obj);
 private:
+  QList<int> *_categories;
 }; // class Waiter
 
 //------------------------------------------------------------------------------

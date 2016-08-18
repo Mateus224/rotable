@@ -65,7 +65,8 @@ private:
     Configs,
     Passwords,
     MacAdresses,
-    TableDetails
+    TableDetails,
+    WaiterCategories
   };
 
   /**
@@ -610,6 +611,15 @@ private:
    * @param table       Table object
    */
   int getTableAdditionalData(rotable::Table *table);
+
+
+  /**
+   * @brief
+   *
+   * @param waiter
+   * @return bool
+   */
+  bool getWaiterAdditionalData(rotable::Waiter *waiter);
 
   /**
    * Update OrderItem
