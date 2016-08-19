@@ -77,7 +77,7 @@ Client *Client::fromJSON(const QJsonValue &jval) {
   QJsonObject o = jval.toObject();
 
   if (o.contains("name") && o.contains("type")) {
-    Client *c;
+    Client *c = nullptr;
 
     switch (o["type"].toInt()) {
     case 0: {
@@ -123,11 +123,10 @@ void Waiter::addAdditionalData(QJsonObject &obj) const {
   if(_categories)
   {
     QJsonArray arr;
-    foreach (auto var, _categories)
-      arr.append(var.toJSON());
+    for(auto var :*_categories)
+      arr.append(var);
     obj["categories"] = arr;
   }
-
 }
 
 //------------------------------------------------------------------------------
@@ -142,7 +141,6 @@ void Waiter::setAdditionalData(QJsonObject &obj) {
       list->append(var.toInt());
     setCategories(list);
   }
-
 }
 
 //------------------------------------------------------------------------------
