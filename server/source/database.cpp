@@ -891,7 +891,7 @@ Client *Database::client(int id) {
     client = new Waiter();
     client->setId(clientId);
     client->setName(q.value("name").toString());
-    getWaiterAdditionalData(reinterpret_cast<Waiter*>(client));
+    getWaiterAdditionalData(reinterpret_cast<Waiter *>(client));
   } break;
   case ComPackage::AdminAccount: {
     client = new Admin();
@@ -1355,8 +1355,9 @@ bool Database::updateClient(Client *client) {
   }
 
   switch (client->accountType()) {
-  case ComPackage::WaiterAccount:
-    throw new NotImplementedException();
+  case ComPackage::WaiterAccount: {
+    Waiter *tmp = reinterpret_cast<Waiter *>(client);
+  } break;
   case ComPackage::TableAccount: {
     Table *tmp = reinterpret_cast<Table *>(client);
     if (!updateTableAdditionalData(tmp->id(), tmp->isConnected(),
@@ -1396,6 +1397,117 @@ bool Database::updateTableAdditionalData(int id, int connected, int need) {
     qCritical()
         << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
     return false;
+  }
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::updateWaiterAdditionalData(Waiter *waiter) {
+  Waiter *oldWaiter = reinterpret_cast<Waiter *>(client(waiter->id()));
+
+  QList<int> *oldCategories = oldWaiter->categories(),
+             *newCategories = waiter->categories();
+
+  QList<int> toAdd, toRemove;
+
+  for(auto var: *newCategories)
+    if (!oldCategories->contains(var))
+      toAdd.append(var);
+
+  for(auto var: *oldCategories)
+    if (!newCategories->contains(var))
+      toRemove.append(var);
+
+  delete oldWaiter; // Clear object, not needed. Also oldoCategries are clear
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::addWaiterCategoires(const int &waiterId,
+                                   QList<int> *categoryList) {
+  if (!isConnected()) {
+    return false;
+  }
+  foreach(auto var , *categoryList){
+    QString queryStr = _sqlCommands[DatabaseTables::WaiterCategories]._insert.arg(
+        _prefix, "*", ":waiter_id", ":category_id");
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return false;
+    }
+
+    q.bindValue(":waiter_id", waiterId);
+    q.bindValue(":category_id", var);
+
+    if (!q.exec()) {
+      qCritical()
+          << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+      if (q.size() != 1) {
+        qCritical()
+            << tr("Query: returned %1 results but we expected it to return 1!")
+                   .arg(q.size());
+        return 0;
+      }
+    }
+
+    if (!q.next()) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::removeWaiterCategoires(const int &waiterId,
+                                      QList<int> *categoryList) {
+  if (!isConnected()) {
+    return false;
+  }
+  foreach(auto var , *categoryList){
+    QString queryStr = _sqlCommands[DatabaseTables::WaiterCategories]._remove.arg(
+        _prefix, "*", ":waiter_id", ":category_id");
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return false;
+    }
+
+    q.bindValue(":waiter_id", waiterId);
+    q.bindValue(":category_id", var);
+
+    if (!q.exec()) {
+      qCritical()
+          << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+      if (q.size() != 1) {
+        qCritical()
+            << tr("Query: returned %1 results but we expected it to return 1!")
+                   .arg(q.size());
+        return 0;
+      }
+    }
+
+    if (!q.next()) {
+      return false;
+    }
   }
 
   return true;
@@ -2886,7 +2998,7 @@ void Database::collectSqlCommands(Database::SqlCommands &cmds, QString table) {
 
 //------------------------------------------------------------------------------
 
-int Database::getTableAdditionalData(Table *table) {
+bool Database::getTableAdditionalData(Table *table) {
   if (!isConnected()) {
     return 0;
   }
@@ -2934,14 +3046,13 @@ int Database::getTableAdditionalData(Table *table) {
 
 //------------------------------------------------------------------------------
 
-bool Database::getWaiterAdditionalData(Waiter *waiter)
-{
+bool Database::getWaiterAdditionalData(Waiter *waiter) {
   if (!isConnected()) {
     return false;
   }
 
-  QString queryStr =
-      _sqlCommands[DatabaseTables::WaiterCategories]._select.arg(_prefix, "*", "waiter_id", ":id");
+  QString queryStr = _sqlCommands[DatabaseTables::WaiterCategories]._select.arg(
+      _prefix, "*", "waiter_id", ":id");
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -2972,7 +3083,6 @@ bool Database::getWaiterAdditionalData(Waiter *waiter)
     return false;
   }
 
-
   QList<int> *list = nullptr;
 
   while (q.next()) {
@@ -2986,7 +3096,7 @@ bool Database::getWaiterAdditionalData(Waiter *waiter)
     }
   }
 
-  if(list)
+  if (list)
     waiter->setCategories(list);
 
   return true;

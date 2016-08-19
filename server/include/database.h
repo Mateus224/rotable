@@ -333,16 +333,6 @@ public:
   bool updateClient(Client *client);
 
   /**
-   * Update additional data about table
-   *
-   * @param id          Table id
-   * @param connected   true if table is connected
-   * @param need        if waiter is needed on table
-   * @return            true on success
-   */
-  bool updateTableAdditionalData(int id, int connected, int need);
-
-  /**
    * Remove a category.
    *
    * @param id          id of category
@@ -609,17 +599,53 @@ private:
    * Get additional data about table, e.i. check if waiter is needed
    *
    * @param table       Table object
+   * @return bool       True on successs
    */
-  int getTableAdditionalData(rotable::Table *table);
-
+  bool getTableAdditionalData(rotable::Table *table);
 
   /**
-   * @brief
+   * @brief Get additional data about waiter (categories)
    *
-   * @param waiter
-   * @return bool
+   * @param waiter      Waiter object
+   * @return bool       True on success
    */
   bool getWaiterAdditionalData(rotable::Waiter *waiter);
+
+  /**
+   * Update additional data about table
+   *
+   * @param id          Table id
+   * @param connected   true if table is connected
+   * @param need        if waiter is needed on table
+   * @return            true on success
+   */
+  bool updateTableAdditionalData(int id, int connected, int need);
+
+  /**
+   * @brief Update additional data about waiter
+   *
+   * @param waiter      Waiter object
+   * @return bool       true on successs
+   */
+  bool updateWaiterAdditionalData(Waiter *waiter);
+
+  /**
+   * @brief           Add waiters and categorie
+   *
+   * @param waiterId  Waiter Id
+   * @param categoryList  List with categories
+   * @return bool     True on success
+   */
+  bool addWaiterCategoires(const int &waiterId, QList<int> *categoryList);
+
+  /**
+   * @brief           Remove waiters and categorie
+   *
+   * @param waiterId  Waiter Id
+   * @param categoryList  List with categories
+   * @return bool     True on success
+   */
+  bool removeWaiterCategoires(const int &waiterId, QList<int> *categoryList);
 
   /**
    * Update OrderItem
