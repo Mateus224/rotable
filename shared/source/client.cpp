@@ -6,6 +6,7 @@ using namespace rotable;
 //------------------------------------------------------------------------------
 
 #include <QCryptographicHash>
+#include <QJsonArray>
 
 //------------------------------------------------------------------------------
 
@@ -119,12 +120,29 @@ Waiter::~Waiter() { delete _categories; }
 
 void Waiter::addAdditionalData(QJsonObject &obj) const {
   User::addAdditionalData(obj);
+  if(_categories)
+  {
+    QJsonArray arr;
+    foreach (auto var, _categories)
+      arr.append(var.toJSON());
+    obj["categories"] = arr;
+  }
+
 }
 
 //------------------------------------------------------------------------------
 
 void Waiter::setAdditionalData(QJsonObject &obj) {
   User::setAdditionalData(obj);
+  if(obj.contains("categories"))
+  {
+    QJsonArray arr = obj["categories"].toArray();
+    QList<int> *list = new QList<int>;
+    foreach (QJsonValue var, arr)
+      list->append(var.toInt());
+    setCategories(list);
+  }
+
 }
 
 //------------------------------------------------------------------------------
