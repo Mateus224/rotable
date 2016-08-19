@@ -36,7 +36,7 @@ QString LanguageSupport::getEmptyString()
 
 //-----------------------------------------------------
 
-Q_INVOKABLE void LanguageSupport::selectLanguage(QString language)
+Q_INVOKABLE void LanguageSupport::selectLanguage(const QString &language)
 {
     if(language == QString("en"))
     {
@@ -54,8 +54,10 @@ Q_INVOKABLE void LanguageSupport::selectLanguage(QString language)
             loadSingleFile("waiter_"+language);
             break;
         case AppType::server:
+            loadSingleFile("server_"+language);
             break;
         case AppType::admin:
+            loadSingleFile("admin_"+language);
             break;
         }
         qApp->installTranslator(_translator1);
@@ -66,9 +68,9 @@ Q_INVOKABLE void LanguageSupport::selectLanguage(QString language)
 
 //-----------------------------------------------------
 
-bool LanguageSupport::loadSingleFile(QString qmFileName)
+bool LanguageSupport::loadSingleFile(const QString &qmFileName)
 {
     bool loadSuccesfull = _translator1->load(qmFileName,"localisation");
-    if (!loadSuccesfull) qDebug() << "Could not load file "+qmFileName;
+    if (!loadSuccesfull) qDebug() << tr("Could not load file ")+qmFileName;
     return loadSuccesfull;
 }
