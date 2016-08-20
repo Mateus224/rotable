@@ -10,6 +10,7 @@
 #include "productcategory.h"
 #include "productcontainer.h"
 #include "utils.h"
+#include "waitercategories.h"
 
 #include <QBuffer>
 
@@ -157,232 +158,59 @@ void Executor::onAddUser() {
     }
   }
 }
-  //------------------------------------------------------------------------------
 
-  void Executor::onUpdateCategory(ProductCategory * category) {
-    if (category) {
-      ComPackageDataSet set;
-      set.setDataCategory(ComPackage::SetCategory);
-      set.setData(category->toJSON());
+//------------------------------------------------------------------------------
 
-      if (!_tcp_client.send(set)) {
-        qCritical() << tr("FATAL: Could not send data set package!");
-      }
-    }
-  }
-
-  //------------------------------------------------------------------------------
-
-  void Executor::onAddProduct() {
-    AddProductDialog dlg(_images, _mainwindow);
-    dlg.setProductContainer(_products);
-    if (_selectedCategory) {
-      dlg.setCategory(_selectedCategory->id());
-    }
+void Executor::onWaiterCategoriesChange()
+{
+    Waiter* waiter = nullptr;
+    WaiterCategories dlg(_products, waiter, _mainwindow);
+    dlg.show();
 
     if (dlg.exec() == QDialog::Accepted) {
-      Product p;
-      p.setName(dlg.productName());
-      p.setIcon(dlg.iconName());
-      p.setId(-1); // mark as new category
-      p.setInfo(dlg.productInfo());
-      p.setPrice(dlg.productPrice());
-      p.setCategoryId(dlg.categoryId());
-      p.setAmount(dlg.productAmount());
-      p.setSequence(_products->productIds(dlg.categoryId()).count() + 1);
 
-      ComPackageDataSet set;
-      set.setDataCategory(ComPackage::SetProduct);
-      set.setData(p.toJSON());
+    }
+}
 
-      if (!_tcp_client.send(set)) {
-        qCritical() << tr("FATAL: Could not send data set package!");
+//------------------------------------------------------------------------------
 
-        QMessageBox msgBox;
-        msgBox.setText("Network I/O-Error!");
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        msgBox.setIcon(QMessageBox::Critical);
-        msgBox.exec();
-      }
+void Executor::onUpdateCategory(ProductCategory *category) {
+  if (category) {
+    ComPackageDataSet set;
+    set.setDataCategory(ComPackage::SetCategory);
+    set.setData(category->toJSON());
+
+    if (!_tcp_client.send(set)) {
+      qCritical() << tr("FATAL: Could not send data set package!");
     }
   }
+}
 
-  //------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
-  void Executor::onUpdateProduct(Product * product) {
-    if (product) {
-      ComPackageDataSet set;
-      set.setDataCategory(ComPackage::SetProduct);
-      set.setData(product->toJSON());
-
-      if (!_tcp_client.send(set)) {
-        qCritical() << tr("FATAL: Could not send data set package!");
-      }
-    }
+void Executor::onAddProduct() {
+  AddProductDialog dlg(_images, _mainwindow);
+  dlg.setProductContainer(_products);
+  if (_selectedCategory) {
+    dlg.setCategory(_selectedCategory->id());
   }
 
-  //------------------------------------------------------------------------------
+  if (dlg.exec() == QDialog::Accepted) {
+    Product p;
+    p.setName(dlg.productName());
+    p.setIcon(dlg.iconName());
+    p.setId(-1); // mark as new category
+    p.setInfo(dlg.productInfo());
+    p.setPrice(dlg.productPrice());
+    p.setCategoryId(dlg.categoryId());
+    p.setAmount(dlg.productAmount());
+    p.setSequence(_products->productIds(dlg.categoryId()).count() + 1);
 
-  void Executor::onResetDatabase() {
-    QMessageBox msgBox;
-    msgBox.setText(tr("This operation will clear your entire database. Are you "
-                      "sure you want to continue?"));
-    msgBox.setInformativeText("Clear entire database?");
-    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-    msgBox.setDefaultButton(QMessageBox::No);
-    msgBox.setIcon(QMessageBox::Warning);
-    if (msgBox.exec() == QMessageBox::Yes) {
-      ComPackageCommand com;
-      com.setCommandType(ComPackage::ResetDatabase);
+    ComPackageDataSet set;
+    set.setDataCategory(ComPackage::SetProduct);
+    set.setData(p.toJSON());
 
-      if (!_tcp_client.send(com)) {
-        qCritical() << tr("FATAL: Could not send command package!");
-
-        QMessageBox msgBox;
-        msgBox.setText("Network I/O-Error!");
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        msgBox.setIcon(QMessageBox::Critical);
-        msgBox.exec();
-      }
-    }
-  }
-
-  //------------------------------------------------------------------------------
-
-  void Executor::onExportDatabase() {}
-
-  //------------------------------------------------------------------------------
-
-  void Executor::onImportDatabase() {}
-
-  //------------------------------------------------------------------------------
-
-  void Executor::onRemoveCurrentEntry() {
-    if (_selectedCategory) {
-      ComPackageCommand com;
-
-      if (_selectedProduct) {
-        //_products->removeProduct(_selectedProduct);
-        //_selectedProduct = 0;
-
-        com.setData(_selectedProduct->id());
-        com.setCommandType(ComPackage::DeleteProduct);
-        QList<int> productIds =
-            _products->productIds(_selectedProduct->categoryId());
-        auto it = productIds.end();
-        --it;
-        while (*it != _selectedProduct->id()) {
-          _products->product(*it)->up();
-          --it;
-        }
-        _products->removeProduct(_selectedProduct);
-      } else {
-        //_products->removeCategory(_selectedCategory);
-        //_selectedCategory = 0;
-
-        com.setData(_selectedCategory->id());
-        QList<int> categoryIds = _products->categoryIds();
-        auto it = categoryIds.end();
-        --it;
-        while (*it != _selectedCategory->id()) {
-          _products->category(*it)->up();
-          --it;
-        }
-
-        com.setCommandType(ComPackage::DeleteCategory);
-        _products->removeCategory(_selectedCategory);
-        //      emit updateSequenceCategory(_selectedCategory->id());
-      }
-
-      if (!_tcp_client.send(com)) {
-        qCritical() << tr("FATAL: Could not send data set package!");
-
-        QMessageBox msgBox;
-        msgBox.setText("Network I/O-Error!");
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        msgBox.setIcon(QMessageBox::Critical);
-        msgBox.exec();
-      }
-    }
-  }
-
-  //------------------------------------------------------------------------------
-
-  void Executor::onRenameCurrentEntry() {}
-
-  //------------------------------------------------------------------------------
-
-  void Executor::onCategorySelectionChanged(int id) {
-    if (id == -1) {
-      _selectedCategory = 0;
-      _selectedProduct = 0;
-    } else {
-      _selectedCategory = _products->category(id);
-      _selectedProduct = 0;
-      Q_ASSERT(_selectedCategory);
-    }
-  }
-
-  //------------------------------------------------------------------------------
-
-  void Executor::onProductSelectionChanged(int id) {
-    if (id == -1) {
-      _selectedProduct = 0;
-    } else {
-      _selectedProduct = _products->product(id);
-      Q_ASSERT(_selectedProduct);
-    }
-  }
-
-  //------------------------------------------------------------------------------
-
-  void Executor::onExportStatistic() { _mainwindow->exportPdf(); }
-
-  //------------------------------------------------------------------------------
-
-  void Executor::onClearDebugServerLog() { _mainwindow->clearDebugServerLog(); }
-
-  //------------------------------------------------------------------------------
-
-  void Executor::onStartDebugServerListening() {
-    _serverLogListener.startConnection("127.0.0.1", 5001);
-  }
-
-  //------------------------------------------------------------------------------
-
-  void Executor::onStopDebugServerListening() {
-    _serverLogListener.stopConnection();
-  }
-
-  //------------------------------------------------------------------------------
-
-  void Executor::onAddLicence() {
-    AddNewLicence dlg(_mainwindow);
-
-    if (dlg.exec() != QDialog::Accepted)
-      return;
-    ;
-    QStringList fileList = dlg.getList();
-    QJsonArray array;
-
-    foreach (QString fileName, fileList) {
-
-      QFile file(fileName);
-      file.open(QIODevice::ReadOnly);
-
-      QByteArray ba;
-      QBuffer buffer(&ba);
-
-      ba = file.readAll();
-      QString base64 = ba.toBase64(QByteArray::Base64UrlEncoding);
-
-      array.append(QJsonValue(base64));
-    }
-
-    ComPackageDataSet package;
-    package.setData(array);
-    package.setDataCategory(ComPackage::SetLicence);
-    if (!_tcp_client.send(package)) {
+    if (!_tcp_client.send(set)) {
       qCritical() << tr("FATAL: Could not send data set package!");
 
       QMessageBox msgBox;
@@ -392,86 +220,38 @@ void Executor::onAddUser() {
       msgBox.exec();
     }
   }
+}
 
-  //------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
-  void Executor::onProductUp() {
-    if (_selectedProduct) {
-      auto sequence =
-          _products->productSequence(_selectedProduct->categoryId());
-      if (_selectedProduct->sequence() > 1) {
-        Product *product_second =
-            _products->product(sequence[_selectedProduct->sequence() - 1]);
-        _selectedProduct->up();
-        product_second->down();
-      }
+void Executor::onUpdateProduct(Product *product) {
+  if (product) {
+    ComPackageDataSet set;
+    set.setDataCategory(ComPackage::SetProduct);
+    set.setData(product->toJSON());
+
+    if (!_tcp_client.send(set)) {
+      qCritical() << tr("FATAL: Could not send data set package!");
     }
   }
+}
 
-  //------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
-  void Executor::onProductDown() {
-    if (_selectedProduct) {
-      auto sequence =
-          _products->productSequence(_selectedProduct->categoryId());
-      if (_selectedProduct->sequence() < sequence.count()) {
-        Product *product_second =
-            _products->product(sequence[_selectedProduct->sequence() + 1]);
-        _selectedProduct->down();
-        product_second->up();
-      }
-    }
-  }
+void Executor::onResetDatabase() {
+  QMessageBox msgBox;
+  msgBox.setText(tr("This operation will clear your entire database. Are you "
+                    "sure you want to continue?"));
+  msgBox.setInformativeText("Clear entire database?");
+  msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+  msgBox.setDefaultButton(QMessageBox::No);
+  msgBox.setIcon(QMessageBox::Warning);
+  if (msgBox.exec() == QMessageBox::Yes) {
+    ComPackageCommand com;
+    com.setCommandType(ComPackage::ResetDatabase);
 
-  //------------------------------------------------------------------------------
-
-  void Executor::onCategoryUp() {
-    if (_selectedCategory) {
-      auto sequence = _products->productCategorySequence();
-      if (_selectedCategory->sequence() > 1) {
-        ProductCategory *category_second =
-            _products->category(sequence[_selectedCategory->sequence() - 1]);
-        _selectedCategory->up();
-        category_second->down();
-      }
-    }
-  }
-
-  //------------------------------------------------------------------------------
-
-  void Executor::onCategoryDown() {
-    if (_selectedCategory) {
-      auto sequence = _products->productCategorySequence();
-      if (_selectedCategory->sequence() < sequence.count()) {
-        ProductCategory *category_second =
-            _products->category(sequence[_selectedCategory->sequence() + 1]);
-        _selectedCategory->down();
-        category_second->up();
-      }
-    }
-  }
-
-  //------------------------------------------------------------------------------
-
-  void Executor::onClientError(QAbstractSocket::SocketError error) {
-    QMessageBox msgBox;
-    msgBox.setText(
-        QString("Network Error: %1").arg(SocketErrorToString(error)));
-    msgBox.setStandardButtons(QMessageBox::Ok);
-    msgBox.setIcon(QMessageBox::Critical);
-    msgBox.exec();
-  }
-
-  //------------------------------------------------------------------------------
-
-  void Executor::onConnectionEstablished() {
-    ComPackageConnectionRequest request;
-    request.setClientName(_username);
-    request.setClientPass(_password);
-    request.setClientType(rotable::ComPackage::AdminAccount);
-
-    if (!_tcp_client.send(request)) {
-      qCritical() << tr("FATAL: Could not send connection request package!");
+    if (!_tcp_client.send(com)) {
+      qCritical() << tr("FATAL: Could not send command package!");
 
       QMessageBox msgBox;
       msgBox.setText("Network I/O-Error!");
@@ -480,311 +260,542 @@ void Executor::onAddUser() {
       msgBox.exec();
     }
   }
+}
 
-  //------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
-  void Executor::onConnectionLost() {
-    if (!_mainwindow->isClosing() && !_disconnectRequested) {
+void Executor::onExportDatabase() {}
+
+//------------------------------------------------------------------------------
+
+void Executor::onImportDatabase() {}
+
+//------------------------------------------------------------------------------
+
+void Executor::onRemoveCurrentEntry() {
+  if (_selectedCategory) {
+    ComPackageCommand com;
+
+    if (_selectedProduct) {
+      //_products->removeProduct(_selectedProduct);
+      //_selectedProduct = 0;
+
+      com.setData(_selectedProduct->id());
+      com.setCommandType(ComPackage::DeleteProduct);
+      QList<int> productIds =
+          _products->productIds(_selectedProduct->categoryId());
+      auto it = productIds.end();
+      --it;
+      while (*it != _selectedProduct->id()) {
+        _products->product(*it)->up();
+        --it;
+      }
+      _products->removeProduct(_selectedProduct);
+    } else {
+      //_products->removeCategory(_selectedCategory);
+      //_selectedCategory = 0;
+
+      com.setData(_selectedCategory->id());
+      QList<int> categoryIds = _products->categoryIds();
+      auto it = categoryIds.end();
+      --it;
+      while (*it != _selectedCategory->id()) {
+        _products->category(*it)->up();
+        --it;
+      }
+
+      com.setCommandType(ComPackage::DeleteCategory);
+      _products->removeCategory(_selectedCategory);
+      //      emit updateSequenceCategory(_selectedCategory->id());
+    }
+
+    if (!_tcp_client.send(com)) {
+      qCritical() << tr("FATAL: Could not send data set package!");
+
       QMessageBox msgBox;
-      msgBox.setText("Connection to server lost.");
+      msgBox.setText("Network I/O-Error!");
       msgBox.setStandardButtons(QMessageBox::Ok);
-      msgBox.setIconPixmap(
-          QPixmap(QStringLiteral(":/rotable/network-connect.png"))
-              .scaledToHeight(32));
+      msgBox.setIcon(QMessageBox::Critical);
       msgBox.exec();
     }
+  }
+}
 
-    _products->clear();
-    _users->clear();
-    _disconnectRequested = false;
+//------------------------------------------------------------------------------
+
+void Executor::onRenameCurrentEntry() {}
+
+//------------------------------------------------------------------------------
+
+void Executor::onCategorySelectionChanged(int id) {
+  if (id == -1) {
+    _selectedCategory = 0;
+    _selectedProduct = 0;
+  } else {
+    _selectedCategory = _products->category(id);
+    _selectedProduct = 0;
+    Q_ASSERT(_selectedCategory);
+  }
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::onProductSelectionChanged(int id) {
+  if (id == -1) {
+    _selectedProduct = 0;
+  } else {
+    _selectedProduct = _products->product(id);
+    Q_ASSERT(_selectedProduct);
+  }
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::onExportStatistic() { _mainwindow->exportPdf(); }
+
+//------------------------------------------------------------------------------
+
+void Executor::onClearDebugServerLog() { _mainwindow->clearDebugServerLog(); }
+
+//------------------------------------------------------------------------------
+
+void Executor::onStartDebugServerListening() {
+  _serverLogListener.startConnection("127.0.0.1", 5001);
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::onStopDebugServerListening() {
+  _serverLogListener.stopConnection();
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::onAddLicence() {
+  AddNewLicence dlg(_mainwindow);
+
+  if (dlg.exec() != QDialog::Accepted)
+    return;
+  ;
+  QStringList fileList = dlg.getList();
+  QJsonArray array;
+
+  foreach (QString fileName, fileList) {
+
+    QFile file(fileName);
+    file.open(QIODevice::ReadOnly);
+
+    QByteArray ba;
+    QBuffer buffer(&ba);
+
+    ba = file.readAll();
+    QString base64 = ba.toBase64(QByteArray::Base64UrlEncoding);
+
+    array.append(QJsonValue(base64));
   }
 
-  //------------------------------------------------------------------------------
+  ComPackageDataSet package;
+  package.setData(array);
+  package.setDataCategory(ComPackage::SetLicence);
+  if (!_tcp_client.send(package)) {
+    qCritical() << tr("FATAL: Could not send data set package!");
 
-  void Executor::onPackageReceived(ComPackage * package) {
-    if (package) {
-      switch (package->type()) {
-      case ComPackage::ConnectionRequest:
-        qCritical() << tr("ERROR: Received ConnectionRequest package!");
-        break;
+    QMessageBox msgBox;
+    msgBox.setText("Network I/O-Error!");
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.exec();
+  }
+}
 
-      case ComPackage::ConnectionAccept:
-        emit connectionEstablished();
-        emit statusMessage(tr("Connected"));
-        requestCategoryIds();
-        requestServerConfigs();
-        requestLicenceStatus();
-        requestClientIds();
-        break;
+//------------------------------------------------------------------------------
 
-      case ComPackage::DataRequest:
-        qCritical() << tr("ERROR: Received DataRequest package!");
-        break;
-
-      case ComPackage::DataReturn:
-        dataReturned(static_cast<ComPackageDataReturn *>(package));
-        break;
-
-      case ComPackage::DataChanged:
-        dataChanged(static_cast<ComPackageDataChanged *>(package));
-        break;
-
-      case ComPackage::DataSet:
-        qCritical() << tr("ERROR: Received DataSet package!");
-        break;
-
-      case ComPackage::Reject: {
-        _dataRequest.remove(
-            static_cast<ComPackageReject *>(package)->originId());
-
-        qDebug() << tr("WARNING: Package has been rejected!");
-
-        QMessageBox msgBox;
-        msgBox.setText("Request rejected by server.");
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        msgBox.setIcon(QMessageBox::Warning);
-        msgBox.exec();
-
-        onDisconnectFromServer();
-      } break;
-
-      default:
-        qDebug() << tr("WARNING: Received unknown package!");
-        break;
-      }
+void Executor::onProductUp() {
+  if (_selectedProduct) {
+    auto sequence = _products->productSequence(_selectedProduct->categoryId());
+    if (_selectedProduct->sequence() > 1) {
+      Product *product_second =
+          _products->product(sequence[_selectedProduct->sequence() - 1]);
+      _selectedProduct->up();
+      product_second->down();
     }
   }
+}
 
-  //------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
-  void Executor::requestCategoryIds() {
-    ComPackageDataRequest *request = new ComPackageDataRequest();
-    request->setDataCategory(ComPackage::RequestCategoryIds);
-
-    if (!_tcp_client.send(*request)) {
-      qCritical() << tr("Could not send request!");
-    } else {
-      _dataRequest[request->id()] = request;
+void Executor::onProductDown() {
+  if (_selectedProduct) {
+    auto sequence = _products->productSequence(_selectedProduct->categoryId());
+    if (_selectedProduct->sequence() < sequence.count()) {
+      Product *product_second =
+          _products->product(sequence[_selectedProduct->sequence() + 1]);
+      _selectedProduct->down();
+      product_second->up();
     }
   }
+}
 
-  //------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
-  void Executor::requestProductIds(int categoryId) {
-    ComPackageDataRequest *request = new ComPackageDataRequest();
-    request->setDataCategory(ComPackage::RequestProductIds);
-    request->setDataName(QString("%1").arg(categoryId));
-
-    if (!_tcp_client.send(*request)) {
-      qCritical() << tr("Could not send request!");
-    } else {
-      _dataRequest[request->id()] = request;
+void Executor::onCategoryUp() {
+  if (_selectedCategory) {
+    auto sequence = _products->productCategorySequence();
+    if (_selectedCategory->sequence() > 1) {
+      ProductCategory *category_second =
+          _products->category(sequence[_selectedCategory->sequence() - 1]);
+      _selectedCategory->up();
+      category_second->down();
     }
   }
+}
 
-  //------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
-  void Executor::requestCategory(int categoryId) {
-    ComPackageDataRequest *request = new ComPackageDataRequest();
-    request->setDataCategory(ComPackage::RequestCategory);
-    request->setDataName(QString("%1").arg(categoryId));
-
-    if (!_tcp_client.send(*request)) {
-      qCritical() << tr("Could not send request!");
-    } else {
-      _dataRequest[request->id()] = request;
+void Executor::onCategoryDown() {
+  if (_selectedCategory) {
+    auto sequence = _products->productCategorySequence();
+    if (_selectedCategory->sequence() < sequence.count()) {
+      ProductCategory *category_second =
+          _products->category(sequence[_selectedCategory->sequence() + 1]);
+      _selectedCategory->down();
+      category_second->up();
     }
   }
+}
 
-  //------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
-  void Executor::requestProduct(int productId) {
-    ComPackageDataRequest *request = new ComPackageDataRequest();
-    request->setDataCategory(ComPackage::RequestProduct);
-    request->setDataName(QString("%1").arg(productId));
+void Executor::onClientError(QAbstractSocket::SocketError error) {
+  QMessageBox msgBox;
+  msgBox.setText(QString("Network Error: %1").arg(SocketErrorToString(error)));
+  msgBox.setStandardButtons(QMessageBox::Ok);
+  msgBox.setIcon(QMessageBox::Critical);
+  msgBox.exec();
+}
 
-    if (!_tcp_client.send(*request)) {
-      qCritical() << tr("Could not send request!");
-    } else {
-      _dataRequest[request->id()] = request;
+//------------------------------------------------------------------------------
+
+void Executor::onConnectionEstablished() {
+  ComPackageConnectionRequest request;
+  request.setClientName(_username);
+  request.setClientPass(_password);
+  request.setClientType(rotable::ComPackage::AdminAccount);
+
+  if (!_tcp_client.send(request)) {
+    qCritical() << tr("FATAL: Could not send connection request package!");
+
+    QMessageBox msgBox;
+    msgBox.setText("Network I/O-Error!");
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.exec();
+  }
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::onConnectionLost() {
+  if (!_mainwindow->isClosing() && !_disconnectRequested) {
+    QMessageBox msgBox;
+    msgBox.setText("Connection to server lost.");
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setIconPixmap(
+        QPixmap(QStringLiteral(":/rotable/network-connect.png"))
+            .scaledToHeight(32));
+    msgBox.exec();
+  }
+
+  _products->clear();
+  _users->clear();
+  _disconnectRequested = false;
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::onPackageReceived(ComPackage *package) {
+  if (package) {
+    switch (package->type()) {
+    case ComPackage::ConnectionRequest:
+      qCritical() << tr("ERROR: Received ConnectionRequest package!");
+      break;
+
+    case ComPackage::ConnectionAccept:
+      emit connectionEstablished();
+      emit statusMessage(tr("Connected"));
+      requestCategoryIds();
+      requestServerConfigs();
+      requestLicenceStatus();
+      requestClientIds();
+      break;
+
+    case ComPackage::DataRequest:
+      qCritical() << tr("ERROR: Received DataRequest package!");
+      break;
+
+    case ComPackage::DataReturn:
+      dataReturned(static_cast<ComPackageDataReturn *>(package));
+      break;
+
+    case ComPackage::DataChanged:
+      dataChanged(static_cast<ComPackageDataChanged *>(package));
+      break;
+
+    case ComPackage::DataSet:
+      qCritical() << tr("ERROR: Received DataSet package!");
+      break;
+
+    case ComPackage::Reject: {
+      _dataRequest.remove(static_cast<ComPackageReject *>(package)->originId());
+
+      qDebug() << tr("WARNING: Package has been rejected!");
+
+      QMessageBox msgBox;
+      msgBox.setText("Request rejected by server.");
+      msgBox.setStandardButtons(QMessageBox::Ok);
+      msgBox.setIcon(QMessageBox::Warning);
+      msgBox.exec();
+
+      onDisconnectFromServer();
+    } break;
+
+    default:
+      qDebug() << tr("WARNING: Received unknown package!");
+      break;
     }
   }
+}
 
-  //------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
-  void Executor::requestUser(int userId) {
-    ComPackageDataRequest *request = new ComPackageDataRequest();
-    request->setDataCategory(ComPackage::RequestUser);
-    request->setDataName(QString("%1").arg(userId));
+void Executor::requestCategoryIds() {
+  ComPackageDataRequest *request = new ComPackageDataRequest();
+  request->setDataCategory(ComPackage::RequestCategoryIds);
 
-    if (!_tcp_client.send(*request)) {
-      qCritical() << tr("Could not send request!");
-    } else {
-      _dataRequest[request->id()] = request;
+  if (!_tcp_client.send(*request)) {
+    qCritical() << tr("Could not send request!");
+  } else {
+    _dataRequest[request->id()] = request;
+  }
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::requestProductIds(int categoryId) {
+  ComPackageDataRequest *request = new ComPackageDataRequest();
+  request->setDataCategory(ComPackage::RequestProductIds);
+  request->setDataName(QString("%1").arg(categoryId));
+
+  if (!_tcp_client.send(*request)) {
+    qCritical() << tr("Could not send request!");
+  } else {
+    _dataRequest[request->id()] = request;
+  }
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::requestCategory(int categoryId) {
+  ComPackageDataRequest *request = new ComPackageDataRequest();
+  request->setDataCategory(ComPackage::RequestCategory);
+  request->setDataName(QString("%1").arg(categoryId));
+
+  if (!_tcp_client.send(*request)) {
+    qCritical() << tr("Could not send request!");
+  } else {
+    _dataRequest[request->id()] = request;
+  }
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::requestProduct(int productId) {
+  ComPackageDataRequest *request = new ComPackageDataRequest();
+  request->setDataCategory(ComPackage::RequestProduct);
+  request->setDataName(QString("%1").arg(productId));
+
+  if (!_tcp_client.send(*request)) {
+    qCritical() << tr("Could not send request!");
+  } else {
+    _dataRequest[request->id()] = request;
+  }
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::requestUser(int userId) {
+  ComPackageDataRequest *request = new ComPackageDataRequest();
+  request->setDataCategory(ComPackage::RequestUser);
+  request->setDataName(QString("%1").arg(userId));
+
+  if (!_tcp_client.send(*request)) {
+    qCritical() << tr("Could not send request!");
+  } else {
+    _dataRequest[request->id()] = request;
+  }
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::requestServerConfigs() {
+  ComPackageDataRequest *request = new ComPackageDataRequest();
+  request->setDataCategory(ComPackage::RequestConfig);
+
+  if (!_tcp_client.send(*request)) {
+    qCritical() << tr("Could not send request!");
+  } else {
+    _dataRequest[request->id()] = request;
+  }
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::requestLicenceStatus() {
+  //    ComPackageDataRequest* request = new ComPackageDataRequest();
+  //    request->setDataCategory(ComPackage::RequestLicence);
+
+  //    if (!_tcp_client.send(*request)) {
+  //      qCritical() << tr("Could not send request!");
+  //    } else {
+  //      _dataRequest[request->id()] = request;
+  //    }
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::requestClientIds() {
+  ComPackageDataRequest *request = new ComPackageDataRequest();
+  request->setDataCategory(ComPackage::RequestUserIds);
+
+  if (!_tcp_client.send(*request)) {
+    qCritical() << tr("Could not send request!");
+  } else {
+    _dataRequest[request->id()] = request;
+  }
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::dataReturned(ComPackageDataReturn *package) {
+  _dataRequest.remove(package->originId());
+
+  switch (package->dataCategory()) {
+  case ComPackage::RequestImage: {
+    qCritical() << tr("The server request an imag from us!?!");
+  } break;
+
+  case ComPackage::RequestCategoryIds: {
+    QJsonArray arr = package->data().toArray();
+    foreach (QJsonValue val, arr) {
+      int id = val.toInt();
+      requestCategory(id);
     }
-  }
+  } break;
 
-  //------------------------------------------------------------------------------
-
-  void Executor::requestServerConfigs() {
-    ComPackageDataRequest *request = new ComPackageDataRequest();
-    request->setDataCategory(ComPackage::RequestConfig);
-
-    if (!_tcp_client.send(*request)) {
-      qCritical() << tr("Could not send request!");
-    } else {
-      _dataRequest[request->id()] = request;
+  case ComPackage::RequestProductIds: {
+    QJsonArray arr = package->data().toArray();
+    foreach (QJsonValue val, arr) {
+      int id = val.toInt();
+      requestProduct(id);
     }
-  }
+  } break;
 
-  //------------------------------------------------------------------------------
+  case ComPackage::RequestCategory: {
+    ProductCategory *category = ProductCategory::fromJSON(package->data());
+    requestProductIds(category->id());
+    _products->addCategory(category);
+  } break;
 
-  void Executor::requestLicenceStatus() {
-    //    ComPackageDataRequest* request = new ComPackageDataRequest();
-    //    request->setDataCategory(ComPackage::RequestLicence);
+  case ComPackage::RequestProduct: {
+    Product *product = Product::fromJSON(package->data());
+    _products->addProduct(product);
+  } break;
 
-    //    if (!_tcp_client.send(*request)) {
-    //      qCritical() << tr("Could not send request!");
-    //    } else {
-    //      _dataRequest[request->id()] = request;
-    //    }
-  }
-
-  //------------------------------------------------------------------------------
-
-  void Executor::requestClientIds() {
-    ComPackageDataRequest *request = new ComPackageDataRequest();
-    request->setDataCategory(ComPackage::RequestUserIds);
-
-    if (!_tcp_client.send(*request)) {
-      qCritical() << tr("Could not send request!");
-    } else {
-      _dataRequest[request->id()] = request;
+  case ComPackage::RequestConfig: {
+    loadServerConfigs(package->data().toString());
+  } break;
+  case ComPackage::RequestLicence: {
+    loadLicenceStatus(package->data().toString());
+  } break;
+  case ComPackage::RequestUserIds: {
+    QJsonArray arr = package->data().toArray();
+    foreach (QJsonValue val, arr) {
+      int id = val.toInt();
+      requestUser(id);
     }
+  } break;
+  case ComPackage::RequestUser: {
+    User *user = reinterpret_cast<User *>(Client::fromJSON(package->data()));
+    _users->addUser(user);
+  } break;
+  default: { qCritical() << tr("Unknown data package returned"); } break;
   }
+}
 
-  //------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
-  void Executor::dataReturned(ComPackageDataReturn * package) {
-    _dataRequest.remove(package->originId());
-
+void Executor::dataChanged(ComPackageDataChanged *package) {
+  if (package) {
     switch (package->dataCategory()) {
     case ComPackage::RequestImage: {
-      qCritical() << tr("The server request an imag from us!?!");
     } break;
-
     case ComPackage::RequestCategoryIds: {
-      QJsonArray arr = package->data().toArray();
-      foreach (QJsonValue val, arr) {
-        int id = val.toInt();
-        requestCategory(id);
-      }
+      _products->clear();
+      requestCategoryIds();
     } break;
-
     case ComPackage::RequestProductIds: {
-      QJsonArray arr = package->data().toArray();
-      foreach (QJsonValue val, arr) {
-        int id = val.toInt();
-        requestProduct(id);
+      bool ok;
+      int categoryId = package->dataName().toInt(&ok);
+      if (!ok) {
+        qCritical() << tr("Could not convert category id '%1' to int!")
+                           .arg(package->dataName());
+      } else {
+        _products->clearProducts(categoryId);
+        requestProductIds(categoryId);
       }
     } break;
-
     case ComPackage::RequestCategory: {
-      ProductCategory *category = ProductCategory::fromJSON(package->data());
-      requestProductIds(category->id());
-      _products->addCategory(category);
+      bool ok;
+      int categoryId = package->dataName().toInt(&ok);
+      if (!ok) {
+        qCritical() << tr("Could not convert category id '%1' to int!")
+                           .arg(package->dataName());
+      } else {
+        requestCategory(categoryId);
+      }
     } break;
-
     case ComPackage::RequestProduct: {
-      Product *product = Product::fromJSON(package->data());
-      _products->addProduct(product);
-    } break;
-
-    case ComPackage::RequestConfig: {
-      loadServerConfigs(package->data().toString());
-    } break;
-    case ComPackage::RequestLicence: {
-      loadLicenceStatus(package->data().toString());
+      bool ok;
+      int productId = package->dataName().toInt(&ok);
+      if (!ok) {
+        qCritical() << tr("Could not convert product id '%1' to int!")
+                           .arg(package->dataName());
+      } else {
+        requestProduct(productId);
+      }
     } break;
     case ComPackage::RequestUserIds: {
-      QJsonArray arr = package->data().toArray();
-      foreach (QJsonValue val, arr) {
-        int id = val.toInt();
-        requestUser(id);
-      }
+      _users->clear();
+      requestClientIds();
     } break;
-    case ComPackage::RequestUser: {
-      User *user = reinterpret_cast<User *>(Client::fromJSON(package->data()));
-      _users->addUser(user);
+    default: {
+      qCritical() << tr("Unknown data changed category '%1' received!")
+                         .arg(package->dataCategory());
     } break;
-    default: { qCritical() << tr("Unknown data package returned"); } break;
     }
   }
+}
 
-  //------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
-  void Executor::dataChanged(ComPackageDataChanged * package) {
-    if (package) {
-      switch (package->dataCategory()) {
-      case ComPackage::RequestImage: {
-      } break;
-      case ComPackage::RequestCategoryIds: {
-        _products->clear();
-        requestCategoryIds();
-      } break;
-      case ComPackage::RequestProductIds: {
-        bool ok;
-        int categoryId = package->dataName().toInt(&ok);
-        if (!ok) {
-          qCritical() << tr("Could not convert category id '%1' to int!")
-                             .arg(package->dataName());
-        } else {
-          _products->clearProducts(categoryId);
-          requestProductIds(categoryId);
-        }
-      } break;
-      case ComPackage::RequestCategory: {
-        bool ok;
-        int categoryId = package->dataName().toInt(&ok);
-        if (!ok) {
-          qCritical() << tr("Could not convert category id '%1' to int!")
-                             .arg(package->dataName());
-        } else {
-          requestCategory(categoryId);
-        }
-      } break;
-      case ComPackage::RequestProduct: {
-        bool ok;
-        int productId = package->dataName().toInt(&ok);
-        if (!ok) {
-          qCritical() << tr("Could not convert product id '%1' to int!")
-                             .arg(package->dataName());
-        } else {
-          requestProduct(productId);
-        }
-      } break;
-      case ComPackage::RequestUserIds:{
-        _users->clear();
-        requestClientIds();
-      } break;
-      default: {
-        qCritical() << tr("Unknown data changed category '%1' received!")
-                           .arg(package->dataCategory());
-      } break;
-      }
-    }
-  }
+void Executor::loadServerConfigs(const QString &path) {
+  emit onLicenceConfig(path);
+}
 
-  //------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
-  void Executor::loadServerConfigs(const QString &path) {
-    emit onLicenceConfig(path);
-  }
-
-  //------------------------------------------------------------------------------
-
-  void Executor::loadLicenceStatus(const QString &status) {
-    emit onLicenceStatus(status);
-  }
+void Executor::loadLicenceStatus(const QString &status) {
+  emit onLicenceStatus(status);
+}
 
 //------------------------------------------------------------------------------
