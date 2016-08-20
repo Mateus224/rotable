@@ -151,6 +151,13 @@ public slots:
   void onAddUser();
 
   /**
+   * @brief
+   *
+   * @return on
+   */
+  void onWaiterCategoriesChange();
+
+  /**
    * Category has been updated.
    *
    * @param category      updated category

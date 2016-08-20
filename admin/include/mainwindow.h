@@ -176,6 +176,8 @@ signals:
   */
  void actionAddUser();
 
+ void actionWaiterCategories();
+
 
 public slots:
  /**
