@@ -130,6 +130,8 @@ void Controller::connect_signals() {
   connect(_mainwindow, &MainWindow::actionAddUser, &_executor,
           &Executor::onAddUser);
 
+  connect(_mainwindow, &MainWindow::actionWaiterCategories, &_executor, &Executor::onWaiterCategoriesChange);
+
   connect(&_executor, &Executor::onLicenceConfig, _mainwindow,
           &MainWindow::onLicencePathSet);
 
