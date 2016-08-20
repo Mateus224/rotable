@@ -49,7 +49,8 @@ SOURCES += \
     source/usertablemodel.cpp \
     source/usercontainer.cpp \
     source/adduserdialog.cpp \
-    source/setwaitercategory.cpp
+    source/setwaitercategory.cpp \
+    source/waitercategories.cpp
 
 HEADERS += \
     include/mainwindow.h \
@@ -79,7 +80,8 @@ HEADERS += \
     include/usertablemodel.h \
     include/usercontainer.h \
     include/adduserdialog.h \
-    include/setwaitercategory.h
+    include/setwaitercategory.h \
+    include/waitercategories.h
 
 FORMS += \
     ui/mainwindow.ui \
@@ -88,7 +90,8 @@ FORMS += \
     ui/addproductcategorydialog.ui \
     ui/addnewlicencedialog.ui \
     ui/adduserdialog.ui \
-    ui/setwaitercategory.ui
+    ui/setwaitercategory.ui \
+    ui/waitercategories.ui
 
 RESOURCES += \
     resources/resources.qrc \
