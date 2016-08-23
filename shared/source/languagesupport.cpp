@@ -20,11 +20,15 @@ LanguageSupport::LanguageSupport(AppType apptype)
 
 //-----------------------------------------------------
 
-void LanguageSupport::LoadInit()
+void LanguageSupport::LoadInit(const QString &forceLang)
 {
-    QString locale = QLocale::system().name();
-    locale.truncate(locale.lastIndexOf("_"));
-    selectLanguage(locale);
+    if (forceLang=="")
+    {
+        QString locale = QLocale::system().name();
+        locale.truncate(locale.lastIndexOf("_"));
+        selectLanguage(locale);
+    }
+    else selectLanguage(forceLang);
 }
 
 //-----------------------------------------------------
@@ -48,7 +52,7 @@ Q_INVOKABLE void LanguageSupport::selectLanguage(const QString &language)
         switch (_applicationType)
         {
         case AppType::client:
-            loadSingleFile("Client_"+language);
+            loadSingleFile("client_"+language);
             break;
         case AppType::waiter:
             loadSingleFile("waiter_"+language);
