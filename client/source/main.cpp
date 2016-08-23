@@ -136,8 +136,7 @@ int main(int argc, char *argv[])
     break;
   }
 
-  //view->showFullScreen();
-  view->show();
+  view->showFullScreen();
 
   return app.exec();
 }
