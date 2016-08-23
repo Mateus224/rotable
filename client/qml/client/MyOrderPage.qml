@@ -29,7 +29,7 @@ Rectangle {
 
         Text {
             id: categoryTitleLabel
-            text: "My Order"
+            text: qsTr("My Order")+langObject.emptyString
             font.family: "FreeSans"
             color: "#000000"
             font.bold: true

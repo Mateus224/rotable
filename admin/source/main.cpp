@@ -10,6 +10,8 @@
 #include "io_init.h"
 #include "io_writeinmonthwithnewdata.h"
 
+#include "languagesupport.h"
+
 #include <QStandardPaths>
 #include <QDir>
 
@@ -33,6 +35,10 @@ int main(int argc, char *argv[])
   QCoreApplication::setApplicationVersion("1.0b");
   QCoreApplication::setOrganizationName("rotable");
   QCoreApplication::setOrganizationDomain("rotable.info");
+
+  // Load translator
+  rotable::LanguageSupport* langSupp = new rotable::LanguageSupport(rotable::LanguageSupport::AppType::admin);
+  langSupp->LoadInit();
 
   QCommandLineParser parser;
   parser.setApplicationDescription("rotable client application");

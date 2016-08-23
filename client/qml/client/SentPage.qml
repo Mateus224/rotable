@@ -27,7 +27,7 @@ Rectangle {
         }
         Text {
             id: categoryTitleLabel
-            text: "SENT"
+            text: qsTr("SENT") + langObject.emptyString
             font.family: "FreeSans"
             color: "#000000"
             font.bold: true
