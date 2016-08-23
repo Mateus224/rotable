@@ -421,7 +421,7 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request)
             else
                 qCritical() << tr("Could not query order from id %1!").arg(id);
           }
-        delete order;
+        //delete order;
           QJsonValue jsonVal(arr);
 
           return new ComPackageDataReturn(*request, jsonVal);
