@@ -58,14 +58,14 @@ bool ProductOrder::b_acceptOrder()
     else
     {
         _acceptOrder=0;
-        _s_acceptOrder= tr("Order Empty");
+        _s_acceptOrder= tr("Order is Empty");
     }
     setacceptOrder();
     return _acceptOrder;
 }
 
 void ProductOrder::setacceptOrder(){
-    if(this->_s_acceptOrder.compare("Sending...")==0){
+    if(this->_s_acceptOrder.compare(tr("Sending..."))==0){
         QTimer::singleShot(2000, this, SLOT(OrderQueueTextSlot()));
 
     }
