@@ -13,7 +13,7 @@ Rectangle {
         color: "#000000"
         Text {
             id: tempText
-            text: MyOrder.acceptOrder
+            text: qsTr(MyOrder.acceptOrder) + langObject.emptyString
             font.family: "FreeSans"
             color: "#AAAAAA"
             font.bold: true

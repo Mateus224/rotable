@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
 
   // Load translator
   rotable::LanguageSupport* langSupp = new rotable::LanguageSupport(rotable::LanguageSupport::AppType::client);
-  langSupp->LoadInit("pl");
+  langSupp->LoadInit();
 
   rotable::Client* client = new rotable::Client(configFilePath);
 
