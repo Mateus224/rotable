@@ -89,6 +89,9 @@ int main(int argc, char *argv[])
   rotable::LanguageSupport* langSupp = new rotable::LanguageSupport(rotable::LanguageSupport::AppType::client);
   langSupp->LoadInit("de");
 
+  //langSupp->LoadInit();
+
+
   rotable::Client* client = new rotable::Client(configFilePath);
 
   client->_device=device;
