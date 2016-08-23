@@ -60,8 +60,10 @@ public:
      * loads the initial translation based on a system locale.
      *
      * This fuction has to be called after creating LanguageSupport object.
+     *
+     * @param language          if you want load a specific language at start, otherwise leave empty
      */
-    void LoadInit();
+    void LoadInit(const QString &forceLang="");
 
     /**
       * This function needs to be called everytime you want to switch language in application.
