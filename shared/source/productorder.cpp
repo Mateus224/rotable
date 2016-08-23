@@ -53,12 +53,12 @@ bool ProductOrder::b_acceptOrder()
     if(!ClientProductHash->empty())
     {
         _acceptOrder=1;
-        _s_acceptOrder="Sending...";
+        _s_acceptOrder=tr("Sending...");
     }
     else
     {
         _acceptOrder=0;
-        _s_acceptOrder= "Order Empty";
+        _s_acceptOrder= tr("Order Empty");
     }
     setacceptOrder();
     return _acceptOrder;
@@ -73,7 +73,7 @@ void ProductOrder::setacceptOrder(){
 }
 
 void ProductOrder::OrderQueueTextSlot(){
-    this->_s_acceptOrder="orders before you";
+    this->_s_acceptOrder=tr("orders before you");
     setacceptOrder();
 }
 
