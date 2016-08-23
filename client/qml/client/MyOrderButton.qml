@@ -33,7 +33,7 @@ Rectangle {
     }
     Text {
         id: buttonLabel
-        text: "MY ORDER"
+        text: qsTr("MY ORDER")+langObject.emptyString
         font.family: "FreeSans"
         color: "#000000"
         font.bold: true
