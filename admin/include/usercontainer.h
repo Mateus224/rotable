@@ -69,6 +69,10 @@ public:
      *
      */
     void clear();
+    User *getSelectedUser() const;
+    void setSelectedUser(User *value);
+    void setSelectedUser(int inx);
+
 signals:
     /**
      * @brief
@@ -93,6 +97,7 @@ signals:
     void updateView();
 private:
     QHash <int, User*> _users; /** Container with users */
+    User *selectedUser;
 };
 
 //------------------------------------------------------------------------------

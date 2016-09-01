@@ -161,15 +161,15 @@ void Executor::onAddUser() {
 
 //------------------------------------------------------------------------------
 
-void Executor::onWaiterCategoriesChange()
-{
-    Waiter* waiter = nullptr;
-    WaiterCategories dlg(_products, waiter, _mainwindow);
-    dlg.show();
+void Executor::onWaiterCategoriesChange() {
+  Waiter *waiter = reinterpret_cast<Waiter*>(_users->getSelectedUser());
+  if(!waiter)
+    return;
+  WaiterCategories dlg(_products, waiter, _mainwindow);
+  dlg.show();
 
-    if (dlg.exec() == QDialog::Accepted) {
-
-    }
+  if (dlg.exec() == QDialog::Accepted) {
+  }
 }
 
 //------------------------------------------------------------------------------
@@ -462,6 +462,15 @@ void Executor::onCategoryDown() {
       category_second->up();
     }
   }
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::handleSelectionChanged(const QItemSelection &selection) {
+  if (selection.indexes().isEmpty())
+    _users->setSelectedUser(nullptr);
+  else
+        _users->setSelectedUser(selection.indexes().first().row());
 }
 
 //------------------------------------------------------------------------------

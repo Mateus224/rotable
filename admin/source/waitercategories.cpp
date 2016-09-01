@@ -28,7 +28,7 @@ WaiterCategories::~WaiterCategories() { delete _ui; }
 //------------------------------------------------------------------------------
 
 void WaiterCategories::loadListView() {
-//  QList<int> *categories = _waiter->categories();
+  QList<int> *categories = _waiter->categories();
   QStandardItemModel *model = new QStandardItemModel(_ui->listView);
   int i = 0;
 
@@ -36,9 +36,9 @@ void WaiterCategories::loadListView() {
     auto *item = new QStandardItem();
     item->setText(_container->category(categoryId)->name());
     item->setCheckable(true);
-//    item->setData(categories->contains(categoryId) ? Qt::CheckState::Checked
-//                                                   : Qt::CheckState::Unchecked,
-//                  Qt::CheckStateRole);
+    item->setData(categories->contains(categoryId) ? Qt::CheckState::Checked
+                                                   : Qt::CheckState::Unchecked,
+                  Qt::CheckStateRole);
 
     model->setItem(i++, item);
   }
