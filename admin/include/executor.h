@@ -9,6 +9,7 @@
 #include "tcpclient.h"
 #include "usercontainer.h"
 
+#include <QItemSelection>
 #include <QObject>
 
 //------------------------------------------------------------------------------
@@ -260,6 +261,8 @@ public slots:
    *
    */
   void onCategoryDown();
+
+  void handleSelectionChanged(const QItemSelection& selection);
 
 private slots:
   /**
