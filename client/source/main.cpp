@@ -7,8 +7,7 @@
 #include "imageprovider.h"
 #include "productorder.h"
 #include "mytables.h"
-
-
+#include "languagesupport.h"
 
 #ifdef __arm__
 #include <wiringPi.h>
@@ -86,6 +85,12 @@ int main(int argc, char *argv[])
   pwmWrite(1, 0);
 #endif
 
+  // Load translator
+  rotable::LanguageSupport* langSupp = new rotable::LanguageSupport(rotable::LanguageSupport::AppType::client);
+  langSupp->LoadInit("de");
+
+  //langSupp->LoadInit();
+
 
   rotable::Client* client = new rotable::Client(configFilePath);
 
@@ -110,6 +115,7 @@ int main(int argc, char *argv[])
   view->rootContext()->setContextProperty("MyProductOrderList", _productorderlistmodel);
   view->rootContext()->setContextProperty("CallWaiterObject", &(client->_callWaiter));
   view->rootContext()->setContextProperty("OrderQueue", &(client->_queue));
+  view->rootContext()->setContextProperty("langObject", langSupp);
   QQmlContext *ctxt = view->engine()->rootContext();
   qmlContxt init(*ctxt);
   init.initContxt(1);
@@ -132,6 +138,7 @@ int main(int argc, char *argv[])
     view->setSource(QString("qrc:/client/main.qml"));
     break;
   }
+
   view->showFullScreen();
 
   return app.exec();

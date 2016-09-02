@@ -20,7 +20,7 @@ Rectangle {
 
         Text {
             id: textOnConnecting
-            text: "CONNECTING   "
+            text: qsTr("CONNECTING   ") + langObject.emptyString
             font.family: "FreeSans"
             color: "#FFFFFF"
             font.pointSize: 22
@@ -38,7 +38,7 @@ Rectangle {
             onTriggered: {
                 dots = ++dots % 4
 
-                var text = "CONNECTING";
+                var text = qsTr("CONNECTING")+langObject.emptyString;
                 for (var i = 0; i < 3; ++i) {
                     if (i < dots) {
                         text += "."
