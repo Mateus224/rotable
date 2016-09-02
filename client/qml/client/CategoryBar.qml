@@ -4,8 +4,8 @@ import QtQuick.Window 2.2
 import QtQuick.Layouts 1.1
 
 Rectangle {
-    property int buttonSizeH: parent.height * 0.1 * 0.85
-    property int buttonSizeW: parent.height * 0.1 * 0.85
+    property int buttonSizeH: parent.height * 0.1 * 0.9
+    property int buttonSizeW: parent.height * 0.1 * 0.8
     //this tries to calculate optimal number of shown icons based on the bar length (in theory should work on smaller screens)
     property int maxButtonsShown: Math.floor(width / buttonSizeW)
     property var listModel: CategoryListModel
@@ -41,7 +41,7 @@ Rectangle {
             width: buttonSizeW
             height: buttonSizeH
 
-            color: index % 2 ? "#444041" : "#3f494a"
+            color: index % 2 ? "#444099" : "#3f494a"//"#3f494a"
 
             Image {
                 anchors.centerIn: parent
@@ -57,10 +57,10 @@ Rectangle {
                     parent.color= "#f9a8d8"
                 }
                 onExited: {
-                    parent.color= index % 2 ? "#444041" : "#3f494a"
+                    parent.color= index % 2 ? "#444099" : "#3f494a"
                 }
                 onReleased: {
-                    parent.color= index % 2 ? "#444041" : "#3f494a"
+                    parent.color= index % 2 ? "#444099" : "#3f494a"
                     client.currentCategoryId = categoryId
                 }
             }

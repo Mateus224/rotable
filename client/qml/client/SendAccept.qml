@@ -47,10 +47,10 @@ Rectangle {
 
     Rectangle {
         anchors.fill: parent
-        anchors.topMargin: parent.height * 0.2
-        anchors.leftMargin: parent.width * (1.0 - 0.805) / 2.0
-        anchors.rightMargin: parent.width * (1.0 - 0.805) / 2.0
-        anchors.bottomMargin: parent.height * (0.09125 + 0.10 + 0.125)
+        anchors.topMargin: (parent.height * 0.1)*3/2
+        anchors.leftMargin: (parent.width * (1.0 - 0.805) / 2.0)*2/3*(1/2*0.82)
+        anchors.rightMargin: (parent.width * (1.0 - 0.805) / 2.0)*2/3*(1/2*0.82)
+        anchors.bottomMargin: (parent.height * (0.09125 + 0.10 + 0.125))*0.82
         color: "#3f494a"
         Rectangle {
             anchors.fill: parent
