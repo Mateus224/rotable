@@ -29,7 +29,7 @@ Rectangle {
 
         Text {
             id: categoryTitleLabel
-            text: "SENT"
+            text: qsTr("SENT")+langObject.emptyString
             font.family: "FreeSans"
             color: "#000000"
             font.bold: true
@@ -60,7 +60,7 @@ Rectangle {
 
             Text {
                 id: tempText
-                text: "Order was sent"
+                text: qsTr("Order was sent")+langObject.emptyString
                 font.family: "FreeSans"
                 color: "#AAAAAA"
                 font.bold: true

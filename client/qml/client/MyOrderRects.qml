@@ -61,7 +61,7 @@ Rectangle {
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
                                     anchors.horizontalCenterOffset: 10
-                                    text: "Amount"
+                                    text: qsTr("Amount")+langObject.emptyString
                                     font.pixelSize: fontSizeHeader
                                     font.bold: true
                                 }
@@ -74,7 +74,7 @@ Rectangle {
                                 Text {
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
-                                    text: "Order"
+                                    text: qsTr("Order")+langObject.emptyString
                                     font.pixelSize: fontSizeHeader
                                     font.bold: true
                                     font.family: "FreeSans"
@@ -88,7 +88,7 @@ Rectangle {
                                     Text {
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
-                                    text: "Price"
+                                    text: qsTr("Price")+langObject.emptyString
                                     font.pixelSize: fontSizeHeader
                                     font.family: "FreeSans"
                                     font.bold: true
@@ -242,7 +242,7 @@ Rectangle {
                                 }
                                 Text {
                                     font.family: "FreeSans"; font.pointSize: fontSize; font.bold: true
-                                    text:  "Send Order"
+                                    text:  qsTr("Send Order")+langObject.emptyString
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
                                 }
