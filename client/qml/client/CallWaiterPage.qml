@@ -28,17 +28,17 @@ Rectangle {
                 State{
                     name: "DEFAULT"
                     PropertyChanges{target: buttonChange; gradient:clubcolorsblue}
-                    PropertyChanges{target: callWaiterText; text:"Press to call the waiter"}
+                    PropertyChanges{target: callWaiterText; text: qsTr("Press to call the waiter")+langObject.emptyString }
                 },
                 State{
                     name: "TRYCALLWAITER"
                     PropertyChanges{target: buttonChange; gradient:clubcolorsblue}
-                    PropertyChanges{target: callWaiterText; text:"Send called"}
+                    PropertyChanges{target: callWaiterText; text: qsTr("Send called")+langObject.emptyString }
                 },
                 State{
                     name: "CALLWAITER"
                     PropertyChanges{target: buttonChange; gradient:clubcolorsred}
-                    PropertyChanges{target: callWaiterText; text:"Waiter is called"}
+                    PropertyChanges{target: callWaiterText; text: qsTr("Waiter is called")+langObject.emptyString }
                 }
 
             ]
@@ -55,7 +55,7 @@ Rectangle {
                 gradient: clubcolorsblue
                 Text{
                     id:callWaiterText
-                    text: "Press to call the waiter"
+                    text: qsTr("Press to call the waiter")+langObject.emptyString
                     font.family: "FreeSans"
                     color: "#FFFFFF"
                     font.pointSize: 22

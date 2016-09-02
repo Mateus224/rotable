@@ -57,6 +57,7 @@ OTHER_FILES += \
     qml/client/StartPage.qml \
     qml/client/MyOrderButton.qml \
     qml/client/MyOrderPage.qml \
+    qml/client/MyOrderRects.qml \
     qml/client/ProductRects.qml \
     qml/client/ProductPage.qml \
     qml/client/callWaiter/CallWaiterPage.qml\
@@ -135,4 +136,8 @@ INSTALLS    += target
 
 DISTFILES += \
 #    qml/client/callWaiter/CallWaiterPage.qml
+
+########################################################################
+# TRANSLATION:
+
 

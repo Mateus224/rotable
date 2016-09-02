@@ -20,7 +20,7 @@ Rectangle {
 
         Text {
             id: textOnTouchToStart
-            text: "TOUCH DISPLAY TO START"
+            text: qsTr("TOUCH DISPLAY TO START")+langObject.emptyString
             font.family: "FreeSans"
             color: "#FFFFFF"
             anchors.centerIn: parent
