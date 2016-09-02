@@ -113,3 +113,9 @@ DISTFILES += \
     qml/waiter/Label.qml \
     qml/waiter/TableButton.qml \
     qml/waiter/OrderItem.qml
+
+########################################################################
+# TRANSLATION:
+
+TRANSLATIONS =  localisation/waiter_pl.ts \
+                localisation/waiter_de.ts
