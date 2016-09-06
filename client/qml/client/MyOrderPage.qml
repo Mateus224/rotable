@@ -17,7 +17,7 @@ Rectangle {
 
         anchors.top: parent.top
         anchors.left: parent.left
-        anchors.topMargin: parent.height * 0.1
+        anchors.topMargin: parent.height * 0.05
         width: parent.width
         height: parent.height * 0.05
         gradient: clubcolorsrevers
