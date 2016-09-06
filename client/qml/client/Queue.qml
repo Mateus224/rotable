@@ -3,7 +3,7 @@ import QtQuick 2.0
 Rectangle {
     visible: if( OrderQueue.queueOrder>0){true} else{false}
     width:parent.width/3
-    height: parent.height/10
+    height: parent.height/20
     anchors.horizontalCenter: parent.horizontalCenter
     gradient: clubcolorsrevers
     Gradient {
