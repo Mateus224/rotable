@@ -3,9 +3,9 @@ import QtQuick 2.0
 Rectangle {
     anchors.bottom: parent.bottom
     anchors.horizontalCenter:  parent.horizontalCenter
-    anchors.bottomMargin: parent.height * 0.2
-    width: parent.width * 0.4
-    height: parent.height * 0.08
+    anchors.bottomMargin: parent.height * 0.175 //0.2
+    width: parent.width * 0.35 //0.4
+    height: parent.height * 0.07 //0.8
     Gradient {
         id: clubcolorsrevers
         GradientStop { position: 0.0; color:"#000000"}//"#8EE2FE"}
