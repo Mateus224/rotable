@@ -33,7 +33,7 @@ Rectangle {
                 anchors.rightMargin: buttonMarginH
                 anchors.topMargin: buttonMarginV
                 anchors.bottomMargin: buttonMarginV
-                id:grid
+                id:gridL
                 orientation: ListView.Vertical
                 width: parent.width-0.2
                 height: parent.height-0.2
@@ -102,7 +102,7 @@ Rectangle {
                     Rectangle {
                         y:10
                         id: wrapper
-                        width: grid.width
+                        width: gridL.width
                         height: heightINFO
                         color: "transparent"
                         Rectangle {
