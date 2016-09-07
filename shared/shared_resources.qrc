@@ -15,5 +15,6 @@
         <file>resources/waiter.png</file>
         <file>resources/food.png</file>
         <file>resources/shisha.png</file>
+        <file alias="close.png">resources/close.png</file>
     </qresource>
 </RCC>
