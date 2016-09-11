@@ -162,8 +162,8 @@ void Executor::onAddUser() {
 //------------------------------------------------------------------------------
 
 void Executor::onWaiterCategoriesChange() {
-  Waiter *waiter = reinterpret_cast<Waiter*>(_users->getSelectedUser());
-  if(!waiter)
+  Waiter *waiter = reinterpret_cast<Waiter *>(_users->getSelectedUser());
+  if (!waiter)
     return;
   WaiterCategories dlg(_products, waiter, _mainwindow);
   dlg.show();
@@ -471,6 +471,8 @@ void Executor::handleSelectionChanged(const QItemSelection &selection) {
     _users->setSelectedUser(nullptr);
   else
     _users->setSelectedUser(selection.indexes().first().row());
+
+  userSelectionChange();
 }
 
 //------------------------------------------------------------------------------
@@ -805,6 +807,18 @@ void Executor::loadServerConfigs(const QString &path) {
 
 void Executor::loadLicenceStatus(const QString &status) {
   emit onLicenceStatus(status);
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::userSelectionChange() {
+  if(!_users->getSelectedUser())
+  {
+    emit setWaiterButton(false);
+    return;
+  }
+  emit setWaiterButton(_users->getSelectedUser()->accountType() == 0 ? true
+                                                                     : false);
 }
 
 //------------------------------------------------------------------------------
