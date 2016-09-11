@@ -255,6 +255,20 @@ public:
    */
   void setCategories(QList<int> *categories);
 
+  /**
+   * @brief Add allowed category for waiter
+   *
+   * @param id          category id
+   */
+  void addWaiterCategory(int id);
+
+  /**
+   * @brief Removed allowed category for waiter
+   *
+   * @param id          category id
+   */
+  void removeWaiterCategory(int id);
+
 protected:
   virtual void addAdditionalData(QJsonObject &obj) const;
   virtual void setAdditionalData(QJsonObject &obj);
