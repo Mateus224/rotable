@@ -470,7 +470,7 @@ void Executor::handleSelectionChanged(const QItemSelection &selection) {
   if (selection.indexes().isEmpty())
     _users->setSelectedUser(nullptr);
   else
-        _users->setSelectedUser(selection.indexes().first().row());
+    _users->setSelectedUser(selection.indexes().first().row());
 }
 
 //------------------------------------------------------------------------------
