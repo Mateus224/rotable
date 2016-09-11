@@ -178,6 +178,8 @@ signals:
 
  void actionWaiterCategories();
 
+ void setWaiterButtonStatus(bool);
+
 
 public slots:
  /**
