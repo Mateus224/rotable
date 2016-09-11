@@ -27,6 +27,22 @@ WaiterCategories::~WaiterCategories() { delete _ui; }
 
 //------------------------------------------------------------------------------
 
+void WaiterCategories::checkedChanged() {
+  if (sender()) {
+    QAbstractItemModel *item = reinterpret_cast<QAbstractItemModel *>(sender());
+    for (auto category : _container->_categories) ;
+//      if (category->name() == item->data;)
+//      {
+//        if (item->checkState())
+//          _waiter->addWaiterCategory(category->id());
+//        else
+//          _waiter->removeWaiterCategory(category->id());
+//      }
+  }
+}
+
+//------------------------------------------------------------------------------
+
 void WaiterCategories::loadListView() {
   QList<int> *categories = _waiter->categories();
   QStandardItemModel *model = new QStandardItemModel(_ui->listView);
@@ -39,9 +55,11 @@ void WaiterCategories::loadListView() {
     item->setData(categories->contains(categoryId) ? Qt::CheckState::Checked
                                                    : Qt::CheckState::Unchecked,
                   Qt::CheckStateRole);
-
     model->setItem(i++, item);
+    connect(item->model(), &QAbstractItemModel::dataChanged, this,
+            &WaiterCategories::checkedChanged);
   }
+
   _ui->listView->setModel(model);
 }
 
