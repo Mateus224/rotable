@@ -39,6 +39,7 @@ Controller::Controller(MainWindow *mainwindow, const QString &configFilePath)
 
   _mainwindow->restore();
 
+  connect_signals();
 }
 
 //------------------------------------------------------------------------------
