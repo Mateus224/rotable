@@ -39,6 +39,10 @@ public:
    *
    */
   ~WaiterCategories();
+
+private slots:
+  void checkedChanged();
+
 private:
   void loadListView();
   /* UI object */

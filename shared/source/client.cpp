@@ -160,6 +160,20 @@ void Waiter::setCategories(QList<int> *categories)
 
 //------------------------------------------------------------------------------
 
+void Waiter::addWaiterCategory(int id)
+{
+  _categories->append(id);
+}
+
+//------------------------------------------------------------------------------
+
+void Waiter::removeWaiterCategory(int id)
+{
+  _categories->removeOne(id);
+}
+
+//------------------------------------------------------------------------------
+
 Admin::Admin(QObject *parent) : User(parent) {}
 
 //------------------------------------------------------------------------------
