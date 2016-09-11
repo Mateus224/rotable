@@ -133,14 +133,15 @@ void Waiter::addAdditionalData(QJsonObject &obj) const {
 
 void Waiter::setAdditionalData(QJsonObject &obj) {
   User::setAdditionalData(obj);
+  QList<int> *list = new QList<int>;
   if(obj.contains("categories"))
   {
     QJsonArray arr = obj["categories"].toArray();
     QList<int> *list = new QList<int>;
     foreach (QJsonValue var, arr)
       list->append(var.toInt());
-    setCategories(list);
   }
+  setCategories(list);
 }
 
 //------------------------------------------------------------------------------
