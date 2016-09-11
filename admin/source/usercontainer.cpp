@@ -75,15 +75,21 @@ void rotable::UserContainter::clear()
     emit updateView();
 }
 
+//------------------------------------------------------------------------------
+
 void rotable::UserContainter::setSelectedUser(int idx)
 {
   selectedUser = _users.values()[idx];
 }
 
+//------------------------------------------------------------------------------
+
 rotable::User *rotable::UserContainter::getSelectedUser() const
 {
     return selectedUser;
 }
+
+//------------------------------------------------------------------------------
 
 void rotable::UserContainter::setSelectedUser(User *value)
 {
