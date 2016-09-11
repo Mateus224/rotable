@@ -57,6 +57,8 @@ MainWindow::MainWindow(QWidget *parent)
   connect(_ui->_toolButtonWaiterCategories, &QToolButton::clicked, this,
           &MainWindow::actionWaiterCategories);
 
+  connect(this, &MainWindow::setWaiterButtonStatus,_ui->_toolButtonWaiterCategories, &QToolButton::setEnabled);
+
   //_ui->d_plot->setMode(3);
 
   // Initially hide ServerDebug tab

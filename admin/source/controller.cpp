@@ -105,6 +105,8 @@ void Controller::connect_signals() {
   connect(&_executor, SIGNAL(serverLog(rotable::LogManager::LogMessage)),
           _mainwindow, SLOT(onServerLog(rotable::LogManager::LogMessage)));
 
+  connect(&_executor, &Executor::setWaiterButton, _mainwindow, &MainWindow::setWaiterButtonStatus);
+
   connect(_mainwindow->_ui->_userTableView->selectionModel(),
      SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
      &_executor, SLOT(handleSelectionChanged(QItemSelection)));
