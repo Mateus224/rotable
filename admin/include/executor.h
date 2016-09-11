@@ -129,6 +129,8 @@ signals:
    */
   void updateSequenceCategory(int);
 
+  void setWaiterButton(bool);
+
 public slots:
   /**
    * Connect to rotable server.
@@ -356,6 +358,13 @@ private:
    * @param status
    */
   void loadLicenceStatus(const QString &status);
+
+  /**
+   * @brief userSelectionChange
+   *
+   * Function check if waiter is selected and emit signal to check
+   */
+  void userSelectionChange();
 
   /* MainWindow object */
   MainWindow *_mainwindow;
