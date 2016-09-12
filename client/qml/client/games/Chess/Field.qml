@@ -42,7 +42,7 @@ Item {
             Drag.hotSpot.x: root.width / 2
             Drag.hotSpot.y: root.height / 2
 
-            Text {
+            /*Text {
                 id: text
                 anchors.fill: parent
                 color: whiteSide ? "white" : "black"
@@ -62,7 +62,7 @@ Item {
 
                 }
 
-            }
+            }*/
 
             states: State {
                 when: mouseArea.drag.active

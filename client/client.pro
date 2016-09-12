@@ -29,6 +29,8 @@ HEADERS += \
     include/callwaiter.h \
     include/queue.h \
     private/precomp.h \
+    include/games/chess/validation.h \
+    include/games/chess/gamecontroller.h
 
 
 SOURCES += \
@@ -42,6 +44,8 @@ SOURCES += \
     source/imageprovider.cpp \
     source/callwaiter.cpp \
     source/queue.cpp \
+    source/games/chess/validation.cpp \
+    source/games/chess/gamecontroller.cpp
 
 
 

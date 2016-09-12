@@ -1,8 +1,8 @@
 #ifndef VALIDATION_H
 #define VALIDATION_H
-#include "tile.h"
 
-extern Tile *tile[8][8];
+
+/*extern Tile *tile[8][8];
 extern int exp_[60],max,wR,wC;
 
 class validation
@@ -20,6 +20,6 @@ public:
     int validatePawn(Tile *temp);
     void orange();
     int check(Tile *temp);
-};
+};*/
 
 #endif // VALIDATION_H

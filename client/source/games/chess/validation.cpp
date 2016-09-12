@@ -1,5 +1,5 @@
-#include "validation.h"
-
+#include "games/chess/validation.h"
+/*
 validation::validation()
 {
     //Nothing here
@@ -666,3 +666,4 @@ void validation::orange()
     for(i=0;i<max;i++)
         tile[exp_[i]/8][exp_[i]%8]->setStyleSheet("QLabel {background-color: blue;}");
 }
+*/
