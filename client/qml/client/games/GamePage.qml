@@ -1,6 +1,7 @@
 import QtQuick 2.4
 import "SpinTheBottle/"
 import "BigKingsCup/"
+import "Chess/"
 import ".."
 
 Rectangle {
@@ -92,7 +93,9 @@ Rectangle {
                     color:parent.color(0,1)
                 }
                 EmptyGridRect{
-                   color: parent.color(0,2)
+                    id_: 2
+                    gameName:"Chess"
+                    color: parent.color(0,2)
                 }
                 EmptyGridRect{
                     id:a
@@ -157,18 +160,7 @@ Rectangle {
                 easing.type: Easing.InOutQuad
             }
         }
-        /*Behavior on width {
-            NumberAnimation {
-                duration: stateChangeDuration
-                easing.type: Easing.InOutQuad
-            }
-        }
-        Behavior on height {
-            NumberAnimation {
-                duration: stateChangeDuration
-                easing.type: Easing.InOutQuad
-            }
-        }*/
+
         Behavior on z {
             NumberAnimation {
                 duration: stateChangeDuration
@@ -182,15 +174,25 @@ Rectangle {
         visible: false
     }
 
+    Chess{
+        id: chess
+        visible: false
+
+    }
+
     states: [
         State {
             name: "DEFAULT"
             PropertyChanges { target: game0; state: "COLLAPSED" }
             PropertyChanges { target: spinTheBottle; visible: false }
             PropertyChanges { target: spinTheBottle; z: 0 }
+            PropertyChanges { target: bigKingsCup; visible: false }
+            PropertyChanges { target: bigKingsCup; z: 0 }
+            PropertyChanges { target: chess; visible: false }
+            PropertyChanges { target: chess; z: 0 }
             PropertyChanges { target: spinTheBottle; width: Math.min(mainScreen.height, mainScreen.width) }
             PropertyChanges { target: spinTheBottle; height: Math.min(mainScreen.height, mainScreen.width) }
-
+            //PropertyChanges { target: chess; height: Math.min(mainScreen.height, mainScreen.width) }
         },
         State {
             name: "SPINTHEBOTTLE"
@@ -204,7 +206,14 @@ Rectangle {
             PropertyChanges { target: bigKingsCup; visible: true }
             PropertyChanges { target: bigKingsCup; z: 1 }
             PropertyChanges { target: bigKingsCup; width: Math.min(mainScreen.height, mainScreen.width) }
-            PropertyChanges { target: bigKingsCup; height: Math.min(mainScreen.height, mainScreen.width) }
+        },
+        State {
+            name: "CHESS"
+            PropertyChanges { target: chess; visible: true }
+            PropertyChanges { target: chess; height: Math.min(mainScreen.height, mainScreen.width) }
+            PropertyChanges { target: chess; width: Math.min(mainScreen.height, mainScreen.width) }
+            PropertyChanges { target: chess; z: 1 }
+
         }
     ]
 }

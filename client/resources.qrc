@@ -155,4 +155,9 @@
     <qresource prefix="/">
         <file>config.ini</file>
     </qresource>
+    <qresource prefix="/client/games/Chess">
+        <file alias="Chess.qml">qml/client/games/Chess/Chess.qml</file>
+        <file alias="ChessBoard.js">qml/client/games/Chess/ChessBoard.js</file>
+        <file alias="Field.qml">qml/client/games/Chess/Field.qml</file>
+    </qresource>
 </RCC>
