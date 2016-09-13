@@ -581,6 +581,24 @@ public:
    */
   void update();
 
+  /**
+   * @brief           Add waiters and categorie
+   *
+   * @param waiterId  Waiter Id
+   * @param categoryList  List with categories
+   * @return bool     True on success
+   */
+  bool addWaiterCategoires(const int &waiterId, QList<int> *categoryList);
+
+  /**
+   * @brief           Remove waiters and categorie
+   *
+   * @param waiterId  Waiter Id
+   * @param categoryList  List with categories
+   * @return bool     True on success
+   */
+  bool removeWaiterCategoires(const int &waiterId, QList<int> *categoryList);
+
 signals:
   void parseConfig(Config *c);
 
@@ -628,24 +646,6 @@ private:
    * @return bool       true on successs
    */
   bool updateWaiterAdditionalData(Waiter *waiter);
-
-  /**
-   * @brief           Add waiters and categorie
-   *
-   * @param waiterId  Waiter Id
-   * @param categoryList  List with categories
-   * @return bool     True on success
-   */
-  bool addWaiterCategoires(const int &waiterId, QList<int> *categoryList);
-
-  /**
-   * @brief           Remove waiters and categorie
-   *
-   * @param waiterId  Waiter Id
-   * @param categoryList  List with categories
-   * @return bool     True on success
-   */
-  bool removeWaiterCategoires(const int &waiterId, QList<int> *categoryList);
 
   /**
    * Update OrderItem

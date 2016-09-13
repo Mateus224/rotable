@@ -932,6 +932,33 @@ bool Server::executeCommand(ComPackageCommand *package) {
       }
 
     } break;
+    case ComPackage::CommandType::AddWaiterCategory:
+    {
+      QJsonArray  arr = package->data().toArray();
+      QList<int> list;
+      list.append(arr[1].toInt());
+      if(_db.addWaiterCategoires(arr[0].toInt(), &list)){
+        // Inform admins about data change...
+        ComPackageDataChanged dc;
+        dc.setDataCategory(ComPackage::RequestUser);
+        dc.setDataName(QString("%1").arg(arr[0].toInt()));
+        send_to_users(dc, 2);
+        return true;
+      }
+    } break;
+    case ComPackage::CommandType::RemoveWaiterCategory: {
+      QJsonArray  arr = package->data().toArray();
+      QList<int> list;
+      list.append(arr[1].toInt());
+      if(_db.addWaiterCategoires(arr[0].toInt(), &list)){
+        // Inform admins about data change...
+        ComPackageDataChanged dc;
+        dc.setDataCategory(ComPackage::RequestUser);
+        dc.setDataName(QString("%1").arg(arr[0].toInt()));
+        send_to_users(dc, 2);
+        return true;
+      }
+    } break;
     default: {
       qCritical()
           << tr("Unknown command type '%1'!").arg(package->commandType());
