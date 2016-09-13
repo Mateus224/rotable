@@ -292,6 +292,10 @@ private slots:
    */
   void onPackageReceived(rotable::ComPackage *package);
 
+  void onWaiterCategoryAdd(int categoryId);
+
+  void onWaiterCategoryRemove(int categoryId);
+
 private:
   /**
    * @brief
