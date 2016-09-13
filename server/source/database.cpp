@@ -1432,7 +1432,7 @@ bool Database::addWaiterCategoires(const int &waiterId,
   }
   foreach(auto var , *categoryList){
     QString queryStr = _sqlCommands[DatabaseTables::WaiterCategories]._insert.arg(
-        _prefix, "*", ":waiter_id", ":category_id");
+        _prefix, ":waiter_id", ":category_id");
 
     QSqlQuery q(_db);
     q.setForwardOnly(true);
@@ -1460,9 +1460,6 @@ bool Database::addWaiterCategoires(const int &waiterId,
       }
     }
 
-    if (!q.next()) {
-      return false;
-    }
   }
 
   return true;
@@ -1477,7 +1474,7 @@ bool Database::removeWaiterCategoires(const int &waiterId,
   }
   foreach(auto var , *categoryList){
     QString queryStr = _sqlCommands[DatabaseTables::WaiterCategories]._remove.arg(
-        _prefix, "*", ":waiter_id", ":category_id");
+                _prefix, ":waiter_id", ":category_id");
 
     QSqlQuery q(_db);
     q.setForwardOnly(true);
@@ -1505,9 +1502,6 @@ bool Database::removeWaiterCategoires(const int &waiterId,
       }
     }
 
-    if (!q.next()) {
-      return false;
-    }
   }
 
   return true;
@@ -3083,7 +3077,7 @@ bool Database::getWaiterAdditionalData(Waiter *waiter) {
     return false;
   }
 
-  QList<int> *list = nullptr;
+  QList<int> *list = new QList<int>;
 
   while (q.next()) {
     bool toIntOk;
