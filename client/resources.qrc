@@ -40,6 +40,7 @@
         <file alias="CloseButton.qml">qml/client/games/CloseButton.qml</file>
         <file alias="ReadInformationFile.js">qml/client/games/ReadInformationFile.js</file>
         <file alias="test.txt">qml/client/games/test.txt</file>
+        <file alias="Board.qml">qml/client/games/Board.qml</file>
     </qresource>
     <qresource prefix="/client/games/SpinTheBottle">
         <file alias="SpinBottle.qml">qml/client/games/SpinTheBottle/SpinBottle.qml</file>
@@ -154,5 +155,23 @@
     </qresource>
     <qresource prefix="/">
         <file>config.ini</file>
+    </qresource>
+    <qresource prefix="/client/games/Chess">
+        <file alias="ChessBoard.js">qml/client/games/Chess/ChessBoard.js</file>
+        <file alias="Field.qml">qml/client/games/Chess/Field.qml</file>
+    </qresource>
+    <qresource prefix="/client/games/Chess/Images">
+        <file>qml/client/games/Chess/Images/rook_white.svg</file>
+        <file>qml/client/games/Chess/Images/rook_black.svg</file>
+        <file>qml/client/games/Chess/Images/queen_white.svg</file>
+        <file>qml/client/games/Chess/Images/queen_black.svg</file>
+        <file>qml/client/games/Chess/Images/pawn_white.svg</file>
+        <file>qml/client/games/Chess/Images/pawn_black.svg</file>
+        <file>qml/client/games/Chess/Images/knight_white.svg</file>
+        <file>qml/client/games/Chess/Images/knight_black.svg</file>
+        <file>qml/client/games/Chess/Images/king_white.svg</file>
+        <file>qml/client/games/Chess/Images/king_black.svg</file>
+        <file>qml/client/games/Chess/Images/bishop_white.svg</file>
+        <file alias="bishop_black.svg">qml/client/games/Chess/Images/bishop_black.svg</file>
     </qresource>
 </RCC>

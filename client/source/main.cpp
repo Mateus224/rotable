@@ -1,5 +1,4 @@
 #include "private/precomp.h"
-#include  "../include/qmlcontxt.h"
 //#include "client/linux/handler/exception_handler.h"
 
 #include "client.h"
@@ -8,6 +7,7 @@
 #include "productorder.h"
 #include "mytables.h"
 #include "languagesupport.h"
+#include "games/gamecontroller.h"
 
 #ifdef __arm__
 #include <wiringPi.h>
@@ -104,6 +104,9 @@ int main(int argc, char *argv[])
   QQuickView* view=new QQuickView;
   //rotable::ProductOrder* MyOrder= new rotable::ProductOrder();
 
+  GameController* game=new GameController();
+
+
   client->startup();               //this will be in the fulture in the client included
   view->setResizeMode(QQuickView::SizeRootObjectToView);
   view->rootContext()->setContextProperty("client", client);
@@ -116,10 +119,9 @@ int main(int argc, char *argv[])
   view->rootContext()->setContextProperty("CallWaiterObject", &(client->_callWaiter));
   view->rootContext()->setContextProperty("OrderQueue", &(client->_queue));
   view->rootContext()->setContextProperty("langObject", langSupp);
+  view->rootContext()->setContextProperty("game",game);
   QQmlContext *ctxt = view->engine()->rootContext();
-  qmlContxt init(*ctxt);
-  init.initContxt(1);
-  init.contxt(0);
+
 
   //view.setSource(QUrl::fromLocalFile(QString(ROTABLE_QML_PATH) + QString("main.qml")));
 

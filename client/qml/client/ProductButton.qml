@@ -65,7 +65,34 @@ Rectangle {
         y: parent.y
         width: parent.width
         height: parent.height
+        Rectangle{
+            color: "transparent"
+            x: (parent.width/35)*32
+            y: 0//(parent.height)/10000
+            width: parent.width/12
+            height: parent.width/12
+            Image {
+                anchors.fill: parent
+                source:"qrc:/images/close.png"
+            }
 
+        }
+        MouseArea {
+            x: (parent.width/35)*32
+            y: 0
+            width: parent.width/12
+            height: parent.width/12
+            id: close
+            onClicked: {
+                if (-1 != buttonProductId) {
+                    if (productButton.state == "EXPANDED") {
+                        productButton.state = "COLLAPSED"
+                       // MyOrder.setproductid(buttonProductId)
+
+                    }
+                }
+            }
+        }
 
         Text {
             id: idProductNameExpanded
@@ -255,28 +282,6 @@ Rectangle {
             font.pixelSize: parent.height * 0.2//idProductNameExpanded.font.pixelSize
         }
 
-        Rectangle {
-            id: idCloseBiggerButton
-
-            anchors.right: parent.right
-            anchors.top: parent.top
-
-            width: parent.height*0.1
-            height: parent.height*0.1
-
-            Text {
-                anchors.fill: parent
-                text: "X"
-                font.pixelSize: parent.height
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-            }
-            MouseArea {
-                anchors.fill: parent
-                onClicked: { productButton.state="COLLAPSED" }
-            }
-        }
-
         Behavior on x {
             NumberAnimation {
                 duration: stateChangeDuration
@@ -331,7 +336,7 @@ Rectangle {
             if (-1 != buttonProductId) {
                 if (productButton.state == "EXPANDED") {
                     productButton.state = "COLLAPSED"
-                    MyOrder.setproductid(buttonProductId)
+                   // MyOrder.setproductid(buttonProductId)
 
                 }
             }

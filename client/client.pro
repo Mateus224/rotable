@@ -28,7 +28,12 @@ HEADERS += \
     include/imageprovider.h \
     include/callwaiter.h \
     include/queue.h \
-    private/precomp.h
+    private/precomp.h \
+    include/games/chess/validation.h \
+    include/games/gamecontroller.h \
+    include/games/chess/chess.h \
+    include/games/draughts/draughts.h
+
 
 SOURCES += \
     source/main.cpp \
@@ -40,7 +45,12 @@ SOURCES += \
     source/productlistmodel.cpp \
     source/imageprovider.cpp \
     source/callwaiter.cpp \
-    source/queue.cpp
+    source/queue.cpp \
+    source/games/chess/validation.cpp \
+    source/games/gamecontroller.cpp \
+    source/games/chess/chess.cpp \
+    source/games/draughts/draughts.cpp
+
 
 
 RESOURCES +=\
