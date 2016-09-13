@@ -137,7 +137,6 @@ void Waiter::setAdditionalData(QJsonObject &obj) {
   if(obj.contains("categories"))
   {
     QJsonArray arr = obj["categories"].toArray();
-    QList<int> *list = new QList<int>;
     foreach (QJsonValue var, arr)
       list->append(var.toInt());
   }
