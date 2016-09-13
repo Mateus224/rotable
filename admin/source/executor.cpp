@@ -584,8 +584,8 @@ void Executor::onWaiterCategoryAdd(int categoryId)
   ComPackageCommand pc;
   pc.setCommandType(ComPackage::AddWaiterCategory);
   QJsonArray arr;
-  arr[0] = categoryId;
-  arr[1] = reinterpret_cast<Waiter*>(sender())->id();
+  arr.append(reinterpret_cast<Waiter*>(sender())->id());
+  arr.append(categoryId);
   pc.setData(arr);
 
   if (!_tcp_client.send(pc)) {
@@ -606,8 +606,8 @@ void Executor::onWaiterCategoryRemove(int categoryId)
   ComPackageCommand pc;
   pc.setCommandType(ComPackage::RemoveWaiterCategory);
   QJsonArray arr;
-  arr[0] = categoryId;
-  arr[1] = reinterpret_cast<Waiter*>(sender())->id();
+  arr.append(reinterpret_cast<Waiter*>(sender())->id());
+  arr.append(categoryId);
   pc.setData(arr);
 
   if (!_tcp_client.send(pc)) {
