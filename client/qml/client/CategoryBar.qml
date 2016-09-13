@@ -4,6 +4,7 @@ import QtQuick.Window 2.2
 import QtQuick.Layouts 1.1
 
 Rectangle {
+    id:categorybar
     property int buttonSizeH: parent.height * 0.1 * 0.9
     property int buttonSizeW: parent.height * 0.1 * 0.8
     //this tries to calculate optimal number of shown icons based on the bar length (in theory should work on smaller screens)

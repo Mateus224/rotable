@@ -1,5 +1,6 @@
 import QtQuick 2.5
 import "ChessBoard.js" as ChessBoard
+import "../"
 
 
 Item {
@@ -10,7 +11,7 @@ Item {
     property int moveToIndex: -1
 
     height: parent.width
-    width: height
+    width: parent.height
 
     function clear() {
         for (var i = 0; i < ChessBoard.BOARD_SIZE * ChessBoard.BOARD_SIZE; ++i) {
@@ -111,6 +112,9 @@ Item {
             }
 
         }
+
+    }
+    CloseButton{
 
     }
 

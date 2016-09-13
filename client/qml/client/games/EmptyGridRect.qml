@@ -136,12 +136,14 @@ Rectangle {
                             if (gamePage.state == "DEFAULT")
                             {
                                 gamePage.state = "CHESS"
+                                game.name(2)
                             }
                             break
                         case 3:
                             if (gamePage.state == "DEFAULT")
                             {
-                                gamePage.state = "DEFAULT"
+                                gamePage.state = "DRAUGHTS"
+                                game.name(3)
                             }
                             break
                         case 4:

@@ -282,28 +282,6 @@ Rectangle {
             font.pixelSize: parent.height * 0.2//idProductNameExpanded.font.pixelSize
         }
 
-        Rectangle {
-            id: idCloseBiggerButton
-
-            anchors.right: parent.right
-            anchors.top: parent.top
-
-            width: parent.height*0.1
-            height: parent.height*0.1
-
-            Text {
-                anchors.fill: parent
-                text: "X"
-                font.pixelSize: parent.height
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-            }
-            MouseArea {
-                anchors.fill: parent
-                onClicked: { productButton.state="COLLAPSED" }
-            }
-        }
-
         Behavior on x {
             NumberAnimation {
                 duration: stateChangeDuration

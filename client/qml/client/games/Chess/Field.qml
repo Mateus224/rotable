@@ -30,6 +30,7 @@ Item {
         }
 
         Item {
+            property string image: ""
             id: tile
 
             width: root.width
@@ -42,6 +43,11 @@ Item {
             Drag.hotSpot.x: root.width / 2
             Drag.hotSpot.y: root.height / 2
 
+
+            Image {
+                anchors.centerIn: parent
+                source: "Images/bishop_black.svg"
+            }
             /*Text {
                 id: text
                 anchors.fill: parent

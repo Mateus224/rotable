@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import "./"
 import "SpinTheBottle/"
 import "BigKingsCup/"
 import "Chess/"
@@ -98,7 +99,8 @@ Rectangle {
                     color: parent.color(0,2)
                 }
                 EmptyGridRect{
-                    id:a
+                    gameName:"Draughts"
+                    id_: 3
                     color: parent.color(0,3)
                 }
                 EmptyGridRect{
@@ -174,11 +176,12 @@ Rectangle {
         visible: false
     }
 
-    Chess{
+    Board{
         id: chess
         visible: false
 
     }
+    property int test: 2
 
     states: [
         State {
@@ -198,6 +201,7 @@ Rectangle {
             name: "SPINTHEBOTTLE"
             PropertyChanges { target: spinTheBottle; visible: true }
             PropertyChanges { target: spinTheBottle; z: 1 }
+            PropertyChanges { target: categoryBar; z: 0 }
             PropertyChanges { target: spinTheBottle; width: Math.min(mainScreen.height, mainScreen.width) }
             PropertyChanges { target: spinTheBottle; height: Math.min(mainScreen.height, mainScreen.width) }
         },
@@ -205,6 +209,7 @@ Rectangle {
             name: "BIGKINGSCUP"
             PropertyChanges { target: bigKingsCup; visible: true }
             PropertyChanges { target: bigKingsCup; z: 1 }
+            PropertyChanges { target: categoryBar; z: 0 }
             PropertyChanges { target: bigKingsCup; width: Math.min(mainScreen.height, mainScreen.width) }
         },
         State {
@@ -213,6 +218,16 @@ Rectangle {
             PropertyChanges { target: chess; height: Math.min(mainScreen.height, mainScreen.width) }
             PropertyChanges { target: chess; width: Math.min(mainScreen.height, mainScreen.width) }
             PropertyChanges { target: chess; z: 1 }
+            PropertyChanges { target: categoryBar; z: 0 }
+
+        },
+        State {
+            name: "DRAUGHTS"
+            PropertyChanges { target: chess; visible: true }
+            PropertyChanges { target: chess; height: Math.min(mainScreen.height, mainScreen.width) }
+            PropertyChanges { target: chess; width: Math.min(mainScreen.height, mainScreen.width) }
+            PropertyChanges { target: chess; z: 1 }
+            PropertyChanges { target: categoryBar; z: 0 }
 
         }
     ]
