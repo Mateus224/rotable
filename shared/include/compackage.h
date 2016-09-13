@@ -170,7 +170,11 @@ public:
 
     DeleteUser,  /**< Delete specific user */
 
-    ChangePassword /**< Change password for specific user */
+    ChangePassword, /**< Change password for specific user */
+
+    AddWaiterCategory,
+
+    RemoveWaiterCategory
   };
 
   /**

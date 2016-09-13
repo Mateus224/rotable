@@ -219,6 +219,8 @@ private:
  *
  */
 class rotable::Waiter : public rotable::User {
+  Q_OBJECT
+
 public:
   /**
    * @brief Default constructor
@@ -268,6 +270,10 @@ public:
    * @param id          category id
    */
   void removeWaiterCategory(int id);
+
+signals:
+  void addNewCategory(const int&);
+  void removeCategory(const int&);
 
 protected:
   virtual void addAdditionalData(QJsonObject &obj) const;
