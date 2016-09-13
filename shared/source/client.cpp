@@ -163,6 +163,7 @@ void Waiter::setCategories(QList<int> *categories)
 void Waiter::addWaiterCategory(int id)
 {
   _categories->append(id);
+  emit addNewCategory(id);
 }
 
 //------------------------------------------------------------------------------
@@ -170,6 +171,7 @@ void Waiter::addWaiterCategory(int id)
 void Waiter::removeWaiterCategory(int id)
 {
   _categories->removeOne(id);
+  emit removeCategory(id);
 }
 
 //------------------------------------------------------------------------------

@@ -579,6 +579,50 @@ void Executor::onPackageReceived(ComPackage *package) {
 
 //------------------------------------------------------------------------------
 
+void Executor::onWaiterCategoryAdd(int categoryId)
+{
+  ComPackageCommand pc;
+  pc.setCommandType(ComPackage::AddWaiterCategory);
+  QJsonArray arr;
+  arr[0] = categoryId;
+  arr[1] = reinterpret_cast<Waiter*>(sender())->id();
+  pc.setData(arr);
+
+  if (!_tcp_client.send(pc)) {
+    qCritical() << tr("FATAL: Could not send data set package!");
+
+    QMessageBox msgBox;
+    msgBox.setText("Network I/O-Error!");
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.exec();
+  }
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::onWaiterCategoryRemove(int categoryId)
+{
+  ComPackageCommand pc;
+  pc.setCommandType(ComPackage::RemoveWaiterCategory);
+  QJsonArray arr;
+  arr[0] = categoryId;
+  arr[1] = reinterpret_cast<Waiter*>(sender())->id();
+  pc.setData(arr);
+
+  if (!_tcp_client.send(pc)) {
+    qCritical() << tr("FATAL: Could not send data set package!");
+
+    QMessageBox msgBox;
+    msgBox.setText("Network I/O-Error!");
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.exec();
+  }
+}
+
+//------------------------------------------------------------------------------
+
 void Executor::requestCategoryIds() {
   ComPackageDataRequest *request = new ComPackageDataRequest();
   request->setDataCategory(ComPackage::RequestCategoryIds);
@@ -738,6 +782,13 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
   case ComPackage::RequestUser: {
     User *user = reinterpret_cast<User *>(Client::fromJSON(package->data()));
     _users->addUser(user);
+    if(user->accountType()==0)
+    {
+      connect(reinterpret_cast<Waiter*>(user), &Waiter::addWaiterCategory,
+              this, &Executor::onWaiterCategoryAdd);
+      connect(reinterpret_cast<Waiter*>(user), &Waiter::removeCategory,
+              this, &Executor::onWaiterCategoryRemove);
+    }
   } break;
   default: { qCritical() << tr("Unknown data package returned"); } break;
   }
