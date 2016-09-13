@@ -7,7 +7,7 @@
 //------------------------------------------------------------------------------
 
 WaiterCategories::WaiterCategories(QWidget *parent)
-    : QDialog(parent), _ui(new UiWaiter::Dialog) {
+    : QDialog(parent), _ui(new Ui_WaiterDialog) {
   _ui->setupUi(this);
 }
 

@@ -46,7 +46,7 @@ private slots:
 private:
   void loadListView();
   /* UI object */
-  UiWaiter::Dialog *_ui;
+  Ui_WaiterDialog *_ui;
   rotable::ProductContainer *_container;
   rotable::Waiter *_waiter;
 };
