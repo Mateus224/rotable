@@ -957,12 +957,11 @@ bool Server::executeCommand(ComPackageCommand *package) {
         dc.setDataName(QString("%1").arg(arr[0].toInt()));
         send_to_users(dc, 2);
         return true;
-      }
+      }  
     } break;
     default: {
       qCritical()
           << tr("Unknown command type '%1'!").arg(package->commandType());
-      return false;
     } break;
     }
   }
