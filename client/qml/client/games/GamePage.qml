@@ -3,7 +3,7 @@ import "./"
 import "SpinTheBottle/"
 import "BigKingsCup/"
 import "Chess/"
-import ".."
+import "../"
 
 Rectangle {
     id:gamePage
@@ -201,7 +201,7 @@ Rectangle {
             name: "SPINTHEBOTTLE"
             PropertyChanges { target: spinTheBottle; visible: true }
             PropertyChanges { target: spinTheBottle; z: 1 }
-            PropertyChanges { target: categoryBar; z: 0 }
+            PropertyChanges { target: mainScreen; enableMouseArea: false }
             PropertyChanges { target: spinTheBottle; width: Math.min(mainScreen.height, mainScreen.width) }
             PropertyChanges { target: spinTheBottle; height: Math.min(mainScreen.height, mainScreen.width) }
         },
@@ -209,7 +209,7 @@ Rectangle {
             name: "BIGKINGSCUP"
             PropertyChanges { target: bigKingsCup; visible: true }
             PropertyChanges { target: bigKingsCup; z: 1 }
-            PropertyChanges { target: categoryBar; z: 0 }
+            PropertyChanges { target: mainScreen; enableMouseArea: false }
             PropertyChanges { target: bigKingsCup; width: Math.min(mainScreen.height, mainScreen.width) }
         },
         State {
@@ -218,7 +218,7 @@ Rectangle {
             PropertyChanges { target: chess; height: Math.min(mainScreen.height, mainScreen.width) }
             PropertyChanges { target: chess; width: Math.min(mainScreen.height, mainScreen.width) }
             PropertyChanges { target: chess; z: 1 }
-            PropertyChanges { target: categoryBar; z: 0 }
+            PropertyChanges { target: mainScreen; enableMouseArea: false }
 
         },
         State {
@@ -227,7 +227,7 @@ Rectangle {
             PropertyChanges { target: chess; height: Math.min(mainScreen.height, mainScreen.width) }
             PropertyChanges { target: chess; width: Math.min(mainScreen.height, mainScreen.width) }
             PropertyChanges { target: chess; z: 1 }
-            PropertyChanges { target: categoryBar; z: 0 }
+            PropertyChanges { target: mainScreen; enableMouseArea: false }
 
         }
     ]

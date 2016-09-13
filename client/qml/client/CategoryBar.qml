@@ -52,6 +52,8 @@ Rectangle {
             }
 
             MouseArea {
+                id: categoryBarMouseArea
+                enabled: enableMouseArea
                 anchors.fill: parent
                 hoverEnabled: true
                 onPressed: {

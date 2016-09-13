@@ -43,7 +43,7 @@ Rectangle {
     }
 
 //------------------------------------------------------------
-
+    property bool enableMouseArea: true
     Rectangle {
         id: screen
         width: Math.min(parent.height, parent.width)
