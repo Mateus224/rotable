@@ -784,7 +784,7 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
     _users->addUser(user);
     if(user->accountType()==0)
     {
-      connect(reinterpret_cast<Waiter*>(user), &Waiter::addWaiterCategory,
+      connect(reinterpret_cast<Waiter*>(user), &Waiter::addNewCategory,
               this, &Executor::onWaiterCategoryAdd);
       connect(reinterpret_cast<Waiter*>(user), &Waiter::removeCategory,
               this, &Executor::onWaiterCategoryRemove);
