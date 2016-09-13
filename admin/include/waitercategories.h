@@ -41,7 +41,7 @@ public:
   ~WaiterCategories();
 
 private slots:
-  void checkedChanged();
+  void modelChanged(const QModelIndex &index);
 
 private:
   void loadListView();
