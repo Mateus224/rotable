@@ -1,6 +1,9 @@
 import QtQuick 2.0
 
 Rectangle {
+
+    property alias expandedProduct: grid.currentItem
+
     anchors.fill: parent
     anchors.topMargin: (parent.height * 0.1)*3/2
     anchors.leftMargin: (parent.width * (1.0 - 0.805) / 2.0)*2/3*(1/2*0.82)

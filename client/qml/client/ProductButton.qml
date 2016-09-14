@@ -323,8 +323,7 @@ Rectangle {
                 if (productButton.state == "COLLAPSED") {
                     productButton.state = "EXPANDED"
                     MyOrder.setproductid(buttonProductId)
-                    console.log(grid.currentIndex)
-
+                    grid.positionViewAtBeginning()
                 }
             }
         }
@@ -354,7 +353,6 @@ Rectangle {
             PropertyChanges { target: productButton; z: 1 }
             PropertyChanges { target: buttonExpanded; z: 1 }
             //PropertyChanges { target: buttonExpanded; MyOrderButton }
-            PropertyChanges { target: grid; currentIndex: 0 }
         },
         State {
             name: "COLLAPSED"
@@ -365,7 +363,6 @@ Rectangle {
             PropertyChanges { target: buttonExpanded; y: productButton.y }
             PropertyChanges { target: buttonExpanded; z: 0 }
             PropertyChanges { target: productButton; z: 0 }
-            PropertyChanges { target: grid; currentIndex: -1 }
         }
     ]
 }
