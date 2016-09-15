@@ -67,6 +67,7 @@ CONFIG(debug, debug|release) {
 
 LIBS += \
     -L$$DESTDIR -lrotable-shared \
+    -L/home/rosynski/opt/rpi/rasp-pi-rootfs/usr/include -lrt
   #  -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux
 
 win32:LIBS += -lws2_32
@@ -74,6 +75,9 @@ win32:LIBS += -lws2_32
 RESOURCES += \
     sql-commands.qrc \
     keys.qrc
+
+target.path = /opt/rotable
+INSTALLS    += target
 
 DISTFILES += \
     sql-commands/update-database/0.0.3.sql \
