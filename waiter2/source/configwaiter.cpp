@@ -41,8 +41,8 @@ void ConfigWaiter::loaded()
 
 void ConfigWaiter::initData()
 {
-    if(value("Network/address", "") == "")
-        setValue("Network/address", "127.0.0.1");
+    //if(value("Network/address", "") == "")
+        setValue("Network/address", "192.168.2.107");
     if(value("Network/port", 0) == 0)
         setValue("Network/port", 5000);
     setValue("Waiter/name", "debug_waiter");

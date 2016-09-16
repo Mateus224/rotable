@@ -32,7 +32,7 @@ Rectangle {
         anchors.bottomMargin: screen.height/10
         anchors.leftMargin: screen.width/10
         anchors.rightMargin: screen.width/10
-        text: "<center> Verloren ! !</center> Du hast den vierten König gezogen viel Spaß beim Exen !"
+        text: "<center> Verloren ! !</center> Du hast den dritten König gezogen !<blockquote></blockquote> Viel Spaß beim Exen !"
         font.family: "FreeSans"
         color:  "white"
         font.bold: true
