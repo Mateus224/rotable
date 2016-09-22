@@ -5,6 +5,7 @@
 #include "addproductdialog.h"
 #include "addproductcategory.h"
 #include "addnewlicence.h"
+#include "addnewvideo.h"
 #include "mainwindow.h"
 #include "utils.h"
 #include "productcategory.h"
@@ -383,6 +384,50 @@ void Executor::onAddLicence()
       msgBox.setIcon(QMessageBox::Critical);
       msgBox.exec();
     }
+
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::onAddVideo()
+{
+    AddNewVideo dlg(_mainwindow);
+
+    if (dlg.exec() != QDialog::Accepted)
+        return;
+    ;
+
+    QStringList fileList = dlg.getList();
+    QJsonArray array;
+
+    foreach(QString fileName, fileList)
+    {
+
+        QFile file(fileName);
+        file.open(QIODevice::ReadOnly);
+
+        QByteArray ba;
+        QBuffer buffer(&ba);
+
+        ba = file.readAll();
+        QString base64 = ba.toBase64(QByteArray::Base64UrlEncoding);
+
+        array.append(QJsonValue(base64));
+    }
+/*
+    ComPackageDataSet package;
+    package.setData(array);
+    package.setDataCategory(ComPackage::SetLicence);
+    if (!_tcp_client.send(package)) {
+      qCritical() << tr("FATAL: Could not send data set package!");
+
+      QMessageBox msgBox;
+      msgBox.setText("Network I/O-Error!");
+      msgBox.setStandardButtons(QMessageBox::Ok);
+      msgBox.setIcon(QMessageBox::Critical);
+      msgBox.exec();
+    }
+    */
 }
 
 //------------------------------------------------------------------------------
