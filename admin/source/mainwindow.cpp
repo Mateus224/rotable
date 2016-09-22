@@ -46,11 +46,15 @@ MainWindow::MainWindow(QWidget* parent) :
           _ui->licencePathLineEdit, &QLineEdit::setText);
   connect(this, &MainWindow::onLicenceStatusSet,
           _ui->licenceStatusLineEdit, &QLineEdit::setText);
+
+    connect(_ui->addVideoButton, &QPushButton::clicked,this,&MainWindow::addVideo);
+
   connect(_ui->_tableViewProducts, SIGNAL(selectionChanged(int)), this, SLOT(onViewSelected(int)));
    connect(_ui->_listViewCategories, SIGNAL(selectionChanged(int)), this, SLOT(onViewSelected(int)));
   _ui->_statusBar->showMessage(tr("Disconnected"));
   connect(_ui->_toolButtonUp, &QToolButton::clicked, this, &MainWindow::onUp);
   connect(_ui->_toolButtonDown, &QToolButton::clicked, this, &MainWindow::onDown);
+
 
   //_ui->d_plot->setMode(3);
 
@@ -276,4 +280,8 @@ void MainWindow::onDown()
         emit actionCategoryDown();
         return;
     }
+}
+
+void MainWindow::onAddVideo(){
+    qDebug()<<"test";
 }

@@ -45,7 +45,8 @@ SOURCES += \
     source/serverloglistener.cpp \
     source/producttableiconcomboboxdelegate.cpp \
     source/producttablepricespinboxdelegate.cpp \
-    source/addnewlicence.cpp
+    source/addnewlicence.cpp \
+    source/addnewvideo.cpp
 
 HEADERS += \
     include/mainwindow.h \
@@ -71,14 +72,16 @@ HEADERS += \
     include/producttableiconcomboboxdelegate.h \
     private/precomp.h \
     include/producttablepricespinboxdelegate.h \
-    include/addnewlicence.h
+    include/addnewlicence.h \
+    include/addnewvideo.h
 
 FORMS += \
     ui/mainwindow.ui \
     ui/connectToServer.ui \
     ui/addproductdialog.ui \
     ui/addproductcategorydialog.ui \
-    ui/addnewlicencedialog.ui
+    ui/addnewlicencedialog.ui \
+    ui/addnewvideodialog.ui
 
 RESOURCES += \
     resources/resources.qrc \

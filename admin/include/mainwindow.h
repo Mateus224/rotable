@@ -83,6 +83,8 @@ signals:
  void actionProductDown();
  void actionCategoryUp();
  void actionCategoryDown();
+ //By clicking add Video--> sending a signal to the class
+ void addVideo();
 
 
 public slots:
@@ -95,6 +97,7 @@ public slots:
  void onViewSelected(int id);
  void onUp();
  void onDown();
+ void onAddVideo();
 
 protected:
  /**
