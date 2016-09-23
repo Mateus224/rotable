@@ -625,7 +625,7 @@ bool Server::setData(ComPackageDataSet *set, client_t client)
     QJsonArray arr = set->data().toArray();     // For store files
     QStringList name = {"licence.dat", "licence.crt"};
     auto path = QDir(_config.licence_path());
-    int i  = 0;
+    int i  = 0; // i++?
 
     foreach(QJsonValue file, arr)
     {
@@ -644,6 +644,14 @@ bool Server::setData(ComPackageDataSet *set, client_t client)
 //    _licence->loadLicence();
     return true;
   } break;
+
+  case ComPackage::SetVideo:
+  {
+      QJsonArray arr = set->data().toArray();
+      qWarning() << "Recived: ComPackage::SetVideo";
+      return true;
+      break;
+  }
 
   default:
   {

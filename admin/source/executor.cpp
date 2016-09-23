@@ -402,20 +402,19 @@ void Executor::onAddVideo()
 
 
         QFile file(fileName);
+        qDebug()<<"hier0";
         file.open(QIODevice::ReadOnly);
-
         QByteArray ba;
         QBuffer buffer(&ba);
-
         ba = file.readAll();
         QString base64 = ba.toBase64(QByteArray::Base64UrlEncoding);
 
         array.append(QJsonValue(base64));
 
-/*
+
     ComPackageDataSet package;
     package.setData(array);
-    package.setDataCategory(ComPackage::SetLicence);
+    package.setDataCategory(ComPackage::SetVideo);
     if (!_tcp_client.send(package)) {
       qCritical() << tr("FATAL: Could not send data set package!");
 
@@ -425,7 +424,7 @@ void Executor::onAddVideo()
       msgBox.setIcon(QMessageBox::Critical);
       msgBox.exec();
     }
-    */
+
 }
 
 //------------------------------------------------------------------------------

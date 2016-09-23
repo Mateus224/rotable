@@ -141,7 +141,11 @@ public:
     SetOrder,
 
     /* Set licence */
-    SetLicence
+    SetLicence,
+
+    /*Set Video*/
+    SetVideo
+
   };
 
   /**
@@ -158,7 +162,10 @@ public:
     DeleteProduct,
 
     /* Select licence path */
-    SetLicencePath
+    SetLicencePath,
+
+    /* Select video path*/
+    SetVideoPath
   };
 
   /**

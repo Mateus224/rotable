@@ -43,10 +43,8 @@ void AddNewVideo::on_addVideoButton_clicked()
 
         }
         else{
-            int iSize;
-            _video = in.readAll();
-            iSize= _video.size();
-            qDebug()<<"reading file finished. Size is:"<<iSize;
+            _video = fileName;
+            //iSize= _video.size();
             ui->buttonBox->button(QDialogButtonBox::Save)->setEnabled(true);
         }
 
@@ -63,5 +61,5 @@ void AddNewVideo::on_buttonBox_clicked(QAbstractButton *button)
         qDebug()<<button->text();
     else
         qDebug()<<"is false";
-    QDialog::reject();
+    QDialog::accept();
 }
