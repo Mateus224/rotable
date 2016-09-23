@@ -66,6 +66,7 @@ bool ProductOrder::b_acceptOrder()
 
 void ProductOrder::setacceptOrder(){
     if(this->_s_acceptOrder.compare(tr("Sending..."))==0){
+        //if order was send()
         QTimer::singleShot(2000, this, SLOT(OrderQueueTextSlot()));
 
     }
