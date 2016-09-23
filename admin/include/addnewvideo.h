@@ -18,10 +18,12 @@ public:
     explicit AddNewVideo(QWidget *parent = 0);
     ~AddNewVideo();
 
-    QStringList getList();
+    QString getStringVideo();
 
 private slots:
     void on_addVideoButton_clicked();
+
+    void on_buttonBox_clicked(QAbstractButton *button);
 
 private:
     Ui::AddNewVideoDialog *ui;
