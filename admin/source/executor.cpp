@@ -397,11 +397,9 @@ void Executor::onAddVideo()
         return;
     ;
 
-    QStringList fileList = dlg.getList();
+    QString fileName = dlg.getStringVideo();
     QJsonArray array;
 
-    foreach(QString fileName, fileList)
-    {
 
         QFile file(fileName);
         file.open(QIODevice::ReadOnly);
@@ -413,7 +411,7 @@ void Executor::onAddVideo()
         QString base64 = ba.toBase64(QByteArray::Base64UrlEncoding);
 
         array.append(QJsonValue(base64));
-    }
+
 /*
     ComPackageDataSet package;
     package.setData(array);

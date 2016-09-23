@@ -1,6 +1,8 @@
 #include "addnewvideo.h"
 #include "ui_addnewvideodialog.h"
 
+#define maxVideoSize 200000000
+
 AddNewVideo::AddNewVideo(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AddNewVideoDialog)
@@ -15,9 +17,9 @@ AddNewVideo::~AddNewVideo()
     delete ui;
 }
 
-QStringList AddNewVideo::getList()
+QString AddNewVideo::getStringVideo()
 {
-    QStringList list;
+    QString list;
     list.append(_video);
     return list;
 }
@@ -25,19 +27,41 @@ QStringList AddNewVideo::getList()
 void AddNewVideo::on_addVideoButton_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Select advertising video"), "~", tr("Video file (*.mpeg)"));
+        tr("Select advertising video"), "~", tr("Video file (*.mp4)"));
 
     if(fileName != "")
     {
         QFile f(fileName);
-        if (!f.open(QFile::ReadOnly | QFile::Text))
+        if (!f.open(QFile::ReadOnly | QFile::Text)){
             //TODO: show error message
+            qDebug()<<"error reading file";
             return;
-        //QTextStream in(&f);
+        }
+        QTextStream in(&f);
+        if(f.size()>maxVideoSize){
 
-        _video = fileName;
+
+        }
+        else{
+            int iSize;
+            _video = in.readAll();
+            iSize= _video.size();
+            qDebug()<<"reading file finished. Size is:"<<iSize;
+            ui->buttonBox->button(QDialogButtonBox::Save)->setEnabled(true);
+        }
+
     }
 
 
 
+}
+
+void AddNewVideo::on_buttonBox_clicked(QAbstractButton *button)
+{
+    QString compareSave= "&Save";
+    if(compareSave.compare(button->text())==0)
+        qDebug()<<button->text();
+    else
+        qDebug()<<"is false";
+    QDialog::reject();
 }
