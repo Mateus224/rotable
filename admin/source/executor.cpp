@@ -245,8 +245,8 @@ void Executor::onUpdateClient()
   ComPackageCommand command;
   command.setCommandType(ComPackage::ChangeClientName);
   QJsonArray arr;
-  arr[0] = client->id();
-  arr[1] = client->name();
+  arr.append(client->id());
+  arr.append(client->name());
   command.setData(arr);
 
   if (!_tcp_client.send(command)) {
@@ -263,8 +263,8 @@ void Executor::onUpdateUserPassword()
   ComPackageCommand command;
   command.setCommandType(ComPackage::ChangePassword);
   QJsonArray arr;
-  arr[0] = user->id();
-  arr[1] = user->hashPassword();
+  arr.append(user->id());
+  arr.append(user->hashPassword());
   command.setData(arr);
 
   if (!_tcp_client.send(command)) {

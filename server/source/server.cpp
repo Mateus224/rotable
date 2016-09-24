@@ -959,6 +959,22 @@ bool Server::executeCommand(ComPackageCommand *package) {
         return true;
       }  
     } break;
+    case ComPackage::CommandType::ChangeClientName: {
+      QJsonArray  arr = package->data().toArray();
+      Client* user = _db.client(arr[0].toInt());
+      user->setName(arr[1].toString());
+      if(_db.updateClient(user)){
+        return true;
+      }
+    } break;
+    case ComPackage::CommandType::ChangePassword: {
+      QJsonArray  arr = package->data().toArray();
+      User* user = reinterpret_cast<User*>(_db.client(arr[0].toInt()));
+      user->setHashPassword(arr[1].toString());
+      if(_db.updateUserPassword(user)){
+        return true;
+      }
+    } break;
     default: {
       qCritical()
           << tr("Unknown command type '%1'!").arg(package->commandType());
