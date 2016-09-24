@@ -950,7 +950,7 @@ bool Server::executeCommand(ComPackageCommand *package) {
       QJsonArray  arr = package->data().toArray();
       QList<int> list;
       list.append(arr[1].toInt());
-      if(_db.addWaiterCategoires(arr[0].toInt(), &list)){
+      if(_db.removeWaiterCategoires(arr[0].toInt(), &list)){
         // Inform admins about data change...
         ComPackageDataChanged dc;
         dc.setDataCategory(ComPackage::RequestUser);
