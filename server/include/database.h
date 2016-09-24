@@ -333,6 +333,13 @@ public:
   bool updateClient(Client *client);
 
   /**
+   * @brief Update user password
+   * @param user        User object
+   * @return            true on success
+   */
+  bool updateUserPassword(User *user);
+
+  /**
    * Remove a category.
    *
    * @param id          id of category

@@ -1365,9 +1365,38 @@ bool Database::updateClient(Client *client) {
       return false;
   } break;
   case ComPackage::AdminAccount:
-    throw new NotImplementedException();
+    break; // throw new NotImplementedException();
   default:
     qCritical() << tr("Account type don't exist");
+  }
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::updateUserPassword(User *user)
+{
+  if (!isConnected() && user->id() != -1 ) {
+    return false;
+  }
+
+  QString queryStr = _sqlCommands[Passwords]._update.arg(_prefix).arg(user->id());
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  q.bindValue(":password", user->hashPassword());
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
   }
 
   return true;
