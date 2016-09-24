@@ -180,6 +180,18 @@ public slots:
   void onUpdateProduct(rotable::Product *product);
 
   /**
+   * @brief Update user name
+   * @see Waiter::nameChanged Executor::dataReturned
+   */
+  void onUpdateClient();
+
+  /**
+   * @brief Update user password
+   * @see User::setPassword
+   */
+  void onUpdateUserPassword();
+
+  /**
    * Button to reset the complete database has been clicked.
    */
   void onResetDatabase();

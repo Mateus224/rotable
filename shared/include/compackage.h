@@ -172,6 +172,8 @@ public:
 
     ChangePassword, /**< Change password for specific user */
 
+    ChangeClientName, /** Change name of client */
+
     AddWaiterCategory,
 
     RemoveWaiterCategory

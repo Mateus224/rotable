@@ -238,6 +238,42 @@ void Executor::onUpdateProduct(Product *product) {
 
 //------------------------------------------------------------------------------
 
+void Executor::onUpdateClient()
+{
+  Client *client = reinterpret_cast<Client*>(sender());
+
+  ComPackageCommand command;
+  command.setCommandType(ComPackage::ChangeClientName);
+  QJsonArray arr;
+  arr[0] = client->id();
+  arr[1] = client->name();
+  command.setData(arr);
+
+  if (!_tcp_client.send(command)) {
+    qCritical() << tr("FATAL: Could not send data set package!");
+  }
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::onUpdateUserPassword()
+{
+  User *user = reinterpret_cast<User*>(sender());
+
+  ComPackageCommand command;
+  command.setCommandType(ComPackage::ChangePassword);
+  QJsonArray arr;
+  arr[0] = user->id();
+  arr[1] = user->hashPassword();
+  command.setData(arr);
+
+  if (!_tcp_client.send(command)) {
+    qCritical() << tr("FATAL: Could not send data set package!");
+  }
+}
+
+//------------------------------------------------------------------------------
+
 void Executor::onResetDatabase() {
   QMessageBox msgBox;
   msgBox.setText(tr("This operation will clear your entire database. Are you "
@@ -784,11 +820,16 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
     _users->addUser(user);
     if(user->accountType()==0)
     {
+      //Bind signal for add category and remove category from waiter
       connect(reinterpret_cast<Waiter*>(user), &Waiter::addNewCategory,
               this, &Executor::onWaiterCategoryAdd);
       connect(reinterpret_cast<Waiter*>(user), &Waiter::removeCategory,
               this, &Executor::onWaiterCategoryRemove);
     }
+    //Bind name change
+    connect(user, &Client::nameChanged, this, &Executor::onUpdateClient);
+    //Bind client password change
+    connect(user, &User::hashPasswordChanged, this, &Executor::onUpdateUserPassword);
   } break;
   default: { qCritical() << tr("Unknown data package returned"); } break;
   }
