@@ -362,7 +362,7 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
     case ComPackage::RequestTable:
     {
       //Load data about order
-      Table *table = Table::fromJSON(package->data());    
+      Table *table = reinterpret_cast<Table*>(Client::fromJSON(package->data()));
       if(_tables.addTable(table))
       {
           connect(table, &rotable::Table::sendOrders, this, &Waiter_Client::sendOrders);
