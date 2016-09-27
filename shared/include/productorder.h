@@ -60,12 +60,29 @@ public:
 
 
   //QList<int>* L_OrderList;
-  QList<int>* L_quantity;
+  QList<int>* L_quantity; /**< TODO: describe */
 
 
 
+   /**
+    * @brief
+    *
+    * @param jval
+    * @param parent
+    */
    explicit ProductOrder(const QJsonValue& jval, QObject *parent = 0);
+   /**
+    * @brief
+    *
+    * @param Productcontainer
+    * @param parent
+    */
    ProductOrder( rotable::ProductContainer &Productcontainer,QObject *parent = 0);
+   /**
+    * @brief
+    *
+    * @param parent
+    */
    ProductOrder(QObject *parent = 0);
   /**
    * send order to the server and the server
@@ -94,11 +111,40 @@ public:
 
   //For Gui interface
   //------------------------------------------------------------------------------
+  /**
+   * @brief
+   *
+   * @return int
+   */
   inline int productId() const { return _productId; }
+  /**
+   * @brief
+   *
+   * @return int
+   */
   inline  int pieces() const { return  _Product._s_quantity; }
+  /**
+   * @brief
+   *
+   * @param quantity
+   */
   void setpieces( int quantity);
+  /**
+   * @brief
+   *
+   */
   void setacceptOrder();
+  /**
+   * @brief
+   *
+   * @return double
+   */
   inline double PriceOfOrder() const{return _toPay;}
+  /**
+   * @brief
+   *
+   * @return QString
+   */
   QString acceptOrder()const{return _s_acceptOrder;}
   //------------------------------------------------------------------------------
 
@@ -115,10 +161,30 @@ public:
 //------------------------------------------------------------------------------
 
 signals:
+  /**
+   * @brief
+   *
+   */
   void productIdChanged();
+  /**
+   * @brief
+   *
+   */
   void PriceOfOrderChanged();
+  /**
+   * @brief
+   *
+   */
   void piecesChanged();
+  /**
+   * @brief
+   *
+   */
   void AmountChanged();
+  /**
+   * @brief
+   *
+   */
   void acceptOrderChanged();
 
 
@@ -193,6 +259,10 @@ public slots:
 
   void clearGuiList();
 
+  /**
+   * @brief
+   *
+   */
   void OrderQueueTextSlot();
 
 
@@ -200,19 +270,23 @@ public slots:
 //---------VALUES--------------------------------------------------------------
 
 public:
+  /**
+   * @brief
+   *
+   */
   struct productChoosen{
-      int _s_id;
-      int _s_quantity;
+      int _s_id; /**< TODO: describe */
+      int _s_quantity; /**< TODO: describe */
   };
-  productChoosen _Product;
+  productChoosen _Product; /**< TODO: describe */
 
-  QHash<int,productChoosen> *ClientProductHash;
+  QHash<int,productChoosen> *ClientProductHash; /**< TODO: describe */
 
   /* Products (Mapping of product id to object) */
   QHash<int, rotable::Product*> _products;
 
 
-  rotable::ProductContainer &_productcontainer;
+  rotable::ProductContainer &_productcontainer; /**< TODO: describe */
   //rotable::ProductContainer *_newproductordercontainer;
 
 //------------------------------------------------------------------------------
@@ -226,10 +300,10 @@ private:
   int _productId;
   int _quantity;
   int _orderID;
-  int _clientID;
-  double _toPay;
-  bool _acceptOrder;
-  QString _s_acceptOrder;
+  int _clientID; /**< TODO: describe */
+  double _toPay; /**< TODO: describe */
+  bool _acceptOrder; /**< TODO: describe */
+  QString _s_acceptOrder; /**< TODO: describe */
 }; // class ProductOrder
 
 //------------------------------------------------------------------------------

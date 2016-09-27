@@ -36,9 +36,19 @@ namespace rotable {
 
 //------------------------------------------------------------------------------
 
+/**
+ * @brief
+ *
+ */
 class rotable::ConfigBase: public QSettings
 {
 public:
+    /**
+     * @brief
+     *
+     * @param path
+     * @param parent
+     */
     ConfigBase(const QString &path, QObject *parent);
 };
 
