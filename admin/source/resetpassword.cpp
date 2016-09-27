@@ -7,6 +7,8 @@ ResetPassword::ResetPassword(QWidget *parent) :
   ui(new Ui::ResetPassword)
 {
   ui->setupUi(this);
+  ui->_passswordLineEdit->setEchoMode(QLineEdit::EchoMode::Password);
+  ui->_passwordLineEdit2->setEchoMode(QLineEdit::EchoMode::Password);
 }
 
 ResetPassword::~ResetPassword()
