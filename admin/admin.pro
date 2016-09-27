@@ -50,7 +50,8 @@ SOURCES += \
     source/usercontainer.cpp \
     source/adduserdialog.cpp \
     source/setwaitercategory.cpp \
-    source/waitercategories.cpp
+    source/waitercategories.cpp \
+    source/resetpassword.cpp
 
 HEADERS += \
     include/mainwindow.h \
@@ -81,7 +82,8 @@ HEADERS += \
     include/usercontainer.h \
     include/adduserdialog.h \
     include/setwaitercategory.h \
-    include/waitercategories.h
+    include/waitercategories.h \
+    include/resetpassword.h
 
 FORMS += \
     ui/mainwindow.ui \
@@ -91,7 +93,8 @@ FORMS += \
     ui/addnewlicencedialog.ui \
     ui/adduserdialog.ui \
     ui/setwaitercategory.ui \
-    ui/waitercategories.ui
+    ui/waitercategories.ui \
+    ui/resetpassword.ui
 
 RESOURCES += \
     resources/resources.qrc \
