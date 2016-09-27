@@ -402,7 +402,6 @@ void Executor::onAddVideo()
 
 
         QFile file(fileName);
-        qDebug()<<"hier0";
         file.open(QIODevice::ReadOnly);
         QByteArray ba;
         QBuffer buffer(&ba);
