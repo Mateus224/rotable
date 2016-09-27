@@ -58,6 +58,8 @@ MainWindow::MainWindow(QWidget *parent)
           &MainWindow::actionWaiterCategories);
 
   connect(this, &MainWindow::setWaiterButtonStatus,_ui->_toolButtonWaiterCategories, &QToolButton::setEnabled);
+  connect(this, &MainWindow::setUserButtons, _ui->_toolButtonChangePassword, &QToolButton::setEnabled);
+  connect(this, &MainWindow::setUserButtons, _ui->_toolButtonChangeStatusUser, &QToolButton::setEnabled);
   connect(_ui->_toolButtonChangePassword, &QToolButton::clicked, this, &MainWindow::actionChangeUserPassword);
 
   //_ui->d_plot->setMode(3);

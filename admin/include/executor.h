@@ -129,7 +129,14 @@ signals:
    */
   void updateSequenceCategory(int);
 
+  /**
+   * @brief Enable or disable waiter category change button
+   */
   void setWaiterButton(bool);
+  /**
+   * @brief Enable or disable buttons depend of user
+   */
+  void setUserButtons(bool);
 
 public slots:
   /**
