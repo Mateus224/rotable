@@ -15,6 +15,9 @@ public:
   explicit ResetPassword(QWidget *parent = 0);
   ~ResetPassword();
 
+public slots:
+  virtual void accept();
+
 private:
   Ui::ResetPassword *ui;
 };
