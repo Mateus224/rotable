@@ -14,10 +14,16 @@ ResetPassword::~ResetPassword()
   delete ui;
 }
 
+QString ResetPassword::password() const
+{
+  return _password;
+}
+
 void ResetPassword::accept()
 {
   if(ui->_passswordLineEdit->text() == ui->_passwordLineEdit2->text())
   {
+    _password = ui->_passswordLineEdit->text();
     QDialog::accept();
   }
   else

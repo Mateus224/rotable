@@ -14,12 +14,14 @@ class ResetPassword : public QDialog
 public:
   explicit ResetPassword(QWidget *parent = 0);
   ~ResetPassword();
+  QString password() const;
 
 public slots:
   virtual void accept();
 
 private:
   Ui::ResetPassword *ui;
+  QString _password;
 };
 
 #endif // RESETPASSWORD_H
