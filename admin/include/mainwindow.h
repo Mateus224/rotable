@@ -180,6 +180,8 @@ signals:
 
  void setWaiterButtonStatus(bool);
 
+ void actionChangeUserPassword();
+
 
 public slots:
  /**
