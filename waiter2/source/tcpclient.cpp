@@ -125,6 +125,13 @@ void TcpClient::error(QAbstractSocket::SocketError socketError)
 
 //------------------------------------------------------------------------------
 
+void TcpClient::close()
+{
+    _client.close();
+}
+
+//------------------------------------------------------------------------------
+
 void TcpClient::readPackage()
 {
   _buffer += _client.readAll();

@@ -47,6 +47,10 @@ class QAbstractListModel;
 class rotable::Waiter_Client : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QString login READ login WRITE setLogin NOTIFY loginChanged)
+    Q_PROPERTY(QString password READ password WRITE setPassword NOTIFY passwordChanged)
+    Q_PROPERTY(QString state READ state WRITE setState NOTIFY stateChanged)
+    Q_PROPERTY(QString loginViewState READ loginViewState WRITE setLoginViewState NOTIFY loginViewStateChanged)
 public:
     Waiter_Client(const QString& configFilePath = QString("config.ini"),
                   QObject *parent = 0);
@@ -58,6 +62,31 @@ public:
      * @return                false on critical error
      */
     bool startup();
+
+    void setApplicationEngine(QQmlApplicationEngine *engine);
+
+    /**
+     * Function to be called when user try log in
+     */
+    Q_INVOKABLE void logIn();
+
+    /**
+     * Function invoke from qml to log off
+     */
+    Q_INVOKABLE void logOff();
+
+
+    QString login() const { return _login; }
+    void setLogin(const QString &login) { _login = login; emit loginChanged(); }
+
+    QString password() const { return _password; }
+    void setPassword(const QString &pass) { _password = pass; emit passwordChanged(); }
+
+    QString loginViewState() const { return _loginViewState; }
+    void setLoginViewState(const QString &state) { _loginViewState = state; emit loginViewStateChanged(); }
+
+signals:
+    void stateChanged();
 
 private slots:
   /**
@@ -90,6 +119,12 @@ private slots:
   void rejected(ComPackageReject* rej);
 
   /**
+   * Get actual state
+   * @return          state
+   */
+  QString state() const;
+
+  /**
    * Set current GUI state.
    *
    * @param state       new GUI state
@@ -115,6 +150,9 @@ private slots:
 
 signals:
   void changeTableList();
+  void loginChanged();
+  void passwordChanged();
+  void loginViewStateChanged();
 
 public:
   /* Products */
@@ -226,6 +264,14 @@ private:
 
     /* Currently pending data requests */
     QMap<QString, ComPackageDataRequest*> _dataRequest;
+
+    QQmlApplicationEngine *_engine;
+
+    QString _login;
+    QString _password;
+
+    bool _tryLogin;
+    QString _loginViewState;
 
     //----------------------------------------------------------------------------
 };

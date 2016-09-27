@@ -31,12 +31,42 @@ public:
   ConnectToServerDialog(QWidget* parent = 0, Qt::WindowFlags f = 0);
 
   void setServerAddress(const QString& address);
+  /**
+   * @brief
+   *
+   * @param port
+   */
   void setServerPort(int port);
+  /**
+   * @brief
+   *
+   * @param username
+   */
   void setUsername(const QString& username);
 
+  /**
+   * @brief
+   *
+   * @return QString
+   */
   QString serverAddress() const;
+  /**
+   * @brief
+   *
+   * @return int
+   */
   int serverPort() const;
+  /**
+   * @brief
+   *
+   * @return QString
+   */
   QString username() const;
+  /**
+   * @brief
+   *
+   * @return QString
+   */
   QString password() const;
 
 private:

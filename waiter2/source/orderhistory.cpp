@@ -13,6 +13,7 @@ OrderHistory::OrderHistory(QObject *parent): QAbstractListModel(parent)
 
 int OrderHistory::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return 0;
 }
 
@@ -20,6 +21,8 @@ int OrderHistory::rowCount(const QModelIndex &parent) const
 
 QVariant OrderHistory::data(const QModelIndex &index, int role) const
 {
+    Q_UNUSED(index)
+    Q_UNUSED(role)
     return QVariant();
 }
 

@@ -7,13 +7,28 @@
 #include "../include/orderinformation.h"
 #include "../../waiter/include/waiterappwindow.h"
 
+/**
+ * @brief
+ *
+ */
 class qmlContxt: public QObject
 {
     Q_OBJECT
 
     public:
 
+        /**
+         * @brief
+         *
+         * @param parent
+         */
         qmlContxt(QObject *parent=0);
+        /**
+         * @brief
+         *
+         * @param qmlCon
+         * @param parent
+         */
         qmlContxt(QQmlContext &qmlCon, QObject *parent=0);
 
 
@@ -32,11 +47,19 @@ class qmlContxt: public QObject
         void initContxt(int NumberOfTables);
         void add_orderInfoForTable(int tableNr,int pices,QString OrderName, float price);
         void resetOldCurrentTable();
+        /**
+         * @brief
+         *
+         */
         void holdNewOrder();
+        /**
+         * @brief
+         *
+         */
         void addAllPrices();
 
-        WaiterAppWindow* AppWindow;
-        QList<myTables*> tableNumber;
+        WaiterAppWindow* AppWindow; /**< TODO: describe */
+        QList<myTables*> tableNumber; /**< TODO: describe */
 
 public slots:
         /**
@@ -72,9 +95,9 @@ public slots:
     void cancSlot(const QString &canc, const int index);
 
     private:
-    QQmlContext &ctxt;
-    myTables* tab;
-    float _price;
+    QQmlContext &ctxt; /**< TODO: describe */
+    myTables* tab; /**< TODO: describe */
+    float _price; /**< TODO: describe */
 
     /**
      * @brief The s_storno_prices struct
@@ -94,9 +117,9 @@ public slots:
 
 
     public:
-        int m_tableNumber;
-        QString m_ready;
-        QString m_canc;
+        int m_tableNumber; /**< TODO: describe */
+        QString m_ready; /**< TODO: describe */
+        QString m_canc; /**< TODO: describe */
 };
 
 #endif // QMLCONTEXT_H

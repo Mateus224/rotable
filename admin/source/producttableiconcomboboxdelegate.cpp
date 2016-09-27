@@ -73,7 +73,7 @@ void ProductTableIconComboboxDelegate::updateEditorGeometry(
 void ProductTableIconComboboxDelegate::paint(
     QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-  QStyleOptionViewItemV4 myOption = option;
+  QStyleOptionViewItem myOption = option;
   myOption.text = index.model()->data(index, Qt::EditRole).toString();
 
   QApplication::style()->drawControl(QStyle::CE_ItemViewItem, &myOption, painter);
