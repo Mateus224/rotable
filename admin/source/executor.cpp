@@ -11,6 +11,7 @@
 #include "productcontainer.h"
 #include "utils.h"
 #include "waitercategories.h"
+#include "resetpassword.h"
 
 #include <QBuffer>
 
@@ -219,6 +220,16 @@ void Executor::onAddProduct() {
       msgBox.setIcon(QMessageBox::Critical);
       msgBox.exec();
     }
+  }
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::onChangePassword()
+{
+  ResetPassword dlg(_mainwindow);
+
+  if (dlg.exec() == QDialog::Accepted) {
   }
 }
 

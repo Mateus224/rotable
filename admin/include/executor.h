@@ -172,6 +172,13 @@ public slots:
    */
   void onAddProduct();
 
+
+  /**
+   * @brief MainWindow->_ui->_toolBootonChangePassword Click
+   * User password will be change
+   */
+  void onChangePassword();
+
   /**
    * Product has been updated.
    *

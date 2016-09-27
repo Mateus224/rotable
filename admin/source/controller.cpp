@@ -175,6 +175,8 @@ void Controller::connect_signals() {
   connect(_mainwindow->_ui->_tableViewProducts, SIGNAL(selectionChanged(int)),
           &_executor, SLOT(onProductSelectionChanged(int)));
 
+  connect(_mainwindow, &MainWindow::actionChangeUserPassword, &_executor, &Executor::onChangePassword);
+
   //----------------------------------------------------------------------------
 
   connect(&_users, &UserContainter::updateView, _userTableModel,
