@@ -21,8 +21,7 @@ class ProductContainer;
 /**
  * This dialog lets the user specify and upload a new product category.
  */
-class AddProductCategory : public QDialog
-{
+class AddProductCategory : public QDialog {
   Q_OBJECT
 
 public:
@@ -31,7 +30,7 @@ public:
    *
    * @param parent          parent widget
    */
-  explicit AddProductCategory(rotable::ImageContainer* images,
+  explicit AddProductCategory(rotable::ImageContainer *images,
                               QWidget *parent = 0);
 
   /**
@@ -44,7 +43,7 @@ public:
    *
    * @param products       product container
    */
-  void setProductContainer(rotable::ProductContainer* products);
+  void setProductContainer(rotable::ProductContainer *products);
 
   /**
    * Get category name.
@@ -61,8 +60,21 @@ public:
   QString iconName() const;
 
 private slots:
+  /**
+   * @brief
+   *
+   * @param name
+   */
   void onNameChanged(QString name);
+  /**
+   * @brief
+   *
+   */
   void onAddClicked();
+  /**
+   * @brief
+   *
+   */
   void onCancelClicked();
 
 private:
@@ -70,7 +82,7 @@ private:
   Ui::AddProductCategory *_ui;
 
   /* Products and categories */
-  rotable::ProductContainer* _products;
+  rotable::ProductContainer *_products;
 }; // class AddProductCategory
 
 //------------------------------------------------------------------------------

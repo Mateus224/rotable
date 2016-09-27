@@ -27,18 +27,58 @@ public:
 
   ~ServerLogListener();
 
+  /**
+   * @brief
+   *
+   * @param hostname
+   * @param port
+   */
   void startConnection(const QString& hostname, int port);
+  /**
+   * @brief
+   *
+   */
   void stopConnection();
 
 signals:
+  /**
+   * @brief
+   *
+   * @param message
+   */
   void log(rotable::LogManager::LogMessage message);
+  /**
+   * @brief
+   *
+   */
   void disconnected();
+  /**
+   * @brief
+   *
+   */
   void connectionEstablished();
 
 protected slots:
+  /**
+   * @brief
+   *
+   */
   void onConnectionEstablished();
+  /**
+   * @brief
+   *
+   */
   void onReadyRead();
+  /**
+   * @brief
+   *
+   */
   void onDisconnected();
+  /**
+   * @brief
+   *
+   * @param error
+   */
   void onError(QAbstractSocket::SocketError error);
 
 private:

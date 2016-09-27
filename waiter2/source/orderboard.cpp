@@ -95,6 +95,7 @@ QVariant OrderBoard::data(const QModelIndex &index, int role) const
         return QVariant(QString("%1").arg(order->toPay()));
     }break;
     }
+    return QVariant();
 }
 
 //-----------------------------------------------------

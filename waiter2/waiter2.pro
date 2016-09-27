@@ -14,7 +14,7 @@ win32:CONFIG += windows
 INCLUDEPATH += \
     include \
     $$PWD/../shared/include \
-    $$PWD/../third-party/google-breakpad-read-only/src \
+    $$PWD/../third-party/google-breakpad-read-only/src
 
 HEADERS += \
     include/tablemodel.h \
@@ -112,7 +112,13 @@ DISTFILES += \
     qml/waiter/main3.qml \
     qml/waiter/Label.qml \
     qml/waiter/TableButton.qml \
-    qml/waiter/OrderItem.qml
+    qml/waiter/OrderItem.qml \
+    qml/waiter/loginform.qml \
+    qml/waiter/WaiterView.qml \
+    qml/waiter/LoginView.qml \
+    qml/waiter/MenuLayout.qml \
+    qml/waiter/OrderLayout.qml \
+    qml/waiter/NeedList.qml
 
 ########################################################################
 # TRANSLATION:

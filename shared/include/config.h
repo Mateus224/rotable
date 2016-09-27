@@ -32,15 +32,49 @@ class rotable::Config : public QObject
   Q_PROPERTY(QString value READ value WRITE setValue NOTIFY valueChange)
 
 public:
+  /**
+   * @brief
+   *
+   * @return int
+   */
   inline int id() const { return _id; }
+  /**
+   * @brief
+   *
+   * @param id
+   */
   inline void setId(int id) { _id = id; }
 
+  /**
+   * @brief
+   *
+   * @return int
+   */
   inline int name() const { return _name; }
+  /**
+   * @brief
+   *
+   * @param name
+   */
   inline void setName(int name) { _name = name;}
 
+  /**
+   * @brief
+   *
+   * @return QString
+   */
   inline QString value() const { return _value; }
+  /**
+   * @brief
+   *
+   * @param value
+   */
   inline void setValue(QString value) { _value = value; emit valueChange();}
 
+  /**
+   * @brief
+   *
+   */
   enum {
       day_begin = 0,
       closeState,
@@ -49,13 +83,21 @@ public:
   };
 
 signals:
+  /**
+   * @brief
+   *
+   */
   void nameChange();
+  /**
+   * @brief
+   *
+   */
   void valueChange();
 
 private:
-  int _id;
-  int _name;
-  QString _value;
+  int _id; /**< TODO: describe */
+  int _name; /**< TODO: describe */
+  QString _value; /**< TODO: describe */
 
 };
 

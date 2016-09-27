@@ -75,6 +75,9 @@ private slots:
   void readPackage();
   void error(QAbstractSocket::SocketError socketError);
 
+public slots:
+  void close();
+
 private:
   // Socket
   QTcpSocket _client;
