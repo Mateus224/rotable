@@ -90,7 +90,7 @@ public:
              const QModelIndex &index) const;
 
 private:
-  QStringList _items;
+  QStringList _items; /**< TODO: describe */
 }; // class ProductTableIconComboboxDelegate
 
 //------------------------------------------------------------------------------

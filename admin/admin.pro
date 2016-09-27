@@ -45,7 +45,13 @@ SOURCES += \
     source/serverloglistener.cpp \
     source/producttableiconcomboboxdelegate.cpp \
     source/producttablepricespinboxdelegate.cpp \
-    source/addnewlicence.cpp
+    source/addnewlicence.cpp \
+    source/usertablemodel.cpp \
+    source/usercontainer.cpp \
+    source/adduserdialog.cpp \
+    source/setwaitercategory.cpp \
+    source/waitercategories.cpp \
+    source/resetpassword.cpp
 
 HEADERS += \
     include/mainwindow.h \
@@ -71,14 +77,24 @@ HEADERS += \
     include/producttableiconcomboboxdelegate.h \
     private/precomp.h \
     include/producttablepricespinboxdelegate.h \
-    include/addnewlicence.h
+    include/addnewlicence.h \
+    include/usertablemodel.h \
+    include/usercontainer.h \
+    include/adduserdialog.h \
+    include/setwaitercategory.h \
+    include/waitercategories.h \
+    include/resetpassword.h
 
 FORMS += \
     ui/mainwindow.ui \
     ui/connectToServer.ui \
     ui/addproductdialog.ui \
     ui/addproductcategorydialog.ui \
-    ui/addnewlicencedialog.ui
+    ui/addnewlicencedialog.ui \
+    ui/adduserdialog.ui \
+    ui/setwaitercategory.ui \
+    ui/waitercategories.ui \
+    ui/resetpassword.ui
 
 RESOURCES += \
     resources/resources.qrc \

@@ -18,6 +18,10 @@ class ProductContainer;
 
 //------------------------------------------------------------------------------
 
+/**
+ * @brief
+ *
+ */
 class AddProductDialog : public QDialog
 {
   Q_OBJECT
@@ -93,10 +97,33 @@ public:
   void setCategory(int id);
 
 private slots:
+  /**
+   * @brief
+   *
+   * @param name
+   */
   void onNameChanged(QString name);
+  /**
+   * @brief
+   *
+   * @param price
+   */
   void onPriceChanged(int price);
+  /**
+   * @brief
+   *
+   * @param categoryId
+   */
   void onCategoryChanged(int categoryId);
+  /**
+   * @brief
+   *
+   */
   void onAddClicked();
+  /**
+   * @brief
+   *
+   */
   void onCancelClicked();
 
 private:
