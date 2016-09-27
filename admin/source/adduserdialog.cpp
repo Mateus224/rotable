@@ -6,6 +6,7 @@ AddUserDialog::AddUserDialog(QWidget *parent) :
     ui(new Ui::adduserdialog)
 {
     ui->setupUi(this);
+    ui->_lineEditPassword->setEchoMode(QLineEdit::EchoMode::Password);
 }
 
 AddUserDialog::~AddUserDialog()

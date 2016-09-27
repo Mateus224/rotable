@@ -230,6 +230,7 @@ void Executor::onChangePassword()
   ResetPassword dlg(_mainwindow);
 
   if (dlg.exec() == QDialog::Accepted) {
+    _users->getSelectedUser()->setPassword(dlg.password());
   }
 }
 
