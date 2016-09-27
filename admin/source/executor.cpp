@@ -918,8 +918,10 @@ void Executor::userSelectionChange() {
   if(!_users->getSelectedUser())
   {
     emit setWaiterButton(false);
+    emit setUserButtons(false);
     return;
   }
+  emit setUserButtons(true);
   emit setWaiterButton(_users->getSelectedUser()->accountType() == 0 ? true
                                                                      : false);
 }

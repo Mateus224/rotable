@@ -612,12 +612,15 @@
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="_toolButtonRemoveUser">
+           <widget class="QToolButton" name="_toolButtonChangeStatusUser">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="locale">
              <locale language="English" country="UnitedStates"/>
             </property>
             <property name="text">
-             <string>Remove user</string>
+             <string>Disable user</string>
             </property>
             <property name="icon">
              <iconset resource="../resources/resources.qrc">
@@ -630,6 +633,9 @@
           </item>
           <item>
            <widget class="QToolButton" name="_toolButtonChangePassword">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="locale">
              <locale language="English" country="UnitedStates"/>
             </property>
