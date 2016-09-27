@@ -19,7 +19,7 @@ class QImage;
 //------------------------------------------------------------------------------
 
 /**
- * This class stores images and videos.
+ * This class stores images.
  */
 class rotable::ImageContainer : public QObject
 {

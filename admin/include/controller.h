@@ -5,7 +5,7 @@
 
 #include "executor.h"
 #include "productcontainer.h"
-#include "imagecontainer.h"
+#include "filecontainer/imagecontainer.h"
 
 #include <QObject>
 #include <QMap>
