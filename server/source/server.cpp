@@ -648,7 +648,13 @@ bool Server::setData(ComPackageDataSet *set, client_t client)
   case ComPackage::SetVideo:
   {
       QJsonArray arr = set->data().toArray();
-      qWarning() << "Recived: ComPackage::SetVideo";
+      foreach(QJsonValue file, arr)
+      {
+          QByteArray ba = QByteArray::fromBase64(file.toString().toLocal8Bit(),
+                                                 QByteArray::Base64UrlEncoding);
+          QString info(ba);
+          qWarning() << "Recived: ComPackage::SetVideo:"<<info;
+      }
       return true;
       break;
   }

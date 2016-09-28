@@ -403,7 +403,8 @@ void Executor::onAddVideo()
     if(fileName.isEmpty())
         return;
     QJsonArray array;
-    QFile file(fileName);
+
+/*    QFile file(fileName);
     file.open(QIODevice::ReadOnly);
     QByteArray ba;
     QBuffer buffer(&ba);
@@ -411,6 +412,17 @@ void Executor::onAddVideo()
     ba.append(fileName);
     QString base64 = ba.toBase64(QByteArray::Base64UrlEncoding);
     array.append(QJsonValue(base64));
+*/
+
+
+        QFile file(fileName);
+        file.open(QIODevice::ReadOnly);
+        QByteArray ba;
+        QBuffer buffer(&ba);
+        ba = file.readAll();
+        QString base64 = ba.toBase64(QByteArray::Base64UrlEncoding);
+
+        array.append(QJsonValue(base64));
 
 
     ComPackageDataSet package;
