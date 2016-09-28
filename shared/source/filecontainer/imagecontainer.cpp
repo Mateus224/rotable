@@ -13,7 +13,7 @@ using namespace rotable;
 //------------------------------------------------------------------------------
 
 ImageContainer::ImageContainer(QObject* parent)
-  : QObject(parent)
+  : AbstractFileContainer(parent)
 {
   setDir("./images/");
 }

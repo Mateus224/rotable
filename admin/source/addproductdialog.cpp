@@ -5,7 +5,6 @@
 
 #include "productcontainer.h"
 #include "productcategory.h"
-#include "filecontainer/imagecontainer.h"
 
 //------------------------------------------------------------------------------
 
