@@ -7,7 +7,7 @@
 #include "tcpclient.h"
 #include "compackage.h"
 #include "serverloglistener.h"
-
+#include "filecontainer/imagecontainer.h"
 #include <QObject>
 
 //------------------------------------------------------------------------------

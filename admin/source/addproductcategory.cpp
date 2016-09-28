@@ -2,10 +2,8 @@
 
 #include "addproductcategory.h"
 #include "ui_addproductcategorydialog.h"
-
 #include "productcontainer.h"
 #include "productcategory.h"
-#include "filecontainer/imagecontainer.h"
 
 //------------------------------------------------------------------------------
 
