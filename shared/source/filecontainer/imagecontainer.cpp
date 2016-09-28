@@ -1,6 +1,6 @@
 #include "private/precomp.h"
 
-#include "imagecontainer.h"
+#include "filecontainer/imagecontainer.h"
 
 #include <QDirIterator>
 #include <QImage>
