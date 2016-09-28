@@ -1,6 +1,6 @@
 #include "include/filecontainer/abstractfilecontainer.h"
 
-AbstractFileContainer::AbstractFileContainer()
+AbstractFileContainer::AbstractFileContainer(QObject *parent) : QObject(parent)
 {
 
 }

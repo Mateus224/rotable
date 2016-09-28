@@ -1,6 +1,6 @@
 #include "include/filecontainer/videocontainer.h"
 
-VideoContainer::VideoContainer()
-{
+//VideoContainer::VideoContainer():  AbstractFileContainer(parent)
+//{
 
-}
+//}
