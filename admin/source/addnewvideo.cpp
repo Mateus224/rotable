@@ -58,8 +58,8 @@ void AddNewVideo::on_buttonBox_clicked(QAbstractButton *button)
 {
     QString compareSave= "&Save";
     if(compareSave.compare(button->text())==0)
-        qDebug()<<button->text();
+        ;//qDebug()<<button->text();
     else
-        qDebug()<<"is false";
+        ;//qDebug()<<"is false";
     QDialog::accept();
 }

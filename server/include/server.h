@@ -282,6 +282,7 @@ private:
   /* Images */
   QMap<QString, Image> _images;
 
+
   /**
    * client_t - socket
    * int - waiter id

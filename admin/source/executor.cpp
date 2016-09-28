@@ -355,6 +355,8 @@ void Executor::onAddLicence()
         return;
     ;
     QStringList fileList = dlg.getList();
+    if(fileList.isEmpty())
+            return;
     QJsonArray array;
 
     foreach(QString fileName, fileList)
@@ -398,18 +400,17 @@ void Executor::onAddVideo()
     ;
 
     QString fileName = dlg.getStringVideo();
+    if(fileName.isEmpty())
+        return;
     QJsonArray array;
-
-
-        QFile file(fileName);
-        qDebug()<<"hier0";
-        file.open(QIODevice::ReadOnly);
-        QByteArray ba;
-        QBuffer buffer(&ba);
-        ba = file.readAll();
-        QString base64 = ba.toBase64(QByteArray::Base64UrlEncoding);
-
-        array.append(QJsonValue(base64));
+    QFile file(fileName);
+    file.open(QIODevice::ReadOnly);
+    QByteArray ba;
+    QBuffer buffer(&ba);
+    //ba = file.readAll();
+    ba.append(fileName);
+    QString base64 = ba.toBase64(QByteArray::Base64UrlEncoding);
+    array.append(QJsonValue(base64));
 
 
     ComPackageDataSet package;
@@ -418,11 +419,11 @@ void Executor::onAddVideo()
     if (!_tcp_client.send(package)) {
       qCritical() << tr("FATAL: Could not send data set package!");
 
-      QMessageBox msgBox;
-      msgBox.setText("Network I/O-Error!");
-      msgBox.setStandardButtons(QMessageBox::Ok);
-      msgBox.setIcon(QMessageBox::Critical);
-      msgBox.exec();
+    QMessageBox msgBox;
+    msgBox.setText("Network I/O-Error!");
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.exec();
     }
 
 }
