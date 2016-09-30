@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/waiter">
+        <file>resources/rotable_logo.png</file>
+        <file>resources/Cross.png</file>
+        <file>resources/Check.png</file>
+        <file>resources/Check_grey.png</file>
+        <file>resources/Cross_grey.png</file>
+        <file alias="qml/main.qml">qml/waiter/main.qml</file>
+		<file alias="qml/LoginView.qml">qml/waiter/LoginView.qml</file>
+    </qresource>
+</RCC>
