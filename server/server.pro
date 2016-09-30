@@ -67,7 +67,7 @@ CONFIG(debug, debug|release) {
 
 LIBS += \
     -L$$DESTDIR -lrotable-shared \
-    -L/home/rosynski/opt/rpi/rasp-pi-rootfs/usr/include -lrt
+  #  -L/home/rosynski/opt/rpi/rasp-pi-rootfs/usr/include -lrt
   #  -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux
 
 win32:LIBS += -lws2_32
