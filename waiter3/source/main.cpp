@@ -49,10 +49,21 @@ int main(int argc, char *argv[])
     configFilePath = args[0];
   }
 
+  rotable::Waiter_Client* waiter_client = new rotable::Waiter_Client(configFilePath);
+
+  waiter_client->startup();
+
   QQuickView* view = new QQuickView();
   view->setTitle(QCoreApplication::translate("Title", "Waiter client"));
 
   QQmlContext *ctxt = view->rootContext();//view.rootContext();sss
+
+  ctxt->setContextProperty("tables", &(waiter_client->_tables));
+  ctxt->setContextProperty("orderboard", &(waiter_client->_board));
+  ctxt->setContextProperty("productList", &(waiter_client->_productsList));
+  ctxt->setContextProperty("needBoard", &(waiter_client->_needBoard));
+  ctxt->setContextProperty("waiter", waiter_client);
+  ctxt->setContextProperty("langObject", langSupp);
 
   QQmlEngine *engine = ctxt->engine();
 
