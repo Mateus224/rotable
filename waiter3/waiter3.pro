@@ -16,11 +16,27 @@ INCLUDEPATH += \
     $$PWD/../shared/include \
     $$PWD/../third-party/google-breakpad-read-only/src
 
-HEADERS +=
+HEADERS += \
+    include/tablemodel.h \
+    include/configwaiter.h \
+    include/tcpclient.h \
+    include/waiter_client.h \
+    include/orderboard.h \
+    include/productlist.h \
+    include/neededboard.h \
+    include/orderhistory.h
 
 
 SOURCES += \
-    source/main.cpp
+    source/main.cpp \
+    source/configwaiter.cpp \
+    source/tcpclient.cpp \
+    source/waiter_client.cpp \
+    source/tablemodel.cpp \
+    source/orderboard.cpp \
+    source/productlist.cpp \
+    source/neededboard.cpp \
+    source/orderhistory.cpp
 
 RESOURCES +=\
     resources.qrc \
@@ -29,6 +45,8 @@ RESOURCES +=\
 OTHER_FILES += \
     qml/waiter/main.qml
     qml/waiter/LoginView.qml
+    qml/waiter/WaiterView.qml
+    qml/waiter/TimeBar.qml
 
 ########################################################################
 # DESTINATION:
