@@ -5,37 +5,26 @@ import QtQuick.Controls.Styles 1.4
 
 Rectangle{
     visible: true
+    id: mainscreen
 
-    property int margin: 10
     width: 1333
     height: 786
-    gradient: Gradient {
-        GradientStop {
-            position: 0
-            color: "#ffffff"
-        }
 
-        GradientStop {
-            position: 1
-            color: "#000000"
-        }
-    }
-
-    Rectangle {
-        id: waiterView1
+    WaiterView {
+        id: waiterView
         anchors.fill: parent
         opacity: 0
     }
 
     LoginView {
-        id: loginView1
+        id: loginView
         y: 230
         anchors.fill: parent
         opacity: 0
     }
 
     Text {
-        id: text1
+        id: noConnectionText
         text: qsTr("Text")
         anchors.fill: parent
         font.pixelSize: 12
@@ -45,38 +34,33 @@ Rectangle{
     state: waiter.state
 
     states: [
+
         State {
             name: "Login"
 
             PropertyChanges {
-                target: loginView1
+                target: loginView
                 clip: false
                 visible: true
                 opacity: 1
             }
         },
+
         State {
             name: "WaiterView"
 
             PropertyChanges {
-                target: waiterView1
-                anchors.rightMargin: 8
-                anchors.bottomMargin: 8
-                anchors.leftMargin: 12
-                anchors.topMargin: 12
+                target: waiterView
                 opacity: 1
             }
         },
+
         State {
             name: "DISCONNECTED"
 
             PropertyChanges {
-                target: text1
-                text: qsTr("No connection, connectiong...")
-                anchors.rightMargin: 0
-                anchors.bottomMargin: 0
-                anchors.leftMargin: 0
-                anchors.topMargin: 0
+                target: noConnectionText
+                text: qsTr("No connection, connecting...")
                 font.pixelSize: 36
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
