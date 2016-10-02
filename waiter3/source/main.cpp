@@ -71,6 +71,8 @@ int main(int argc, char *argv[])
   QObject::connect(engine,  SIGNAL(quit()), qApp, SLOT(quit()));
 
   view->setSource(QUrl("qrc:/waiter/qml/main.qml"));
+  view->setResizeMode(QQuickView::SizeRootObjectToView);
+
   view->show();
   return app.exec();
 }
