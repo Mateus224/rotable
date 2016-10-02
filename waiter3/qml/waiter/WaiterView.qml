@@ -5,9 +5,15 @@ import QtQuick.Controls.Styles 1.4
 
 Rectangle {
 
-    id: mainLayout
+    id: waiterMain
 
     TimeBar {
         id: timeBar
+    }
+
+    TableList {
+        id: tableList
+        anchors.top: timeBar.bottom
+        anchors.left: parent.left
     }
 }
