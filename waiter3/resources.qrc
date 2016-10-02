@@ -8,6 +8,7 @@
         <file alias="qml/main.qml">qml/waiter/main.qml</file>
 		<file alias="qml/LoginView.qml">qml/waiter/LoginView.qml</file>
 		<file alias="qml/WaiterView.qml">qml/waiter/WaiterView.qml</file>
+		<file alias="qml/TableList.qml">qml/waiter/TableList.qml</file>
 		<file alias="qml/TimeBar.qml">qml/waiter/TimeBar.qml</file>
 		<file alias="qml/SimpleClock.qml">qml/waiter/SimpleClock.qml</file>
     </qresource>
