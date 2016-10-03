@@ -31,6 +31,7 @@ namespace rotable {
   class ComPackageLogin;
   class ComPackageWaiterNeed;
   class ComPackageMessage;
+  class ComPackageSendFile;
 }
 
 //------------------------------------------------------------------------------
@@ -74,7 +75,10 @@ public:
     WaiterNeed,
 
     /* Message system */
-    Message
+    Message,
+
+    /*Package for sending File*/
+    File
   };
 
   /**
@@ -557,6 +561,27 @@ public:
   void setMessage(const QString &message) { _msg = message; }
 
   QByteArray toByteArray() const Q_DECL_OVERRIDE;
+
+private:
+    int _msgType;
+    QString _msg;
+};
+
+//------------------------------------------------------------------------------
+class rotable::ComPackageSendFile : public ComPackage
+{
+  friend class ComPackage;
+public:
+
+  /**
+   * Default constructor
+   */
+  ComPackageSendFile();
+
+  inline Type type() const { return File; }
+
+
+  QByteArray toByteArray() const Q_DECL_OVERRIDE;  //for what is this
 
 private:
     int _msgType;
