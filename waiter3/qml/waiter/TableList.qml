@@ -6,8 +6,7 @@ import QtQuick.Controls.Styles 1.4
 ListView {
     id: tableList
 
-    height: parent.height
-    width: parent.width * 0.2
+    width: parent.width * 0.4
     spacing: 10
 
     ExclusiveGroup {
@@ -16,18 +15,20 @@ ListView {
 
     model: tables
 
-    delegate: Button{
-        id: tableListButton
+    delegate: TableListElement {}
 
-        enabled: model.orderNumber == 0 ? false : true
-
-        width:  parent.width
-        checkable: true
-        exclusiveGroup: tableExclusiveGroup
-        property var connected: model.isConnected ? "Connected" : "Disconnected"
-        text: "Table: " + model.name + ", " + model.id + "\nOrders: " + model.orderNumber + "\n" + connected
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        onClicked: tables.sendToBoardOrder(model.id)
-    }
+//    delegate: Button{
+//        id: tableListButton
+//
+//        enabled: model.orderNumber == 0 ? false : true
+//
+//        width: parent.width
+//        checkable: true
+//        exclusiveGroup: tableExclusiveGroup
+//        property var connected: model.isConnected ? "Connected" : "Disconnected"
+//        text: "Table: " + model.name + ", " + model.id + "\nOrders: " + model.orderNumber + "\n" + connected
+//        anchors.horizontalCenter: parent.horizontalCenter
+//
+//        onClicked: tables.sendToBoardOrder(model.id)
+//    }
 }
