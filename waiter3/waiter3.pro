@@ -43,10 +43,13 @@ RESOURCES +=\
     $$PWD/../shared/shared_resources.qrc
 
 OTHER_FILES += \
-    qml/waiter/main.qml
-    qml/waiter/LoginView.qml
-    qml/waiter/WaiterView.qml
-    qml/waiter/TimeBar.qml
+    qml/waiter/main.qml \
+    qml/waiter/LoginView.qml \
+    qml/waiter/WaiterView.qml \
+    qml/waiter/TableList.qml \
+    qml/waiter/TableListElement.qml \
+    qml/waiter/TimeBar.qml \
+    qml/aiter/SimpleClock.qml
 
 ########################################################################
 # DESTINATION:
@@ -106,7 +109,12 @@ INSTALLS    += target
 
 DISTFILES += \
     qml/waiter/main.qml \
-    qml/waiter/LoginView.qml
+    qml/waiter/LoginView.qml \
+    qml/waiter/WaiterView.qml \
+    qml/waiter/TableList.qml \
+    qml/waiter/TableListElement.qml \
+    qml/waiter/TimeBar.qml \
+    qml/aiter/SimpleClock.qml
 
 ########################################################################
 # TRANSLATION:

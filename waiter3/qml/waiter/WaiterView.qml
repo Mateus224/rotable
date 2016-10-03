@@ -14,6 +14,16 @@ Rectangle {
     TableList {
         id: tableList
         anchors.top: timeBar.bottom
+        anchors.bottom: parent.bottom
         anchors.left: parent.left
+    }
+
+    Rectangle {
+        id: wtf
+        anchors.left: tableList.right
+        anchors.right: parent.right
+        anchors.top: timeBar.bottom
+        anchors.bottom: parent.bottom
+        color: "#FEDCBA"
     }
 }
