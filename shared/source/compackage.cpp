@@ -24,8 +24,9 @@ struct TypeStr2Enum {
 #define ROTABLE_PACKAGE_COMMAND_SEND_ORDER_STR              QString("SO")
 #define ROTABLE_PACKAGE_COMMAND_NEED_STR                    QString("NE")
 #define ROTABLE_PACKAGE_COMMAND_MESSAGE_STR                 QString("ME")
+#define ROTABLE_PACKAGE_COMMAND_SEND_FILE                   QString("SF")
 
-static const int S_types_count = 10;
+static const int S_types_count = 11;
 static const TypeStr2Enum S_types[S_types_count] = {
   { ROTABLE_PACKAGE_COMMAND_CONNECTION_REQUEST_STR, ComPackage::ConnectionRequest },
   { ROTABLE_PACKAGE_COMMAND_CONNECTION_ACCEPT_STR, ComPackage::ConnectionAccept },
@@ -36,7 +37,8 @@ static const TypeStr2Enum S_types[S_types_count] = {
   { ROTABLE_PACKAGE_COMMAND_REJECT_STR, ComPackage::Reject },
   { ROTABLE_PACKAGE_COMMAND_COMMAND_STR, ComPackage::Command },
   { ROTABLE_PACKAGE_COMMAND_NEED_STR, ComPackage::WaiterNeed },
-  { ROTABLE_PACKAGE_COMMAND_MESSAGE_STR, ComPackage::Message}
+  { ROTABLE_PACKAGE_COMMAND_MESSAGE_STR, ComPackage::Message},
+  { ROTABLE_PACKAGE_COMMAND_SEND_FILE, ComPackage::File}
 };
 
 //------------------------------------------------------------------------------
@@ -495,6 +497,24 @@ ComPackageMessage::ComPackageMessage() :  ComPackage()
 //------------------------------------------------------------------------------
 
 QByteArray ComPackageMessage::toByteArray() const
+{
+    QJsonObject o;
+    addData(o);
+    o[ROTABLE_PACKAGE_COMMAND_STR] = ROTABLE_PACKAGE_COMMAND_MESSAGE_STR;
+    o[ROTABLE_PACKAGE_MESSAGE_TYPE_STR] = _msgType;
+    o[ROTABLE_PACKAGE_MESSAGE_MESSAGE_STR] = _msg;
+    return QJsonDocument(o).toBinaryData();
+}
+//------------------------------------------------------------------------------
+
+ComPackageSendFile::ComPackageSendFile() :  ComPackage()
+{
+
+}
+
+//------------------------------------------------------------------------------
+
+QByteArray ComPackageSendFile::toByteArray() const
 {
     QJsonObject o;
     addData(o);
