@@ -60,6 +60,7 @@ static const TypeStr2Enum S_types[S_types_count] = {
 #define ROTABLE_PACKAGE_NEED_TABLE_STR                      QString("NY")
 #define ROTABLE_PACKAGE_MESSAGE_TYPE_STR                    QString("MT")
 #define ROTABLE_PACKAGE_MESSAGE_MESSAGE_STR                 QString("MM")
+#define ROTABLE_PACKAGE_FILE_INFORMATION_ARRAY              QString("FI")
 #define ROTABLE_PACKAGE_FILE_NAMES                          QString("FN")
 #define ROTABLE_PACKAGE_FILE_FILE                           QString("FF")
 #define ROTABLE_PACKAGE_FILE_USAGE                          QString("FU")
@@ -255,9 +256,14 @@ ComPackage* ComPackage::fromJson(const QJsonDocument& doc)
   } break;
   case File:{
     ComPackageSendFile* p=new ComPackageSendFile();
-    p->_fileNames=o[ROTABLE_PACKAGE_FILE_NAMES].toString();
     p->_fileUsage=o[ROTABLE_PACKAGE_FILE_USAGE].toInt();
-    p->_file=o[ROTABLE_PACKAGE_FILE_FILE].toString();
+    QJsonArray jsonFileArray= o[ROTABLE_PACKAGE_FILE_INFORMATION_ARRAY].toArray();
+    for(auto&& item: jsonFileArray)
+    {
+        const QJsonObject& so= item.toObject();
+        p->_fileNames.append(so[ROTABLE_PACKAGE_FILE_NAMES].toString());
+        p->_files.append(so[ROTABLE_PACKAGE_FILE_FILE].toString());
+    }
 
     ret=p;
   }
@@ -529,11 +535,21 @@ ComPackageSendFile::ComPackageSendFile() :  ComPackage()
 
 QByteArray ComPackageSendFile::toByteArray() const
 {
+
     QJsonObject o;
     addData(o);
+   QJsonArray jsonFileArray;
     o[ROTABLE_PACKAGE_COMMAND_STR] = ROTABLE_PACKAGE_COMMAND_MESSAGE_STR;
-    o[ROTABLE_PACKAGE_FILE_NAMES] = _fileNames;
     o[ROTABLE_PACKAGE_FILE_USAGE] = _fileUsage;
-    o[ROTABLE_PACKAGE_FILE_FILE] = _file;
+    o[ROTABLE_PACKAGE_FILE_INFORMATION_ARRAY]= jsonFileArray;
+    for(int i=0; i<jsonFileArray.size(); i++)
+    {
+        QJsonObject so;
+        so[ROTABLE_PACKAGE_FILE_NAMES] = _fileNames.at(i);
+        so[ROTABLE_PACKAGE_FILE_FILE] = _files.at(i);
+        jsonFileArray.append(so);
+    }
+
+
     return QJsonDocument(o).toBinaryData();
 }
