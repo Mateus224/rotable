@@ -15,6 +15,9 @@
 #include <QJsonDocument>
 #endif
 
+#include <QJsonArray>
+#include <QStringList>
+
 //------------------------------------------------------------------------------
 
 namespace rotable {
@@ -608,16 +611,16 @@ public:
   inline void setFileUsage(FileUsage fileUsage){_fileUsage=fileUsage;}
   inline int getFileUsage(){return _fileUsage;}
 
-  inline void setVideo(const QString &video) { _file = video; }
-  inline QString getVideo()const{return _file;}
+  inline void setFiles(const QStringList &files) { _files = files; }
+  inline QStringList getFiles()const{return _files;}
 
 
   QByteArray toByteArray() const Q_DECL_OVERRIDE;  //for what is this
 
 private:
     int _fileUsage;
-    QString _fileNames;
-    QString _file;
+    QStringList _fileNames;
+    QStringList _files;
 };
 
 //------------------------------------------------------------------------------
