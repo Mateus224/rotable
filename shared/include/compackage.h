@@ -15,6 +15,8 @@
 #include <QJsonDocument>
 #endif
 
+#include <logmanager.h>
+#include <QDebug>
 #include <QJsonArray>
 #include <QStringList>
 
@@ -613,6 +615,9 @@ public:
 
   inline void setFiles(const QStringList &files) { _files = files; }
   inline QStringList getFiles()const{return _files;}
+
+  inline void setFileNames(const QStringList &fileNames){_fileNames=fileNames;}
+  inline QStringList getFileNames()const{return _fileNames;}
 
 
   QByteArray toByteArray() const Q_DECL_OVERRIDE;  //for what is this

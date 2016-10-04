@@ -399,35 +399,38 @@ void Executor::onAddVideo()
         return;
     ;
 
-    QString fileName = dlg.getStringVideo();
-    if(fileName.isEmpty())
+    QStringList fileNameList;
+    QStringList files;
+
+    QStringList filePathList = dlg.getStringVideo();
+    if(filePathList.isEmpty())
         return;
-    QJsonArray array;
-
-/*    QFile file(fileName);
-    file.open(QIODevice::ReadOnly);
-    QByteArray ba;
-    QBuffer buffer(&ba);
-    //ba = file.readAll();
-    ba.append(fileName);
-    QString base64 = ba.toBase64(QByteArray::Base64UrlEncoding);
-    array.append(QJsonValue(base64));
-*/
 
 
-        QFile file(fileName);
+    foreach(QString path, filePathList)
+    {
+        /*make a StringList of the names from the files*/
+        QStringList splitPath=path.split("/");
+        QString fileName=splitPath.last();
+        fileNameList.append(fileName);
+
+        /*make a StringList of files in base64*/
+        QFile file(path);
         file.open(QIODevice::ReadOnly);
+
         QByteArray ba;
         QBuffer buffer(&ba);
+
         ba = file.readAll();
         QString base64 = ba.toBase64(QByteArray::Base64UrlEncoding);
 
-        array.append(QJsonValue(base64));
+        files.append(base64);
+    }
 
-
-    ComPackageDataSet package;
-    package.setData(array);
-    package.setDataCategory(ComPackage::SetVideo);
+    ComPackageSendFile package;
+    package.setFileUsage(ComPackage::AdvertisingVideo);
+    package.setFileNames(fileNameList);
+    package.setFiles(files);
     if (!_tcp_client.send(package)) {
       qCritical() << tr("FATAL: Could not send data set package!");
 
