@@ -265,8 +265,8 @@ ComPackage* ComPackage::fromJson(const QJsonDocument& doc)
         p->_files.append(so[ROTABLE_PACKAGE_FILE_FILE].toString());
     }
 
-    ret=p;
-  }
+    ret=p;  
+  } break;
   default:
     qDebug("This should never ever happen (above switch is incomplete)!");
     return 0;
@@ -538,18 +538,18 @@ QByteArray ComPackageSendFile::toByteArray() const
 
     QJsonObject o;
     addData(o);
-   QJsonArray jsonFileArray;
-    o[ROTABLE_PACKAGE_COMMAND_STR] = ROTABLE_PACKAGE_COMMAND_MESSAGE_STR;
-    o[ROTABLE_PACKAGE_FILE_USAGE] = _fileUsage;
-    o[ROTABLE_PACKAGE_FILE_INFORMATION_ARRAY]= jsonFileArray;
-    for(int i=0; i<jsonFileArray.size(); i++)
-    {
-        QJsonObject so;
-        so[ROTABLE_PACKAGE_FILE_NAMES] = _fileNames.at(i);
-        so[ROTABLE_PACKAGE_FILE_FILE] = _files.at(i);
-        jsonFileArray.append(so);
-    }
 
+    o[ROTABLE_PACKAGE_COMMAND_STR] = ROTABLE_PACKAGE_COMMAND_SEND_FILE;
+    o[ROTABLE_PACKAGE_FILE_USAGE] = _fileUsage;
+    QJsonArray jsonFileArray;
+        for(int i=0; i<_fileNames.length(); i++)
+        {
+            QJsonObject so;
+            so[ROTABLE_PACKAGE_FILE_NAMES] = _fileNames.at(i);
+            so[ROTABLE_PACKAGE_FILE_FILE] = _files.at(i);
+            jsonFileArray.append(so);
+        }
+    o[ROTABLE_PACKAGE_FILE_INFORMATION_ARRAY]= jsonFileArray;
 
     return QJsonDocument(o).toBinaryData();
 }

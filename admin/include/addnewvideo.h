@@ -18,7 +18,7 @@ public:
     explicit AddNewVideo(QWidget *parent = 0);
     ~AddNewVideo();
 
-    QString getStringVideo();
+    QStringList getStringVideo();
 
 private slots:
     void on_addVideoButton_clicked();
@@ -27,7 +27,7 @@ private slots:
 
 private:
     Ui::AddNewVideoDialog *ui;
-    QString _video;
+    QStringList _videos;
 };
 
 #endif // ADDNEWVIDEO_H

@@ -17,40 +17,22 @@ AddNewVideo::~AddNewVideo()
     delete ui;
 }
 
-QString AddNewVideo::getStringVideo()
+QStringList AddNewVideo::getStringVideo()
 {
-    QString list;
-    list.append(_video);
-    return list;
+    return _videos;
 }
 
 void AddNewVideo::on_addVideoButton_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Select advertising video"), "~", tr("Video file (*.mp4)"));
-
-    if(fileName != "")
-    {
-        QFile f(fileName);
-        if (!f.open(QFile::ReadOnly | QFile::Text)){
-            //TODO: show error message
-            qDebug()<<"error reading file";
-            return;
-        }
-        QTextStream in(&f);
-        if(f.size()>maxVideoSize){
 
 
-        }
-        else{
-            _video = fileName;
-            //iSize= _video.size();
-            ui->buttonBox->button(QDialogButtonBox::Save)->setEnabled(true);
-        }
-
-    }
-
-
+    QFileDialog dialog(this);
+    dialog.setDirectory(QDir::homePath());
+    dialog.setFileMode(QFileDialog::ExistingFiles);
+    dialog.setNameFilter(trUtf8("Video file (*.mp4)"));
+    if (dialog.exec())
+        _videos = dialog.selectedFiles();
+    ui->buttonBox->button(QDialogButtonBox::Save)->setEnabled(true);
 
 }
 
