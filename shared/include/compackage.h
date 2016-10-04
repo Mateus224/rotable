@@ -182,6 +182,25 @@ public:
     AdminAccount
   };
 
+
+  enum FileUsage {
+
+      /*File for Advertising on clients*/
+      AdvertisingVideo,
+
+      /*File for Advertising on clients*/
+      AdvertisingPicture,
+
+      /*Icons which are send to clients*/
+      CatergoryIcon,
+
+      /*Icons which are send to clients*/
+      ProductIcone,
+
+      /*Files for checking the License*/
+      //LicenseFiles
+  };
+
   /**
    * Create a package object from a byte array.
    * (e.g. received via tcp)
@@ -554,11 +573,11 @@ public:
 
   inline Type type() const { return Message; }
 
-  int msgType() const { return _msgType; }
-  void setMsgType(const int &type) { _msgType = type; }
+  inline int msgType() const { return _msgType; }
+  inline void setMsgType(const int &type) { _msgType = type; }
 
-  QString message() const {return _msg; }
-  void setMessage(const QString &message) { _msg = message; }
+  inline QString message() const {return _msg; }
+  inline void setMessage(const QString &message) { _msg = message; }
 
   QByteArray toByteArray() const Q_DECL_OVERRIDE;
 
@@ -580,12 +599,25 @@ public:
 
   inline Type type() const { return File; }
 
+  /**
+   * 1= Advertising Video
+   * 2= Advertising Picture
+   * 3= Category Icon
+   * 4= Product Icon
+   */
+  inline void setFileUsage(FileUsage fileUsage){_fileUsage=fileUsage;}
+  inline int getFileUsage(){return _fileUsage;}
+
+  inline void setVideo(const QString &video) { _file = video; }
+  inline QString getVideo()const{return _file;}
+
 
   QByteArray toByteArray() const Q_DECL_OVERRIDE;  //for what is this
 
 private:
-    int _msgType;
-    QString _msg;
+    int _fileUsage;
+    QString _fileNames;
+    QString _file;
 };
 
 //------------------------------------------------------------------------------

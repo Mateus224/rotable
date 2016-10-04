@@ -60,6 +60,11 @@ static const TypeStr2Enum S_types[S_types_count] = {
 #define ROTABLE_PACKAGE_NEED_TABLE_STR                      QString("NY")
 #define ROTABLE_PACKAGE_MESSAGE_TYPE_STR                    QString("MT")
 #define ROTABLE_PACKAGE_MESSAGE_MESSAGE_STR                 QString("MM")
+#define ROTABLE_PACKAGE_FILE_NAMES                          QString("FN")
+#define ROTABLE_PACKAGE_FILE_FILE                           QString("FF")
+#define ROTABLE_PACKAGE_FILE_USAGE                          QString("FU")
+
+
 //------------------------------------------------------------------------------
 
 ComPackage* ComPackage::fromJson(const QJsonDocument& doc)
@@ -248,6 +253,14 @@ ComPackage* ComPackage::fromJson(const QJsonDocument& doc)
 
     ret = p;
   } break;
+  case File:{
+    ComPackageSendFile* p=new ComPackageSendFile();
+    p->_fileNames=o[ROTABLE_PACKAGE_FILE_NAMES].toString();
+    p->_fileUsage=o[ROTABLE_PACKAGE_FILE_USAGE].toInt();
+    p->_file=o[ROTABLE_PACKAGE_FILE_FILE].toString();
+
+    ret=p;
+  }
   default:
     qDebug("This should never ever happen (above switch is incomplete)!");
     return 0;
@@ -500,7 +513,7 @@ QByteArray ComPackageMessage::toByteArray() const
 {
     QJsonObject o;
     addData(o);
-    o[ROTABLE_PACKAGE_COMMAND_STR] = ROTABLE_PACKAGE_COMMAND_MESSAGE_STR;
+    o[ROTABLE_PACKAGE_COMMAND_STR] = ROTABLE_PACKAGE_COMMAND_SEND_FILE;
     o[ROTABLE_PACKAGE_MESSAGE_TYPE_STR] = _msgType;
     o[ROTABLE_PACKAGE_MESSAGE_MESSAGE_STR] = _msg;
     return QJsonDocument(o).toBinaryData();
@@ -519,7 +532,8 @@ QByteArray ComPackageSendFile::toByteArray() const
     QJsonObject o;
     addData(o);
     o[ROTABLE_PACKAGE_COMMAND_STR] = ROTABLE_PACKAGE_COMMAND_MESSAGE_STR;
-    o[ROTABLE_PACKAGE_MESSAGE_TYPE_STR] = _msgType;
-    o[ROTABLE_PACKAGE_MESSAGE_MESSAGE_STR] = _msg;
+    o[ROTABLE_PACKAGE_FILE_NAMES] = _fileNames;
+    o[ROTABLE_PACKAGE_FILE_USAGE] = _fileUsage;
+    o[ROTABLE_PACKAGE_FILE_FILE] = _file;
     return QJsonDocument(o).toBinaryData();
 }
