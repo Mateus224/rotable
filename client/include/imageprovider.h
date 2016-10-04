@@ -7,7 +7,7 @@
 #include <QQuickImageProvider>
 #endif
 
-#include "imagecontainer.h"
+#include "filecontainer/imagecontainer.h"
 
 //------------------------------------------------------------------------------
 
