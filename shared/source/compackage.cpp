@@ -262,8 +262,9 @@ ComPackage* ComPackage::fromJson(const QJsonDocument& doc)
     {
         const QJsonObject& so= item.toObject();
         p->_fileNames.append(so[ROTABLE_PACKAGE_FILE_NAMES].toString());
-        p->_files.append(so[ROTABLE_PACKAGE_FILE_FILE].toString());
+        p->_files.append(p->base64ToQString(so[ROTABLE_PACKAGE_FILE_FILE].toString()));
     }
+     LogManager::getInstance()->logInfo(p->_files.at(1));
 
     ret=p;  
   } break;
@@ -529,6 +530,14 @@ QByteArray ComPackageMessage::toByteArray() const
 ComPackageSendFile::ComPackageSendFile() :  ComPackage()
 {
 
+}
+//------------------------------------------------------------------------------
+
+QString ComPackageSendFile::base64ToQString(QString encodeFile)
+{
+    QByteArray ba;
+    ba.append(encodeFile);
+    return QByteArray::fromBase64(ba);
 }
 
 //------------------------------------------------------------------------------
