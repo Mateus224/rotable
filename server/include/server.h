@@ -262,6 +262,8 @@ private:
    */
   void sendQueueOrders();
 
+  bool kindOfFileDestination(ComPackageSendFile* package);
+
   /* Configuration file access */
   rotable::ConfigServer _config;
 

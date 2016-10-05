@@ -171,10 +171,7 @@ public:
     DeleteProduct,
 
     /* Select licence path */
-    SetLicencePath,
-
-    /* Select video path*/
-    SetVideoPath
+    SetLicencePath
   };
 
   /**
@@ -200,7 +197,7 @@ public:
       CatergoryIcon,
 
       /*Icons which are send to clients*/
-      ProductIcone,
+      ProductIcon,
 
       /*Files for checking the License*/
       //LicenseFiles
