@@ -286,7 +286,12 @@ void Server::packageReceived(client_t client, ComPackage *package)
   {
       if (_tcp.isClientAccepted(client))
       {
-          ComPackageSendFile* p=static_cast <ComPackageSendFile>(package);
+          ComPackageSendFile* p=static_cast <ComPackageSendFile*>(package);
+          if (!kindOfFileDestination(p)) {
+            ComPackageReject reject(package->id());
+            _tcp.send(client, reject);
+          }
+
       }
       else{
           qDebug() << tr("WARNING: Unallowed Command from client \"%1\"")
@@ -294,7 +299,6 @@ void Server::packageReceived(client_t client, ComPackage *package)
           ComPackageReject reject(package->id());
           _tcp.send(client, reject);
     }
-      LogManager::getInstance()->logInfo("making a test \n");
   }
   case ComPackage::Reject:
   {
@@ -1243,3 +1247,28 @@ QJsonValue Server::configToJSON()
 }
 
 //------------------------------------------------------------------------------
+
+bool Server::kindOfFileDestination(ComPackageSendFile* package)
+{
+    if (package) {
+      switch (package->getFileUsage()) {
+      case ComPackage::AdvertisingVideo:
+          LogManager::getInstance()->logInfo("\n\n hier\n\n");
+
+          break;
+      case ComPackage::AdvertisingPicture:
+
+          break;
+      case ComPackage::CatergoryIcon:
+
+          break;
+      case ComPackage::ProductIcon:
+
+          break;
+
+
+
+      }
+    }
+    return true;
+}
