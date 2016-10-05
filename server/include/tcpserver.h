@@ -106,6 +106,7 @@ signals:
 
   /**
    * A package from a client has been received.
+   * Will be to the server class emitted
    *
    * @param client      client id
    * @param package     package
