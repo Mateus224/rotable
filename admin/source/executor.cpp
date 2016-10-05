@@ -406,7 +406,7 @@ void Executor::onAddVideo()
     if(filePathList.isEmpty())
         return;
 
-
+    ComPackageSendFile package;
     foreach(QString path, filePathList)
     {
         /*make a StringList of the names from the files*/
@@ -420,17 +420,16 @@ void Executor::onAddVideo()
 
         QByteArray ba;
         QBuffer buffer(&ba);
-
         ba = file.readAll();
-        QString base64 = ba.toBase64(QByteArray::Base64UrlEncoding);
+        package.byteArrayToBase64(ba);
 
-        files.append(base64);
     }
 
-    ComPackageSendFile package;
+
     package.setFileUsage(ComPackage::AdvertisingVideo);
     package.setFileNames(fileNameList);
-    package.setFiles(files);
+    //package.setFiles(files);
+
     if (!_tcp_client.send(package)) {
       qCritical() << tr("FATAL: Could not send data set package!");
 
