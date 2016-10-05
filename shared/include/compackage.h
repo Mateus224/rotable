@@ -82,7 +82,7 @@ public:
     /* Message system */
     Message,
 
-    /*Package for sending File*/
+    /*Package for sending Files*/
     File
   };
 

@@ -281,7 +281,21 @@ void Server::packageReceived(client_t client, ComPackage *package)
       ComPackageReject reject(package->id());
       _tcp.send(client, reject);
     }
-  } break;
+  } break;     
+  case ComPackage::File:
+  {
+      if (_tcp.isClientAccepted(client))
+      {
+          ComPackageSendFile* p=static_cast <ComPackageSendFile>(package);
+      }
+      else{
+          qDebug() << tr("WARNING: Unallowed Command from client \"%1\"")
+                      .arg(_tcp.clientName(client));
+          ComPackageReject reject(package->id());
+          _tcp.send(client, reject);
+    }
+      LogManager::getInstance()->logInfo("making a test \n");
+  }
   case ComPackage::Reject:
   {
     qDebug() << tr("Did not expect to receive Reject package... doing nothing");
