@@ -1841,6 +1841,22 @@ bool Database::createDatabase() {
     return false;
   }
 
+  // WaiterConfig table
+  QSqlQuery q23(QString("DROP TABLE IF EXISTS `%1waitercategories`;").arg(_prefix),
+                _db);
+  if (q23.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q21.lastError().text());
+    _db.rollback();
+    return false;
+  }
+
+  QSqlQuery q24(_sqlCommands[WaiterCategories]._create.arg(_prefix), _db);
+  if (q24.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q22.lastError().text());
+    _db.rollback();
+    return false;
+  }
+
   if (!initTriggers()) {
     _db.rollback();
     return false;
