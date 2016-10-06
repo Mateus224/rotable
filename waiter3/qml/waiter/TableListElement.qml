@@ -10,7 +10,6 @@ Rectangle {
     enabled: model.orderNumber == 0 ? false : true
 
     width: parent.width
-    height: 50
 
     property var connected: model.isConnected ? "Connected" : "Disconnected"
 
@@ -21,20 +20,37 @@ Rectangle {
         id: tableName
         anchors.centerIn: parent
         text: qsTr("Table ") + model.name + langObject.emptyString
-        font.pixelSize: parent.height * 0.4
+        font.pixelSize: parent.height * 0.3
+        color: model.isSelected ? "#FFFFFF" : "#000000"
     }
 
     Rectangle {
         id: newOrderCircle
 
-//        visible: model.isSelected
-        height: parent.height * 0.6
-        width: parent.height * 0.6
+        //visible: !model.isSelected
+        visible: false
+        height: parent.height * 0.5
+        width: height
         radius: height
         color: "#FF3F3F"
         anchors.left: tableName.right
-        anchors.leftMargin: parent.width * 0.01
+        anchors.leftMargin: parent.width * 0.02
         anchors.verticalCenter: parent.verticalCenter
+    }
+
+    Text {
+        id: selectedArrow
+
+        visible: model.isSelected
+
+        anchors.right: parent.right
+        anchors.rightMargin: parent.width * 0.02
+        anchors.verticalCenter: parent.verticalCenter
+
+        text: ">"
+        font.bold: true
+        font.pixelSize: parent.height * 0.4
+        color: "#FFFFFF"
     }
 
     MouseArea {

@@ -46,8 +46,13 @@ OTHER_FILES += \
     qml/waiter/main.qml \
     qml/waiter/LoginView.qml \
     qml/waiter/WaiterView.qml \
+    qml/waiter/DataView.qml \
+    qml/waiter/TablesView.qml \
     qml/waiter/TableList.qml \
     qml/waiter/TableListElement.qml \
+    qml/waiter/OrderList.qml \
+    qml/waiter/OrderListElement.qml \
+    qml/waiter/OrderProductListElement.qml \
     qml/waiter/TimeBar.qml \
     qml/aiter/SimpleClock.qml
 
@@ -111,8 +116,13 @@ DISTFILES += \
     qml/waiter/main.qml \
     qml/waiter/LoginView.qml \
     qml/waiter/WaiterView.qml \
+    qml/waiter/DataView.qml \
+    qml/waiter/TablesView.qml \
     qml/waiter/TableList.qml \
     qml/waiter/TableListElement.qml \
+    qml/waiter/OrderList.qml \
+    qml/waiter/OrderListElement.qml \
+    qml/waiter/OrderProductListElement.qml \
     qml/waiter/TimeBar.qml \
     qml/aiter/SimpleClock.qml
 

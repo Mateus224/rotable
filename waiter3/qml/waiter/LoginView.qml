@@ -16,7 +16,7 @@ Rectangle {
     Button {
         id: loginButton
         y: 215
-        text: qsTr("Log in")
+        text: qsTr("Log in") + langObject.emptyString
         anchors.leftMargin: 0
         anchors.left: textField1.left
         checkable: false
@@ -31,7 +31,7 @@ Rectangle {
         y: 89
         width: 486
         height: 17
-        text: qsTr("Rotable Waiter Application")
+        text: qsTr("Rotable Waiter Application")+ langObject.emptyString
         anchors.horizontalCenterOffset: 0
         anchors.horizontalCenter: parent.horizontalCenter
         font.pointSize: 22
@@ -46,7 +46,7 @@ Rectangle {
         id: closeButton
         x: 342
         y: 215
-        text: qsTr("Close")
+        text: qsTr("Close")+ langObject.emptyString
         anchors.right: textField1.right
         onClicked: Qt.quit()
     }
@@ -59,7 +59,7 @@ Rectangle {
         height: 33
         anchors.horizontalCenter: label1.horizontalCenter
         onTextChanged: waiter.login = text
-        placeholderText: qsTr("Please insert login")
+        placeholderText: qsTr("Please insert login")+ langObject.emptyString
     }
 
     TextField {
@@ -71,13 +71,13 @@ Rectangle {
         anchors.horizontalCenter: label1.horizontalCenter
         echoMode: 2
         onTextChanged: waiter.password = text
-        placeholderText: qsTr("Please insert password")
+        placeholderText: qsTr("Please insert password")+ langObject.emptyString
     }
 
     Text {
         id: text1
         y: 290
-        text: qsTr("Text")
+        text: qsTr("Text")+ langObject.emptyString
         font.pixelSize: 12
         opacity: 0
     }
@@ -94,7 +94,7 @@ Rectangle {
                 y: 288
                 width: 278
                 height: 34
-                text: qsTr("Wrong login or password")
+                text: qsTr("Wrong login or password")+ langObject.emptyString
                 anchors.leftMargin: 0
                 anchors.rightMargin: 1184
                 font.pixelSize: 22
