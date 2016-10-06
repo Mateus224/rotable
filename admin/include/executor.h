@@ -410,6 +410,7 @@ private:
 
   /* Whether the user clicked disconnect (Avoid notification in that case) */
   bool _disconnectRequested;
+  bool _tryLogin;
 
   /* Currently pending data requests */
   QMap<QString, rotable::ComPackageDataRequest *> _dataRequest;

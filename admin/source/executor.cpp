@@ -9,9 +9,9 @@
 #include "mainwindow.h"
 #include "productcategory.h"
 #include "productcontainer.h"
+#include "resetpassword.h"
 #include "utils.h"
 #include "waitercategories.h"
-#include "resetpassword.h"
 
 #include <QBuffer>
 
@@ -24,7 +24,7 @@ using namespace rotable;
 Executor::Executor(MainWindow *mainwindow, const QString &configFilePath,
                    QObject *parent)
     : QObject(parent), _mainwindow(mainwindow), _config(configFilePath),
-      _disconnectRequested(false), _images(0), _products(0) {
+      _disconnectRequested(false), _images(0), _products(0), _tryLogin(false) {
   connect(&_tcp_client, SIGNAL(connected()), this,
           SLOT(onConnectionEstablished()));
   connect(&_tcp_client, SIGNAL(disconnected()), this, SLOT(onConnectionLost()));
@@ -225,8 +225,7 @@ void Executor::onAddProduct() {
 
 //------------------------------------------------------------------------------
 
-void Executor::onChangePassword()
-{
+void Executor::onChangePassword() {
   ResetPassword dlg(_mainwindow);
 
   if (dlg.exec() == QDialog::Accepted) {
@@ -250,9 +249,8 @@ void Executor::onUpdateProduct(Product *product) {
 
 //------------------------------------------------------------------------------
 
-void Executor::onUpdateClient()
-{
-  Client *client = reinterpret_cast<Client*>(sender());
+void Executor::onUpdateClient() {
+  Client *client = reinterpret_cast<Client *>(sender());
 
   ComPackageCommand command;
   command.setCommandType(ComPackage::ChangeClientName);
@@ -268,9 +266,8 @@ void Executor::onUpdateClient()
 
 //------------------------------------------------------------------------------
 
-void Executor::onUpdateUserPassword()
-{
-  User *user = reinterpret_cast<User*>(sender());
+void Executor::onUpdateUserPassword() {
+  User *user = reinterpret_cast<User *>(sender());
 
   ComPackageCommand command;
   command.setCommandType(ComPackage::ChangePassword);
@@ -540,6 +537,7 @@ void Executor::onConnectionEstablished() {
   request.setClientName(_username);
   request.setClientPass(_password);
   request.setClientType(rotable::ComPackage::AdminAccount);
+  _tryLogin = true;
 
   if (!_tcp_client.send(request)) {
     qCritical() << tr("FATAL: Could not send connection request package!");
@@ -580,6 +578,7 @@ void Executor::onPackageReceived(ComPackage *package) {
       break;
 
     case ComPackage::ConnectionAccept:
+      _tryLogin = false;
       emit connectionEstablished();
       emit statusMessage(tr("Connected"));
       requestCategoryIds();
@@ -615,7 +614,8 @@ void Executor::onPackageReceived(ComPackage *package) {
       msgBox.setIcon(QMessageBox::Warning);
       msgBox.exec();
 
-      onDisconnectFromServer();
+      if (_tryLogin)
+        onDisconnectFromServer();
     } break;
 
     default:
@@ -627,12 +627,11 @@ void Executor::onPackageReceived(ComPackage *package) {
 
 //------------------------------------------------------------------------------
 
-void Executor::onWaiterCategoryAdd(int categoryId)
-{
+void Executor::onWaiterCategoryAdd(int categoryId) {
   ComPackageCommand pc;
   pc.setCommandType(ComPackage::AddWaiterCategory);
   QJsonArray arr;
-  arr.append(reinterpret_cast<Waiter*>(sender())->id());
+  arr.append(reinterpret_cast<Waiter *>(sender())->id());
   arr.append(categoryId);
   pc.setData(arr);
 
@@ -649,12 +648,11 @@ void Executor::onWaiterCategoryAdd(int categoryId)
 
 //------------------------------------------------------------------------------
 
-void Executor::onWaiterCategoryRemove(int categoryId)
-{
+void Executor::onWaiterCategoryRemove(int categoryId) {
   ComPackageCommand pc;
   pc.setCommandType(ComPackage::RemoveWaiterCategory);
   QJsonArray arr;
-  arr.append(reinterpret_cast<Waiter*>(sender())->id());
+  arr.append(reinterpret_cast<Waiter *>(sender())->id());
   arr.append(categoryId);
   pc.setData(arr);
 
@@ -830,18 +828,18 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
   case ComPackage::RequestUser: {
     User *user = reinterpret_cast<User *>(Client::fromJSON(package->data()));
     _users->addUser(user);
-    if(user->accountType()==0)
-    {
-      //Bind signal for add category and remove category from waiter
-      connect(reinterpret_cast<Waiter*>(user), &Waiter::addNewCategory,
-              this, &Executor::onWaiterCategoryAdd);
-      connect(reinterpret_cast<Waiter*>(user), &Waiter::removeCategory,
-              this, &Executor::onWaiterCategoryRemove);
+    if (user->accountType() == 0) {
+      // Bind signal for add category and remove category from waiter
+      connect(reinterpret_cast<Waiter *>(user), &Waiter::addNewCategory, this,
+              &Executor::onWaiterCategoryAdd);
+      connect(reinterpret_cast<Waiter *>(user), &Waiter::removeCategory, this,
+              &Executor::onWaiterCategoryRemove);
     }
-    //Bind name change
+    // Bind name change
     connect(user, &Client::nameChanged, this, &Executor::onUpdateClient);
-    //Bind client password change
-    connect(user, &User::hashPasswordChanged, this, &Executor::onUpdateUserPassword);
+    // Bind client password change
+    connect(user, &User::hashPasswordChanged, this,
+            &Executor::onUpdateUserPassword);
   } break;
   default: { qCritical() << tr("Unknown data package returned"); } break;
   }
@@ -916,8 +914,7 @@ void Executor::loadLicenceStatus(const QString &status) {
 //------------------------------------------------------------------------------
 
 void Executor::userSelectionChange() {
-  if(!_users->getSelectedUser())
-  {
+  if (!_users->getSelectedUser()) {
     emit setWaiterButton(false);
     emit setUserButtons(false);
     return;
