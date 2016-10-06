@@ -294,6 +294,13 @@ void Server::clientDisconnected(client_t client, const QString &clientName) {
         _users[rotable::ComPackage::TableAccount].value(client)));
     send_to_users(dc, ComPackage::WaiterAccount);
   }
+
+  // Check if wneed remove element from waiter list
+  if(_waiterList.contains(client)){
+    delete _waiterList[client];
+    _waiterList.remove(client);
+  }
+
   for (int i = 0; i < 3; ++i)
     _users[i].remove(client);
 }
@@ -1016,6 +1023,11 @@ bool Server::login(ComPackageConnectionRequest *package, client_t client) {
       if (id < 1) // If id < 0 then loggin failed, we can end it
         return false;
       _users[package->clientType()].insert(client, id);
+      if(package->clientType() == rotable::ComPackage::WaiterAccount)
+      {
+        Waiter *waiter = _db.waiter(id);
+        _waiterList[client] = waiter;
+      }
       return true;
     }
     case rotable::ComPackage::TableAccount: {
@@ -1215,6 +1227,22 @@ bool Server::ifAdmin(int connection) const {
   if (_users[2].contains(connection))
     return true;
   return false;
+}
+
+//------------------------------------------------------------------------------
+
+void Server::updateWaiterCategories(int waiterId, int categoryId, int type)
+{
+  for(auto waiter: _waiterList)
+  {
+    if(waiter->id() == waiterId)
+    {
+      if(type == 1)
+        waiter->addWaiterCategory(categoryId);
+      else
+        waiter->removeWaiterCategory(categoryId);
+    }
+  }
 }
 
 //------------------------------------------------------------------------------
