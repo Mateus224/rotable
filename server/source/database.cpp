@@ -72,6 +72,10 @@ Database::Database(QObject *parent) :
   collectSqlCommands(tablesDetailsCmds, "tabledetails");
   _sqlCommands.append(tablesDetailsCmds);
 
+  SqlCommands mediaCmds;
+  collectSqlCommands(mediaCmds, "medias");
+  _sqlCommands.append(mediaCmds);
+
   qDebug() << "Sql commands load succesfull";
 }
 
