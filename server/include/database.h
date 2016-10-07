@@ -66,7 +66,8 @@ private:
     Configs,
     Passwords,
     MacAdresses,
-    TableDetails
+    TableDetails,
+    Media
   };
 
   /**
