@@ -148,6 +148,16 @@ public:
   bool orderItemIds(QList<int> &ids, int orderId);
 
   /**
+   * Get ids of items
+   *
+   * @param ids         list of ids
+   * @param orderId     order id
+   * @param waiter      waiter object
+   * @return            true on success
+   */
+  bool orderItemIds(QList<int> &ids, int orderId, Waiter *waiter);
+
+  /**
    * Get ids of users in group
    *
    * @param ids         list of ids
@@ -187,6 +197,8 @@ public:
    * @return            order or NULL on error
    */
   Order *order(int id);
+
+  Order *order(int id, Waiter *waiter);
 
   /**
    * Read waiter from database.
