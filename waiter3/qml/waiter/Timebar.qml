@@ -8,7 +8,7 @@ Rectangle {
     id: timeBarLayout
 
     width: parent.width
-    height: parent.height * 0.06
+    height: Math.max(20,parent.height * 0.06)
     anchors.top: parent.top
 
     state: "Normal"

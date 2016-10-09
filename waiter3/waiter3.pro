@@ -46,6 +46,9 @@ OTHER_FILES += \
     qml/waiter/main.qml \
     qml/waiter/LoginView.qml \
     qml/waiter/WaiterView.qml \
+    qml/waiter/PullOutMenu.qml \
+    qml/waiter/PullOutMenuElement.qml \
+    qml/waiter/PullOutMenuModel.qml \
     qml/waiter/DataView.qml \
     qml/waiter/TablesView.qml \
     qml/waiter/TableList.qml \
@@ -54,7 +57,8 @@ OTHER_FILES += \
     qml/waiter/OrderListElement.qml \
     qml/waiter/OrderProductListElement.qml \
     qml/waiter/TimeBar.qml \
-    qml/aiter/SimpleClock.qml
+    qml/waiter/SimpleClock.qml \
+    qml/waiter/BottomBar.qml
 
 ########################################################################
 # DESTINATION:
@@ -116,6 +120,9 @@ DISTFILES += \
     qml/waiter/main.qml \
     qml/waiter/LoginView.qml \
     qml/waiter/WaiterView.qml \
+    qml/waiter/PullOutMenu.qml \
+    qml/waiter/PullOutMenuElement.qml \
+    qml/waiter/PullOutMenuModel.qml \
     qml/waiter/DataView.qml \
     qml/waiter/TablesView.qml \
     qml/waiter/TableList.qml \
@@ -124,7 +131,8 @@ DISTFILES += \
     qml/waiter/OrderListElement.qml \
     qml/waiter/OrderProductListElement.qml \
     qml/waiter/TimeBar.qml \
-    qml/aiter/SimpleClock.qml
+    qml/aiter/SimpleClock.qml \
+    qml/waiter/BottomBar.qml
 
 ########################################################################
 # TRANSLATION:

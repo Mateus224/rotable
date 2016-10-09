@@ -15,9 +15,19 @@ Rectangle {
         id: dataView
 
         anchors.top: timeBar.bottom
-        anchors.bottom: parent.bottom
+        anchors.bottom: bottomBar.top
         anchors.left: parent.left
         anchors.right: parent.right
+    }
 
+    BottomBar {
+        id: bottomBar
+    }
+
+    PullOutMenu {
+        id: pulloutMenu
+        anchors.top: timeBar.bottom
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
     }
 }
