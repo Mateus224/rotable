@@ -399,7 +399,7 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
         foreach (int id, ids) {
           Order *order = _db.order(id);
           if (order) {
-            arr.append(_db.order(id)->toJSON());
+            arr.append(_db.order(id, _waiterList[client])->toJSON());
             delete order;
           } else
             qCritical() << tr("Could not query order from id %1!").arg(id);
@@ -423,7 +423,7 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
     bool ok;
     int orderId = request->dataName().toInt(&ok);
     if (ok) {
-      Order *order = _db.order(orderId);
+      Order *order = _db.order(orderId, _waiterList[client]);
       if (order) {
         ComPackageDataReturn *ret =
             new ComPackageDataReturn(*request, order->toJSON());
