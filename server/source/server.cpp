@@ -1025,7 +1025,7 @@ bool Server::login(ComPackageConnectionRequest *package, client_t client) {
       _users[package->clientType()].insert(client, id);
       if(package->clientType() == rotable::ComPackage::WaiterAccount)
       {
-        Waiter *waiter = _db.waiter(id);
+        Waiter *waiter = reinterpret_cast<Waiter*>(_db.client(id));
         _waiterList[client] = waiter;
       }
       return true;
