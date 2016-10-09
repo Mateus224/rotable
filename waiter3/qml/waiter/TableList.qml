@@ -9,6 +9,9 @@ ListView {
     property int tableElementHeight: Math.max(30,dataView.height * 0.1)
 
     width: parent.width * 0.3
+    height: tables.count * tableElementHeight
+
+    interactive: false
 
     model: tables
 
