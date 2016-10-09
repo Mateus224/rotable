@@ -313,6 +313,54 @@ bool Database::orderItemIds(QList<int> &ids, int orderId) {
 
 //------------------------------------------------------------------------------
 
+bool Database::orderItemIds(QList<int> &ids, int orderId, Waiter *waiterObj)
+{
+  ids.clear();
+
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr = "SELECT %1order_items.id FROM %1order_items,%1products WHERE %1order_items.order_id = %2 and %1order_items.product_id = %1products.id and %1products.category_id in (%3);";
+  QString waiterStr;
+  for(auto id : *(waiterObj->categories()))
+  {
+    waiterStr += QString::number(id) + ",";
+  }
+  waiterStr.remove(0,1);
+  queryStr = queryStr.arg(_prefix, ":order_id", waiterStr);
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  q.bindValue(":order_id", orderId);
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  while (q.next()) {
+    bool toIntOk;
+    ids << q.value("id").toInt(&toIntOk);
+    if (!toIntOk) {
+      qCritical() << tr("Could not convert entry '%1' to an integer!")
+                         .arg(q.value("id").toString());
+      ids.clear();
+      return false;
+    }
+  }
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
 bool Database::clientIds(QList<int> &ids, int userType) {
   ids.clear();
 
@@ -605,6 +653,87 @@ Order *Database::order(int id) {
 
   // if something go wrong return 0
   if (!orderItemIds(itemsId, orderId))
+    return 0;
+
+  // add order item base on id
+  foreach (int orderItemId, itemsId) { o->addItem(orderItem(orderItemId)); }
+
+  return o;
+}
+
+//------------------------------------------------------------------------------
+
+Order *Database::order(int id, Waiter *waiter)
+{
+  if (!isConnected()) {
+    return 0;
+  }
+
+  QString queryStr =
+      _sqlCommands[Orders]._select.arg(_prefix, "*", "id").arg(id);
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return 0;
+  }
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return 0;
+  }
+
+  if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+    if (q.size() != 1) {
+      qCritical()
+          << tr("Query: returned %1 results but we expected it to return 1!")
+                 .arg(q.size());
+      return 0;
+    }
+  }
+
+  if (!q.next()) {
+    return 0;
+  }
+
+  bool ok;
+  int orderId = q.value("id").toInt(&ok);
+  if (!ok) {
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("id").toString());
+    return 0;
+  }
+
+  int clientId = q.value("client_id").toInt(&ok);
+  if (!ok) {
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("client_id").toString());
+    return 0;
+  }
+
+  int state = q.value("state").toInt(&ok);
+  if (!ok) {
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("state").toString());
+    return 0;
+  }
+
+  // TODO: implement
+  QDateTime orderSent = q.value("date_added").toDateTime();
+
+  Order *o = new Order();
+
+  o->setId(orderId);
+  o->setClientId(clientId);
+  o->setState(state);
+
+  QList<int> itemsId;
+
+  // if something go wrong return 0
+  if (!orderItemIds(itemsId, orderId, waiter))
     return 0;
 
   // add order item base on id
