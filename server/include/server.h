@@ -271,6 +271,15 @@ private:
    */
   bool ifAdmin(int connection) const;
 
+  /**
+   * @brief Update logged Waiter categories
+   *
+   * @param waiterId    waiter id
+   * @param categoryId  category id
+   * @param type        add category(1) or remove category(-1)
+   */
+  void updateWaiterCategories(int waiterId, int categoryId, int type);
+
   /* Configuration file access */
   rotable::ConfigServer _config;
 
@@ -303,6 +312,11 @@ private:
    * @Schedule object
    */
   rotable::Schedule *schedule;
+
+  /**
+   * List with waiters
+   */
+  QMap<client_t, Waiter*> _waiterList;
 
   /**
    * @brief _licence
