@@ -397,9 +397,9 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
       if (_db.orderIds(ids, tableId)) {
         QJsonArray arr;
         foreach (int id, ids) {
-          Order *order = _db.order(id);
+          Order *order = _db.order(id, _waiterList[client]);
           if (order) {
-            arr.append(_db.order(id, _waiterList[client])->toJSON());
+            arr.append(order->toJSON());
             delete order;
           } else
             qCritical() << tr("Could not query order from id %1!").arg(id);
