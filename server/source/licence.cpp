@@ -8,9 +8,15 @@
 #include <QFile>
 #include <QDir>
 
-#include <cryptopp/osrng.h>
-#include <cryptopp/base64.h>
-#include <cryptopp/files.h>
+#if defined(Q_OS_WIN) || defined(__ANDROID_API__)
+    #include <osrng.h>
+    #include <base64.h>
+    #include <files.h>
+#else
+    #include <cryptopp/osrng.h>
+    #include <cryptopp/base64.h>
+    #include <cryptopp/files.h>
+#endif
 
 #include <fstream>
 #include <streambuf>
@@ -79,20 +85,12 @@ void Licence::verifityLicence(RSA::PublicKey publicKey,string licencePath, strin
     string combined(signedTxt);
     combined.append(sig);
 
-    try
-    {
-        StringSource(combined, true,
-           new SignatureVerificationFilter(
-               verifier, NULL,
-               SignatureVerificationFilter::THROW_EXCEPTION
-          )
-       );
-    }
-    catch(SignatureVerificationFilter::SignatureVerificationFailed &err)
-    {
-        cout << err.what() << endl;
-        throw new SignLicenceException;
-    }
+    StringSource(combined, true,
+       new SignatureVerificationFilter(
+           verifier, NULL,
+           SignatureVerificationFilter::THROW_EXCEPTION
+      )
+   );
 }
 
 //------------------------------------------------------------------------------
@@ -140,7 +138,7 @@ void Licence::verifityTime()
         if(Q_UNLIKELY(*lastIncomeDate > lastDate))
             throw new UnvalidTimeException;
 
-    if(Q_UNLIKELY(_licenceBegin < lastDate || _licenceEnd < lastDate))
+    if(Q_UNLIKELY(_licenceBegin > lastDate || _licenceEnd < lastDate))
         throw new UnvalidLiceneException;
 }
 
@@ -174,6 +172,7 @@ catch(NoLicenceException){ }
 catch(SignLicenceException){ }
 catch(UnvalidLiceneException){ }
 catch(UnvalidTimeException){ }
+catch(SignatureVerificationFilter::SignatureVerificationFailed){}
 
 //------------------------------------------------------------------------------
 

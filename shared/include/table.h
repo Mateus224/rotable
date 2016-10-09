@@ -2,7 +2,6 @@
 #define TABLE_ROTABLE_H
 
 //------------------------------------------------------------------------------
-
 #include "order.h"
 #include "client.h"
 
@@ -64,6 +63,8 @@ public:
 
     inline bool isConnected() const { return _isConnected; }
     inline void setIsConnected(bool isConnected)  { _isConnected = isConnected; emit isConnectedChanged(); }
+
+    inline int lastOrderId() const { return _lastOrder; }
     //------------------------------------------------------------------------------
     // Method
     //------------------------------------------------------------------------------
@@ -101,6 +102,11 @@ public:
      */
     inline void addOrder(rotable::Order* order){
         _orders[order->id()] = order;
+        connect(order, &rotable::Order::itemsChanged, this, &rotable::Table::orderChanged);
+        #ifdef WAITER
+        connect(order, &rotable::Order::stateChanged, this, &rotable::Table::recalcLastOrder);
+        order->setState(order->state());
+        #endif
         emit  tableChanged();
     }
 
@@ -165,6 +171,11 @@ public:
 
 private:
     /**
+     * Calc last number of new order
+     */
+    void recalcLastOrder();
+
+    /**
      * Store orders, int - orderId
      */
     QMap<int,rotable::Order*> _orders;
@@ -186,11 +197,17 @@ private:
      */
     bool _isConnected;
 
+    /**
+     * Store id of last new order, if not order, return -1
+     */
+    int _lastOrder;
+
 signals:
     void tableChanged();
     void waiterIsNeededChanged();
     void isConnectedChanged();
     void sendOrders();
+    void lastOrderChange();
 
 public slots:
     void diconnectRemote();
@@ -198,6 +215,7 @@ public slots:
 
 private slots:
     void orderChanged();
+
 };  // class Table
 
 //------------------------------------------------------------------------------

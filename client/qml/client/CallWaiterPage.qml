@@ -11,10 +11,14 @@ Rectangle {
 
     Rectangle {
         anchors.fill: parent
-        anchors.topMargin: parent.height * 0.2
-        anchors.leftMargin: parent.width * (1.0 - 0.805) / 2.0
-        anchors.rightMargin: parent.width * (1.0 - 0.805) / 2.0
-        anchors.bottomMargin: parent.height * (0.09125 + 0.10 + 0.125)
+        anchors.topMargin: (parent.height * 0.1)*3/2
+        anchors.leftMargin: (parent.width * (1.0 - 0.805) / 2.0)*2/3*(1/2*0.82)
+        anchors.rightMargin: (parent.width * (1.0 - 0.805) / 2.0)*2/3*(1/2*0.82)
+        anchors.bottomMargin: (parent.height * (0.09125 + 0.10 + 0.125))*0.82
+       // anchors.topMargin: parent.height * 0.2
+       // anchors.leftMargin: parent.width * (1.0 - 0.805) / 2.0
+       // anchors.rightMargin: parent.width * (1.0 - 0.805) / 2.0
+       // anchors.bottomMargin: parent.height * (0.09125 + 0.10 + 0.125)
 
         color: "#3f494a"
 
@@ -24,17 +28,17 @@ Rectangle {
                 State{
                     name: "DEFAULT"
                     PropertyChanges{target: buttonChange; gradient:clubcolorsblue}
-                    PropertyChanges{target: callWaiterText; text:"Press to call the waiter"}
+                    PropertyChanges{target: callWaiterText; text: qsTr("Press to call the waiter")+langObject.emptyString }
                 },
                 State{
                     name: "TRYCALLWAITER"
                     PropertyChanges{target: buttonChange; gradient:clubcolorsblue}
-                    PropertyChanges{target: callWaiterText; text:"Send called"}
+                    PropertyChanges{target: callWaiterText; text: qsTr("Send called")+langObject.emptyString }
                 },
                 State{
                     name: "CALLWAITER"
                     PropertyChanges{target: buttonChange; gradient:clubcolorsred}
-                    PropertyChanges{target: callWaiterText; text:"Waiter is called"}
+                    PropertyChanges{target: callWaiterText; text: qsTr("Waiter is called")+langObject.emptyString }
                 }
 
             ]
@@ -51,7 +55,7 @@ Rectangle {
                 gradient: clubcolorsblue
                 Text{
                     id:callWaiterText
-                    text: "Press to call the waiter"
+                    text: qsTr("Press to call the waiter")+langObject.emptyString
                     font.family: "FreeSans"
                     color: "#FFFFFF"
                     font.pointSize: 22

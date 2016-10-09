@@ -70,8 +70,10 @@ void AddProductDialog::setProductContainer(ProductContainer* products)
       }
 
       _ui->_comboBoxCategories->addItem(icon, category->name(), category->id());
+
     }
   }
+  _ui->_comboBoxCategories->setCurrentIndex(1);
 }
 
 //------------------------------------------------------------------------------

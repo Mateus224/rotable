@@ -502,6 +502,8 @@ public:
    */
   QList<Order *> *getNotDoneOrderList();
 
+  QMap<int, QMap<int, int>> *getOrderQueueList();
+
   /**
    * Check whether this object is connected to the database.
    *
@@ -572,9 +574,10 @@ public:
       version0d0d0,
       version0d0d1,
       version0d0d2,
+      version0d0d3,
   };
 
-  QString newestVesion = "0.0.2";
+  QString newestVesion = "0.0.3";
 
   /**
    * Check and update version of database

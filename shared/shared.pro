@@ -32,7 +32,8 @@ SOURCES += \
     source/client.cpp \
     source/tabele.cpp \
     source/message.cpp \
-    source/messageconnector.cpp
+    source/messageconnector.cpp \
+    source/languagesupport.cpp
 
 
 HEADERS += \
@@ -59,7 +60,8 @@ HEADERS += \
     include/waiter.h \
     include/table.h \
     include/message.h \
-    include/messageconnector.h
+    include/messageconnector.h \
+    include/languagesupport.h
 
 
 RESOURCES += shared_resources.qrc
@@ -67,13 +69,17 @@ RESOURCES += shared_resources.qrc
 ########################################################################
 # DESTINATION:
 
-contains(QMAKE_CC, gcc) {
+win32{
     PLATFORM = host
-} else {
-    # since QMAKE_CC contains more than gcc this must be a cross-compile build
-    PLATFORM = rpi
 }
-
+else{
+    contains(QMAKE_CC, gcc) {
+        PLATFORM = host
+    } else {
+        # since QMAKE_CC contains more than gcc this must be a cross-compile build
+        PLATFORM = rpi
+    }
+}
 CONFIG(debug, debug|release) {
     DESTDIR     = $$PWD/../bin/debug/$$PLATFORM
     OBJECTS_DIR = $$PWD/../bin/tmp/obj/debug/$$PLATFORM/$$TARGET

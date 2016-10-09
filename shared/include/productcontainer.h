@@ -201,6 +201,9 @@ public:
 
   void addForOrderProduct_(int id);
 
+  QMap<int, int> productSequence(const int &categoryId);
+  QMap<int, int> productCategorySequence();
+
 signals:
   void categoryAdded(int id);
   void productAdded(int id);

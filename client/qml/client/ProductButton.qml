@@ -65,7 +65,34 @@ Rectangle {
         y: parent.y
         width: parent.width
         height: parent.height
+        Rectangle{
+            color: "transparent"
+            x: (parent.width/35)*32
+            y: 0//(parent.height)/10000
+            width: parent.width/12
+            height: parent.width/12
+            Image {
+                anchors.fill: parent
+                source:"qrc:/images/close.png"
+            }
 
+        }
+        MouseArea {
+            x: (parent.width/35)*32
+            y: 0
+            width: parent.width/12
+            height: parent.width/12
+            id: close
+            onClicked: {
+                if (-1 != buttonProductId) {
+                    if (productButton.state == "EXPANDED") {
+                        productButton.state = "COLLAPSED"
+                       // MyOrder.setproductid(buttonProductId)
+
+                    }
+                }
+            }
+        }
 
         Text {
             id: idProductNameExpanded
@@ -296,7 +323,7 @@ Rectangle {
                 if (productButton.state == "COLLAPSED") {
                     productButton.state = "EXPANDED"
                     MyOrder.setproductid(buttonProductId)
-
+                    grid.positionViewAtBeginning()
                 }
             }
         }
@@ -308,7 +335,8 @@ Rectangle {
             if (-1 != buttonProductId) {
                 if (productButton.state == "EXPANDED") {
                     productButton.state = "COLLAPSED"
-                    MyOrder.setproductid(buttonProductId)
+                   // MyOrder.setproductid(buttonProductId)
+
                 }
             }
         }
@@ -319,7 +347,7 @@ Rectangle {
             name: "EXPANDED"
             PropertyChanges { target: buttonExpanded; visible: true }
             PropertyChanges { target: buttonExpanded; x: -productButton.x }
-            PropertyChanges { target: buttonExpanded; y: -productButton.y }
+            PropertyChanges { target: buttonExpanded; y: -productButton.y}
             PropertyChanges { target: buttonExpanded; width: 5 * (grid.buttonWidth + grid.buttonMarginH) - grid.buttonMarginH }
             PropertyChanges { target: buttonExpanded; height: 3 * (grid.buttonHeight + grid.buttonMarginV) - grid.buttonMarginV }
             PropertyChanges { target: productButton; z: 1 }

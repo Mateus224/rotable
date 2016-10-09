@@ -63,7 +63,7 @@ public:
   inline void setAmount(int amount) { _amount = amount; emit amountChanged(); }
 
   inline int state() const { return _state; }
-  inline void setState(int state) { _state = state; emit stateChanged(); }
+  inline void setState(int state) { _state = state; emit stateChanged(); setChange(false); }
 
   inline double price() const { return _price; }
   inline void setPrice(double price) {_price = price; emit priceChanged(); }
@@ -160,6 +160,9 @@ public:
     /* Order has been accepted by a waiter */
     Accepted,
 
+    /* Order has been prepared */
+    Prepared,
+
     /* Order has been delivered by a waiter */
     Delivered,
 
@@ -255,6 +258,7 @@ public:
       connect(item, &rotable::OrderItem::priceChanged, this, &rotable::Order::itemChanged);
       connect(item, &rotable::OrderItem::timeChanged, this, &rotable::Order::itemChanged);
       connect(item, &rotable::OrderItem::readyToChanged, this, &rotable::Order::itemIsReadyToChanged);
+      connect(item, &rotable::OrderItem::stateChanged, this, &rotable::Order::checkOrderState);
   }
 
   /**
@@ -335,6 +339,7 @@ signals:
 private slots:
   void itemChanged();
   void itemIsReadyToChanged();
+  void checkOrderState();
 
 private:
   /* Unique order ID */

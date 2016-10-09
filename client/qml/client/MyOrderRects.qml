@@ -2,16 +2,19 @@ import QtQuick 2.0
 
 Rectangle {
     anchors.fill: parent
-    anchors.topMargin: parent.height * 0.2
-    anchors.leftMargin: parent.width * (1.0 - 0.805) / 2.0
-    anchors.rightMargin: parent.width * (1.0 - 0.805) / 2.0
-    anchors.bottomMargin: parent.height * (0.09125 + 0.10 + 0.125)
+    anchors.topMargin: (parent.height * 0.1)*3/2
+    anchors.leftMargin: (parent.width * (1.0 - 0.805) / 2.0)*2/3*(1/2*0.82)
+    anchors.rightMargin: (parent.width * (1.0 - 0.805) / 2.0)*2/3*(1/2*0.82)
+    anchors.bottomMargin: (parent.height * (0.09125 + 0.10 + 0.125))*0.82
+
+
+    color: "#3f494a"
     property int fontSize: parent.height * 0.02
     property int fontSizeHeader: parent.height * 0.04
     property int widthINFO: parent.width*0.15
     property int heightINFO:parent.height*0.08
     property color defcolor:"#48A8C0" //"#1A1A80" //"#48A8C0"
-    color: "#3f494a"
+
 
     Rectangle {
         anchors.fill: parent
@@ -30,7 +33,7 @@ Rectangle {
                 anchors.rightMargin: buttonMarginH
                 anchors.topMargin: buttonMarginV
                 anchors.bottomMargin: buttonMarginV
-                id:grid
+                id:gridL
                 orientation: ListView.Vertical
                 width: parent.width-0.2
                 height: parent.height-0.2
@@ -58,7 +61,7 @@ Rectangle {
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
                                     anchors.horizontalCenterOffset: 10
-                                    text: "Amount"
+                                    text: qsTr("Amount")+langObject.emptyString
                                     font.pixelSize: fontSizeHeader
                                     font.bold: true
                                 }
@@ -71,7 +74,7 @@ Rectangle {
                                 Text {
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
-                                    text: "Order"
+                                    text: qsTr("Order")+langObject.emptyString
                                     font.pixelSize: fontSizeHeader
                                     font.bold: true
                                     font.family: "FreeSans"
@@ -85,7 +88,7 @@ Rectangle {
                                     Text {
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
-                                    text: "Price"
+                                    text: qsTr("Price")+langObject.emptyString
                                     font.pixelSize: fontSizeHeader
                                     font.family: "FreeSans"
                                     font.bold: true
@@ -99,7 +102,7 @@ Rectangle {
                     Rectangle {
                         y:10
                         id: wrapper
-                        width: grid.width
+                        width: gridL.width
                         height: heightINFO
                         color: "transparent"
                         Rectangle {
@@ -225,12 +228,12 @@ Rectangle {
                                         client.sendOrder()
                                         client.state = "SENTPAGE"
                                         MyOrder.clearList()
-                                        sendOrderTimer.start()
+                                        //sendOrderTimer.start()
                                     }
                                     else
                                     {
                                         client.state = "SENTPAGE"
-                                        sendOrderTimer.start()
+                                        //sendOrderTimer.start()
                                     }
                                 }
                                 onPressed: parent.color= "#8772c0"
@@ -239,7 +242,7 @@ Rectangle {
                                 }
                                 Text {
                                     font.family: "FreeSans"; font.pointSize: fontSize; font.bold: true
-                                    text:  "Send Order"
+                                    text:  qsTr("Send Order")+langObject.emptyString
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
                                 }

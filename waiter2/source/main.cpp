@@ -3,12 +3,13 @@
 #include "../include/orderinformation.h"
 #include "../include/waiter_client.h"
 #include "orderinformation.h"
-#include "table.h"
 #include "tablemodel.h"
+#include "languagesupport.h"
 #include <QGuiApplication>
 #include <QtQml/QQmlApplicationEngine>
 
 #include <QStandardPaths>
+
 
 //#include "client/linux/handler/exception_handler.h"
 
@@ -35,6 +36,11 @@ int main(int argc, char *argv[])
   QCoreApplication::translate("main", "Path of the configuration file."));
   parser.process(app);
 
+  /* Load translator */
+
+  rotable::LanguageSupport* langSupp = new rotable::LanguageSupport(rotable::LanguageSupport::AppType::waiter);
+  langSupp->LoadInit();
+
   /* Connection to server building*/
 //-----------------------------------------------------
   auto dir = QDir(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
@@ -60,6 +66,8 @@ int main(int argc, char *argv[])
   ctxt->setContextProperty("orderboard", &(waiter_client->_board));
   ctxt->setContextProperty("productList", &(waiter_client->_productsList));
   ctxt->setContextProperty("needBoard", &(waiter_client->_needBoard));
+
+  ctxt->setContextProperty("langObject", langSupp);
   //view->setSource(QString("qrc:/waiter/main2.qml"));
 
   // Connect exit signal for exit

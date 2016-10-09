@@ -39,9 +39,9 @@ int ProductListModel::rowCount(const QModelIndex &parent) const
   if (parent.isValid() || -1 == _categoryId) {
     return 0;
   } else {
-    //QList<int> ids = _products->productIds(_categoryId);
-    //return ids.count();
-    return 15;
+    auto count = _products->productIds(_categoryId).count();
+    count = count % 5 != 0 ? count + 5 - count % 5 : count;
+    return count > 15 ? count : 15;
   }
 }
 

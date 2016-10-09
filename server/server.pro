@@ -9,6 +9,8 @@ PRECOMPILED_HEADER = private/precomp.h
 QMAKE_CFLAGS_RELEASE = -g
 QMAKE_CXXFLAGS += -std=c++11
 
+win32:CONFIG += windows
+
 ########################################################################
 # FILES:
 
@@ -23,8 +25,8 @@ SOURCES += \
     source/configserver.cpp \
     source/server.cpp \
     source/schedule.cpp \
-    source/operation.cpp \
-    source/licence.cpp
+    source/operation.cpp #\
+#    source/licence.cpp
 
 HEADERS += \
     include/tcpserver.h \
@@ -34,8 +36,8 @@ HEADERS += \
     include/server.h \
     include/settings.h \
     include/schedule.h \
-    include/operation.h \
-    include/licence.h
+    include/operation.h #\
+#    include/licence.h
 
 ########################################################################
 # DESTINATION:
@@ -65,13 +67,21 @@ CONFIG(debug, debug|release) {
 
 LIBS += \
     -L$$DESTDIR -lrotable-shared \
+    -L/home/rosynski/opt/rpi/rasp-pi-rootfs/usr/include -lrt
   #  -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux
+
+win32:LIBS += -lws2_32
 
 RESOURCES += \
     sql-commands.qrc \
     keys.qrc
 
-DISTFILES +=
+target.path = /opt/rotable
+INSTALLS    += target
 
-LIBS += -L/usr/lib/crypto++ -lcryptopp
-INCS += -I/usr/include/crypto++
+DISTFILES += \
+    sql-commands/update-database/0.0.3.sql \
+    sql-commands/trigger_update_product
+
+#LIBS += -L/usr/lib/crypto++ -lcryptopp
+#INCS += -I/usr/include/crypto++

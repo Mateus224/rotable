@@ -18,7 +18,7 @@
 #include "compackage.h"
 #include "config.h"
 #include "schedule.h"
-#include "licence.h"
+//#include "licence.h"
 
 //------------------------------------------------------------------------------
 
@@ -299,7 +299,7 @@ private:
    * @brief _licence
    * Licence object
    */
-  rotable::Licence* _licence;
+//  rotable::Licence* _licence;
 
   struct{
       QList<int> toChange;

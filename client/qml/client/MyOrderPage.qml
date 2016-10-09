@@ -17,7 +17,7 @@ Rectangle {
 
         anchors.top: parent.top
         anchors.left: parent.left
-        anchors.topMargin: parent.height * 0.1
+        anchors.topMargin: parent.height * 0.05
         width: parent.width
         height: parent.height * 0.05
         gradient: clubcolorsrevers
@@ -29,7 +29,7 @@ Rectangle {
 
         Text {
             id: categoryTitleLabel
-            text: "My Order"
+            text: qsTr("My Order")+langObject.emptyString
             font.family: "FreeSans"
             color: "#000000"
             font.bold: true

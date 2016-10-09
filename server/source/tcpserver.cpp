@@ -4,9 +4,16 @@
 #include "utils.h"
 #include "logmanager.h"
 
+//windows specific socket libraries
+#ifdef Q_OS_WIN
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#include <mstcpip.h>
+#else
 #include <sys/socket.h>
 #include <netinet/tcp.h>
 #include <arpa/inet.h>
+#endif
 
 //------------------------------------------------------------------------------
 
@@ -168,6 +175,18 @@ void TcpServer::acceptConnection()
 
     int enableKeepAlive = 1;
     int fd = _clients[id].socket->socketDescriptor();
+
+    #ifdef Q_OS_WIN
+    setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, (char*)&enableKeepAlive, sizeof(enableKeepAlive));
+
+    tcp_keepalive info;           //structure holding keepalive data
+    info.keepaliveinterval = 2000;//if there is no resposne, how often next keepalive pakcets are sent in miliseconds
+    info.keepalivetime = 10000;   //how often in miliseconds tcp sends keepalive probe
+    info.onoff = 1;               //on
+
+    WSAIoctl(fd,SIO_KEEPALIVE_VALS,&info,sizeof(info),NULL,0,NULL,NULL,NULL);
+
+    #else
     setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, &enableKeepAlive, sizeof(enableKeepAlive));
 
     int maxIdle = 10; /* seconds */
@@ -178,6 +197,8 @@ void TcpServer::acceptConnection()
 
     int interval = 2;   // send a keepalive packet out every 2 seconds (after the 5 second idle period)
     setsockopt(fd, SOL_TCP, TCP_KEEPINTVL, &interval, sizeof(interval));
+
+    #endif
 
     emit clientConnected(id);
 

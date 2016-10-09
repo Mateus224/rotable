@@ -29,9 +29,9 @@ Server::Server(const QString &configFilePath, QObject *parent)
   connect(&_db, &Database::parseConfig, this, &Server::config_parser);
   schedule = new Schedule();
 
-  _licence = new Licence(_config.licence_path());
+//  _licence = new Licence(_config.licence_path());
 
-  connect(_licence, &rotable::Licence::getLastIncomeDate, &_db, &rotable::Database::getLastIncome);
+//  connect(_licence, &rotable::Licence::getLastIncomeDate, &_db, &rotable::Database::getLastIncome);
 }
 
 //------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ Server::Server(const QString &configFilePath, QObject *parent)
 Server::~Server()
 {
     delete schedule;
-    delete _licence;
+//    delete _licence;
 }
 
 //------------------------------------------------------------------------------
@@ -131,13 +131,13 @@ void Server::packageReceived(client_t client, ComPackage *package)
   {
     ComPackageConnectionRequest* p = static_cast<ComPackageConnectionRequest*>(package);
     if (login(p, client)) {
-      if(p->clientType() == rotable::ComPackage::TableAccount)
-          if(Q_UNLIKELY(!_licence->getLicence(_tcp.clientSocket(client))))
-          {
-              ComPackageReject reject(package->id());
-              _tcp.send(client, reject);
-              break;
-          }
+      if(p->clientType() == rotable::ComPackage::TableAccount) ;
+//          if(Q_UNLIKELY(!_licence->getLicence(_tcp.clientSocket(client))))
+//          {
+//              ComPackageReject reject(package->id());
+//              _tcp.send(client, reject);
+//              break;
+//          }
       _tcp.setClientName(client, p->clientName());
       ComPackageConnectionAccept accept;
       _tcp.send(client, accept);
@@ -164,6 +164,8 @@ void Server::packageReceived(client_t client, ComPackage *package)
         ComPackageReject reject(package->id());
         _tcp.send(client, reject);
       }
+      delete ret;
+//      delete p;
     } else {
       qDebug() << tr("WARNING: Unallowed DataRequest from client \"%1\"")
                   .arg(_tcp.clientName(client));
@@ -415,11 +417,11 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request)
             Order *order = _db.order(id);
             if(order){
                 arr.append(_db.order(id)->toJSON());
-                delete order;
             }
             else
                 qCritical() << tr("Could not query order from id %1!").arg(id);
           }
+        //delete order;
           QJsonValue jsonVal(arr);
 
           return new ComPackageDataReturn(*request, jsonVal);
@@ -467,10 +469,13 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request)
         qCritical() << tr("Could not query category data of id %1!")
                        .arg(categoryId);
       }
+      delete category;
     } else {
       qCritical() << tr("Could not convert category id '%1' to an integer!")
                      .arg(request->dataName());
+
     }
+
   } break;
   case ComPackage::RequestProduct:
   {
@@ -486,10 +491,12 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request)
         qCritical() << tr("Could not query product data of id %1!")
                        .arg(productId);
       }
+      delete product;
     } else {
       qCritical() << tr("Could not convert product id '%1' to an integer!")
                      .arg(request->dataName());
     }
+
   } break;
   case  ComPackage::RequestConfig:
   {
@@ -498,8 +505,31 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request)
   }break;
   case ComPackage::RequestLicence:
   {
-      ComPackageDataReturn* ret = new ComPackageDataReturn(*request, QJsonValue(_licence->getLicenceStatus()));
-      return ret;
+//      ComPackageDataReturn* ret = new ComPackageDataReturn(*request, QJsonValue(_licence->getLicenceStatus()));
+//      return ret;
+  } break;
+  case ComPackage::RequestIncome:
+  {
+      bool ok;
+      int incomeId = request->dataName().toInt(&ok);
+      if (ok) {
+        Income* income;
+        if(incomeId == -1)
+            income = _db.getLastIncome();
+        else
+            income = _db.income(incomeId);
+        if (income) {
+          ComPackageDataReturn* ret = new ComPackageDataReturn(*request, income->toJSON());
+          delete income;
+          return ret;
+        } else {
+          qCritical() << tr("Could not query income data of id %1!")
+                         .arg(incomeId);
+        }
+      } else {
+        qCritical() << tr("Could not convert income id '%1' to an integer!")
+                       .arg(request->dataName());
+      }
   } break;
   default:
   {
@@ -611,7 +641,7 @@ bool Server::setData(ComPackageDataSet *set, client_t client)
         f.write(ba);
         f.close();
     }
-    _licence->loadLicence();
+//    _licence->loadLicence();
     return true;
   } break;
 
@@ -1077,6 +1107,8 @@ void Server::day_begin_config(Config *config)
     //Add operation to schedule
     schedule->addOperiationToSchedule(operation);
 
+    delete lastIncome;
+
 }
 
 //------------------------------------------------------------------------------
@@ -1120,26 +1152,33 @@ void Server::closeStateConfig(Config *config)
 QMap<int, ComPackageMessage *> Server::queueOrders()
 {
     QMap<int, ComPackageMessage *>  result;
-    QMap<int, QMap<int, int> > orderList;
+//    QMap<int, QMap<int, int> > orderList;
     QMap<int, QMap<int, int> >::iterator it;
 
-    QList<rotable::Order*> *idList = _db.getNotDoneOrderList();
-    if(idList == NULL)
-        return result;
-    int i = 1;
-    foreach(Order* order, *idList)
-    {
-        orderList[order->clientId()][i] = order->id();
-        ++i;
-    }
-    delete idList;
+//    QList<rotable::Order*> *idList = _db.getNotDoneOrderList();
+//    if(idList == NULL)
+//        return result;
+//    int i = 1;
+//    foreach(Order* order, *idList)
+//    {
+//        orderList[order->clientId()][i] = order->id();
+//        ++i;
+//    }
+//    delete idList;
 
-    it = orderList.begin();
-    while(it != orderList.end())
+    QMap<int, QMap<int,int>> *queue = _db.getOrderQueueList();
+
+    if(queue)
     {
-        QueueMessage msg(it.value());
-        result[it.key()] = msg.toPackage();
-        ++it;
+        it = queue->begin();
+        while(it != queue->end())
+        {
+            QueueMessage msg(it.value());
+            result[it.key()] = msg.toPackage();
+            ++it;
+        }
+
+        delete queue;
     }
 
     return result;
@@ -1151,6 +1190,13 @@ void Server::sendQueueOrders()
 {
     QMap<int, ComPackageMessage*> queue(queueOrders());
     QMap<int, ComPackageMessage*>::iterator it = queue.begin();
+    QList<int> emptyTable;
+
+    foreach(int userId, _users[1])
+    {
+        if(!queue.contains(userId))
+            emptyTable.append(userId);
+    }
 
     while(it != queue.end())
     {

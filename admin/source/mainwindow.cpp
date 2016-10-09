@@ -3,6 +3,7 @@
 #include "producttablemodel.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "producttableview.h"
 
 //------------------------------------------------------------------------------
 
@@ -45,8 +46,11 @@ MainWindow::MainWindow(QWidget* parent) :
           _ui->licencePathLineEdit, &QLineEdit::setText);
   connect(this, &MainWindow::onLicenceStatusSet,
           _ui->licenceStatusLineEdit, &QLineEdit::setText);
-
+  connect(_ui->_tableViewProducts, SIGNAL(selectionChanged(int)), this, SLOT(onViewSelected(int)));
+   connect(_ui->_listViewCategories, SIGNAL(selectionChanged(int)), this, SLOT(onViewSelected(int)));
   _ui->_statusBar->showMessage(tr("Disconnected"));
+  connect(_ui->_toolButtonUp, &QToolButton::clicked, this, &MainWindow::onUp);
+  connect(_ui->_toolButtonDown, &QToolButton::clicked, this, &MainWindow::onDown);
 
   //_ui->d_plot->setMode(3);
 
@@ -58,6 +62,7 @@ MainWindow::MainWindow(QWidget* parent) :
   _ui->_tabWidget->removeTab(serverDebugTabIdx);
   //Always run this same tab
   _ui->_tabWidget->setCurrentIndex(0);
+
 }
 
 //------------------------------------------------------------------------------
@@ -227,4 +232,48 @@ void MainWindow::onServerLog(rotable::LogManager::LogMessage message)
   }
 
   _ui->_textEditServerLog->append(message.message());
+}
+
+void MainWindow::onViewSelected(int id)
+{
+    Q_UNUSED(id);
+    bool state = false;
+    auto model1 = _ui->_listViewCategories->selectionModel();
+    if(model1)
+        state |= model1->hasSelection();
+    auto model2 = _ui->_tableViewProducts->selectionModel();
+    if(model2)
+        state |= model2->hasSelection();
+    _ui->_toolButtonUp->setEnabled(state);
+    _ui->_toolButtonDown->setEnabled(state);
+}
+
+void MainWindow::onUp()
+{
+    //First we check if we select prodct (when product is selected also category is selected)
+    if(_ui->_tableViewProducts->selectionModel()->hasSelection())
+    {
+        emit actionProductUp();
+        return;
+    }
+    if(_ui->_listViewCategories->selectionModel()->hasSelection())
+    {
+        emit actionCategoryUp();
+        return;
+    }
+}
+
+void MainWindow::onDown()
+{
+    //First we check if we select prodct (when product is selected also category is selected)
+    if(_ui->_tableViewProducts->selectionModel()->hasSelection())
+    {
+        emit actionProductDown();
+        return;
+    }
+    if(_ui->_listViewCategories->selectionModel()->hasSelection())
+    {
+        emit actionCategoryDown();
+        return;
+    }
 }

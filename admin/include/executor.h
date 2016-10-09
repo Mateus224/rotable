@@ -63,6 +63,9 @@ signals:
   void onLicenceStatus(const QString& string);
   void onLicenceConfig(const QString& string);
 
+  void updateSequenceProduct(int);
+  void updateSequenceCategory(int);
+
 public slots:
   /**
    * Connect to rotable server.
@@ -163,6 +166,11 @@ public slots:
    * Method for send new licence to server
    */
   void onAddLicence();
+
+  void onProductUp();
+  void onProductDown();
+  void onCategoryUp();
+  void onCategoryDown();
 
 
 private slots:

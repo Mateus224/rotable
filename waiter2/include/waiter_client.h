@@ -176,6 +176,11 @@ private:
    */
   void requestOrder(int orderId);
 
+  /**
+   * Request last income from server
+   */
+  void requestLastIncome();
+
     /**
      * Handle data received from the server.
      *

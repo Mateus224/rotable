@@ -105,6 +105,7 @@ void Executor::onAddProductCategory()
     pc.setName(dlg.categoryName());
     pc.setIcon(dlg.iconName());
     pc.setId(-1); // mark as new category
+    pc.setSequence(_products->categoryIds().count() + 1);
 
     ComPackageDataSet set;
     set.setDataCategory(ComPackage::SetCategory);
@@ -156,6 +157,7 @@ void Executor::onAddProduct()
     p.setPrice(dlg.productPrice());
     p.setCategoryId(dlg.categoryId());
     p.setAmount(dlg.productAmount());
+    p.setSequence(_products->productIds(dlg.categoryId()).count()+1);
 
     ComPackageDataSet set;
     set.setDataCategory(ComPackage::SetProduct);
@@ -241,13 +243,32 @@ void Executor::onRemoveCurrentEntry()
 
       com.setData(_selectedProduct->id());
       com.setCommandType(ComPackage::DeleteProduct);
+      QList<int> productIds = _products->productIds(_selectedProduct->categoryId());
+      auto it = productIds.end();
+      --it;
+      while(*it != _selectedProduct->id())
+      {
+          _products->product(*it)->up();
+          --it;
+      }
+      _products->removeProduct(_selectedProduct);
     } else {
       //_products->removeCategory(_selectedCategory);
       //_selectedCategory = 0;
 
       com.setData(_selectedCategory->id());
+      QList<int> categoryIds = _products->categoryIds();
+      auto it = categoryIds.end();
+      --it;
+      while(*it != _selectedCategory->id())
+      {
+          _products->category(*it)->up();
+          --it;
+      }
 
       com.setCommandType(ComPackage::DeleteCategory);
+      _products->removeCategory(_selectedCategory);
+//      emit updateSequenceCategory(_selectedCategory->id());
     }
 
     if (!_tcp_client.send(com)) {
@@ -366,6 +387,68 @@ void Executor::onAddLicence()
 
 //------------------------------------------------------------------------------
 
+void Executor::onProductUp()
+{
+    if (_selectedProduct) {
+      auto sequence = _products->productSequence(_selectedProduct->categoryId());
+      if(_selectedProduct->sequence() > 1)
+      {
+        Product* product_second = _products->product(sequence[_selectedProduct->sequence()-1]);
+        _selectedProduct->up();
+        product_second->down();
+      }
+    }
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::onProductDown()
+{
+    if (_selectedProduct) {
+      auto sequence = _products->productSequence(_selectedProduct->categoryId());
+      if(_selectedProduct->sequence() < sequence.count())
+      {
+        Product* product_second = _products->product(sequence[_selectedProduct->sequence()+1]);
+        _selectedProduct->down();
+        product_second->up();
+      }
+    }
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::onCategoryUp()
+{
+    if(_selectedCategory)
+    {
+        auto sequence = _products->productCategorySequence();
+        if(_selectedCategory->sequence() > 1)
+        {
+            ProductCategory* category_second = _products->category(sequence[_selectedCategory->sequence()-1]);
+            _selectedCategory->up();
+            category_second->down();
+        }
+    }
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::onCategoryDown()
+{
+    if(_selectedCategory)
+    {
+        auto sequence = _products->productCategorySequence();
+        if(_selectedCategory->sequence() < sequence.count())
+        {
+            ProductCategory* category_second = _products->category(sequence[_selectedCategory->sequence()+1]);
+            _selectedCategory->down();
+            category_second->up();
+        }
+    }
+}
+
+//------------------------------------------------------------------------------
+
 void Executor::onClientError(QAbstractSocket::SocketError error)
 {
   QMessageBox msgBox;
@@ -456,6 +539,8 @@ void Executor::onPackageReceived(ComPackage *package)
       msgBox.setStandardButtons(QMessageBox::Ok);
       msgBox.setIcon(QMessageBox::Warning);
       msgBox.exec();
+
+      onDisconnectFromServer();
     } break;
 
     default:
@@ -542,14 +627,14 @@ void Executor::requestServerConfigs()
 
 void Executor::requestLicenceStatus()
 {
-    ComPackageDataRequest* request = new ComPackageDataRequest();
-    request->setDataCategory(ComPackage::RequestLicence);
+//    ComPackageDataRequest* request = new ComPackageDataRequest();
+//    request->setDataCategory(ComPackage::RequestLicence);
 
-    if (!_tcp_client.send(*request)) {
-      qCritical() << tr("Could not send request!");
-    } else {
-      _dataRequest[request->id()] = request;
-    }
+//    if (!_tcp_client.send(*request)) {
+//      qCritical() << tr("Could not send request!");
+//    } else {
+//      _dataRequest[request->id()] = request;
+//    }
 }
 
 //------------------------------------------------------------------------------
