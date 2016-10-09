@@ -327,7 +327,7 @@ bool Database::orderItemIds(QList<int> &ids, int orderId, Waiter *waiterObj)
   {
     waiterStr += QString::number(id) + ",";
   }
-  waiterStr.remove(0,1);
+  waiterStr.remove(1,1);
   queryStr = queryStr.arg(_prefix, ":order_id", waiterStr);
   QSqlQuery q(_db);
   q.setForwardOnly(true);
