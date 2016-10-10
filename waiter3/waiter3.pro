@@ -131,7 +131,7 @@ DISTFILES += \
     qml/waiter/OrderListElement.qml \
     qml/waiter/OrderProductListElement.qml \
     qml/waiter/TimeBar.qml \
-    qml/aiter/SimpleClock.qml \
+    qml/waiter/SimpleClock.qml \
     qml/waiter/BottomBar.qml
 
 ########################################################################
