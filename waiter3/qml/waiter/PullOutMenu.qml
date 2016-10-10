@@ -6,7 +6,7 @@ import QtQuick.Controls.Styles 1.4
 Rectangle {
     id: mainMenuLayout
 
-    state: "Hidden"
+//    state: "Hidden"
 
     property int menuItemHeight: Math.max(30,dataView.height * 0.1)
 
@@ -14,13 +14,22 @@ Rectangle {
         id: dragButton
 
         anchors.verticalCenter: parent.verticalCenter
-        anchors.left: dragMenu.right
 
         width: waiterMain.width * 0.03
         height: width
 
         border.width: 1
         border.color: "#000000"
+
+        //Behavior on x { PropertyAnimation {} }
+//        Drag.active: dragArea.drag.active
+//        Drag.dragType: Drag.Automatic
+//        Drag.onDragFinished: {
+//            if (x>=(waiterMain.width * 0.1)) {
+//                x=waiterMain.width * 0.3
+//                console.log("X= "+x)
+//            }
+//        }
 
         Text {
             id: arrowtext
@@ -34,19 +43,29 @@ Rectangle {
             id: dragArea
 
             anchors.fill: parent
+            drag.target: parent
+            drag.axis: Drag.XAxis
+            drag.maximumX: waiterMain.width * 0.3
 
-            onClicked: {
-                if (mainMenuLayout.state=="Hidden")
-                {
-                    mainMenuLayout.state="Open"
-                    arrowtext.text="<"
-                }
-                else
-                {
-                    mainMenuLayout.state="Hidden"
-                    arrowtext.text=">"
-                }
-            }
+//            drag.onDragFinished: {
+//                if (x>=(waiterMain.width * 0.1)) {
+//                    x=waiterMain.width * 0.3
+//                    console.log("X= "+x)
+//                }
+//            }
+
+//            onClicked: {
+//                if (mainMenuLayout.state=="Hidden")
+//                {
+//                    mainMenuLayout.state="Open"
+//                    arrowtext.text="<"
+//                }
+//                else
+//                {
+//                    mainMenuLayout.state="Hidden"
+//                    arrowtext.text=">"
+//                }
+//            }
         }
     }
 
@@ -56,7 +75,7 @@ Rectangle {
         width: waiterMain.width * 0.3
         height: waiterMain.height - timeBar.height
 
-        anchors.right: parent.left
+        anchors.right: dragButton.left
         anchors.top: parent.top
 
         border.width: 1
@@ -66,6 +85,7 @@ Rectangle {
             id:orderButton
             nameText: qsTr("Orders") + langObject.emptyString
             height: mainMenuLayout.menuItemHeight
+            selected: true
 
             anchors.top: parent.top
 
@@ -169,29 +189,29 @@ Rectangle {
         }
     }
 
-    states: [
-        State {
-            name: "Hidden"
-            AnchorChanges {
-                    target: dragMenu
-                    anchors.right: mainMenuLayout.left
-                    anchors.left: undefined
-                }
-        },
+//    states: [
+//        State {
+//            name: "Hidden"
+//            AnchorChanges {
+//                    target: dragMenu
+//                    anchors.right: mainMenuLayout.left
+//                    anchors.left: undefined
+//                }
+//        },
 
-        State {
-            name: "Open"
-            AnchorChanges {
-                    target: dragMenu
-                    anchors.right: undefined
-                    anchors.left: mainMenuLayout.left
-                }
-        }
-    ]
+//        State {
+//            name: "Open"
+//            AnchorChanges {
+//                    target: dragMenu
+//                    anchors.right: undefined
+//                    anchors.left: mainMenuLayout.left
+//                }
+//        }
+//    ]
 
-    transitions: [
-        Transition {
-            AnchorAnimation { duration: 500 }
-        }
-    ]
+//    transitions: [
+//        Transition {
+//            AnchorAnimation { duration: 500 }
+//        }
+//    ]
 }
