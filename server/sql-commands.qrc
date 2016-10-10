@@ -71,5 +71,6 @@
         <file>sql-commands/medias_remove.sql</file>
         <file>sql-commands/medias_insert.sql</file>
         <file>sql-commands/medias_create.sql</file>
+
     </qresource>
 </RCC>
