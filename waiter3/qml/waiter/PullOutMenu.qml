@@ -6,9 +6,13 @@ import QtQuick.Controls.Styles 1.4
 Rectangle {
     id: mainMenuLayout
 
-//    state: "Hidden"
+    state: "Expand"
 
     property int menuItemHeight: Math.max(30,dataView.height * 0.1)
+    property int menuWidth: waiterMain.width * 0.3
+    property real autoScrollTreshhold: 0.3
+
+    property int scrollTimeMax: 500
 
     Rectangle {
         id: dragButton
@@ -21,15 +25,36 @@ Rectangle {
         border.width: 1
         border.color: "#000000"
 
-        //Behavior on x { PropertyAnimation {} }
-//        Drag.active: dragArea.drag.active
-//        Drag.dragType: Drag.Automatic
-//        Drag.onDragFinished: {
-//            if (x>=(waiterMain.width * 0.1)) {
-//                x=waiterMain.width * 0.3
-//                console.log("X= "+x)
-//            }
-//        }
+        property int collapseDuration: (x/menuWidth)*scrollTimeMax
+        property int expandDuration: ((menuWidth-x)/menuWidth)*scrollTimeMax
+        property bool expanding: mainMenuLayout.state=="Expand"
+
+        property bool dragActive: dragArea.drag.active
+        Drag.dragType: Drag.Automatic
+        onDragActiveChanged: {
+            if (dragActive) {
+                console.log("drag started")
+                Drag.start();
+            } else {
+                console.log("drag finished")
+                if (mainMenuLayout.state=="Expand")
+                    if (x>=menuWidth*autoScrollTreshhold)
+                    {
+                        expand.start()
+                        mainMenuLayout.state="Collapse"
+                    }
+                    else collapse.start()
+                else
+                    if (x>=menuWidth*(1-autoScrollTreshhold)) expand.start()
+                    else
+                    {
+                        collapse.start()
+                        mainMenuLayout.state="Expand"
+                    }
+
+                Drag.drop();
+            }
+        }
 
         Text {
             id: arrowtext
@@ -45,34 +70,39 @@ Rectangle {
             anchors.fill: parent
             drag.target: parent
             drag.axis: Drag.XAxis
-            drag.maximumX: waiterMain.width * 0.3
+            drag.minimumX: 0
+            drag.maximumX: menuWidth
 
-//            drag.onDragFinished: {
-//                if (x>=(waiterMain.width * 0.1)) {
-//                    x=waiterMain.width * 0.3
-//                    console.log("X= "+x)
-//                }
-//            }
+            onClicked:
+            {
+                console.log("colldur: "+dragButton.collapseDuration)
+                console.log("expanddur"+dragButton.expandDuration)
+            }
+        }
 
-//            onClicked: {
-//                if (mainMenuLayout.state=="Hidden")
-//                {
-//                    mainMenuLayout.state="Open"
-//                    arrowtext.text="<"
-//                }
-//                else
-//                {
-//                    mainMenuLayout.state="Hidden"
-//                    arrowtext.text=">"
-//                }
-//            }
+        NumberAnimation {
+            id: expand
+            target: dragButton
+            property: "x"
+            duration: Math.max(10,dragButton.expandDuration)
+            easing.type: Easing.InOutQuad
+            to: menuWidth
+        }
+
+        NumberAnimation {
+            id: collapse
+            target: dragButton
+            property: "x"
+            duration: Math.max(10,dragButton.collapseDuration)
+            easing.type: Easing.InOutQuad
+            to: 0
         }
     }
 
     Rectangle {
         id: dragMenu
 
-        width: waiterMain.width * 0.3
+        width: menuWidth
         height: waiterMain.height - timeBar.height
 
         anchors.right: dragButton.left
@@ -189,29 +219,21 @@ Rectangle {
         }
     }
 
-//    states: [
-//        State {
-//            name: "Hidden"
-//            AnchorChanges {
-//                    target: dragMenu
-//                    anchors.right: mainMenuLayout.left
-//                    anchors.left: undefined
-//                }
-//        },
+    states: [
+        State {
+            name: "Expand"
+            PropertyChanges {
+                target: arrowtext
+                text: ">"
+            }
+        },
 
-//        State {
-//            name: "Open"
-//            AnchorChanges {
-//                    target: dragMenu
-//                    anchors.right: undefined
-//                    anchors.left: mainMenuLayout.left
-//                }
-//        }
-//    ]
-
-//    transitions: [
-//        Transition {
-//            AnchorAnimation { duration: 500 }
-//        }
-//    ]
+        State {
+            name: "Collapse"
+            PropertyChanges {
+                target: arrowtext
+                text: "<"
+            }
+        }
+    ]
 }
