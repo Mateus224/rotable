@@ -24,6 +24,10 @@ namespace rotable {
 
 //------------------------------------------------------------------------------
 
+/**
+ * @brief
+ *
+ */
 class rotable::Message : public QObject
 {
     Q_OBJECT
@@ -64,6 +68,10 @@ signals:
 public slots:
 
 public:
+    /**
+     * @brief
+     *
+     */
     enum MessageType{
         OrderMessageType,
         QueueMessageType,
@@ -73,6 +81,10 @@ public:
 
 //------------------------------------------------------------------------------
 
+/**
+ * @brief
+ *
+ */
 class rotable::OrderMessage : public rotable::Message
 {
 
@@ -93,6 +105,11 @@ public:
 
     int messageType() const Q_DECL_OVERRIDE;
 
+    /**
+     * @brief
+     *
+     * @return ComPackageMessage
+     */
     ComPackageMessage *toPackage() const Q_DECL_OVERRIDE;
 
     /**
@@ -103,11 +120,15 @@ public:
     int  getError() const { return _errorType;}
 
  private:
-    int _errorType;
+    int _errorType; /**< TODO: describe */
 };
 
 //------------------------------------------------------------------------------
 
+/**
+ * @brief
+ *
+ */
 class rotable::QueueMessage : public rotable::Message
 {
 
@@ -136,17 +157,31 @@ public:
 
     QMap<int, int> map();
 
+    /**
+     * @brief
+     *
+     * @return int
+     */
     int messageType() const Q_DECL_OVERRIDE;
 
+    /**
+     * @brief
+     *
+     * @return ComPackageMessage
+     */
     ComPackageMessage *toPackage() const Q_DECL_OVERRIDE;
 
 private:
 
-    QMap<int, int> _orderQueue;
+    QMap<int, int> _orderQueue; /**< TODO: describe */
 };
 
 //------------------------------------------------------------------------------
 
+/**
+ * @brief
+ *
+ */
 class rotable::NeedWaiterMessage : public rotable::Message
 {
 public:
@@ -163,6 +198,11 @@ public:
     NeedWaiterMessage(ComPackageMessage *message, QObject *parent = 0);
 
 
+    /**
+     * @brief
+     *
+     * @return bool
+     */
     inline bool acceptStatusChange() const { return _acceptStatusChange; }
 
     /**
@@ -192,9 +232,9 @@ public:
     void success(int queuePosition);
 
 private:
-    bool _acceptStatusChange;
+    bool _acceptStatusChange; /**< TODO: describe */
     // Position in queue
-    int _queuePosition;
+    int _queuePosition; /**< TODO: describe */
 };
 
 //------------------------------------------------------------------------------

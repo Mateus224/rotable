@@ -53,25 +53,47 @@ public:
   bool send(const rotable::ComPackage& p);
 
 signals:
+  /**
+   * @brief
+   *
+   */
   void connected();
+  /**
+   * @brief
+   *
+   */
   void disconnected();
+  /**
+   * @brief
+   *
+   * @param package
+   */
   void packageReceived(rotable::ComPackage* package);
+  /**
+   * @brief
+   *
+   * @param socketError
+   */
   void error(QAbstractSocket::SocketError socketError);
 
 private slots:
+  /**
+   * @brief
+   *
+   */
   void readPackage();
 
 private:
   // Socket
-  QTcpSocket _client;
+  QTcpSocket _client; /**< TODO: describe */
 
   // Admin name
-  QString _name;
+  QString _name; /**< TODO: describe */
 
   // Read buffer
-  QByteArray _buffer;
+  QByteArray _buffer; /**< TODO: describe */
 
-  QByteArray _packageStart;
+  QByteArray _packageStart; /**< TODO: describe */
 }; // class TcpClient
 
 //------------------------------------------------------------------------------

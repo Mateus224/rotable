@@ -50,28 +50,109 @@ class rotable::OrderItem : public QObject
 
 public:
 
+  /**
+   * @brief
+   *
+   * @param parent
+   */
   explicit OrderItem(QObject *parent = 0);
+  /**
+   * @brief
+   *
+   * @param jval
+   * @param parent
+   */
   explicit OrderItem(const QJsonValue& jval, QObject *parent = 0);
 
+  /**
+   * @brief
+   *
+   * @return int
+   */
   inline int id() const { return _id; }
+  /**
+   * @brief
+   *
+   * @param id
+   */
   inline void setId(int id) { _id = id; emit idChanged(); }
 
+  /**
+   * @brief
+   *
+   * @return int
+   */
   inline int productId() const { return _productId; }
+  /**
+   * @brief
+   *
+   * @param productId
+   */
   inline void setProductId(int productId) { _productId = productId; emit productIdChanged(); }
 
+  /**
+   * @brief
+   *
+   * @return int
+   */
   inline int amount() const { return _amount; }
+  /**
+   * @brief
+   *
+   * @param amount
+   */
   inline void setAmount(int amount) { _amount = amount; emit amountChanged(); }
 
+  /**
+   * @brief
+   *
+   * @return int
+   */
   inline int state() const { return _state; }
+  /**
+   * @brief
+   *
+   * @param state
+   */
   inline void setState(int state) { _state = state; emit stateChanged(); setChange(false); }
 
+  /**
+   * @brief
+   *
+   * @return double
+   */
   inline double price() const { return _price; }
+  /**
+   * @brief
+   *
+   * @param price
+   */
   inline void setPrice(double price) {_price = price; emit priceChanged(); }
 
+  /**
+   * @brief
+   *
+   * @return QTime
+   */
   inline QTime time() const { return _time; }
+  /**
+   * @brief
+   *
+   * @param time
+   */
   inline void setTime(QTime time) { _time = time; emit timeChanged(); }
 
+  /**
+   * @brief
+   *
+   * @return bool
+   */
   inline bool change() const { return _readyToChange; }
+  /**
+   * @brief
+   *
+   * @param change
+   */
   inline void setChange(bool change) { _readyToChange = change; emit readyToChanged();}
 
   /**
@@ -103,12 +184,32 @@ public:
   inline bool isNew() const {return _state  == New;}
 
   QJsonValue toJSON() const;
+  /**
+   * @brief
+   *
+   * @param jval
+   * @return OrderItem
+   */
   static OrderItem* fromJSON(const QJsonValue& jval);
 
+  /**
+   * @brief
+   *
+   * @param item
+   */
   void updateOrderItem(OrderItem *item);
 
+  /**
+   * @brief
+   *
+   * @param state
+   */
   Q_INVOKABLE inline void readyToChange(bool state) { _readyToChange = state;  emit readyToChanged();}
 
+  /**
+   * @brief
+   *
+   */
   enum State{
       New,
       Pay,
@@ -117,21 +218,49 @@ public:
   };
 
 signals:
+  /**
+   * @brief
+   *
+   */
   void amountChanged();
+  /**
+   * @brief
+   *
+   */
   void idChanged();
+  /**
+   * @brief
+   *
+   */
   void stateChanged();
+  /**
+   * @brief
+   *
+   */
   void productIdChanged();
+  /**
+   * @brief
+   *
+   */
   void priceChanged();
+  /**
+   * @brief
+   *
+   */
   void timeChanged();
+  /**
+   * @brief
+   *
+   */
   void readyToChanged();
 
 private:
-  int _id;
-  int _productId;
-  int _amount;
-  int _state;
-  double _price;
-  QTime _time;
+  int _id; /**< TODO: describe */
+  int _productId; /**< TODO: describe */
+  int _amount; /**< TODO: describe */
+  int _state; /**< TODO: describe */
+  double _price; /**< TODO: describe */
+  QTime _time; /**< TODO: describe */
 
   /** This value will be store information: "do you want change _state of this orderItem" **/
   bool _readyToChange;
@@ -180,13 +309,13 @@ private:
   Q_PROPERTY(​QQmlListProperty<OrderItem> items READ items NOTIFY itemsChanged)
 
 public:
-  /**
-   * Constructor
-   *
-   * @param jval          JSON value
-   * @param parent        parent object
-   */
-  explicit Order(const QJsonValue& jval, QObject *parent = 0);
+//  /**
+//   * Constructor
+//   *
+//   * @param jval          JSON value
+//   * @param parent        parent object
+//   */
+//  explicit Order(const QJsonValue& jval, QObject *parent = 0);
 
   /**
    * Constructor
@@ -197,16 +326,55 @@ public:
 
   ~Order();
 
+  /**
+   * @brief
+   *
+   * @return int
+   */
   inline int id() const { return _id; }
+  /**
+   * @brief
+   *
+   * @param id
+   */
   inline void setId(int id) { _id = id; emit idChanged();}
 
+  /**
+   * @brief
+   *
+   * @return int
+   */
   inline int state() const { return _state; }
+  /**
+   * @brief
+   *
+   * @param state
+   */
   inline void setState(int state) { _state = state; emit stateChanged(); }
 
+  /**
+   * @brief
+   *
+   * @return int
+   */
   inline int clientId() const { return _clientId; }
+  /**
+   * @brief
+   *
+   * @param clientId
+   */
   inline void setClientId(int clientId) { _clientId = clientId; emit clientIdChanged(); }
 
+  /**
+   * @brief
+   *
+   * @return bool
+   */
   inline bool change() const { return _change; }
+  /**
+   * @brief
+   *
+   */
   void recalcChange();
   /**
    * Get QML list of items.
@@ -284,10 +452,23 @@ public:
   void updateOrder(Order *order);
 
 
+  /**
+   * @brief
+   *
+   * @param state
+   */
   Q_INVOKABLE void changeState(int state);
 
+  /**
+   * @brief
+   *
+   */
   Q_INVOKABLE void prepareOrderToChange();
 
+  /**
+   * @brief
+   *
+   */
   void disconnectOrder();
 
   /**
@@ -329,16 +510,53 @@ public:
   bool isNew() const;
 
 signals:
+  /**
+   * @brief
+   *
+   */
   void stateChanged();
+  /**
+   * @brief
+   *
+   */
   void itemsChanged();
+  /**
+   * @brief
+   *
+   */
   void timeSentChanged();
+  /**
+   * @brief
+   *
+   */
   void clientIdChanged();
+  /**
+   * @brief
+   *
+   */
   void idChanged();
+  /**
+   * @brief
+   *
+   * @param bool
+   */
   void readyToChanged(bool);
 
 private slots:
+  /**
+   * @brief
+   *
+   */
   void itemChanged();
+  /**
+   * @brief
+   *
+   */
   void itemIsReadyToChanged();
+  /**
+   * @brief
+   *
+   */
   void checkOrderState();
 
 private:
