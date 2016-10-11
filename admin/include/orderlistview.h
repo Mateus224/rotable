@@ -7,10 +7,19 @@
 
 //------------------------------------------------------------------------------
 
+/**
+ * @brief
+ *
+ */
 class OrderListView : public QListView
 {
   Q_OBJECT
 public:
+  /**
+   * @brief
+   *
+   * @param parent
+   */
   explicit OrderListView(QWidget *parent = 0);
 
 signals:

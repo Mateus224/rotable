@@ -1,11 +1,11 @@
 #include "private/precomp.h"
 
 #include "database.h"
-#include "settings.h"
 #include "order.h"
+#include "settings.h"
 
-#include <QSqlDriver>
 #include <QDate>
+#include <QSqlDriver>
 #include <QSqlRecord>
 
 //------------------------------------------------------------------------------
@@ -14,7 +14,7 @@
 class NotImplementedException //: public std::logic_error
 {
 public:
-    NotImplementedException(){}//: logic_error("Not implemented yet.") {}
+  NotImplementedException() {} //: logic_error("Not implemented yet.") {}
 };
 
 //------------------------------------------------------------------------------
@@ -28,10 +28,8 @@ static const char S_deleteProductsOfCategory[] =
 
 //------------------------------------------------------------------------------
 
-Database::Database(QObject *parent) :
-  QObject(parent), _connected(false)
-{
-  
+Database::Database(QObject *parent) : QObject(parent), _connected(false) {
+
   SqlCommands categoryCmds;
   collectSqlCommands(categoryCmds, "categories");
   _sqlCommands.append(categoryCmds);
@@ -76,16 +74,19 @@ Database::Database(QObject *parent) :
   collectSqlCommands(mediaCmds, "medias");
   _sqlCommands.append(mediaCmds);
 
+  SqlCommands waiterCategoriesCmds;
+  collectSqlCommands(waiterCategoriesCmds, "waitercategories");
+  _sqlCommands.append(waiterCategoriesCmds);
+
+
   qDebug() << "Sql commands load succesfull";
 }
 
 //------------------------------------------------------------------------------
 
-bool Database::startConnection(const QString& driver,
-                               const QString& host, const QString& database,
-                               const QString& user, const QString& pass,
-                               const QString& prefix)
-{
+bool Database::startConnection(const QString &driver, const QString &host,
+                               const QString &database, const QString &user,
+                               const QString &pass, const QString &prefix) {
   _db = QSqlDatabase::addDatabase(driver);
   if (!_db.isValid()) {
     qDebug() << tr("Could not add '%1' database!").arg(driver);
@@ -107,8 +108,7 @@ bool Database::startConnection(const QString& driver,
 
 //------------------------------------------------------------------------------
 
-bool Database::categoryIds(QList<int>& ids)
-{
+bool Database::categoryIds(QList<int> &ids) {
   ids.clear();
 
   if (!isConnected()) {
@@ -118,7 +118,7 @@ bool Database::categoryIds(QList<int>& ids)
   QString queryStr = _sqlCommands[Categories]._listIds.arg(_prefix);
 
   QSqlQuery q(_db);
-  //q.setForwardOnly(true);
+  // q.setForwardOnly(true);
 
   if (!q.prepare(queryStr)) {
     qCritical() << tr("Invalid query: %1").arg(queryStr);
@@ -126,8 +126,8 @@ bool Database::categoryIds(QList<int>& ids)
   }
 
   if (!q.exec()) {
-    qCritical() << tr("Query exec failed: (%1: %2")
-                   .arg(queryStr, q.lastError().text());
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
     return false;
   }
 
@@ -136,7 +136,7 @@ bool Database::categoryIds(QList<int>& ids)
     ids << q.value("id").toInt(&toIntOk);
     if (!toIntOk) {
       qCritical() << tr("Could not convert entry '%1' to an integer!")
-                     .arg(q.value("id").toString());
+                         .arg(q.value("id").toString());
       ids.clear();
       return false;
     }
@@ -147,8 +147,7 @@ bool Database::categoryIds(QList<int>& ids)
 
 //------------------------------------------------------------------------------
 
-bool Database::productIds(QList<int>& ids, int categoryId)
-{
+bool Database::productIds(QList<int> &ids, int categoryId) {
   ids.clear();
 
   if (!isConnected()) {
@@ -159,8 +158,9 @@ bool Database::productIds(QList<int>& ids, int categoryId)
   if (categoryId == -1) {
     queryStr = _sqlCommands[Products]._listIds.arg(_prefix);
   } else {
-    queryStr = _sqlCommands[Products]._select
-               .arg(_prefix, "`id`", "category_id").arg(categoryId);
+    queryStr = _sqlCommands[Products]
+                   ._select.arg(_prefix, "`id`", "category_id")
+                   .arg(categoryId);
   }
 
   QSqlQuery q(_db);
@@ -172,8 +172,8 @@ bool Database::productIds(QList<int>& ids, int categoryId)
   }
 
   if (!q.exec()) {
-    qCritical() << tr("Query exec failed: (%1: %2")
-                   .arg(queryStr, q.lastError().text());
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
     return false;
   }
 
@@ -182,7 +182,7 @@ bool Database::productIds(QList<int>& ids, int categoryId)
     ids << q.value("id").toInt(&toIntOk);
     if (!toIntOk) {
       qCritical() << tr("Could not convert entry '%1' to an integer!")
-                     .arg(q.value("id").toString());
+                         .arg(q.value("id").toString());
       ids.clear();
       return false;
     }
@@ -193,8 +193,7 @@ bool Database::productIds(QList<int>& ids, int categoryId)
 
 //------------------------------------------------------------------------------
 
-bool Database::orderIds(QList<int>& ids, int clientId)
-{
+bool Database::orderIds(QList<int> &ids, int clientId) {
   ids.clear();
 
   if (!isConnected()) {
@@ -205,8 +204,9 @@ bool Database::orderIds(QList<int>& ids, int clientId)
   if (clientId == -1) {
     queryStr = _sqlCommands[Orders]._listIds.arg(_prefix);
   } else {
-    queryStr = _sqlCommands[Orders]._select
-               .arg(_prefix, "`id`", "client_id").arg(clientId);
+    queryStr = _sqlCommands[Orders]
+                   ._select.arg(_prefix, "`id`", "client_id")
+                   .arg(clientId);
   }
 
   QSqlQuery q(_db);
@@ -218,8 +218,8 @@ bool Database::orderIds(QList<int>& ids, int clientId)
   }
 
   if (!q.exec()) {
-    qCritical() << tr("Query exec failed: (%1: %2")
-                   .arg(queryStr, q.lastError().text());
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
     return false;
   }
 
@@ -228,7 +228,7 @@ bool Database::orderIds(QList<int>& ids, int clientId)
     ids << q.value("id").toInt(&toIntOk);
     if (!toIntOk) {
       qCritical() << tr("Could not convert entry '%1' to an integer!")
-                     .arg(q.value("id").toString());
+                         .arg(q.value("id").toString());
       ids.clear();
       return false;
     }
@@ -239,134 +239,221 @@ bool Database::orderIds(QList<int>& ids, int clientId)
 
 //------------------------------------------------------------------------------
 
-bool Database::configIds(QList<int> &ids)
-{
-    ids.clear();
+bool Database::configIds(QList<int> &ids) {
+  ids.clear();
 
-    if (!isConnected()) {
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr = _sqlCommands[Configs]._listIds.arg(_prefix);
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  while (q.next()) {
+    bool toIntOk;
+    ids << q.value("id").toInt(&toIntOk);
+    if (!toIntOk) {
+      qCritical() << tr("Could not convert entry '%1' to an integer!")
+                         .arg(q.value("id").toString());
+      ids.clear();
       return false;
     }
+  }
 
-    QString queryStr = _sqlCommands[Configs]._listIds.arg(_prefix);
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return false;
-    }
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return false;
-    }
-
-    while (q.next()) {
-      bool toIntOk;
-      ids << q.value("id").toInt(&toIntOk);
-      if (!toIntOk) {
-        qCritical() << tr("Could not convert entry '%1' to an integer!")
-                       .arg(q.value("id").toString());
-        ids.clear();
-        return false;
-      }
-    }
-
-    return true;
+  return true;
 }
 
 //------------------------------------------------------------------------------
 
-bool Database::orderItemIds(QList<int> &ids, int orderId)
-{
-    ids.clear();
+bool Database::orderItemIds(QList<int> &ids, int orderId) {
+  ids.clear();
 
-    if (!isConnected()) {
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr = _sqlCommands[OrderItems]._select.arg(
+      _prefix, "`id`", "order_id", ":order_id");
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  q.bindValue(":order_id", orderId);
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  while (q.next()) {
+    bool toIntOk;
+    ids << q.value("id").toInt(&toIntOk);
+    if (!toIntOk) {
+      qCritical() << tr("Could not convert entry '%1' to an integer!")
+                         .arg(q.value("id").toString());
+      ids.clear();
       return false;
     }
+  }
 
-    QString queryStr = _sqlCommands[OrderItems]._select.arg(_prefix, "`id`", "order_id", ":order_id");
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return false;
-    }
-
-    q.bindValue(":order_id", orderId);
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return false;
-    }
-
-    while (q.next()) {
-      bool toIntOk;
-      ids << q.value("id").toInt(&toIntOk);
-      if (!toIntOk) {
-        qCritical() << tr("Could not convert entry '%1' to an integer!")
-                       .arg(q.value("id").toString());
-        ids.clear();
-        return false;
-      }
-    }
-
-    return true;
+  return true;
 }
 
 //------------------------------------------------------------------------------
 
-bool Database::clientIds(QList<int> &ids, int userType)
+bool Database::orderItemIds(QList<int> &ids, int orderId, Waiter *waiterObj)
 {
-    ids.clear();
+  ids.clear();
 
-    if (!isConnected()) {
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr = "SELECT %1order_items.id FROM %1order_items,%1products WHERE %1order_items.order_id = %2 and %1order_items.product_id = %1products.id and %1products.category_id in (%3);";
+  QString waiterStr;
+  for(auto id : *(waiterObj->categories()))
+  {
+    waiterStr += QString::number(id) + ",";
+  }
+  waiterStr.remove(1,1);
+  queryStr = queryStr.arg(_prefix, ":order_id", waiterStr);
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  q.bindValue(":order_id", orderId);
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  while (q.next()) {
+    bool toIntOk;
+    ids << q.value("id").toInt(&toIntOk);
+    if (!toIntOk) {
+      qCritical() << tr("Could not convert entry '%1' to an integer!")
+                         .arg(q.value("id").toString());
+      ids.clear();
       return false;
     }
+  }
 
-    QString queryStr = _sqlCommands[Clients]._select.arg(_prefix, "`id`", "type", ":type");
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return false;
-    }
-
-    q.bindValue(":type", userType);
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return false;
-    }
-
-    while (q.next()) {
-      bool toIntOk;
-      ids << q.value("id").toInt(&toIntOk);
-      if (!toIntOk) {
-        qCritical() << tr("Could not convert entry '%1' to an integer!")
-                       .arg(q.value("id").toString());
-        ids.clear();
-        return false;
-      }
-    }
-
-    return true;
+  return true;
 }
 
 //------------------------------------------------------------------------------
 
-ProductCategory* Database::category(int id)
-{
+bool Database::clientIds(QList<int> &ids, int userType) {
+  ids.clear();
+
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr =
+      _sqlCommands[Clients]._select.arg(_prefix, "`id`", "type", ":type");
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  q.bindValue(":type", userType);
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  while (q.next()) {
+    bool toIntOk;
+    ids << q.value("id").toInt(&toIntOk);
+    if (!toIntOk) {
+      qCritical() << tr("Could not convert entry '%1' to an integer!")
+                         .arg(q.value("id").toString());
+      ids.clear();
+      return false;
+    }
+  }
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::userIds(QList<int> &ids) {
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr = _sqlCommands[Clients]._select.arg(
+      _prefix, "`id`", "type", ":type or type = :type2");
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  q.bindValue(":type", 0);
+  q.bindValue(":type2", 2);
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  while (q.next()) {
+    bool toIntOk;
+    ids << q.value("id").toInt(&toIntOk);
+    if (!toIntOk) {
+      qCritical() << tr("Could not convert entry '%1' to an integer!")
+                         .arg(q.value("id").toString());
+      ids.clear();
+      return false;
+    }
+  }
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
+ProductCategory *Database::category(int id) {
   if (!isConnected()) {
     return 0;
   }
 
-  QString queryStr = _sqlCommands[Categories]._select.arg(_prefix, "*", "id").arg(id);
+  QString queryStr =
+      _sqlCommands[Categories]._select.arg(_prefix, "*", "id").arg(id);
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -377,15 +464,16 @@ ProductCategory* Database::category(int id)
   }
 
   if (!q.exec()) {
-    qCritical() << tr("Query exec failed: (%1: %2")
-                   .arg(queryStr, q.lastError().text());
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
     return 0;
   }
 
   if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
     if (q.size() != 1) {
-      qCritical() << tr("Query: returned %1 results but we expected it to return 1!")
-                     .arg(q.size());
+      qCritical()
+          << tr("Query: returned %1 results but we expected it to return 1!")
+                 .arg(q.size());
       return 0;
     }
   }
@@ -397,17 +485,19 @@ ProductCategory* Database::category(int id)
   bool ok;
   int category_id = q.value("id").toInt(&ok);
   if (!ok) {
-    qDebug() << tr("Could not convert '%1' to integer!").arg(q.value("id").toString());
+    qDebug() << tr("Could not convert '%1' to integer!")
+                    .arg(q.value("id").toString());
     return 0;
   }
 
   int sequence = q.value("sequence").toInt(&ok);
   if (!ok) {
-    qDebug() << tr("Could not convert '%1' to integer!").arg(q.value("sequence").toString());
+    qDebug() << tr("Could not convert '%1' to integer!")
+                    .arg(q.value("sequence").toString());
     return 0;
   }
 
-  ProductCategory* c = new ProductCategory();
+  ProductCategory *c = new ProductCategory();
   c->setName(q.value("name").toString());
   c->setIcon(q.value("icon").toString());
   c->setId(category_id);
@@ -418,13 +508,13 @@ ProductCategory* Database::category(int id)
 
 //------------------------------------------------------------------------------
 
-Product* Database::product(int id)
-{
+Product *Database::product(int id) {
   if (!isConnected()) {
     return 0;
   }
 
-  QString queryStr = _sqlCommands[Products]._select.arg(_prefix, "*", "id").arg(id);
+  QString queryStr =
+      _sqlCommands[Products]._select.arg(_prefix, "*", "id").arg(id);
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -435,15 +525,16 @@ Product* Database::product(int id)
   }
 
   if (!q.exec()) {
-    qCritical() << tr("Query exec failed: (%1: %2")
-                   .arg(queryStr, q.lastError().text());
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
     return 0;
   }
 
   if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
     if (q.size() != 1) {
-      qCritical() << tr("Query: returned %1 results but we expected it to return 1!")
-                     .arg(q.size());
+      qCritical()
+          << tr("Query: returned %1 results but we expected it to return 1!")
+                 .arg(q.size());
       return 0;
     }
   }
@@ -455,30 +546,33 @@ Product* Database::product(int id)
   bool ok;
   int productId = q.value("id").toInt(&ok);
   if (!ok) {
-    qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("id").toString());
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("id").toString());
     return 0;
   }
 
   int categoryId = q.value("category_id").toInt(&ok);
   if (!ok) {
-    qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("category_id").toString());
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("category_id").toString());
     return 0;
   }
 
   int price = q.value("price").toInt(&ok);
   if (!ok) {
-    qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("price").toString());
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("price").toString());
     return 0;
   }
 
   int sequence = q.value("sequence").toInt(&ok);
   if (!ok) {
-    qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("sequence").toString());
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("sequence").toString());
     return 0;
   }
 
-
-  Product* p = new Product();
+  Product *p = new Product();
 
   p->setName(q.value("name").toString());
   p->setIcon(q.value("icon").toString());
@@ -494,13 +588,13 @@ Product* Database::product(int id)
 
 //------------------------------------------------------------------------------
 
-Order*Database::order(int id)
-{
+Order *Database::order(int id) {
   if (!isConnected()) {
     return 0;
   }
 
-  QString queryStr = _sqlCommands[Orders]._select.arg(_prefix, "*", "id").arg(id);
+  QString queryStr =
+      _sqlCommands[Orders]._select.arg(_prefix, "*", "id").arg(id);
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -511,15 +605,16 @@ Order*Database::order(int id)
   }
 
   if (!q.exec()) {
-    qCritical() << tr("Query exec failed: (%1: %2")
-                   .arg(queryStr, q.lastError().text());
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
     return 0;
   }
 
   if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
     if (q.size() != 1) {
-      qCritical() << tr("Query: returned %1 results but we expected it to return 1!")
-                     .arg(q.size());
+      qCritical()
+          << tr("Query: returned %1 results but we expected it to return 1!")
+                 .arg(q.size());
       return 0;
     }
   }
@@ -531,26 +626,29 @@ Order*Database::order(int id)
   bool ok;
   int orderId = q.value("id").toInt(&ok);
   if (!ok) {
-    qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("id").toString());
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("id").toString());
     return 0;
   }
 
   int clientId = q.value("client_id").toInt(&ok);
   if (!ok) {
-    qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("client_id").toString());
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("client_id").toString());
     return 0;
   }
 
   int state = q.value("state").toInt(&ok);
   if (!ok) {
-    qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("state").toString());
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("state").toString());
     return 0;
   }
 
   // TODO: implement
   QDateTime orderSent = q.value("date_added").toDateTime();
 
-  Order* o = new Order();
+  Order *o = new Order();
 
   o->setId(orderId);
   o->setClientId(clientId);
@@ -558,299 +656,399 @@ Order*Database::order(int id)
 
   QList<int> itemsId;
 
-
   // if something go wrong return 0
-  if(!orderItemIds(itemsId,orderId))
-      return 0;
+  if (!orderItemIds(itemsId, orderId))
+    return 0;
 
   // add order item base on id
-  foreach(int orderItemId, itemsId){
-        o->addItem(orderItem(orderItemId));
-  }
+  foreach (int orderItemId, itemsId) { o->addItem(orderItem(orderItemId)); }
 
   return o;
 }
 
 //------------------------------------------------------------------------------
 
-Income *Database::income(int id)
+Order *Database::order(int id, Waiter *waiter)
 {
-    if (!isConnected()) {
+  if (!isConnected()) {
+    return 0;
+  }
+
+  QString queryStr =
+      _sqlCommands[Orders]._select.arg(_prefix, "*", "id").arg(id);
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return 0;
+  }
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return 0;
+  }
+
+  if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+    if (q.size() != 1) {
+      qCritical()
+          << tr("Query: returned %1 results but we expected it to return 1!")
+                 .arg(q.size());
       return 0;
     }
+  }
 
-    QString queryStr = _sqlCommands[Incomes]._select.arg(_prefix, "*", "id").arg(id);
+  if (!q.next()) {
+    return 0;
+  }
 
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
+  bool ok;
+  int orderId = q.value("id").toInt(&ok);
+  if (!ok) {
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("id").toString());
+    return 0;
+  }
 
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return 0;
-    }
+  int clientId = q.value("client_id").toInt(&ok);
+  if (!ok) {
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("client_id").toString());
+    return 0;
+  }
 
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return 0;
-    }
+  int state = q.value("state").toInt(&ok);
+  if (!ok) {
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("state").toString());
+    return 0;
+  }
 
-    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
-      if (q.size() != 1) {
-        qCritical() << tr("Query: returned %1 results but we expected it to return 1!")
-                       .arg(q.size());
-        return 0;
-      }
-    }
+  // TODO: implement
+  QDateTime orderSent = q.value("date_added").toDateTime();
 
-    if (!q.next()) {
-      return 0;
-    }
+  Order *o = new Order();
 
-    bool ok;
-    int incomeId = q.value("id").toInt(&ok);
-    if (!ok) {
-      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("id").toString());
-      return 0;
-    }
-    int day = q.value("day").toInt();
-    int month = q.value("month").toInt();
-    int year = q.value("year").toInt();
-    QDate date;
-    date.setDate(year, month, day);
-    float income = q.value("income").toFloat();
+  o->setId(orderId);
+  o->setClientId(clientId);
+  o->setState(state);
 
-    Income* i = new Income();
+  QList<int> itemsId;
 
-    i->setId(incomeId);
-    i->setDate(date);
-    i->setIncome(income);
+  // if something go wrong return 0
+  if (!orderItemIds(itemsId, orderId, waiter))
+    return 0;
 
-    return i;
+  // add order item base on id
+  foreach (int orderItemId, itemsId) { o->addItem(orderItem(orderItemId)); }
+
+  return o;
 }
 
 //------------------------------------------------------------------------------
 
-Config *Database::config(int id)
-{
-    if (!isConnected()) {
+Income *Database::income(int id) {
+  if (!isConnected()) {
+    return 0;
+  }
+
+  QString queryStr =
+      _sqlCommands[Incomes]._select.arg(_prefix, "*", "id").arg(id);
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return 0;
+  }
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return 0;
+  }
+
+  if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+    if (q.size() != 1) {
+      qCritical()
+          << tr("Query: returned %1 results but we expected it to return 1!")
+                 .arg(q.size());
       return 0;
     }
+  }
 
-    QString queryStr = _sqlCommands[Configs]._select.arg(_prefix, "*", "id").arg(id);
+  if (!q.next()) {
+    return 0;
+  }
 
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
+  bool ok;
+  int incomeId = q.value("id").toInt(&ok);
+  if (!ok) {
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("id").toString());
+    return 0;
+  }
+  int day = q.value("day").toInt();
+  int month = q.value("month").toInt();
+  int year = q.value("year").toInt();
+  QDate date;
+  date.setDate(year, month, day);
+  float income = q.value("income").toFloat();
 
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return 0;
-    }
+  Income *i = new Income();
 
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return 0;
-    }
+  i->setId(incomeId);
+  i->setDate(date);
+  i->setIncome(income);
 
-    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
-      if (q.size() != 1) {
-        qCritical() << tr("Query: returned %1 results but we expected it to return 1!")
-                       .arg(q.size());
-        return 0;
-      }
-    }
-
-    if (!q.next()) {
-      return 0;
-    }
-
-    bool ok;
-    int configId = q.value("id").toInt(&ok);
-    if (!ok) {
-      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("id").toString());
-      return 0;
-    }
-
-    int name = q.value("name").toInt();
-    QString value = q.value("value").toString();
-
-    Config* c = new Config();
-
-    c->setId(configId);
-    c->setName(name);
-    c->setValue(value);
-
-    return c;
+  return i;
 }
 
 //------------------------------------------------------------------------------
 
-OrderItem *Database::orderItem(int id)
-{
-    if (!isConnected()) {
+Config *Database::config(int id) {
+  if (!isConnected()) {
+    return 0;
+  }
+
+  QString queryStr =
+      _sqlCommands[Configs]._select.arg(_prefix, "*", "id").arg(id);
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return 0;
+  }
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return 0;
+  }
+
+  if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+    if (q.size() != 1) {
+      qCritical()
+          << tr("Query: returned %1 results but we expected it to return 1!")
+                 .arg(q.size());
       return 0;
     }
+  }
 
-    QString queryStr = _sqlCommands[OrderItems]._select.arg(_prefix, "*", "id", ":id");
+  if (!q.next()) {
+    return 0;
+  }
 
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
+  bool ok;
+  int configId = q.value("id").toInt(&ok);
+  if (!ok) {
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("id").toString());
+    return 0;
+  }
 
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return 0;
-    }
+  int name = q.value("name").toInt();
+  QString value = q.value("value").toString();
 
-    q.bindValue(":id", id);
+  Config *c = new Config();
 
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return 0;
-    }
+  c->setId(configId);
+  c->setName(name);
+  c->setValue(value);
 
-    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
-      if (q.size() != 1) {
-        qCritical() << tr("Query: returned %1 results but we expected it to return 1!")
-                       .arg(q.size());
-        return 0;
-      }
-    }
-
-    if (!q.next()) {
-      return 0;
-    }
-
-    bool ok;
-
-    int productId = q.value("product_id").toInt(&ok);
-    if (!ok) {
-      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("product_id").toString());
-      return 0;
-    }
-
-    int amount = q.value("amount").toInt(&ok);
-    if (!ok) {
-      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("amount").toString());
-      return 0;
-    }
-
-    double price = q.value("price").toDouble(&ok);
-    if (!ok) {
-      qCritical() << tr("Could not convert '%1' to double!").arg(q.value("price").toString());
-      return 0;
-    }
-
-    int state = q.value("status").toInt(&ok);
-    if (!ok) {
-      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("status").toString());
-      return 0;
-    }
-
-    int msec = q.value("time").toInt(&ok);
-    if (!ok) {
-      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("time").toString());
-      return 0;
-    }
-
-    QTime time(0,0,0); time = time.addMSecs(msec);
-
-    OrderItem* oi = new OrderItem();
-
-    oi->setProductId(productId);
-    oi->setId(id);
-    oi->setAmount(amount);
-    oi->setPrice(price);
-    oi->setState(state);
-    oi->setTime(time);
-
-    return oi;
+  return c;
 }
 
 //------------------------------------------------------------------------------
 
-Client *Database::client(int id)
-{
-    Client *client;
+OrderItem *Database::orderItem(int id) {
+  if (!isConnected()) {
+    return 0;
+  }
 
-    if (!isConnected()) {
+  QString queryStr =
+      _sqlCommands[OrderItems]._select.arg(_prefix, "*", "id", ":id");
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return 0;
+  }
+
+  q.bindValue(":id", id);
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return 0;
+  }
+
+  if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+    if (q.size() != 1) {
+      qCritical()
+          << tr("Query: returned %1 results but we expected it to return 1!")
+                 .arg(q.size());
       return 0;
     }
+  }
 
-    QString queryStr = _sqlCommands[Clients]._select.arg(_prefix, "*", "id", ":id");
+  if (!q.next()) {
+    return 0;
+  }
 
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
+  bool ok;
 
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return 0;
-    }
+  int productId = q.value("product_id").toInt(&ok);
+  if (!ok) {
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("product_id").toString());
+    return 0;
+  }
 
-    q.bindValue(":id", id);
+  int amount = q.value("amount").toInt(&ok);
+  if (!ok) {
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("amount").toString());
+    return 0;
+  }
 
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return 0;
-    }
+  double price = q.value("price").toDouble(&ok);
+  if (!ok) {
+    qCritical() << tr("Could not convert '%1' to double!")
+                       .arg(q.value("price").toString());
+    return 0;
+  }
 
-    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
-      if (q.size() != 1) {
-        qCritical() << tr("Query: returned %1 results but we expected it to return 1!")
-                       .arg(q.size());
-        return 0;
-      }
-    }
+  int state = q.value("status").toInt(&ok);
+  if (!ok) {
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("status").toString());
+    return 0;
+  }
 
-    if (!q.next()) {
-      return 0;
-    }
+  int msec = q.value("time").toInt(&ok);
+  if (!ok) {
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("time").toString());
+    return 0;
+  }
 
-    bool ok;
+  QTime time(0, 0, 0);
+  time = time.addMSecs(msec);
 
-    int clienttId = q.value("id").toInt(&ok);
-    if (!ok) {
-      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("id").toString());
-      return 0;
-    }
+  OrderItem *oi = new OrderItem();
 
-    int type = q.value("type").toInt(&ok);
-    if (!ok) {
-      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("type").toString());
-      return 0;
-    }
+  oi->setProductId(productId);
+  oi->setId(id);
+  oi->setAmount(amount);
+  oi->setPrice(price);
+  oi->setState(state);
+  oi->setTime(time);
 
-    //Base on type create property account type
-
-    switch(type){
-    case ComPackage::TableAccount:{
-            client = new Table();
-            client->setId(clienttId);
-            client->setName(q.value("name").toString());
-            getTableAdditionalData(reinterpret_cast<Table*>(client));
-        }  break;
-    case ComPackage::WaiterAccount:
-    case ComPackage::AdminAccount:
-        throw new NotImplementedException();
-    default:
-        qCritical()<< tr("Account type don't exists");
-        return nullptr;
-    }
-
-    return client;
+  return oi;
 }
 
 //------------------------------------------------------------------------------
 
-bool Database::addCategory(ProductCategory* category)
-{
+Client *Database::client(int id) {
+  Client *client = nullptr;
+
+  if (!isConnected()) {
+    return 0;
+  }
+
+  QString queryStr =
+      _sqlCommands[Clients]._select.arg(_prefix, "*", "id", ":id");
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return 0;
+  }
+
+  q.bindValue(":id", id);
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return 0;
+  }
+
+  if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+    if (q.size() != 1) {
+      qCritical()
+          << tr("Query: returned %1 results but we expected it to return 1!")
+                 .arg(q.size());
+      return 0;
+    }
+  }
+
+  if (!q.next()) {
+    return 0;
+  }
+
+  bool ok;
+
+  int clientId = q.value("id").toInt(&ok);
+  if (!ok) {
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("id").toString());
+    return 0;
+  }
+
+  int type = q.value("type").toInt(&ok);
+  if (!ok) {
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("type").toString());
+    return 0;
+  }
+
+  // Base on type create property account type
+
+  switch (type) {
+  case ComPackage::TableAccount: {
+    client = new Table();
+    client->setId(clientId);
+    client->setName(q.value("name").toString());
+    getTableAdditionalData(reinterpret_cast<Table *>(client));
+  } break;
+  case ComPackage::WaiterAccount: {
+    client = new Waiter();
+    client->setId(clientId);
+    client->setName(q.value("name").toString());
+    getWaiterAdditionalData(reinterpret_cast<Waiter *>(client));
+  } break;
+  case ComPackage::AdminAccount: {
+    client = new Admin();
+    client->setId(clientId);
+    client->setName(q.value("name").toString());
+  } break;
+  default:
+    qCritical() << tr("Account type don't exists");
+    return nullptr;
+  }
+
+  return client;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::addCategory(ProductCategory *category) {
   if (!isConnected()) {
     return false;
   }
 
-  QString queryStr = _sqlCommands[Categories]._insert.arg(_prefix, "NULL", ":name", ":icon", ":sequence");
+  QString queryStr = _sqlCommands[Categories]._insert.arg(
+      _prefix, "NULL", ":name", ":icon", ":sequence");
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -865,8 +1063,8 @@ bool Database::addCategory(ProductCategory* category)
   q.bindValue(":sequence", category->sequence());
 
   if (!q.exec()) {
-    qCritical() << tr("Query exec failed: (%1: %2")
-                   .arg(queryStr, q.lastError().text());
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
     return false;
   }
 
@@ -875,14 +1073,14 @@ bool Database::addCategory(ProductCategory* category)
 
 //------------------------------------------------------------------------------
 
-bool Database::addProduct(Product* product)
-{
+bool Database::addProduct(Product *product) {
   if (!isConnected()) {
     return false;
   }
 
-  QString queryStr = _sqlCommands[Products]._insert
-                     .arg(_prefix, "NULL", ":name", ":price", ":info", ":category_id", ":icon", ":amount", ":sequence");
+  QString queryStr = _sqlCommands[Products]._insert.arg(
+      _prefix, "NULL", ":name", ":price", ":info", ":category_id", ":icon",
+      ":amount", ":sequence");
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -901,8 +1099,8 @@ bool Database::addProduct(Product* product)
   q.bindValue(":sequence", product->sequence());
 
   if (!q.exec()) {
-    qCritical() << tr("Query exec failed: (%1: %2")
-                   .arg(queryStr, q.lastError().text());
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
     return false;
   }
 
@@ -911,14 +1109,13 @@ bool Database::addProduct(Product* product)
 
 //------------------------------------------------------------------------------
 
-bool Database::addUser(User* user)
-{
+bool Database::addUser(User *user) {
   if (!isConnected()) {
     return false;
   }
 
-  QString queryStr = _sqlCommands[Clients]._insert
-                     .arg(_prefix, "NULL", ":name", ":type");
+  QString queryStr =
+      _sqlCommands[Clients]._insert.arg(_prefix, "NULL", ":name", ":type");
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -932,15 +1129,14 @@ bool Database::addUser(User* user)
   q.bindValue(":type", user->accountType());
 
   if (!q.exec()) {
-    qCritical() << tr("Query exec failed: (%1: %2")
-                   .arg(queryStr, q.lastError().text());
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
     return false;
   }
 
   qint32 id = q.lastInsertId().toInt();
 
-  queryStr = _sqlCommands[Passwords]._insert
-                       .arg(_prefix, ":id", ":password");
+  queryStr = _sqlCommands[Passwords]._insert.arg(_prefix, ":id", ":password");
   q.clear();
   if (!q.prepare(queryStr)) {
     qCritical() << tr("Invalid query: %1").arg(queryStr);
@@ -951,172 +1147,167 @@ bool Database::addUser(User* user)
   q.bindValue(":password", user->hashPassword());
 
   if (!q.exec()) {
-    qCritical() << tr("Query exec failed: (%1: %2")
-                   .arg(queryStr, q.lastError().text());
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
     return false;
   }
 
   return true;
 }
 
-
 //------------------------------------------------------------------------------
 
-bool Database::addIncome(Income *income)
-{
-    if (!isConnected()) {
-      return false;
-    }
-
-    QString queryStr = _sqlCommands[Incomes]._insert
-                       .arg(_prefix, "NULL", ":income", ":day", ":month", ":year");
-
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return false;
-    }
-
-    q.bindValue(":income", income->income());
-    q.bindValue(":day", income->date().day());
-    q.bindValue(":month", income->date().month());
-    q.bindValue(":year", income->date().year());
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return false;
-    }
-
-    return true;
-}
-
-//------------------------------------------------------------------------------
-
-bool Database:: addConfig(Config *config)
-{
-    if (!isConnected()) {
-      return false;
-    }
-
-    QString queryStr = _sqlCommands[Configs]._insert
-                       .arg(_prefix, "NULL", ":name", ":value");
-
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return false;
-    }
-
-    q.bindValue(":name", config->name());
-    q.bindValue(":value", config->value());
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return false;
-    }
-
-    // emit signal to parse config
-    parseConfig(config);
-
-    return true;
-}
-
-//------------------------------------------------------------------------------
-
-bool Database::addOrder(Order *order)
-{
-    if (!isConnected()) {
-      return false;
-    }
-
-//    qDebug() << "Begin tras:" << _db.transaction();
-
-    QString queryStr = _sqlCommands[Orders]._insert.arg(
-                _prefix, "NULL", ":state", ":income_id", ":client_id");
-
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      _db.rollback();
-      return false;
-    }
-
-    q.bindValue(":state", order->state());
-    q.bindValue(":income_id", getLastIncomeId());
-    q.bindValue(":client_id", order->clientId());
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      _db.rollback();
-      return false;
-    }
-
-    int id = q.lastInsertId().toInt();
-
-    for(int i=0; i<order->itemCount(); ++i)
-        if(!addOrderItem(order->item(i), id))
-        {
-            _db.rollback();
-            return false;
-        }
-
-    _db.commit();
-    return true;
-}
-
-//------------------------------------------------------------------------------
-
-bool Database::addOrderItem(OrderItem *item, int orderId)
-{
-    if (!isConnected()) {
-      return false;
-    }
-
-    QString queryStr = _sqlCommands[OrderItems]._insert.arg(
-                _prefix, "NULL", ":order_id", ":product_id", ":amount", ":status", ":price", ":time");
-
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return false;
-    }
-
-    q.bindValue(":order_id", orderId);
-    q.bindValue(":product_id", item->productId());
-    q.bindValue(":amount", item->amount());
-    q.bindValue(":status", item->state());
-    q.bindValue(":price", item->price());
-    q.bindValue(":time", item->time().msec());
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return false;
-    }
-
-    return true;
-}
-
-//------------------------------------------------------------------------------
-
-bool Database::updateCategory(ProductCategory *category)
-{
+bool Database::addIncome(Income *income) {
   if (!isConnected()) {
     return false;
   }
 
-  QString queryStr = _sqlCommands[Categories]._update.arg(_prefix).arg(category->id());
+  QString queryStr = _sqlCommands[Incomes]._insert.arg(
+      _prefix, "NULL", ":income", ":day", ":month", ":year");
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  q.bindValue(":income", income->income());
+  q.bindValue(":day", income->date().day());
+  q.bindValue(":month", income->date().month());
+  q.bindValue(":year", income->date().year());
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::addConfig(Config *config) {
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr =
+      _sqlCommands[Configs]._insert.arg(_prefix, "NULL", ":name", ":value");
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  q.bindValue(":name", config->name());
+  q.bindValue(":value", config->value());
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  // emit signal to parse config
+  parseConfig(config);
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::addOrder(Order *order) {
+  if (!isConnected()) {
+    return false;
+  }
+
+  //    qDebug() << "Begin tras:" << _db.transaction();
+
+  QString queryStr = _sqlCommands[Orders]._insert.arg(
+      _prefix, "NULL", ":state", ":income_id", ":client_id");
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    _db.rollback();
+    return false;
+  }
+
+  q.bindValue(":state", order->state());
+  q.bindValue(":income_id", getLastIncomeId());
+  q.bindValue(":client_id", order->clientId());
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    _db.rollback();
+    return false;
+  }
+
+  int id = q.lastInsertId().toInt();
+
+  for (int i = 0; i < order->itemCount(); ++i)
+    if (!addOrderItem(order->item(i), id)) {
+      _db.rollback();
+      return false;
+    }
+
+  _db.commit();
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::addOrderItem(OrderItem *item, int orderId) {
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr = _sqlCommands[OrderItems]._insert.arg(
+      _prefix, "NULL", ":order_id", ":product_id", ":amount", ":status",
+      ":price", ":time");
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  q.bindValue(":order_id", orderId);
+  q.bindValue(":product_id", item->productId());
+  q.bindValue(":amount", item->amount());
+  q.bindValue(":status", item->state());
+  q.bindValue(":price", item->price());
+  q.bindValue(":time", item->time().msec());
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::updateCategory(ProductCategory *category) {
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr =
+      _sqlCommands[Categories]._update.arg(_prefix).arg(category->id());
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -1131,8 +1322,8 @@ bool Database::updateCategory(ProductCategory *category)
   q.bindValue(":sequence", category->sequence());
 
   if (!q.exec()) {
-    qCritical() << tr("Query exec failed: (%1: %2")
-                   .arg(queryStr, q.lastError().text());
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
     return false;
   }
 
@@ -1141,13 +1332,13 @@ bool Database::updateCategory(ProductCategory *category)
 
 //------------------------------------------------------------------------------
 
-bool Database::updateProduct(Product *product)
-{
+bool Database::updateProduct(Product *product) {
   if (!isConnected()) {
     return false;
   }
 
-  QString queryStr = _sqlCommands[Products]._update.arg(_prefix).arg(product->id());
+  QString queryStr =
+      _sqlCommands[Products]._update.arg(_prefix).arg(product->id());
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -1166,8 +1357,8 @@ bool Database::updateProduct(Product *product)
   q.bindValue(":sequence", product->sequence());
 
   if (!q.exec()) {
-    qCritical() << tr("Query exec failed: (%1: %2")
-                   .arg(queryStr, q.lastError().text());
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
     return false;
   }
 
@@ -1176,13 +1367,236 @@ bool Database::updateProduct(Product *product)
 
 //------------------------------------------------------------------------------
 
-bool Database::updateIncome(Income *income)
-{
-    if (!isConnected()) {
-      return false;
-    }
+bool Database::updateIncome(Income *income) {
+  if (!isConnected()) {
+    return false;
+  }
 
-    QString queryStr = _sqlCommands[Incomes]._update.arg(_prefix).arg(income->id());
+  QString queryStr =
+      _sqlCommands[Incomes]._update.arg(_prefix).arg(income->id());
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  q.bindValue(":income", income->income());
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::updateConfig(Config *config) {
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr =
+      _sqlCommands[Configs]._update.arg(_prefix).arg(config->id());
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  q.bindValue(":name", config->name());
+  q.bindValue(":value", config->value());
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  // emit signal to parse config
+  parseConfig(config);
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::updateOrder(Order *order) {
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr = _sqlCommands[Orders]._update.arg(_prefix).arg(order->id());
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  q.bindValue(":state", order->state());
+  q.bindValue(":client_id", order->clientId());
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  for (int i = 0; i < order->itemCount(); ++i) {
+    if (!updateOrderItem(order->item(i)))
+      return false;
+  }
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::updateClient(Client *client) {
+  if (!isConnected() || client->id() == -1) {
+    return false;
+  }
+
+  QString queryStr =
+      _sqlCommands[Clients]._update.arg(_prefix).arg(client->id());
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  q.bindValue(":name", client->name());
+  q.bindValue(":type", client->accountType());
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  switch (client->accountType()) {
+  case ComPackage::WaiterAccount: {
+//    Waiter *tmp = reinterpret_cast<Waiter *>(client);
+  } break;
+  case ComPackage::TableAccount: {
+    Table *tmp = reinterpret_cast<Table *>(client);
+    if (!updateTableAdditionalData(tmp->id(), tmp->isConnected(),
+                                   tmp->waiterIsNeeded()))
+      return false;
+  } break;
+  case ComPackage::AdminAccount:
+    break; // throw new NotImplementedException();
+  default:
+    qCritical() << tr("Account type don't exist");
+  }
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::updateUserPassword(User *user)
+{
+  if (!isConnected() && user->id() != -1 ) {
+    return false;
+  }
+
+  QString queryStr = _sqlCommands[Passwords]._update.arg(_prefix).arg(user->id());
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  q.bindValue(":password", user->hashPassword());
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::updateTableAdditionalData(int id, int connected, int need) {
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr = _sqlCommands[TableDetails]._update.arg(_prefix).arg(id);
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  q.bindValue(":waiterIsNeeded", need);
+  q.bindValue(":connected", connected);
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::updateWaiterAdditionalData(Waiter *waiter) {
+  Waiter *oldWaiter = reinterpret_cast<Waiter *>(client(waiter->id()));
+
+  QList<int> *oldCategories = oldWaiter->categories(),
+             *newCategories = waiter->categories();
+
+  QList<int> toAdd, toRemove;
+
+  for(auto var: *newCategories)
+    if (!oldCategories->contains(var))
+      toAdd.append(var);
+
+  for(auto var: *oldCategories)
+    if (!newCategories->contains(var))
+      toRemove.append(var);
+
+  delete oldWaiter; // Clear object, not needed. Also oldoCategries are clear
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::addWaiterCategoires(const int &waiterId,
+                                   QList<int> *categoryList) {
+  if (!isConnected()) {
+    return false;
+  }
+  foreach(auto var , *categoryList){
+    QString queryStr = _sqlCommands[DatabaseTables::WaiterCategories]._insert.arg(
+        _prefix, ":waiter_id", ":category_id");
 
     QSqlQuery q(_db);
     q.setForwardOnly(true);
@@ -1192,27 +1606,39 @@ bool Database::updateIncome(Income *income)
       return false;
     }
 
-    q.bindValue(":income", income->income());
-
+    q.bindValue(":waiter_id", waiterId);
+    q.bindValue(":category_id", var);
 
     if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
+      qCritical()
+          << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
       return false;
     }
 
-    return true;
+    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+      if (q.size() != 1) {
+        qCritical()
+            << tr("Query: returned %1 results but we expected it to return 1!")
+                   .arg(q.size());
+        return 0;
+      }
+    }
+
+  }
+
+  return true;
 }
 
 //------------------------------------------------------------------------------
 
-bool Database::updateConfig(Config *config)
-{
-    if (!isConnected()) {
-      return false;
-    }
-
-    QString queryStr = _sqlCommands[Configs]._update.arg(_prefix).arg(config->id());
+bool Database::removeWaiterCategoires(const int &waiterId,
+                                      QList<int> *categoryList) {
+  if (!isConnected()) {
+    return false;
+  }
+  foreach(auto var , *categoryList){
+    QString queryStr = _sqlCommands[DatabaseTables::WaiterCategories]._remove.arg(
+                _prefix, ":waiter_id", ":category_id");
 
     QSqlQuery q(_db);
     q.setForwardOnly(true);
@@ -1222,138 +1648,32 @@ bool Database::updateConfig(Config *config)
       return false;
     }
 
-    q.bindValue(":name", config->name());
-    q.bindValue(":value", config->value());
+    q.bindValue(":waiter_id", waiterId);
+    q.bindValue(":category_id", var);
 
     if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
+      qCritical()
+          << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
       return false;
     }
 
-    // emit signal to parse config
-    parseConfig(config);
+    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+      if (q.size() != 1) {
+        qCritical()
+            << tr("Query: returned %1 results but we expected it to return 1!")
+                   .arg(q.size());
+        return 0;
+      }
+    }
 
-    return true;
+  }
+
+  return true;
 }
 
 //------------------------------------------------------------------------------
 
-bool Database::updateOrder(Order *order)
-{
-    if (!isConnected()) {
-      return false;
-    }
-
-    QString queryStr = _sqlCommands[Orders]._update.arg(_prefix).arg(order->id());
-
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return false;
-    }
-
-    q.bindValue(":state", order->state());
-    q.bindValue(":client_id", order->clientId());
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return false;
-    }
-
-    for (int i = 0; i < order->itemCount(); ++i) {
-        if (!updateOrderItem(order->item(i)))
-            return false;
-    }
-
-    return true;
-}
-
-//------------------------------------------------------------------------------
-
-bool Database::updateClient(Client *client)
-{
-    if (!isConnected() || client->id() == -1) {
-      return false;
-    }
-
-    QString queryStr = _sqlCommands[Clients]._update.arg(_prefix).arg(client->id());
-
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return false;
-    }
-
-    q.bindValue(":name", client->name());
-    q.bindValue(":type", client->accountType());
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return false;
-    }
-
-    switch(client->accountType())
-    {
-    case ComPackage::WaiterAccount:
-    throw new NotImplementedException();
-    case ComPackage::TableAccount:
-    {
-        Table* tmp = reinterpret_cast<Table*>(client);
-        if(!updateTableAdditionalData(
-            tmp->id(), tmp->isConnected(), tmp->waiterIsNeeded()))
-            return false;
-    } break;
-    case ComPackage::AdminAccount:
-        throw new NotImplementedException();
-    default:
-        qCritical() << tr("Account type don't exist");
-    }
-
-    return true;
-
-}
-
-//------------------------------------------------------------------------------
-
-bool Database::updateTableAdditionalData(int id, int connected, int need)
-{
-    if (!isConnected()) {
-      return false;
-    }
-
-    QString queryStr = _sqlCommands[TableDetails]._update.arg(_prefix).arg(id);
-
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return false;
-    }
-
-    q.bindValue(":waiterIsNeeded", need);
-    q.bindValue(":connected", connected);
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return false;
-    }
-
-    return true;
-}
-
-//------------------------------------------------------------------------------
-
-bool Database::removeCategory(int id)
-{
+bool Database::removeCategory(int id) {
   if (!isConnected() || id == -1) {
     return false;
   }
@@ -1373,7 +1693,7 @@ bool Database::removeCategory(int id)
 
     if (!q.exec()) {
       qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
+                         .arg(queryStr, q.lastError().text());
       return false;
     }
   }
@@ -1393,7 +1713,7 @@ bool Database::removeCategory(int id)
 
     if (!q.exec()) {
       qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
+                         .arg(queryStr, q.lastError().text());
       return false;
     }
   }
@@ -1403,8 +1723,7 @@ bool Database::removeCategory(int id)
 
 //------------------------------------------------------------------------------
 
-bool Database::removeProduct(int id)
-{
+bool Database::removeProduct(int id) {
   if (!isConnected() || id == -1) {
     return false;
   }
@@ -1420,8 +1739,8 @@ bool Database::removeProduct(int id)
   }
 
   if (!q.exec()) {
-    qCritical() << tr("Query exec failed: (%1: %2")
-                   .arg(queryStr, q.lastError().text());
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
     return false;
   }
 
@@ -1430,73 +1749,72 @@ bool Database::removeProduct(int id)
 
 //------------------------------------------------------------------------------
 
-bool Database::removeIncome(int id)
-{
-    if (!isConnected() || id == -1) {
-      return false;
-    }
+bool Database::removeIncome(int id) {
+  if (!isConnected() || id == -1) {
+    return false;
+  }
 
-    QString queryStr = _sqlCommands[Incomes]._remove.arg(_prefix).arg(id);
+  QString queryStr = _sqlCommands[Incomes]._remove.arg(_prefix).arg(id);
 
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
 
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return false;
-    }
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
 
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return false;
-    }
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
 
-    return true;
+  return true;
 }
 
 //------------------------------------------------------------------------------
 
-bool Database::removeConfig(int id)
-{
-    if (!isConnected() || id == -1) {
-      return false;
-    }
+bool Database::removeConfig(int id) {
+  if (!isConnected() || id == -1) {
+    return false;
+  }
 
-    QString queryStr = _sqlCommands[Configs]._remove.arg(_prefix).arg(id);
+  QString queryStr = _sqlCommands[Configs]._remove.arg(_prefix).arg(id);
 
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
 
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return false;
-    }
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
 
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return false;
-    }
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
 
-    return true;
+  return true;
 }
 
 //------------------------------------------------------------------------------
 
-bool Database::createDatabase()
-{
+bool Database::createDatabase() {
   if (!isConnected()) {
     return false;
   }
 
-  if(_db.transaction())
+  if (_db.transaction())
     qCritical() << tr("Create new trnsaction");
   // Set time zone is not available when using SQLITE
-  //ret &= dbExec(QString("SET time_zone = \"%1\";").arg(ROTABLE_DATABASE_TIMEZONE));
+  // ret &= dbExec(QString("SET time_zone =
+  // \"%1\";").arg(ROTABLE_DATABASE_TIMEZONE));
 
   // Category table
-  QSqlQuery q1(QString("DROP TABLE IF EXISTS `%1categories`;").arg(_prefix), _db);
+  QSqlQuery q1(QString("DROP TABLE IF EXISTS `%1categories`;").arg(_prefix),
+               _db);
   if (q1.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q1.lastError().text());
     _db.rollback();
@@ -1524,12 +1842,14 @@ bool Database::createDatabase()
     return false;
   }
 
-//  That table don't exists (don't exist in sql commands, don't create in other way)
-//  QSqlQuery q5(QString("DROP TABLE IF EXISTS `%1tables`;").arg(_prefix), _db);
-//  if (q5.lastError().type() != QSqlError::NoError) {
-//    qCritical() << tr("Query exec failed: %1").arg(q5.lastError().text());
-//    return false;
-//  }
+  //  That table don't exists (don't exist in sql commands, don't create in
+  //  other way)
+  //  QSqlQuery q5(QString("DROP TABLE IF EXISTS `%1tables`;").arg(_prefix),
+  //  _db);
+  //  if (q5.lastError().type() != QSqlError::NoError) {
+  //    qCritical() << tr("Query exec failed: %1").arg(q5.lastError().text());
+  //    return false;
+  //  }
 
   // Client table
   QSqlQuery q5(QString("DROP TABLE IF EXISTS `%1clients`;").arg(_prefix), _db);
@@ -1561,7 +1881,8 @@ bool Database::createDatabase()
     return false;
   }
   // Order_item table
-  QSqlQuery q11(QString("DROP TABLE IF EXISTS `%1order_items`;").arg(_prefix), _db);
+  QSqlQuery q11(QString("DROP TABLE IF EXISTS `%1order_items`;").arg(_prefix),
+                _db);
   if (q11.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q11.lastError().text());
     _db.rollback();
@@ -1576,7 +1897,8 @@ bool Database::createDatabase()
   }
 
   // Incomes table
-  QSqlQuery q13(QString("DROP TABLE IF EXISTS `%1daily_incomes`;").arg(_prefix), _db);
+  QSqlQuery q13(QString("DROP TABLE IF EXISTS `%1daily_incomes`;").arg(_prefix),
+                _db);
   if (q13.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q13.lastError().text());
     _db.rollback();
@@ -1606,7 +1928,8 @@ bool Database::createDatabase()
   }
 
   // Configs table
-  QSqlQuery q17(QString("DROP TABLE IF EXISTS `%1mac_adresses`;").arg(_prefix), _db);
+  QSqlQuery q17(QString("DROP TABLE IF EXISTS `%1mac_adresses`;").arg(_prefix),
+                _db);
   if (q17.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q17.lastError().text());
     _db.rollback();
@@ -1621,7 +1944,8 @@ bool Database::createDatabase()
   }
 
   // Configs table
-  QSqlQuery q19(QString("DROP TABLE IF EXISTS `%1passwords`;").arg(_prefix), _db);
+  QSqlQuery q19(QString("DROP TABLE IF EXISTS `%1passwords`;").arg(_prefix),
+                _db);
   if (q19.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q19.lastError().text());
     _db.rollback();
@@ -1636,7 +1960,8 @@ bool Database::createDatabase()
   }
 
   // Configs table
-  QSqlQuery q21(QString("DROP TABLE IF EXISTS `%1table_details`;").arg(_prefix), _db);
+  QSqlQuery q21(QString("DROP TABLE IF EXISTS `%1table_details`;").arg(_prefix),
+                _db);
   if (q21.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q21.lastError().text());
     _db.rollback();
@@ -1650,13 +1975,29 @@ bool Database::createDatabase()
     return false;
   }
 
-  if(!initTriggers()){
-      _db.rollback();
-      return false;
+  // WaiterConfig table
+  QSqlQuery q23(QString("DROP TABLE IF EXISTS `%1waitercategories`;").arg(_prefix),
+                _db);
+  if (q23.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q21.lastError().text());
+    _db.rollback();
+    return false;
   }
-  if(!add_init_data()){
-      _db.rollback();
-      return false;
+
+  QSqlQuery q24(_sqlCommands[WaiterCategories]._create.arg(_prefix), _db);
+  if (q24.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q22.lastError().text());
+    _db.rollback();
+    return false;
+  }
+
+  if (!initTriggers()) {
+    _db.rollback();
+    return false;
+  }
+  if (!add_init_data()) {
+    _db.rollback();
+    return false;
   }
 
   _db.commit();
@@ -1666,8 +2007,7 @@ bool Database::createDatabase()
 
 //------------------------------------------------------------------------------
 
-bool Database::exportDatabase(const QString& path, bool binary)
-{
+bool Database::exportDatabase(const QString &path, bool binary) {
   if (!isConnected()) {
     return false;
   }
@@ -1698,8 +2038,7 @@ bool Database::exportDatabase(const QString& path, bool binary)
 
 //------------------------------------------------------------------------------
 
-bool Database::exportDatabase(QString &dest)
-{
+bool Database::exportDatabase(QString &dest) {
   if (!isConnected()) {
     return false;
   }
@@ -1714,9 +2053,10 @@ bool Database::exportDatabase(QString &dest)
   dest += QString("DROP TABLE IF EXISTS `%1order_item`;").arg(_prefix);
   dest += QString("DROP TABLE IF EXISTS `%1daily_incomes`;").arg(_prefix);
   dest += QString("DROP TABLE IF EXISTS `%1configs`;").arg(_prefix);
-  dest += QString("DROP TRIGGER IF EXISTS `%1update_orderitem_status_add`;").arg(_prefix);
-  dest += QString("DROP TRIGGER IF EXISTS `%1update_orderitem_status_remove`;").arg(_prefix);
-
+  dest += QString("DROP TRIGGER IF EXISTS `%1update_orderitem_status_add`;")
+              .arg(_prefix);
+  dest += QString("DROP TRIGGER IF EXISTS `%1update_orderitem_status_remove`;")
+              .arg(_prefix);
 
   // Add create table command
   dest += _sqlCommands[Categories]._create.arg(_prefix) + '\n';
@@ -1728,8 +2068,14 @@ bool Database::exportDatabase(QString &dest)
   dest += _sqlCommands[Configs]._create.arg(_prefix) + '\n';
 
   // Add triggers
-  dest +=  QString((const char*)QResource(QString("://sql-commands/trigger_update_orderitem_add.sql")). data());
-  dest +=  QString((const char*)QResource(QString("://sql-commands/trigger_update_orderitem_remove.sql")). data());
+  dest +=
+      QString((const char *)QResource(
+                  QString("://sql-commands/trigger_update_orderitem_add.sql"))
+                  .data());
+  dest += QString(
+      (const char *)QResource(
+          QString("://sql-commands/trigger_update_orderitem_remove.sql"))
+          .data());
 
   //-------------------------------------------------------------------------------
   // Add insert command with data
@@ -1738,13 +2084,13 @@ bool Database::exportDatabase(QString &dest)
   QList<int> ids;
   if (categoryIds(ids)) {
     for (int i = 0; i < ids.size(); ++i) {
-      ProductCategory* c = category(ids[i]);
+      ProductCategory *c = category(ids[i]);
       if (c) {
-        dest += _sqlCommands[Categories]._insert
-                .arg(_prefix)
-                .arg(c->id())
-                .arg('\'' + c->name() + '\'')
-                .arg('\'' + c->icon() + '\'');
+        dest += _sqlCommands[Categories]
+                    ._insert.arg(_prefix)
+                    .arg(c->id())
+                    .arg('\'' + c->name() + '\'')
+                    .arg('\'' + c->icon() + '\'');
         dest += '\n';
         delete c;
       } else {
@@ -1760,15 +2106,15 @@ bool Database::exportDatabase(QString &dest)
     for (int i = 0; i < ids.size(); ++i) {
       Product *p = product(ids[i]);
       if (p) {
-        dest += _sqlCommands[Products]._insert
-                .arg(_prefix)
-                .arg(p->id())
-                .arg('\'' + p->name() + '\'')
-                .arg(p->price())
-                .arg('\'' + p->info() + '\'')
-                .arg(p->categoryId())
-                .arg('\'' + p->icon() + '\'')
-                .arg('\'' + p->amount() + '\'');
+        dest += _sqlCommands[Products]
+                    ._insert.arg(_prefix)
+                    .arg(p->id())
+                    .arg('\'' + p->name() + '\'')
+                    .arg(p->price())
+                    .arg('\'' + p->info() + '\'')
+                    .arg(p->categoryId())
+                    .arg('\'' + p->icon() + '\'')
+                    .arg('\'' + p->amount() + '\'');
         dest += '\n';
         delete p;
       } else {
@@ -1778,36 +2124,32 @@ bool Database::exportDatabase(QString &dest)
   } else {
     return false;
   }
-  //TODO: export Waiter table
-  //TODO: export Client table
-  //TODO: export Order table
-  //TODO: export OrderList table
-  //TODO: export Incomes table
-  //TODO: export Configs table
-  //TODO: export Passwords table
-  //TODO: export MacAdresses table
-  //TODO: export TableDetails tables
+  // TODO: export Waiter table
+  // TODO: export Client table
+  // TODO: export Order table
+  // TODO: export OrderList table
+  // TODO: export Incomes table
+  // TODO: export Configs table
+  // TODO: export Passwords table
+  // TODO: export MacAdresses table
+  // TODO: export TableDetails tables
   throw new NotImplementedException();
   return true;
 }
 
 //------------------------------------------------------------------------------
 
-bool Database::databaseExists() const
-{
+bool Database::databaseExists() const {
   if (!isConnected()) {
     return false;
   }
 
   QStringList tables = _db.tables(QSql::Tables);
 
-  foreach (QString t, tables) {
-    qDebug() << t;
-  }
+  foreach (QString t, tables) { qDebug() << t; }
 
-  if (tables.contains(QString("%1categories").arg(_prefix))
-      && tables.contains(QString("%1products").arg(_prefix)))
-  {
+  if (tables.contains(QString("%1categories").arg(_prefix)) &&
+      tables.contains(QString("%1products").arg(_prefix))) {
     return true;
   } else {
     return false;
@@ -1816,14 +2158,13 @@ bool Database::databaseExists() const
 
 //------------------------------------------------------------------------------
 
-bool Database::hasCategory(const QString &name)
-{
+bool Database::hasCategory(const QString &name) {
   if (!isConnected()) {
     return false;
   }
 
-  QString queryStr = _sqlCommands[Categories]._select
-                     .arg(_prefix, "`id`", "name", QString("'%1'").arg(name));
+  QString queryStr = _sqlCommands[Categories]._select.arg(
+      _prefix, "`id`", "name", QString("'%1'").arg(name));
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -1834,8 +2175,8 @@ bool Database::hasCategory(const QString &name)
   }
 
   if (!q.exec()) {
-    qCritical() << tr("Query exec failed: (%1: %2")
-                   .arg(queryStr, q.lastError().text());
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
     return false;
   }
 
@@ -1844,14 +2185,13 @@ bool Database::hasCategory(const QString &name)
 
 //------------------------------------------------------------------------------
 
-bool Database::hasCategory(int id)
-{
+bool Database::hasCategory(int id) {
   if (!isConnected()) {
     return false;
   }
 
-  QString queryStr = _sqlCommands[Categories]._select
-                     .arg(_prefix, "`id`", "id", QString("'%1'").arg(id));
+  QString queryStr = _sqlCommands[Categories]._select.arg(
+      _prefix, "`id`", "id", QString("'%1'").arg(id));
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -1862,8 +2202,8 @@ bool Database::hasCategory(int id)
   }
 
   if (!q.exec()) {
-    qCritical() << tr("Query exec failed: (%1: %2")
-                   .arg(queryStr, q.lastError().text());
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
     return false;
   }
 
@@ -1872,14 +2212,13 @@ bool Database::hasCategory(int id)
 
 //------------------------------------------------------------------------------
 
-bool Database::hasProduct(const QString &name, int categoryId)
-{
+bool Database::hasProduct(const QString &name, int categoryId) {
   if (!isConnected() || name.isEmpty() || categoryId == -1) {
     return false;
   }
 
-  QString queryStr = _sqlCommands[Products]._select
-                     .arg(_prefix, "`id`", "name", QString("'%1'").arg(name));
+  QString queryStr = _sqlCommands[Products]._select.arg(
+      _prefix, "`id`", "name", QString("'%1'").arg(name));
   queryStr += QString(" AND `category_id` = %1").arg(categoryId);
 
   QSqlQuery q(_db);
@@ -1891,8 +2230,8 @@ bool Database::hasProduct(const QString &name, int categoryId)
   }
 
   if (!q.exec()) {
-    qCritical() << tr("Query exec failed: (%1: %2")
-                   .arg(queryStr, q.lastError().text());
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
     return false;
   }
 
@@ -1901,14 +2240,13 @@ bool Database::hasProduct(const QString &name, int categoryId)
 
 //------------------------------------------------------------------------------
 
-bool Database::hasProduct(int productId, int categoryId)
-{
+bool Database::hasProduct(int productId, int categoryId) {
   if (!isConnected() || productId == -1 || categoryId == -1) {
     return false;
   }
 
-  QString queryStr = _sqlCommands[Products]._select
-                     .arg(_prefix, "`name`", "id", QString("'%1'").arg(productId));
+  QString queryStr = _sqlCommands[Products]._select.arg(
+      _prefix, "`name`", "id", QString("'%1'").arg(productId));
   queryStr += QString(" AND `category_id` = %1").arg(categoryId);
 
   QSqlQuery q(_db);
@@ -1920,8 +2258,8 @@ bool Database::hasProduct(int productId, int categoryId)
   }
 
   if (!q.exec()) {
-    qCritical() << tr("Query exec failed: (%1: %2")
-                   .arg(queryStr, q.lastError().text());
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
     return false;
   }
 
@@ -1930,649 +2268,631 @@ bool Database::hasProduct(int productId, int categoryId)
 
 //------------------------------------------------------------------------------
 
-int Database::hasUser(const QString& nick, const QString& passwdHash)
-{
-    //Check if we have connection with database and nick and password
-    //are set
-    if (!isConnected() || nick.isEmpty() || passwdHash.isEmpty()) {
-      return false;
-    }
-
-//    QString queryStr = _sqlCommands[Clients]._select
-//                       .arg(_prefix, "`id`", "name", ":name");
-
-    QString queryStr = _sqlCommands[Clients]._select
-                       .arg(_prefix, "`id`", "name", QString("\""+nick+"\""));
-
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return -1;
-    }
-
-    //Should work but don't work :'(
-    //q.bindValue(":nick", nick);
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return -1;
-    }
-    //qDebug << tr("Last query: ") << q.lastQuery();
-    // qCritical()  << tr("Last query: ") << q.lastQuery();
-    if (!q.next()) {
-      return 0;
-    }
-
-    bool ok;
-    int id = q.value("id").toInt(&ok);
-    if (!ok) {
-      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("id").toString());
-      return 0;
-    }
-
-    queryStr = _sqlCommands[Passwords]._select
-            .arg(_prefix, "`id`", "id", ":id AND password = :password");
-
-
-//    Waiter user;
-//    user.setPassword(passwdHash);
-
-//    queryStr = _sqlCommands[Passwords]._select
-//            .arg(_prefix, "`id`", "id", QString(QString::number(id) +" AND password = \"" +
-//                                               user.hashPassword() +"\""));
-
-
-    q.clear();
-    q.setForwardOnly(true);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return -1;
-    }
-
-    q.bindValue(":id", id);
-    q.bindValue(":password", Waiter::generateHashPassword(passwdHash));
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return -1;
-    }
-
-    if (q.next()) {
-      return q.value("id").toInt(&ok);
-    }
-
-    return -1;
-}
-
-//------------------------------------------------------------------------------
-
-int Database::hasIncome(QDate date)
-{
-    if (!isConnected() || !date.isValid()) {
-      return false;
-    }
-
-    QString queryStr = _sqlCommands[Incomes]._select
-                       .arg(_prefix, "`id`", "day", ":day");
-    queryStr += QString(" AND `month` = :month AND `year` = :year");
-
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return -1;
-    }
-
-    q.bindValue(":day", date.day());
-    q.bindValue(":month", date.month());
-    q.bindValue(":year", date.year());
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return -1;
-    }
-
-    if(q.next())
-    {
-        QSqlRecord rec = q.record();
-
-        return rec.value(rec.indexOf("id")).toInt();
-    }
-
-    return -1;
-
-}
-
-//------------------------------------------------------------------------------
-
-QList<int>* Database::hasIncome(int mounth, int year)
-{
-    if (!isConnected() || mounth <1 || mounth >12 || year < 2015 ) {
-      return NULL;
-    }
-
-    QString queryStr = _sqlCommands[Incomes]._select
-                       .arg(_prefix, "`id`", "1", "1");
-    queryStr += QString(" AND `day` >= :day1");
-    queryStr += QString(" AND `day` <= :day2");
-    queryStr += QString(" AND `month` >= :month1");
-    queryStr += QString(" AND `month` <= :month2");
-    queryStr += QString(" AND `year` >= :year1");
-    queryStr += QString(" AND `year` <= :year2;");
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return NULL;
-    }
-    // If we want search income from january 2015 then we take
-    // all income afer (with 1-st) 1 january and before 1 february
-    QDate date1(1,mounth,year), date2(1, mounth+1, year);
-
-    q.bindValue(":day1", date1.day());
-    q.bindValue(":month1", date1.month());
-    q.bindValue(":year1", date1.year());
-    q.bindValue(":day2", date2.day());
-    q.bindValue(":month2", date2.month());
-    q.bindValue(":year2", date2.year());
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return NULL;
-    }
-
-    QList<int>* list = new QList<int>();
-
-    if(q.next())
-    {
-        QSqlRecord rec = q.record();
-
-        list->append(rec.value(rec.indexOf("id")).toInt());
-    }
-
-    if(list->isEmpty())
-        return NULL;
-    else
-        return list;
-
-}
-
-//------------------------------------------------------------------------------
-
-int Database::hasIncome(int id)
-{
-    if (!isConnected() || id <=0 ) {
-      return false;
-    }
-
-    QString queryStr = _sqlCommands[Incomes]._select
-                       .arg(_prefix, "`id`", "id", ":id");
-
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return -1;
-    }
-
-    q.bindValue(":id", id);
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return -1;
-    }
-
-    if(q.next())
-    {
-        QSqlRecord rec = q.record();
-
-        return rec.value(rec.indexOf("id")).toInt();
-    }
-
-    return -1;
-
-}
-
-//------------------------------------------------------------------------------
-
-int Database::hasConfigName(int name)
-{
-    if (!isConnected()) {
-      return false;
-    }
-
-    QString queryStr = _sqlCommands[Configs]._select
-                       .arg(_prefix, "`id`", "`name`", ":name");
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return -1;
-    }
-
-    q.bindValue(":name", name);
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return -1;
-    }
-
-    if(q.next())
-    {
-        QSqlRecord rec = q.record();
-
-        return rec.value(rec.indexOf("id")).toInt();
-    }
-
-    return -1;
-}
-
-//------------------------------------------------------------------------------
-
-bool Database::hasConfig(int id)
-{
-    if (!isConnected()) {
-      return false;
-    }
-
-    QString queryStr = _sqlCommands[Configs]._select
-                       .arg(_prefix, "`id`", "`id`", ":id");
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return -1;
-    }
-
-    q.bindValue(":id", id);
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return -1;
-    }
-
-    if(q.next())
-    {
-       return true;
-    }
-
-    return -1;
-}
-
-//------------------------------------------------------------------------------
-
-int Database::hasMacAddress(QString macAdresses)
-{
-    QString queryStr = _sqlCommands[MacAdresses]._select
-                       .arg(_prefix, "`id`", "mac_address", ":mac_address");
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return -1;
-    }
-
-    q.bindValue(":mac_address", macAdresses);
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return -1;
-    }
-    if (!q.next()) {
-      return -1;
-    }
-
-    bool ok;
-    int id = q.value("id").toInt(&ok);
-
-    if (!ok) {
-      qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("id").toString());
-      return -1;
-    }
-
-    return id;
-
-}
-
-//------------------------------------------------------------------------------
-
-bool Database::hasOrder(int id)
-{
-    if (!isConnected()) {
-      return false;
-    }
-
-    QString queryStr = _sqlCommands[Orders]._select
-                       .arg(_prefix, "`id`", "id", ":id");
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return -1;
-    }
-
-    q.bindValue(":id", id);
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return false;
-    }
-
-    if(q.next())
-    {
-       return true;
-    }
-
+int Database::hasUser(const QString &nick, const QString &passwdHash) {
+  // Check if we have connection with database and nick and password
+  // are set
+  if (!isConnected() || nick.isEmpty() || passwdHash.isEmpty()) {
     return false;
-}
+  }
 
-//------------------------------------------------------------------------------
+  //    QString queryStr = _sqlCommands[Clients]._select
+  //                       .arg(_prefix, "`id`", "name", ":name");
 
-QList<Order *>* Database::getNotCloseOrderList()
-{
-    if (!isConnected()) {
-      return 0;
-    }
+  QString queryStr = _sqlCommands[Clients]._select.arg(
+      _prefix, "`id`", "name", QString("\"" + nick + "\""));
 
-    QList<Order *> *list = new QList<Order *>();
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
 
-    QString queryStr = QString("SELECT %2 FROM `%1orders` WHERE `%3` != %4;").arg(_prefix, "*", "state", ":stat");
-
-    QSqlQuery q(_db);
-    q.setForwardOnly(false);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      delete list;
-      return 0;
-    }
-
-    q.bindValue(":stat", "5");
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      delete list;
-      return 0;
-    }
-
-//    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
-//      if (q.size() != 1) {
-//        qCritical() << tr("Query: returned %1 results but we expected it to return 1!")
-//                       .arg(q.size());
-//        delete list;
-//        return 0;
-//      }
-//    }
-
-    if (!q.next()) {
-        delete list;
-        return 0;
-    }
-
-    do{
-
-        bool ok;
-        int orderId = q.value("id").toInt(&ok);
-        if (!ok) {
-          qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("id").toString());
-          delete list;
-          return 0;
-        }
-
-        int clientId = q.value("client_id").toInt(&ok);
-        if (!ok) {
-          qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("client_id").toString());
-          delete list;
-          return 0;
-        }
-
-        int state = q.value("state").toInt(&ok);
-        if (!ok) {
-          qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("state").toString());
-          delete list;
-          return 0;
-        }
-
-        QDateTime orderSent = q.value("date_added").toDateTime();
-
-        Order* o = new Order();
-
-        o->setId(orderId);
-        o->setClientId(clientId);
-        o->setState(state);
-
-        QList<int> itemsId;
-
-
-        // if something go wrong return 0
-        if(!orderItemIds(itemsId,orderId))
-            return 0;
-
-        // add order item base on id
-        foreach(int orderItemId, itemsId){
-              o->addItem(orderItem(orderItemId));
-        }
-        list->append(o);
-    }while(q.next());
-
-    return list;
-}
-
-//------------------------------------------------------------------------------
-
-QList<Order *> *Database::getNotDoneOrderList()
-{
-    if (!isConnected()) {
-      return 0;
-    }
-
-    QList<Order *> *list = new QList<Order *>();
-
-    QString queryStr = QString("SELECT %2 FROM `%1orders` WHERE `%3` == %4;").arg(_prefix, "*", "state", ":stat");
-
-    QSqlQuery q(_db);
-    q.setForwardOnly(false);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      delete list;
-      return 0;
-    }
-
-    q.bindValue(":stat", "1");
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      delete list;
-      return 0;
-    }
-
-//    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
-//      if (q.size() != 1) {
-//        qCritical() << tr("Query: returned %1 results but we expected it to return 1!")
-//                       .arg(q.size());
-//        delete list;
-//        return 0;
-//      }
-//    }
-
-    if (!q.next()) {
-        delete list;
-        return 0;
-    }
-
-    do{
-
-        bool ok;
-        int orderId = q.value("id").toInt(&ok);
-        if (!ok) {
-          qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("id").toString());
-          delete list;
-          return 0;
-        }
-
-        int clientId = q.value("client_id").toInt(&ok);
-        if (!ok) {
-          qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("client_id").toString());
-          delete list;
-          return 0;
-        }
-
-        int state = q.value("state").toInt(&ok);
-        if (!ok) {
-          qCritical() << tr("Could not convert '%1' to integer!").arg(q.value("state").toString());
-          delete list;
-          return 0;
-        }
-
-        QDateTime orderSent = q.value("date_added").toDateTime();
-
-        Order* o = new Order();
-
-        o->setId(orderId);
-        o->setClientId(clientId);
-        o->setState(state);
-
-        QList<int> itemsId;
-
-
-        // if something go wrong return 0
-        if(!orderItemIds(itemsId,orderId))
-            return 0;
-
-        // add order item base on id
-        foreach(int orderItemId, itemsId){
-              o->addItem(orderItem(orderItemId));
-        }
-        list->append(o);
-    }while(q.next());
-
-    return list;
-}
-
-//------------------------------------------------------------------------------
-
-QMap<int, QMap<int, int>> *Database::getOrderQueueList()
-{
-
-    if (!isConnected()) {
-        return nullptr;
-    }
-
-    QMap<int, QMap<int, int>> *result = new QMap<int,QMap<int, int>>();
-
-    QString queryStr = QString("SELECT %1clients.id as `client_id`, ifnull(%1orders.id, -1) as `order_id` FROM %1clients "
-                               "LEFT OUTER JOIN %1orders "
-                               "ON %1clients.id = %1orders.client_id and %1orders.state = %3 "
-                               "WHERE %1clients.type = %2 ORDER BY order_id").arg(_prefix, ":type", ":stat");
-
-    QSqlQuery q(_db);
-    q.setForwardOnly(false);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      delete result;
-      return nullptr;
-    }
-
-    q.bindValue(":type", "1");
-    q.bindValue(":stat", "1");
-
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      delete result;
-      return nullptr;
-    }
-
-    if (!q.next()) {
-        delete result;
-        return nullptr;
-    }
-
-    int i = 1;
-    do{
-        int order_id = q.value("order_id").toInt();
-        int client_id = q.value("client_id").toInt();
-        if(order_id == -1)
-            (*result)[client_id].clear();
-        else
-        {
-            (*result)[client_id][i] = order_id;
-            ++i;
-        }
-
-    }while(q.next());
-
-    return result;
-}
-
-//------------------------------------------------------------------------------
-
-Income*  Database::getLastIncome()
-{
-    int id = getLastIncomeId();
-    return income(id);
-}
-
-//------------------------------------------------------------------------------
-
-int Database::getLastIncomeId()
-{
-    if (!isConnected()) {
-      return -1;
-    }
-
-    QString queryStr = QString("SELECT MAX(id)  FROM %1daily_incomes;").arg(_prefix);
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return -1;
-    }
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return -1;
-    }
-
-    if(q.next())
-    {
-        QSqlRecord rec = q.record();
-
-        return rec.value(rec.indexOf("MAX(id)")).toInt();
-    }
-
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
     return -1;
+  }
+
+  // Should work but don't work :'(
+  // q.bindValue(":nick", nick);
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return -1;
+  }
+  // qDebug << tr("Last query: ") << q.lastQuery();
+  // qCritical()  << tr("Last query: ") << q.lastQuery();
+  if (!q.next()) {
+    return 0;
+  }
+
+  bool ok;
+  int id = q.value("id").toInt(&ok);
+  if (!ok) {
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("id").toString());
+    return 0;
+  }
+
+  queryStr = _sqlCommands[Passwords]._select.arg(
+      _prefix, "`id`", "id", ":id AND password = :password");
+
+  //    Waiter user;
+  //    user.setPassword(passwdHash);
+
+  //    queryStr = _sqlCommands[Passwords]._select
+  //            .arg(_prefix, "`id`", "id", QString(QString::number(id) +" AND
+  //            password = \"" +
+  //                                               user.hashPassword() +"\""));
+
+  q.clear();
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return -1;
+  }
+
+  q.bindValue(":id", id);
+  q.bindValue(":password", Waiter::generateHashPassword(passwdHash));
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return -1;
+  }
+
+  if (q.next()) {
+    return q.value("id").toInt(&ok);
+  }
+
+  return -1;
 }
 
 //------------------------------------------------------------------------------
 
-bool Database::isConnected() const
-{
+int Database::hasIncome(QDate date) {
+  if (!isConnected() || !date.isValid()) {
+    return false;
+  }
+
+  QString queryStr =
+      _sqlCommands[Incomes]._select.arg(_prefix, "`id`", "day", ":day");
+  queryStr += QString(" AND `month` = :month AND `year` = :year");
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return -1;
+  }
+
+  q.bindValue(":day", date.day());
+  q.bindValue(":month", date.month());
+  q.bindValue(":year", date.year());
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return -1;
+  }
+
+  if (q.next()) {
+    QSqlRecord rec = q.record();
+
+    return rec.value(rec.indexOf("id")).toInt();
+  }
+
+  return -1;
+}
+
+//------------------------------------------------------------------------------
+
+QList<int> *Database::hasIncome(int mounth, int year) {
+  if (!isConnected() || mounth < 1 || mounth > 12 || year < 2015) {
+    return NULL;
+  }
+
+  QString queryStr =
+      _sqlCommands[Incomes]._select.arg(_prefix, "`id`", "1", "1");
+  queryStr += QString(" AND `day` >= :day1");
+  queryStr += QString(" AND `day` <= :day2");
+  queryStr += QString(" AND `month` >= :month1");
+  queryStr += QString(" AND `month` <= :month2");
+  queryStr += QString(" AND `year` >= :year1");
+  queryStr += QString(" AND `year` <= :year2;");
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return NULL;
+  }
+  // If we want search income from january 2015 then we take
+  // all income afer (with 1-st) 1 january and before 1 february
+  QDate date1(1, mounth, year), date2(1, mounth + 1, year);
+
+  q.bindValue(":day1", date1.day());
+  q.bindValue(":month1", date1.month());
+  q.bindValue(":year1", date1.year());
+  q.bindValue(":day2", date2.day());
+  q.bindValue(":month2", date2.month());
+  q.bindValue(":year2", date2.year());
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return NULL;
+  }
+
+  QList<int> *list = new QList<int>();
+
+  if (q.next()) {
+    QSqlRecord rec = q.record();
+
+    list->append(rec.value(rec.indexOf("id")).toInt());
+  }
+
+  if (list->isEmpty())
+    return NULL;
+  else
+    return list;
+}
+
+//------------------------------------------------------------------------------
+
+int Database::hasIncome(int id) {
+  if (!isConnected() || id <= 0) {
+    return false;
+  }
+
+  QString queryStr =
+      _sqlCommands[Incomes]._select.arg(_prefix, "`id`", "id", ":id");
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return -1;
+  }
+
+  q.bindValue(":id", id);
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return -1;
+  }
+
+  if (q.next()) {
+    QSqlRecord rec = q.record();
+
+    return rec.value(rec.indexOf("id")).toInt();
+  }
+
+  return -1;
+}
+
+//------------------------------------------------------------------------------
+
+int Database::hasConfigName(int name) {
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr =
+      _sqlCommands[Configs]._select.arg(_prefix, "`id`", "`name`", ":name");
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return -1;
+  }
+
+  q.bindValue(":name", name);
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return -1;
+  }
+
+  if (q.next()) {
+    QSqlRecord rec = q.record();
+
+    return rec.value(rec.indexOf("id")).toInt();
+  }
+
+  return -1;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::hasConfig(int id) {
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr =
+      _sqlCommands[Configs]._select.arg(_prefix, "`id`", "`id`", ":id");
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return -1;
+  }
+
+  q.bindValue(":id", id);
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return -1;
+  }
+
+  if (q.next()) {
+    return true;
+  }
+
+  return -1;
+}
+
+//------------------------------------------------------------------------------
+
+int Database::hasMacAddress(QString macAdresses) {
+  QString queryStr = _sqlCommands[MacAdresses]._select.arg(
+      _prefix, "`id`", "mac_address", ":mac_address");
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return -1;
+  }
+
+  q.bindValue(":mac_address", macAdresses);
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return -1;
+  }
+  if (!q.next()) {
+    return -1;
+  }
+
+  bool ok;
+  int id = q.value("id").toInt(&ok);
+
+  if (!ok) {
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("id").toString());
+    return -1;
+  }
+
+  return id;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::hasOrder(int id) {
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr =
+      _sqlCommands[Orders]._select.arg(_prefix, "`id`", "id", ":id");
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return -1;
+  }
+
+  q.bindValue(":id", id);
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  if (q.next()) {
+    return true;
+  }
+
+  return false;
+}
+
+//------------------------------------------------------------------------------
+
+QList<Order *> *Database::getNotCloseOrderList() {
+  if (!isConnected()) {
+    return 0;
+  }
+
+  QList<Order *> *list = new QList<Order *>();
+
+  QString queryStr = QString("SELECT %2 FROM `%1orders` WHERE `%3` != %4;")
+                         .arg(_prefix, "*", "state", ":stat");
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(false);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    delete list;
+    return 0;
+  }
+
+  q.bindValue(":stat", "5");
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    delete list;
+    return 0;
+  }
+
+  //    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+  //      if (q.size() != 1) {
+  //        qCritical() << tr("Query: returned %1 results but we expected it to
+  //        return 1!")
+  //                       .arg(q.size());
+  //        delete list;
+  //        return 0;
+  //      }
+  //    }
+
+  if (!q.next()) {
+    delete list;
+    return 0;
+  }
+
+  do {
+
+    bool ok;
+    int orderId = q.value("id").toInt(&ok);
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to integer!")
+                         .arg(q.value("id").toString());
+      delete list;
+      return 0;
+    }
+
+    int clientId = q.value("client_id").toInt(&ok);
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to integer!")
+                         .arg(q.value("client_id").toString());
+      delete list;
+      return 0;
+    }
+
+    int state = q.value("state").toInt(&ok);
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to integer!")
+                         .arg(q.value("state").toString());
+      delete list;
+      return 0;
+    }
+
+    QDateTime orderSent = q.value("date_added").toDateTime();
+
+    Order *o = new Order();
+
+    o->setId(orderId);
+    o->setClientId(clientId);
+    o->setState(state);
+
+    QList<int> itemsId;
+
+    // if something go wrong return 0
+    if (!orderItemIds(itemsId, orderId))
+      return 0;
+
+    // add order item base on id
+    foreach (int orderItemId, itemsId) { o->addItem(orderItem(orderItemId)); }
+    list->append(o);
+  } while (q.next());
+
+  return list;
+}
+
+//------------------------------------------------------------------------------
+
+QList<Order *> *Database::getNotDoneOrderList() {
+  if (!isConnected()) {
+    return 0;
+  }
+
+  QList<Order *> *list = new QList<Order *>();
+
+  QString queryStr = QString("SELECT %2 FROM `%1orders` WHERE `%3` == %4;")
+                         .arg(_prefix, "*", "state", ":stat");
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(false);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    delete list;
+    return 0;
+  }
+
+  q.bindValue(":stat", "1");
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    delete list;
+    return 0;
+  }
+
+  //    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+  //      if (q.size() != 1) {
+  //        qCritical() << tr("Query: returned %1 results but we expected it to
+  //        return 1!")
+  //                       .arg(q.size());
+  //        delete list;
+  //        return 0;
+  //      }
+  //    }
+
+  if (!q.next()) {
+    delete list;
+    return 0;
+  }
+
+  do {
+
+    bool ok;
+    int orderId = q.value("id").toInt(&ok);
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to integer!")
+                         .arg(q.value("id").toString());
+      delete list;
+      return 0;
+    }
+
+    int clientId = q.value("client_id").toInt(&ok);
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to integer!")
+                         .arg(q.value("client_id").toString());
+      delete list;
+      return 0;
+    }
+
+    int state = q.value("state").toInt(&ok);
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to integer!")
+                         .arg(q.value("state").toString());
+      delete list;
+      return 0;
+    }
+
+    QDateTime orderSent = q.value("date_added").toDateTime();
+
+    Order *o = new Order();
+
+    o->setId(orderId);
+    o->setClientId(clientId);
+    o->setState(state);
+
+    QList<int> itemsId;
+
+    // if something go wrong return 0
+    if (!orderItemIds(itemsId, orderId))
+      return 0;
+
+    // add order item base on id
+    foreach (int orderItemId, itemsId) { o->addItem(orderItem(orderItemId)); }
+    list->append(o);
+  } while (q.next());
+
+  return list;
+}
+
+//------------------------------------------------------------------------------
+
+QMap<int, QMap<int, int>> *Database::getOrderQueueList() {
+
+  if (!isConnected()) {
+    return nullptr;
+  }
+
+  QMap<int, QMap<int, int>> *result = new QMap<int, QMap<int, int>>();
+
+  QString queryStr =
+      QString("SELECT %1clients.id as `client_id`, ifnull(%1orders.id, -1) as "
+              "`order_id` FROM %1clients "
+              "LEFT OUTER JOIN %1orders "
+              "ON %1clients.id = %1orders.client_id and %1orders.state = %3 "
+              "WHERE %1clients.type = %2 ORDER BY order_id")
+          .arg(_prefix, ":type", ":stat");
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(false);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    delete result;
+    return nullptr;
+  }
+
+  q.bindValue(":type", "1");
+  q.bindValue(":stat", "1");
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    delete result;
+    return nullptr;
+  }
+
+  if (!q.next()) {
+    delete result;
+    return nullptr;
+  }
+
+  int i = 1;
+  do {
+    int order_id = q.value("order_id").toInt();
+    int client_id = q.value("client_id").toInt();
+    if (order_id == -1)
+      (*result)[client_id].clear();
+    else {
+      (*result)[client_id][i] = order_id;
+      ++i;
+    }
+
+  } while (q.next());
+
+  return result;
+}
+
+//------------------------------------------------------------------------------
+
+Income *Database::getLastIncome() {
+  int id = getLastIncomeId();
+  return income(id);
+}
+
+//------------------------------------------------------------------------------
+
+int Database::getLastIncomeId() {
+  if (!isConnected()) {
+    return -1;
+  }
+
+  QString queryStr =
+      QString("SELECT MAX(id)  FROM %1daily_incomes;").arg(_prefix);
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return -1;
+  }
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return -1;
+  }
+
+  if (q.next()) {
+    QSqlRecord rec = q.record();
+
+    return rec.value(rec.indexOf("MAX(id)")).toInt();
+  }
+
+  return -1;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::isConnected() const {
   if (_connected) {
     return _db.isOpen();
   }
@@ -2581,19 +2901,20 @@ bool Database::isConnected() const
 
 //------------------------------------------------------------------------------
 
-bool Database::add_init_data()
-{
+bool Database::add_init_data() {
 
-  //ToDo: Change this to exec some sql command, or load data from json/xml, etc.
+  // ToDo: Change this to exec some sql command, or load data from json/xml,
+  // etc.
   Config day;
   day.setName(Config::day_begin);
   day.setValue("16:00");
 
   Config closeState;
   closeState.setName(Config::closeState);
-  closeState.setValue(QString("%1,%2;%3").arg(QString::number(rotable::OrderItem::New),
-                                              QString::number(rotable::OrderItem::ToPay),
-                                              QString::number(rotable::OrderItem::Pay)));
+  closeState.setValue(QString("%1,%2;%3")
+                          .arg(QString::number(rotable::OrderItem::New),
+                               QString::number(rotable::OrderItem::ToPay),
+                               QString::number(rotable::OrderItem::Pay)));
 
   Config dbv;
   dbv.setName(Config::dbVersion);
@@ -2619,221 +2940,227 @@ bool Database::add_init_data()
   ok = ok && addUser(&admin);
 
   return ok;
-
 }
 
 //------------------------------------------------------------------------------
 
-int Database::registerTable(QString name, QString macAdresses)
-{
-    if (!isConnected() || name.isEmpty() || macAdresses.isEmpty()) {
-      return false;
-    }
+int Database::registerTable(QString name, QString macAdresses) {
+  if (!isConnected() || name.isEmpty() || macAdresses.isEmpty()) {
+    return false;
+  }
 
-    int id = hasMacAddress(macAdresses);
-    if(id == -1)
-    {
-        QString queryStr = _sqlCommands[Clients]._insert.arg(_prefix, "NULL", ":name", ":type");
-        QSqlQuery q(_db);
-        q.setForwardOnly(true);
-
-        if (!q.prepare(queryStr)) {
-          qCritical() << tr("Invalid query: %1").arg(queryStr);
-          return -1;
-        }
-
-        q.bindValue(":name", name);
-        q.bindValue(":type", 1);
-
-        if (!q.exec()) {
-          qCritical() << tr("Query exec failed: (%1: %2")
-                         .arg(queryStr, q.lastError().text());
-          return -1;
-        }
-
-        id = q.lastInsertId().toInt();
-
-        q.clear();
-
-        queryStr = _sqlCommands[MacAdresses]._insert.arg(_prefix, ":id", ":mac_address");
-        q.setForwardOnly(true);
-
-        if (!q.prepare(queryStr)) {
-          qCritical() << tr("Invalid query: %1").arg(queryStr);
-          return -1;
-        }
-
-        q.bindValue(":id", id);
-        q.bindValue(":mac_address", macAdresses);
-
-        if (!q.exec()) {
-          qCritical() << tr("Query exec failed: (%1: %2")
-                         .arg(queryStr, q.lastError().text());
-          return -1;
-        }
-
-
-        q.clear();
-
-        queryStr = _sqlCommands[TableDetails]._insert.arg(_prefix, ":id", ":waiter", ":connected");
-        q.setForwardOnly(true);
-
-        if (!q.prepare(queryStr)) {
-          qCritical() << tr("Invalid query: %1").arg(queryStr);
-          return -1;
-        }
-
-        q.bindValue(":id", id);
-        q.bindValue(":waiter", false);
-        q.bindValue(":connected", true);
-        if (!q.exec()) {
-          qCritical() << tr("Query exec failed: (%1: %2")
-                         .arg(queryStr, q.lastError().text());
-          return -1;
-        }
-
-        return id;
-
-    }
-
-    changeTableConnectStatus(id, true);
-
-    return id;
-}
-
-//------------------------------------------------------------------------------
-
-bool Database::changeTableConnectStatus(int idTable, bool connected)
-{
-    return updateTableAdditionalData(idTable, connected, false);
-}
-
-//------------------------------------------------------------------------------
-
-bool Database::setWaiterNeed(bool need, int clientId)
-{
-    Table *tmp = reinterpret_cast<Table*>(client(clientId));
-    if(!tmp)
-        return false;
-    tmp->setwaiterIsNeedede(need);
-    return updateClient(tmp);
-}
-
-//------------------------------------------------------------------------------
-
-QString Database::databasebVersion()
-{
-    if (!isConnected()) {
-      return 0;
-    }
-
-    QString queryStr = _sqlCommands[Configs]._select.arg(_prefix, "*", "name", ":name");
-
+  int id = hasMacAddress(macAdresses);
+  if (id == -1) {
+    QString queryStr =
+        _sqlCommands[Clients]._insert.arg(_prefix, "NULL", ":name", ":type");
     QSqlQuery q(_db);
     q.setForwardOnly(true);
 
     if (!q.prepare(queryStr)) {
       qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return 0;
+      return -1;
     }
 
-    q.bindValue(":name", rotable::Config::dbVersion);
+    q.bindValue(":name", name);
+    q.bindValue(":type", 1);
 
     if (!q.exec()) {
       qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return 0;
+                         .arg(queryStr, q.lastError().text());
+      return -1;
     }
 
-    if (!q.next()) {
-      return "0.0.0";
+    id = q.lastInsertId().toInt();
+
+    q.clear();
+
+    queryStr =
+        _sqlCommands[MacAdresses]._insert.arg(_prefix, ":id", ":mac_address");
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return -1;
     }
 
-    return q.value("value").toString();
-}
+    q.bindValue(":id", id);
+    q.bindValue(":mac_address", macAdresses);
 
-//------------------------------------------------------------------------------
-
-void Database::updateDatabase(QString actualVersion)
-{
-    switch(versionToEnum(actualVersion)){
-    case version0d0d0:
-        updateToVersion("0.0.1");
-    [[clang::fallthrough]]; case version0d0d1:
-        updateToVersion("0.0.2");
-    [[clang::fallthrough]]; case version0d0d2:
-        updateToVersion("0.0.3");
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                         .arg(queryStr, q.lastError().text());
+      return -1;
     }
-}
 
-//------------------------------------------------------------------------------
+    q.clear();
 
-bool Database::updateToVersion(QString version)
-{
-    QStringList updateList =  QString((const char*)QResource(QString("://sql-commands/update-database/"+version+".sql")). data()).split(";;");
-    _db.transaction();
-    //SQLite can query one statment at time
-    foreach(QString update, updateList)
-    {
-        QSqlQuery query(update.arg(_prefix).trimmed(), _db);
-        query.executedQuery();
+    queryStr = _sqlCommands[TableDetails]._insert.arg(_prefix, ":id", ":waiter",
+                                                      ":connected");
+    q.setForwardOnly(true);
 
-        if (query.lastError().type() != QSqlError::NoError) {
-          qCritical() << tr("Query exec failed: %1").arg(query.lastError().text());
-          _db.rollback();
-          return false;
-        }
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return -1;
     }
-    _db.commit();
 
-    return true;
+    q.bindValue(":id", id);
+    q.bindValue(":waiter", false);
+    q.bindValue(":connected", true);
+    if (!q.exec()) {
+      qCritical() << tr("Query exec failed: (%1: %2")
+                         .arg(queryStr, q.lastError().text());
+      return -1;
+    }
+
+    return id;
+  }
+
+  changeTableConnectStatus(id, true);
+
+  return id;
 }
 
 //------------------------------------------------------------------------------
 
-int Database::versionToEnum(QString version)
-{
-    if(version == "0.0.1")
-        return version0d0d1;
-    else if(version == "0.0.2")
-        return version0d0d2;
-    else if(version == "0.0.3")
-        return version0d0d3;
-    return version0d0d0;
+bool Database::changeTableConnectStatus(int idTable, bool connected) {
+  return updateTableAdditionalData(idTable, connected, false);
 }
 
 //------------------------------------------------------------------------------
 
-void Database::update()
-{
-    QString version = databasebVersion();
-    if(version != newestVesion)
-        updateDatabase(version);
+bool Database::setWaiterNeed(bool need, int clientId) {
+  Table *tmp = reinterpret_cast<Table *>(client(clientId));
+  if (!tmp)
+    return false;
+  tmp->setwaiterIsNeedede(need);
+  return updateClient(tmp);
 }
 
 //------------------------------------------------------------------------------
 
-void Database::getLastIncomeDate(QDate *date)
-{
-    date = nullptr;
+QString Database::databasebVersion() {
+  if (!isConnected()) {
+    return 0;
+  }
+
+  QString queryStr =
+      _sqlCommands[Configs]._select.arg(_prefix, "*", "name", ":name");
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return 0;
+  }
+
+  q.bindValue(":name", rotable::Config::dbVersion);
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return 0;
+  }
+
+  if (!q.next()) {
+    return "0.0.0";
+  }
+
+  return q.value("value").toString();
 }
 
 //------------------------------------------------------------------------------
 
-void Database::collectSqlCommands(Database::SqlCommands& cmds, QString table)
-{
-  cmds._create = QString((const char*)QResource(
-                           QString("://sql-commands/%1_create.sql").arg(table)).data());
-  cmds._select = QString((const char*)QResource(
-                           QString("://sql-commands/%1_select.sql").arg(table)).data());
-  cmds._update = QString((const char*)QResource(
-                           QString("://sql-commands/%1_update.sql").arg(table)).data());
-  cmds._insert = QString((const char*)QResource(
-                           QString("://sql-commands/%1_insert.sql").arg(table)).data());
-  cmds._listIds = QString((const char*)QResource(
-                            QString("://sql-commands/%1_select_ids.sql").arg(table)).data());
-  cmds._remove = QString((const char*)QResource(
-                           QString("://sql-commands/%1_remove.sql").arg(table)).data());
+void Database::updateDatabase(QString actualVersion) {
+  switch (versionToEnum(actualVersion)) {
+  case version0d0d0:
+    updateToVersion("0.0.1");
+  case version0d0d1:
+    updateToVersion("0.0.2");
+  case version0d0d2:
+    updateToVersion("0.0.3");
+  case version0d0d3:
+    updateToVersion("0.0.4");
+  }
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::updateToVersion(QString version) {
+  QStringList updateList =
+      QString(
+          (const char *)QResource(
+              QString("://sql-commands/update-database/" + version + ".sql"))
+              .data())
+          .split(";;");
+  _db.transaction();
+  // SQLite can query one statment at time
+  foreach (QString update, updateList) {
+    QSqlQuery query(update.arg(_prefix).trimmed(), _db);
+    query.executedQuery();
+
+    if (query.lastError().type() != QSqlError::NoError) {
+      qCritical() << tr("Query exec failed: %1").arg(query.lastError().text());
+      _db.rollback();
+      return false;
+    }
+  }
+  _db.commit();
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
+int Database::versionToEnum(QString version) {
+  if (version == "0.0.1")
+    return version0d0d1;
+  else if (version == "0.0.2")
+    return version0d0d2;
+  else if (version == "0.0.3")
+    return version0d0d3;
+  return version0d0d0;
+}
+
+//------------------------------------------------------------------------------
+
+void Database::update() {
+  QString version = databasebVersion();
+  if (version != newestVesion)
+    updateDatabase(version);
+}
+
+//------------------------------------------------------------------------------
+
+void Database::getLastIncomeDate(QDate *date) { Q_UNUSED(date); }
+
+//------------------------------------------------------------------------------
+
+void Database::collectSqlCommands(Database::SqlCommands &cmds, QString table) {
+  cmds._create =
+      QString((const char *)QResource(
+                  QString("://sql-commands/%1_create.sql").arg(table))
+                  .data());
+  cmds._select =
+      QString((const char *)QResource(
+                  QString("://sql-commands/%1_select.sql").arg(table))
+                  .data());
+  cmds._update =
+      QString((const char *)QResource(
+                  QString("://sql-commands/%1_update.sql").arg(table))
+                  .data());
+  cmds._insert =
+      QString((const char *)QResource(
+                  QString("://sql-commands/%1_insert.sql").arg(table))
+                  .data());
+  cmds._listIds =
+      QString((const char *)QResource(
+                  QString("://sql-commands/%1_select_ids.sql").arg(table))
+                  .data());
+  cmds._remove =
+      QString((const char *)QResource(
+                  QString("://sql-commands/%1_remove.sql").arg(table))
+                  .data());
 
   Q_ASSERT(!cmds._create.isEmpty());
   Q_ASSERT(!cmds._select.isEmpty());
@@ -2845,123 +3172,189 @@ void Database::collectSqlCommands(Database::SqlCommands& cmds, QString table)
 
 //------------------------------------------------------------------------------
 
-int Database::getTableAdditionalData(Table *table)
-{
-    if (!isConnected()) {
+bool Database::getTableAdditionalData(Table *table) {
+  if (!isConnected()) {
+    return 0;
+  }
+
+  QString queryStr =
+      _sqlCommands[TableDetails]._select.arg(_prefix, "*", "id", ":id");
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return 0;
+  }
+
+  q.bindValue(":id", table->id());
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return 0;
+  }
+
+  if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+    if (q.size() != 1) {
+      qCritical()
+          << tr("Query: returned %1 results but we expected it to return 1!")
+                 .arg(q.size());
       return 0;
     }
+  }
 
-    QString queryStr = _sqlCommands[TableDetails]._select.arg(_prefix, "*", "id", ":id");
+  if (!q.next()) {
+    return 0;
+  }
 
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
+  bool waiterIsNeeded = q.value("waiterIsNeeded").toBool();
+  bool connected = q.value("connected").toBool();
 
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return 0;
-    }
+  table->setwaiterIsNeedede(waiterIsNeeded);
+  table->setIsConnected(connected);
 
-    q.bindValue(":id", table->id());
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return 0;
-    }
-
-    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
-      if (q.size() != 1) {
-        qCritical() << tr("Query: returned %1 results but we expected it to return 1!")
-                       .arg(q.size());
-        return 0;
-      }
-    }
-
-    if (!q.next()) {
-      return 0;
-    }
-
-
-    bool waiterIsNeeded = q.value("waiterIsNeeded").toBool();
-    bool connected = q.value("connected").toBool();
-
-
-    table->setwaiterIsNeedede(waiterIsNeeded);
-    table->setIsConnected(connected);
-
-    return true;
-
+  return true;
 }
 
 //------------------------------------------------------------------------------
 
-bool Database::updateOrderItem(OrderItem *item)
-{
-    if (!isConnected()) {
+bool Database::getWaiterAdditionalData(Waiter *waiter) {
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr = _sqlCommands[DatabaseTables::WaiterCategories]._select.arg(
+      _prefix, "*", "waiter_id", ":id");
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  q.bindValue(":id", waiter->id());
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+    if (q.size() != 1) {
+      qCritical()
+          << tr("Query: returned %1 results but we expected it to return 1!")
+                 .arg(q.size());
+      return 0;
+    }
+  }
+
+  if (!q.next()) {
+    return false;
+  }
+
+  QList<int> *list = new QList<int>;
+
+  while (q.next()) {
+    bool toIntOk;
+    *list << q.value("category_id").toInt(&toIntOk);
+    if (!toIntOk) {
+      qCritical() << tr("Could not convert entry '%1' to an integer!")
+                         .arg(q.value("id").toString());
+      list->clear();
       return false;
     }
+  }
 
-    QString queryStr = _sqlCommands[OrderItems]._update.arg(_prefix);
+  if (list)
+    waiter->setCategories(list);
 
-    QSqlQuery q(_db);
-    q.setForwardOnly(true);
-
-    if (!q.prepare(queryStr)) {
-      qCritical() << tr("Invalid query: %1").arg(queryStr);
-      return false;
-    }
-
-    q.bindValue(":amount", item->amount());
-    q.bindValue(":price", item->price());
-    q.bindValue(":state", item->state());
-    q.bindValue(":time", 0);
-    q.bindValue(":id", item->id());
-
-    if (!q.exec()) {
-      qCritical() << tr("Query exec failed: (%1: %2")
-                     .arg(queryStr, q.lastError().text());
-      return false;
-    }
-
-    return true;
+  return true;
 }
 
 //------------------------------------------------------------------------------
 
-bool Database::initTriggers()
-{
-    if (!isConnected()) {
-      return false;
-    }
+bool Database::updateOrderItem(OrderItem *item) {
+  if (!isConnected()) {
+    return false;
+  }
 
-    //TODO: Add auto search triggers and load them
-    QString trigger1 =  QString((const char*)QResource(QString("://sql-commands/trigger_update_orderitem_add.sql")).data());
-    QString trigger2 =  QString((const char*)QResource(QString("://sql-commands/trigger_update_orderitem_remove.sql")).data());
+  QString queryStr = _sqlCommands[OrderItems]._update.arg(_prefix);
 
-    QSqlQuery q00(QString("DROP TRIGGER IF EXISTS `%1update_orderitem_status_add`;").arg(_prefix), _db);
-    if (q00.lastError().type() != QSqlError::NoError) {
-      qCritical() << tr("Query exec failed: %1").arg(q00.lastError().text());
-      return false;
-    }
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
 
-    QSqlQuery q01(trigger1.arg(_prefix), _db);
-    if (q01.lastError().type() != QSqlError::NoError) {
-      qCritical() << tr("Query exec failed: %1").arg(q01.lastError().text());
-      return false;
-    }
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
 
-    QSqlQuery q02(QString("DROP TRIGGER IF EXISTS `%1update_orderitem_status_remove`;").arg(_prefix), _db);
-    if (q02.lastError().type() != QSqlError::NoError) {
-      qCritical() << tr("Query exec failed: %1").arg(q02.lastError().text());
-      return false;
-    }
-    QSqlQuery q03(trigger2.arg(_prefix), _db);
-    if (q03.lastError().type() != QSqlError::NoError) {
-      qCritical() << tr("Query exec failed: %1").arg(q03.lastError().text());
-      return false;
-    }
+  q.bindValue(":amount", item->amount());
+  q.bindValue(":price", item->price());
+  q.bindValue(":state", item->state());
+  q.bindValue(":time", 0);
+  q.bindValue(":id", item->id());
 
-    return true;
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::initTriggers() {
+  if (!isConnected()) {
+    return false;
+  }
+
+  // TODO: Add auto search triggers and load them
+  QString trigger1 =
+      QString((const char *)QResource(
+                  QString("://sql-commands/trigger_update_orderitem_add.sql"))
+                  .data());
+  QString trigger2 = QString(
+      (const char *)QResource(
+          QString("://sql-commands/trigger_update_orderitem_remove.sql"))
+          .data());
+
+  QSqlQuery q00(
+      QString("DROP TRIGGER IF EXISTS `%1update_orderitem_status_add`;")
+          .arg(_prefix),
+      _db);
+  if (q00.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q00.lastError().text());
+    return false;
+  }
+
+  QSqlQuery q01(trigger1.arg(_prefix), _db);
+  if (q01.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q01.lastError().text());
+    return false;
+  }
+
+  QSqlQuery q02(
+      QString("DROP TRIGGER IF EXISTS `%1update_orderitem_status_remove`;")
+          .arg(_prefix),
+      _db);
+  if (q02.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q02.lastError().text());
+    return false;
+  }
+  QSqlQuery q03(trigger2.arg(_prefix), _db);
+  if (q03.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q03.lastError().text());
+    return false;
+  }
+
+  return true;
 }
 
 //------------------------------------------------------------------------------
