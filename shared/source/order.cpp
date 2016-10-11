@@ -255,6 +255,19 @@ bool Order::isNew() const
 
 //------------------------------------------------------------------------------
 
+int Order::countProducts()
+{
+  int count = 0;
+  for(auto item: _items)
+  {
+    if(item->isNew())
+      ++count;
+  }
+  return count;
+}
+
+//------------------------------------------------------------------------------
+
 void Order::itemChanged()
 {
     recalcChange();

@@ -150,3 +150,12 @@ void Table::orderChanged() {
 }
 
 //------------------------------------------------------------------------------
+
+void Table::recalcOrderedProductsCount()
+{
+  _orderedProductCount = 0;
+  for(auto order: _orders)
+    _orderedProductCount += order->countProducts();
+}
+
+//------------------------------------------------------------------------------
