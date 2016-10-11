@@ -11,19 +11,19 @@
 #include <QString>
 #endif
 
-#include "configserver.h"
-#include "tcpserver.h"
-#include "database.h"
-#include "settings.h"
 #include "compackage.h"
 #include "config.h"
+#include "configserver.h"
+#include "database.h"
 #include "schedule.h"
+#include "settings.h"
+#include "tcpserver.h"
 //#include "licence.h"
 
 //------------------------------------------------------------------------------
 
 namespace rotable {
-  class Server;
+class Server;
 }
 
 //------------------------------------------------------------------------------
@@ -31,8 +31,7 @@ namespace rotable {
 /**
  * Server logic
  */
-class rotable::Server : public QObject
-{
+class rotable::Server : public QObject {
   Q_OBJECT
 
 public:
@@ -42,7 +41,7 @@ public:
    * @param configFilePath      path to config file
    * @param parent              parent object
    */
-  Server(const QString& configFilePath = QString("config.ini"),
+  Server(const QString &configFilePath = QString("config.ini"),
          QObject *parent = 0);
 
   /**
@@ -76,7 +75,7 @@ private slots:
    * @param client      client id
    * @param package     package
    */
-  void packageReceived(client_t client, ComPackage* package);
+  void packageReceived(client_t client, ComPackage *package);
 
   /**
    * A client has been disconnected.
@@ -85,16 +84,17 @@ private slots:
    * @param client      client id (now invalid)
    * @param clientName  client name
    */
-  void clientDisconnected(client_t client, const QString& clientName);
+  void clientDisconnected(client_t client, const QString &clientName);
 
 private:
   /**
    * Create data return package for a data request.
    *
    * @param request     request
+   * @param client      request source
    * @return            0 if data was not found
    */
-  ComPackageDataReturn* getData(ComPackageDataRequest* request);
+  ComPackageDataReturn *getData(ComPackageDataRequest *request, client_t client);
 
   /**
    * Set data received by a data set package.
@@ -103,7 +103,7 @@ private:
    * @return            false, if client was not allowed to set this data
    *                    or something failed during the process
    */
-  bool setData(ComPackageDataSet* set, client_t client);
+  bool setData(ComPackageDataSet *set, client_t client);
 
   /**
    * Add a new product category to the database.
@@ -112,7 +112,7 @@ private:
    * @param pc          new product category
    * @return            true on success
    */
-  bool addCategory(ProductCategory* category);
+  bool addCategory(ProductCategory *category);
 
   /**
    * Update an existing product category.
@@ -121,7 +121,7 @@ private:
    * @param pc          product category to update
    * @return            true on success
    */
-  bool updateCategory(ProductCategory* category);
+  bool updateCategory(ProductCategory *category);
 
   /**
    * Update order
@@ -129,14 +129,14 @@ private:
    * @param order       order to update
    * @return
    */
-  bool updateOrder(Order* order);
+  bool updateOrder(Order *order);
 
   /**
    * Create new order
    * @param ordes       List of item in order
    * @return            true on succes
    */
-  bool newOrder(QList<OrderItem *> orders, int clientId );
+  bool newOrder(QList<OrderItem *> orders, int clientId);
 
   /**
    * Add a new product to the database.
@@ -145,7 +145,7 @@ private:
    * @param pc          new product
    * @return            true on success
    */
-  bool addProduct(Product* product);
+  bool addProduct(Product *product);
 
   /**
    * Update an existing product.
@@ -154,7 +154,7 @@ private:
    * @param pc          product to update
    * @return            true on success
    */
-  bool updateProduct(Product* product);
+  bool updateProduct(Product *product);
 
   /**
    * Add a new income to database
@@ -202,7 +202,7 @@ private:
    * @param package     command package
    * @return            true on success
    */
-  bool executeCommand(ComPackageCommand* package);
+  bool executeCommand(ComPackageCommand *package);
 
   /**
    * Prosses login package, then login in property way
@@ -211,7 +211,7 @@ private:
    * @param client      client socket, use to save to table with
    * @return            true on success
    */
-  bool login(ComPackageConnectionRequest* package, client_t client);
+  bool login(ComPackageConnectionRequest *package, client_t client);
 
   /**
    * Method to send package to connected users
@@ -249,7 +249,7 @@ private:
    * Prepre map with ComPackageMessage to send specific table
    * @return            QMap<tableId, package>
    */
-  QMap<int, ComPackageMessage*> queueOrders();
+  QMap<int, ComPackageMessage *> queueOrders();
 
   /**
    * Collect config and parse them to JSON object
@@ -262,7 +262,27 @@ private:
    */
   void sendQueueOrders();
 
+
   bool kindOfFileDestination(ComPackageSendFile* package);
+
+
+  /**
+   * @brief Check if connection was enstablished by admin account
+   * @param connection connection to validate
+   *
+   * @return bool       true if it is a admin
+   */
+  bool ifAdmin(int connection) const;
+
+  /**
+   * @brief Update logged Waiter categories
+   *
+   * @param waiterId    waiter id
+   * @param categoryId  category id
+   * @param type        add category(1) or remove category(-1)
+   */
+  void updateWaiterCategories(int waiterId, int categoryId, int type);
+
 
   /* Configuration file access */
   rotable::ConfigServer _config;
@@ -296,18 +316,23 @@ private:
   /**
    * @Schedule object
    */
-  rotable::Schedule* schedule;
+  rotable::Schedule *schedule;
+
+  /**
+   * List with waiters
+   */
+  QMap<client_t, Waiter*> _waiterList;
 
   /**
    * @brief _licence
    * Licence object
    */
-//  rotable::Licence* _licence;
+  //  rotable::Licence* _licence;
 
-  struct{
-      QList<int> toChange;
-      int newState;
-  } _stateChange;
+  struct {
+    QList<int> toChange; /**< TODO: describe */
+    int newState; /**< TODO: describe */
+  } _stateChange; /**< TODO: describe */
 
 }; // class Server
 

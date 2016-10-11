@@ -6,6 +6,8 @@
 #include "executor.h"
 #include "productcontainer.h"
 #include "filecontainer/imagecontainer.h"
+#include "usertablemodel.h"
+
 
 #include <QObject>
 #include <QMap>
@@ -57,11 +59,17 @@ private:
   /* Images */
   rotable::ImageContainer _images;
 
+  /* Users */
+  rotable::UserContainter _users;
+
   /* Model for category list view */
   CategoryListModel* _categoryListModel;
 
   /* Model for product table view */
   ProductTableModel* _productTableModel;
+\
+  /* Moel for user table view */
+  UserTableModel* _userTableModel;
 }; // class Controller
 
 //------------------------------------------------------------------------------
