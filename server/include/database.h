@@ -578,7 +578,7 @@ public:
       version0d0d3,
   };
 
-  QString newestVesion = "0.0.3";
+  QString const newestVesion = "0.0.3";
 
   /**
    * Check and update version of database
