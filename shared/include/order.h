@@ -509,6 +509,13 @@ public:
 
   bool isNew() const;
 
+  /**
+   * @brief countProducts
+   * COunt new product in order
+   * @return              count
+   */
+  int countProducts();
+
 signals:
   /**
    * @brief
