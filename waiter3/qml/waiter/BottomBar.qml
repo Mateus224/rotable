@@ -50,12 +50,12 @@ Rectangle {
     }
 
     Rectangle {
-        id: waiterCallQueue
+        id: needsWaiterRect
         height: parent.height * 0.6
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
 
-        color: "#FFFF00"
+        TableNeedsWaiterList { id: needsWaiterList}
     }
 }

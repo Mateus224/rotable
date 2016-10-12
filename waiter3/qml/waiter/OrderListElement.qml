@@ -6,12 +6,13 @@ import QtQuick.Controls.Styles 1.4
 Rectangle{
     id: order
 
-    property int productHeight: Math.max(40,dataView.height * 0.12)
+    property int productHeight: Math.max(40,dataView.height * 0.10)
     property int borderWidth: Math.max(8,parent.width * 0.04)
-    property int itemSpacing: Math.max(5,dataView.height*0.015)
+    property int listWidth: Math.max(100,parent.width)
+    property int itemSpacing: Math.max(5,dataView.height*0.0125)
     property string borderColor: "#46C8CF"
 
-    width: parent.width
+    width: listWidth
     height: orderItemsView.count * productHeight + 6 * borderWidth + (orderItemsView.count-1) * itemSpacing
 
     border.width: borderWidth
