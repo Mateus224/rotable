@@ -56,9 +56,12 @@ OTHER_FILES += \
     qml/waiter/OrderList.qml \
     qml/waiter/OrderListElement.qml \
     qml/waiter/OrderProductListElement.qml \
+    qml/waiter/OutgoingList.qml \
     qml/waiter/TimeBar.qml \
     qml/waiter/SimpleClock.qml \
-    qml/waiter/BottomBar.qml
+    qml/waiter/BottomBar.qml \
+    qml/waiter/TableNeedsWaiterList.qml \
+    qml/waiter/TableNeedsWaiterListElement.qml
 
 ########################################################################
 # DESTINATION:
@@ -130,9 +133,12 @@ DISTFILES += \
     qml/waiter/OrderList.qml \
     qml/waiter/OrderListElement.qml \
     qml/waiter/OrderProductListElement.qml \
+    qml/waiter/OutgoingList.qml \
     qml/waiter/TimeBar.qml \
     qml/waiter/SimpleClock.qml \
-    qml/waiter/BottomBar.qml
+    qml/waiter/BottomBar.qml \
+    qml/waiter/TableNeedsWaiterList.qml \
+    qml/waiter/TableNeedsWaiterListElement.qml
 
 ########################################################################
 # TRANSLATION:
