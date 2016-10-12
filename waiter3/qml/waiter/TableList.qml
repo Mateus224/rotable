@@ -8,10 +8,12 @@ ListView {
 
     property int tableElementHeight: Math.max(30,dataView.height * 0.1)
 
-    width: parent.width * 0.3
+    width: waiterMain.leftMenuWidth
     height: tables.count * tableElementHeight
 
     interactive: false
+
+    clip: true
 
     model: tables
 

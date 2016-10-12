@@ -9,7 +9,7 @@ ListView {
 
     width: parent.width * 0.35
 
-    spacing: 10
+    spacing: Math.max(10,dataView.height*0.025)
 
     model: orderboard
 

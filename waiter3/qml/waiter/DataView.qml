@@ -9,6 +9,8 @@ Rectangle {
 
     state: "Tables"
 
+    property int leftMenuWidth
+
     TablesView {
         id: tablesView
 

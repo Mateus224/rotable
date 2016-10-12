@@ -7,6 +7,8 @@ Rectangle {
 
     id: waiterMain
 
+    property int leftMenuWidth: width * 0.2
+
     TimeBar {
         id: timeBar
     }
@@ -25,5 +27,6 @@ Rectangle {
         anchors.top: timeBar.bottom
         anchors.left: parent.left
         anchors.bottom: parent.bottom
+        menuWidth: leftMenuWidth
     }
 }

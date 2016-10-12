@@ -9,8 +9,9 @@ Rectangle {
     state: "Expand"
 
     property int menuItemHeight: Math.max(30,dataView.height * 0.1)
-    property int menuWidth: waiterMain.width * 0.3
+    property int menuWidth: waiterMain.leftMenuWidth
     property real autoScrollTreshhold: 0.3
+    property int borderThickness: 1
 
     property int scrollTimeMax: 500
 
@@ -22,7 +23,7 @@ Rectangle {
         width: waiterMain.width * 0.03
         height: width
 
-        border.width: 1
+        border.width: borderThickness
         border.color: "#000000"
 
         property int collapseDuration: (x/menuWidth)*scrollTimeMax
@@ -69,7 +70,7 @@ Rectangle {
             drag.target: parent
             drag.axis: Drag.XAxis
             drag.minimumX: 0
-            drag.maximumX: menuWidth
+            drag.maximumX: menuWidth + 1
         }
 
         NumberAnimation {
@@ -94,13 +95,14 @@ Rectangle {
     Rectangle {
         id: dragMenu
 
-        width: menuWidth
+        width: menuWidth + 10
         height: waiterMain.height - timeBar.height
 
         anchors.right: dragButton.left
         anchors.top: parent.top
+        anchors.topMargin: 8
 
-        border.width: 1
+        border.width: borderThickness
         border.color: "#000000"
 
         PullOutMenuElement {
@@ -110,6 +112,7 @@ Rectangle {
             selected: true
 
             anchors.top: parent.top
+            anchors.margins: borderThickness
 
             MouseArea {
                 id: orderMouseArea
@@ -131,6 +134,7 @@ Rectangle {
             height: mainMenuLayout.menuItemHeight
 
             anchors.top: orderButton.bottom
+            anchors.margins: borderThickness
 
             MouseArea {
                 id: archiveMouseArea
@@ -152,6 +156,7 @@ Rectangle {
             height: mainMenuLayout.menuItemHeight
 
             anchors.top: archiveButton.bottom
+            anchors.margins: borderThickness
 
             MouseArea {
                 id: configMouseArea
@@ -173,6 +178,7 @@ Rectangle {
             height: mainMenuLayout.menuItemHeight
 
             anchors.top: configButton.bottom
+            anchors.margins: borderThickness
 
             MouseArea {
                 id: languageMouseArea
@@ -194,6 +200,7 @@ Rectangle {
             height: mainMenuLayout.menuItemHeight
 
             anchors.top: languageButton.bottom
+            anchors.margins: borderThickness
 
             MouseArea {
                 id: logoutMouseare
