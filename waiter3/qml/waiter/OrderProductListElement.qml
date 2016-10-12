@@ -6,7 +6,7 @@ import QtQuick.Controls.Styles 1.4
 Rectangle {
     id: productButton
 
-    property int borderWidth: Math.max(4,parent.width * 0.02)
+    property int borderWidth: Math.max(2,parent.width * 0.01)
     property int itemWidth: Math.max(parent.width*0.9,90)
 
     width: itemWidth

@@ -14,7 +14,7 @@ Rectangle {
 
     anchors.left: parent.left
     anchors.horizontalCenter: parent.horizontalCenter
-    anchors.margins: 2
+    anchors.margins: parent.borderThickness
 
     color: selected ? "#000FDF" : "#FFFFFF"
 
