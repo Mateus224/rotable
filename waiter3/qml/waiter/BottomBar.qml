@@ -23,7 +23,7 @@ Rectangle {
     Rectangle {
         id: incText
 
-        height: parent.height * 0.5
+        height: parent.height * 0.4
         width: waiterMain.width * 0.35
         anchors.left: empty.right
         anchors.top: parent.top
@@ -37,7 +37,7 @@ Rectangle {
 
     Rectangle {
 
-        height: parent.height * 0.5
+        height: parent.height * 0.4
         width: waiterMain.width * 0.35
         anchors.left: incText.right
         anchors.top: parent.top
@@ -47,5 +47,15 @@ Rectangle {
             font.pixelSize: parent.height * 0.8
             anchors.centerIn: parent
         }
+    }
+
+    Rectangle {
+        id: needsWaiterRect
+        height: parent.height * 0.6
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+
+        TableNeedsWaiterList { id: needsWaiterList}
     }
 }
