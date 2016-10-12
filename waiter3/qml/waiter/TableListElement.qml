@@ -9,9 +9,11 @@ Rectangle {
 
     enabled: model.orderNumber == 0 ? false : true
 
+
+
     width: parent.width
 
-    property var connected: model.isConnected ? "Connected" : "Disconnected"
+//    property bool connected: model.isConnected ? true : false
 
     anchors.horizontalCenter: parent.horizontalCenter
     color: model.isSelected ? "#000FDF" : "#FFFFFF"
@@ -20,8 +22,8 @@ Rectangle {
         id: tableName
         anchors.centerIn: parent
         text: qsTr("Table ") + model.name + langObject.emptyString
-        font.pixelSize: parent.height * 0.3
-        color: model.isSelected ? "#FFFFFF" : "#000000"
+        font.pixelSize: parent.height * 0.4
+        color: model.isConnected ? (model.isSelected ? "#FFFFFF" : "#000000") : "#8F8F8F"
     }
 
     Rectangle {
