@@ -26,7 +26,7 @@ Rectangle {
         height: parent.height
 
         Text {
-            text: "username"
+            text: waiter.login
             font.pixelSize: parent.height * 0.6
             anchors.centerIn: parent
         }
@@ -34,11 +34,11 @@ Rectangle {
 
     MouseArea{
         anchors.fill: parent
-        onClicked: {
-            if (timeBarLayout.state=="Success") timeBarLayout.state="Fail"
-            else if (timeBarLayout.state=="Fail") timeBarLayout.state="Normal"
-            else if (timeBarLayout.state=="Normal") timeBarLayout.state="Success"
-        }
+//        onClicked: {
+//            if (timeBarLayout.state=="Success") timeBarLayout.state="Fail"
+//            else if (timeBarLayout.state=="Fail") timeBarLayout.state="Normal"
+//            else if (timeBarLayout.state=="Normal") timeBarLayout.state="Success"
+//        }
     }
 
     states: [
