@@ -17,10 +17,8 @@
 #include <QObject>
 #endif
 
-//------------------------------------------------------------------------------
-
 namespace rotable {
-class Table;
+  class Table;
 }
 
 //------------------------------------------------------------------------------
@@ -37,6 +35,8 @@ class rotable::Table : public rotable::Client {
                  NOTIFY waiterIsNeededChanged)
   Q_PROPERTY(bool isConnected READ isConnected WRITE setIsConnected NOTIFY
                  isConnectedChanged)
+  Q_PROPERTY(int orderedProductCount READ getOrderedProductCount WRITE
+                 setOrderedProductCount NOTIFY orderedProductCountChanged)
 
 public:
   // Default destructor
@@ -149,7 +149,9 @@ public:
 #ifdef WAITER
     connect(order, &rotable::Order::stateChanged, this,
             &rotable::Table::recalcLastOrder);
-    order->setState(order->state());
+    connect(order, &rotable::Order::itemsChanged, this,
+            &rotable::Table::recalcOrderedProductsCount);
+    recalcOrderedProductsCount();
 #endif
     emit tableChanged();
   }
@@ -194,6 +196,12 @@ public:
 
   QMap<int, QJsonValue> *getOrderJSON() const;
 
+  int getOrderedProductCount() const { return _orderedProductCount; }
+
+  void setOrderedProductCount(int orderedProductCount) {
+    _orderedProductCount = orderedProductCount;
+  }
+
 protected:
   virtual void addAdditionalData(QJsonObject &obj) const;
   virtual void setAdditionalData(QJsonObject &obj);
@@ -231,6 +239,8 @@ private:
    */
   int _lastOrder;
 
+  int _orderedProductCount;
+
 signals:
   /**
    * @brief
@@ -258,6 +268,8 @@ signals:
    */
   void lastOrderChange();
 
+  void orderedProductCountChanged();
+
 public slots:
   /**
    * @brief
@@ -276,6 +288,12 @@ private slots:
    *
    */
   void orderChanged();
+
+  /**
+   * @brief Slot use for recalc how many products is ordered
+   *
+   */
+  void recalcOrderedProductsCount();
 
 }; // class Table
 
