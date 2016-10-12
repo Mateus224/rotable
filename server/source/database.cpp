@@ -328,6 +328,8 @@ bool Database::orderItemIds(QList<int> &ids, int orderId, Waiter *waiterObj)
 
   QString queryStr = "SELECT %1order_items.id FROM %1order_items,%1products WHERE %1order_items.order_id = %2 and %1order_items.product_id = %1products.id and %1products.category_id in (%3);";
   QString waiterStr;
+  if(!waiterObj->categories())
+    return true;
   for(auto id : *(waiterObj->categories()))
   {
     waiterStr += QString::number(id) + ",";
