@@ -22,8 +22,11 @@
 		<file alias="qml/OrderList.qml">qml/waiter/OrderList.qml</file>
 		<file alias="qml/OrderListElement.qml">qml/waiter/OrderListElement.qml</file>
 		<file alias="qml/OrderProductListElement.qml">qml/waiter/OrderProductListElement.qml</file>
+		<file alias="qml/OutgoingList.qml">qml/waiter/OutgoingList.qml</file>
 		<file alias="qml/TimeBar.qml">qml/waiter/TimeBar.qml</file>
 		<file alias="qml/SimpleClock.qml">qml/waiter/SimpleClock.qml</file>
 		<file alias="qml/BottomBar.qml">qml/waiter/BottomBar.qml</file>
+		<file alias="qml/TableNeedsWaiterList.qml">qml/waiter/TableNeedsWaiterList.qml</file>
+		<file alias="qml/TableNeedsWaiterListElement.qml">qml/waiter/TableNeedsWaiterListElement.qml</file>
     </qresource>
 </RCC>
