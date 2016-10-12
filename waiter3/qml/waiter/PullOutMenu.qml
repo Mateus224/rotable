@@ -33,10 +33,8 @@ Rectangle {
         Drag.dragType: Drag.Automatic
         onDragActiveChanged: {
             if (dragActive) {
-                console.log("drag started")
                 Drag.start();
             } else {
-                console.log("drag finished")
                 if (mainMenuLayout.state=="Expand")
                     if (x>=menuWidth*autoScrollTreshhold)
                     {
@@ -72,12 +70,6 @@ Rectangle {
             drag.axis: Drag.XAxis
             drag.minimumX: 0
             drag.maximumX: menuWidth
-
-            onClicked:
-            {
-                console.log("colldur: "+dragButton.collapseDuration)
-                console.log("expanddur"+dragButton.expandDuration)
-            }
         }
 
         NumberAnimation {

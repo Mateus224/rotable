@@ -9,8 +9,6 @@ Rectangle {
 
     enabled: model.orderNumber == 0 ? false : true
 
-
-
     width: parent.width
 
 //    property bool connected: model.isConnected ? true : false
