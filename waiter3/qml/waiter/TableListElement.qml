@@ -7,7 +7,7 @@ Rectangle {
 
     id: buttonBody
 
-    enabled: model.orderNumber == 0 ? false : true
+    //enabled: model.orderNumber == 0 ? false : true
 
     width: parent.width
 

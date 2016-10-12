@@ -7,7 +7,7 @@ Rectangle{
     id: order
 
     property int productHeight: Math.max(40,dataView.height * 0.10)
-    property int borderWidth: Math.max(8,parent.width * 0.04)
+    property int borderWidth: Math.max(4,parent.width * 0.02)
     property int listWidth: Math.max(100,parent.width)
     property int itemSpacing: Math.max(5,dataView.height*0.0125)
     property string borderColor: "#46C8CF"
@@ -35,15 +35,16 @@ Rectangle{
 
     Rectangle {
         width: orderTime.font.pixelSize * 4
-        height: borderWidth + 1
+        height: borderWidth * 2
         anchors.top: parent.top
+        anchors.topMargin: -1
         anchors.horizontalCenter: parent.horizontalCenter
 
         Text {
             id: orderTime
-            text: "00:00"
+            text: model.time.hour() +":"+model.time.minutes()
             color: borderColor
-            font.pixelSize: borderWidth * 0.9
+            font.pixelSize: borderWidth * 1.2
             font.bold: true
             anchors.top: parent.top
             anchors.horizontalCenter: parent.horizontalCenter
