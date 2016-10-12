@@ -5,15 +5,15 @@ import QtQuick.Controls.Styles 1.4
 
 ListView {
 
-    id: orderList
+    id: outgoingList
 
     width: parent.width * 0.35
 
-    spacing: 10
-
-    model: orderboard
-
     clip:true
 
-    delegate: OrderListElement {}
+    Rectangle {
+        id: test
+        color: "#00FFFF"
+        anchors.fill: parent
+    }
 }

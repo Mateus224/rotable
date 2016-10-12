@@ -17,8 +17,23 @@ Rectangle {
 
     OrderList {
         id: orderList
-        height: parent.height
         anchors.left: tableList.right
+        anchors.top: parent.top
+        anchors.bottom: bottomBar.top
         anchors.margins: orderListMargin
+    }
+
+    OutgoingList {
+        id: outgoingList
+        anchors.left: orderList.right
+        anchors.top: parent.top
+        anchors.bottom: bottomBar.top
+        anchors.margins: orderListMargin
+    }
+
+    BottomBar {
+        id: bottomBar
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
     }
 }
