@@ -65,6 +65,13 @@
         <file>sql-commands/update-database/0.0.1.sql</file>
         <file>sql-commands/update-database/0.0.2.sql</file>
         <file>sql-commands/update-database/0.0.3.sql</file>
+        <file>sql-commands/waitercategories_create.sql</file>
+        <file>sql-commands/waitercategories_insert.sql</file>
+        <file>sql-commands/waitercategories_remove.sql</file>
+        <file>sql-commands/waitercategories_select_ids.sql</file>
+        <file>sql-commands/waitercategories_select.sql</file>
+        <file>sql-commands/waitercategories_update.sql</file>
+        <file>sql-commands/update-database/0.0.4.sql</file>
         <file>sql-commands/medias_create.sql</file>
         <file>sql-commands/medias_insert.sql</file>
         <file>sql-commands/medias_remove.sql</file>

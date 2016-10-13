@@ -11,11 +11,11 @@
 
 using namespace rotable;
 
-rotable::Order::Order(const QJsonValue& jval, QObject* parent)
-  : Order(parent)
-{
+//rotable::Order::Order(const QJsonValue& jval, QObject* parent)
+//  : Order(parent)
+//{
 
-}
+//}
 
 //------------------------------------------------------------------------------
 
@@ -255,6 +255,19 @@ bool Order::isNew() const
 
 //------------------------------------------------------------------------------
 
+int Order::countProducts()
+{
+  int count = 0;
+  for(auto item: _items)
+  {
+    if(item->isNew())
+      ++count;
+  }
+  return count;
+}
+
+//------------------------------------------------------------------------------
+
 void Order::itemChanged()
 {
     recalcChange();
@@ -278,7 +291,7 @@ void Order::checkOrderState()
     case State::Sent:
         if(!isNew())
             setState(State::Prepared);
-    [[clang::fallthrough]]; case State::Prepared:
+    case State::Prepared:
         if(isDone())
             setState(State::Close);
     }

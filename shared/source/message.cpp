@@ -104,7 +104,7 @@ QueueMessage::QueueMessage(ComPackageMessage *message, QObject *parent): QueueMe
 
 //------------------------------------------------------------------------------
 
-QueueMessage::QueueMessage(QMap<int, int> orderQueue, QObject *parent): _orderQueue(orderQueue), Message(parent)
+QueueMessage::QueueMessage(QMap<int, int> orderQueue, QObject *parent): Message(parent), _orderQueue(orderQueue)
 {
 
 }

@@ -75,7 +75,7 @@ Q_INVOKABLE void LanguageSupport::selectLanguage(const QString &language)
 bool LanguageSupport::loadSingleFile(const QString &qmFileName)
 {
     bool loadSuccesfull = _translator1->load(qmFileName,"localisation");
-    if (!loadSuccesfull);
+//    if (!loadSuccesfull);
         //qDebug() << tr("Could not load file ")+qmFileName;
     return loadSuccesfull;
 }
