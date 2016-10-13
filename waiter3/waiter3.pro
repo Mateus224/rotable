@@ -60,6 +60,7 @@ OTHER_FILES += \
     qml/waiter/TimeBar.qml \
     qml/waiter/SimpleClock.qml \
     qml/waiter/BottomBar.qml \
+    qml/waiter/RightPanel.qml \
     qml/waiter/TableNeedsWaiterList.qml \
     qml/waiter/TableNeedsWaiterListElement.qml
 
@@ -137,6 +138,7 @@ DISTFILES += \
     qml/waiter/TimeBar.qml \
     qml/waiter/SimpleClock.qml \
     qml/waiter/BottomBar.qml \
+    qml/waiter/RightPanel.qml \
     qml/waiter/TableNeedsWaiterList.qml \
     qml/waiter/TableNeedsWaiterListElement.qml
 
