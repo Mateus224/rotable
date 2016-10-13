@@ -46,13 +46,13 @@ SOURCES += \
     source/producttableiconcomboboxdelegate.cpp \
     source/producttablepricespinboxdelegate.cpp \
     source/addnewlicence.cpp \
-  source/usertablemodel.cpp \
+    source/addnewvideo.cpp \
+    source/usertablemodel.cpp \
     source/usercontainer.cpp \
     source/adduserdialog.cpp \
     source/setwaitercategory.cpp \
     source/waitercategories.cpp \
-    source/resetpassword.cpp \
-    source/addnewvideo.cpp
+    source/resetpassword.cpp
 
 HEADERS += \
     include/mainwindow.h \
@@ -79,13 +79,13 @@ HEADERS += \
     private/precomp.h \
     include/producttablepricespinboxdelegate.h \
     include/addnewlicence.h \
+    include/addnewvideo.h \
     include/usertablemodel.h \
     include/usercontainer.h \
     include/adduserdialog.h \
     include/setwaitercategory.h \
     include/waitercategories.h \
-    include/resetpassword.h \
-    include/addnewvideo.h
+    include/resetpassword.h
 
 FORMS += \
     ui/mainwindow.ui \
@@ -93,11 +93,11 @@ FORMS += \
     ui/addproductdialog.ui \
     ui/addproductcategorydialog.ui \
     ui/addnewlicencedialog.ui \
+    ui/addnewvideodialog.ui \
     ui/adduserdialog.ui \
     ui/setwaitercategory.ui \
     ui/waitercategories.ui \
-    ui/resetpassword.ui \
-    ui/addnewvideodialog.ui
+    ui/resetpassword.ui
 
 RESOURCES += \
     resources/resources.qrc \
