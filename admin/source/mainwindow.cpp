@@ -12,44 +12,45 @@ MainWindow::MainWindow(QWidget *parent)
   _ui->setupUi(this);
   _ui->_tabWidget->setEnabled(false);
 
-  connect(_ui->_actionConnect, SIGNAL(triggered()), this,
-          SIGNAL(actionConnect()));
-  connect(_ui->_actionDisconnect, SIGNAL(triggered()), this,
-          SIGNAL(actionDisconnect()));
-  connect(_ui->_toolButtonAddCategory, SIGNAL(clicked(bool)), this,
-          SIGNAL(actionAddProductCategory()));
-  connect(_ui->_toolButtonAddProduct, SIGNAL(clicked(bool)), this,
-          SIGNAL(actionAddProduct()));
-  connect(_ui->_toolButtonDbReset, SIGNAL(clicked(bool)), this,
-          SIGNAL(actionResetDatabase()));
-  connect(_ui->_toolButtonDbExport, SIGNAL(clicked()), this,
-          SIGNAL(actionExportDatabase()));
-  connect(_ui->_toolButtonDbImport, SIGNAL(clicked()), this,
-          SIGNAL(actionImportDatabase()));
-  connect(_ui->_toolButtonRemove, SIGNAL(clicked(bool)), this,
-          SIGNAL(actionRemoveCurrentEntry()));
-  connect(_ui->_toolButtonRename, SIGNAL(clicked(bool)), this,
-          SIGNAL(actionRenameCurrentEntry()));
-  connect(_ui->_toolButtonExport, SIGNAL(clicked(bool)), this,
-          SIGNAL(actionExportStatistic()));
-  connect(_ui->_toolButtonClearDebugListening, SIGNAL(clicked()), this,
-          SIGNAL(actionClearDebugServerLog()));
-  connect(_ui->_toolButtonStartDebugListening, SIGNAL(clicked()), this,
-          SIGNAL(actionStartDebugServerListening()));
-  connect(_ui->_toolButtonStopDebugListening, SIGNAL(clicked()), this,
-          SIGNAL(actionStopDebugServerListening()));
-  connect(_ui->_toolAddLicence, &QPushButton::clicked, this,
-          &MainWindow::actionAddLicence);
-  connect(this, &MainWindow::onLicencePathSet, _ui->licencePathLineEdit,
-          &QLineEdit::setText);
-  connect(this, &MainWindow::onLicenceStatusSet, _ui->licenceStatusLineEdit,
-          &QLineEdit::setText);
-  connect(_ui->_tableViewProducts, SIGNAL(selectionChanged(int)), this,
-          SLOT(onViewSelected(int)));
-  connect(_ui->_listViewCategories, SIGNAL(selectionChanged(int)), this,
-          SLOT(onViewSelected(int)));
+  connect(_ui->_actionConnect, SIGNAL(triggered()),
+          this, SIGNAL(actionConnect()));
+  connect(_ui->_actionDisconnect, SIGNAL(triggered()),
+          this, SIGNAL(actionDisconnect()));
+  connect(_ui->_toolButtonAddCategory, SIGNAL(clicked(bool)),
+          this, SIGNAL(actionAddProductCategory()));
+  connect(_ui->_toolButtonAddProduct, SIGNAL(clicked(bool)),
+          this, SIGNAL(actionAddProduct()));
+  connect(_ui->_toolButtonDbReset, SIGNAL(clicked(bool)),
+          this, SIGNAL(actionResetDatabase()));
+  connect(_ui->_toolButtonDbExport, SIGNAL(clicked()),
+          this, SIGNAL(actionExportDatabase()));
+  connect(_ui->_toolButtonDbImport, SIGNAL(clicked()),
+          this, SIGNAL(actionImportDatabase()));
+  connect(_ui->_toolButtonRemove, SIGNAL(clicked(bool)),
+          this, SIGNAL(actionRemoveCurrentEntry()));
+  connect(_ui->_toolButtonRename, SIGNAL(clicked(bool)),
+          this, SIGNAL(actionRenameCurrentEntry()));
+  connect(_ui->_toolButtonExport, SIGNAL(clicked(bool)),
+          this, SIGNAL(actionExportStatistic()));
+  connect(_ui->_toolButtonClearDebugListening, SIGNAL(clicked()),
+          this, SIGNAL(actionClearDebugServerLog()));
+  connect(_ui->_toolButtonStartDebugListening, SIGNAL(clicked()),
+          this, SIGNAL(actionStartDebugServerListening()));
+  connect(_ui->_toolButtonStopDebugListening, SIGNAL(clicked()),
+          this, SIGNAL(actionStopDebugServerListening()));
+  connect(_ui->_toolAddLicence, &QPushButton::clicked,
+          this, &MainWindow::actionAddLicence);
+  connect(this, &MainWindow::onLicencePathSet,
+          _ui->licencePathLineEdit, &QLineEdit::setText);
+  connect(this, &MainWindow::onLicenceStatusSet,
+          _ui->licenceStatusLineEdit, &QLineEdit::setText);
+
     connect(_ui->addVideoButton, &QPushButton::clicked,this,&MainWindow::addVideo);
-_ui->_statusBar->showMessage(tr("Disconnected"));
+
+  connect(_ui->_tableViewProducts, SIGNAL(selectionChanged(int)), this, SLOT(onViewSelected(int)));
+   connect(_ui->_listViewCategories, SIGNAL(selectionChanged(int)), this, SLOT(onViewSelected(int)));
+
+  _ui->_statusBar->showMessage(tr("Disconnected"));
   connect(_ui->_toolButtonUp, &QToolButton::clicked, this, &MainWindow::onUp);
   connect(_ui->_toolButtonDown, &QToolButton::clicked, this,
           &MainWindow::onDown);

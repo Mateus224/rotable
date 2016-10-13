@@ -66,8 +66,8 @@ private:
     Passwords,
     MacAdresses,
     TableDetails,
-    WaiterCategories,
-    Media
+    Media,
+    WaiterCategories
   };
 
   /**
@@ -594,7 +594,9 @@ public:
     version0d0d4,
   };
 
-  QString newestVesion = "0.0.4";
+
+  QString const newestVesion = "0.0.4";
+
 
   /**
    * Check and update version of database

@@ -6,10 +6,9 @@
 #include "compackage.h"
 #include "configadmin.h"
 #include "serverloglistener.h"
+#include "filecontainer/imagecontainer.h"
 #include "tcpclient.h"
 #include "usercontainer.h"
-#include "filecontainer/imagecontainer.h"
-
 #include <QItemSelection>
 #include <QObject>
 
