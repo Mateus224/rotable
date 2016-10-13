@@ -28,5 +28,6 @@
 		<file alias="qml/BottomBar.qml">qml/waiter/BottomBar.qml</file>
 		<file alias="qml/TableNeedsWaiterList.qml">qml/waiter/TableNeedsWaiterList.qml</file>
 		<file alias="qml/TableNeedsWaiterListElement.qml">qml/waiter/TableNeedsWaiterListElement.qml</file>
+		<file alias="qml/RightPanel.qml">qml/waiter/RightPanel.qml</file>
     </qresource>
 </RCC>

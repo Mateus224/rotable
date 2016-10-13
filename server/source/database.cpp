@@ -731,6 +731,7 @@ Order *Database::order(int id, Waiter *waiter)
   o->setId(orderId);
   o->setClientId(clientId);
   o->setState(state);
+  o->setTimeSent(orderSent);
 
   QList<int> itemsId;
 

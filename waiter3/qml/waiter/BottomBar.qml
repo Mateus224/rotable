@@ -14,7 +14,7 @@ Rectangle {
 
     Rectangle {
         id: empty
-        width: waiterMain.width * 0.3
+        width: waiterMain.leftMenuWidth
         height: parent.height
         anchors.left: parent.left
         anchors.top: parent.top
@@ -24,7 +24,7 @@ Rectangle {
         id: incText
 
         height: parent.height * 0.4
-        width: waiterMain.width * 0.35
+        width: waiterMain.width * 0.33
         anchors.left: empty.right
         anchors.top: parent.top
 
@@ -38,7 +38,7 @@ Rectangle {
     Rectangle {
 
         height: parent.height * 0.4
-        width: waiterMain.width * 0.35
+        width: waiterMain.width * 0.33
         anchors.left: incText.right
         anchors.top: parent.top
 
