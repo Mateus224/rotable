@@ -16,11 +16,12 @@ QWidget *ProductTablePriceSpinBoxDelegate::createEditor(QWidget *parent,
                                                         const QStyleOptionViewItem &option,
                                                         const QModelIndex &index) const
 {
+  Q_UNUSED(index)
+  Q_UNUSED(option)
   QSpinBox *editor = new QSpinBox(parent);
   editor->setFrame(false);
   editor->setMinimum(0);
   editor->setMaximum(65535);
-
   return editor;
 }
 
@@ -54,5 +55,6 @@ void ProductTablePriceSpinBoxDelegate::updateEditorGeometry(QWidget *editor,
                                                             const QStyleOptionViewItem &option,
                                                             const QModelIndex &index) const
 {
+  Q_UNUSED(index)
   editor->setGeometry(option.rect);
 }

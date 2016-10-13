@@ -264,7 +264,9 @@ ComPackage* ComPackage::fromJson(const QJsonDocument& doc)
         p->_fileNames.append(so[ROTABLE_PACKAGE_FILE_NAMES].toString());
         p->_files.append(p->base64ToQString(so[ROTABLE_PACKAGE_FILE_FILE].toString()));
     }
-    LogManager::getInstance()->logInfo(p->_files.at(1));
+    if(p->_fileUsage > 0)
+      for(auto file: p->_files)
+        LogManager::getInstance()->logInfo(file);
 
     ret=p;  
   } break;

@@ -1,0 +1,32 @@
+<RCC>
+    <qresource prefix="/waiter">
+	
+        <file>resources/rotable_logo.png</file>
+        <file>resources/Cross.png</file>
+        <file>resources/Check.png</file>
+        <file>resources/Check_grey.png</file>
+        <file>resources/Cross_grey.png</file>
+		
+		<file>images/money.svg</file>
+		<file>images/trash.svg</file>
+        <file alias="qml/main.qml">qml/waiter/main.qml</file>
+		<file alias="qml/LoginView.qml">qml/waiter/LoginView.qml</file>
+		<file alias="qml/WaiterView.qml">qml/waiter/WaiterView.qml</file>
+		<file alias="qml/PullOutMenu.qml">qml/waiter/PullOutMenu.qml</file>
+		<file alias="qml/PullOutMenuModel.qml">qml/waiter/PullOutMenuModel.qml</file>
+		<file alias="qml/PullOutMenuElement.qml">qml/waiter/PullOutMenuElement.qml</file>
+		<file alias="qml/DataView.qml">qml/waiter/DataView.qml</file>
+		<file alias="qml/TablesView.qml">qml/waiter/TablesView.qml</file>
+		<file alias="qml/TableList.qml">qml/waiter/TableList.qml</file>
+		<file alias="qml/TableListElement.qml">qml/waiter/TableListElement.qml</file>
+		<file alias="qml/OrderList.qml">qml/waiter/OrderList.qml</file>
+		<file alias="qml/OrderListElement.qml">qml/waiter/OrderListElement.qml</file>
+		<file alias="qml/OrderProductListElement.qml">qml/waiter/OrderProductListElement.qml</file>
+		<file alias="qml/OutgoingList.qml">qml/waiter/OutgoingList.qml</file>
+		<file alias="qml/TimeBar.qml">qml/waiter/TimeBar.qml</file>
+		<file alias="qml/SimpleClock.qml">qml/waiter/SimpleClock.qml</file>
+		<file alias="qml/BottomBar.qml">qml/waiter/BottomBar.qml</file>
+		<file alias="qml/TableNeedsWaiterList.qml">qml/waiter/TableNeedsWaiterList.qml</file>
+		<file alias="qml/TableNeedsWaiterListElement.qml">qml/waiter/TableNeedsWaiterListElement.qml</file>
+    </qresource>
+</RCC>

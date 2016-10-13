@@ -237,6 +237,10 @@ private slots:
   void onSocketError(QAbstractSocket::SocketError error);
 
   void onGimmeLogHistory(int flags);
+  /**
+   * @brief
+   *
+   */
   void onRemoteClientDisconnected();
 
 private:
