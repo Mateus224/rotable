@@ -31,6 +31,14 @@ Rectangle {
         anchors.margins: orderListMargin
     }
 
+    RightPanel {
+        id: rightPanel
+        anchors.left: outgoingList.right
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.bottom: bottomBar.top
+    }
+
     BottomBar {
         id: bottomBar
         anchors.left: parent.left

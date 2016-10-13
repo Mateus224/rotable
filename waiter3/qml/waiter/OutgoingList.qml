@@ -7,7 +7,7 @@ ListView {
 
     id: outgoingList
 
-    width: parent.width * 0.35
+    width: parent.width * 0.33
 
     clip:true
 

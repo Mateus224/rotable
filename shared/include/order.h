@@ -307,6 +307,7 @@ private:
   Q_PROPERTY(int state READ state WRITE setState NOTIFY stateChanged)
   Q_PROPERTY(int clientId READ clientId WRITE setClientId NOTIFY clientIdChanged)
   Q_PROPERTY(​QQmlListProperty<OrderItem> items READ items NOTIFY itemsChanged)
+  Q_PROPERTY(QDateTime timeSent READ timeSent WRITE setTimeSent NOTIFY timeSentChanged)
 
 public:
 //  /**
@@ -338,7 +339,20 @@ public:
    * @param id
    */
   inline void setId(int id) { _id = id; emit idChanged();}
-
+  /**
+   * @brief     Returns time the order was sent
+   *
+   *
+   *
+   * @return    QDateTime
+   */
+  inline QDateTime timeSent() { return _timeSent; }
+  /**
+   * @brief
+   *
+   * @param time
+   */
+  inline void setTimeSent(QDateTime time) { _timeSent = time; emit timeSentChanged();}
   /**
    * @brief
    *

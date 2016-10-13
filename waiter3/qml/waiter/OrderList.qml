@@ -7,7 +7,7 @@ ListView {
 
     id: orderList
 
-    width: parent.width * 0.35
+    width: parent.width * 0.33
 
     spacing: Math.max(10,dataView.height*0.025)
 

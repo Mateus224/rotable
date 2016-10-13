@@ -25,10 +25,25 @@ Rectangle {
         anchors.topMargin: 8
     }
 
+    SequentialAnimation {
+        id: hideAnim
+        NumberAnimation {
+            target: needsWaiterBody
+            property: "anchors.bottomMargin"
+            duration: 300
+            easing.type: Easing.InOutQuad
+            to: -parent.height * 1.5
+        }
+        ScriptAction { script: needBoard.unneedTable(model.tableIdx); }
+    }
+
     MouseArea {
         id: mouseArea
         anchors.fill: parent
 
-        onClicked: needBoard.unneedTable(model.tableIdx)
+        onClicked: {
+            hideAnim.start()
+//            needBoard.unneedTable(model.tableIdx)
+        }
     }
 }
