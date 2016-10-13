@@ -36,12 +36,21 @@ public:
      Connector(QObject *parent = 0)
         :QObject(parent){}
 signals:
+    /**
+     * @brief
+     *
+     * @param msg
+     */
     void trigger(rotable::Message *msg);
 };
 
 //------------------------------------------------------------------------------
 
 
+/**
+ * @brief
+ *
+ */
 class rotable::MessageConnector : public QObject
 {
     Q_OBJECT
@@ -54,6 +63,13 @@ public:
     MessageConnector(QObject *parent = 0);
 
     template<typename Func2>
+    /**
+     * @brief
+     *
+     * @param msgType
+     * @param toBind
+     * @param reciver
+     */
     inline void addBindMethod(int msgType, Func2 toBind, const typename QtPrivate::FunctionPointer<Func2>::Object* reciver)
     {
         Connector *connector;
@@ -79,7 +95,7 @@ public slots:
     void reciveMessagePackage(ComPackageMessage *msgPcg);
 
 private:
-    QMap<int, rotable::Connector*> _bindMsg;
+    QMap<int, rotable::Connector*> _bindMsg; /**< TODO: describe */
 };
 
 //------------------------------------------------------------------------------

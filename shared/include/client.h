@@ -14,106 +14,301 @@
 //------------------------------------------------------------------------------
 
 namespace rotable {
-    class Client;
-    class User;
-    class Waiter;
-    class Admin;
+class Client;
+class User;
+class Waiter;
+class Admin;
 }
 
 //------------------------------------------------------------------------------
 
-
 /**
  * @brief The rotable::Waiter class defines an ordered item.
  */
-class rotable:: Client : public QObject
-{
-    Q_OBJECT
+class rotable::Client : public QObject {
+  Q_OBJECT
 
-    Q_PROPERTY(int id READ id WRITE setId NOTIFY idChanged )
-    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged )
+  Q_PROPERTY(int id READ id WRITE setId NOTIFY idChanged)
+  Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
 public:
+  /**
+   * @brief
+   *
+   * @param parent
+   */
+  explicit Client(QObject *parent = 0);
+  /**
+   * @brief
+   *
+   */
+  ~Client();
 
-    explicit  Client(QObject *parent = 0);
-    ~Client();
+  /**
+   * @brief
+   *
+   * @return int
+   */
+  inline int id() const { return _id; }
+  /**
+   * @brief
+   *
+   * @param id
+   */
+  inline void setId(int id) {
+    _id = id;
+    emit idChanged();
+  }
 
+  /**
+   * @brief
+   *
+   * @return QString
+   */
+  inline QString name() const { return _name; }
+  /**
+   * @brief
+   *
+   * @param name
+   */
+  inline void setName(const QString name) {
+    _name = name;
+    emit nameChanged();
+  }
 
-    inline int id() const { return _id; }
-    inline void setId(int id) { _id = id; emit idChanged();}
+  QJsonValue toJSON() const;
+  static Client *fromJSON(const QJsonValue &jval);
 
-    inline QString name() const { return _name; }
-    inline void setName(const QString  name) { _name = name; emit nameChanged();}
+  /**
+   * @brief
+   *
+   * @return int
+   */
+  inline virtual int accountType() const { return -1; }
 
-//  QJsonValue toJSON() const;
-//  static Client *fromJSON(const QJsonValue &jval);
-
-    inline virtual int accountType() { return -1; }
 signals:
-    void idChanged();
-    void nameChanged();
+  /**
+   * @brief
+   *
+   */
+  void idChanged();
+  /**
+   * @brief
+   *
+   */
+  void nameChanged();
 
 protected:
-  int _id;
-  QString _name;
+
+  virtual void addAdditionalData(QJsonObject &obj) const = 0;
+  virtual void setAdditionalData(QJsonObject &obj) = 0;
+  int _id;       /**< TODO: describe */
+  QString _name; /**< TODO: describe */
 
 }; // class Client
 
 //------------------------------------------------------------------------------
 
-class rotable::User : public rotable::Client{
-    Q_OBJECT
+/**
+ * @brief
+ *
+ */
+class rotable::User : public rotable::Client {
+  Q_OBJECT
 
-    Q_PROPERTY(QString nick READ nick WRITE setNick NOTIFY nickChanged)
-    Q_PROPERTY(QString hashPassword READ hashPassword WRITE setHashPassword NOTIFY hashPasswordChanged)
+  Q_PROPERTY(QString nick READ nick WRITE setNick NOTIFY nickChanged)
+  Q_PROPERTY(QString hashPassword READ hashPassword WRITE setHashPassword NOTIFY
+                 hashPasswordChanged)
 public:
+  /**
+   * @brief Default constructor
+   *
+   * @param parent
+   */
+  explicit User(QObject *parent = 0);
 
-    explicit User(QObject *parent = 0);
 
-    inline QString nick() const { return _nick; }
-    inline void setNick(const QString  nick) { _nick = nick; emit nickChanged(); }
+  /**
+   * @brief Default destructor
+   *
+   */
+  ~User();
 
-    inline QString hashPassword() const { return _passwd; }
-    inline void setHashPassword(const QString  passwd) { _passwd = passwd; emit hashPasswordChanged();}
-    static QString generateHashPassword(const QString &password);
-    void setPassword(const QString &password);
+  /**
+   * @brief
+   *
+   * @return QString
+   */
+  inline QString nick() const { return _nick; }
+  /**
+   * @brief
+   *
+   * @param nick
+   */
+  inline void setNick(const QString nick) {
+    _nick = nick;
+    emit nickChanged();
+  }
+
+  /**
+   * @brief
+   *
+   * @return QString
+   */
+  inline QString hashPassword() const { return _passwd; }
+  /**
+   * @brief
+   *
+   * @param passwd
+   */
+  inline void setHashPassword(const QString passwd) {
+    _passwd = passwd;
+    emit hashPasswordChanged();
+  }
+  /**
+   * @brief
+   *
+   * @param password
+   * @return QString
+   */
+  static QString generateHashPassword(const QString &password);
+  /**
+   * @brief
+   *
+   * @param password
+   */
+  void setPassword(const QString &password);
+
+  /**
+   * @brief
+   *
+   * @param user
+   */
+  virtual void updateData(User *user);
 
 signals:
-    void nickChanged();
-    void hashPasswordChanged();
-
+  /**
+   * @brief
+   *
+   */
+  void nickChanged();
+  /**
+   * @brief
+   *
+   */
+  void hashPasswordChanged();
+  /**
+   * @brief
+   *
+   */
+  void userChanged();
+protected:
+  virtual void addAdditionalData(QJsonObject &obj) const;
+  virtual void setAdditionalData(QJsonObject &obj);
 private:
-    QString _nick;
-    /**
-      @_passwd - store hash password (for secure) sha 512
-    */
-    QString _passwd;
-};  // class User
+  QString _nick; /**< TODO: describe */
+                 /**
+                   @_passwd - store hash password (for secure) sha 512
+                 */
+  QString _passwd;
+}; // class User
 
 //------------------------------------------------------------------------------
 
-class rotable::Waiter : public rotable::User{
+/**
+ * @brief
+ *
+ */
+class rotable::Waiter : public rotable::User {
+  Q_OBJECT
+
 public:
+  /**
+   * @brief Default constructor
+   *
+   * @param parent
+   */
+  explicit Waiter(QObject *parent = 0);
 
-    explicit Waiter(QObject *parent=0);
 
-    inline virtual int accountType(){ return 0; }
+  /**
+   * @brief Default destructor
+   *
+   */
+  ~Waiter();
+
+  /**
+   * @brief
+   *
+   * @return int
+   */
+  inline virtual int accountType() const { return 0; }
+
+  /**
+   * @brief Get list with allow categories
+   *
+   * @return QList<int> nullptr or list
+   */
+  QList<int> *categories() const;
+
+  /**
+   * @brief set list with allow categories
+   *
+   * @param categories  QList with categories id
+   */
+  void setCategories(QList<int> *categories);
+
+  /**
+   * @brief Add allowed category for waiter
+   *
+   * @param id          category id
+   */
+  void addWaiterCategory(int id);
+
+  /**
+   * @brief Removed allowed category for waiter
+   *
+   * @param id          category id
+   */
+  void removeWaiterCategory(int id);
+
+signals:
+  void addNewCategory(const int&);
+  void removeCategory(const int&);
+
+protected:
+  virtual void addAdditionalData(QJsonObject &obj) const;
+  virtual void setAdditionalData(QJsonObject &obj);
 private:
-
-};  // class Waiter
+  QList<int> *_categories;
+}; // class Waiter
 
 //------------------------------------------------------------------------------
 
-class rotable::Admin : public rotable::User{
+/**
+ * @brief
+ *
+ */
+class rotable::Admin : public rotable::User {
 public:
+  /**
+   * @brief
+   *
+   * @param parent
+   */
+  Admin(QObject *parent = 0);
 
-    Admin(QObject *parent=0);
-
-    inline virtual int accountType(){ return 2; }
+  /**
+   * @brief
+   *
+   * @return int
+   */
+  inline virtual int accountType() const { return 2; }
+protected:
+  virtual void addAdditionalData(QJsonObject &obj) const;
+  virtual void setAdditionalData(QJsonObject &obj);
 private:
-
-};  // class Admin
+}; // class Admin
 
 //------------------------------------------------------------------------------
-
 
 #endif // ROTABLE_CLIENT_H

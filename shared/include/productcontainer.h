@@ -201,24 +201,78 @@ public:
 
   void addForOrderProduct_(int id);
 
+  /**
+   * @brief
+   *
+   * @param categoryId
+   * @return QMap<int, int>
+   */
   QMap<int, int> productSequence(const int &categoryId);
+  /**
+   * @brief
+   *
+   * @return QMap<int, int>
+   */
   QMap<int, int> productCategorySequence();
 
 signals:
+  /**
+   * @brief
+   *
+   * @param id
+   */
   void categoryAdded(int id);
+  /**
+   * @brief
+   *
+   * @param id
+   */
   void productAdded(int id);
+  /**
+   * @brief
+   *
+   * @param id
+   */
   void productRemoved(int id);
 
 
 
+  /**
+   * @brief
+   *
+   * @param category
+   */
   void categoryRemoved(rotable::ProductCategory* category);
+  /**
+   * @brief
+   *
+   * @param product
+   */
   void productRemoved(rotable::Product* product);
 
+  /**
+   * @brief
+   *
+   * @param category
+   */
   void categoryUpdated(rotable::ProductCategory* category);
+  /**
+   * @brief
+   *
+   * @param product
+   */
   void productUpdated(rotable::Product* product);
 
 private slots:
+  /**
+   * @brief
+   *
+   */
   void onCategoryUpdated();
+  /**
+   * @brief
+   *
+   */
   void onProductUpdated();
 
 private:

@@ -35,6 +35,9 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="locale">
+       <locale language="English" country="UnitedStates"/>
+      </property>
       <property name="currentIndex">
        <number>3</number>
       </property>
@@ -593,6 +596,96 @@
          <widget class="QTextEdit" name="_textEditServerLog">
           <property name="readOnly">
            <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="Waiters">
+       <attribute name="title">
+        <string>Waiters</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_8">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="QToolButton" name="_toolButtonAddUser">
+            <property name="locale">
+             <locale language="English" country="UnitedStates"/>
+            </property>
+            <property name="text">
+             <string>New user</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../resources/resources.qrc">
+              <normaloff>:/rotable/add.png</normaloff>:/rotable/add.png</iconset>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="_toolButtonChangeStatusUser">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="locale">
+             <locale language="English" country="UnitedStates"/>
+            </property>
+            <property name="text">
+             <string>Disable user</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../resources/resources.qrc">
+              <normaloff>:/rotable/remove.png</normaloff>:/rotable/remove.png</iconset>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="_toolButtonChangePassword">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="locale">
+             <locale language="English" country="UnitedStates"/>
+            </property>
+            <property name="text">
+             <string>Change password</string>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="_toolButtonWaiterCategories">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Set waiter categories </string>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QTableView" name="_userTableView">
+          <property name="locale">
+           <locale language="English" country="UnitedStates"/>
           </property>
          </widget>
         </item>

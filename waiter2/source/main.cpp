@@ -7,6 +7,7 @@
 #include "languagesupport.h"
 #include <QGuiApplication>
 #include <QtQml/QQmlApplicationEngine>
+#include <QCoreApplication>
 
 #include <QStandardPaths>
 
@@ -58,22 +59,25 @@ int main(int argc, char *argv[])
 
   waiter_client->startup();
 
-  QQmlApplicationEngine *engine = new QQmlApplicationEngine(NULL);
+  QQuickView* view = new QQuickView();
+  view->setTitle(QCoreApplication::translate("Title", "Waiter client"));
 
-  QQmlContext *ctxt = engine->rootContext();//view.rootContext();sss
+  QQmlContext *ctxt = view->rootContext();//view.rootContext();sss
 
   ctxt->setContextProperty("tables", &(waiter_client->_tables));
   ctxt->setContextProperty("orderboard", &(waiter_client->_board));
   ctxt->setContextProperty("productList", &(waiter_client->_productsList));
   ctxt->setContextProperty("needBoard", &(waiter_client->_needBoard));
-
+  ctxt->setContextProperty("waiter", waiter_client);
   ctxt->setContextProperty("langObject", langSupp);
   //view->setSource(QString("qrc:/waiter/main2.qml"));
+
+  QQmlEngine *engine = ctxt->engine();
 
   // Connect exit signal for exit
   QObject::connect(engine,  SIGNAL(quit()), qApp, SLOT(quit()));
 
-  //engine->load(QUrl("qrc:/waiter/main3.qml"));
-  engine->load(QUrl("qrc:/waiter/main2.qml"));
+  view->setSource(QUrl("qrc:/waiter/qml/main.qml"));
+  view->show();
   return app.exec();
 }

@@ -31,7 +31,7 @@ void rotableQtMessageOutput(QtMsgType type,
                       .arg(context.function);
 
     switch (type) {
-    //case QtInfoMsg:
+    case QtInfoMsg:
     case QtDebugMsg:
     {
       LogManager::getInstance()->log(message, LogManager::qt);
