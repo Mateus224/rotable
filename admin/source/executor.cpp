@@ -1,12 +1,12 @@
 #include "private/precomp.h"
 
 #include "addnewlicence.h"
+#include "addnewvideo.h"
 #include "addproductcategory.h"
 #include "addproductdialog.h"
 #include "adduserdialog.h"
 #include "connecttoserverdialog.h"
 #include "executor.h"
-#include "addnewvideo.h"
 #include "mainwindow.h"
 #include "productcategory.h"
 #include "productcontainer.h"
@@ -448,6 +448,9 @@ void Executor::onAddLicence() {
   if (!_tcp_client.send(package)) {
     qCritical() << tr("FATAL: Could not send data set package!");
 
+==== BASE ====
+<<<<<<< Temporary merge branch 1
+==== BASE ====
       QMessageBox msgBox;
       msgBox.setText("Network I/O-Error!");
       msgBox.setStandardButtons(QMessageBox::Ok);
@@ -462,6 +465,98 @@ void Executor::onAddLicence() {
 void Executor::onAddVideo()
 {
 
+==== BASE ====
+    QStringList fileNameList;
+    QStringList files;
+
+    QStringList filePathList = dlg.getStringVideo();
+    if(filePathList.isEmpty())
+        return;
+
+    ComPackageSendFile package;
+    foreach(QString path, filePathList)
+    {
+        /*make a StringList of the names from the files*/
+        QStringList splitPath=path.split("/");
+        QString fileName=splitPath.last();
+        fileNameList.append(fileName);
+
+        /*make a StringList of files in base64*/
+        QFile file(path);
+        file.open(QIODevice::ReadOnly);
+
+        QByteArray ba;
+        QBuffer buffer(&ba);
+        ba = file.readAll();
+        package.byteArrayToBase64(ba);
+
+    }
+
+
+    package.setFileUsage(ComPackage::AdvertisingVideo);
+    package.setFileNames(fileNameList);
+    //package.setFiles(files);
+
+    if (!_tcp_client.send(package)) {
+      qCritical() << tr("FATAL: Could not send data set package!");
+
+==== BASE ====
+    QMessageBox msgBox;
+    msgBox.setText("Network I/O-Error!");
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.exec();
+<<<<<<< Temporary merge branch 1
+    }
+
+=======
+  }
+>>>>>>> Temporary merge branch 2
+=======
+    QStringList fileNameList;
+    QStringList files;
+
+    QStringList filePathList = dlg.getStringVideo();
+    if(filePathList.isEmpty())
+        return;
+
+    ComPackageSendFile package;
+    foreach(QString path, filePathList)
+    {
+        /*make a StringList of the names from the files*/
+        QStringList splitPath=path.split("/");
+        QString fileName=splitPath.last();
+        fileNameList.append(fileName);
+
+        /*make a StringList of files in base64*/
+        QFile file(path);
+        file.open(QIODevice::ReadOnly);
+
+        QByteArray ba;
+        QBuffer buffer(&ba);
+        ba = file.readAll();
+        package.byteArrayToBase64(ba);
+
+    }
+
+
+    package.setFileUsage(ComPackage::AdvertisingVideo);
+    package.setFileNames(fileNameList);
+    //package.setFiles(files);
+
+    if (!_tcp_client.send(package)) {
+      qCritical() << tr("FATAL: Could not send data set package!");
+
+
+
+    QMessageBox msgBox;
+    msgBox.setText("Network I/O-Error!");
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.exec();
+
+    }
+>>>>>>> /tmp/meld-tmp-Zdalne-pP6eBu
 }
 
 //------------------------------------------------------------------------------
