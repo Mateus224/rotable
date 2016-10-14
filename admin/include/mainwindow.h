@@ -169,6 +169,8 @@ signals:
   *
   */
  void actionCategoryDown();
+ //By clicking add Video--> sending a signal to the class
+ void addVideo();
 
  /**
   * @brief Open new dialog for add user
@@ -234,6 +236,7 @@ public slots:
   *
   */
  void onDown();
+ void onAddVideo();
 
 protected:
  /**
