@@ -189,8 +189,12 @@ void TcpServer::acceptConnection()
     #else
     //setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, &enableKeepAlive, sizeof(enableKeepAlive));
 
+    //int maxIdle = 1; /* seconds */
+   // setsockopt(fd, IPPROTO_TCP, TCP_KEEPIDLE, &maxIdle, sizeof(maxIdle));
+
   //  int maxIdle = 10; /* seconds */
  //   setsockopt(fd, IPPROTO_TCP, TCP_KEEPIDLE, &maxIdle, sizeof(maxIdle));
+
 
  //  int count = 3;  // send up to 3 keepalive packets out, then disconnect if no response
  //   setsockopt(fd, SOL_TCP, TCP_KEEPCNT, &count, sizeof(count));
@@ -209,7 +213,7 @@ void TcpServer::acceptConnection()
 //------------------------------------------------------------------------------
 
 void TcpServer::socketStartRead()
-{
+{    qCritical() << tr("test\n\n\n");
   QTcpSocket* socket = static_cast<QTcpSocket*>(sender());
   if (!_socket2clients.contains(socket)) {
     qCritical() << tr("ERROR: socket not in map!");

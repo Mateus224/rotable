@@ -15,22 +15,28 @@
 #include <QJsonDocument>
 #endif
 
+#include <logmanager.h>
+#include <QDebug>
+#include <QJsonArray>
+#include <QStringList>
+
 //------------------------------------------------------------------------------
 
 namespace rotable {
-class ComPackage;
-class ComPackageConnectionRequest;
-class ComPackageConnectionAccept;
-class ComPackageDataRequest;
-class ComPackageDataReturn;
-class ComPackageDataChanged;
-class ComPackageDataSet;
-class ComPackageReject;
-class ComPackageCommand;
-class ComPackageSendOrder;
-class ComPackageLogin;
-class ComPackageWaiterNeed;
-class ComPackageMessage;
+  class ComPackage;
+  class ComPackageConnectionRequest;
+  class ComPackageConnectionAccept;
+  class ComPackageDataRequest;
+  class ComPackageDataReturn;
+  class ComPackageDataChanged;
+  class ComPackageDataSet;
+  class ComPackageReject;
+  class ComPackageCommand;
+  class ComPackageSendOrder;
+  class ComPackageLogin;
+  class ComPackageWaiterNeed;
+  class ComPackageMessage;
+  class ComPackageSendFile;
 }
 
 //------------------------------------------------------------------------------
@@ -73,7 +79,10 @@ public:
     WaiterNeed,
 
     /* Message system */
-    Message
+    Message,
+
+    /*Package for sending Files*/
+    File
   };
 
   /**
@@ -146,7 +155,11 @@ public:
     SetOrder,
 
     /* Set licence */
-    SetLicence
+    SetLicence,
+
+    /*Set Video*/
+    SetVideo
+
   };
 
   /**
@@ -187,6 +200,25 @@ public:
     WaiterAccount = 0,
     TableAccount,
     AdminAccount
+  };
+
+
+  enum FileUsage {
+
+      /*File for Advertising on clients*/
+      AdvertisingVideo,
+
+      /*File for Advertising on clients*/
+      AdvertisingPicture,
+
+      /*Icons which are send to clients*/
+      CatergoryIcon,
+
+      /*Icons which are send to clients*/
+      ProductIcon,
+
+      /*Files for checking the License*/
+      //LicenseFiles
   };
 
   /**
@@ -814,6 +846,47 @@ public:
 private:
   int _msgType; /**< TODO: describe */
   QString _msg; /**< TODO: describe */
+};
+
+//------------------------------------------------------------------------------
+class rotable::ComPackageSendFile : public ComPackage
+{
+  friend class ComPackage;
+public:
+
+  /**
+   * Default constructor
+   */
+  ComPackageSendFile();
+
+  inline Type type() const { return File; }
+
+  /**
+   * 1= Advertising Video
+   * 2= Advertising Picture
+   * 3= Category Icon
+   * 4= Product Icon
+   */
+  inline void setFileUsage(FileUsage fileUsage){_fileUsage=fileUsage;}
+  inline int getFileUsage(){return _fileUsage;}
+
+  inline void setFiles(const QStringList &files) { _files = files; }
+  inline QStringList getFiles()const{return _files;}
+
+  inline void setFileNames(const QStringList &fileNames){_fileNames=fileNames;}
+  inline QStringList getFileNames()const{return _fileNames;}
+
+  inline void byteArrayToBase64(const QByteArray &ba){_files.append(ba.toBase64(QByteArray::Base64UrlEncoding));}\
+  QString base64ToQString(QString encodeFile);
+
+  QByteArray toByteArray() const Q_DECL_OVERRIDE;  //for what is this
+
+private:
+    int _fileUsage;
+
+    QStringList _files;
+
+    QStringList _fileNames;
 };
 
 //------------------------------------------------------------------------------

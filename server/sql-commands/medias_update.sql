@@ -1,0 +1,1 @@
+UPDATE `%1medias` SET `name` = :name, `path` = :_path, `size` = :_size WHERE `id` = %2;

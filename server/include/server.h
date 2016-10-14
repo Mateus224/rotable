@@ -262,6 +262,7 @@ private:
    */
   void sendQueueOrders();
 
+  bool kindOfFileDestination(ComPackageSendFile* package);
 
   /**
    * @brief Check if connection was enstablished by admin account
@@ -299,6 +300,7 @@ private:
 
   /* Images */
   QMap<QString, Image> _images;
+
 
   /**
    * client_t - socket

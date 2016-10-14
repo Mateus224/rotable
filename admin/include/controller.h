@@ -5,8 +5,9 @@
 
 #include "executor.h"
 #include "productcontainer.h"
-#include "imagecontainer.h"
+#include "filecontainer/imagecontainer.h"
 #include "usertablemodel.h"
+
 
 #include <QObject>
 #include <QMap>
@@ -67,7 +68,7 @@ private:
   /* Model for product table view */
   ProductTableModel* _productTableModel;
 \
-  /* Moel for user table view */
+  /* Model for user table view */
   UserTableModel* _userTableModel;
 }; // class Controller
 

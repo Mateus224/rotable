@@ -24,8 +24,9 @@ struct TypeStr2Enum {
 #define ROTABLE_PACKAGE_COMMAND_SEND_ORDER_STR              QString("SO")
 #define ROTABLE_PACKAGE_COMMAND_NEED_STR                    QString("NE")
 #define ROTABLE_PACKAGE_COMMAND_MESSAGE_STR                 QString("ME")
+#define ROTABLE_PACKAGE_COMMAND_SEND_FILE                   QString("SF")
 
-static const int S_types_count = 10;
+static const int S_types_count = 11;
 static const TypeStr2Enum S_types[S_types_count] = {
   { ROTABLE_PACKAGE_COMMAND_CONNECTION_REQUEST_STR, ComPackage::ConnectionRequest },
   { ROTABLE_PACKAGE_COMMAND_CONNECTION_ACCEPT_STR, ComPackage::ConnectionAccept },
@@ -36,7 +37,8 @@ static const TypeStr2Enum S_types[S_types_count] = {
   { ROTABLE_PACKAGE_COMMAND_REJECT_STR, ComPackage::Reject },
   { ROTABLE_PACKAGE_COMMAND_COMMAND_STR, ComPackage::Command },
   { ROTABLE_PACKAGE_COMMAND_NEED_STR, ComPackage::WaiterNeed },
-  { ROTABLE_PACKAGE_COMMAND_MESSAGE_STR, ComPackage::Message}
+  { ROTABLE_PACKAGE_COMMAND_MESSAGE_STR, ComPackage::Message},
+  { ROTABLE_PACKAGE_COMMAND_SEND_FILE, ComPackage::File}
 };
 
 //------------------------------------------------------------------------------
@@ -58,6 +60,12 @@ static const TypeStr2Enum S_types[S_types_count] = {
 #define ROTABLE_PACKAGE_NEED_TABLE_STR                      QString("NY")
 #define ROTABLE_PACKAGE_MESSAGE_TYPE_STR                    QString("MT")
 #define ROTABLE_PACKAGE_MESSAGE_MESSAGE_STR                 QString("MM")
+#define ROTABLE_PACKAGE_FILE_INFORMATION_ARRAY              QString("FI")
+#define ROTABLE_PACKAGE_FILE_NAMES                          QString("FN")
+#define ROTABLE_PACKAGE_FILE_FILE                           QString("FF")
+#define ROTABLE_PACKAGE_FILE_USAGE                          QString("FU")
+
+
 //------------------------------------------------------------------------------
 
 ComPackage* ComPackage::fromJson(const QJsonDocument& doc)
@@ -245,6 +253,22 @@ ComPackage* ComPackage::fromJson(const QJsonDocument& doc)
     p->_msg = o[ROTABLE_PACKAGE_MESSAGE_MESSAGE_STR].toString();
 
     ret = p;
+  } break;
+  case File:{
+    ComPackageSendFile* p=new ComPackageSendFile();
+    p->_fileUsage=o[ROTABLE_PACKAGE_FILE_USAGE].toInt();
+    QJsonArray jsonFileArray= o[ROTABLE_PACKAGE_FILE_INFORMATION_ARRAY].toArray();
+    for(auto&& item: jsonFileArray)
+    {
+        const QJsonObject& so= item.toObject();
+        p->_fileNames.append(so[ROTABLE_PACKAGE_FILE_NAMES].toString());
+        p->_files.append(p->base64ToQString(so[ROTABLE_PACKAGE_FILE_FILE].toString()));
+    }
+    if(p->_fileUsage > 0)
+      for(auto file: p->_files)
+        LogManager::getInstance()->logInfo(file);
+
+    ret=p;  
   } break;
   default:
     qDebug("This should never ever happen (above switch is incomplete)!");
@@ -498,8 +522,45 @@ QByteArray ComPackageMessage::toByteArray() const
 {
     QJsonObject o;
     addData(o);
-    o[ROTABLE_PACKAGE_COMMAND_STR] = ROTABLE_PACKAGE_COMMAND_MESSAGE_STR;
+    o[ROTABLE_PACKAGE_COMMAND_STR] = ROTABLE_PACKAGE_COMMAND_SEND_FILE;
     o[ROTABLE_PACKAGE_MESSAGE_TYPE_STR] = _msgType;
     o[ROTABLE_PACKAGE_MESSAGE_MESSAGE_STR] = _msg;
+    return QJsonDocument(o).toBinaryData();
+}
+//------------------------------------------------------------------------------
+
+ComPackageSendFile::ComPackageSendFile() :  ComPackage()
+{
+
+}
+//------------------------------------------------------------------------------
+
+QString ComPackageSendFile::base64ToQString(QString encodeFile)
+{
+    QByteArray ba;
+    ba.append(encodeFile);
+    return QByteArray::fromBase64(ba);
+}
+
+//------------------------------------------------------------------------------
+
+QByteArray ComPackageSendFile::toByteArray() const
+{
+
+    QJsonObject o;
+    addData(o);
+
+    o[ROTABLE_PACKAGE_COMMAND_STR] = ROTABLE_PACKAGE_COMMAND_SEND_FILE;
+    o[ROTABLE_PACKAGE_FILE_USAGE] = _fileUsage;
+    QJsonArray jsonFileArray;
+        for(int i=0; i<_fileNames.length(); i++)
+        {
+            QJsonObject so;
+            so[ROTABLE_PACKAGE_FILE_NAMES] = _fileNames.at(i);
+            so[ROTABLE_PACKAGE_FILE_FILE] = _files.at(i);
+            jsonFileArray.append(so);
+        }
+    o[ROTABLE_PACKAGE_FILE_INFORMATION_ARRAY]= jsonFileArray;
+
     return QJsonDocument(o).toBinaryData();
 }

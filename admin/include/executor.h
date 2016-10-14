@@ -6,9 +6,9 @@
 #include "compackage.h"
 #include "configadmin.h"
 #include "serverloglistener.h"
+#include "filecontainer/imagecontainer.h"
 #include "tcpclient.h"
 #include "usercontainer.h"
-
 #include <QItemSelection>
 #include <QObject>
 
@@ -272,6 +272,11 @@ public slots:
    * Method for send new licence to server
    */
   void onAddLicence();
+
+  /**
+   * Method from called in the executer for add a new video
+   */
+  void onAddVideo();
 
   void onProductUp();
   /**

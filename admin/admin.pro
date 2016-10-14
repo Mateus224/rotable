@@ -46,6 +46,7 @@ SOURCES += \
     source/producttableiconcomboboxdelegate.cpp \
     source/producttablepricespinboxdelegate.cpp \
     source/addnewlicence.cpp \
+    source/addnewvideo.cpp \
     source/usertablemodel.cpp \
     source/usercontainer.cpp \
     source/adduserdialog.cpp \
@@ -78,6 +79,7 @@ HEADERS += \
     private/precomp.h \
     include/producttablepricespinboxdelegate.h \
     include/addnewlicence.h \
+    include/addnewvideo.h \
     include/usertablemodel.h \
     include/usercontainer.h \
     include/adduserdialog.h \
@@ -91,6 +93,7 @@ FORMS += \
     ui/addproductdialog.ui \
     ui/addproductcategorydialog.ui \
     ui/addnewlicencedialog.ui \
+    ui/addnewvideodialog.ui \
     ui/adduserdialog.ui \
     ui/setwaitercategory.ui \
     ui/waitercategories.ui \

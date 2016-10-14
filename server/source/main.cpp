@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
   dir.mkpath("rotable");
   dir.cd("rotable");
   QString configFilePath(dir.filePath("config.ini"));
-
+  rotable::LogManager::getInstance()->logInfo(configFilePath);
   QStringList args = parser.positionalArguments();
   if (args.size() > 0) {
     configFilePath = args[0];

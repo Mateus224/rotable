@@ -70,6 +70,9 @@ Database::Database(QObject *parent) : QObject(parent), _connected(false) {
   collectSqlCommands(tablesDetailsCmds, "tabledetails");
   _sqlCommands.append(tablesDetailsCmds);
 
+  SqlCommands mediaCmds;
+  collectSqlCommands(mediaCmds, "medias");
+  _sqlCommands.append(mediaCmds);
   SqlCommands waiterCategoriesCmds;
   collectSqlCommands(waiterCategoriesCmds, "waitercategories");
   _sqlCommands.append(waiterCategoriesCmds);
