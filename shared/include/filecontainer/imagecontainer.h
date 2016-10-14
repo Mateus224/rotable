@@ -7,6 +7,7 @@
 #include <QMap>
 #include <QString>
 #include <QPixmap>
+#include <filecontainer/abstractfilecontainer.h>
 
 //------------------------------------------------------------------------------
 
@@ -21,7 +22,7 @@ class QImage;
 /**
  * This class stores images.
  */
-class rotable::ImageContainer : public QObject
+class rotable::ImageContainer : public AbstractFileContainer
 {
   Q_OBJECT
 

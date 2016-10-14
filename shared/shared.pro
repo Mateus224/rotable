@@ -18,7 +18,6 @@ SOURCES += \
     source/configbase.cpp \
     source/compackage.cpp \
     source/utils.cpp \
-    source/imagecontainer.cpp \
     source/productcontainer.cpp \
     source/productorder.cpp \
     source/logmanager.cpp \
@@ -33,7 +32,11 @@ SOURCES += \
     source/tabele.cpp \
     source/message.cpp \
     source/messageconnector.cpp \
-    source/languagesupport.cpp
+    source/languagesupport.cpp \
+    source/filecontainer/videocontainer.cpp \
+    source/waiter_client.cpp \
+    source/filecontainer/abstractfilecontainer.cpp \
+    source/filecontainer/imagecontainer.cpp
 
 
 HEADERS += \
@@ -42,7 +45,6 @@ HEADERS += \
     include/productcategory.h \
     include/compackage.h \
     include/utils.h \
-    include/imagecontainer.h \
     include/productcontainer.h \
     include/productorder.h \
     include/logmanager.h \
@@ -60,7 +62,10 @@ HEADERS += \
     include/table.h \
     include/message.h \
     include/messageconnector.h \
-    include/languagesupport.h
+    include/languagesupport.h \
+    include/filecontainer/videocontainer.h \
+    include/filecontainer/abstractfilecontainer.h \
+    include/filecontainer/imagecontainer.h
 
 
 RESOURCES += shared_resources.qrc

@@ -3,7 +3,6 @@
 #include "categorylistmodel.h"
 #include "productcontainer.h"
 #include "productcategory.h"
-#include "imagecontainer.h"
 
 //------------------------------------------------------------------------------
 
