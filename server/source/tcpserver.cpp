@@ -213,7 +213,7 @@ void TcpServer::acceptConnection()
 //------------------------------------------------------------------------------
 
 void TcpServer::socketStartRead()
-{    qCritical() << tr("test\n\n\n");
+{
   QTcpSocket* socket = static_cast<QTcpSocket*>(sender());
   if (!_socket2clients.contains(socket)) {
     qCritical() << tr("ERROR: socket not in map!");
