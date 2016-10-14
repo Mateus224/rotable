@@ -13,7 +13,6 @@ Rectangle {
         id: moneyImage
         source: "qrc:/waiter/images/money.svg"
         fillMode: Image.PreserveAspectFit
-        anchors.horizontalCenter: parent.horizontalCenter
         anchors.right: parent.right
         anchors.left: parent.left
         anchors.top: parent.top
@@ -24,7 +23,6 @@ Rectangle {
         id: trashImage
         source: "qrc:/waiter/images/trash.svg"
         fillMode: Image.PreserveAspectFit
-        anchors.horizontalCenter: parent.horizontalCenter
         anchors.right: parent.right
         anchors.left: parent.left
         anchors.bottom: parent.bottom

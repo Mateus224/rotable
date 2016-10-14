@@ -13,7 +13,5 @@ ListView {
 
     model: orderboard
 
-    clip:true
-
     delegate: OrderListElement {}
 }
