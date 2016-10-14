@@ -287,6 +287,7 @@ void Server::packageReceived(client_t client, ComPackage *package) {
           ComPackageReject reject(package->id());
           _tcp.send(client, reject);
     }
+  }
   case ComPackage::Reject: {
     qDebug() << tr("Did not expect to receive Reject package... doing nothing");
   } break;
@@ -637,15 +638,10 @@ bool Server::setData(ComPackageDataSet *set, client_t client) {
     QJsonArray arr = set->data().toArray(); // For store files
     QStringList name = {"licence.dat", "licence.crt"};
     auto path = QDir(_config.licence_path());
-==== BASE ====
-<<<<<<< Temporary merge branch 1
-==== BASE ====
-    int i  = 0; // i++?
-==== BASE ====
-==== BASE ====
-=======
 
->>>>>>> /tmp/meld-tmp-Zdalne-Di4Da_
+    int i  = 0; // i++?
+
+
 
     foreach (QJsonValue file, arr) {
       QByteArray ba = QByteArray::fromBase64(file.toString().toLocal8Bit(),
@@ -663,9 +659,7 @@ bool Server::setData(ComPackageDataSet *set, client_t client) {
     return true;
   } break;
 
-==== BASE ====
-<<<<<<< Temporary merge branch 1
-==== BASE ====
+
   case ComPackage::SetVideo:
   {
       QJsonArray arr = set->data().toArray();
@@ -680,13 +674,7 @@ bool Server::setData(ComPackageDataSet *set, client_t client) {
       break;
   }
 
-==== BASE ====
-  default:
-  {
-==== BASE ====
-=======
   default: {
->>>>>>> /tmp/meld-tmp-Zdalne-Di4Da_
     qCritical() << tr("Unknown data set id: %d").arg(set->dataCategory());
     return false;
   } break;
