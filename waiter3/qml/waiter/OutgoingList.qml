@@ -9,8 +9,6 @@ ListView {
 
     width: parent.width * 0.33
 
-    clip:true
-
     Rectangle {
         id: test
         color: "#00FFFF"

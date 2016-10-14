@@ -7,7 +7,7 @@ Rectangle {
     id: productButton
 
     property int borderWidth: Math.max(2,parent.width * 0.01)
-    property int itemWidth: Math.max(parent.width*0.8,80)
+    property int itemWidth: Math.max(parent.width*0.7,70)
 
     width: itemWidth
     anchors.horizontalCenter: parent.horizontalCenter

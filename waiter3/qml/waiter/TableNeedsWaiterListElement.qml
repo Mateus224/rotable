@@ -14,8 +14,6 @@ Rectangle {
     anchors.bottom: parent.bottom
     anchors.bottomMargin: -parent.height*0.2
 
-    Behavior on x { PropertyAnimation { duration: 500 } }
-
     Text {
         text: qsTr("Table ") + model.tableName
         font.pixelSize: parent.height * 0.35
@@ -25,16 +23,18 @@ Rectangle {
         anchors.topMargin: 8
     }
 
-    SequentialAnimation {
+    NumberAnimation {
         id: hideAnim
-        NumberAnimation {
-            target: needsWaiterBody
-            property: "anchors.bottomMargin"
-            duration: 300
-            easing.type: Easing.InOutQuad
-            to: -parent.height * 1.5
+
+        target: needsWaiterBody
+        property: "anchors.bottomMargin"
+        duration: 300
+        easing.type: Easing.InOutQuad
+        to: -parent.height * 1.5
+
+        onRunningChanged: {
+            if (!hideAnim.running) needBoard.unneedTable(model.tableIdx)
         }
-        ScriptAction { script: needBoard.unneedTable(model.tableIdx); }
     }
 
     MouseArea {
@@ -43,7 +43,6 @@ Rectangle {
 
         onClicked: {
             hideAnim.start()
-//            needBoard.unneedTable(model.tableIdx)
         }
     }
 }
