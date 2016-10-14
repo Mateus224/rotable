@@ -269,7 +269,24 @@ void Server::packageReceived(client_t client, ComPackage *package) {
       ComPackageReject reject(package->id());
       _tcp.send(client, reject);
     }
-  } break;
+  } break;     
+  case ComPackage::File:
+  {
+      if (_tcp.isClientAccepted(client))
+      {
+          ComPackageSendFile* p=static_cast <ComPackageSendFile*>(package);
+          if (!kindOfFileDestination(p)) {
+            ComPackageReject reject(package->id());
+            _tcp.send(client, reject);
+          }
+
+      }
+      else{
+          qDebug() << tr("WARNING: Unallowed Command from client \"%1\"")
+                      .arg(_tcp.clientName(client));
+          ComPackageReject reject(package->id());
+          _tcp.send(client, reject);
+    }
   case ComPackage::Reject: {
     qDebug() << tr("Did not expect to receive Reject package... doing nothing");
   } break;
@@ -620,7 +637,15 @@ bool Server::setData(ComPackageDataSet *set, client_t client) {
     QJsonArray arr = set->data().toArray(); // For store files
     QStringList name = {"licence.dat", "licence.crt"};
     auto path = QDir(_config.licence_path());
-    int i = 0;
+==== BASE ====
+<<<<<<< Temporary merge branch 1
+==== BASE ====
+    int i  = 0; // i++?
+==== BASE ====
+==== BASE ====
+=======
+
+>>>>>>> /tmp/meld-tmp-Zdalne-Di4Da_
 
     foreach (QJsonValue file, arr) {
       QByteArray ba = QByteArray::fromBase64(file.toString().toLocal8Bit(),
@@ -638,7 +663,30 @@ bool Server::setData(ComPackageDataSet *set, client_t client) {
     return true;
   } break;
 
+==== BASE ====
+<<<<<<< Temporary merge branch 1
+==== BASE ====
+  case ComPackage::SetVideo:
+  {
+      QJsonArray arr = set->data().toArray();
+      foreach(QJsonValue file, arr)
+      {
+          QByteArray ba = QByteArray::fromBase64(file.toString().toLocal8Bit(),
+                                                 QByteArray::Base64UrlEncoding);
+          QString info(ba);
+          qWarning() << "Recived: ComPackage::SetVideo:"<<info;
+      }
+      return true;
+      break;
+  }
+
+==== BASE ====
+  default:
+  {
+==== BASE ====
+=======
   default: {
+>>>>>>> /tmp/meld-tmp-Zdalne-Di4Da_
     qCritical() << tr("Unknown data set id: %d").arg(set->dataCategory());
     return false;
   } break;
@@ -1253,3 +1301,29 @@ QJsonValue Server::configToJSON() {
 }
 
 //------------------------------------------------------------------------------
+
+bool Server::kindOfFileDestination(ComPackageSendFile* package)
+{
+    if (package) {
+      switch (package->getFileUsage()) {
+      case ComPackage::AdvertisingVideo:
+          LogManager::getInstance()->logInfo("\n\n hier\n\n");
+
+          break;
+      case ComPackage::AdvertisingPicture:
+
+          break;
+      case ComPackage::CatergoryIcon:
+
+          break;
+      case ComPackage::ProductIcon:
+
+          break;
+
+
+
+      }
+    }
+    return true;
+}
+
