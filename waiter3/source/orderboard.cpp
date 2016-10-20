@@ -74,7 +74,11 @@ QVariant OrderBoard::data(const QModelIndex &index, int role) const
 //        return QVariant(order->);
     }break;
     case StatusRole:{
+<<<<<<< HEAD
 //        return QVariant(order->);
+=======
+        return QVariant(order->item(0)->state());
+>>>>>>> 2ba42cc0a24f99d9aa7fc960c051c99a0f0a6712
     }break;
     case ClientRole:{
         return QVariant(order->clientId());

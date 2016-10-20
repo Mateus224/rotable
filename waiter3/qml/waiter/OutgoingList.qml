@@ -9,8 +9,11 @@ ListView {
 
     width: parent.width * 0.33
 
+<<<<<<< HEAD
     clip:true
 
+=======
+>>>>>>> 2ba42cc0a24f99d9aa7fc960c051c99a0f0a6712
     Rectangle {
         id: test
         color: "#00FFFF"

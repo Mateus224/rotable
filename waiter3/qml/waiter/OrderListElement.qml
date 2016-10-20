@@ -7,20 +7,52 @@ Rectangle{
     id: order
 
     property int productHeight: Math.max(40,dataView.height * 0.08)
+<<<<<<< HEAD
     property int borderWidth: Math.max(4,parent.width * 0.02)
     property int listWidth: Math.max(100,parent.width)
+=======
+    property int borderWidth: Math.max(4,orderList.width * 0.02)
+    property int listWidth: Math.max(100,orderList.width)
+>>>>>>> 2ba42cc0a24f99d9aa7fc960c051c99a0f0a6712
     property int itemSpacing: Math.max(10,dataView.height*0.02)
     property string borderColor: "#46C8CF"
     property int listHeight: orderItemsView.count * productHeight + 6 * borderWidth + (orderItemsView.count-1) * itemSpacing
 
     width: listWidth
     height: model.itemCount > 0 ? listHeight : 0
+<<<<<<< HEAD
+=======
+    visible: model.itemCount > 0 //temporary fix to prevent empty orders
+    enabled: model.itemCount > 0
+>>>>>>> 2ba42cc0a24f99d9aa7fc960c051c99a0f0a6712
 
     border.width: borderWidth
     border.color: borderColor
     radius: width / 12
 
+<<<<<<< HEAD
     visible: model.itemCount > 0
+=======
+//    visible: model.orderStatus == 0
+
+//    Drag.active: dragArea.drag.active
+
+    MouseArea{
+        id:dragArea
+
+        anchors.fill: parent
+        drag.target: parent
+
+        onClicked: {
+            console.log("clicked z: "+order.z)
+            console.log("state: "+model.orderStatus)
+        }
+    }
+
+    DropArea {
+        anchors.fill: parent
+    }
+>>>>>>> 2ba42cc0a24f99d9aa7fc960c051c99a0f0a6712
 
     ListView{
         id: orderItemsView
@@ -30,6 +62,11 @@ Rectangle{
         anchors.bottomMargin: borderWidth*3
         anchors.fill: parent
 
+<<<<<<< HEAD
+=======
+        interactive: false
+
+>>>>>>> 2ba42cc0a24f99d9aa7fc960c051c99a0f0a6712
         spacing: itemSpacing
 
         model: orderItems
@@ -53,4 +90,28 @@ Rectangle{
             anchors.horizontalCenter: parent.horizontalCenter
         }
     }
+<<<<<<< HEAD
+=======
+
+    states: [
+        State {
+            when: dragArea.drag.active
+                ParentChange {
+                    target: order
+                    parent: mainscreen
+                }
+
+                PropertyChanges {
+                    target: order
+                    z: 100
+                }
+
+                AnchorChanges {
+                    target: order
+                    anchors.horizontalCenter: undefined
+                    anchors.verticalCenter: undefined
+                }
+        }
+    ]
+>>>>>>> 2ba42cc0a24f99d9aa7fc960c051c99a0f0a6712
 }

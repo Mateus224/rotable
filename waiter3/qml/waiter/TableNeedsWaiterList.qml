@@ -18,6 +18,11 @@ Rectangle {
         id: needsWaiterlist
 
         anchors.fill: parent
+<<<<<<< HEAD
+=======
+        anchors.leftMargin: needsWaiterBody.width * 0.05
+        anchors.rightMargin: needsWaiterBody.width * 0.05
+>>>>>>> 2ba42cc0a24f99d9aa7fc960c051c99a0f0a6712
 //        anchors.centerIn: parent
         orientation: ListView.Horizontal
 
