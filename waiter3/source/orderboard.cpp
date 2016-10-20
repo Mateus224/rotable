@@ -100,6 +100,10 @@ QVariant OrderBoard::data(const QModelIndex &index, int role) const
     case TimeRole:{
         return QVariant(order->timeSent().toString("hh:mm"));
     }break;
+    case ReadyRole:{
+        order->prepareOrderToChange();
+        return QVariant();
+    }break;
     }
     return QVariant();
 }
@@ -177,6 +181,7 @@ QHash<int, QByteArray> OrderBoard::roleNames() const
     roles[OrderPrice] = "orderPrice";
     roles[TimeRole] = "timeSent";
     roles[CountRole] = "itemCount";
+    roles[ReadyRole] = "readyOrder";
 
     return roles;
 }

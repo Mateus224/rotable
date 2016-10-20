@@ -49,7 +49,8 @@ public:
         ItemsRole,
         OrderPrice,
         TimeRole,
-        CountRole
+        CountRole,
+        ReadyRole
     };
 
     //-----------------------------------------------------

@@ -19,7 +19,7 @@ Rectangle{
     width: listWidth
     height: model.itemCount > 0 ? listHeight : 0
 //    visible: model.itemCount > 0 //temporary fix to prevent empty orders
-    visible: model.orderStatus == 0
+//    visible: model.orderStatus == 0
 
     border.width: borderWidth
     border.color: borderColor
@@ -48,9 +48,9 @@ Rectangle{
                 backAnim.start()
             }
             else {
-                prepareOrderToChange()
-                orderboard.changeState(3);
-                console.log("new state: "+model.orderStatus)
+                readyOrder
+                orderboard.changeState(3)
+                console.log("new state: "+orderStatus)
             }
         }
     }
