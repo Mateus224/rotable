@@ -39,7 +39,7 @@
        <locale language="English" country="UnitedStates"/>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>1</number>
       </property>
       <property name="iconSize">
        <size>
@@ -278,6 +278,9 @@
              </item>
              <item>
               <widget class="QToolButton" name="_toolButtonRemove">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
                <property name="text">
                 <string>Remove</string>
                </property>
@@ -304,12 +307,38 @@
                <property name="text">
                 <string>UP</string>
                </property>
+               <property name="icon">
+                <iconset resource="../resources/resources.qrc">
+                 <normaloff>:/rotable/up.svg</normaloff>:/rotable/up.svg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>24</width>
+                 <height>24</height>
+                </size>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextUnderIcon</enum>
+               </property>
               </widget>
              </item>
              <item>
               <widget class="QToolButton" name="_toolButtonDown">
                <property name="text">
                 <string>DOWN</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../resources/resources.qrc">
+                 <normaloff>:/rotable/down.svg</normaloff>:/rotable/down.svg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>24</width>
+                 <height>24</height>
+                </size>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextUnderIcon</enum>
                </property>
               </widget>
              </item>
@@ -691,7 +720,11 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab">
+      <widget class="QWidget" name="ServerConfig">
+       <attribute name="icon">
+        <iconset resource="../resources/resources.qrc">
+         <normaloff>:/rotable/gear.svg</normaloff>:/rotable/gear.svg</iconset>
+       </attribute>
        <attribute name="title">
         <string>Server Config</string>
        </attribute>

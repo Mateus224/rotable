@@ -1,20 +1,23 @@
 <RCC>
-  <qresource prefix="/rotable">
-    <file>pdf.png</file>
-    <file>db_add.png</file>
-    <file>db_comit.png</file>
-    <file>db_remove.png</file>
-    <file>db_status.png</file>
-    <file>db_update.png</file>
-    <file>add.png</file>
-    <file>edit.png</file>
-    <file>remove.png</file>
-    <file>network-connect.png</file>
-    <file>network-disconnect.png</file>
-    <file>db.png</file>
-    <file>db_clear.png</file>
-    <file>toggle_log.png</file>
-    <file>office-chart-area-stacked.png</file>
-    <file>video-x-generic-2.png</file>
-  </qresource>
+    <qresource prefix="/rotable">
+        <file>pdf.png</file>
+        <file>db_add.png</file>
+        <file>db_comit.png</file>
+        <file>db_remove.png</file>
+        <file>db_status.png</file>
+        <file>db_update.png</file>
+        <file>add.png</file>
+        <file>edit.png</file>
+        <file>remove.png</file>
+        <file>network-connect.png</file>
+        <file>network-disconnect.png</file>
+        <file>db.png</file>
+        <file>db_clear.png</file>
+        <file>toggle_log.png</file>
+        <file>office-chart-area-stacked.png</file>
+        <file>video-x-generic-2.png</file>
+        <file>up.svg</file>
+        <file>down.svg</file>
+        <file>gear.svg</file>
+    </qresource>
 </RCC>
