@@ -24,7 +24,8 @@ HEADERS += \
     include/orderboard.h \
     include/productlist.h \
     include/neededboard.h \
-    include/orderhistory.h
+    include/orderhistory.h \
+    include/proxymodelevententries.h
 
 
 SOURCES += \
@@ -36,7 +37,8 @@ SOURCES += \
     source/orderboard.cpp \
     source/productlist.cpp \
     source/neededboard.cpp \
-    source/orderhistory.cpp
+    source/orderhistory.cpp \
+    source/proxymodelevententries.cpp
 
 RESOURCES +=\
     resources.qrc \

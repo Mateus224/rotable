@@ -5,6 +5,7 @@
 #include "orderinformation.h"
 #include "tablemodel.h"
 #include "languagesupport.h"
+#include "proxymodelevententries.h"
 #include <QGuiApplication>
 #include <QtQml/QQmlApplicationEngine>
 #include <QCoreApplication>
@@ -64,6 +65,15 @@ int main(int argc, char *argv[])
   ctxt->setContextProperty("needBoard", &(waiter_client->_needBoard));
   ctxt->setContextProperty("waiter", waiter_client);
   ctxt->setContextProperty("langObject", langSupp);
+
+  rotable::PMFilterNew* filterNewOrders = new rotable::PMFilterNew();
+  filterNewOrders->setSourceModel(&(waiter_client->_board));
+
+  rotable::PMFilterToPay* filterToPayOrders = new rotable::PMFilterToPay();
+  filterToPayOrders->setSourceModel(&(waiter_client->_board));
+
+  ctxt->setContextProperty("orderFilterNew", filterNewOrders);
+  ctxt->setContextProperty("orderFilterToPay", filterToPayOrders);
 
   QQmlEngine *engine = ctxt->engine();
 

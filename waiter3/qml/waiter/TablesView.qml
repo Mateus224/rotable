@@ -11,7 +11,8 @@ Rectangle {
 
     TableList {
         id: tableList
-        height: parent.height
+        anchors.top: parent.top
+        anchors.bottom: bottomBar.top
         anchors.left: parent.left
     }
 

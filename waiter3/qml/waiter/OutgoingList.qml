@@ -9,9 +9,24 @@ ListView {
 
     width: parent.width * 0.33
 
-    Rectangle {
-        id: test
-        color: "#00FFFF"
+    spacing: Math.max(10,dataView.height*0.025)
+
+    model: orderFilterToPay
+
+    delegate: OrderListElement {}
+
+    DropArea {
         anchors.fill: parent
+
+        onEntered:
+        {
+            console.log("drag entered!")
+            drag.source.caught = true;
+        }
+        onExited:
+        {
+            console.log("drag left!")
+            drag.source.caught = false;
+        }
     }
 }

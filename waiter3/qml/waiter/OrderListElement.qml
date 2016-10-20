@@ -13,6 +13,9 @@ Rectangle{
     property string borderColor: "#46C8CF"
     property int listHeight: orderItemsView.count * productHeight + 6 * borderWidth + (orderItemsView.count-1) * itemSpacing
 
+    property bool caught: false
+    property point beginDrag: Qt.point(x,y)
+
     width: listWidth
     height: model.itemCount > 0 ? listHeight : 0
 //    visible: model.itemCount > 0 //temporary fix to prevent empty orders
@@ -22,9 +25,9 @@ Rectangle{
     border.color: borderColor
     radius: width / 12
 
-//    visible: model.orderStatus == 0
+    Drag.active: dragArea.drag.active
 
-//    Drag.active: dragArea.drag.active
+    z: dragArea.drag.active ||  dragArea.pressed ? 2 : 1
 
     MouseArea{
         id:dragArea
@@ -32,14 +35,30 @@ Rectangle{
         anchors.fill: parent
         drag.target: parent
 
-        onClicked: {
-            console.log("clicked z: "+order.z)
-            console.log("state: "+model.orderStatus)
+        onPressed: {
+            order.beginDrag = Qt.point(order.x, order.y);
+            console.log("x: "+order.x+" y: "+order.y);
+        }
+        onReleased: {
+            if(!order.caught) {
+                backAnimX.from = order.x;
+                backAnimX.to = beginDrag.x;
+                backAnimY.from = order.y;
+                backAnimY.to = beginDrag.y;
+                backAnim.start()
+            }
+            else {
+                prepareOrderToChange()
+                orderboard.changeState(3);
+                console.log("new state: "+model.orderStatus)
+            }
         }
     }
 
-    DropArea {
-        anchors.fill: parent
+    ParallelAnimation {
+        id: backAnim
+        SpringAnimation { id: backAnimX; target: order; property: "x"; duration: 500; spring: 2; damping: 0.2 }
+        SpringAnimation { id: backAnimY; target: order; property: "y"; duration: 500; spring: 2; damping: 0.2 }
     }
 
     ListView{
@@ -75,25 +94,4 @@ Rectangle{
             anchors.horizontalCenter: parent.horizontalCenter
         }
     }
-
-    states: [
-        State {
-            when: dragArea.drag.active
-                ParentChange {
-                    target: order
-                    parent: mainscreen
-                }
-
-                PropertyChanges {
-                    target: order
-                    z: 100
-                }
-
-                AnchorChanges {
-                    target: order
-                    anchors.horizontalCenter: undefined
-                    anchors.verticalCenter: undefined
-                }
-        }
-    ]
 }

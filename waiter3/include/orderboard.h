@@ -49,9 +49,7 @@ public:
         ItemsRole,
         OrderPrice,
         TimeRole,
-        CountRole,
-        IncRole,
-        OutRole
+        CountRole
     };
 
     //-----------------------------------------------------

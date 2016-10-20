@@ -11,7 +11,7 @@ ListView {
 
     spacing: Math.max(10,dataView.height*0.025)
 
-    model: orderboard
+    model: orderFilterNew
 
     delegate: OrderListElement {}
 }

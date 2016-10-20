@@ -94,20 +94,11 @@ QVariant OrderBoard::data(const QModelIndex &index, int role) const
         }
         return QVariant::fromValue(list);
     }break;
-    case IncRole:{
-        QList<QObject*> list;
-        for(int i=0;i<order->itemCount();++i)
-        {
-            if(!order->item(i)->isDone())
-                list.append(order->item(i));
-        }
-        return QVariant::fromValue(list);
-    }break;
     case OrderPrice:{
         return QVariant(QString("%1").arg(order->toPay()));
     }break;
     case TimeRole:{
-        return QVariant(order->timeSent().toLocalTime().toString("hh:mm"));
+        return QVariant(order->timeSent().toString("hh:mm"));
     }break;
     }
     return QVariant();
@@ -186,8 +177,6 @@ QHash<int, QByteArray> OrderBoard::roleNames() const
     roles[OrderPrice] = "orderPrice";
     roles[TimeRole] = "timeSent";
     roles[CountRole] = "itemCount";
-    roles[IncRole] = "incomingOrders";
-    roles[OutRole] = "outgoingOrders";
 
     return roles;
 }
