@@ -13,19 +13,19 @@ ListView {
 
     model: orderFilterToPay
 
-    delegate: OrderListElement {}
+    delegate: OrderListElement { orderTag: "ToPay" }
 
     DropArea {
         anchors.fill: parent
 
         onEntered:
         {
-            console.log("drag entered!")
+            console.log("drag entered topay list!")
             drag.source.caught = true;
         }
         onExited:
         {
-            console.log("drag left!")
+            console.log("drag left topay list!")
             drag.source.caught = false;
         }
     }

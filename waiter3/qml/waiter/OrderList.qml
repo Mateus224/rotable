@@ -13,5 +13,20 @@ ListView {
 
     model: orderFilterNew
 
-    delegate: OrderListElement {}
+    delegate: OrderListElement { orderTag: "New" }
+
+    DropArea {
+        anchors.fill: parent
+
+        onEntered:
+        {
+            console.log("drag entered new list!")
+            drag.source.caught = true;
+        }
+        onExited:
+        {
+            console.log("drag left new list!")
+            drag.source.caught = false;
+        }
+    }
 }
