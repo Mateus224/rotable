@@ -1,0 +1,9 @@
+UPDATE `%1configs` SET `value` = "0.0.5" WHERE `name` = "2";;
+CREATE TABLE IF NOT EXISTS `%1medias` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `name` VARCHAR(512) NOT NULL,
+  `date_added` TIMESTAMP NOT NULL,
+  `path` VARCHAR(512) NOT NULL,
+  `size` INTEGER NOT NULL,
+  `removed` INTEGER NOT NULL DEFAULT 0
+);;

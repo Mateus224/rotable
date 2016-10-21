@@ -73,6 +73,7 @@ Database::Database(QObject *parent) : QObject(parent), _connected(false) {
   SqlCommands mediaCmds;
   collectSqlCommands(mediaCmds, "medias");
   _sqlCommands.append(mediaCmds);
+
   SqlCommands waiterCategoriesCmds;
   collectSqlCommands(waiterCategoriesCmds, "waitercategories");
   _sqlCommands.append(waiterCategoriesCmds);
@@ -1992,6 +1993,22 @@ bool Database::createDatabase() {
     return false;
   }
 
+  // Media table
+  QSqlQuery q25(QString("DROP TABLE IF EXISTS `%1medias`;").arg(_prefix),
+                _db);
+  if (q25.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q21.lastError().text());
+    _db.rollback();
+    return false;
+  }
+
+  QSqlQuery q26(_sqlCommands[Medias]._create.arg(_prefix), _db);
+  if (q26.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q22.lastError().text());
+    _db.rollback();
+    return false;
+  }
+
   if (!initTriggers()) {
     _db.rollback();
     return false;
@@ -3066,7 +3083,6 @@ QString Database::databasebVersion() {
   if (!q.next()) {
     return "0.0.0";
   }
-
   return q.value("value").toString();
 }
 
@@ -3082,6 +3098,8 @@ void Database::updateDatabase(QString actualVersion) {
     updateToVersion("0.0.3");
   case version0d0d3:
     updateToVersion("0.0.4");
+  case version0d0d4:
+    updateToVersion("0.0.5");
   }
 }
 
@@ -3099,7 +3117,6 @@ bool Database::updateToVersion(QString version) {
   foreach (QString update, updateList) {
     QSqlQuery query(update.arg(_prefix).trimmed(), _db);
     query.executedQuery();
-
     if (query.lastError().type() != QSqlError::NoError) {
       qCritical() << tr("Query exec failed: %1").arg(query.lastError().text());
       _db.rollback();
@@ -3120,6 +3137,10 @@ int Database::versionToEnum(QString version) {
     return version0d0d2;
   else if (version == "0.0.3")
     return version0d0d3;
+  else if (version == "0.0.4")
+    return version0d0d4;
+  else if (version == "0.0.5")
+    return version0d0d5;
   return version0d0d0;
 }
 
