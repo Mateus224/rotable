@@ -19,5 +19,6 @@
         <file>up.svg</file>
         <file>down.svg</file>
         <file>gear.svg</file>
+        <file>waiter2.svg</file>
     </qresource>
 </RCC>

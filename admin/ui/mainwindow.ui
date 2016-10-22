@@ -39,7 +39,7 @@
        <locale language="English" country="UnitedStates"/>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>5</number>
       </property>
       <property name="iconSize">
        <size>
@@ -631,6 +631,10 @@
        </layout>
       </widget>
       <widget class="QWidget" name="Waiters">
+       <attribute name="icon">
+        <iconset resource="../resources/resources.qrc">
+         <normaloff>:/rotable/waiter2.svg</normaloff>:/rotable/waiter2.svg</iconset>
+       </attribute>
        <attribute name="title">
         <string>Waiters</string>
        </attribute>
