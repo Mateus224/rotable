@@ -19,8 +19,6 @@ Rectangle{
 
     width: listWidth
     height: model.itemCount > 0 ? listHeight : 0
-//    visible: model.itemCount > 0 //temporary fix to prevent empty orders
-//    visible: model.orderStatus == 0
 
     border.width: borderWidth
     border.color: borderColor
@@ -39,6 +37,7 @@ Rectangle{
         onPressed: {
             order.beginDrag = Qt.point(order.x, order.y);
             console.log("x: "+order.x+" y: "+order.y);
+            console.log("Order tag: "+orderTag);
         }
         onReleased: {
             if(!order.caught) {
@@ -49,17 +48,17 @@ Rectangle{
                 backAnim.start()
             }
             else {
-                readyOrder
-                orderboard.changeState(3)
-                console.log("new state: "+orderStatus)
+                readyOrder;
+                if ( orderTag == "New" ) orderboard.changeState(3)
+                else orderboard.changeState(0)
             }
         }
     }
 
     ParallelAnimation {
         id: backAnim
-        SpringAnimation { id: backAnimX; target: order; property: "x"; duration: 500; spring: 2; damping: 0.2 }
-        SpringAnimation { id: backAnimY; target: order; property: "y"; duration: 500; spring: 2; damping: 0.2 }
+        SpringAnimation { id: backAnimX; target: order; property: "x"; duration: 300; spring: 2; damping: 0.2 }
+        SpringAnimation { id: backAnimY; target: order; property: "y"; duration: 300; spring: 2; damping: 0.2 }
     }
 
     ListView{

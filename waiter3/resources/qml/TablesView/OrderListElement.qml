@@ -1,7 +1,4 @@
 import QtQuick 2.5
-import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.1
-import QtQuick.Controls.Styles 1.4
 
 Rectangle{
     id: order
@@ -26,7 +23,7 @@ Rectangle{
 
     Drag.active: dragArea.drag.active
 
-    z: dragArea.drag.active ||  dragArea.pressed ? 2 : 1
+    z: (dragArea.pressed || dragArea.drag.active) ? 1 : 0
 
     MouseArea{
         id:dragArea
@@ -36,7 +33,17 @@ Rectangle{
 
         onPressed: {
             order.beginDrag = Qt.point(order.x, order.y);
-            console.log("x: "+order.x+" y: "+order.y);
+//            console.log("Order tag: "+orderTag);
+            if ( orderTag == "New" ) {
+                orderList.z = 1
+                outgoingList.z = 0
+                orderList.clip = false
+            }
+            else {
+                orderList.z = 0
+                outgoingList.z = 1
+                outgoingList.clip = false
+            }
         }
         onReleased: {
             if(!order.caught) {
@@ -44,20 +51,32 @@ Rectangle{
                 backAnimX.to = beginDrag.x;
                 backAnimY.from = order.y;
                 backAnimY.to = beginDrag.y;
-                backAnim.start()
+                seq.start()
             }
             else {
-                readyOrder
-                orderboard.changeState(3)
-                console.log("new state: "+orderStatus)
+                readyOrder;
+                if ( orderTag == "New" ) orderboard.changeState(3)
+                else orderboard.changeState(0)
             }
         }
     }
+    SequentialAnimation {
+        id:seq
 
-    ParallelAnimation {
-        id: backAnim
-        SpringAnimation { id: backAnimX; target: order; property: "x"; duration: 500; spring: 2; damping: 0.2 }
-        SpringAnimation { id: backAnimY; target: order; property: "y"; duration: 500; spring: 2; damping: 0.2 }
+        ParallelAnimation {
+            id: backAnim
+            SpringAnimation { id: backAnimX; target: order; property: "x"; duration: 300; spring: 2; damping: 0.2 }
+            SpringAnimation { id: backAnimY; target: order; property: "y"; duration: 300; spring: 2; damping: 0.2 }
+        }
+
+        ScriptAction {
+            script: {
+                if ( orderTag == "New" ) orderList.clip = true
+                else outgoingList.clip = true
+                orderList.z = outgoingList.z = 0
+            }
+        }
+
     }
 
     ListView{
@@ -67,6 +86,8 @@ Rectangle{
         anchors.topMargin: borderWidth*3
         anchors.bottomMargin: borderWidth*3
         anchors.fill: parent
+
+        z: parent.z
 
         interactive: false
 
@@ -82,6 +103,8 @@ Rectangle{
         anchors.top: parent.top
         anchors.topMargin: -1
         anchors.horizontalCenter: parent.horizontalCenter
+
+        z: parent.z
 
         Text {
             id: orderTime
