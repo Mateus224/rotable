@@ -44,28 +44,6 @@ RESOURCES +=\
     resources.qrc \
     $$PWD/../shared/shared_resources.qrc
 
-OTHER_FILES += \
-    qml/waiter/main.qml \
-    qml/waiter/LoginView.qml \
-    qml/waiter/WaiterView.qml \
-    qml/waiter/PullOutMenu.qml \
-    qml/waiter/PullOutMenuElement.qml \
-    qml/waiter/PullOutMenuModel.qml \
-    qml/waiter/DataView.qml \
-    qml/waiter/TablesView.qml \
-    qml/waiter/TableList.qml \
-    qml/waiter/TableListElement.qml \
-    qml/waiter/OrderList.qml \
-    qml/waiter/OrderListElement.qml \
-    qml/waiter/OrderProductListElement.qml \
-    qml/waiter/OutgoingList.qml \
-    qml/waiter/TimeBar.qml \
-    qml/waiter/SimpleClock.qml \
-    qml/waiter/BottomBar.qml \
-    qml/waiter/RightPanel.qml \
-    qml/waiter/TableNeedsWaiterList.qml \
-    qml/waiter/TableNeedsWaiterListElement.qml
-
 ########################################################################
 # DESTINATION:
 
@@ -123,26 +101,26 @@ target.path = /opt/rotable
 INSTALLS    += target
 
 DISTFILES += \
-    qml/waiter/main.qml \
-    qml/waiter/LoginView.qml \
-    qml/waiter/WaiterView.qml \
-    qml/waiter/PullOutMenu.qml \
-    qml/waiter/PullOutMenuElement.qml \
-    qml/waiter/PullOutMenuModel.qml \
-    qml/waiter/DataView.qml \
-    qml/waiter/TablesView.qml \
-    qml/waiter/TableList.qml \
-    qml/waiter/TableListElement.qml \
-    qml/waiter/OrderList.qml \
-    qml/waiter/OrderListElement.qml \
-    qml/waiter/OrderProductListElement.qml \
-    qml/waiter/OutgoingList.qml \
-    qml/waiter/TimeBar.qml \
-    qml/waiter/SimpleClock.qml \
-    qml/waiter/BottomBar.qml \
-    qml/waiter/RightPanel.qml \
-    qml/waiter/TableNeedsWaiterList.qml \
-    qml/waiter/TableNeedsWaiterListElement.qml
+    resources/qml/main.qml \
+    resources/qml/LoginView.qml \
+    resources/qml/WaiterView.qml \
+    resources/qml/DataView.qml \
+    resources/qml/PullOutMenu/PullOutMenu.qml \
+    resources/qml/PullOutMenu/PullOutMenuElement.qml \
+    resources/qml/PullOutMenu/PullOutMenuModel.qml \
+    resources/qml/TablesView/TablesView.qml \
+    resources/qml/TablesView/TableList.qml \
+    resources/qml/TablesView/TableListElement.qml \
+    resources/qml/TablesView/OrderList.qml \
+    resources/qml/TablesView/OrderListElement.qml \
+    resources/qml/TablesView/OrderProductListElement.qml \
+    resources/qml/TablesView/OutgoingList.qml \
+    resources/qml/TablesView/RightPanel.qml \
+    resources/qml/TopBar/TimeBar.qml \
+    resources/qml/TopBar/SimpleClock.qml \
+    resources/qml/BottomBar/BottomBar.qml \
+    resources/qml/BottomBar/TableNeedsWaiterList.qml \
+    resources/qml/BottomBar/TableNeedsWaiterListElement.qml
 
 ########################################################################
 # TRANSLATION:

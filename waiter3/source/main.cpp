@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
   // Connect exit signal for exit
   QObject::connect(engine,  SIGNAL(quit()), qApp, SLOT(quit()));
 
-  view->setSource(QUrl("qrc:/waiter/qml/main.qml"));
+  view->setSource(QUrl("qrc:/resources/qml/main.qml"));
   view->setResizeMode(QQuickView::SizeRootObjectToView);
 
   view->show();
