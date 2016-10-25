@@ -55,7 +55,7 @@ public:
 signals:
   /**
    * @brief
-   *
+   *send signal to executor
    */
   void connected();
   /**

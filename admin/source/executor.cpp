@@ -644,6 +644,7 @@ void Executor::onPackageReceived(ComPackage *package) {
       requestServerConfigs();
       requestLicenceStatus();
       requestClientIds();
+      requestMediaIds();
       break;
 
     case ComPackage::DataRequest:
@@ -826,6 +827,19 @@ void Executor::requestLicenceStatus() {
 void Executor::requestClientIds() {
   ComPackageDataRequest *request = new ComPackageDataRequest();
   request->setDataCategory(ComPackage::RequestUserIds);
+
+  if (!_tcp_client.send(*request)) {
+    qCritical() << tr("Could not send request!");
+  } else {
+    _dataRequest[request->id()] = request;
+  }
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::requestMediaIds() {
+  ComPackageDataRequest *request = new ComPackageDataRequest();
+  request->setDataCategory(ComPackage::RequestMediaIds);
 
   if (!_tcp_client.send(*request)) {
     qCritical() << tr("Could not send request!");

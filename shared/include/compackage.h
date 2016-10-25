@@ -135,7 +135,10 @@ public:
     RequestUserIds,
 
     /* Request user data*/
-    RequestUser
+    RequestUser,
+
+    /* Request Media IDs*/
+    RequestMediaIds
   };
 
   /**
@@ -156,9 +159,6 @@ public:
 
     /* Set licence */
     SetLicence,
-
-    /*Set Video*/
-    SetVideo
 
   };
 

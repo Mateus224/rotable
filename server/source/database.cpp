@@ -74,6 +74,10 @@ Database::Database(QObject *parent) : QObject(parent), _connected(false) {
   collectSqlCommands(mediaCmds, "medias");
   _sqlCommands.append(mediaCmds);
 
+  SqlCommands advertisingVideoCMD;
+  collectSqlCommands(advertisingVideoCMD, "advertisingvideos");
+  _sqlCommands.append(advertisingVideoCMD);
+
   SqlCommands waiterCategoriesCmds;
   collectSqlCommands(waiterCategoriesCmds, "waitercategories");
   _sqlCommands.append(waiterCategoriesCmds);
@@ -409,6 +413,8 @@ bool Database::clientIds(QList<int> &ids, int userType) {
 //------------------------------------------------------------------------------
 
 bool Database::userIds(QList<int> &ids) {
+  ids.clear();
+
   if (!isConnected()) {
     return false;
   }
@@ -425,6 +431,45 @@ bool Database::userIds(QList<int> &ids) {
 
   q.bindValue(":type", 0);
   q.bindValue(":type2", 2);
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  while (q.next()) {
+    bool toIntOk;
+    ids << q.value("id").toInt(&toIntOk);
+    if (!toIntOk) {
+      qCritical() << tr("Could not convert entry '%1' to an integer!")
+                         .arg(q.value("id").toString());
+      ids.clear();
+      return false;
+    }
+  }
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::mediaIds(QList<int> &ids) {
+  ids.clear();
+
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr = _sqlCommands[Medias]._listIds.arg(_prefix);
+
+  QSqlQuery q(_db);
+  // q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
 
   if (!q.exec()) {
     qCritical()
@@ -2009,6 +2054,22 @@ bool Database::createDatabase() {
     return false;
   }
 
+  //AdvertisingVideos table
+  QSqlQuery q27(QString("DROP TABLE IF EXISTS `%1advertisingvideos`;").arg(_prefix),
+                _db);
+  if (q27.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q21.lastError().text());
+    _db.rollback();
+    return false;
+  }
+
+  QSqlQuery q28(_sqlCommands[AdvertisingVideos]._create.arg(_prefix), _db);
+  if (q28.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q22.lastError().text());
+    _db.rollback();
+    return false;
+  }
+
   if (!initTriggers()) {
     _db.rollback();
     return false;
@@ -3100,6 +3161,8 @@ void Database::updateDatabase(QString actualVersion) {
     updateToVersion("0.0.4");
   case version0d0d4:
     updateToVersion("0.0.5");
+  case version0d0d5:
+    updateToVersion("0.0.6");
   }
 }
 
@@ -3113,8 +3176,10 @@ bool Database::updateToVersion(QString version) {
               .data())
           .split(";;");
   _db.transaction();
+
   // SQLite can query one statment at time
   foreach (QString update, updateList) {
+      LogManager::getInstance()->logInfo(update);
     QSqlQuery query(update.arg(_prefix).trimmed(), _db);
     query.executedQuery();
     if (query.lastError().type() != QSqlError::NoError) {
@@ -3141,6 +3206,8 @@ int Database::versionToEnum(QString version) {
     return version0d0d4;
   else if (version == "0.0.5")
     return version0d0d5;
+  else if (version == "0.0.6")
+    return version0d0d6;
   return version0d0d0;
 }
 

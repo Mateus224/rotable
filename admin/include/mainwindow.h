@@ -64,7 +64,7 @@ public:
 signals:
  /**
   * @brief
-  *
+  * send signal to controller class where is connected to executor object
   */
  void actionConnect();
  /**

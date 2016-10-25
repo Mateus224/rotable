@@ -369,6 +369,11 @@ private:
   void requestClientIds();
 
   /**
+   * @brief requestMediaList
+   */
+  void requestMediaIds();
+
+  /**
    * @brief
    *
    * @param package

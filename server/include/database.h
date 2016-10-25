@@ -67,6 +67,7 @@ private:
     MacAdresses,
     TableDetails,
     Medias,
+    AdvertisingVideos,
     WaiterCategories
   };
 
@@ -174,6 +175,14 @@ public:
    * @return bool       true on success
    */
   bool userIds(QList<int> &ids);
+
+  /**
+   * Get list of media ids.
+   *
+   * @param ids         (result) list of media ids
+   * @return            true on successs
+   */
+  bool mediaIds(QList<int> &ids);
 
   /**
    * Read category from database.
@@ -592,11 +601,12 @@ public:
     version0d0d2,
     version0d0d3,
     version0d0d4,
-    version0d0d5
+    version0d0d5,
+    version0d0d6
   };
 
 
-  QString const newestVesion = "0.0.5";
+  QString const newestVesion = "0.0.6";
 
 
   /**
