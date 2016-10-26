@@ -1089,6 +1089,67 @@ Client *Database::client(int id) {
 
 //------------------------------------------------------------------------------
 
+Media *Database::media(int id) {
+  if (!isConnected()) {
+    return 0;
+  }
+
+  QString queryStr =
+      _sqlCommands[Medias]._select.arg(_prefix, "*", "id").arg(id);
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return 0;
+  }
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return 0;
+  }
+
+  if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+    if (q.size() != 1) {
+      qCritical()
+          << tr("Query: returned %1 results but we expected it to return 1!")
+                 .arg(q.size());
+      return 0;
+    }
+  }
+
+  if (!q.next()) {
+    return 0;
+  }
+
+  bool ok;
+  int media_id = q.value("id").toInt(&ok);
+  if (!ok) {
+    qDebug() << tr("Could not convert '%1' to integer!")
+                    .arg(q.value("id").toString());
+    return 0;
+  }
+
+  /*int sequence = q.value("sequence").toInt(&ok);
+  if (!ok) {
+    qDebug() << tr("Could not convert '%1' to integer!")
+                    .arg(q.value("sequence").toString());
+    return 0;
+  }*/
+
+  Media *c = new Media();
+  c->setName(q.value("name").toString());
+  //c->setIcon(q.value("icon").toString());
+  c->setId(media_id);
+  //c->setSequence(sequence);
+
+  return c;
+}
+
+//------------------------------------------------------------------------------
+
 bool Database::addCategory(ProductCategory *category) {
   if (!isConnected()) {
     return false;
@@ -1854,7 +1915,7 @@ bool Database::createDatabase() {
   }
 
   if (_db.transaction())
-    qCritical() << tr("Create new trnsaction");
+    qCritical() << tr("Create new transaction");
   // Set time zone is not available when using SQLITE
   // ret &= dbExec(QString("SET time_zone =
   // \"%1\";").arg(ROTABLE_DATABASE_TIMEZONE));
@@ -2026,14 +2087,14 @@ bool Database::createDatabase() {
   QSqlQuery q23(QString("DROP TABLE IF EXISTS `%1waitercategories`;").arg(_prefix),
                 _db);
   if (q23.lastError().type() != QSqlError::NoError) {
-    qCritical() << tr("Query exec failed: %1").arg(q21.lastError().text());
+    qCritical() << tr("Query exec failed: %1").arg(q23.lastError().text());
     _db.rollback();
     return false;
   }
 
   QSqlQuery q24(_sqlCommands[WaiterCategories]._create.arg(_prefix), _db);
   if (q24.lastError().type() != QSqlError::NoError) {
-    qCritical() << tr("Query exec failed: %1").arg(q22.lastError().text());
+    qCritical() << tr("Query exec failed: %1").arg(q24.lastError().text());
     _db.rollback();
     return false;
   }
@@ -2042,14 +2103,14 @@ bool Database::createDatabase() {
   QSqlQuery q25(QString("DROP TABLE IF EXISTS `%1medias`;").arg(_prefix),
                 _db);
   if (q25.lastError().type() != QSqlError::NoError) {
-    qCritical() << tr("Query exec failed: %1").arg(q21.lastError().text());
+    qCritical() << tr("Query exec failed: %1").arg(q25.lastError().text());
     _db.rollback();
     return false;
   }
 
   QSqlQuery q26(_sqlCommands[Medias]._create.arg(_prefix), _db);
   if (q26.lastError().type() != QSqlError::NoError) {
-    qCritical() << tr("Query exec failed: %1").arg(q22.lastError().text());
+    qCritical() << tr("Query exec failed: %1").arg(q26.lastError().text());
     _db.rollback();
     return false;
   }
@@ -2058,14 +2119,14 @@ bool Database::createDatabase() {
   QSqlQuery q27(QString("DROP TABLE IF EXISTS `%1advertisingvideos`;").arg(_prefix),
                 _db);
   if (q27.lastError().type() != QSqlError::NoError) {
-    qCritical() << tr("Query exec failed: %1").arg(q21.lastError().text());
+    qCritical() << tr("Query exec failed: %1").arg(q27.lastError().text());
     _db.rollback();
     return false;
   }
 
   QSqlQuery q28(_sqlCommands[AdvertisingVideos]._create.arg(_prefix), _db);
   if (q28.lastError().type() != QSqlError::NoError) {
-    qCritical() << tr("Query exec failed: %1").arg(q22.lastError().text());
+    qCritical() << tr("Query exec failed: %1").arg(q28.lastError().text());
     _db.rollback();
     return false;
   }

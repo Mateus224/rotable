@@ -7,6 +7,7 @@
 #ifndef QJSONOBJECT_H
 #include <QJsonObject>
 #endif
+#include "compackage.h"
 namespace rotable {
     class Media;
 }
@@ -57,11 +58,12 @@ public:
      */
     inline void setId(int id) { _id = id; }
 
-
     /**
      * @brief getPath
+     * return the Path to the file
+     * every kind of media has an other path
      */
-    void getPath();
+    QString getPath(int mediaType);
 
     /**
      * @brief getSize
@@ -109,6 +111,8 @@ private:
   int _id;
   /*the frequenz for playing advertising*/
   int _frequency;
+
+  QString _path;
 
 };
 

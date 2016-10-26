@@ -23,7 +23,7 @@
 #include <QJsonObject>
 #endif
 
-#include "client.h"
+#include "media.h"
 #include "client.h"
 #include "compackage.h"
 #include "config.h"
@@ -247,6 +247,13 @@ public:
    * @return            client or NULL on error
    */
   rotable::Client *client(int id);
+
+  /**
+   * Read media from database
+   * @param id          media id
+   * @return            media or NULL on error
+   */
+  rotable::Media *media(int id);
 
   /**
    * Add a new product category to the database.

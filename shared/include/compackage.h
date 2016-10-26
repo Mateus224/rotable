@@ -206,7 +206,7 @@ public:
   enum FileUsage {
 
       /*File for Advertising on clients*/
-      AdvertisingVideo,
+      AdvertisingVideo = 0,
 
       /*File for Advertising on clients*/
       AdvertisingPicture,
@@ -215,7 +215,7 @@ public:
       CatergoryIcon,
 
       /*Icons which are send to clients*/
-      ProductIcon,
+      ProductPicture
 
       /*Files for checking the License*/
       //LicenseFiles
@@ -862,10 +862,10 @@ public:
   inline Type type() const { return File; }
 
   /**
-   * 1= Advertising Video
-   * 2= Advertising Picture
-   * 3= Category Icon
-   * 4= Product Icon
+   * 0= Advertising Video
+   * 1= Advertising Picture
+   * 2= Category Icon
+   * 3= Product Icon
    */
   inline void setFileUsage(FileUsage fileUsage){_fileUsage=fileUsage;}
   inline int getFileUsage(){return _fileUsage;}

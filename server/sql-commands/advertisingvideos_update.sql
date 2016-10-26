@@ -1,1 +1,1 @@
-UPDATE `%1categories` SET `name` = :name, `icon` = :icon, `sequence` = :sequence, `date_last_change` = datetime('now') WHERE `id` = %2;
+UPDATE `%1advertisingvideos` SET `frequency` = :frequency, `play` = :play, `played` = :played, `media_id` = :media_id WHERE `id` = %2;

@@ -1,3 +1,3 @@
-INSERT INTO `%1categories` 
-(`id`, `name`, `icon`, `date_added`, `date_last_change`, `sequence`)
-VALUES (%2, %3, %4, datetime('now'), datetime('now'), %5);
+INSERT INTO `%1advertisingvideos` 
+(`id`, `frequency`, `play`, `played`, `media_id`)
+VALUES (%2, %3, %4, %5, %6);

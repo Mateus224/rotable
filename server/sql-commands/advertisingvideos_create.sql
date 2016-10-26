@@ -3,5 +3,5 @@ CREATE TABLE IF NOT EXISTS `%1advertisingvideos` (
   `frequency` INTEGER NOT NULL,
   `play` INTEGER NOT NULL DEFAULT 0,
   `played` INTEGER NOT NULL,
-  `media_id` INTEGER NOT NULL,
+  `media_id` INTEGER NOT NULL
 );

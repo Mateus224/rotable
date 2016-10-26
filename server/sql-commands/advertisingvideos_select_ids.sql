@@ -1,1 +1,1 @@
-SELECT `id` FROM `%1categories` WHERE `removed` = 0;
+SELECT `id` FROM `%1advertisingvideos` WHERE `removed` = 0;

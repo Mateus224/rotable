@@ -566,7 +566,7 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
       QJsonArray arr;
       foreach (int id, ids) { arr.append(id); }
       QJsonValue jsonVal(arr);
-
+      LogManager::getInstance()->logInfo("\n\n das klappt \n\n");
       return new ComPackageDataReturn(*request, jsonVal);
     } else {
       qCritical() << tr("Could not query product category ids!");
@@ -1296,7 +1296,7 @@ bool Server::kindOfFileDestination(ComPackageSendFile* package)
       switch (package->getFileUsage()) {
       case ComPackage::AdvertisingVideo:
 
-          LogManager::getInstance()->logInfo("\n\n hier\n\n");
+          //LogManager::getInstance()->logInfo("\n\n hier\n\n");
 
           break;
       case ComPackage::AdvertisingPicture:
@@ -1305,7 +1305,7 @@ bool Server::kindOfFileDestination(ComPackageSendFile* package)
       case ComPackage::CatergoryIcon:
 
           break;
-      case ComPackage::ProductIcon:
+      case ComPackage::ProductPicture:
 
           break;
 

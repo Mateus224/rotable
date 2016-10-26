@@ -1,1 +1,1 @@
-UPDATE `%1categories` SET `removed` = 1 WHERE `id` = %2;
+UPDATE `%1advertisingvideos` SET `removed` = 1 WHERE `id` = %2;
