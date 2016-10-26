@@ -1,1 +1,1 @@
-UPDATE `%1medias` SET `name` = :name, `size` = :_size WHERE `id` = %2;
+UPDATE `%1medias` SET `type` = :type, `name` = :name, `size` = :_size, `removed` = :removed WHERE `id` = %2;
