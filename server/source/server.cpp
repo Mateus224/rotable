@@ -1292,23 +1292,33 @@ QJsonValue Server::configToJSON() {
 
 bool Server::kindOfFileDestination(ComPackageSendFile* package)
 {
+    AbstractFileContainer *Files= new AbstractFileContainer;
+    QString test1;
     if (package) {
       switch (package->getFileUsage()) {
       case ComPackage::AdvertisingVideo:
-
-          //LogManager::getInstance()->logInfo("\n\n hier\n\n");
-
+          if(true){
+            VideoContainer* advertisingVideos=static_cast <VideoContainer*>(Files);
+            advertisingVideos->addFile(package);
+          //test1=package->getFiles().at(0);
+          //LogManager::getInstance()->logInfo(test1);
+           }
           break;
       case ComPackage::AdvertisingPicture:
-
+          if(true)
+            VideoContainer* a=static_cast <VideoContainer*>(Files);
+          test1=package->getFiles().at(0);
           break;
       case ComPackage::CatergoryIcon:
-
+          if(true)
+            VideoContainer* b=static_cast <VideoContainer*>(Files);
+          test1=package->getFiles().at(0);
           break;
       case ComPackage::ProductPicture:
-
           break;
 
+      case ComPackage::ProductVideo:
+          break;
 
 
       }

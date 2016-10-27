@@ -2,7 +2,7 @@
 
 #include "filecontainer/imagecontainer.h"
 
-#include <QDirIterator>
+
 #include <QImage>
 #include <QResource>
 
@@ -48,7 +48,7 @@ bool ImageContainer::addImage(const QString &name, QImage *image)
 
 //------------------------------------------------------------------------------
 
-bool ImageContainer::hasImage(const QString &name) const
+bool ImageContainer::hasFile(const QString &name) const
 {
   return _images.contains(name);
 }

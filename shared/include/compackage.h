@@ -215,10 +215,13 @@ public:
       CatergoryIcon,
 
       /*Icons which are send to clients*/
-      ProductPicture
+      ProductPicture,
 
       /*Files for checking the License*/
       //LicenseFiles
+
+      /*a short Video which is showing a product*/
+      ProductVideo
   };
 
   /**
