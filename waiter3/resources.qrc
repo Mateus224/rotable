@@ -36,8 +36,10 @@
         <file>resources/qml/TopBar/SimpleClock.qml</file>
         <file>resources/qml/TopBar/TimeBar.qml</file>
         <file>resources/qml/DataView.qml</file>
-        <file>resources/qml/LoginView.qml</file>
         <file>resources/qml/main.qml</file>
         <file>resources/qml/WaiterView.qml</file>
+        <file>resources/qml/LoadingView/LoadDot.qml</file>
+        <file>resources/qml/LoadingView/LoadingSymbol.qml</file>
+        <file>resources/qml/LoadingView/LoginView.qml</file>
     </qresource>
 </RCC>

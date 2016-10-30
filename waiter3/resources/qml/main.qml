@@ -1,5 +1,7 @@
 import QtQuick 2.5
 
+import "LoadingView/"
+
 Rectangle{
     visible: true
     id: mainscreen
@@ -25,6 +27,12 @@ Rectangle{
         text: qsTr("Text")
         anchors.fill: parent
         font.pixelSize: 12
+        opacity: 0
+    }
+
+    LoadingSymbol {
+        id: loadsymbol
+        anchors.centerIn: parent
         opacity: 0
     }
 
@@ -61,6 +69,11 @@ Rectangle{
                 font.pixelSize: 36
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: loadsymbol
                 opacity: 1
             }
         }
