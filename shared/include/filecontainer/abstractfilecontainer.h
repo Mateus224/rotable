@@ -6,7 +6,9 @@
 #include <QObject>
 #include <QMap>
 #include <QString>
-
+#include <QDirIterator>
+#include <QFile>
+#include "compackage.h"
 //------------------------------------------------------------------------------
 
 /**
@@ -21,16 +23,18 @@ class AbstractFileContainer : public QObject
 public:
     explicit AbstractFileContainer(QObject* parent = 0);
 
-protected:
 
-    virtual bool addFile(const QString& name, QString* fileData){}
-    virtual bool hasFile(const QString& name) const{}
+protected:
+    virtual bool addFiles(rotable::ComPackageSendFile* package){}
+
+protected:
+    virtual bool hasFile(const QString& name){}
     virtual QString getFile(const QString& name) const{}
-    virtual void setDir(const QString& dir){}
-    virtual QStringList fileNames() const{}
+    virtual void changeFileName(){}
+    virtual void rmFile(){}
 
       QMap<QString, QImage*> _file;
-      QString _imageDir;
+      QDir* _fileDir;
 
 };
 

@@ -55,7 +55,7 @@ public:
    * @param name          image name
    * @return              true if image exists
    */
-  bool hasImage(const QString& name) const;
+  bool hasFile(const QString& name) const;
 
   /**
    * Get Image with given name.

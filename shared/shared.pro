@@ -25,8 +25,6 @@ SOURCES += \
     source/income.cpp \
     source/config.cpp \
     source/mytables.cpp \
-    source/orderinformation.cpp \
-    source/qmlcontxt.cpp \
     source/productorderlistmodel.cpp \
     source/client.cpp \
     source/tabele.cpp \
@@ -36,7 +34,8 @@ SOURCES += \
     source/filecontainer/videocontainer.cpp \
     source/waiter_client.cpp \
     source/filecontainer/abstractfilecontainer.cpp \
-    source/filecontainer/imagecontainer.cpp
+    source/filecontainer/imagecontainer.cpp \
+    source/media.cpp
 
 
 HEADERS += \
@@ -54,8 +53,6 @@ HEADERS += \
     include/income.h \
     include/config.h \
     include/mytables.h \
-    include/orderinformation.h \
-    include/qmlcontxt.h \
     include/productorderlistmodel.h \
     include/client.h \
     include/waiter.h \
@@ -65,7 +62,8 @@ HEADERS += \
     include/languagesupport.h \
     include/filecontainer/videocontainer.h \
     include/filecontainer/abstractfilecontainer.h \
-    include/filecontainer/imagecontainer.h
+    include/filecontainer/imagecontainer.h \
+    include/media.h
 
 
 RESOURCES += shared_resources.qrc

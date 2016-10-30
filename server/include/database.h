@@ -23,7 +23,7 @@
 #include <QJsonObject>
 #endif
 
-#include "client.h"
+#include "media.h"
 #include "client.h"
 #include "compackage.h"
 #include "config.h"
@@ -66,7 +66,8 @@ private:
     Passwords,
     MacAdresses,
     TableDetails,
-    Media,
+    Medias,
+    AdvertisingVideos,
     WaiterCategories
   };
 
@@ -176,6 +177,14 @@ public:
   bool userIds(QList<int> &ids);
 
   /**
+   * Get list of media ids.
+   *
+   * @param ids         (result) list of media ids
+   * @return            true on successs
+   */
+  bool mediaIds(QList<int> &ids);
+
+  /**
    * Read category from database.
    *
    * @param id          category id
@@ -238,6 +247,13 @@ public:
    * @return            client or NULL on error
    */
   rotable::Client *client(int id);
+
+  /**
+   * Read media from database
+   * @param id          media id
+   * @return            media or NULL on error
+   */
+  rotable::Media *media(int id);
 
   /**
    * Add a new product category to the database.
@@ -592,10 +608,12 @@ public:
     version0d0d2,
     version0d0d3,
     version0d0d4,
+    version0d0d5,
+    version0d0d6
   };
 
 
-  QString const newestVesion = "0.0.4";
+  QString const newestVesion = "0.0.6";
 
 
   /**

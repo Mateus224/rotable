@@ -111,6 +111,7 @@ void Server::createDatabase() {
 //------------------------------------------------------------------------------
 
 void Server::clientConnected(client_t client) {
+  //LogManager::getInstance()->logInfo(tr("Client connected: %1").arg(_tcp.clientSocket(client)->peerAddress().toString()));
   qDebug() << tr("Client connected: %1")
                   .arg(_tcp.clientSocket(client)->peerAddress().toString());
 }
@@ -559,6 +560,18 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
       }
     }
   } break;
+  case ComPackage::RequestMediaIds: {
+    QList<int> ids;
+    if (_db.mediaIds(ids)) {
+      QJsonArray arr;
+      foreach (int id, ids) { arr.append(id); }
+      QJsonValue jsonVal(arr);
+      LogManager::getInstance()->logInfo("\n\n das klappt \n\n");
+      return new ComPackageDataReturn(*request, jsonVal);
+    } else {
+      qCritical() << tr("Could not query product category ids!");
+    }
+  } break;
   default: {
     qCritical()
         << tr("Unknown data request id: %d").arg(request->dataCategory());
@@ -660,20 +673,6 @@ bool Server::setData(ComPackageDataSet *set, client_t client) {
     return true;
   } break;
 
-
-  case ComPackage::SetVideo:
-  {
-      QJsonArray arr = set->data().toArray();
-      foreach(QJsonValue file, arr)
-      {
-          QByteArray ba = QByteArray::fromBase64(file.toString().toLocal8Bit(),
-                                                 QByteArray::Base64UrlEncoding);
-          QString info(ba);
-          qWarning() << "Recived: ComPackage::SetVideo:"<<info;
-      }
-      return true;
-      break;
-  }
 
   default: {
     qCritical() << tr("Unknown data set id: %d").arg(set->dataCategory());
@@ -1293,22 +1292,33 @@ QJsonValue Server::configToJSON() {
 
 bool Server::kindOfFileDestination(ComPackageSendFile* package)
 {
+    AbstractFileContainer *Files= new AbstractFileContainer;
+    QString test1;
     if (package) {
       switch (package->getFileUsage()) {
       case ComPackage::AdvertisingVideo:
-          LogManager::getInstance()->logInfo("\n\n hier\n\n");
-
+          if(true){
+            VideoContainer* advertisingVideos=static_cast <VideoContainer*>(Files);
+            advertisingVideos->addFile(package);
+          //test1=package->getFiles().at(0);
+          //LogManager::getInstance()->logInfo(test1);
+           }
           break;
       case ComPackage::AdvertisingPicture:
-
+          if(true)
+            VideoContainer* a=static_cast <VideoContainer*>(Files);
+          test1=package->getFiles().at(0);
           break;
       case ComPackage::CatergoryIcon:
-
+          if(true)
+            VideoContainer* b=static_cast <VideoContainer*>(Files);
+          test1=package->getFiles().at(0);
           break;
-      case ComPackage::ProductIcon:
-
+      case ComPackage::ProductPicture:
           break;
 
+      case ComPackage::ProductVideo:
+          break;
 
 
       }

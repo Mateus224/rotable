@@ -2,16 +2,28 @@
 #define VIDEOCONTAINER_H
 #include <filecontainer/abstractfilecontainer.h>
 
-class VideoContainer : public AbstractFileContainer
+namespace rotable {
+    class VideoContainer;
+}
+
+class rotable::VideoContainer : public AbstractFileContainer
 {
+    Q_OBJECT
+
 public:
-    VideoContainer();
+    explicit VideoContainer(QObject* parent = 0);
+
+
+    bool addFile(rotable::ComPackageSendFile* package);
 
 protected:
-    bool addFile(const QString &name, QString *fileData);
-    bool hasFile(const QString &name) const;
-    QString getFile(const QString &name) const;
-    //void setDir(const QStr);
+    bool hasFile(const QString& name) const;
+    QString getFile(const QString& name) const;
+    void changeFileName();
+    void rmFile();
+
+private:
+    QString _fileName;
 };
 
 #endif // VIDEOCONTAINER_H
