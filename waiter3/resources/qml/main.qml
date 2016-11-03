@@ -25,7 +25,10 @@ Rectangle{
     Text {
         id: noConnectionText
         text: qsTr("Text")
-        anchors.fill: parent
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: loadsymbol.bottom
+        anchors.topMargin: loadsymbol.height
         font.pixelSize: 12
         opacity: 0
     }
