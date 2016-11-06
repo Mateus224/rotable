@@ -11,11 +11,11 @@ ListView {
     model: orderFilterNew
 
     snapMode: ListView.SnapToItem
-    boundsBehavior: Flickable.StopAtBounds
+//    boundsBehavior: Flickable.StopAtBounds
 
     clip:true
 
-    delegate: OrderListElement { orderTag: "New" }
+    delegate: OrderListElement { orderTag: "New"; targetTag: "None" }
 
     DropArea {
         id:incDrop
@@ -25,19 +25,21 @@ ListView {
         {
             if (drag.source.orderTag == "ToPay")
             {
-                console.log("drag entered new list!");
+                console.log("drag ToPay entered New list!");
                 drag.source.caught = true;
+                drag.source.targetTag = "New"
             }
-            else console.log("wrong type drag entered new list!");
+            else console.log("drag New entered New list!");
         }
         onExited:
         {
             if (drag.source.orderTag == "ToPay")
             {
-                console.log("drag left new list!");
+                console.log("drag ToPay left new list!");
                 drag.source.caught = false;
+                drag.source.targetTag = "None"
             }
-            else console.log("wrong type drag left new list!");
+            else console.log("drag New left new list!");
         }
     }
 }

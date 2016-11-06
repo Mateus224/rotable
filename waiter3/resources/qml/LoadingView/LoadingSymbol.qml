@@ -74,7 +74,6 @@ Rectangle {
             if (--dot6.counter < 0) dot6.counter=maxPoints-1;
             if (--dot7.counter < 0) dot7.counter=maxPoints-1;
             if (--dot8.counter < 0) dot8.counter=maxPoints-1;
-            console.log(dot1.counter+","+dot2.counter+","+dot3.counter+","+dot4.counter+","+dot5.counter+","+dot6.counter+","+dot7.counter+","+dot8.counter)
         }
     }
 

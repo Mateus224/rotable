@@ -11,6 +11,7 @@ Rectangle{
     property int listHeight: orderItemsView.count * productHeight + 6 * borderWidth + (orderItemsView.count-1) * itemSpacing
 
     property string orderTag
+    property string targetTag
     property bool caught: false
     property point beginDrag: Qt.point(x,y)
 
@@ -33,7 +34,6 @@ Rectangle{
 
         onPressed: {
             order.beginDrag = Qt.point(order.x, order.y);
-//            console.log("Order tag: "+orderTag);
             if ( orderTag == "New" ) {
                 orderList.z = 1
                 outgoingList.z = 0
@@ -44,42 +44,75 @@ Rectangle{
                 outgoingList.z = 1
                 outgoingList.clip = false
             }
+            console.log("Order tag: "+orderTag);
         }
         onReleased: {
             if(!order.caught) {
-                backAnimX.from = order.x;
-                backAnimX.to = beginDrag.x;
-                backAnimY.from = order.y;
-                backAnimY.to = beginDrag.y;
-                seq.start()
+                console.log("Object was not caught in any proper area.")
+                backAnimX.from = order.x
+                backAnimX.to = beginDrag.x
+                backAnimY.from = order.y
+                backAnimY.to = beginDrag.y
+                //if current object position != starting object pos => play animation and make object non iteractable
+                if (order.x != beginDrag.x && order.y != beginDrag.y) {
+                    order.enabled = false
+                    seq.start()
+                }
+                //otherwise - reset parent list clipping and z positions
+                else {
+                    if (orderTag=="New") orderList.clip = true
+                    else outgoingList.clip = true;
+                    orderList.z = outgoingList.z = 0
+                }
             }
             else {
+                console.log("Order was caught and switched type.")
+                if (orderTag=="New") orderList.clip = true
+                else outgoingList.clip = true;
+                orderList.z = outgoingList.z = 0
                 readyOrder;
-                if ( orderTag == "New" ) orderboard.changeState(3)
-                else orderboard.changeState(0)
+                switch (targetTag)
+                {
+                case "New":
+                    orderboard.changeState(0)
+                    break;
+                case "Payed":
+                    orderboard.changeState(1)
+                    break;
+                case "Rejected":
+                    orderboard.changeState(2)
+                    break;
+                case "ToPay":
+                    orderboard.changeState(3)
+                    break;
+                }
+                order.Drag.active = false
             }
         }
     }
+
     SequentialAnimation {
         id:seq
 
         ParallelAnimation {
             id: backAnim
-            SpringAnimation { id: backAnimX; target: order; property: "x"; duration: 300; spring: 2; damping: 0.2 }
-            SpringAnimation { id: backAnimY; target: order; property: "y"; duration: 300; spring: 2; damping: 0.2 }
+            PropertyAnimation { id: backAnimX; target: order; property: "x"; duration: 300; }
+            PropertyAnimation { id: backAnimY; target: order; property: "y"; duration: 300; }
         }
 
         ScriptAction {
             script: {
                 if ( orderTag == "New" ) orderList.clip = true
-                else outgoingList.clip = true
+                else outgoingList.clip = true;
                 orderList.z = outgoingList.z = 0
+                order.enabled = true
+                console.log("Sequential anim ended.")
             }
         }
 
     }
 
-    ListView{
+    ListView {
         id: orderItemsView
 
         anchors.margins: borderWidth*1.5

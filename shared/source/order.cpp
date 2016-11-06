@@ -165,11 +165,12 @@ void Order::changeState(int state)
 
 void Order::prepareOrderToChange()
 {
-   static int changeStatus = true;
+//   static int changeStatus = true;
    foreach(OrderItem *item, _items){
-        item->setChange(changeStatus);
+//        item->setChange(changeStatus);
+       item->setChange(true);
    }
-   changeStatus = !changeStatus;
+//   changeStatus = !changeStatus;
 }
 
 //------------------------------------------------------------------------------

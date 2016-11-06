@@ -11,11 +11,11 @@ ListView {
     model: orderFilterToPay
 
     snapMode: ListView.SnapToItem
-    boundsBehavior: Flickable.StopAtBounds
+//    boundsBehavior: Flickable.StopAtBounds
 
     clip: true
 
-    delegate: OrderListElement { orderTag: "ToPay" }
+    delegate: OrderListElement { orderTag: "ToPay"; targetTag: "None" }
 
     DropArea {
         id:outDrop
@@ -25,19 +25,21 @@ ListView {
         {
             if (drag.source.orderTag == "New")
             {
-                console.log("drag entered topay list!");
+                console.log("drag New entered ToPay list!");
                 drag.source.caught = true;
+                drag.source.targetTag = "ToPay"
             }
-            else console.log("wrong type drag entered topay list!");
+            else console.log("drag ToPay entered topay list!");
         }
         onExited:
         {
             if (drag.source.orderTag == "New")
             {
-                console.log("drag left topay list!");
+                console.log("drag New left ToPay list!");
                 drag.source.caught = false;
+                drag.source.targetTag = "None"
             }
-            else console.log("wrong type drag left topay list!");
+            else console.log("drag ToPay left ToPay list!");
         }
     }
 }
