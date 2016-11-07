@@ -874,7 +874,7 @@ public:
   inline int getFileUsage(){return _fileUsage;}
 
   inline void setFiles(const QStringList &files) { _files = files; }
-  inline QStringList getFiles()const{return _files;}
+  inline QStringList getFiles(){return _files;}
 
   inline void setFileNames(const QStringList &fileNames){_fileNames=fileNames;}
   inline QStringList getFileNames()const{return _fileNames;}

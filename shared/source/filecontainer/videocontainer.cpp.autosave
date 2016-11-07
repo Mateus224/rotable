@@ -32,7 +32,7 @@ bool rotable::VideoContainer::addFile(rotable::ComPackageSendFile *package)
     }
 
     /* Point a QTextStream object at the file */
-    QStream outStream(&outputFile);
+   // QTextStream outStream(&outputFile);
 
     /* Write the line to the file */
     //outStream << FileList.at(i);
