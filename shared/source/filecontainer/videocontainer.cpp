@@ -19,8 +19,8 @@ bool rotable::VideoContainer::addFile(rotable::ComPackageSendFile *package)
         QByteArray ByteFile;
         QByteArray ba;
         QBuffer buffer(&ba);
-        QString File=FileList.at(i);
-        ba=File.toUtf8();
+        QByteArray File=package->base64ToQString( FileList.at(i));
+
         /* Try and open a file for output */
         QFile outputFile(fileName);
         outputFile.open(QIODevice::WriteOnly);
@@ -29,18 +29,11 @@ bool rotable::VideoContainer::addFile(rotable::ComPackageSendFile *package)
         if(!outputFile.isOpen()){
             qCritical() << "- Error, unable to open" << FileList.at(i) << "for output";
             return 1;
-    }
-
-    /* Point a QTextStream object at the file */
-    QStream outStream(&outputFile);
-
-    /* Write the line to the file */
-    //outStream << FileList.at(i);
-
-        outputFile.write(ba);
-    i++;
-    /* Close the file */
-    outputFile.close();
+        }
+        outputFile.write(File);
+        i++;
+        /* Close the file */
+        outputFile.close();
     }
     return 0;
 }

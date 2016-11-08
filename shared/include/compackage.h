@@ -879,8 +879,8 @@ public:
   inline void setFileNames(const QStringList &fileNames){_fileNames=fileNames;}
   inline QStringList getFileNames()const{return _fileNames;}
 
-  inline void byteArrayToBase64(const QByteArray &ba){_files.append(ba.toBase64(QByteArray::Base64UrlEncoding));}\
-  QString base64ToQString(QString encodeFile);
+  inline void byteArrayToBase64(const QByteArray &ba){_files.append(ba.toBase64(QByteArray::Base64Encoding));}\
+  QByteArray base64ToQString(QString encodeFile);
 
   QByteArray toByteArray() const Q_DECL_OVERRIDE;  //for what is this
 
