@@ -117,9 +117,7 @@ int main(int argc, char *argv[])
   view->rootContext()->setContextProperty("OrderQueue", &(client->_queue));
   view->rootContext()->setContextProperty("langObject", langSupp);
   QQmlContext *ctxt = view->engine()->rootContext();
-  qmlContxt init(*ctxt);
-  init.initContxt(1);
-  init.contxt(0);
+
 
   //view.setSource(QUrl::fromLocalFile(QString(ROTABLE_QML_PATH) + QString("main.qml")));
 
