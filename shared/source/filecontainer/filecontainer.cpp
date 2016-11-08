@@ -11,6 +11,12 @@ FileContainer::FileContainer(const QString folder, QObject *parent) : QObject(pa
     }
 }
 
+FileContainer::~FileContainer()
+{
+
+}
+
+
 
 bool FileContainer::addFile(rotable::ComPackageSendFile *package)
 {
@@ -59,11 +65,11 @@ bool FileContainer::hasFile(const QString& name) const
 
  }
 
-/* void FileContainer::getSize(QStringList FileListName, int& size)
+void FileContainer::getSize(QStringList FileListName, int& size)
  {
     foreach(QString fileName, FileListName)
     {
         
     }
  }
-*/
+

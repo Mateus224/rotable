@@ -1302,7 +1302,7 @@ bool Server::typeOfFileDestination(ComPackageSendFile* package)
             FileContainer *Files= new FileContainer("advertising");
             Files->addFile(package);
             Files->getSize(package->getFileNames(),size);
-            delete Files();
+            delete Files;
            }
           break;
       case ComPackage::AdvertisingPicture:
