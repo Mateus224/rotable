@@ -2,6 +2,12 @@
 
 AbstractFileContainer::AbstractFileContainer(QObject *parent) : QObject(parent)
 {
-    _fileDir= new QDir("/opt/rotable");
+    QString path="/opt/rotable";
+    _fileDir = new QDir(path);
+    if(!_fileDir->exists())
+    {
+        _fileDir->mkpath(path);
+    }
+
 
 }

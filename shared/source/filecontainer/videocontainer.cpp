@@ -4,9 +4,7 @@
 rotable::VideoContainer::VideoContainer(QObject* parent)
     : AbstractFileContainer(parent)
 {
-    //_fileDir.append("/advertisingVideos");
-    //QDir::mkpath(_fileDir);
-    //QDir::cd()
+
 }
 
 bool rotable::VideoContainer::addFile(rotable::ComPackageSendFile *package)
@@ -16,13 +14,10 @@ bool rotable::VideoContainer::addFile(rotable::ComPackageSendFile *package)
     int i=0;
     foreach(QString fileName, FileListName)
     {
-        QByteArray ByteFile;
-        QByteArray ba;
-        QBuffer buffer(&ba);
         QByteArray File=package->base64ToQString( FileList.at(i));
 
         /* Try and open a file for output */
-        QFile outputFile(fileName);
+        QFile outputFile(_fileDir->filePath(fileName));
         outputFile.open(QIODevice::WriteOnly);
 
         /* Check it opened OK */
