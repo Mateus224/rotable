@@ -7,7 +7,7 @@
 #include <QMap>
 #include <QString>
 #include <QPixmap>
-#include <filecontainer/abstractfilecontainer.h>
+#include <filecontainer/filecontainer.h>
 
 //------------------------------------------------------------------------------
 
@@ -22,7 +22,7 @@ class QImage;
 /**
  * This class stores images.
  */
-class rotable::ImageContainer : public AbstractFileContainer
+class rotable::ImageContainer: public QObject
 {
   Q_OBJECT
 
@@ -55,7 +55,7 @@ public:
    * @param name          image name
    * @return              true if image exists
    */
-  bool hasFile(const QString& name) const;
+  bool hasImage(const QString& name) const;
 
   /**
    * Get Image with given name.

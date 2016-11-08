@@ -13,7 +13,7 @@ using namespace rotable;
 //------------------------------------------------------------------------------
 
 ImageContainer::ImageContainer(QObject* parent)
-  : AbstractFileContainer(parent)
+  //: AbstractFileContainer(parent)
 {
   setDir("./images/");
 }
@@ -48,7 +48,7 @@ bool ImageContainer::addImage(const QString &name, QImage *image)
 
 //------------------------------------------------------------------------------
 
-bool ImageContainer::hasFile(const QString &name) const
+bool ImageContainer::hasImage(const QString &name) const
 {
   return _images.contains(name);
 }

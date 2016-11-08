@@ -16,25 +16,29 @@
  * This Abstract Class is for up- and downloading files.
  */
 
-class AbstractFileContainer : public QObject
+class FileContainer : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit AbstractFileContainer(QObject* parent = 0);
+    explicit FileContainer(const QString folder, QObject* parent = 0);
+    ~FileContainer();
+    enum File{
+        advertising=0,
+
+    };
 
 
-protected:
-    virtual bool addFiles(rotable::ComPackageSendFile* package){}
+    bool addFile(rotable::ComPackageSendFile* package);
+    bool hasFile(const QString& name)const;
+    QString getFile(const QString& name) const;
+    void changeFileName();
+    void rmFile();
+    void getSize(QStringList FileListName, int& size);
 
-protected:
-    virtual bool hasFile(const QString& name){}
-    virtual QString getFile(const QString& name) const{}
-    virtual void changeFileName(){}
-    virtual void rmFile(){}
-
-      QMap<QString, QImage*> _file;
-      QDir* _fileDir;
+    QMap<QString, QImage*> _file;
+    QDir* _fileDir;
+    QString _destinationFoler;
 
 };
 

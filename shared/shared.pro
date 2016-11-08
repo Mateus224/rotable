@@ -31,11 +31,10 @@ SOURCES += \
     source/message.cpp \
     source/messageconnector.cpp \
     source/languagesupport.cpp \
-    source/filecontainer/videocontainer.cpp \
     source/waiter_client.cpp \
-    source/filecontainer/abstractfilecontainer.cpp \
     source/filecontainer/imagecontainer.cpp \
-    source/media.cpp
+    source/media.cpp \
+    source/filecontainer/filecontainer.cpp
 
 
 HEADERS += \
@@ -60,10 +59,9 @@ HEADERS += \
     include/message.h \
     include/messageconnector.h \
     include/languagesupport.h \
-    include/filecontainer/videocontainer.h \
-    include/filecontainer/abstractfilecontainer.h \
     include/filecontainer/imagecontainer.h \
-    include/media.h
+    include/media.h \
+    include/filecontainer/filecontainer.h
 
 
 RESOURCES += shared_resources.qrc

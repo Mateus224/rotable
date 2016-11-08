@@ -276,7 +276,7 @@ void Server::packageReceived(client_t client, ComPackage *package) {
       if (_tcp.isClientAccepted(client))
       {
           ComPackageSendFile* p=static_cast <ComPackageSendFile*>(package);
-          if (!kindOfFileDestination(p)) {
+          if (!typeOfFileDestination(p)) {
             ComPackageReject reject(package->id());
             _tcp.send(client, reject);
           }
@@ -1290,28 +1290,29 @@ QJsonValue Server::configToJSON() {
 
 //------------------------------------------------------------------------------
 
-bool Server::kindOfFileDestination(ComPackageSendFile* package)
+bool Server::typeOfFileDestination(ComPackageSendFile* package)
 {
-    AbstractFileContainer *Files= new AbstractFileContainer;
+
+    int size;
     QString test1;
     if (package) {
       switch (package->getFileUsage()) {
       case ComPackage::AdvertisingVideo:
           if(true){
-            VideoContainer* advertisingVideos=static_cast <VideoContainer*>(Files);
-            advertisingVideos->addFile(package);
-          //test1=package->getFiles().at(0);
-          //LogManager::getInstance()->logInfo(test1);
+            FileContainer *Files= new FileContainer("advertising");
+            Files->addFile(package);
+            Files->getSize(package->getFileNames(),size);
+            delete Files();
            }
           break;
       case ComPackage::AdvertisingPicture:
           if(true)
-            VideoContainer* a=static_cast <VideoContainer*>(Files);
+           // VideoContainer* a=static_cast <VideoContainer*>(Files);
           test1=package->getFiles().at(0);
           break;
       case ComPackage::CatergoryIcon:
           if(true)
-            VideoContainer* b=static_cast <VideoContainer*>(Files);
+           // VideoContainer* b=static_cast <VideoContainer*>(Files);
           test1=package->getFiles().at(0);
           break;
       case ComPackage::ProductPicture:

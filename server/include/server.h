@@ -10,7 +10,7 @@
 #ifndef QSTRING_H
 #include <QString>
 #endif
-#include "filecontainer/videocontainer.h"
+#include "filecontainer/filecontainer.h"
 #include "compackage.h"
 #include "config.h"
 #include "configserver.h"
@@ -262,7 +262,12 @@ private:
    */
   void sendQueueOrders();
 
-  bool kindOfFileDestination(ComPackageSendFile* package);
+  /**
+   * @brief typeOfFileDestination
+   * @param package
+   * @return true if package was stored and written in the database
+   */
+  bool typeOfFileDestination(ComPackageSendFile* package);
 
   /**
    * @brief Check if connection was enstablished by admin account
