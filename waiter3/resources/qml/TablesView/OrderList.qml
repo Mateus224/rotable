@@ -23,7 +23,7 @@ ListView {
 
         onEntered:
         {
-            if (drag.source.orderTag == "ToPay")
+            if (drag.source.orderTag === "ToPay")
             {
                 console.log("drag ToPay entered New list!");
                 drag.source.caught = true;
@@ -33,7 +33,7 @@ ListView {
         }
         onExited:
         {
-            if (drag.source.orderTag == "ToPay")
+            if (drag.source.orderTag === "ToPay")
             {
                 console.log("drag ToPay left new list!");
                 drag.source.caught = false;

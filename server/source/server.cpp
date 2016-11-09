@@ -1299,9 +1299,11 @@ bool Server::typeOfFileDestination(ComPackageSendFile* package)
       switch (package->getFileUsage()) {
       case ComPackage::AdvertisingVideo:
           if(true){
-            FileContainer *Files= new FileContainer("advertising");
+            FileContainer *Files= new FileContainer("advertising/");
             Files->addFile(package);
-            Files->getSize(package->getFileNames(),size);
+            Files->setFileInfo(package->getFileNames());
+
+            //LogManager::getInstance()->logInfo(test);
             delete Files;
            }
           break;

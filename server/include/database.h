@@ -33,6 +33,7 @@
 #include "productcategory.h"
 #include "productorder.h"
 #include "table.h"
+#include "filecontainer/filecontainer.h"
 
 //------------------------------------------------------------------------------
 
@@ -314,6 +315,12 @@ public:
    */
   bool addOrderItem(OrderItem *item, int orderId);
 
+  /**
+   * @brief addMedia
+   * @param
+   * @return true on success
+   */
+  bool addMedia(FileContainer* file);
   /**
    * Update a product category.
    *

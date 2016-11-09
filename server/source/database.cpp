@@ -1409,6 +1409,49 @@ bool Database::addOrderItem(OrderItem *item, int orderId) {
 
 //------------------------------------------------------------------------------
 
+bool Database::addMedia(FileContainer* file)
+{
+    if (!isConnected()) {
+      return false;
+    }
+
+    //QTime time(0, 0, 0);
+    //time = time.addMSecs(msec);
+
+    //qint32 id = q.lastInsertId().toInt();
+
+    foreach (file->fileInfo, file->l_fileInfo) {
+        QString queryStr = _sqlCommands[Medias]._insert.arg(
+            _prefix, "NULL", ":type", ":name", ":size");
+
+
+        QSqlQuery q(_db);
+        //qint32 id = q.lastInsertId().toInt();
+        q.setForwardOnly(true);
+
+        if (!q.prepare(queryStr)) {
+          qCritical() << tr("Invalid query: %1").arg(queryStr);
+          return false;
+        }
+    }
+
+
+    //q.bindValue(":id", id);
+    q.bindValue(":type", file->fileInfo.);
+    q.bindValue(":name", file->fileInfo._name);
+    q.bindValue(":size", file->fileInfo._size);
+
+    if (!q.exec()) {
+      qCritical()
+          << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    return true;
+}
+
+//------------------------------------------------------------------------------
+
 bool Database::updateCategory(ProductCategory *category) {
   if (!isConnected()) {
     return false;

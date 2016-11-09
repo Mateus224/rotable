@@ -1,29 +1,29 @@
 #include "include/filecontainer/filecontainer.h"
-
+#include "logmanager.h"
 FileContainer::FileContainer(const QString folder, QObject *parent) : QObject(parent),_destinationFoler(folder)
 {
-    QString path="/opt/rotable/";
-    path.append(_destinationFoler);
-    _fileDir = new QDir(path);
+    _path="/opt/rotable/";
+    _path.append(_destinationFoler);
+    _fileDir = new QDir(_path);
     if(!_fileDir->exists())
     {
-        _fileDir->mkpath(path);
+        _fileDir->mkpath(_path);
     }
 }
 
 FileContainer::~FileContainer()
 {
-
+    delete _fileDir;
 }
 
 
 
 bool FileContainer::addFile(rotable::ComPackageSendFile *package)
 {
-    QStringList FileListName=package->getFileNames();
+    _fileListNames=package->getFileNames();
     QStringList FileList=package->getFiles();
     int i=0;
-    foreach(QString fileName, FileListName)
+    foreach(QString fileName, _fileListNames)
     {
         QByteArray File=package->base64ToQString( FileList.at(i));
 
@@ -65,11 +65,16 @@ bool FileContainer::hasFile(const QString& name) const
 
  }
 
-void FileContainer::getSize(QStringList FileListName, int& size)
+ void FileContainer::setFileInfo(QStringList FileListName)
  {
     foreach(QString fileName, FileListName)
     {
-        
+        fileInfo struct_fileInfo;
+        _path.append(fileName);
+        QFileInfo file(_path);
+        struct_fileInfo._name=fileName;
+        struct_fileInfo._size=file.size();
+        l_fileInfo.append(file);
     }
  }
 

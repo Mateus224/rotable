@@ -356,8 +356,6 @@ void OrderItem::updateOrderItem(rotable::OrderItem *item)
 
     if(time() != item->time())
             setTime(item->time());
-
-
 }
 
 //------------------------------------------------------------------------------
