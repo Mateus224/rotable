@@ -1414,16 +1414,11 @@ bool Database::addMedia(FileContainer* file)
     if (!isConnected()) {
       return false;
     }
-
-    //qint32 id = q.lastInsertId().toInt();
-
     for (auto fileInfo: file->l_fileInfo) {
         QString queryStr = _sqlCommands[Medias]._insert.arg(
             _prefix, "NULL", ":type", ":name", ":size");
 
-
         QSqlQuery q(_db);
-        //qint32 id = q.lastInsertId().toInt();
         q.setForwardOnly(true);
 
         if (!q.prepare(queryStr)) {
@@ -1440,7 +1435,6 @@ bool Database::addMedia(FileContainer* file)
           return false;
         }
     }
-
     return true;
 }
 
