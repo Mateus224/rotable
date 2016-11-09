@@ -66,8 +66,13 @@ public:
         QString _name;
         int _size;
     };
-
+    /**
+     * @brief l_fileInfo
+     * stores a list of the struct with the name and the size of the files
+     */
     QList<fileInfo> l_fileInfo;
+
+    QList<QString> _fileListNames;
 
     QDir* _fileDir;
 

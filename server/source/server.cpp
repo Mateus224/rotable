@@ -1301,8 +1301,9 @@ bool Server::typeOfFileDestination(ComPackageSendFile* package)
           if(true){
             FileContainer *Files= new FileContainer("advertising/");
             Files->addFile(package);
+            Files->setType(ComPackage::AdvertisingVideo);
             Files->setFileInfo(package->getFileNames());
-
+            _db.addMedia(Files);
             //LogManager::getInstance()->logInfo(test);
             delete Files;
            }

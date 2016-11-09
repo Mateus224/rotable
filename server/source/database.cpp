@@ -1415,12 +1415,9 @@ bool Database::addMedia(FileContainer* file)
       return false;
     }
 
-    //QTime time(0, 0, 0);
-    //time = time.addMSecs(msec);
-
     //qint32 id = q.lastInsertId().toInt();
 
-    foreach (file->fileInfo, file->l_fileInfo) {
+    for (auto fileInfo: file->l_fileInfo) {
         QString queryStr = _sqlCommands[Medias]._insert.arg(
             _prefix, "NULL", ":type", ":name", ":size");
 
@@ -1433,18 +1430,15 @@ bool Database::addMedia(FileContainer* file)
           qCritical() << tr("Invalid query: %1").arg(queryStr);
           return false;
         }
-    }
+        q.bindValue(":type", file->_type);
+        q.bindValue(":name", fileInfo._name);
+        q.bindValue(":size", fileInfo._size);
 
-
-    //q.bindValue(":id", id);
-    q.bindValue(":type", file->fileInfo.);
-    q.bindValue(":name", file->fileInfo._name);
-    q.bindValue(":size", file->fileInfo._size);
-
-    if (!q.exec()) {
-      qCritical()
-          << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
-      return false;
+        if (!q.exec()) {
+          qCritical()
+              << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+          return false;
+        }
     }
 
     return true;

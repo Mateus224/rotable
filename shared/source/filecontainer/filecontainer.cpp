@@ -2,6 +2,7 @@
 #include "logmanager.h"
 FileContainer::FileContainer(const QString folder, QObject *parent) : QObject(parent),_destinationFoler(folder)
 {
+
     _path="/opt/rotable/";
     _path.append(_destinationFoler);
     _fileDir = new QDir(_path);
@@ -74,7 +75,7 @@ bool FileContainer::hasFile(const QString& name) const
         QFileInfo file(_path);
         struct_fileInfo._name=fileName;
         struct_fileInfo._size=file.size();
-        l_fileInfo.append(file);
+        l_fileInfo.append(struct_fileInfo);
     }
  }
 
