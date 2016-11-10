@@ -918,9 +918,11 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
     QJsonArray arr = package->data().toArray();
     foreach (QJsonValue val, arr) {
       int id = val.toInt();
+      QString _id=QString::number(id);
       //requestUser(id);
-      LogManager::getInstance()->logInfo(id);
-  }
+      //qCritical()<<_id<<"das funktioniert doch";
+    }
+  } break;
   default: { qCritical() << tr("Unknown data package returned"); } break;
   }
 }
