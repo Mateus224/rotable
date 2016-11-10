@@ -254,7 +254,7 @@ public:
    * @param id          media id
    * @return            media or NULL on error
    */
-  rotable::Media *media(int id);
+  FileContainer *media(int id);
 
   /**
    * Add a new product category to the database.

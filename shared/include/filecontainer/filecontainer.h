@@ -24,7 +24,8 @@ class FileContainer : public QObject
 
 public:
 
-    explicit FileContainer(const QString folder, QObject* parent = 0);
+    explicit FileContainer(const QString folder="", QObject* parent = 0);
+
     ~FileContainer();
     enum File{
         advertising=0,
@@ -32,18 +33,24 @@ public:
     };
 
 
-    bool addFile(rotable::ComPackageSendFile* package);
+    bool addFileOnSD(rotable::ComPackageSendFile* package);
+    bool setName(QString fileName){_fileListNames.append(fileName);}
+
+
+
     bool hasFile(const QString& name)const;
     QString getFile(const QString& name) const;
     void changeFileName();
     void rmFile();
 
+
     /**
-     * @brief setFileInfo
+     * @brief getFileInfoFromFileAndSet
      * @param FileListName
-     * Check the size of the added Files and store it in Bytes in a QList<int>
+     * Check the size of the added Files on the SD and store
+     * it in Bytes in a QList<int>
      */
-    void setFileInfo(QStringList FileListName);
+    void getFileInfoFromFileAndSet(QStringList FileListName);
 
     /**
      * @brief setType
@@ -63,9 +70,15 @@ public:
 //---------------------------------------
 
     struct fileInfo{
+        int _id;
+        int _type;
         QString _name;
+        QString _date;
         int _size;
+        int _removed;
     };
+
+    fileInfo _fileInfo;
     /**
      * @brief l_fileInfo
      * stores a list of the struct with the name and the size of the files
@@ -105,6 +118,8 @@ public:
      * Type of
      */
     int _type;
+
+    int _id;
 
 };
 

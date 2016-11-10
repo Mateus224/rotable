@@ -914,6 +914,13 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
     connect(user, &User::hashPasswordChanged, this,
             &Executor::onUpdateUserPassword);
   } break;
+  case ComPackage::RequestMediaIds: {
+    QJsonArray arr = package->data().toArray();
+    foreach (QJsonValue val, arr) {
+      int id = val.toInt();
+      //requestUser(id);
+      LogManager::getInstance()->logInfo(id);
+  }
   default: { qCritical() << tr("Unknown data package returned"); } break;
   }
 }

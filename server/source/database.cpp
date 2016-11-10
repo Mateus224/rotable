@@ -464,7 +464,7 @@ bool Database::mediaIds(QList<int> &ids) {
   QString queryStr = _sqlCommands[Medias]._listIds.arg(_prefix);
 
   QSqlQuery q(_db);
-  // q.setForwardOnly(true);
+  q.setForwardOnly(true);
 
   if (!q.prepare(queryStr)) {
     qCritical() << tr("Invalid query: %1").arg(queryStr);
@@ -1089,7 +1089,7 @@ Client *Database::client(int id) {
 
 //------------------------------------------------------------------------------
 
-Media *Database::media(int id) {
+FileContainer *Database::media(int id) {
   if (!isConnected()) {
     return 0;
   }
@@ -1139,13 +1139,15 @@ Media *Database::media(int id) {
     return 0;
   }*/
 
-  Media *c = new Media();
-  c->setName(q.value("name").toString());
-  //c->setIcon(q.value("icon").toString());
-  c->setId(media_id);
-  //c->setSequence(sequence);
+  FileContainer *fc = new FileContainer();
+  fc->_fileInfo._id=q.value("id").toInt(&ok);
+  fc->_fileInfo._type=q.value("type").toInt(&ok);
+  fc->_fileInfo._name=q.value("name").toString();
+  fc->_fileInfo._date=q.value("date").toString();
+  fc->_fileInfo._size=q.value("size").toInt(&ok);
+  fc->_fileInfo._removed=q.value("removed").toInt(&ok);
 
-  return c;
+  return fc;
 }
 
 //------------------------------------------------------------------------------

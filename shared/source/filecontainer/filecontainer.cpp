@@ -19,7 +19,7 @@ FileContainer::~FileContainer()
 
 
 
-bool FileContainer::addFile(rotable::ComPackageSendFile *package)
+bool FileContainer::addFileOnSD(rotable::ComPackageSendFile *package)
 {
     _fileListNames=package->getFileNames();
     QStringList FileList=package->getFiles();
@@ -66,7 +66,7 @@ bool FileContainer::hasFile(const QString& name) const
 
  }
 
- void FileContainer::setFileInfo(QStringList FileListName)
+ void FileContainer::getFileInfoFromFileAndSet(QStringList FileListName)
  {
     foreach(QString fileName, FileListName)
     {
