@@ -920,7 +920,7 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
       int id = val.toInt();
       QString _id=QString::number(id);
       //requestUser(id);
-      //qCritical()<<_id<<"das funktioniert doch";
+      qCritical()<<_id<<"das funktioniert doch";
     }
   } break;
   default: { qCritical() << tr("Unknown data package returned"); } break;

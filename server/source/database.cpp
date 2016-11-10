@@ -3072,6 +3072,51 @@ int Database::getLastIncomeId() {
 }
 
 //------------------------------------------------------------------------------
+QList<int> *Database::getTypeId(int type)
+{
+    if (!isConnected()) {
+      return NULL;
+    }
+
+    QString queryStr =
+        _sqlCommands[Medias]._select.arg(_prefix, "`id`", "type", ":type");
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return NULL;
+    }
+
+    q.bindValue(":type", type);
+
+    if (!q.exec()) {
+      qCritical()
+          << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+      return NULL;
+    }
+
+    QList<int> *list = new QList<int>();
+
+    while (q.next()) {
+      bool toIntOk=true;
+      *list<<q.value("id").toInt(&toIntOk);
+      if(!toIntOk){
+          qCritical() << tr("Could not convert entry '%1' to an integer!")
+                             .arg(q.value("id").toString());
+          list->clear();
+          return NULL;
+      }
+    }
+
+    if (list->isEmpty())
+      return NULL;
+    else
+      return list;
+
+}
+
+//------------------------------------------------------------------------------
 
 bool Database::isConnected() const {
   if (_connected) {

@@ -561,10 +561,10 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
     }
   } break;
   case ComPackage::RequestMediaIds: {
-    QList<int> ids;
-    if (_db.mediaIds(ids)) {
+    QList<int>* ids;
+    if (ids=_db.getTypeId(ComPackage::AdvertisingVideo)) {
       QJsonArray arr;
-      foreach (int id, ids) { arr.append(id); }
+      foreach (int id, *ids) { arr.append(id); }
       QJsonValue jsonVal(arr);
       LogManager::getInstance()->logInfo("\n\n das klappt \n\n");
       return new ComPackageDataReturn(*request, jsonVal);

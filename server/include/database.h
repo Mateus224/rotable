@@ -505,6 +505,14 @@ public:
 
   Income *getLastIncome();
   int getLastIncomeId();
+
+  /**
+   * @brief getTypeId
+   * @return A List a the ids
+   * reading media (file) table and get the Ids of the same type
+   */
+  QList<int> *getTypeId(int type);
+
   /**
    * Check Config record exist
    * @param name        config name
