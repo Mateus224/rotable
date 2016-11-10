@@ -493,6 +493,14 @@ bool Database::mediaIds(QList<int> &ids) {
 
 //------------------------------------------------------------------------------
 
+bool Database::typefileIds(QList<int> &ids, int type)
+{
+    //take the media ids which have the advertising type and take the info from advertising table
+
+}
+
+//------------------------------------------------------------------------------
+
 ProductCategory *Database::category(int id) {
   if (!isConnected()) {
     return 0;

@@ -186,6 +186,13 @@ public:
   bool mediaIds(QList<int> &ids);
 
   /**
+   * @brief advertisingVideosIds
+   * @param ids list of advertising Vides
+   * @return
+   */
+  bool typefileIds(QList<int> &ids, int type );
+
+  /**
    * Read category from database.
    *
    * @param id          category id
