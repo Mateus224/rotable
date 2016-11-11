@@ -1297,7 +1297,7 @@ QJsonValue Server::configToJSON() {
 
 bool Server::typeOfFileDestination(ComPackageSendFile* package)
 {
-    QStringList existingFileNames;
+    //QStringList existingFileNames;
     QString test1;
     if (package) {
         FileContainer *Files= new FileContainer();
@@ -1312,8 +1312,14 @@ bool Server::typeOfFileDestination(ComPackageSendFile* package)
                      Files->_fileListNames.append(fileName);
                   }
                   else{
-                      // if file exist send a error message to admin with
-                      existingFileNames.append(fileName);
+                      // if file exist and removed is set true make it undo
+                      //existingFileNames.append(fileName);
+                      QList<int>* tempForGetID;
+                      QStringList tempQString;
+                      tempQString.append(fileName);
+                      tempForGetID=_db.getMediaIdByNameAndType(tempQString,ComPackage::AdvertisingVideo);
+                      int id=tempForGetID->at(0);
+                      _db.undoRemovedFile(id);
                   }
               }
 

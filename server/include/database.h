@@ -556,6 +556,14 @@ public:
    *
    */
   bool hasFile(QString name, int type);
+
+  /**
+   * @brief undoRemovedFile
+   * @param type
+   * @return return true if file exists and removed is changed from true to false
+   */
+  bool undoRemovedFile(int id);
+
   /**
    * Get from database not close order
    *

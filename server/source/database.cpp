@@ -2820,6 +2820,37 @@ bool Database::hasFile(QString name, int type)
 }
 
 //------------------------------------------------------------------------------
+bool Database::undoRemovedFile(int id)
+{
+    if (!isConnected()) {
+      return false;
+    }
+
+    QString queryStr =
+            "UPDATE `rotable_medias` SET `removed` = 0 WHERE `id` = :id;";
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return -1;
+    }
+
+    q.bindValue(":id", id);
+    if (!q.exec()) {
+      qCritical()
+          << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    if (q.next()) {
+      return true;
+    }
+
+    return false;
+}
+
+//------------------------------------------------------------------------------
 
 QList<Order *> *Database::getNotCloseOrderList() {
   if (!isConnected()) {
