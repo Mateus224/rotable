@@ -141,7 +141,7 @@ public:
     RequestMediaIds,
 
     /*Request for Information about the Advertising Videos*/
-    RequestMedia,
+    RequestMedia
   };
 
   /**

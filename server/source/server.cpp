@@ -435,10 +435,11 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
       qCritical() << tr("Could not convert table id '%1' to an integer!")
                          .arg(request->dataName());
     }
-  }
+  }break;
   // Not implemented yet, for admin app perhaps
-  case ComPackage::RequestOrderIds:
-    break;
+  //case ComPackage::RequestOrderIds:{
+  //}
+  //  break;
   case ComPackage::RequestOrder: {
     bool ok;
     int orderId = request->dataName().toInt(&ok);
@@ -504,11 +505,11 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
         new ComPackageDataReturn(*request, configToJSON());
     return ret;
   } break;
-  case ComPackage::RequestLicence: {
+  //case ComPackage::RequestLicence: {
     //      ComPackageDataReturn* ret = new ComPackageDataReturn(*request,
     //      QJsonValue(_licence->getLicenceStatus()));
     //      return ret;
-  } break;
+  //} break;
   case ComPackage::RequestIncome: {
     bool ok;
     int incomeId = request->dataName().toInt(&ok);
@@ -571,6 +572,10 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
     } else {
       qCritical() << tr("Could not query product category ids!");
     }
+  } break;
+  case ComPackage::RequestMedia: {
+
+
   } break;
   default: {
     qCritical()
