@@ -414,6 +414,16 @@ public:
    */
   bool removeConfig(int id);
 
+
+  /**
+   * @brief removedFile
+   * @param id of the File
+   * @param remove 1 if have to be remove 0 if it has bee
+   * recovered
+   * @return return true if successful
+   */
+  bool removeFile(int id, int remove);
+
   /**
    * Setup the database.
    *
@@ -556,13 +566,6 @@ public:
    *
    */
   bool hasFile(QString name, int type);
-
-  /**
-   * @brief undoRemovedFile
-   * @param type
-   * @return return true if file exists and removed is changed from true to false
-   */
-  bool undoRemovedFile(int id);
 
   /**
    * Get from database not close order

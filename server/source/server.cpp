@@ -1319,7 +1319,7 @@ bool Server::typeOfFileDestination(ComPackageSendFile* package)
                       tempQString.append(fileName);
                       tempForGetID=_db.getMediaIdByNameAndType(tempQString,ComPackage::AdvertisingVideo);
                       int id=tempForGetID->at(0);
-                      _db.undoRemovedFile(id);
+                      _db.removeFile(id,0);
                   }
               }
 
