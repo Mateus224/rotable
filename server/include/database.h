@@ -508,10 +508,17 @@ public:
 
   /**
    * @brief getTypeId
-   * @return A List a the ids
+   * @return A List of ids which the given type
    * reading media (file) table and get the Ids of the same type
    */
-  QList<int> *getTypeId(int type);
+  QList<int> *getMediaIdByType(int type);
+
+  /**
+   * @brief getMediaIdByName
+   * @param name, type
+   * @return
+   */
+  QList<int> *getMediaIdByNameAndType(QStringList name, int type);
 
   /**
    * Check Config record exist
@@ -542,6 +549,13 @@ public:
    */
   bool hasOrder(int id);
 
+  /**
+   * @brief hasFile
+   * @param name
+   * @return true if the file exist in medias with the same type
+   *
+   */
+  bool hasFile(QString name, int type);
   /**
    * Get from database not close order
    *

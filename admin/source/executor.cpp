@@ -811,6 +811,20 @@ void Executor::requestServerConfigs() {
 
 //------------------------------------------------------------------------------
 
+void Executor::requestAdvertising(int fileId) {
+  ComPackageDataRequest *request = new ComPackageDataRequest();
+  request->setDataCategory(ComPackage::RequestMedia);
+  request->setDataName(QString("%1").arg(fileId));
+
+  if (!_tcp_client.send(*request)) {
+    qCritical() << tr("Could not send request!");
+  } else {
+    _dataRequest[request->id()] = request;
+  }
+}
+
+//------------------------------------------------------------------------------
+
 void Executor::requestLicenceStatus() {
   //    ComPackageDataRequest* request = new ComPackageDataRequest();
   //    request->setDataCategory(ComPackage::RequestLicence);
@@ -919,8 +933,8 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
     foreach (QJsonValue val, arr) {
       int id = val.toInt();
       QString _id=QString::number(id);
-      //requestUser(id);
-      qCritical()<<_id<<"das funktioniert doch";
+      requestAdvertising(id);
+      //qCritical()<<_id<<"das funktioniert doch";
     }
   } break;
   default: { qCritical() << tr("Unknown data package returned"); } break;

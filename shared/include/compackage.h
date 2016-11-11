@@ -138,7 +138,10 @@ public:
     RequestUser,
 
     /* Request Media IDs*/
-    RequestMediaIds
+    RequestMediaIds,
+
+    /*Request for Information about the Advertising Videos*/
+    RequestMedia,
   };
 
   /**

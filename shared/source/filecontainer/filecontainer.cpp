@@ -21,10 +21,10 @@ FileContainer::~FileContainer()
 
 bool FileContainer::addFileOnSD(rotable::ComPackageSendFile *package)
 {
-    _fileListNames=package->getFileNames();
+    QStringList FileNameList=package->getFileNames();
     QStringList FileList=package->getFiles();
     int i=0;
-    foreach(QString fileName, _fileListNames)
+    foreach(QString fileName, FileNameList)
     {
         QByteArray File=package->base64ToQString( FileList.at(i));
 
@@ -68,11 +68,12 @@ bool FileContainer::hasFile(const QString& name) const
 
  void FileContainer::getFileInfoFromFileAndSet(QStringList FileListName)
  {
-    foreach(QString fileName, FileListName)
+    foreach(QString fileName, _fileListNames)
     {
+        QString path =_path;
         fileInfo struct_fileInfo;
-        _path.append(fileName);
-        QFileInfo file(_path);
+        path.append(fileName);
+        QFileInfo file(path);
         struct_fileInfo._name=fileName;
         struct_fileInfo._size=file.size();
         l_fileInfo.append(struct_fileInfo);

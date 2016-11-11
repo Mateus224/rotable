@@ -2787,6 +2787,39 @@ bool Database::hasOrder(int id) {
 }
 
 //------------------------------------------------------------------------------
+bool Database::hasFile(QString name, int type)
+{
+    if (!isConnected()) {
+      return false;
+    }
+
+    QString queryStr =
+            "SELECT `id` FROM rotable_medias WHERE `name` = :name AND `type` = :type ;";
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return -1;
+    }
+
+    q.bindValue(":name", name);
+    q.bindValue(":type", type);
+
+    if (!q.exec()) {
+      qCritical()
+          << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    if (q.next()) {
+      return true;
+    }
+
+    return false;
+}
+
+//------------------------------------------------------------------------------
 
 QList<Order *> *Database::getNotCloseOrderList() {
   if (!isConnected()) {
@@ -3072,7 +3105,7 @@ int Database::getLastIncomeId() {
 }
 
 //------------------------------------------------------------------------------
-QList<int> *Database::getTypeId(int type)
+QList<int> *Database::getMediaIdByType(int type)
 {
     if (!isConnected()) {
       return NULL;
@@ -3109,6 +3142,53 @@ QList<int> *Database::getTypeId(int type)
       }
     }
 
+    if (list->isEmpty())
+      return NULL;
+    else
+      return list;
+
+}
+
+//------------------------------------------------------------------------------
+
+QList<int> *Database::getMediaIdByNameAndType(QStringList nameList, int type)
+{
+    if (!isConnected()) {
+      return NULL;
+    }
+
+    QList<int> *list = new QList<int>();
+
+    for(QString name: nameList){
+        QString queryStr =
+            "SELECT `id` FROM rotable_medias WHERE `name` = :name AND `type` = :type ;";
+        QSqlQuery q(_db);
+        q.setForwardOnly(true);
+
+        if (!q.prepare(queryStr)) {
+          qCritical() << tr("Invalid query: %1").arg(queryStr);
+          return NULL;
+        }
+
+        q.bindValue(":name", name);
+        q.bindValue(":type", type);
+        if (!q.exec()) {
+          qCritical()
+              << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+          return NULL;
+        }
+
+        if (q.next()){
+            bool toIntOk=true;
+            *list<<q.value("id").toInt(&toIntOk);
+            if(!toIntOk){
+                qCritical() << tr("Could not convert entry '%1' to an integer!")
+                                 .arg(q.value("id").toString());
+                list->clear();
+                return NULL;
+            }
+        }
+    }
     if (list->isEmpty())
       return NULL;
     else

@@ -364,6 +364,13 @@ private:
   void requestLicenceStatus();
 
   /**
+    request by server for the Advertising Videos
+   * @brief requestAdvertising
+   * @param fileId
+   */
+  void requestAdvertising(int fileId);
+
+  /**
    * @brief requestClientList
    */
   void requestClientIds();

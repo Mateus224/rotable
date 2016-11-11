@@ -562,7 +562,7 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
   } break;
   case ComPackage::RequestMediaIds: {
     QList<int>* ids;
-    if (ids=_db.getTypeId(ComPackage::AdvertisingVideo)) {
+    if (ids=_db.getMediaIdByType(ComPackage::AdvertisingVideo)) {
       QJsonArray arr;
       foreach (int id, *ids) { arr.append(id); }
       QJsonValue jsonVal(arr);
@@ -1292,19 +1292,31 @@ QJsonValue Server::configToJSON() {
 
 bool Server::typeOfFileDestination(ComPackageSendFile* package)
 {
-
-    int size;
+    QStringList existingFileNames;
     QString test1;
     if (package) {
+        FileContainer *Files= new FileContainer();
+        QList<int> *idList;
+
       switch (package->getFileUsage()) {
       case ComPackage::AdvertisingVideo:
           if(true){
-            FileContainer *Files= new FileContainer();
+
+              for(QString fileName: package->getFileNames()){
+                  if(!_db.hasFile(fileName,ComPackage::AdvertisingVideo)){
+                     Files->_fileListNames.append(fileName);
+                  }
+                  else{
+                      // if file exist send a error message to admin with
+                      existingFileNames.append(fileName);
+                  }
+              }
+
             Files->addFileOnSD(package);
             Files->setType(ComPackage::AdvertisingVideo);
-            Files->getFileInfoFromFileAndSet(package->getFileNames());
+            Files->getFileInfoFromFileAndSet(Files->_fileListNames);
             _db.addMedia(Files);
-            //LogManager::getInstance()->logInfo(test);
+
             delete Files;
            }
           break;
