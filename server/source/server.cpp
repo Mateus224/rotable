@@ -1300,7 +1300,7 @@ bool Server::typeOfFileDestination(ComPackageSendFile* package)
     //QStringList existingFileNames;
     QString test1;
     if (package) {
-        FileContainer *Files= new FileContainer();
+        AdvertisingVideo *Files= new AdvertisingVideo();
         QList<int> *idList;
 
       switch (package->getFileUsage()) {

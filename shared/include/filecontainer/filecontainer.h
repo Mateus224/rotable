@@ -69,6 +69,10 @@ public:
 
 //---------------------------------------
 
+    /**
+     * @brief The fileInfo struct
+     * stores basic Information about the to adding file
+     */
     struct fileInfo{
         int _id;
         int _type;

@@ -1450,13 +1450,13 @@ bool Database::addMedia(FileContainer* file)
 
 //------------------------------------------------------------------------------
 
-bool Database::addAdvertisingVideo(FileContainer* file)
+bool Database::addAdvertisingVideo(AdvertisingVideo* file)
 {
     if (!isConnected()) {
       return false;
     }
-    for (auto fileInfo: file->l_fileInfo) {
-        QString queryStr = _sqlCommands[Medias]._insert.arg(
+    for (auto fileInfo: file->l_advertisingInfo) {
+        QString queryStr = _sqlCommands[AdvertisingVideos]._insert.arg(
             _prefix, "NULL", ":frequency", ":play", ":played", ":media_id");
 
         QSqlQuery q(_db);
@@ -1466,10 +1466,10 @@ bool Database::addAdvertisingVideo(FileContainer* file)
           qCritical() << tr("Invalid query: %1").arg(queryStr);
           return false;
         }
-        q.bindValue(":frequency", file->_type);
-        q.bindValue(":play", fileInfo._name);
-        q.bindValue(":played", fileInfo._size);
-        q.bindValue(":media_id", fileInfo._size);
+        q.bindValue(":frequency",fileInfo._frequency);
+        q.bindValue(":play",fileInfo._play );
+        q.bindValue(":played",fileInfo._played);
+        q.bindValue(":media_id",fileInfo._mediaId );
 
         if (!q.exec()) {
           qCritical()

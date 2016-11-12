@@ -3,13 +3,14 @@
 #include "filecontainer/filecontainer.h"
 #include <QObject>
 
-class AdvertisingVideo : public QObject, public FileContainer
+class AdvertisingVideo :  public FileContainer
 {
     Q_OBJECT
 public:
     explicit AdvertisingVideo(QObject *parent = 0);
-    ~AvertisingVideo();
+    ~AdvertisingVideo();
 
+    void addAdvertisingVideo();
     /**
      * @brief setFrequency
      * @param min
@@ -44,10 +45,23 @@ signals:
 public slots:
 
 public:
-    int _mediaId;
-    int _frequency;
-    bool _play;
-    int _played;
+
+    /**
+     * @brief The advertisingInfo struct
+     * stores the spacific information about the advertising file
+     */
+    struct advertisingInfo{
+        int _mediaId;
+        int _frequency;
+        bool _play;
+        int _played;
+    };
+
+    advertisingInfo _advertisingInfo;
+
+    QList<advertisingInfo> l_advertisingInfo;
+
+
 };
 
 #endif // ADVERTISINGVIDEO_H
