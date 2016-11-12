@@ -30,13 +30,13 @@ Rectangle{
         anchors.top: loadsymbol.bottom
         anchors.topMargin: loadsymbol.height
         font.pixelSize: 12
-        opacity: 0
+        visible: false
     }
 
     LoadingSymbol {
         id: loadsymbol
         anchors.centerIn: parent
-        opacity: 0
+        visible: false
     }
 
     state: waiter.state
@@ -72,12 +72,12 @@ Rectangle{
                 font.pixelSize: 36
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
-                opacity: 1
+                visible: true
             }
 
             PropertyChanges {
                 target: loadsymbol
-                opacity: 1
+                visible: true
             }
         }
     ]

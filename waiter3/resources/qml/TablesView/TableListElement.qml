@@ -11,7 +11,7 @@ Rectangle {
 //    property bool connected: model.isConnected ? true : false
 
     anchors.horizontalCenter: parent.horizontalCenter
-    color: model.isSelected ? "#000FDF" : "#FFFFFF"
+    color: model.isSelected ? waiterMain.menuColor : "#FFFFFF"
 
     Text {
         id: tableName

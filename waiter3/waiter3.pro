@@ -120,7 +120,8 @@ DISTFILES += \
     resources/qml/TopBar/SimpleClock.qml \
     resources/qml/BottomBar/BottomBar.qml \
     resources/qml/BottomBar/TableNeedsWaiterList.qml \
-    resources/qml/BottomBar/TableNeedsWaiterListElement.qml
+    resources/qml/BottomBar/TableNeedsWaiterListElement.qml \
+    resources/qml/TopBar/BatteryIcon.qml
 
 ########################################################################
 # TRANSLATION:

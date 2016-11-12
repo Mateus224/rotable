@@ -70,6 +70,7 @@ Rectangle{
                 if (orderTag=="New") orderList.clip = true
                 else outgoingList.clip = true;
                 orderList.z = outgoingList.z = 0
+
                 readyOrder;
                 switch (targetTag)
                 {
@@ -87,6 +88,8 @@ Rectangle{
                     break;
                 }
                 order.Drag.active = false
+                parent.clearNeeded = true
+                destroy()
             }
         }
     }

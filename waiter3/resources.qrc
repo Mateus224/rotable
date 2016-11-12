@@ -1,12 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>resources/images/battery-20.svg</file>
-        <file>resources/images/battery-40.svg</file>
-        <file>resources/images/battery-60.svg</file>
-        <file>resources/images/battery-80.svg</file>
-        <file>resources/images/battery-charging.svg</file>
-        <file>resources/images/battery-full.svg</file>
-        <file>resources/images/battery-nul.svg</file>
         <file>resources/images/Check.png</file>
         <file>resources/images/Check_grey.png</file>
         <file>resources/images/Cross.png</file>
@@ -41,5 +34,13 @@
         <file>resources/qml/LoadingView/LoadDot.qml</file>
         <file>resources/qml/LoadingView/LoadingSymbol.qml</file>
         <file>resources/qml/LoadingView/LoginView.qml</file>
+        <file>resources/images/Batteries/battery-20.svg</file>
+        <file>resources/images/Batteries/battery-40.svg</file>
+        <file>resources/images/Batteries/battery-60.svg</file>
+        <file>resources/images/Batteries/battery-80.svg</file>
+        <file>resources/images/Batteries/battery-charging.svg</file>
+        <file>resources/images/Batteries/battery-full.svg</file>
+        <file>resources/images/Batteries/battery-nul.svg</file>
+        <file>resources/qml/TopBar/BatteryIcon.qml</file>
     </qresource>
 </RCC>

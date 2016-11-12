@@ -33,7 +33,7 @@ Rectangle {
     Rectangle {
 
         height: parent.height * 0.4
-        width: waiterMain.width * 0.33
+        width: waiterMain.width * 0.37
         anchors.left: incText.right
         anchors.top: parent.top
 

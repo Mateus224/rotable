@@ -13,7 +13,7 @@ Rectangle {
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.margins: parent.borderThickness
 
-    color: selected ? "#000FDF" : "#FFFFFF"
+    color: selected ? waiterMain.menuColor : "#FFFFFF"
 
     Text {
         id: optionName

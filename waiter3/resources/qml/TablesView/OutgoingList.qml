@@ -6,16 +6,18 @@ ListView {
 
     width: parent.width * 0.33
 
-    spacing: Math.max(10,dataView.height*0.025)
+    spacing: Math.max(10,dataView.height*0.02)
 
     model: orderFilterToPay
 
     snapMode: ListView.SnapToItem
 //    boundsBehavior: Flickable.StopAtBounds
 
+    property bool clearNeeded: false;
+
     clip: true
 
-    delegate: OrderListElement { orderTag: "ToPay"; targetTag: "None" }
+    delegate: OrderListElement { orderTag: "ToPay"; targetTag: "None"; borderColor: waiterMain.menuColor }
 
     DropArea {
         id:outDrop
@@ -23,7 +25,7 @@ ListView {
 
         onEntered:
         {
-            if (drag.source.orderTag == "New")
+            if (drag.source.orderTag === "New")
             {
                 console.log("drag New entered ToPay list!");
                 drag.source.caught = true;
@@ -33,13 +35,27 @@ ListView {
         }
         onExited:
         {
-            if (drag.source.orderTag == "New")
+            if (drag.source.orderTag === "New")
             {
                 console.log("drag New left ToPay list!");
                 drag.source.caught = false;
                 drag.source.targetTag = "None"
             }
             else console.log("drag ToPay left ToPay list!");
+        }
+    }
+
+    Timer {
+        interval: 500
+        running: true
+        repeat: true
+        onTriggered:
+        {
+            if (clearNeeded)
+            {
+                incDrop.update()
+                clearNeeded=false
+            }
         }
     }
 }
