@@ -34,7 +34,8 @@ SOURCES += \
     source/waiter_client.cpp \
     source/filecontainer/imagecontainer.cpp \
     source/media.cpp \
-    source/filecontainer/filecontainer.cpp
+    source/filecontainer/filecontainer.cpp \
+    source/filecontainer/advertisingvideo.cpp
 
 
 HEADERS += \
@@ -61,7 +62,8 @@ HEADERS += \
     include/languagesupport.h \
     include/filecontainer/imagecontainer.h \
     include/media.h \
-    include/filecontainer/filecontainer.h
+    include/filecontainer/filecontainer.h \
+    include/filecontainer/advertisingvideo.h
 
 
 RESOURCES += shared_resources.qrc

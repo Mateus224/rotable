@@ -1322,7 +1322,6 @@ bool Server::typeOfFileDestination(ComPackageSendFile* package)
                       _db.removeFile(id,0);
                   }
               }
-
             Files->addFileOnSD(package);
             Files->setType(ComPackage::AdvertisingVideo);
             Files->getFileInfoFromFileAndSet(Files->_fileListNames);

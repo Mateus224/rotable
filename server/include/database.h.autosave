@@ -34,6 +34,7 @@
 #include "productorder.h"
 #include "table.h"
 #include "filecontainer/filecontainer.h"
+#include "filecontainer/advertisingvideo.h"
 
 //------------------------------------------------------------------------------
 
@@ -334,7 +335,7 @@ public:
    * @param file
    * @return
    */
-  bool addAdvertisingVideo(FileContainer* file);
+  bool addAdvertisingVideo(AdvertisingVideo* file);
   /**
    * Update a product category.
    *
