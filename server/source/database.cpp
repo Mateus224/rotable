@@ -1450,6 +1450,37 @@ bool Database::addMedia(FileContainer* file)
 
 //------------------------------------------------------------------------------
 
+bool Database::addAdvertisingVideo(FileContainer* file)
+{
+    if (!isConnected()) {
+      return false;
+    }
+    for (auto fileInfo: file->l_fileInfo) {
+        QString queryStr = _sqlCommands[Medias]._insert.arg(
+            _prefix, "NULL", ":frequency", ":play", ":played", ":media_id");
+
+        QSqlQuery q(_db);
+        q.setForwardOnly(true);
+
+        if (!q.prepare(queryStr)) {
+          qCritical() << tr("Invalid query: %1").arg(queryStr);
+          return false;
+        }
+        q.bindValue(":frequency", file->_type);
+        q.bindValue(":play", fileInfo._name);
+        q.bindValue(":played", fileInfo._size);
+        q.bindValue(":media_id", fileInfo._size);
+
+        if (!q.exec()) {
+          qCritical()
+              << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+          return false;
+        }
+    }
+    return true;
+}
+//------------------------------------------------------------------------------
+
 bool Database::updateCategory(ProductCategory *category) {
   if (!isConnected()) {
     return false;
