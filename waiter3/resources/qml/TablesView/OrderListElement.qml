@@ -88,7 +88,8 @@ Rectangle{
                     break;
                 }
                 order.Drag.active = false
-                parent.clearNeeded = true
+                orderList.clearNeeded = true
+                outgoingList.clearNeeded = true
                 destroy()
             }
         }
