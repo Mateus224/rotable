@@ -7,16 +7,16 @@ Rectangle {
     property int itemWidth: Math.max(parent.width*0.85,70)
 
     property bool removeButtonVisible: false
+    property double dragThreshold: 0.2
 
     width: itemWidth
-//    anchors.horizontalCenter: parent.horizontalCenter
     anchors.right: parent.right
     radius: width/8
 
     border.width: borderWidth
     border.color: waiterMain.productBorderColor
 
-    state: "Inactive"
+    clip: true
 
     Text {
         text: model.modelData.amount + " x " + productList.productName(model.modelData.productId)
@@ -24,48 +24,84 @@ Rectangle {
         font.pixelSize: parent.height * 0.4
     }
 
-    MouseArea {
-        id: mouseArea
-        anchors.fill: parent
-
-        onClicked: {
-            removeButtonVisible=!removeButtonVisible
-        }
-    }
-
     Rectangle {
-        id: removeButton
+        id: removeOneButton
+        opacity: 0
 
-        visible: removeButtonVisible
+        property int startingPos: -width * 0.9
 
-        height: parent.height
-        width: parent.width * 0.2
+        width: parent.width - borderWidth * 2
+        height: parent.height - borderWidth * 2
+        anchors.verticalCenter: parent.verticalCenter
+
+        radius: parent.radius
+
+        x: startingPos
+
         color: "red"
-        anchors.centerIn: parent
+
+        state: "Hidden"
 
         property bool dragActive: dragArea.drag.active
         Drag.dragType: Drag.Automatic
-
         onDragActiveChanged: {
             if (dragActive) {
+                z=2
+                removeOneButton.opacity=1
                 Drag.start();
-                console.log("red button drag started")
             } else {
+                z=0
+
+                if (x>startingPos+Math.abs(startingPos*dragThreshold)) {
+                    expand.start()
+                    state="Expanded"
+                }
+                else {
+                    if (dragArea.containsMouse) removeOneButton.opacity=0.5
+                    else removeOneButton.opacity=0
+                }
                 Drag.drop();
-                console.log("red button drag ended")
             }
+        }
+
+        Text {
+            id: removeOneText
+
+            anchors.centerIn: parent
+
+            text: qsTr("Remove one") + langObject.emptyString
+            font.pixelSize: parent.height * 0.6
         }
 
         MouseArea {
             id: dragArea
 
             anchors.fill: parent
+            hoverEnabled: true
+
             drag.target: parent
             drag.axis: Drag.XAxis
-            drag.minimumX: -productButton.width
-            drag.maximumX: productButton.width
+            drag.minimumX: -width * 0.9
+            drag.maximumX: productButton.borderWidth
 
-            onClicked: console.log("clicked tha red button, lol!")
+            onEntered: if (!removeOneButton.dragActive && removeOneButton.state==="Hidden") removeOneButton.opacity=0.5
+            onExited: if (!removeOneButton.dragActive && removeOneButton.state==="Hidden") removeOneButton.opacity=0
+
+            onClicked: if (removeOneButton.state==="Expanded")
+                       {
+                           console.log("clicked!")
+                           parent.parent.model.amount--
+                           console.log("new amount: "+parent.parent.model.amount)
+                       }
+        }
+
+        NumberAnimation {
+            id: expand
+            target: removeOneButton
+            property: "x"
+            duration: 500
+            easing.type: Easing.InOutQuad
+            to: productButton.borderWidth
         }
     }
 }

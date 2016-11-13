@@ -30,6 +30,7 @@ ListView {
                 console.log("drag New entered ToPay list!");
                 drag.source.caught = true;
                 drag.source.targetTag = "ToPay"
+                drag.source.border.color = waiterMain.menuColor
             }
             else console.log("drag ToPay entered topay list!");
         }
@@ -40,6 +41,7 @@ ListView {
                 console.log("drag New left ToPay list!");
                 drag.source.caught = false;
                 drag.source.targetTag = "None"
+                drag.source.border.color = waiterMain.incomingColor
             }
             else console.log("drag ToPay left ToPay list!");
         }
@@ -53,7 +55,7 @@ ListView {
         {
             if (clearNeeded)
             {
-                incDrop.update()
+                outDrop.update()
                 clearNeeded=false
             }
         }
