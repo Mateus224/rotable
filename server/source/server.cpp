@@ -574,6 +574,13 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
     }
   } break;
   case ComPackage::RequestMedia: {
+      AdvertisingVideo *video=static_cast<AdvertisingVideo> _db.media(id);
+      video
+      if(video)
+      {
+
+          return new ComPackageDataReturn(*request, video->toJSON());
+      }
 
 
   } break;

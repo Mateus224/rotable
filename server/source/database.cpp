@@ -1160,6 +1160,70 @@ FileContainer *Database::media(int id) {
 
 //------------------------------------------------------------------------------
 
+
+AdvertisingVideo *Database::advertisingVideo(AdvertisingVideo video) {
+  if (!isConnected()) {
+    return 0;
+  }
+
+  QString queryStr =
+      _sqlCommands[Medias]._select.arg(_prefix, "*", "id").arg(id);
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return 0;
+  }
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return 0;
+  }
+
+  if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+    if (q.size() != 1) {
+      qCritical()
+          << tr("Query: returned %1 results but we expected it to return 1!")
+                 .arg(q.size());
+      return 0;
+    }
+  }
+
+  if (!q.next()) {
+    return 0;
+  }
+
+  bool ok;
+  int media_id = q.value("id").toInt(&ok);
+  if (!ok) {
+    qDebug() << tr("Could not convert '%1' to integer!")
+                    .arg(q.value("id").toString());
+    return 0;
+  }
+
+  /*int sequence = q.value("sequence").toInt(&ok);
+  if (!ok) {
+    qDebug() << tr("Could not convert '%1' to integer!")
+                    .arg(q.value("sequence").toString());
+    return 0;
+  }*/
+
+  FileContainer *fc = new FileContainer();
+  fc->_fileInfo._id=q.value("id").toInt(&ok);
+  fc->_fileInfo._type=q.value("type").toInt(&ok);
+  fc->_fileInfo._name=q.value("name").toString();
+  fc->_fileInfo._date=q.value("date").toString();
+  fc->_fileInfo._size=q.value("size").toInt(&ok);
+  fc->_fileInfo._removed=q.value("removed").toInt(&ok);
+
+  return fc;
+}
+
+//------------------------------------------------------------------------------
+
 bool Database::addCategory(ProductCategory *category) {
   if (!isConnected()) {
     return false;

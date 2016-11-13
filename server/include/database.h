@@ -261,9 +261,18 @@ public:
    * Read media from database
    * @param id          media id
    * @return            media or NULL on error
+   * Read and fill the parent class with some information
    */
   FileContainer *media(int id);
 
+  /**
+   * @brief advertisingVideo
+   * @param video
+   * @return
+   * Fill the child class with the rest of information
+   * see:   FileContainer *media(int id);
+   */
+  AdvertisingVideo *advertisingVideo(AdvertisingVideo video);
   /**
    * Add a new product category to the database.
    * (Will not check whether a category with this name already exists!)
