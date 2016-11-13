@@ -5,7 +5,11 @@
 #include <QObject>
 #endif
 
+#ifdef Q_OS_WIN
 #include "windows.h"
+#else
+//Linux libraries will go here if needed
+#endif
 
 namespace rotable {
 class BatteryInfo;

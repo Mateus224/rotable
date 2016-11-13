@@ -7,11 +7,6 @@
         <file>resources/images/money.svg</file>
         <file>resources/images/rotable_logo.png</file>
         <file>resources/images/trash.svg</file>
-        <file>resources/images/wifi-1.svg</file>
-        <file>resources/images/wifi-2.svg</file>
-        <file>resources/images/wifi-3.svg</file>
-        <file>resources/images/wifi-4.svg</file>
-        <file>resources/images/wifi-nul.svg</file>
         <file>resources/qml/BottomBar/BottomBar.qml</file>
         <file>resources/qml/BottomBar/TableNeedsWaiterList.qml</file>
         <file>resources/qml/BottomBar/TableNeedsWaiterListElement.qml</file>
@@ -42,5 +37,10 @@
         <file>resources/images/Batteries/battery-full.svg</file>
         <file>resources/images/Batteries/battery-nul.svg</file>
         <file>resources/qml/TopBar/BatteryIcon.qml</file>
+        <file>resources/images/Wifi/wifi-1.svg</file>
+        <file>resources/images/Wifi/wifi-2.svg</file>
+        <file>resources/images/Wifi/wifi-3.svg</file>
+        <file>resources/images/Wifi/wifi-4.svg</file>
+        <file>resources/images/Wifi/wifi-nul.svg</file>
     </qresource>
 </RCC>
