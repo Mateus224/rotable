@@ -335,7 +335,7 @@ public:
    * @param file
    * @return
    */
-  bool addAdvertisingVideo(AdvertisingVideo* file);
+  bool addAdvertisingVideo(QList<int>* mediaId);
   /**
    * Update a product category.
    *

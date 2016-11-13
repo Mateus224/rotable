@@ -1297,38 +1297,12 @@ QJsonValue Server::configToJSON() {
 
 bool Server::typeOfFileDestination(ComPackageSendFile* package)
 {
-    //QStringList existingFileNames;
     QString test1;
     if (package) {
-        AdvertisingVideo *Files= new AdvertisingVideo();
-        QList<int> *idList;
 
       switch (package->getFileUsage()) {
       case ComPackage::AdvertisingVideo:
-          if(true){
-
-              for(QString fileName: package->getFileNames()){
-                  if(!_db.hasFile(fileName,ComPackage::AdvertisingVideo)){
-                     Files->_fileListNames.append(fileName);
-                  }
-                  else{
-                      // if file exist and removed is set true make it undo
-                      //existingFileNames.append(fileName);
-                      QList<int>* tempForGetID;
-                      QStringList tempQString;
-                      tempQString.append(fileName);
-                      tempForGetID=_db.getMediaIdByNameAndType(tempQString,ComPackage::AdvertisingVideo);
-                      int id=tempForGetID->at(0);
-                      _db.removeFile(id,0);
-                  }
-              }
-            Files->addFileOnSD(package);
-            Files->setType(ComPackage::AdvertisingVideo);
-            Files->getFileInfoFromFileAndSet(Files->_fileListNames);
-            _db.addMedia(Files);
-
-            delete Files;
-           }
+          addAdvertisingSD_Database(package);
           break;
       case ComPackage::AdvertisingPicture:
           if(true)
@@ -1352,3 +1326,32 @@ bool Server::typeOfFileDestination(ComPackageSendFile* package)
     return true;
 }
 
+bool Server::addAdvertisingSD_Database(ComPackageSendFile* package)
+{
+
+    AdvertisingVideo *Files= new AdvertisingVideo();
+    QList<int> *idList;
+    for(QString fileName: package->getFileNames()){
+        if(!_db.hasFile(fileName,ComPackage::AdvertisingVideo)){
+           Files->_fileListNames.append(fileName);
+        }
+        else{
+            // if file exist and removed is set true make it undo
+            QList<int>* tempForGetID;
+            QStringList tempQString;
+            tempQString.append(fileName);
+            tempForGetID=_db.getMediaIdByNameAndType(tempQString,ComPackage::AdvertisingVideo);
+            int id=tempForGetID->at(0);
+            _db.removeFile(id,0);
+        }
+    }
+
+  Files->addFileOnSD(package);
+  Files->setType(ComPackage::AdvertisingVideo);
+  Files->getFileInfoFromFileAndSet(Files->_fileListNames);
+  _db.addMedia(Files);
+  idList=_db.getMediaIdByNameAndType(package->getFileNames(),ComPackage::AdvertisingVideo);
+  _db.addAdvertisingVideo(idList);
+  delete Files;
+
+}
