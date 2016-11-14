@@ -11,7 +11,7 @@ void AdvertisingVideo::addAdvertisingVideo()
 {
 }
 
-QJsonValue AdvertisingVideo::toJSON()
+QJsonValue AdvertisingVideo::toJSON()const
 {
     QJsonObject o;
 
@@ -44,15 +44,17 @@ AdvertisingVideo* AdvertisingVideo::fromJSON(const QJsonValue &jval)
         )
     {
         AdvertisingVideo* a =new AdvertisingVideo();
-        a->_advertisingInfo._id=o["id"];
-        a->_advertisingInfo._frequency=o["frequency"];
-        a->_advertisingInfo._mediaId=o["media_id"];
-        a->_advertisingInfo._play=o["play"];
-        a->_advertisingInfo._played=o["played"];
-        a->_fileInfo._date=o["date"];
-        a->_fileInfo._name=o["name"];
-        a->_fileInfo._removed=o["removed"];
-        a->_fileInfo._size=o["size"];
+        QTime time;
+        a->_advertisingInfo._id=o["id"].toInt();
+        a->_advertisingInfo._frequency=o["frequency"].toInt();
+        a->_advertisingInfo._mediaId=o["media_id"].toInt();
+        a->_advertisingInfo._play=o["play"].toBool();
+        a->_advertisingInfo._played=o["played"].toInt();
+        //time=time.fromString(o["date"].toString);
+        //a->_fileInfo._date=time;
+        a->_fileInfo._name=o["name"].toString();
+        a->_fileInfo._removed=o["removed"].toBool();
+        a->_fileInfo._size=o["size"].toInt();
         return a;
     }
     return 0;

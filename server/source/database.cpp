@@ -1167,7 +1167,7 @@ AdvertisingVideo *Database::advertisingVideo(AdvertisingVideo video) {
   }
 
   QString queryStr =
-      _sqlCommands[Medias]._select.arg(_prefix, "*", "id").arg(id);
+      _sqlCommands[Medias]._select.arg(_prefix, "*", "id").arg(video._fileInfo._id);
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -1204,13 +1204,6 @@ AdvertisingVideo *Database::advertisingVideo(AdvertisingVideo video) {
     return 0;
   }
 
-  /*int sequence = q.value("sequence").toInt(&ok);
-  if (!ok) {
-    qDebug() << tr("Could not convert '%1' to integer!")
-                    .arg(q.value("sequence").toString());
-    return 0;
-  }*/
-
   FileContainer *fc = new FileContainer();
   fc->_fileInfo._id=q.value("id").toInt(&ok);
   fc->_fileInfo._type=q.value("type").toInt(&ok);
@@ -1219,7 +1212,7 @@ AdvertisingVideo *Database::advertisingVideo(AdvertisingVideo video) {
   fc->_fileInfo._size=q.value("size").toInt(&ok);
   fc->_fileInfo._removed=q.value("removed").toInt(&ok);
 
-  return fc;
+  return NULL;//fc;
 }
 
 //------------------------------------------------------------------------------
