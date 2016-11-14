@@ -38,7 +38,7 @@ public:
 
     QJsonValue toJSON()const;
 
-    AdvertisingVideo* fromJSOPN(const QJsonValue &val);
+    AdvertisingVideo* fromJSON(const QJsonValue &val);
 
 signals:
 
@@ -51,6 +51,7 @@ public:
      * stores the spacific information about the advertising file
      */
     struct advertisingInfo{
+        int _id;
         int _mediaId;
         int _frequency;
         bool _play;
