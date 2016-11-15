@@ -7,7 +7,7 @@ class AdvertisingVideo :  public FileContainer
 {
     Q_OBJECT
 public:
-    explicit AdvertisingVideo(QObject *parent = 0);
+     AdvertisingVideo(QObject *parent = 0);
     ~AdvertisingVideo();
 
     void addAdvertisingVideo();
@@ -40,9 +40,6 @@ public:
 
     static AdvertisingVideo* fromJSON(const QJsonValue &val);
 
-signals:
-
-public slots:
 
 public:
 

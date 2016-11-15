@@ -576,7 +576,7 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
   case ComPackage::RequestMedia: {
       int mediaId=request->dataName().toInt();
       AdvertisingVideo* Video=new AdvertisingVideo();
-      Video=static_cast<AdvertisingVideo*> (_db.media(mediaId));
+      Video=reinterpret_cast<AdvertisingVideo*> (_db.media(mediaId));
       _db.advertisingVideo(*Video);
       //qCritical()
       //    <<Video->_advertisingInfo._frequency;

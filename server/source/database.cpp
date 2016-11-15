@@ -1098,6 +1098,9 @@ Client *Database::client(int id) {
 //------------------------------------------------------------------------------
 
 FileContainer *Database::media(int id) {
+
+  FileContainer *fc = nullptr;
+
   if (!isConnected()) {
     return 0;
   }
@@ -1134,14 +1137,29 @@ FileContainer *Database::media(int id) {
 
   bool ok;
 
-  FileContainer *fc = new FileContainer();
-  fc->_fileInfo._id=q.value("id").toInt(&ok);
-  fc->_fileInfo._type=q.value("type").toInt(&ok);
-  fc->_fileInfo._name=q.value("name").toString();
-  //fc->_fileInfo._date=q.value("date").toString();
-  fc->_fileInfo._size=q.value("size").toInt(&ok);
-  fc->_fileInfo._removed=q.value("removed").toInt(&ok);
-
+  switch (type) {
+  case ComPackage::AdvertisingVideo: {
+    fc = new AdvertisingVideo();
+    fc->_fileInfo._id=q.value("id").toInt(&ok);
+    fc->_fileInfo._type=q.value("type").toInt(&ok);
+    fc->_fileInfo._name=q.value("name").toString();
+    //fc->_fileInfo._date=q.value("date").toString();
+    fc->_fileInfo._size=q.value("size").toInt(&ok);
+    fc->_fileInfo._removed=q.value("removed").toInt(&ok);
+    getAdvertisingAdditionalData(reinterpret_cast<AdvertisingVideo *>(file));
+  } break;
+  case ComPackage::AdvertisingPicture: {
+  } break;
+  case ComPackage::CatergoryIcon: {
+  } break;
+  case ComPackage::ProductPicture: {
+  } break;
+  case ComPackage::ProductVideo: {
+  } break;
+  default:
+    qCritical() << tr("Account type don't exists");
+    return nullptr;
+  }
   return fc;
 }
 
