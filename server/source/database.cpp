@@ -1106,7 +1106,7 @@ FileContainer *Database::media(int id) {
   }
 
   QString queryStr =
-      _sqlCommands[Medias]._select.arg(_prefix, "*", "id").arg(id);
+      _sqlCommands[Medias]._select.arg(_prefix, "*", "id" , ":id");//.arg(id);
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -1115,6 +1115,8 @@ FileContainer *Database::media(int id) {
     qCritical() << tr("Invalid query: %1").arg(queryStr);
     return 0;
   }
+
+  q.bindValue(":id", id);
 
   if (!q.exec()) {
     qCritical()
@@ -1137,16 +1139,17 @@ FileContainer *Database::media(int id) {
 
   bool ok;
 
+  int type = q.value("type").toInt(&ok);
+
   switch (type) {
   case ComPackage::AdvertisingVideo: {
     fc = new AdvertisingVideo();
-    fc->_fileInfo._id=q.value("id").toInt(&ok);
     fc->_fileInfo._type=q.value("type").toInt(&ok);
     fc->_fileInfo._name=q.value("name").toString();
     //fc->_fileInfo._date=q.value("date").toString();
     fc->_fileInfo._size=q.value("size").toInt(&ok);
     fc->_fileInfo._removed=q.value("removed").toInt(&ok);
-    getAdvertisingAdditionalData(reinterpret_cast<AdvertisingVideo *>(file));
+    getAdvertisingAdditionalData(reinterpret_cast<AdvertisingVideo *>(fc));
   } break;
   case ComPackage::AdvertisingPicture: {
   } break;
@@ -3704,6 +3707,52 @@ bool Database::getWaiterAdditionalData(Waiter *waiter) {
     waiter->setCategories(list);
 
   return true;
+}
+
+bool Database::getAdvertisingAdditionalData(AdvertisingVideo* advertisingvideo)
+{
+    if (!isConnected()) {
+      return false;
+    }
+
+    QString queryStr = _sqlCommands[AdvertisingVideos]._select.arg(
+        _prefix, "*", "media_id", ":id");
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return false;
+    }
+
+    q.bindValue(":id", advertisingvideo->_fileInfo._id);
+
+    if (!q.exec()) {
+      qCritical()
+          << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+      if (q.size() != 1) {
+        qCritical()
+            << tr("Query: returned %1 results but we expected it to return 1!")
+                   .arg(q.size());
+        return 0;
+      }
+    }
+
+    if (!q.next()) {
+      return false;
+    }
+    bool ok;
+    advertisingvideo->_advertisingInfo._frequency=q.value("frequency").toInt(&ok);
+    advertisingvideo->_advertisingInfo._id=q.value("id").toInt(&ok);
+    advertisingvideo->_advertisingInfo._play=q.value("play").toBool();
+    advertisingvideo->_advertisingInfo._played=q.value("played").toInt(&ok);
+
+    return true;
 }
 
 //------------------------------------------------------------------------------

@@ -734,6 +734,13 @@ private:
   bool getWaiterAdditionalData(rotable::Waiter *waiter);
 
   /**
+   * @brief get Additional Data about Video
+   * @param fc
+   * @return
+   */
+  bool getAdvertisingAdditionalData (AdvertisingVideo* fc);
+
+  /**
    * Update additional data about table
    *
    * @param id          Table id
