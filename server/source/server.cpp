@@ -574,8 +574,10 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
     }
   } break;
   case ComPackage::RequestMedia: {
-      AdvertisingVideo *video=static_cast<AdvertisingVideo> _db.media(id);
-      video
+      int mediaId=request->dataName().toInt();
+      AdvertisingVideo *video=static_cast<AdvertisingVideo*> (_db.media(mediaId));
+
+
       if(video)
       {
 

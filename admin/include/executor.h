@@ -9,6 +9,7 @@
 #include "filecontainer/imagecontainer.h"
 #include "tcpclient.h"
 #include "usercontainer.h"
+#include "filecontainer/advertisingvideo.h"
 #include <QItemSelection>
 #include <QObject>
 

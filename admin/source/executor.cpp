@@ -934,8 +934,14 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
       int id = val.toInt();
       QString _id=QString::number(id);
       requestAdvertising(id);
-      qCritical()<<_id<<"das funktioniert doch";
+      //qCritical()<<_id<<"das funktioniert doch";
     }
+  } break;
+  case ComPackage::RequestMedia: {
+      AdvertisingVideo *advertisingvideo_ = new AdvertisingVideo();
+      AdvertisingVideo * advertisingvideo=advertisingvideo_->fromJSON(package->data());
+
+    qCritical()<<advertisingvideo->_fileInfo._size;
   } break;
   default: { qCritical() << tr("Unknown data package returned"); } break;
   }
