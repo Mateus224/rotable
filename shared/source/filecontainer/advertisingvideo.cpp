@@ -50,8 +50,7 @@ AdvertisingVideo* AdvertisingVideo::fromJSON(const QJsonValue &jval)
         a->_advertisingInfo._mediaId=o["media_id"].toInt();
         a->_advertisingInfo._play=o["play"].toBool();
         a->_advertisingInfo._played=o["played"].toInt();
-        //time=time.fromString(o["date"].toString);
-        //a->_fileInfo._date=time;
+        a->_fileInfo._date=o["date"].toString();
         a->_fileInfo._name=o["name"].toString();
         a->_fileInfo._removed=o["removed"].toBool();
         a->_fileInfo._size=o["size"].toInt();

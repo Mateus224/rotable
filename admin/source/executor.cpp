@@ -941,6 +941,7 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
       AdvertisingVideo * advertisingvideo=AdvertisingVideo::fromJSON(package->data());
 
     qCritical()<<advertisingvideo->_fileInfo._size;
+    qCritical()<<advertisingvideo->_fileInfo._date;
     qCritical()<<advertisingvideo->_advertisingInfo._frequency;
   } break;
   default: { qCritical() << tr("Unknown data package returned"); } break;

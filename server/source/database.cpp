@@ -1147,7 +1147,7 @@ FileContainer *Database::media(int id) {
     fc->_fileInfo._id=id;
     fc->_fileInfo._type=q.value("type").toInt(&ok);
     fc->_fileInfo._name=q.value("name").toString();
-    //fc->_fileInfo._date=q.value("date").toString();
+    fc->_fileInfo._date=q.value("date_added").toString();
     fc->_fileInfo._size=q.value("size").toInt(&ok);
     fc->_fileInfo._removed=q.value("removed").toInt(&ok);
     getAdvertisingAdditionalData(reinterpret_cast<AdvertisingVideo *>(fc));
