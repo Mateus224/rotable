@@ -1144,6 +1144,7 @@ FileContainer *Database::media(int id) {
   switch (type) {
   case ComPackage::AdvertisingVideo: {
     fc = new AdvertisingVideo();
+    fc->_fileInfo._id=id;
     fc->_fileInfo._type=q.value("type").toInt(&ok);
     fc->_fileInfo._name=q.value("name").toString();
     //fc->_fileInfo._date=q.value("date").toString();
@@ -3726,7 +3727,7 @@ bool Database::getAdvertisingAdditionalData(AdvertisingVideo* advertisingvideo)
       return false;
     }
 
-    q.bindValue(":id", advertisingvideo->_fileInfo._id);
+    q.bindValue(":id",advertisingvideo->_fileInfo._id);
 
     if (!q.exec()) {
       qCritical()
