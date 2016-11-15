@@ -38,7 +38,7 @@ public:
 
     QJsonValue toJSON()const;
 
-    AdvertisingVideo* fromJSON(const QJsonValue &val);
+    static AdvertisingVideo* fromJSON(const QJsonValue &val);
 
 signals:
 

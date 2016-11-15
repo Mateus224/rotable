@@ -938,10 +938,10 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
     }
   } break;
   case ComPackage::RequestMedia: {
-      AdvertisingVideo *advertisingvideo_ = new AdvertisingVideo();
-      AdvertisingVideo * advertisingvideo=advertisingvideo_->fromJSON(package->data());
+      AdvertisingVideo * advertisingvideo=AdvertisingVideo::fromJSON(package->data());
 
     qCritical()<<advertisingvideo->_fileInfo._size;
+    qCritical()<<advertisingvideo->_advertisingInfo._frequency;
   } break;
   default: { qCritical() << tr("Unknown data package returned"); } break;
   }

@@ -575,13 +575,16 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
   } break;
   case ComPackage::RequestMedia: {
       int mediaId=request->dataName().toInt();
-      AdvertisingVideo *video=static_cast<AdvertisingVideo*> (_db.media(mediaId));
+      AdvertisingVideo* Video=new AdvertisingVideo();
+      Video=static_cast<AdvertisingVideo*> (_db.media(mediaId));
+      _db.advertisingVideo(*Video);
+      //qCritical()
+      //    <<Video->_advertisingInfo._frequency;
 
-
-      if(video)
+      if(Video)
       {
 
-          return new ComPackageDataReturn(*request, video->toJSON());
+          return new ComPackageDataReturn(*request, Video->toJSON());
       }
 
 

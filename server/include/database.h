@@ -272,7 +272,7 @@ public:
    * Fill the child class with the rest of information
    * see:   FileContainer *media(int id);
    */
-  AdvertisingVideo *advertisingVideo(AdvertisingVideo video);
+  bool advertisingVideo(AdvertisingVideo& video);
   /**
    * Add a new product category to the database.
    * (Will not check whether a category with this name already exists!)

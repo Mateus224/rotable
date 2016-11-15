@@ -1133,25 +1133,12 @@ FileContainer *Database::media(int id) {
   }
 
   bool ok;
-  int media_id = q.value("id").toInt(&ok);
-  if (!ok) {
-    qDebug() << tr("Could not convert '%1' to integer!")
-                    .arg(q.value("id").toString());
-    return 0;
-  }
-
-  /*int sequence = q.value("sequence").toInt(&ok);
-  if (!ok) {
-    qDebug() << tr("Could not convert '%1' to integer!")
-                    .arg(q.value("sequence").toString());
-    return 0;
-  }*/
 
   FileContainer *fc = new FileContainer();
   fc->_fileInfo._id=q.value("id").toInt(&ok);
   fc->_fileInfo._type=q.value("type").toInt(&ok);
   fc->_fileInfo._name=q.value("name").toString();
-  fc->_fileInfo._date=q.value("date").toString();
+  //fc->_fileInfo._date=q.value("date").toString();
   fc->_fileInfo._size=q.value("size").toInt(&ok);
   fc->_fileInfo._removed=q.value("removed").toInt(&ok);
 
@@ -1161,13 +1148,13 @@ FileContainer *Database::media(int id) {
 //------------------------------------------------------------------------------
 
 
-AdvertisingVideo *Database::advertisingVideo(AdvertisingVideo video) {
+bool Database::advertisingVideo(AdvertisingVideo & video) {
   if (!isConnected()) {
     return 0;
   }
 
   QString queryStr =
-      _sqlCommands[Medias]._select.arg(_prefix, "*", "id").arg(video._fileInfo._id);
+      _sqlCommands[AdvertisingVideos]._select.arg(_prefix, "*", "media_id").arg(video._fileInfo._id);
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -1195,24 +1182,13 @@ AdvertisingVideo *Database::advertisingVideo(AdvertisingVideo video) {
   if (!q.next()) {
     return 0;
   }
-
   bool ok;
-  int media_id = q.value("id").toInt(&ok);
-  if (!ok) {
-    qDebug() << tr("Could not convert '%1' to integer!")
-                    .arg(q.value("id").toString());
-    return 0;
-  }
 
-  FileContainer *fc = new FileContainer();
-  fc->_fileInfo._id=q.value("id").toInt(&ok);
-  fc->_fileInfo._type=q.value("type").toInt(&ok);
-  fc->_fileInfo._name=q.value("name").toString();
-  fc->_fileInfo._date=q.value("date").toString();
-  fc->_fileInfo._size=q.value("size").toInt(&ok);
-  fc->_fileInfo._removed=q.value("removed").toInt(&ok);
-
-  return NULL;//fc;
+  video._advertisingInfo._frequency=q.value("frequency").toInt(&ok);
+  video._advertisingInfo._id=q.value("id").toInt(&ok);
+  video._advertisingInfo._play=q.value("play").toBool();
+  video._advertisingInfo._played=q.value("played").toInt(&ok);
+  return true;
 }
 
 //------------------------------------------------------------------------------
