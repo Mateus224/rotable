@@ -19,14 +19,14 @@ void FileContainer::addFile(rotable::File *file)
 {
     if(!file)
         return;
-    if(_file.contains(file->id()))
+    if(_files.contains(file->id()))
     {
-        _file[file->id()]->updateData(file);
+        _files[file->id()]->updateData(file);
         emit fileUpdated();
     }
     else
     {
-        _file[file->id()] = file;
+        _files[file->id()] = file;
         connect(file, &File::fileChanged, this, &FileContainter::fileUpdated);
         emit fileAdded(file);
     }
@@ -41,7 +41,7 @@ QList<int> FileContainer::fileIds() const
 
 //------------------------------------------------------------------------------
 
-int rotable::FileContainter::count() const
+int FileContainer::count() const
 {
     return _files.count();
 }
@@ -50,7 +50,7 @@ int rotable::FileContainter::count() const
 
 rotable::File *FileContainer::file(int idx) const
 {
-    return _file[idx];
+    return _files[idx];
 }
 
 //------------------------------------------------------------------------------

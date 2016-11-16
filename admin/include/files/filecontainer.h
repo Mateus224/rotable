@@ -14,7 +14,7 @@ public:
 
     void addFile(rotable::File *file);
 
-    QList<int> FileIds() const;
+    QList<int> fileIds() const;
 
     int count() const;
 
@@ -52,7 +52,7 @@ signals:
      */
     void updateView();
 private:
-    QHash <int, rotable::File*> _file; /** Container with files */
+    QHash <int, rotable::File*> _files; /** Container with files */
     rotable::File *selectedFile;
 };
 
