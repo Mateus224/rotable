@@ -53,7 +53,7 @@ signals:
     void updateView();
 private:
     QHash <int, rotable::File*> _file; /** Container with files */
-    User *selectedFile;
+    rotable::File *selectedFile;
 };
 
 #endif // FILECONTAINER_H
