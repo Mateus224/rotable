@@ -1,6 +1,6 @@
-#include "include/filecontainer.h"
+#include "include/files/filecontainer.h"
 
-filecontainer::filecontainer(QObject *parent) : QObject(parent)
+FileContainer::FileContainer(QObject *parent) : QObject(parent)
 {
 
 }

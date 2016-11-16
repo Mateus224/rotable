@@ -1,17 +1,59 @@
 #ifndef FILECONTAINER_H
 #define FILECONTAINER_H
+#include "filecontainer/file.h"
 
 #include <QObject>
 
-class filecontainer : public QObject
+class FileContainer : public QObject
 {
     Q_OBJECT
 public:
-    explicit filecontainer(QObject *parent = 0);
+    explicit FileContainer(QObject *parent = 0);
+
+    ~FileContainer();
+
+    void addFile(rotable::File *file);
+
+    QList<int> FileIds() const;
+
+    int count() const;
+
+    rotable::File* file(int idx) const;
+
+    /**
+     * @brief Clear object
+     *
+     */
+    void clear();
+    rotable::File* *getSelectedFile() const;
+    void setSelectedFile(User *value);
+    void setSelectedFile(int inx);
 
 signals:
-
-public slots:
+    /**
+     * @brief
+     *
+     * @param user
+     */
+    void fileAdded(rotable::File *file);
+    /**
+     * @brief
+     *
+     */
+    void fileRemoved();
+    /**
+     * @brief
+     *
+     */
+    void fileUpdated();
+    /**
+     * @brief
+     *
+     */
+    void updateView();
+private:
+    QHash <int, rotable::File*> _file; /** Container with files */
+    User *selectedFile;
 };
 
 #endif // FILECONTAINER_H

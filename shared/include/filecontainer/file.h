@@ -14,7 +14,7 @@
 //------------------------------------------------------------------------------
 
 /**
- * @brief The AbstractFile class
+ * @brief The File class
  * This Abstract Class is for up- and downloading files.
  */
 namespace rotable {
