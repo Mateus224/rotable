@@ -1,5 +1,5 @@
-#ifndef ABSTRACTFILECONTAINER_H
-#define ABSTRACTFILECONTAINER_H
+#ifndef ABSTRACTFILE_H
+#define ABSTRACTFILE_H
 
 //------------------------------------------------------------------------------
 
@@ -14,23 +14,27 @@
 //------------------------------------------------------------------------------
 
 /**
- * @brief The AbstractFileContainer class
+ * @brief The AbstractFile class
  * This Abstract Class is for up- and downloading files.
  */
+namespace rotable {
+class AdvertisingVideo;
+class File;
+}
 
-class FileContainer : public QObject
+class rotable::File : public QObject
 {
     Q_OBJECT
 
 public:
 
-    explicit FileContainer(const QString folder="", QObject* parent = 0);
+    explicit File(QObject* parent = 0);
 
-    ~FileContainer();
-    enum File{
+    ~File();
+  /*  enum File{
         advertising=0,
 
-    };
+    };*/
 
 
     bool addFileOnSD(rotable::ComPackageSendFile* package);
@@ -42,6 +46,7 @@ public:
     QString getFile(const QString& name) const;
     void changeFileName();
     void rmFile();
+
 
 
     /**
@@ -66,9 +71,30 @@ public:
      */
     inline int getType(){return _type;}
 
+    /**
+     * @brief toJSON prepare data for sending
+     * depending on the Object get additional data
+     * @return
+     */
+    QJsonValue toJSON()const;
+
+    /**
+     * @brief fromJSON
+     * @param jval
+     * @return
+     */
+    static File* fromJSON(const QJsonValue &jval);
+
+    inline virtual int fileType() const { return -1; }
+
+protected:
+  virtual void addAdditionalData(QJsonObject &obj) const=0;
+  virtual void setAdditionalData(QJsonObject &obj)=0;
+
 
 //---------------------------------------
 
+public:
     /**
      * @brief The fileInfo struct
      * stores basic Information about the to adding file
@@ -127,4 +153,4 @@ public:
 
 };
 
-#endif // ABSTRACTFILECONTAINER_H
+#endif // ABSTRACTFILE_H

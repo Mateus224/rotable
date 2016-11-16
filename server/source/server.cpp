@@ -580,7 +580,7 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
       qCritical()<<Video->_fileInfo._date;
       if(Video)
       {
-          return new ComPackageDataReturn(*request, Video->toJSON());
+          return new ComPackageDataReturn(*request, Video->toJSON() );
       }
 
 

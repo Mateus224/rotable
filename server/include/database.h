@@ -33,7 +33,7 @@
 #include "productcategory.h"
 #include "productorder.h"
 #include "table.h"
-#include "filecontainer/filecontainer.h"
+#include "filecontainer/file.h"
 #include "filecontainer/advertisingvideo.h"
 
 //------------------------------------------------------------------------------
@@ -263,14 +263,14 @@ public:
    * @return            media or NULL on error
    * Read and fill the parent class with some information
    */
-  FileContainer *media(int id);
+  File *media(int id);
 
   /**
    * @brief advertisingVideo
    * @param video
    * @return
    * Fill the child class with the rest of information
-   * see:   FileContainer *media(int id);
+   * see:   File *media(int id);
    */
   bool advertisingVideo(AdvertisingVideo& video);
   /**
@@ -337,7 +337,7 @@ public:
    * @param
    * @return true on success
    */
-  bool addMedia(FileContainer* file);
+  bool addMedia(File* file);
 
   /**
    * @brief addAdvertisingVideo

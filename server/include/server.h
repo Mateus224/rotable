@@ -10,7 +10,7 @@
 #ifndef QSTRING_H
 #include <QString>
 #endif
-#include "filecontainer/filecontainer.h"
+#include "filecontainer/file.h"
 #include "compackage.h"
 #include "config.h"
 #include "configserver.h"

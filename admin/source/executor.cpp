@@ -938,13 +938,37 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
     }
   } break;
   case ComPackage::RequestMedia: {
-      AdvertisingVideo * advertisingvideo=AdvertisingVideo::fromJSON(package->data());
 
-    qCritical()<<advertisingvideo->_fileInfo._size;
-    qCritical()<<advertisingvideo->_fileInfo._date;
-    qCritical()<<advertisingvideo->_advertisingInfo._frequency;
-  } break;
-  default: { qCritical() << tr("Unknown data package returned"); } break;
+      AdvertisingVideo *ad=NULL;
+      File *file= File::fromJSON(package->data());
+      switch (file->_fileInfo._type)
+      {
+      case ComPackage::AdvertisingVideo:
+          ad=reinterpret_cast <AdvertisingVideo*> (file);
+          qCritical()<<ad->_fileInfo._size;
+          qCritical()<<ad->_fileInfo._date;
+          qCritical()<<ad->_advertisingInfo._frequency;
+      }break;
+      /*
+      case ComPackage::AdvertisingPicture:
+      {
+
+      }break;
+      case ComPackage::CatergoryIcon:
+      {
+
+      }break;
+      case ComPackage::ProductPicture:
+      {
+
+      }break;
+      case ComPackage::ProductVideo:
+      {
+
+      }break;*/
+  }
+
+  default: { qCritical() << tr("Unknown data package \"requestMedia\" returned"); } break;
   }
 }
 

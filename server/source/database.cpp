@@ -1097,9 +1097,9 @@ Client *Database::client(int id) {
 
 //------------------------------------------------------------------------------
 
-FileContainer *Database::media(int id) {
+File *Database::media(int id) {
 
-  FileContainer *fc = nullptr;
+  File *fc = nullptr;
 
   if (!isConnected()) {
     return 0;
@@ -1474,7 +1474,7 @@ bool Database::addOrderItem(OrderItem *item, int orderId) {
 
 //------------------------------------------------------------------------------
 
-bool Database::addMedia(FileContainer* file)
+bool Database::addMedia(File* file)
 {
     if (!isConnected()) {
       return false;

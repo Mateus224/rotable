@@ -1,9 +1,14 @@
 #ifndef ADVERTISINGVIDEO_H
 #define ADVERTISINGVIDEO_H
-#include "filecontainer/filecontainer.h"
+#include "file.h"
 #include <QObject>
 
-class AdvertisingVideo :  public FileContainer
+namespace rotable {
+class File;
+class AdvertisingVideo;
+}
+
+class rotable::AdvertisingVideo :  public rotable::File
 {
     Q_OBJECT
 public:
@@ -36,10 +41,14 @@ public:
 
     void updateVideo();
 
-    QJsonValue toJSON()const;
+    //QJsonValue toJSON()const;
 
-    static AdvertisingVideo* fromJSON(const QJsonValue &val);
+    //static AdvertisingVideo* fromJSON(const QJsonValue &val);
 
+    virtual void addAdditionalData(QJsonObject &obj) const;
+    virtual void setAdditionalData(QJsonObject &obj);
+
+    inline virtual int fileType() const { return 0; }
 
 public:
 
