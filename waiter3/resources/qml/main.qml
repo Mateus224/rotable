@@ -12,14 +12,16 @@ Rectangle{
     WaiterView {
         id: waiterView
         anchors.fill: parent
-        opacity: 0
+        visible: false
+        enabled: false
     }
 
     LoginView {
         id: loginView
         y: 230
         anchors.fill: parent
-        opacity: 0
+        visible: false
+        enabled: false
     }
 
     Text {
@@ -30,13 +32,15 @@ Rectangle{
         anchors.top: loadsymbol.bottom
         anchors.topMargin: loadsymbol.height
         font.pixelSize: 12
-        opacity: 0
+        visible: false
+        enabled: false
     }
 
     LoadingSymbol {
         id: loadsymbol
         anchors.centerIn: parent
-        opacity: 0
+        visible: false
+        enabled: false
     }
 
     state: waiter.state
@@ -50,7 +54,7 @@ Rectangle{
                 target: loginView
                 clip: false
                 visible: true
-                opacity: 1
+                enabled: true
             }
         },
 
@@ -59,7 +63,8 @@ Rectangle{
 
             PropertyChanges {
                 target: waiterView
-                opacity: 1
+                visible: true
+                enabled: true
             }
         },
 
@@ -72,12 +77,14 @@ Rectangle{
                 font.pixelSize: 36
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
-                opacity: 1
+                visible: true
+                enabled: true
             }
 
             PropertyChanges {
                 target: loadsymbol
-                opacity: 1
+                visible: true
+                enabled: true
             }
         }
     ]
