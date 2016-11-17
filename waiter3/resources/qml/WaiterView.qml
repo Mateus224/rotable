@@ -9,6 +9,10 @@ Rectangle {
 
     property int leftMenuWidth: width * 0.2
 
+    property color menuColor: "#0170bf"
+    property color incomingColor: "#75d4f0"
+    property color productBorderColor: "#bababa"
+
     TimeBar {
         id: timeBar
     }

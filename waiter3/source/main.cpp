@@ -5,6 +5,7 @@
 #include "orderinformation.h"
 #include "tablemodel.h"
 #include "languagesupport.h"
+#include "batteryinfo.h"
 #include "proxymodelevententries.h"
 #include <QGuiApplication>
 #include <QtQml/QQmlApplicationEngine>
@@ -37,6 +38,10 @@ int main(int argc, char *argv[])
   rotable::LanguageSupport* langSupp = new rotable::LanguageSupport(rotable::LanguageSupport::AppType::waiter);
   langSupp->LoadInit();
 
+  /* Load battery info class */
+
+  rotable::BatteryInfo* batteryInfo = new rotable::BatteryInfo();
+
   /* Connection to server building*/
 //-----------------------------------------------------
   auto dir = QDir(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
@@ -65,6 +70,7 @@ int main(int argc, char *argv[])
   ctxt->setContextProperty("needBoard", &(waiter_client->_needBoard));
   ctxt->setContextProperty("waiter", waiter_client);
   ctxt->setContextProperty("langObject", langSupp);
+  ctxt->setContextProperty("batteryInfo", batteryInfo);
 
   rotable::PMFilterNew* filterNewOrders = new rotable::PMFilterNew();
   filterNewOrders->setSourceModel(&(waiter_client->_board));

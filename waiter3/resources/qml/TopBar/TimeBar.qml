@@ -46,17 +46,24 @@ Rectangle {
     Rectangle {
         id: userName
 
-        anchors.right: parent.right
+        anchors.right: batIcon.left
         anchors.left: clock.right
         anchors.rightMargin: parent.width * 0.02
         height: parent.height
 
         Text {
+            id:userNameText
             text: waiter.login
             font.pixelSize: parent.height * 0.6
             anchors.centerIn: parent
         }
     }
+
+    BatteryIcon {
+        id: batIcon
+    }
+
+
 
     MouseArea{
         anchors.fill: parent
