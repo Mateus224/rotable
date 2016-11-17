@@ -32,7 +32,6 @@ ListView {
                 drag.source.targetTag = "ToPay"
                 drag.source.border.color = waiterMain.menuColor
             }
-            else console.log("drag ToPay entered topay list!");
         }
         onExited:
         {
@@ -43,7 +42,6 @@ ListView {
                 drag.source.targetTag = "None"
                 drag.source.border.color = waiterMain.incomingColor
             }
-            else console.log("drag ToPay left ToPay list!");
         }
     }
 

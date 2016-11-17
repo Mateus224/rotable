@@ -1,4 +1,5 @@
 import QtQuick 2.5
+import QtGraphicalEffects 1.0
 
 Rectangle {
     id: productButton
@@ -6,7 +7,6 @@ Rectangle {
     property int borderWidth: Math.max(2,parent.width * 0.01)
     property int itemWidth: Math.max(parent.width*0.85,70)
 
-    property bool removeButtonVisible: false
     property double dragThreshold: 0.2
 
     width: itemWidth
@@ -16,92 +16,177 @@ Rectangle {
     border.width: borderWidth
     border.color: waiterMain.productBorderColor
 
-    clip: true
+    clip:true
 
-    Text {
-        text: model.modelData.amount + " x " + productList.productName(model.modelData.productId)
-        anchors.centerIn: parent
-        font.pixelSize: parent.height * 0.4
-    }
+    //state: "RemoveOne"
+    property string dragState: "Product"
+
+    layer.enabled: true
+    layer.effect: OpacityMask {
+            maskSource: Item {
+                width: productButton.width
+                height: productButton.height
+                Rectangle {
+                    anchors.centerIn: parent
+                    width: parent.width
+                    height: parent.height
+                    radius: width/8
+                }
+            }
+        }
 
     Rectangle {
-        id: removeOneButton
-        opacity: 0
-
-        property int startingPos: -width * 0.9
-
-        width: parent.width - borderWidth * 2
-        height: parent.height - borderWidth * 2
-        anchors.verticalCenter: parent.verticalCenter
-
+        id: productName
+        width: parent.width
+        height: parent.height
         radius: parent.radius
 
-        x: startingPos
+        border.width: borderWidth
+        border.color: waiterMain.productBorderColor
 
-        color: "red"
+        property int maxLeft: -width * 0.87
+        property int maxRight: width * 0.87
 
-        state: "Hidden"
+        z:1
+
+        onXChanged: {
+            if (x<0) parent.state="RemoveAll"
+            if (x>0) parent.state="RemoveOne"
+        }
 
         property bool dragActive: dragArea.drag.active
         Drag.dragType: Drag.Automatic
         onDragActiveChanged: {
             if (dragActive) {
-                z=2
-                removeOneButton.opacity=1
                 Drag.start();
             } else {
-                z=0
-
-                if (x>startingPos+Math.abs(startingPos*dragThreshold)) {
-                    expand.start()
-                    state="Expanded"
+                if (parent.dragState==="Product")
+                {
+                    if (x < dragThreshold*maxLeft) {
+                        parent.dragState="RemoveAll"
+                        goLeft.start()
+                    }
+                    else if (x > maxRight*dragThreshold) {
+                        parent.dragState="RemoveOne"
+                        goRight.start()
+                    }
+                    else goMiddle.start()
                 }
-                else {
-                    if (dragArea.containsMouse) removeOneButton.opacity=0.5
-                    else removeOneButton.opacity=0
+                else if (parent.dragState==="RemoveOne")
+                {
+                    if (x > (1-dragThreshold)*maxRight) goRight.start()
+                    else if (x > 0) {
+                        parent.dragState="Product"
+                        goMiddle.start()
+                    }
+                    else {
+                        parent.dragState="RemoveAll"
+                        goLeft.start()
+                    }
+                }
+                else
+                {
+                    if (x < (1-dragThreshold)*maxLeft) goLeft.start()
+                    if (x < 0) {
+                        parent.dragState="Product"
+                        goMiddle.start()
+                    }
+                    else goRight.start()
                 }
                 Drag.drop();
             }
         }
+
+        MouseArea {
+            id:dragArea
+            anchors.fill: productName
+
+            drag.target: productName
+            drag.axis: Drag.XAxis
+            drag.minimumX: productName.maxLeft
+            drag.maximumX: productName.maxRight
+        }
+
+        Text {
+            text: model.modelData.amount + " x " + productList.productName(model.modelData.productId)
+            anchors.centerIn: parent
+            font.pixelSize: parent.height * 0.4
+        }
+
+        PropertyAnimation {
+            id: goLeft
+            target: productName
+            property: "x"
+            duration: 500
+            to: productName.maxLeft
+        }
+        PropertyAnimation {
+            id: goMiddle
+            target: productName
+            property: "x"
+            duration: 500
+            to: 0
+        }
+        PropertyAnimation {
+            id: goRight
+            target: productName
+            property: "x"
+            duration: 500
+            to: productName.maxRight
+        }
+    }
+
+    Rectangle {
+        id: removeButton
+
+        width: parent.width
+        height: parent.height
+        anchors.verticalCenter: parent.verticalCenter
+
+        radius: parent.radius
+
+        color: productButton.state==="RemoveOne"?"#FF0000":"#DD0000"
 
         Text {
             id: removeOneText
 
             anchors.centerIn: parent
 
-            text: qsTr("Remove one") + langObject.emptyString
+            property string removeText: productButton.state==="RemoveOne"?qsTr("Remove one"):qsTr("Remove all")
+
+            text: removeText + langObject.emptyString
             font.pixelSize: parent.height * 0.6
         }
 
         MouseArea {
-            id: dragArea
+            id: removeArea
 
             anchors.fill: parent
-            hoverEnabled: true
 
-            drag.target: parent
-            drag.axis: Drag.XAxis
-            drag.minimumX: -width * 0.9
-            drag.maximumX: productButton.borderWidth
-
-            onEntered: if (!removeOneButton.dragActive && removeOneButton.state==="Hidden") removeOneButton.opacity=0.5
-            onExited: if (!removeOneButton.dragActive && removeOneButton.state==="Hidden") removeOneButton.opacity=0
-
-            onClicked: if (removeOneButton.state==="Expanded")
-                       {
-                           console.log("clicked!")
-                           parent.parent.model.amount--
-                           console.log("new amount: "+parent.parent.model.amount)
-                       }
+            onClicked:
+            {
+                console.log("Clicked!")
+                if (productButton.dragState==="RemoveOne") {
+                    model.modelData.amount = (model.modelData.amount - 1)
+                    model.updateOrder
+                }
+                else if (productButton.dragState==="RemoveAll");
+                    //remove all products of this type
+            }
         }
+    }
 
-        NumberAnimation {
-            id: expand
-            target: removeOneButton
-            property: "x"
-            duration: 500
-            easing.type: Easing.InOutQuad
-            to: productButton.borderWidth
-        }
+    Rectangle {
+        id: borderOnly
+
+        z:2
+        width: parent.width
+        height: parent.height
+        radius: parent.radius
+
+        color: "transparent"
+
+        border.width: borderWidth
+        border.color: waiterMain.productBorderColor
     }
 }

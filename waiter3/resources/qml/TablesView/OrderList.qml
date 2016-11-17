@@ -32,7 +32,6 @@ ListView {
                 drag.source.targetTag = "New"
                 drag.source.border.color = waiterMain.incomingColor
             }
-            else console.log("drag New entered New list!");
         }
         onExited:
         {
@@ -43,7 +42,6 @@ ListView {
                 drag.source.targetTag = "None"
                 drag.source.border.color = waiterMain.menuColor
             }
-            else console.log("drag New left new list!");
         }
     }
 
