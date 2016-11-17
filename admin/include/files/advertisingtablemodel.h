@@ -90,9 +90,6 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation,
                         int role = Qt::DisplayRole) const;
 
-signals:
-
-public slots:
     /**
      * A new AdvertisingVideo has been added.
      *
@@ -105,14 +102,30 @@ public slots:
      *
      * @param product             removed product
      */
-    void onAdvertisingVideoRemoved(rotable::Product* product);
+    void onAdvertisingVideoRemoved(rotable::File* file);
 
     /**
      * A AdvertisingVideo has been updated.
      *
      * @param product             updated product
      */
-    void onAdvertisingVideoUpdated(rotable::Product* product);
+    void onAdvertisingVideoUpdated(rotable::File* file);
+
+    /**
+     * @brief Set container with users
+     *
+     * @param model             user model
+     */
+    void setFileContainer(FileContainer *model);
+
+signals:
+
+public slots:
+    /**
+     * @brief Slot used for update model
+     * @related UserContainer::updateView
+     */
+    void updateModel();
 
 public:
     enum Columns{

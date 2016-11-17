@@ -50,6 +50,8 @@ public:
 
     inline virtual int fileType() const { return 0; }
 
+    void updateData(File *file);
+
 public:
 
     /**

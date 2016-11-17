@@ -38,7 +38,7 @@ public:
 
 
     bool addFileOnSD(rotable::ComPackageSendFile* package);
-    bool setName(QString fileName){_fileListNames.append(fileName);}
+    void setName(QString fileName){_fileListNames.append(fileName);}
 
 
 
@@ -86,6 +86,31 @@ public:
     static File* fromJSON(const QJsonValue &jval);
 
     inline virtual int fileType() const { return -1; }
+
+    virtual void updateData(File *file);
+
+
+    inline int getId() const { return _fileInfo._id; }
+
+    inline QString getName() const { return _fileInfo._name; }
+
+    inline QString getDate() const { return _fileInfo._date; }
+
+    inline int getSize() const { return _fileInfo._size ; }
+
+    inline int getRemoved() const { return _fileInfo._removed; }
+
+
+    inline void setId(const int &id) {_fileInfo._id=id;}
+
+    inline void setName(const QString &name){_fileInfo._name=name;}
+
+    inline void setDate(const QString &date){_fileInfo._date=date;}
+
+    inline void setSize(const int &size){_fileInfo._size=size;}
+
+    inline void setRemoved(const int &removed){_fileInfo._removed=removed;}
+
 
 protected:
   virtual void addAdditionalData(QJsonObject &obj) const=0;

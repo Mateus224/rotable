@@ -19,15 +19,15 @@ void FileContainer::addFile(rotable::File *file)
 {
     if(!file)
         return;
-    if(_files.contains(file->id()))
+    if(_files.contains(file->getId()))
     {
-        _files[file->id()]->updateData(file);
+        _files[file->getId()]->updateData(file);
         emit fileUpdated();
     }
     else
     {
-        _files[file->id()] = file;
-        connect(file, &File::fileChanged, this, &FileContainter::fileUpdated);
+        _files[file->getId()] = file;
+        connect(file, &rotable::File::fileChanged, this, &FileContainter::fileUpdated);
         emit fileAdded(file);
     }
 }

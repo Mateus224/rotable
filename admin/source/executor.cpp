@@ -945,9 +945,10 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
       {
       case ComPackage::AdvertisingVideo:
           ad=reinterpret_cast <AdvertisingVideo*> (file);
-          qCritical()<<ad->_fileInfo._size;
-          qCritical()<<ad->_fileInfo._date;
-          qCritical()<<ad->_advertisingInfo._frequency;
+          _files->addFile(ad);
+          //qCritical()<<ad->_fileInfo._size;
+          //qCritical()<<ad->_fileInfo._date;
+          //qCritical()<<ad->_advertisingInfo._frequency;
       }break;
       /*
       case ComPackage::AdvertisingPicture:
