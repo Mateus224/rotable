@@ -1,6 +1,15 @@
 #include "include/files/advertisingtablemodel.h"
 
-AdvertisingTableModel::AdvertisingTableModel(QObject *parent) : QObject(parent)
+AdvertisingTableModel::AdvertisingTableModel(QObject *parent)
+    : QAbstractTableModel(parent), _advertisingVideos(0)
 {
 
 }
+//------------------------------------------------------------------------------
+
+AdvertisingTableModel::~AdvertisingTableModel()
+{
+
+}
+
+//------------------------------------------------------------------------------
