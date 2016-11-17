@@ -101,7 +101,7 @@ public:
    *
    * @param amount
    */
-  inline void setAmount(int amount) { _amount = amount; emit amountChanged(); }
+  inline void setAmount(int amount) { _amount = amount; setChange(true); emit amountChanged(); }
 
   /**
    * @brief
@@ -436,6 +436,7 @@ public:
   inline void addItem(rotable::OrderItem* item){
       _items.append(item);
       connect(item, &rotable::OrderItem::amountChanged, this, &rotable::Order::itemChanged);
+      connect(item, &rotable::OrderItem::amountChanged, this, &rotable::Order::forceSend);
       connect(item, &rotable::OrderItem::stateChanged, this, &rotable::Order::itemChanged);
       connect(item, &rotable::OrderItem::priceChanged, this, &rotable::Order::itemChanged);
       connect(item, &rotable::OrderItem::timeChanged, this, &rotable::Order::itemChanged);
@@ -562,6 +563,11 @@ signals:
    * @param bool
    */
   void readyToChanged(bool);
+  /**
+   * @brief
+   *
+   */
+  forceSendRequest();
 
 private slots:
   /**
@@ -579,6 +585,11 @@ private slots:
    *
    */
   void checkOrderState();
+  /**
+   * @brief
+   *
+   */
+  void forceSend();
 
 private:
   /* Unique order ID */

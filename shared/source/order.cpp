@@ -277,6 +277,10 @@ void Order::itemChanged()
 
 //------------------------------------------------------------------------------
 
+void Order::forceSend() { emit forceSendRequest(); }
+
+//------------------------------------------------------------------------------
+
 void Order::itemIsReadyToChanged()
 {
     OrderItem* item = dynamic_cast<OrderItem*>(QObject::sender());
