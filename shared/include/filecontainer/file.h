@@ -87,7 +87,7 @@ public:
 
     inline virtual int fileType() const { return -1; }
 
-    virtual void updateData(File *file);
+    virtual void updateData(File *file){;}
 
 
     inline int getId() const { return _fileInfo._id; }

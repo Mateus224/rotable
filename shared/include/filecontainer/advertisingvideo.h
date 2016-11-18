@@ -45,12 +45,12 @@ public:
 
     //static AdvertisingVideo* fromJSON(const QJsonValue &val);
 
-    virtual void addAdditionalData(QJsonObject &obj) const;
-    virtual void setAdditionalData(QJsonObject &obj);
+    void addAdditionalData(QJsonObject &obj) const;
+    void setAdditionalData(QJsonObject &obj);
 
-    inline virtual int fileType() const { return 0; }
+    inline int fileType() const { return 0; }
 
-    void updateData(File *file);
+    void updateData(AdvertisingVideo *file);
 
 public:
 
