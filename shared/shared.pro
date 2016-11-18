@@ -33,7 +33,6 @@ SOURCES += \
     source/languagesupport.cpp \
     source/waiter_client.cpp \
     source/filecontainer/imagecontainer.cpp \
-    source/media.cpp \
     source/filecontainer/advertisingvideo.cpp \
     source/filecontainer/file.cpp
 
@@ -61,7 +60,6 @@ HEADERS += \
     include/messageconnector.h \
     include/languagesupport.h \
     include/filecontainer/imagecontainer.h \
-    include/media.h \
     include/filecontainer/advertisingvideo.h \
     include/filecontainer/file.h
 
