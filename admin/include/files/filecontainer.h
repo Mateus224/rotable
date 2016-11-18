@@ -25,7 +25,7 @@ public:
      *
      */
     void clear();
-    rotable::File* *getSelectedFile() const;
+    rotable::File* getSelectedFile() const;
     void setSelectedFile(rotable::File *value);
     void setSelectedFile(int inx);
 

@@ -107,8 +107,8 @@ int AdvertisingTableModel::columnCount(const QModelIndex &parent) const {
 QModelIndex AdvertisingTableModel::index(int row, int column,
                                   const QModelIndex &parent) const {
   if (!parent.isValid()) {
-    QList<int> ids = _container->userIds();
-    if (row >= 0 && row < ids.size() && column >= 0 && column <= accountType) {
+    QList<int> ids = _advertisingVideos->fileIds();
+    if (row >= 0 && row < ids.size() && column >= 0 && column <= play) {
       return createIndex(row, column, ids[row]);
     }
   }
@@ -138,7 +138,7 @@ QVariant AdvertisingTableModel::headerData(int section, Qt::Orientation orientat
 
 //------------------------------------------------------------------------------
 
-void AdvertisingTableModel::setUserContainer(FileContainer *model) {
+void AdvertisingTableModel::setFileContainer(FileContainer *model) {
     _advertisingVideos = model;
 }
 

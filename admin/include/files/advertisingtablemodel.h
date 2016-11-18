@@ -17,8 +17,6 @@ public:
 
     ~AdvertisingTableModel();
 
-    void setFileContainer(FileContainer* products);
-
     /**
      * Returns the number of rows under the given parent.
      *

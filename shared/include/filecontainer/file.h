@@ -117,6 +117,9 @@ protected:
   virtual void setAdditionalData(QJsonObject &obj)=0;
 
 
+signals:
+      void fileChanged();
+
 //---------------------------------------
 
 public:

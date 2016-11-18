@@ -27,7 +27,7 @@ void FileContainer::addFile(rotable::File *file)
     else
     {
         _files[file->getId()] = file;
-        connect(file, &rotable::File::fileChanged, this, &FileContainter::fileUpdated);
+        connect(file, &rotable::File::fileChanged, this, &FileContainer::fileUpdated);
         emit fileAdded(file);
     }
 }
