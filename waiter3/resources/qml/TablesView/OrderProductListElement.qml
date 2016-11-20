@@ -4,13 +4,13 @@ import QtGraphicalEffects 1.0
 Rectangle {
     id: productButton
 
-    property int borderWidth: Math.max(2,parent.width * 0.01)
-    property int itemWidth: Math.max(parent.width*0.85,70)
+    property int borderWidth: Math.max(2,parent.width * 0.02)
+    property int itemWidth: Math.max(parent.width,70)
 
     property double dragThreshold: 0.2
 
     width: itemWidth
-    anchors.right: parent.right
+    anchors.horizontalCenter: parent.horizontalCenter
     radius: width/8
 
     border.width: borderWidth
@@ -171,8 +171,11 @@ Rectangle {
                     modelData.amount--
                     console.log("Removed one!")
                 }
-                else if (productButton.dragState==="RemoveAll");
-                    //remove all products of this type
+                else if (productButton.dragState==="RemoveAll")
+                {
+                    model.modelData.change = true
+                    orderboard.changeState(2);
+                }
             }
         }
     }

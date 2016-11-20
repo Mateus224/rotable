@@ -567,7 +567,7 @@ signals:
    * @brief
    *
    */
-  forceSendRequest();
+  void forceSendRequest();
 
 private slots:
   /**

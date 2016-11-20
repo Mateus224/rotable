@@ -6,6 +6,7 @@
 #include "tablemodel.h"
 #include "languagesupport.h"
 #include "batteryinfo.h"
+#include "wifiinfo.h"
 #include "proxymodelevententries.h"
 #include <QGuiApplication>
 #include <QtQml/QQmlApplicationEngine>
@@ -41,6 +42,7 @@ int main(int argc, char *argv[])
   /* Load battery info class */
 
   rotable::BatteryInfo* batteryInfo = new rotable::BatteryInfo();
+  rotable::WifiInfo* wifiInfo = new rotable::WifiInfo();
 
   /* Connection to server building*/
 //-----------------------------------------------------
@@ -71,6 +73,7 @@ int main(int argc, char *argv[])
   ctxt->setContextProperty("waiter", waiter_client);
   ctxt->setContextProperty("langObject", langSupp);
   ctxt->setContextProperty("batteryInfo", batteryInfo);
+  ctxt->setContextProperty("wifiInfo", wifiInfo);
 
   rotable::PMFilterNew* filterNewOrders = new rotable::PMFilterNew();
   filterNewOrders->setSourceModel(&(waiter_client->_board));

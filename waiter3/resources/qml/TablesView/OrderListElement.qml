@@ -117,13 +117,29 @@ Rectangle{
 
     }
 
+    Image {
+        id: touchImage
+
+        source: "qrc:/resources/images/touch-icon.png"
+        fillMode: Image.PreserveAspectFit
+
+        anchors.left: parent.left
+        anchors.right: orderItemsView.left
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.leftMargin: Math.max(parent.width*0.02,10)
+        anchors.rightMargin: Math.max(parent.width*0.01,10)
+    }
+
     ListView {
         id: orderItemsView
 
         anchors.margins: borderWidth*1.5
         anchors.topMargin: borderWidth*3
         anchors.bottomMargin: borderWidth*3
-        anchors.fill: parent
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        width: parent.width * 0.8
 
         z: parent.z
 

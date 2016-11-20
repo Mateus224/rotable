@@ -35,7 +35,8 @@ SOURCES += \
     source/filecontainer/imagecontainer.cpp \
     source/media.cpp \
     source/filecontainer/filecontainer.cpp \
-    source/batteryinfo.cpp
+    source/batteryinfo.cpp \
+    source/wifiinfo.cpp
 
 
 HEADERS += \
@@ -63,7 +64,8 @@ HEADERS += \
     include/filecontainer/imagecontainer.h \
     include/media.h \
     include/filecontainer/filecontainer.h \
-    include/batteryinfo.h
+    include/batteryinfo.h \
+    include/wifiinfo.h
 
 
 RESOURCES += shared_resources.qrc
