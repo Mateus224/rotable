@@ -24,15 +24,22 @@ Rectangle {
     Rectangle {
         id: newOrderCircle
 
-        //visible: !model.isSelected
-        visible: false
-        height: parent.height * 0.5
+        visible: model.incomingCount > 0
+        height: parent.height * 0.4
         width: height
         radius: height
         color: "#FF3F3F"
-        anchors.left: tableName.right
-        anchors.leftMargin: parent.width * 0.02
+        anchors.right: selectedArrow.left
+        anchors.rightMargin: parent.width * 0.02
         anchors.verticalCenter: parent.verticalCenter
+
+        Text {
+            id: number
+            anchors.centerIn: parent
+            text: model.incomingCount
+            color: "#FFFFFF"
+            font.pixelSize: parent.height * 0.6
+        }
     }
 
     Text {

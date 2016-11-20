@@ -32,6 +32,7 @@ QHash<int, QByteArray> TableModel::roleNames() const {
   roles[OrderNumberRole] = "orderNumber";
   roles[ConnectedRole] = "isConnected";
   roles[SelectRole] = "isSelected";
+  roles[CountInc] = "incomingCount";
   return roles;
 }
 
@@ -87,6 +88,9 @@ QVariant TableModel::data(const QModelIndex &index, int role) const {
   } break;
   case SelectRole: {
     return QVariant(table->id() == _selectTable);
+  } break;
+  case CountInc: {
+    return QVariant(table->getincomingOrderCount());
   } break;
   default: { return QVariant(); } break;
   }

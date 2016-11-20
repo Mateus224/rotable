@@ -37,6 +37,7 @@ class rotable::Table : public rotable::Client {
                  isConnectedChanged)
   Q_PROPERTY(int orderedProductCount READ getOrderedProductCount WRITE
                  setOrderedProductCount NOTIFY orderedProductCountChanged)
+  Q_PROPERTY(int incomingOrderCount READ getincomingOrderCount NOTIFY incomingOrderCountChanged)
 
 public:
   // Default destructor
@@ -149,11 +150,14 @@ public:
 #ifdef WAITER
     connect(order, &rotable::Order::stateChanged, this,
             &rotable::Table::recalcLastOrder);
+//    connect(order, &rotable::Order::itemsChanged, this,
+//            &rotable::Table::recalcOrderedProductsCount);
     connect(order, &rotable::Order::itemsChanged, this,
-            &rotable::Table::recalcOrderedProductsCount);
+            &rotable::Table::recalcIncomingOrders);
     connect(order, &rotable::Order::forceSendRequest, this,
             &rotable::Table::prepareOrderToSend);
-    recalcOrderedProductsCount();
+//    recalcOrderedProductsCount();
+    recalcIncomingOrders();
 #endif
     emit tableChanged();
   }
@@ -204,6 +208,8 @@ public:
     _orderedProductCount = orderedProductCount;
   }
 
+  int getincomingOrderCount() const { return _incomingOrderCount; }
+
 protected:
   virtual void addAdditionalData(QJsonObject &obj) const;
   virtual void setAdditionalData(QJsonObject &obj);
@@ -241,6 +247,11 @@ private:
    */
   int _lastOrder;
 
+  /**
+   * Stores how many orders are actually stored in the incoming category
+   */
+  int _incomingOrderCount;
+
   int _orderedProductCount;
 
 signals:
@@ -270,6 +281,8 @@ signals:
    */
   void lastOrderChange();
 
+  void incomingOrderCountChanged();
+
   void orderedProductCountChanged();
 
 public slots:
@@ -296,6 +309,12 @@ private slots:
    *
    */
   void recalcOrderedProductsCount();
+
+  /**
+   * @brief This slot counts, how many orders are in incoming category.
+   *
+   */
+  void recalcIncomingOrders();
 
 }; // class Table
 

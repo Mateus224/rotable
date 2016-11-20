@@ -169,7 +169,6 @@ Rectangle {
                 if (productButton.dragState==="RemoveOne") {
                     productButton.parent.readyOrder
                     modelData.amount--
-                    console.log("Removed one!")
                 }
                 else if (productButton.dragState==="RemoveAll")
                 {

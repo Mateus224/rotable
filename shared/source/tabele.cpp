@@ -158,4 +158,11 @@ void Table::recalcOrderedProductsCount()
     _orderedProductCount += order->countProducts();
 }
 
+void Table::recalcIncomingOrders()
+{
+    _incomingOrderCount=0;
+    for (auto order: _orders)
+        if (order->item(0)->state()==OrderItem::State::New) _incomingOrderCount++;
+}
+
 //------------------------------------------------------------------------------

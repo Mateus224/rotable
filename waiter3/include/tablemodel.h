@@ -49,7 +49,8 @@ public:
         WaiterNeedRole,
         OrderNumberRole,
         ConnectedRole,
-        SelectRole
+        SelectRole,
+        CountInc
     };
 
     //-----------------------------------------------------
