@@ -3,7 +3,7 @@
 
 using namespace rotable;
 
-FileContainer::FileContainer(QObject *parent) : QObject(parent), _files()
+FileContainer::FileContainer(QObject *parent) : QObject(parent)
 {
     connect(this, &FileContainer::fileAdded, this, &FileContainer::updateView);
     connect(this, &FileContainer::fileRemoved, this, &FileContainer::updateView);
@@ -22,14 +22,19 @@ void FileContainer::addFile(File *file)
 {
     if(!file)
         return;
-    if(_files.contains(file->getId()))
+
+    int id=file->getId();
+    if(_files.empty())
+    {
+    if(_files.contains(id))
     {
         _files[file->getId()]->updateData(file);
         emit fileUpdated();
     }
+    }
     else
     {
-        _files[file->getId()] = file;
+        _files[id] = file;
         connect(file, &File::fileChanged, this, &FileContainer::fileUpdated);
         emit fileAdded(file);
     }
