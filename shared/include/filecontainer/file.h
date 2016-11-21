@@ -18,7 +18,6 @@
  * This Abstract Class is for up- and downloading files.
  */
 namespace rotable {
-class AdvertisingVideo;
 class File;
 }
 

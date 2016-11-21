@@ -74,7 +74,7 @@ private:
   UserTableModel* _userTableModel;
 
   /*Files*/
-  FileContainer _files;
+  rotable::FileContainer _files;
 
   /*Model for Advertising Videos*/
   AdvertisingTableModel* _advertisingTableModel;

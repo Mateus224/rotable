@@ -1,6 +1,9 @@
-#include "include/files/filecontainer.h"
+#include "files/filecontainer.h"
 
-FileContainer::FileContainer(QObject *parent) : QObject(parent)
+
+using namespace rotable;
+
+FileContainer::FileContainer(QObject *parent) : QObject(parent), _files()
 {
     connect(this, &FileContainer::fileAdded, this, &FileContainer::updateView);
     connect(this, &FileContainer::fileRemoved, this, &FileContainer::updateView);
@@ -15,7 +18,7 @@ FileContainer::~FileContainer()
 
 //------------------------------------------------------------------------------
 
-void FileContainer::addFile(rotable::File *file)
+void FileContainer::addFile(File *file)
 {
     if(!file)
         return;
@@ -27,7 +30,7 @@ void FileContainer::addFile(rotable::File *file)
     else
     {
         _files[file->getId()] = file;
-        connect(file, &rotable::File::fileChanged, this, &FileContainer::fileUpdated);
+        connect(file, &File::fileChanged, this, &FileContainer::fileUpdated);
         emit fileAdded(file);
     }
 }
@@ -48,7 +51,7 @@ int FileContainer::count() const
 
 //------------------------------------------------------------------------------
 
-rotable::File *FileContainer::file(int idx) const
+File *FileContainer::file(int idx) const
 {
     return _files[idx];
 }
@@ -71,14 +74,14 @@ void FileContainer::setSelectedFile(int idx)
 
 //------------------------------------------------------------------------------
 
-rotable::File *FileContainer::getSelectedFile() const
+File *FileContainer::getSelectedFile() const
 {
     return selectedFile;
 }
 
 //------------------------------------------------------------------------------
 
-void FileContainer::setSelectedFile(rotable::File *value)
+void FileContainer::setSelectedFile(File *value)
 {
     selectedFile = value;
 }

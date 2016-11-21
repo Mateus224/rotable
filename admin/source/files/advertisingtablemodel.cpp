@@ -138,7 +138,7 @@ QVariant AdvertisingTableModel::headerData(int section, Qt::Orientation orientat
 
 //------------------------------------------------------------------------------
 
-void AdvertisingTableModel::setFileContainer(FileContainer *model) {
+void AdvertisingTableModel::setFileContainer(rotable::FileContainer *model) {
     _advertisingVideos = model;
 }
 

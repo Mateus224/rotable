@@ -95,6 +95,7 @@ bool File::hasFile(const QString& name) const
 
  QJsonValue File::toJSON() const {
    QJsonObject o;
+   o["id"]=_fileInfo._id;
    o["date"]=_fileInfo._date;
    o["name"]=_fileInfo._name;
    o["removed"]=_fileInfo._removed;
@@ -132,6 +133,7 @@ bool File::hasFile(const QString& name) const
      } break;
      }
      fc->setAdditionalData(o);
+     fc->_fileInfo._id=o["id"].toInt();
      fc->_fileInfo._date=o["date"].toString();
      fc->_fileInfo._name=o["name"].toString();
      fc->_fileInfo._removed=o["removed"].toBool();

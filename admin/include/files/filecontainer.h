@@ -3,8 +3,13 @@
 #include "filecontainer/file.h"
 
 #include <QObject>
+#include <QHash>
 
-class FileContainer : public QObject
+namespace  rotable {
+    class FileContainer;
+}
+
+class rotable::FileContainer : public QObject
 {
     Q_OBJECT
 public:
@@ -12,21 +17,21 @@ public:
 
     ~FileContainer();
 
-    void addFile(rotable::File *file);
+    void addFile(File *file);
 
     QList<int> fileIds() const;
 
     int count() const;
 
-    rotable::File* file(int idx) const;
+    File* file(int idx) const;
 
     /**
      * @brief Clear object
      *
      */
     void clear();
-    rotable::File* getSelectedFile() const;
-    void setSelectedFile(rotable::File *value);
+    File* getSelectedFile() const;
+    void setSelectedFile(File *value);
     void setSelectedFile(int inx);
 
 signals:
@@ -35,7 +40,7 @@ signals:
      *
      * @param user
      */
-    void fileAdded(rotable::File *file);
+    void fileAdded(File *file);
     /**
      * @brief
      *
@@ -52,8 +57,8 @@ signals:
      */
     void updateView();
 private:
-    QHash <int, rotable::File*> _files; /** Container with files */
-    rotable::File *selectedFile;
+    QHash <int,  File*> _files; /** Container with files */
+    File *selectedFile;
 };
 
 #endif // FILECONTAINER_H

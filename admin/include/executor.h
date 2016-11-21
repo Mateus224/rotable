@@ -444,7 +444,7 @@ private:
   rotable::UserContainter *_users;
 
   /*Files will be here stored*/
-  FileContainer *_files;
+  rotable::FileContainer *_files;
 
   rotable::ProductCategory *_selectedCategory;
   rotable::Product *_selectedProduct; /**< TODO: describe */

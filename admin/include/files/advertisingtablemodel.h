@@ -114,7 +114,7 @@ public:
      *
      * @param model             user model
      */
-    void setFileContainer(FileContainer *model);
+    void setFileContainer(rotable::FileContainer *model);
 
 signals:
 
@@ -137,7 +137,7 @@ public:
 
 private:
     /* File container */
-    FileContainer* _advertisingVideos;
+    rotable::FileContainer* _advertisingVideos;
 };
 
 #endif // ADVERTISINGTABLEMODEL_H

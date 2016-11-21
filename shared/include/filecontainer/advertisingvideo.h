@@ -4,7 +4,6 @@
 #include <QObject>
 
 namespace rotable {
-class File;
 class AdvertisingVideo;
 }
 
