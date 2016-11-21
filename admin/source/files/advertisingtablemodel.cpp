@@ -19,7 +19,7 @@ int AdvertisingTableModel::rowCount(const QModelIndex &parent) const {
   return _advertisingVideos->count();
 }
 
-//------------------------------------------------------------------------------s
+//------------------------------------------------------------------------------
 
 QVariant AdvertisingTableModel::data(const QModelIndex &index, int role) const {
   if (role == Qt::BackgroundRole) {
@@ -146,8 +146,8 @@ void AdvertisingTableModel::setFileContainer(FileContainer *model) {
 
 void AdvertisingTableModel::updateModel()
 {
-  //  beginResetModel();
- //   endResetModel();
+    beginResetModel();
+    endResetModel();
 }
 
 //------------------------------------------------------------------------------

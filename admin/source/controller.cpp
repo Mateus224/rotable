@@ -34,10 +34,14 @@ Controller::Controller(MainWindow *mainwindow, const QString &configFilePath)
   _userTableModel = new UserTableModel();
   _userTableModel->setUserContainer(&_users);
 
-  _advertisingTableModel=new AdvertisingTableModel();
-
   _mainwindow->_ui->_userTableView->setModel(
       reinterpret_cast<QAbstractItemModel *>(_userTableModel));
+
+  _advertisingTableModel=new AdvertisingTableModel();
+  _advertisingTableModel->setFileContainer(&_files);
+
+  _mainwindow->_ui->_advertisingTableView->setModel(
+      reinterpret_cast<QAbstractItemModel*>(_advertisingTableModel));
 
   _mainwindow->restore();
 
