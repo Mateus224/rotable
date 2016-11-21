@@ -23,7 +23,7 @@
 #include <QJsonObject>
 #endif
 
-#include "media.h"
+
 #include "client.h"
 #include "compackage.h"
 #include "config.h"

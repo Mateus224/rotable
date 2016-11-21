@@ -7,6 +7,8 @@
 #include "productcontainer.h"
 #include "filecontainer/imagecontainer.h"
 #include "usertablemodel.h"
+#include "files/filecontainer.h"
+#include "files/advertisingtablemodel.h"
 
 
 #include <QObject>
@@ -70,6 +72,13 @@ private:
 \
   /* Model for user table view */
   UserTableModel* _userTableModel;
+
+  /*Files*/
+  FileContainer _files;
+
+  /*Model for Advertising Videos*/
+  AdvertisingTableModel* _advertisingTableModel;
+
 }; // class Controller
 
 //------------------------------------------------------------------------------

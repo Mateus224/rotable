@@ -146,8 +146,8 @@ void AdvertisingTableModel::setFileContainer(FileContainer *model) {
 
 void AdvertisingTableModel::updateModel()
 {
-    beginResetModel();
-    endResetModel();
+  //  beginResetModel();
+ //   endResetModel();
 }
 
 //------------------------------------------------------------------------------

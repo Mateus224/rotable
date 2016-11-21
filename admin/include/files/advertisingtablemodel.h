@@ -136,7 +136,7 @@ public:
     };
 
 private:
-    /* Product container */
+    /* File container */
     FileContainer* _advertisingVideos;
 };
 

@@ -14,7 +14,7 @@ using namespace rotable;
 
 Controller::Controller(MainWindow *mainwindow, const QString &configFilePath)
     : QObject(0), _mainwindow(mainwindow),
-      _executor(mainwindow, configFilePath), _users() {
+      _executor(mainwindow, configFilePath), _users(), _files() {
   _executor.setImageContainer(&_images);
   _executor.setProductContainer(&_products);
   _executor.setUserContainer(&_users);
@@ -33,6 +33,8 @@ Controller::Controller(MainWindow *mainwindow, const QString &configFilePath)
 
   _userTableModel = new UserTableModel();
   _userTableModel->setUserContainer(&_users);
+
+  _advertisingTableModel=new AdvertisingTableModel();
 
   _mainwindow->_ui->_userTableView->setModel(
       reinterpret_cast<QAbstractItemModel *>(_userTableModel));
@@ -188,4 +190,8 @@ void Controller::connect_signals() {
 
   connect(&_users, &UserContainter::updateView, _userTableModel,
           &UserTableModel::updateModel);
+  //----------------------------------------------------------------------------
+
+  connect(&_files, &FileContainer::updateView, _advertisingTableModel,
+          &AdvertisingTableModel::updateModel);
 }
