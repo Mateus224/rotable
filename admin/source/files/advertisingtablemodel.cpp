@@ -35,7 +35,7 @@ QVariant AdvertisingTableModel::data(const QModelIndex &index, int role) const {
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
       QList<int> ids = _advertisingVideos->fileIds();
       Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
-      rotable::File *file = _advertisingVideos->file(ids[index.row()]);
+      rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
       Q_ASSERT(file);
       if (file) {
         return QVariant(file->_fileInfo._name);
@@ -46,7 +46,7 @@ QVariant AdvertisingTableModel::data(const QModelIndex &index, int role) const {
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
       QList<int> ids = _advertisingVideos->fileIds();
       Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
-      rotable::File *file = _advertisingVideos->file(ids[index.row()]);
+      rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
       Q_ASSERT(file);
       if (file) {
         return QVariant(file->_fileInfo._size);
@@ -57,10 +57,43 @@ QVariant AdvertisingTableModel::data(const QModelIndex &index, int role) const {
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
       QList<int> ids = _advertisingVideos->fileIds();
       Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
-      rotable::File *file = _advertisingVideos->file(ids[index.row()]);
+      rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
       Q_ASSERT(file);
       if (file) {
         return QVariant(file->_fileInfo._date);
+      }
+    }
+  } break;
+  case played: {
+    if (role == Qt::DisplayRole || role == Qt::EditRole) {
+      QList<int> ids = _advertisingVideos->fileIds();
+      Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
+      rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
+      Q_ASSERT(file);
+      if (file) {
+        return QVariant(file->_advertisingInfo._played);
+      }
+    }
+  } break;
+  case frequnecy: {
+    if (role == Qt::DisplayRole || role == Qt::EditRole) {
+      QList<int> ids = _advertisingVideos->fileIds();
+      Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
+      rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
+      Q_ASSERT(file);
+      if (file) {
+        return QVariant(file->_advertisingInfo._frequency);
+      }
+    }
+  } break;
+  case play: {
+    if (role == Qt::DisplayRole || role == Qt::EditRole) {
+      QList<int> ids = _advertisingVideos->fileIds();
+      Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
+      rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
+      Q_ASSERT(file);
+      if (file) {
+        return QVariant(file->_advertisingInfo._play);
       }
     }
   } break;
@@ -78,7 +111,7 @@ bool AdvertisingTableModel::setData(const QModelIndex &index, const QVariant &va
     case name: {
       QList<int> ids = _advertisingVideos->fileIds();
       Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
-      rotable::File *file = _advertisingVideos->file(ids[index.row()]);
+      rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
       Q_ASSERT(file);
       if (file) {
         file->_fileInfo._name=value.toString();
@@ -88,7 +121,7 @@ bool AdvertisingTableModel::setData(const QModelIndex &index, const QVariant &va
     case size: {
         QList<int> ids = _advertisingVideos->fileIds();
         Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
-        rotable::File *file = _advertisingVideos->file(ids[index.row()]);
+        rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
         Q_ASSERT(file);
         if (file) {
         file->_fileInfo._size= value.toInt();
@@ -97,10 +130,37 @@ bool AdvertisingTableModel::setData(const QModelIndex &index, const QVariant &va
     case date: {
         QList<int> ids = _advertisingVideos->fileIds();
         Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
-        rotable::File *file = _advertisingVideos->file(ids[index.row()]);
+        rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
         Q_ASSERT(file);
         if (file) {
         file->_fileInfo._date= value.toString();
+      }
+    } break;
+    case played: {
+        QList<int> ids = _advertisingVideos->fileIds();
+        Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
+        rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
+        Q_ASSERT(file);
+        if (file) {
+        file->_advertisingInfo._played = value.toInt();
+      }
+    } break;
+    case frequnecy: {
+        QList<int> ids = _advertisingVideos->fileIds();
+        Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
+        rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
+        Q_ASSERT(file);
+        if (file) {
+        file->_advertisingInfo._frequency= value.toInt();
+      }
+    } break;
+    case play: {
+        QList<int> ids = _advertisingVideos->fileIds();
+        Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
+        rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
+        Q_ASSERT(file);
+        if (file) {
+        file->_advertisingInfo._play= value.toBool();
       }
     } break;
     }
@@ -143,25 +203,35 @@ QVariant AdvertisingTableModel::headerData(int section, Qt::Orientation orientat
   if (orientation == Qt::Horizontal) {
     if (role == Qt::DisplayRole) {
       switch (section) {
-      case name: {
-        return QVariant("Name");
-      } break;
-      case size: {
-        return QVariant("Size");
-      } break;
-      case date: {
-        return QVariant("Date");
-      } break;
-      }
+          case name: {
+            return QVariant("Name");
+          } break;
+          case size: {
+            return QVariant("Size");
+          } break;
+          case date: {
+            return QVariant("Date");
+          } break;
+          case played:{
+              return QVariant("Played");
+          } break;
+          case frequnecy: {
+           return QVariant("Frequenzy");
+          } break;
+          case play: {
+           return QVariant("Play");
+         } break;
+       }
     }
   }
+
 
   return QVariant();
 }
 
 //------------------------------------------------------------------------------
 
-void AdvertisingTableModel::setFileContainer(rotable::FileContainer *model) {
+void AdvertisingTableModel::setFileContainer(rotable::AdvertisingContainer *model) {
     _advertisingVideos = model;
 }
 

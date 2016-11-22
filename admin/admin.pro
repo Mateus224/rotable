@@ -53,9 +53,9 @@ SOURCES += \
     source/setwaitercategory.cpp \
     source/waitercategories.cpp \
     source/resetpassword.cpp \
-    source/files/filecontainer.cpp \
     source/files/advertisingtablemodel.cpp \
-    source/files/advertisinglistview.cpp
+    source/files/advertisinglistview.cpp \
+    source/files/advertisingcontainer.cpp
 
 HEADERS += \
     include/mainwindow.h \
@@ -89,9 +89,9 @@ HEADERS += \
     include/setwaitercategory.h \
     include/waitercategories.h \
     include/resetpassword.h \
-    include/files/filecontainer.h \
     include/files/advertisingtablemodel.h \
-    include/files/advertisinglistview.h
+    include/files/advertisinglistview.h \
+    include/files/advertisingcontainer.h
 
 FORMS += \
     ui/mainwindow.ui \

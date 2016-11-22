@@ -1,23 +1,24 @@
-#include "files/filecontainer.h"
+#include "files/advertisingcontainer.h"
 
 
-rotable::FileContainer::FileContainer(QObject *parent) : QObject(parent),_test()
+rotable::AdvertisingContainer::AdvertisingContainer(QObject *parent) : QObject(parent)
 {
-    _files=new QHash<int, File *>;
-    connect(this, &FileContainer::fileAdded, this, &FileContainer::updateView);
-    connect(this, &FileContainer::fileRemoved, this, &FileContainer::updateView);
-    connect(this, &FileContainer::fileUpdated, this, &FileContainer::updateView);
+    _files=new QHash<int, AdvertisingVideo *>;
+    connect(this, &AdvertisingContainer::fileAdded, this, &AdvertisingContainer::updateView);
+    connect(this, &AdvertisingContainer::fileRemoved, this, &AdvertisingContainer::updateView);
+    connect(this, &AdvertisingContainer::fileUpdated, this, &AdvertisingContainer::updateView);
 }
 
-rotable::FileContainer::~FileContainer()
+rotable::AdvertisingContainer::~AdvertisingContainer()
 {
     clear();
+    delete _files;
 }
 
 
 //------------------------------------------------------------------------------
 
-void rotable::FileContainer::addFile(rotable::File *file)
+void rotable::AdvertisingContainer::addFile(rotable::AdvertisingVideo *file)
 {
 
     if(!file)
@@ -26,41 +27,41 @@ void rotable::FileContainer::addFile(rotable::File *file)
     int id=file->getId();
     if(_files->contains(id))
     {
-        _files->values()[file->getId()]->updateData(file);
+        _files->value(file->getId())->updateData(file);
         emit fileUpdated();
     }
     else
     {
         _files->insert(id,file);
-        //connect(file, &File::fileChanged, this, &FileContainer::fileUpdated);
+        //connect(file, &File::fileChanged, this, &AdvertisingContainer::fileUpdated);
         emit fileAdded(file);
     }
 }
 
 //------------------------------------------------------------------------------
 
-QList<int> rotable::FileContainer::fileIds() const
+QList<int> rotable::AdvertisingContainer::fileIds() const
 {
     return _files->keys();
 }
 
 //------------------------------------------------------------------------------
 
-int rotable::FileContainer::count() const
+int rotable::AdvertisingContainer::count() const
 {
     return _files->count();
 }
 
 //------------------------------------------------------------------------------
 
-rotable::File *rotable::FileContainer::file(int idx) const
+rotable::AdvertisingVideo *rotable::AdvertisingContainer::file(int idx) const
 {
     return _files->value(idx);
 }
 
 //------------------------------------------------------------------------------
 
-void rotable::FileContainer::clear()
+void rotable::AdvertisingContainer::clear()
 {
     qDeleteAll(_files->begin(), _files->end());
     _files->clear();
@@ -69,21 +70,21 @@ void rotable::FileContainer::clear()
 
 //------------------------------------------------------------------------------
 
-void rotable::FileContainer::setSelectedFile(int idx)
+void rotable::AdvertisingContainer::setSelectedFile(int idx)
 {
-  selectedFile = _files->values()[idx];
+  selectedFile = _files->value(idx);
 }
 
 //------------------------------------------------------------------------------
 
-rotable::File* rotable::FileContainer::getSelectedFile() const
+rotable::AdvertisingVideo* rotable::AdvertisingContainer::getSelectedFile() const
 {
     return selectedFile;
 }
 
 //------------------------------------------------------------------------------
 
-void rotable::FileContainer::setSelectedFile(File *value)
+void rotable::AdvertisingContainer::setSelectedFile(AdvertisingVideo *value)
 {
     selectedFile = value;
 }

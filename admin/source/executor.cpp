@@ -64,7 +64,7 @@ void Executor::setUserContainer(UserContainter *users) { _users = users; }
 
 //------------------------------------------------------------------------------
 
-void Executor::setFileContainer(rotable::FileContainer *file) { _files = file; }
+void Executor::setFileContainer(rotable::AdvertisingContainer *file) { _files = file; }
 
 //------------------------------------------------------------------------------
 
@@ -950,7 +950,7 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
       case ComPackage::AdvertisingVideo:
           ad=reinterpret_cast <AdvertisingVideo*> (file);
           _files->addFile(ad);
-          //qCritical()<<ad->_fileInfo._size;
+          qCritical()<<ad->_fileInfo._size;
           //qCritical()<<ad->_fileInfo._date;
           //qCritical()<<ad->_advertisingInfo._frequency;
       }break;

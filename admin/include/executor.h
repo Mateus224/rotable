@@ -10,7 +10,7 @@
 #include "tcpclient.h"
 #include "usercontainer.h"
 #include "filecontainer/advertisingvideo.h"
-#include "files/filecontainer.h"
+#include "files/advertisingcontainer.h"
 #include <QItemSelection>
 #include <QObject>
 
@@ -64,7 +64,7 @@ public:
    */
   void setUserContainer(rotable::UserContainter *users);
 
-  void setFileContainer(rotable::FileContainer *file);
+  void setFileContainer(rotable::AdvertisingContainer *file);
 
 signals:
   /**
@@ -446,7 +446,7 @@ private:
   rotable::UserContainter *_users;
 
   /*Files will be here stored*/
-  rotable::FileContainer *_files;
+  rotable::AdvertisingContainer *_files;
 
   rotable::ProductCategory *_selectedCategory;
   rotable::Product *_selectedProduct; /**< TODO: describe */

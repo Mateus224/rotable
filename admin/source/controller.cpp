@@ -197,6 +197,6 @@ void Controller::connect_signals() {
           &UserTableModel::updateModel);
   //----------------------------------------------------------------------------
 
-  connect(&_files, &FileContainer::updateView, _advertisingTableModel,
+  connect(&_files, &AdvertisingContainer::updateView, _advertisingTableModel,
           &AdvertisingTableModel::updateModel);
 }

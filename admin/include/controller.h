@@ -7,7 +7,7 @@
 #include "productcontainer.h"
 #include "filecontainer/imagecontainer.h"
 #include "usertablemodel.h"
-#include "files/filecontainer.h"
+#include "files/advertisingcontainer.h"
 #include "files/advertisingtablemodel.h"
 
 
@@ -74,7 +74,7 @@ private:
   UserTableModel* _userTableModel;
 
   /*Files*/
-  rotable::FileContainer _files;
+  rotable::AdvertisingContainer _files;
 
   /*Model for Advertising Videos*/
   AdvertisingTableModel* _advertisingTableModel;

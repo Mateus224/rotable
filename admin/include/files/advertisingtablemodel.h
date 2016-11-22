@@ -5,7 +5,7 @@
 
 #include <QObject>
 #include <QAbstractTableModel>
-#include "files/filecontainer.h"
+#include "files/advertisingcontainer.h"
 
 //------------------------------------------------------------------------------
 
@@ -114,7 +114,7 @@ public:
      *
      * @param model             user model
      */
-    void setFileContainer(rotable::FileContainer *model);
+    void setFileContainer(rotable::AdvertisingContainer *model);
 
 signals:
 
@@ -137,7 +137,7 @@ public:
 
 private:
     /* File container */
-    rotable::FileContainer* _advertisingVideos;
+    rotable::AdvertisingContainer* _advertisingVideos;
 };
 
 #endif // ADVERTISINGTABLEMODEL_H
