@@ -945,20 +945,23 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
 
       AdvertisingVideo *ad=NULL;
       File *file= File::fromJSON(package->data());
+
+      qCritical()<<"test:             "<<file->_fileInfo._type;
       switch (file->_fileInfo._type)
       {
       case ComPackage::AdvertisingVideo:
+      {
           ad=reinterpret_cast <AdvertisingVideo*> (file);
           _files->addFile(ad);
-          qCritical()<<ad->_fileInfo._size;
+          qCritical()<<"id:      "<<ad->_fileInfo._id;
           //qCritical()<<ad->_fileInfo._date;
           //qCritical()<<ad->_advertisingInfo._frequency;
       }break;
-      /*
+
       case ComPackage::AdvertisingPicture:
       {
 
-      }break;
+      }break;/*
       case ComPackage::CatergoryIcon:
       {
 
@@ -971,10 +974,12 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
       {
 
       }break;*/
-  }
-
+      default : {qCritical() << "unknown package";} break;
+      }
+  }break;
   default: { qCritical() << tr("Unknown data package \"requestMedia\" returned"); } break;
   }
+
 }
 
 //------------------------------------------------------------------------------

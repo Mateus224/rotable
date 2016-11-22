@@ -5,7 +5,7 @@ using namespace rotable;
 
 //------------------------------------------------------------------------------
 
-AdvertisingVideo::AdvertisingVideo(QObject *parent)
+AdvertisingVideo::AdvertisingVideo(QObject *parent):_advertisingInfo()
 {
 
 }
@@ -22,7 +22,7 @@ void AdvertisingVideo::addAdvertisingVideo()
 
 void AdvertisingVideo::addAdditionalData(QJsonObject &o) const
 {
-    o["id"]=_advertisingInfo._id;
+    o["a_id"]=_advertisingInfo._id;
     o["frequency"]=_advertisingInfo._frequency;
     o["media_id"]=_advertisingInfo._mediaId;
     o["play"]=_advertisingInfo._play;
@@ -31,13 +31,12 @@ void AdvertisingVideo::addAdditionalData(QJsonObject &o) const
 
 void AdvertisingVideo::setAdditionalData(QJsonObject &o)
 {
-    if(o.contains("id")
-       &&o.contains("media_id")
+    if(  o.contains("media_id")
        &&o.contains("frequency")
        &&o.contains("play")
        &&o.contains("played"))
     {
-        _advertisingInfo._id=o["id"].toInt();
+        _advertisingInfo._id=o["a_id"].toInt();
         _advertisingInfo._frequency=o["frequency"].toInt();
         _advertisingInfo._mediaId=o["media_id"].toInt();
         _advertisingInfo._play=o["play"].toBool();

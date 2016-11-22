@@ -7,7 +7,7 @@ using namespace rotable;
 
 //------------------------------------------------------------------------------
 
-File::File( QObject *parent) : QObject(parent)
+File::File( QObject *parent) : QObject(parent),_fileInfo()
 {
 
     _path="/opt/rotable/";

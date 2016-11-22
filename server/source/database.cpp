@@ -1145,7 +1145,7 @@ File *Database::media(int id) {
   case ComPackage::AdvertisingVideo: {
     fc = new AdvertisingVideo();
     fc->_fileInfo._id=id;
-    fc->_fileInfo._type=q.value("type").toInt(&ok);
+    fc->_fileInfo._type=type;
     fc->_fileInfo._name=q.value("name").toString();
     fc->_fileInfo._date=q.value("date_added").toString();
     fc->_fileInfo._size=q.value("size").toInt(&ok);

@@ -24,6 +24,7 @@ void rotable::AdvertisingContainer::addFile(rotable::AdvertisingVideo *file)
     if(!file)
         return;
 
+    qCritical()<<"testuu:"<<file->_advertisingInfo._id;
     int id=file->getId();
     if(_files->contains(id))
     {
