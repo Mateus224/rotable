@@ -64,6 +64,8 @@ public:
    */
   void setUserContainer(rotable::UserContainter *users);
 
+  void setFileContainer(rotable::FileContainer *file);
+
 signals:
   /**
    * @brief

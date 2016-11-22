@@ -42,6 +42,17 @@ QVariant AdvertisingTableModel::data(const QModelIndex &index, int role) const {
       }
     }
   } break;
+  case size: {
+    if (role == Qt::DisplayRole || role == Qt::EditRole) {
+      QList<int> ids = _advertisingVideos->fileIds();
+      Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
+      rotable::File *file = _advertisingVideos->file(ids[index.row()]);
+      Q_ASSERT(file);
+      if (file) {
+        return QVariant(file->_fileInfo._size);
+      }
+    }
+  } break;
   case date: {
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
       QList<int> ids = _advertisingVideos->fileIds();
@@ -74,6 +85,15 @@ bool AdvertisingTableModel::setData(const QModelIndex &index, const QVariant &va
         return true;
       }
     } break;
+    case size: {
+        QList<int> ids = _advertisingVideos->fileIds();
+        Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
+        rotable::File *file = _advertisingVideos->file(ids[index.row()]);
+        Q_ASSERT(file);
+        if (file) {
+        file->_fileInfo._size= value.toInt();
+      }
+    } break;
     case date: {
         QList<int> ids = _advertisingVideos->fileIds();
         Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
@@ -99,7 +119,7 @@ Qt::ItemFlags AdvertisingTableModel::flags(const QModelIndex &index) const {
 
 int AdvertisingTableModel::columnCount(const QModelIndex &parent) const {
   Q_UNUSED(parent)
-  return name + 1;
+  return play + 1;
 }
 
 //------------------------------------------------------------------------------
@@ -108,7 +128,7 @@ QModelIndex AdvertisingTableModel::index(int row, int column,
                                   const QModelIndex &parent) const {
   if (!parent.isValid()) {
     QList<int> ids = _advertisingVideos->fileIds();
-    if (row >= 0 && row < ids.size() && column >= 0 && column <= play) {
+    if (row >= 0 && row < ids.size() && column >= 0 && column <=play) {
       return createIndex(row, column, ids[row]);
     }
   }
@@ -125,6 +145,9 @@ QVariant AdvertisingTableModel::headerData(int section, Qt::Orientation orientat
       switch (section) {
       case name: {
         return QVariant("Name");
+      } break;
+      case size: {
+        return QVariant("Size");
       } break;
       case date: {
         return QVariant("Date");

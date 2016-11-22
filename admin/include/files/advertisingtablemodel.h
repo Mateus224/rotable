@@ -128,8 +128,8 @@ public slots:
 public:
     enum Columns{
         name=0,
-        size,
         date,
+        size,
         played,
         frequnecy,
         play

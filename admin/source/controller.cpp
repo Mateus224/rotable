@@ -18,6 +18,7 @@ Controller::Controller(MainWindow *mainwindow, const QString &configFilePath)
   _executor.setImageContainer(&_images);
   _executor.setProductContainer(&_products);
   _executor.setUserContainer(&_users);
+  _executor.setFileContainer(&_files);
 
   _categoryListModel = new CategoryListModel(this);
   _categoryListModel->setProductContainer(&_products);

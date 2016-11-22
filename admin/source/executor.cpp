@@ -64,6 +64,10 @@ void Executor::setUserContainer(UserContainter *users) { _users = users; }
 
 //------------------------------------------------------------------------------
 
+void Executor::setFileContainer(rotable::FileContainer *file) { _files = file; }
+
+//------------------------------------------------------------------------------
+
 void Executor::onConnectToServer() {
   ConnectToServerDialog dlg(_mainwindow);
 

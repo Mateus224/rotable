@@ -13,7 +13,7 @@ class rotable::FileContainer : public QObject
 {
     Q_OBJECT
 public:
-    explicit FileContainer(QObject *parent = 0);
+    explicit FileContainer(QObject *parent = nullptr);
 
     ~FileContainer();
 
@@ -33,6 +33,9 @@ public:
     File* getSelectedFile() const;
     void setSelectedFile(File *value);
     void setSelectedFile(int inx);
+
+
+    QHash<int,File*> *_files; /** Container with files */
 
 signals:
     /**
@@ -56,9 +59,10 @@ signals:
      *
      */
     void updateView();
+
 private:
-    QHash <int,  File*> _files; /** Container with files */
     File *selectedFile;
+    QHash<QString,int> *_test;
 };
 
 #endif // FILECONTAINER_H
