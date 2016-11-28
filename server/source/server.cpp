@@ -567,7 +567,6 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
       QJsonArray arr;
       foreach (int id, *ids) { arr.append(id); }
       QJsonValue jsonVal(arr);
-      LogManager::getInstance()->logInfo("\n\n das klappt \n\n");
       return new ComPackageDataReturn(*request, jsonVal);
     } else {
       qCritical() << tr("Could not query product category ids!");
@@ -1331,6 +1330,9 @@ bool Server::typeOfFileDestination(ComPackageSendFile* package)
 
       }
     }
+    ComPackageDataChanged dc;
+    dc.setDataCategory(ComPackage::RequestMediaIds);
+    _tcp.send(-1, dc);
     return true;
 }
 

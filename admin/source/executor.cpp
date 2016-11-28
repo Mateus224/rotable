@@ -1028,6 +1028,10 @@ void Executor::dataChanged(ComPackageDataChanged *package) {
       _users->clear();
       requestClientIds();
     } break;
+    case ComPackage::RequestMediaIds: {
+      _files->clear();
+      requestMediaIds();
+    } break;
     default: {
       qCritical() << tr("Unknown data changed category '%1' received!")
                          .arg(package->dataCategory());
