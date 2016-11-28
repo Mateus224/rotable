@@ -253,6 +253,14 @@ public slots:
   void onProductSelectionChanged(int id);
 
   /**
+   * The advertising video selection in the advertising table view has been changed.
+   *
+   * @param id              selected advertising id
+   *                        -1 on no selection
+   */
+  void onAdvertisingSelectionChanged(int id);
+
+  /**
    * The user wants to export his current statistics.
    */
   void onExportStatistic();
@@ -447,6 +455,8 @@ private:
 
   /*Files will be here stored*/
   rotable::AdvertisingContainer *_files;
+
+  rotable::AdvertisingVideo *_selectedAdvertisingVideo;
 
   rotable::ProductCategory *_selectedCategory;
   rotable::Product *_selectedProduct; /**< TODO: describe */

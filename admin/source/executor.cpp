@@ -401,6 +401,17 @@ void Executor::onProductSelectionChanged(int id) {
 
 //------------------------------------------------------------------------------
 
+void Executor::onAdvertisingSelectionChanged(int id) {
+  if (id == -1) {
+    _selectedAdvertisingVideo = 0;
+  } else {
+    _selectedAdvertisingVideo = _files->file(id);
+    Q_ASSERT(_selectedAdvertisingVideo);
+  }
+}
+
+//------------------------------------------------------------------------------
+
 void Executor::onExportStatistic() { _mainwindow->exportPdf(); }
 
 //------------------------------------------------------------------------------
@@ -945,17 +956,12 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
 
       AdvertisingVideo *ad=NULL;
       File *file= File::fromJSON(package->data());
-
-      qCritical()<<"test:             "<<file->_fileInfo._type;
       switch (file->_fileInfo._type)
       {
       case ComPackage::AdvertisingVideo:
       {
           ad=reinterpret_cast <AdvertisingVideo*> (file);
           _files->addFile(ad);
-          qCritical()<<"id:      "<<ad->_fileInfo._id;
-          //qCritical()<<ad->_fileInfo._date;
-          //qCritical()<<ad->_advertisingInfo._frequency;
       }break;
 
       case ComPackage::AdvertisingPicture:
