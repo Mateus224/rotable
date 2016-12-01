@@ -9,8 +9,6 @@ Rectangle {
     property int itemHeight: height * 1.1
     property int itemWidth: width * 0.2
 
-    color: "pink"
-
     ListView {
         id: needsWaiterlist
 

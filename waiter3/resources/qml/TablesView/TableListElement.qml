@@ -25,7 +25,7 @@ Rectangle {
         id: newOrderCircle
 
         visible: model.incomingCount > 0
-        height: parent.height * 0.4
+        height: parent.height * 0.5
         width: height
         radius: height
         color: "#FF3F3F"

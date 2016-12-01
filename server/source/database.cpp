@@ -1553,6 +1553,7 @@ bool Database::updateOrder(Order *order) {
   }
 
   q.bindValue(":state", order->state());
+  q.bindValue(":waiter_state", order->waiterState());
   q.bindValue(":client_id", order->clientId());
 
   if (!q.exec()) {
@@ -3269,6 +3270,8 @@ int Database::versionToEnum(QString version) {
     return version0d0d5;
   else if (version == "0.0.6")
     return version0d0d6;
+  else if (version == "0.0.7")
+    return version0d0d7;
   return version0d0d0;
 }
 
