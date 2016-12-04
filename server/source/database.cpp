@@ -3225,6 +3225,8 @@ void Database::updateDatabase(QString actualVersion) {
     updateToVersion("0.0.5");
   case version0d0d5:
     updateToVersion("0.0.6");
+  case version0d0d6:
+    updateToVersion("0.0.7");
   }
 }
 
