@@ -1350,6 +1350,7 @@ bool Database::addOrder(Order *order) {
   }
 
   q.bindValue(":state", order->state());
+  q.bindValue(":waiter_state", order->waiterState());
   q.bindValue(":income_id", getLastIncomeId());
   q.bindValue(":client_id", order->clientId());
 
@@ -2818,6 +2819,14 @@ QList<Order *> *Database::getNotCloseOrderList() {
       return 0;
     }
 
+    int waiterState = q.value("waiter_state").toInt(&ok);
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to integer!")
+                         .arg(q.value("state").toString());
+      delete list;
+      return 0;
+    }
+
     QDateTime orderSent = q.value("date_added").toDateTime();
 
     Order *o = new Order();
@@ -2825,6 +2834,7 @@ QList<Order *> *Database::getNotCloseOrderList() {
     o->setId(orderId);
     o->setClientId(clientId);
     o->setState(state);
+    o->setWaiterState(waiterState);
 
     QList<int> itemsId;
 

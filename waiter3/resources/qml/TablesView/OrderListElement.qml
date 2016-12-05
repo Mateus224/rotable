@@ -162,7 +162,8 @@ Rectangle{
 
         Text {
             id: orderTime
-            text: model.timeSent
+//            text: model.timeSent
+            text: model.orderStatus
             color: borderColor
             font.pixelSize: borderWidth * 1.2
             font.bold: true

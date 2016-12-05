@@ -16,6 +16,10 @@
 #include <QTimer>
 #endif
 
+#ifndef QMEDIAPLAYER_H
+#include <QtMultimedia/QMediaPlayer>
+#endif
+
 #include "configwaiter.h"
 #include "tcpclient.h"
 #include "private/precomp.h"
@@ -148,6 +152,13 @@ private slots:
    */
   void tableNeedWaiterChanged(int id);
 
+  /**
+   * Request table from database
+   *
+   * @param fliePath       path to to audio file that has to played
+   */
+  void playsound();
+
 signals:
   void changeTableList();
   void loginChanged();
@@ -240,7 +251,6 @@ private:
      * @param tableId       table id
      */
     void requestTable(int tableId);
-
 
     //------------------------------------------------------------------------------
 
