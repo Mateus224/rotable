@@ -166,6 +166,14 @@ void Order::changeState(int state)
 
 //------------------------------------------------------------------------------
 
+void Order::changeWaiterState(int state)
+{
+    if (_readyToChangeWStatus) _waiterState = state;
+    _readyToChangeWStatus = false;
+}
+
+//------------------------------------------------------------------------------
+
 void Order::prepareOrderToChange()
 {
 //   static int changeStatus = true;
@@ -173,6 +181,7 @@ void Order::prepareOrderToChange()
 //        item->setChange(changeStatus);
        item->setChange(true);
    }
+   _readyToChangeWStatus = true;
 //   changeStatus = !changeStatus;
 }
 

@@ -160,6 +160,7 @@ public:
     recalcIncomingOrders();
 #endif
     emit tableChanged();
+    emit newOrderAdded();
   }
 
   /**
@@ -284,6 +285,8 @@ signals:
   void incomingOrderCountChanged();
 
   void orderedProductCountChanged();
+
+  void newOrderAdded();
 
 public slots:
   /**

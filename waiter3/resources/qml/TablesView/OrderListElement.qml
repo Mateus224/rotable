@@ -78,15 +78,19 @@ Rectangle{
                 switch (targetTag)
                 {
                 case "New":
+                    orderboard.changeWaiterState(0)
                     orderboard.changeState(0)
                     break;
                 case "Payed":
+                    orderboard.changeWaiterState(1)
                     orderboard.changeState(1)
                     break;
                 case "Rejected":
+                    orderboard.changeWaiterState(2)
                     orderboard.changeState(2)
                     break;
                 case "ToPay":
+                    orderboard.changeWaiterState(3)
                     orderboard.changeState(3)
                     break;
                 }
@@ -162,8 +166,7 @@ Rectangle{
 
         Text {
             id: orderTime
-//            text: model.timeSent
-            text: model.orderStatus
+            text: model.timeSent
             color: borderColor
             font.pixelSize: borderWidth * 1.2
             font.bold: true

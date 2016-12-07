@@ -269,6 +269,9 @@ private:
     /* TCP-Socket object */
     TcpClient _tcp;
 
+    /* When true, prevents waiter from playing new order sound (used at startup) */
+    bool _startupPreventNewOrderSound;
+
     /* Timer for waiting before reconnect */
     QTimer _reconnectTimer;
 

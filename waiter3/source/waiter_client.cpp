@@ -73,6 +73,9 @@ Waiter_Client::Waiter_Client(const QString &configFilePath, QObject *parent)
             this, &rotable::Waiter_Client::tableNeedWaiterChanged);
 
 //    connect(this, &Waiter_Client::logOff, &_tcp, &TcpClient::close);
+
+    _startupPreventNewOrderSound = true;
+
     setState("Login");
 }
 
@@ -367,9 +370,10 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
       {
           connect(table, &rotable::Table::sendOrders, this, &Waiter_Client::sendOrders);
           connect(table, &rotable::Table::waiterIsNeededChanged, &_needBoard, &rotable::NeedBoard::tableNeedChanged);
-          connect(table, &rotable::Table::tableChanged, this, &Waiter_Client::playsound);
+          connect(table, &rotable::Table::newOrderAdded, this, &Waiter_Client::playsound);
           requestOrderOnTable(table->id());
           emit table->waiterIsNeededChanged();
+          emit table->incomingOrderCountChanged();
       }
       else
           delete table;

@@ -772,6 +772,13 @@ Order *Database::order(int id, Waiter *waiter)
     return 0;
   }
 
+  int waiterState = q.value("waiter_state").toInt(&ok);
+  if (!ok) {
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("waiter_state").toString());
+    return 0;
+  }
+
   // TODO: implement
   QDateTime orderSent = q.value("date_added").toDateTime();
 
@@ -780,6 +787,7 @@ Order *Database::order(int id, Waiter *waiter)
   o->setId(orderId);
   o->setClientId(clientId);
   o->setState(state);
+  o->setWaiterState(waiterState);
   o->setTimeSent(orderSent);
 
   QList<int> itemsId;

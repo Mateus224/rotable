@@ -501,6 +501,13 @@ public:
   /**
    * @brief
    *
+   * @param state
+   */
+  Q_INVOKABLE void changeWaiterState(int state);
+
+  /**
+   * @brief
+   *
    */
   Q_INVOKABLE void prepareOrderToChange();
 
@@ -638,6 +645,9 @@ private:
 
   /* Table from which the order came from */
   int _clientId;
+
+  /* True if that order is ready to have waiterState changed */
+  bool _readyToChangeWStatus;
 
   /**
    * @brief _change
