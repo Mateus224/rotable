@@ -15,28 +15,31 @@ public:
     ~AdvertisingVideo();
 
     void addAdvertisingVideo();
+
+
+    void setA_id(const int& id);
+
     /**
      * @brief setFrequency
      * @param min
      * how often will be the video played in minutes
      */
-    void setFrequency(int min);
+    void setFrequency(const int& frequency);
 
-    int getFrequency();
-
+    void setMedia_id(const int& mediaId);
     /**
      * @brief setPlay
      * @param play
      * set true if the video have to be played
      */
-    void setPlay(bool play);
+    void setPlay(const bool& play);
 
     /**
      * @brief setPlayed
      * @param played
      * set how often the video was played
      */
-    void setPlayed(int played);
+    void setPlayed(const int& played);
 
     void updateVideo();
 
@@ -50,6 +53,13 @@ public:
     inline int fileType() const { return 0; }
 
     void updateData(AdvertisingVideo *file);
+
+signals:
+    void idChanged();
+    void frequencyChanged();
+    void mediaIdChanged();
+    void playChanged();
+    void playedChanged();
 
 public:
 
