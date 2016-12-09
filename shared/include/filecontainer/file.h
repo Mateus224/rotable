@@ -37,11 +37,11 @@ public:
 
 
     bool addFileOnSD(rotable::ComPackageSendFile* package);
-    void setName(QString fileName){_fileListNames.append(fileName);}
+    //void setName(QString fileName){_fileListNames.append(fileName);}
 
 
 
-    bool hasFile(const QString& name)const;
+    //bool setName(const QString& name);
     QString getFile(const QString& name) const;
     void changeFileName();
     void rmFile();
@@ -99,17 +99,15 @@ public:
 
     inline int getRemoved() const { return _fileInfo._removed; }
 
+    void setId(const int &id);
 
-    inline void setId(const int &id) {_fileInfo._id=id;}
+    void setName(const QString &name);
 
-    inline void setName(const QString &name){_fileInfo._name=name;}
+    void setDate(const QString &date);
 
-    inline void setDate(const QString &date){_fileInfo._date=date;}
+    void setSize(const int &size);
 
-    inline void setSize(const int &size){_fileInfo._size=size;}
-
-    inline void setRemoved(const int &removed){_fileInfo._removed=removed;}
-
+    void setRemoved(const int &removed);
 
 protected:
   virtual void addAdditionalData(QJsonObject &obj) const=0;
@@ -117,8 +115,11 @@ protected:
 
 
 signals:
-      void fileChanged();
-
+      void idChanged();
+      void nameChanged();
+      void dateChanged();
+      void sizeChanged();
+      void removedChanged();
 //---------------------------------------
 
 public:

@@ -196,6 +196,8 @@ private:
    */
   bool setWaiterNeed(bool need, int tableId);
 
+  bool updateAdvertising(AdvertisingVideo *advertising);
+
   /**
    * Execute a command received from a client.
    *

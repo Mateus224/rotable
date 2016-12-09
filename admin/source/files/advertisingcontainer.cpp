@@ -24,8 +24,13 @@ void rotable::AdvertisingContainer::addFile(rotable::AdvertisingVideo *file)
     if(!file)
         return;
 
-    qCritical()<<"testuu:"<<file->_advertisingInfo._id;
     int id=file->getId();
+
+    /*which information can be changed from the gui*/
+    connect(file, SIGNAL(frequencyChanged()), this, SLOT(onFileUpdated()));
+    connect(file, SIGNAL(playChanged()), this, SLOT(onFileUpdated()));
+    connect(file, SIGNAL(nameChanged()), this, SLOT(onFileUpdated()));
+
     if(_files->contains(id))
     {
         _files->value(file->getId())->updateData(file);
@@ -91,3 +96,12 @@ void rotable::AdvertisingContainer::setSelectedFile(AdvertisingVideo *value)
 }
 
 //------------------------------------------------------------------------------
+
+void rotable::AdvertisingContainer::onFileUpdated()
+{
+  rotable::AdvertisingVideo* advertisingVideo = static_cast<rotable::AdvertisingVideo*>(QObject::sender());
+  emit advertisingVideoUpdated(advertisingVideo);
+}
+
+//------------------------------------------------------------------------------
+

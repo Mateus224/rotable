@@ -11,12 +11,47 @@ AdvertisingVideo::AdvertisingVideo(QObject *parent):_advertisingInfo()
 }
 
 AdvertisingVideo::~AdvertisingVideo(){}
+//------------------------------------------------------------------------------
 
-void AdvertisingVideo::addAdvertisingVideo()
+void AdvertisingVideo::setA_id(const int& id)
 {
+  if (_fileInfo._id != id) {
+    _fileInfo._id = id;
+    emit idChanged();
+  }
 }
 
+void AdvertisingVideo::setFrequency(const int& frequency)
+{
+  if (_advertisingInfo._frequency != frequency) {
+    _advertisingInfo._frequency = frequency;
+    emit frequencyChanged();
+  }
+}
 
+void AdvertisingVideo::setMedia_id(const int& mediaId)
+{
+  if (_advertisingInfo._mediaId != mediaId) {
+    _advertisingInfo._mediaId = mediaId;
+    emit mediaIdChanged();
+  }
+}
+
+void AdvertisingVideo::setPlay(const bool& play)
+{
+  if (_advertisingInfo._play != play) {
+    _advertisingInfo._play = play;
+    emit playChanged();
+  }
+}
+
+void AdvertisingVideo::setPlayed(const int& played)
+{
+  if (_advertisingInfo._played != played) {
+    _advertisingInfo._played = played;
+    emit playedChanged();
+  }
+}
 
 //------------------------------------------------------------------------------
 

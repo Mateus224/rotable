@@ -53,11 +53,48 @@ bool File::addFileOnSD(rotable::ComPackageSendFile *package)
 
 //------------------------------------------------------------------------------
 
-
-bool File::hasFile(const QString& name) const
+void File::setId(const int& id)
 {
-
+  if (_fileInfo._id != id) {
+    _fileInfo._id = id;
+    emit idChanged();
+  }
 }
+
+void File::setName(const QString& name)
+{
+  if (_fileInfo._name != name) {
+    _fileInfo._name = name;
+    emit nameChanged();
+  }
+}
+
+void File::setDate(const QString& date)
+{
+  if (_fileInfo._date != date) {
+    _fileInfo._date = date;
+    emit dateChanged();
+  }
+}
+
+void File::setSize(const int& size)
+{
+  if (_fileInfo._size != size) {
+    _fileInfo._size = size;
+    emit sizeChanged();
+  }
+}
+
+void File::setRemoved(const int& removed)
+{
+  if (_fileInfo._removed != removed) {
+    _fileInfo._removed = removed;
+    emit removedChanged();
+  }
+}
+
+//------------------------------------------------------------------------------
+
 
  QString File::getFile(const QString& name) const
  {

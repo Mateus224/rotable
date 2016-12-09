@@ -73,11 +73,12 @@ private:
   /* Model for user table view */
   UserTableModel* _userTableModel;
 
+  /*Model for Advertising Videos*/
+  AdvertisingTableModel* _advertisingTableModel;
+
   /*Files*/
   rotable::AdvertisingContainer _files;
 
-  /*Model for Advertising Videos*/
-  AdvertisingTableModel* _advertisingTableModel;
 
 }; // class Controller
 

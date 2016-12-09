@@ -220,6 +220,14 @@ public slots:
   void onExportDatabase();
 
   /**
+   * @brief onUpdateAdvertisingVideo
+   * @param advertisingVideo
+   * sending updated / changed information from the Gui to the server
+   * @see AdvertisingContainer::fileUpdated
+   */
+  void onUpdateAdvertisingVideo(rotable::AdvertisingVideo* advertisingVideo);
+
+  /**
    * Button to import the database has been clicked.
    */
   void onImportDatabase();

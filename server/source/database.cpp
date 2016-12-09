@@ -1773,6 +1773,52 @@ bool Database::updateUserPassword(User *user)
 
 //------------------------------------------------------------------------------
 
+bool Database::updateFile(File *file) {
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr =
+      _sqlCommands[Medias]._update.arg(_prefix).arg(file->_fileInfo._id);
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+/*
+  q.bindValue(":name", product->name());
+  q.bindValue(":price", product->price());
+  q.bindValue(":info", product->info());
+  q.bindValue(":category_id", product->categoryId());
+  q.bindValue(":icon", product->icon());
+  q.bindValue(":amount", product->amount());
+  q.bindValue(":sequence", product->sequence());
+*/
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  switch (file->_fileInfo._type) {
+  case ComPackage::AdvertisingVideo: {
+    AdvertisingVideo *tmp = reinterpret_cast<AdvertisingVideo *>(file);
+   // if (!updateTableAdditionalData(tmp->id(), tmp->isConnected(),
+   //                                tmp->waiterIsNeeded()))
+      return false;
+  } break;
+
+
+  return true;
+  }
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
 bool Database::updateTableAdditionalData(int id, int connected, int need) {
   if (!isConnected()) {
     return false;
@@ -1821,6 +1867,7 @@ bool Database::updateWaiterAdditionalData(Waiter *waiter) {
   delete oldWaiter; // Clear object, not needed. Also oldoCategries are clear
   return true;
 }
+
 
 //------------------------------------------------------------------------------
 
