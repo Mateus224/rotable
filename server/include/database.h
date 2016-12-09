@@ -400,6 +400,13 @@ public:
   bool updateUserPassword(User *user);
 
   /**
+   * @brief updateAdvertisingVideo
+   * @param advertising
+   * @return true on success
+   * updated files information which are changed from the admin
+   */
+  bool updateFile(File *file);
+  /**
    * Remove a category.
    *
    * @param id          id of category

@@ -99,17 +99,6 @@ public:
 
     inline int getRemoved() const { return _fileInfo._removed; }
 
-/*
-    inline void setId(const int &id) {_fileInfo._id=id;}
-
-    inline void setName(const QString &name){_fileInfo._name=name;}
-
-    inline void setDate(const QString &date){_fileInfo._date=date;}
-
-    inline void setSize(const int &size){_fileInfo._size=size;}
-
-    inline void setRemoved(const int &removed){_fileInfo._removed=removed;}
-*/
     void setId(const int &id);
 
     void setName(const QString &name);

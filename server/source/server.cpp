@@ -683,6 +683,20 @@ bool Server::setData(ComPackageDataSet *set, client_t client) {
     //    _licence->loadLicence();
     return true;
   } break;
+  case ComPackage::SetAdvertising: {
+      AdvertisingVideo *advertising = AdvertisingVideo::fromJSON(set->data());
+
+      if (advertising) {
+        if (advertising->fileInfo._id == -1) {
+            qWarning()<<"advertising file has a wrong id";
+          return false;
+        } else {
+          return updateAdvertising(advertising);
+        }
+      } else {
+        return false;
+      }
+  }
 
 
   default: {
@@ -921,6 +935,30 @@ bool Server::setWaiterNeed(bool need, int tableId) {
   } else {
     return false;
   }
+}
+
+//------------------------------------------------------------------------------
+
+bool Server::updateAdvertising(AdvertisingVideo *advertising) {
+  File* file= static_cast<File*>advertising;
+  if (!_db.hasFile(advertising->id(), advertising->fileInfo._type)) {
+    qWarning()
+        << tr("A product with id '%1' does not exists!").arg(product->id());
+    return false;
+  }
+
+  if (!_db.updateFile(file)) {
+    qWarning() << tr("Failed to update product!");
+    return false;
+  }
+
+  // Inform clients about data change...
+  ComPackageDataChanged dc;
+  dc.setDataCategory(ComPackage::RequestProduct);
+  dc.setDataName(QString("%1").arg(product->id()));
+  _tcp.send(-1, dc);
+
+  return true;
 }
 
 //------------------------------------------------------------------------------
