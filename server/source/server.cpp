@@ -684,10 +684,10 @@ bool Server::setData(ComPackageDataSet *set, client_t client) {
     return true;
   } break;
   case ComPackage::SetAdvertising: {
-      AdvertisingVideo *advertising = AdvertisingVideo::fromJSON(set->data());
+      AdvertisingVideo *advertising =static_cast<AdvertisingVideo*> (AdvertisingVideo::fromJSON(set->data()));
 
       if (advertising) {
-        if (advertising->fileInfo._id == -1) {
+        if (advertising->_fileInfo._id == -1) {
             qWarning()<<"advertising file has a wrong id";
           return false;
         } else {
@@ -940,10 +940,10 @@ bool Server::setWaiterNeed(bool need, int tableId) {
 //------------------------------------------------------------------------------
 
 bool Server::updateAdvertising(AdvertisingVideo *advertising) {
-  File* file= static_cast<File*>advertising;
-  if (!_db.hasFile(advertising->id(), advertising->fileInfo._type)) {
+  File* file= static_cast<File*>(advertising);
+  if (!_db.hasFile(advertising->_fileInfo._name, advertising->_fileInfo._type)) {
     qWarning()
-        << tr("A product with id '%1' does not exists!").arg(product->id());
+        << tr("A product with id '%1' does not exists!").arg(advertising->_fileInfo._id);
     return false;
   }
 
@@ -954,8 +954,8 @@ bool Server::updateAdvertising(AdvertisingVideo *advertising) {
 
   // Inform clients about data change...
   ComPackageDataChanged dc;
-  dc.setDataCategory(ComPackage::RequestProduct);
-  dc.setDataName(QString("%1").arg(product->id()));
+  dc.setDataCategory(ComPackage::RequestMedia);
+  dc.setDataName(QString("%1").arg(advertising->_fileInfo._id));
   _tcp.send(-1, dc);
 
   return true;

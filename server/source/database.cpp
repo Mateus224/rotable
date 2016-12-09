@@ -1779,7 +1779,7 @@ bool Database::updateFile(File *file) {
   }
 
   QString queryStr =
-      _sqlCommands[Medias]._update.arg(_prefix).arg(advertising->fileInfo._id);
+      _sqlCommands[Medias]._update.arg(_prefix).arg(file->_fileInfo._id);
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -1803,7 +1803,7 @@ bool Database::updateFile(File *file) {
     return false;
   }
 
-  switch (file->accountType()) {
+  switch (file->_fileInfo._type) {
   case ComPackage::AdvertisingVideo: {
     AdvertisingVideo *tmp = reinterpret_cast<AdvertisingVideo *>(file);
    // if (!updateTableAdditionalData(tmp->id(), tmp->isConnected(),
