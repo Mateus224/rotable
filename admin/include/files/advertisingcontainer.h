@@ -59,6 +59,13 @@ signals:
      */
     void updateView();
 
+    void advertisingVideoUpdated(rotable::AdvertisingVideo* advertisingVideo);
+
+
+private slots:
+
+    void onFileUpdated();
+
 private:
 
     QHash<int,AdvertisingVideo*> *_files; /** Container with files */

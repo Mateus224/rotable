@@ -314,6 +314,22 @@ void Executor::onResetDatabase() {
 
 //------------------------------------------------------------------------------
 
+
+void Executor::onUpdateAdvertisingVideo(AdvertisingVideo* advertisingVideo)
+{
+    if (advertisingVideo) {
+      ComPackageDataSet set;
+      set.setDataCategory(ComPackage::SetAdvertising);
+      set.setData(advertisingVideo->toJSON());
+
+      if (!_tcp_client.send(set)) {
+        qCritical() << tr("FATAL: Could not send data set package!");
+      }
+    }
+}
+
+//------------------------------------------------------------------------------
+
 void Executor::onExportDatabase() {}
 
 //------------------------------------------------------------------------------

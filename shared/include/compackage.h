@@ -163,6 +163,8 @@ public:
     /* Set licence */
     SetLicence,
 
+    /*Set Advertising*/
+    SetAdvertising
   };
 
   /**

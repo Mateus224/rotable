@@ -114,7 +114,7 @@ bool AdvertisingTableModel::setData(const QModelIndex &index, const QVariant &va
       rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
       Q_ASSERT(file);
       if (file) {
-        file->_fileInfo._name=value.toString();
+        file->setName(value.toString());
         return true;
       }
     } break;
@@ -124,7 +124,7 @@ bool AdvertisingTableModel::setData(const QModelIndex &index, const QVariant &va
         rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
         Q_ASSERT(file);
         if (file) {
-        file->_fileInfo._size= value.toInt();
+        //file->setSize(value.toInt());
       }
     } break;
     case date: {
@@ -133,7 +133,7 @@ bool AdvertisingTableModel::setData(const QModelIndex &index, const QVariant &va
         rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
         Q_ASSERT(file);
         if (file) {
-        file->_fileInfo._date= value.toString();
+        //file->setDate(value.toString());
       }
     } break;
     case played: {
@@ -142,7 +142,7 @@ bool AdvertisingTableModel::setData(const QModelIndex &index, const QVariant &va
         rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
         Q_ASSERT(file);
         if (file) {
-        file->_advertisingInfo._played = value.toInt();
+        //file->_advertisingInfo._played = value.toInt();
       }
     } break;
     case frequnecy: {
@@ -151,7 +151,7 @@ bool AdvertisingTableModel::setData(const QModelIndex &index, const QVariant &va
         rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
         Q_ASSERT(file);
         if (file) {
-        file->_advertisingInfo._frequency= value.toInt();
+        file->setFrequency(value.toInt());
       }
     } break;
     case play: {
@@ -160,7 +160,7 @@ bool AdvertisingTableModel::setData(const QModelIndex &index, const QVariant &va
         rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
         Q_ASSERT(file);
         if (file) {
-        file->_advertisingInfo._play= value.toBool();
+        file->setPlay(value.toBool());
       }
     } break;
     }
