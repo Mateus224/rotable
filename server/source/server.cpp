@@ -949,12 +949,22 @@ bool Server::updateAdvertising(AdvertisingVideo *advertising) {
         return false;
       }
 
-      AdvertisingVideo* tmp =_db.media(advertising->_advertisingInfo._mediaId);
-      tmp->rename(_db.hasFile(advertising->_fileInfo._name);
-      delete tmp;
+      File* tmp =_db.media(advertising->_advertisingInfo._mediaId);
+      if(_db.hasFile(advertising->_fileInfo._name, advertising->_fileInfo._type))
+      {
+        if(tmp->rename(advertising->_fileInfo._name));
+        delete tmp;
+      }
+      else
+      {
+        qCritical()<<"database has no file with this name";
+        delete tmp;
+      }
+
+
       if (!_db.updateFile(file)) {
         qWarning() << tr("Failed to update product!");
-        file->rename()
+        //file->rename()
         return false;
       }
 

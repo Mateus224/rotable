@@ -46,7 +46,7 @@ public:
      * @return true on succed
      * find the old name and set a new name for a file on the the SD card
      */
-    bool rename(QString newName);
+    bool rename(QString &newName);
 
     //bool setName(const QString& name);
     QString getFile(const QString& name) const;
@@ -134,7 +134,7 @@ public:
 
       enum type{
           AdvertisingVideo=0
-      }_type;
+      };
 
     /**
      * @brief The fileInfo struct

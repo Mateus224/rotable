@@ -10,7 +10,10 @@ using namespace rotable;
 File::File( QObject *parent) : QObject(parent),_fileInfo()
 {
     //This sequence have be the same like the FileUsage see also Comapackge
-    _paths={"/opt/rotable/advertisingVideo", "/opt/rotable/advertisingPicture","/opt/rotable/CategoryIcons"};
+    QString s_advertisingvideo={"/opt/rotable/advertisingVideo"};
+    QString s_advertisingPicture={"/opt/rotable/advertisingPicture"};
+    QString s_CategoryIcons={"/opt/rotable/CategoryIcons"};
+    _paths<<s_advertisingvideo<<s_advertisingPicture<<s_CategoryIcons;
     for(QString &path: _paths)
         {
         _fileDir = new QDir(path);
@@ -32,14 +35,16 @@ bool File::addFileOnSD(rotable::ComPackageSendFile *package)
 {
     QStringList FileNameList=package->getFileNames();
     QStringList FileList=package->getFiles();
+    QString temp;
     int i=0;
     foreach(QString fileName, FileNameList)
     {
         QByteArray File=package->base64ToQString( FileList.at(i));
 
+        temp=_paths.at(package->getFileUsage()) + fileName;
         /* Try and open a file for output */
 
-        QFile outputFile(_paths.at(package->FileUsage)(fileName));
+        QFile outputFile(temp);
         outputFile.open(QIODevice::WriteOnly);
 
         /* Check if opened OK */
@@ -57,21 +62,24 @@ bool File::addFileOnSD(rotable::ComPackageSendFile *package)
 
 //------------------------------------------------------------------------------
 
-bool File::rename(QQString &newName)
+bool File::rename(QString &newName)
 {
     //choose the type
     switch (_fileInfo._type) {
-    case AdvertisingVideo:
-        QFile renameFile(_paths.at(package->FileUsage)(_fileInfo._name));
-        renameFile.open(QIODevice::WriteOnly| QIODevice::ReadOnly);
-        if(!renameFile.rename(newName))
-        {
-            qCritical()<<"rename the File failed!";
+    case AdvertisingVideo:{
+            QFile renameFile(_paths.at(AdvertisingVideo) + _fileInfo._name);
+            renameFile.open(QIODevice::WriteOnly| QIODevice::ReadOnly);
+            if(!renameFile.rename(newName))
+            {
+                qCritical()<<"rename the File failed!";
+            }
         }
         break;
     default:
+        int i;
         break;
     }
+    return true;
 }
 
 //------------------------------------------------------------------------------
@@ -141,7 +149,7 @@ void File::setRemoved(const int& removed)
  {
     foreach(QString fileName, _fileListNames)
     {
-        QString path =_path;
+        QString path =_paths.at(AdvertisingVideo);
         fileInfo struct_fileInfo;
         path.append(fileName);
         QFileInfo file(path);
@@ -183,7 +191,7 @@ void File::setRemoved(const int& removed)
      switch (o["type"].toInt()) {
      case 0:
      {
-       fc = new AdvertisingVideo();
+       fc = new rotable::AdvertisingVideo();
      } break;
      case 1: {
 
