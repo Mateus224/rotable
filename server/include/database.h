@@ -585,6 +585,13 @@ public:
 
   /**
    * @brief hasFile
+   * @param id
+   * @return
+   */
+  bool hasFile( int id);
+
+  /**
+   * @brief hasFile
    * @param name
    * @return true if the file exist in medias with the same type
    *

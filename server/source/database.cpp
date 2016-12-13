@@ -1788,15 +1788,13 @@ bool Database::updateFile(File *file) {
     qCritical() << tr("Invalid query: %1").arg(queryStr);
     return false;
   }
-/*
-  q.bindValue(":name", product->name());
-  q.bindValue(":price", product->price());
-  q.bindValue(":info", product->info());
-  q.bindValue(":category_id", product->categoryId());
-  q.bindValue(":icon", product->icon());
-  q.bindValue(":amount", product->amount());
-  q.bindValue(":sequence", product->sequence());
-*/
+
+  q.bindValue(":name", file->_fileInfo._name);
+  q.bindValue(":size", file->_fileInfo._size);
+  q.bindValue(":removed", file->_fileInfo._removed);
+  q.bindValue(":type", file->_fileInfo._type);
+
+
   if (!q.exec()) {
     qCritical()
         << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
@@ -1808,11 +1806,11 @@ bool Database::updateFile(File *file) {
     AdvertisingVideo *tmp = reinterpret_cast<AdvertisingVideo *>(file);
    // if (!updateTableAdditionalData(tmp->id(), tmp->isConnected(),
    //                                tmp->waiterIsNeeded()))
-      return false;
+      return true;
   } break;
 
 
-  return true;
+  return false;
   }
   return true;
 }
@@ -2927,6 +2925,39 @@ bool Database::hasOrder(int id) {
 
   QString queryStr =
       _sqlCommands[Orders]._select.arg(_prefix, "`id`", "id", ":id");
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return -1;
+  }
+
+  q.bindValue(":id", id);
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  if (q.next()) {
+    return true;
+  }
+
+  return false;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::hasFile(int id)
+{
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr =
+      _sqlCommands[Medias]._select.arg(_prefix, "`id`", "id", ":id");
   QSqlQuery q(_db);
   q.setForwardOnly(true);
 

@@ -9,12 +9,15 @@ using namespace rotable;
 
 File::File( QObject *parent) : QObject(parent),_fileInfo()
 {
-
-    _path="/opt/rotable/";
-    _fileDir = new QDir(_path);
-    if(!_fileDir->exists())
-    {
-        _fileDir->mkpath(_path);
+    //This sequence have be the same like the FileUsage see also Comapackge
+    _paths={"/opt/rotable/advertisingVideo", "/opt/rotable/advertisingPicture","/opt/rotable/CategoryIcons"};
+    for(QString &path: _paths)
+        {
+        _fileDir = new QDir(path);
+        if(!_fileDir->exists())
+        {
+            _fileDir->mkpath(path);
+        }
     }
 }
 
@@ -35,10 +38,11 @@ bool File::addFileOnSD(rotable::ComPackageSendFile *package)
         QByteArray File=package->base64ToQString( FileList.at(i));
 
         /* Try and open a file for output */
-        QFile outputFile(_fileDir->filePath(fileName));
+
+        QFile outputFile(_paths.at(package->FileUsage)(fileName));
         outputFile.open(QIODevice::WriteOnly);
 
-        /* Check it opened OK */
+        /* Check if opened OK */
         if(!outputFile.isOpen()){
             qCritical() << "- Error, unable to open" << FileList.at(i) << "for output";
             return 0;
@@ -49,6 +53,25 @@ bool File::addFileOnSD(rotable::ComPackageSendFile *package)
         outputFile.close();
     }
     return 1;
+}
+
+//------------------------------------------------------------------------------
+
+bool File::rename(QQString &newName)
+{
+    //choose the type
+    switch (_fileInfo._type) {
+    case AdvertisingVideo:
+        QFile renameFile(_paths.at(package->FileUsage)(_fileInfo._name));
+        renameFile.open(QIODevice::WriteOnly| QIODevice::ReadOnly);
+        if(!renameFile.rename(newName))
+        {
+            qCritical()<<"rename the File failed!";
+        }
+        break;
+    default:
+        break;
+    }
 }
 
 //------------------------------------------------------------------------------

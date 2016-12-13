@@ -39,7 +39,14 @@ public:
     bool addFileOnSD(rotable::ComPackageSendFile* package);
     //void setName(QString fileName){_fileListNames.append(fileName);}
 
-
+    /**
+     * @brief rename
+     * @param oldName
+     * @param newName
+     * @return true on succed
+     * find the old name and set a new name for a file on the the SD card
+     */
+    bool rename(QString newName);
 
     //bool setName(const QString& name);
     QString getFile(const QString& name) const;
@@ -123,6 +130,12 @@ signals:
 //---------------------------------------
 
 public:
+
+
+      enum type{
+          AdvertisingVideo=0
+      }_type;
+
     /**
      * @brief The fileInfo struct
      * stores basic Information about the to adding file
@@ -151,7 +164,7 @@ public:
      * @brief _path
      * The path to the folders were the files will be stored
      */
-    QString _path;
+    QStringList _paths;
 
     /**
      * @brief _destinationFoler

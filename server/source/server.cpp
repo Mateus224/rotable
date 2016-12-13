@@ -941,24 +941,32 @@ bool Server::setWaiterNeed(bool need, int tableId) {
 
 bool Server::updateAdvertising(AdvertisingVideo *advertising) {
   File* file= static_cast<File*>(advertising);
-  if (!_db.hasFile(advertising->_fileInfo._name, advertising->_fileInfo._type)) {
-    qWarning()
-        << tr("A product with id '%1' does not exists!").arg(advertising->_fileInfo._id);
-    return false;
+  if(_db.hasFile(advertising->_advertisingInfo._mediaId))
+  {
+      if (_db.hasFile(advertising->_fileInfo._name, advertising->_fileInfo._type)) {
+        qWarning()
+            << tr("This name already exist").arg(advertising->_fileInfo._id);
+        return false;
+      }
+
+      AdvertisingVideo* tmp =_db.media(advertising->_advertisingInfo._mediaId);
+      tmp->rename(_db.hasFile(advertising->_fileInfo._name);
+      delete tmp;
+      if (!_db.updateFile(file)) {
+        qWarning() << tr("Failed to update product!");
+        file->rename()
+        return false;
+      }
+
+      // Inform clients about data change...
+      ComPackageDataChanged dc;
+      dc.setDataCategory(ComPackage::RequestMedia);
+      dc.setDataName(QString("%1").arg(advertising->_fileInfo._id));
+      _tcp.send(-1, dc);
+
+      return true;
   }
-
-  if (!_db.updateFile(file)) {
-    qWarning() << tr("Failed to update product!");
-    return false;
-  }
-
-  // Inform clients about data change...
-  ComPackageDataChanged dc;
-  dc.setDataCategory(ComPackage::RequestMedia);
-  dc.setDataName(QString("%1").arg(advertising->_fileInfo._id));
-  _tcp.send(-1, dc);
-
-  return true;
+  return false;
 }
 
 //------------------------------------------------------------------------------
