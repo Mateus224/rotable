@@ -66,18 +66,19 @@ bool File::rename(QString &newName)
 {
     //choose the type
     switch (_fileInfo._type) {
-    case AdvertisingVideo:{
+        case AdvertisingVideo:{
             QFile renameFile(_paths.at(AdvertisingVideo) + _fileInfo._name);
             renameFile.open(QIODevice::WriteOnly| QIODevice::ReadOnly);
             if(!renameFile.rename(newName))
             {
                 qCritical()<<"rename the File failed!";
+                return false;
             }
-        }
-        break;
-    default:
-        int i;
-        break;
+            renameFile.close();
+        }break;
+        default:{
+
+        }break;
     }
     return true;
 }
