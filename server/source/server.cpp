@@ -1414,7 +1414,12 @@ bool Server::addAdvertisingSD_Database(ComPackageSendFile* package)
   Files->addFileOnSD(package);
   Files->setType(ComPackage::AdvertisingVideo);
   Files->getFileInfoFromFileAndSet(Files->_fileListNames);
-  _db.addMedia(Files);
+  if(!_db.addMedia(Files))
+  {
+      qCritical()<<"failed to add Media";
+      delete Files;
+      return 0;
+  }
   idList=_db.getMediaIdByNameAndType(package->getFileNames(),ComPackage::AdvertisingVideo);
   _db.addAdvertisingVideo(idList);
   delete Files;

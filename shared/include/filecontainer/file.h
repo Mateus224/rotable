@@ -66,14 +66,14 @@ public:
     /**
      * @brief setType
      * @param type
-     * Set type of the sended File
+     * Set type of the sended Files (needed by adding files)
      */
     inline void setType(int type){_type=type;}
 
     /**
      * @brief getType
      * @return
-     * get the type of the sended File
+     * get the type of the sended Files (used in database)
      */
     inline int getType(){return _type;}
 

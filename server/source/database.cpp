@@ -1490,7 +1490,7 @@ bool Database::addMedia(File* file)
           qCritical() << tr("Invalid query: %1").arg(queryStr);
           return false;
         }
-        q.bindValue(":type", file->_type);
+        q.bindValue(":type", file->getType());
         q.bindValue(":name", fileInfo._name);
         q.bindValue(":size", fileInfo._size);
 
@@ -3830,6 +3830,7 @@ bool Database::getAdvertisingAdditionalData(AdvertisingVideo* advertisingvideo)
     advertisingvideo->_advertisingInfo._id=q.value("id").toInt(&ok);
     advertisingvideo->_advertisingInfo._play=q.value("play").toBool();
     advertisingvideo->_advertisingInfo._played=q.value("played").toInt(&ok);
+    advertisingvideo->_advertisingInfo._mediaId=q.value("media_id").toInt(&ok);
 
     return true;
 }

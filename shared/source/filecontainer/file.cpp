@@ -10,9 +10,9 @@ using namespace rotable;
 File::File( QObject *parent) : QObject(parent),_fileInfo()
 {
     //This sequence have be the same like the FileUsage see also Comapackge
-    QString s_advertisingvideo={"/opt/rotable/advertisingVideo"};
-    QString s_advertisingPicture={"/opt/rotable/advertisingPicture"};
-    QString s_CategoryIcons={"/opt/rotable/CategoryIcons"};
+    QString s_advertisingvideo={"/opt/rotable/advertisingVideo/"};
+    QString s_advertisingPicture={"/opt/rotable/advertisingPicture/"};
+    QString s_CategoryIcons={"/opt/rotable/CategoryIcons/"};
     _paths<<s_advertisingvideo<<s_advertisingPicture<<s_CategoryIcons;
     for(QString &path: _paths)
         {
@@ -35,16 +35,16 @@ bool File::addFileOnSD(rotable::ComPackageSendFile *package)
 {
     QStringList FileNameList=package->getFileNames();
     QStringList FileList=package->getFiles();
-    QString temp;
+    QString dir;
     int i=0;
     foreach(QString fileName, FileNameList)
     {
         QByteArray File=package->base64ToQString( FileList.at(i));
 
-        temp=_paths.at(package->getFileUsage()) + fileName;
+        dir=_paths.at(package->getFileUsage());
         /* Try and open a file for output */
-
-        QFile outputFile(temp);
+        _fileDir->setCurrent(dir);
+        QFile outputFile(fileName);
         outputFile.open(QIODevice::WriteOnly);
 
         /* Check if opened OK */
@@ -145,9 +145,9 @@ void File::setRemoved(const int& removed)
 
  //------------------------------------------------------------------------------
 
- void File::getFileInfoFromFileAndSet(QStringList FileListName)
+ void File::getFileInfoFromFileAndSet(QStringList FileListNames)
  {
-    foreach(QString fileName, _fileListNames)
+    foreach(QString fileName, FileListNames)
     {
         QString path =_paths.at(AdvertisingVideo);
         fileInfo struct_fileInfo;
