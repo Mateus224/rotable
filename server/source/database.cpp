@@ -1803,9 +1803,8 @@ bool Database::updateFile(File *file) {
 
   switch (file->_fileInfo._type) {
   case ComPackage::AdvertisingVideo: {
-    AdvertisingVideo *tmp = reinterpret_cast<AdvertisingVideo *>(file);
-   // if (!updateTableAdditionalData(tmp->id(), tmp->isConnected(),
-   //                                tmp->waiterIsNeeded()))
+    AdvertisingVideo *advertisingVideo = reinterpret_cast<AdvertisingVideo *>(file);
+    if (!updateAdvertsingAdditionalData(advertisingVideo))
       return true;
   } break;
 
@@ -1866,7 +1865,36 @@ bool Database::updateWaiterAdditionalData(Waiter *waiter) {
   return true;
 }
 
+//------------------------------------------------------------------------------
 
+bool Database::updateAdvertsingAdditionalData(AdvertisingVideo *advertisingVideo) {
+    if (!isConnected()) {
+      return false;
+    }
+
+    QString queryStr = _sqlCommands[AdvertisingVideos]._update.arg(_prefix).arg(advertisingVideo->getA_id());
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return false;
+    }
+
+    q.bindValue(":frequency", advertisingVideo->getFrequency());
+    q.bindValue(":play", advertisingVideo->getPlay());
+    q.bindValue(":played", advertisingVideo->getPlayed());
+    q.bindValue(":media_id", advertisingVideo->getMedia_id());
+
+    if (!q.exec()) {
+      qCritical()
+          << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    return true;
+}
 //------------------------------------------------------------------------------
 
 bool Database::addWaiterCategoires(const int &waiterId,

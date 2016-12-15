@@ -18,6 +18,7 @@ public:
 
 
     void setA_id(const int& id);
+    inline int getA_id(){return _advertisingInfo._id;}
 
     /**
      * @brief setFrequency
@@ -25,14 +26,17 @@ public:
      * how often will be the video played in minutes
      */
     void setFrequency(const int& frequency);
+    inline int getFrequency(){return _advertisingInfo._frequency;}
 
     void setMedia_id(const int& mediaId);
+    inline int getMedia_id(){return _advertisingInfo._mediaId;}
     /**
      * @brief setPlay
      * @param play
      * set true if the video have to be played
      */
     void setPlay(const bool& play);
+    inline bool getPlay(){return _advertisingInfo._play;}
 
     /**
      * @brief setPlayed
@@ -40,6 +44,7 @@ public:
      * set how often the video was played
      */
     void setPlayed(const int& played);
+    inline int getPlayed(){return _advertisingInfo._played;}
 
     void updateVideo();
 

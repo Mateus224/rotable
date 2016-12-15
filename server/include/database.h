@@ -768,9 +768,16 @@ private:
    * @brief Update additional data about waiter
    *
    * @param waiter      Waiter object
-   * @return bool       true on successs
+   * @return bool       true on success
    */
   bool updateWaiterAdditionalData(Waiter *waiter);
+
+  /**
+   * @brief updateAdvertsingAdditionalData about File;
+   * @param advertisingVideo
+   * @return true on success
+   */
+  bool updateAdvertsingAdditionalData(AdvertisingVideo *advertisingVideo);
 
   /**
    * Update OrderItem
