@@ -1086,8 +1086,11 @@ bool Server::executeCommand(ComPackageCommand *package) {
       }
     } break;
     case ComPackage::CommandType::RemoveAdvertisingVideo: {
-      QJsonArray  arr = package->data().toArray();
-      qCritical()<<"to do";
+      int  id = package->data().toInt();
+      if(_db.removeFile(id,1));
+      ComPackageDataChanged dc;
+      dc.setDataCategory(ComPackage::RequestMediaIds);
+      _tcp.send(-1, dc);
       return true;
     } break;
     default: {
@@ -1357,7 +1360,7 @@ bool Server::typeOfFileDestination(ComPackageSendFile* package)
 
       switch (package->getFileUsage()) {
       case ComPackage::AdvertisingVideo:
-          addAdvertisingSD_Database(package);
+          if(addAdvertisingSD_Database(package));
           break;
       case ComPackage::AdvertisingPicture:
           if(true)
@@ -1416,5 +1419,5 @@ bool Server::addAdvertisingSD_Database(ComPackageSendFile* package)
   idList=_db.getMediaIdByNameAndType(package->getFileNames(),ComPackage::AdvertisingVideo);
   _db.addAdvertisingVideo(idList);
   delete Files;
-
+  return 1;
 }

@@ -424,7 +424,7 @@ void Executor::onAdvertisingVideoSelectionChanged(const int id) {
   } else {
      _files->setSelectedFile(id);
     _selectedAdvertisingVideo =_files->getSelectedFile();
-    Q_ASSERT(_selectedAdvertisingVideo);
+    //Q_ASSERT(_selectedAdvertisingVideo);
   }
 }
 

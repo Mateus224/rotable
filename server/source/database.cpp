@@ -2110,6 +2110,7 @@ bool Database::removeConfig(int id) {
 //------------------------------------------------------------------------------
 bool Database::removeFile(int id, int remove)
 {
+    qCritical()<<"id of the removed file: "<<id;
     if (!isConnected()) {
       return false;
     }
