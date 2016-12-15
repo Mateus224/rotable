@@ -194,7 +194,9 @@ public:
 
     AddWaiterCategory,
 
-    RemoveWaiterCategory
+    RemoveWaiterCategory,
+
+    RemoveAdvertisingVideo
   };
 
   /**

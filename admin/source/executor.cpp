@@ -491,7 +491,7 @@ void Executor::onAddLicence() {
 
 //------------------------------------------------------------------------------
 
-void Executor::onAddVideo()
+void Executor::onAddAdvertisingVideo()
 {
 
     QStringList fileNameList;
@@ -541,6 +541,33 @@ void Executor::onAddVideo()
     msgBox.exec();
 
     }
+}
+
+
+//------------------------------------------------------------------------------
+
+void Executor::onRemoveAdvertisingVideo() {
+
+    qDebug()<<"bis hier klappt das mediaId: "<< _selectedAdvertisingVideo->getMedia_id();
+  ComPackageCommand com;
+
+  if (_selectedAdvertisingVideo) {
+
+    com.setData(_selectedAdvertisingVideo->getMedia_id());
+    com.setCommandType(ComPackage::RemoveAdvertisingVideo);
+
+
+      if (!_tcp_client.send(com)) {
+        qCritical() << tr("FATAL: Could not send data set package!");
+
+        QMessageBox msgBox;
+        msgBox.setText("Network I/O-Error!");
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.exec();
+      }
+  }
+
 }
 
 //------------------------------------------------------------------------------

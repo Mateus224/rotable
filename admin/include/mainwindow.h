@@ -172,6 +172,8 @@ signals:
  //By clicking add Video--> sending a signal to the class
  void addVideo();
 
+ void removeVideo();
+
  /**
   * @brief Open new dialog for add user
   * @related Executor::onAddUser
@@ -236,7 +238,6 @@ public slots:
   *
   */
  void onDown();
- void onAddVideo();
 
 protected:
  /**

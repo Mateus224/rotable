@@ -294,9 +294,14 @@ public slots:
   void onAddLicence();
 
   /**
-   * Method from called in the executer for add a new video
+   * Method called in the executer for add a new video
    */
-  void onAddVideo();
+  void onAddAdvertisingVideo();
+
+  /**
+   * @brief onRemoveAdvertisingVideo
+   */
+  void onRemoveAdvertisingVideo();
 
   void onProductUp();
   /**

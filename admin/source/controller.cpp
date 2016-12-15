@@ -156,8 +156,10 @@ void Controller::connect_signals() {
           &MainWindow::onLicenceStatusSet);
 
   connect(_mainwindow, &MainWindow::addVideo,
-          &_executor, &Executor::onAddVideo);
+          &_executor, &Executor::onAddAdvertisingVideo);
 
+  connect(_mainwindow, &MainWindow::removeVideo,
+          &_executor, &Executor::onRemoveAdvertisingVideo);
   //----------------------------------------------------------------------------
 
   connect(_mainwindow, &MainWindow::actionProductUp, &_executor,
