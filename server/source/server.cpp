@@ -1085,6 +1085,11 @@ bool Server::executeCommand(ComPackageCommand *package) {
         return true;
       }
     } break;
+    case ComPackage::CommandType::RemoveAdvertisingVideo: {
+      QJsonArray  arr = package->data().toArray();
+      qCritical()<<"to do";
+      return true;
+    } break;
     default: {
       qCritical()
           << tr("Unknown command type '%1'!").arg(package->commandType());

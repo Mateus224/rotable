@@ -78,7 +78,6 @@ void rotable::AdvertisingContainer::clear()
 
 void rotable::AdvertisingContainer::setSelectedFile(int idx)
 {
-    qDebug()<<"setselected";
   selectedFile = _files->value(idx);
 }
 

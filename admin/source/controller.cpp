@@ -14,7 +14,7 @@ using namespace rotable;
 
 Controller::Controller(MainWindow *mainwindow, const QString &configFilePath)
     : QObject(0), _mainwindow(mainwindow),
-      _executor(mainwindow, configFilePath), _users(), _files() {
+      _executor(mainwindow, configFilePath), _users(), _files(),_advertisingTableView() {
   _executor.setImageContainer(&_images);
   _executor.setProductContainer(&_products);
   _executor.setUserContainer(&_users);
@@ -199,7 +199,9 @@ void Controller::connect_signals() {
 
   connect(_mainwindow->_ui->_advertisingTableView->selectionModel(),
     SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
-    &_executor, SLOT(onAdvertisingSelectionChanged(const QItemSelection &, const QItemSelection &)));
+    &_advertisingTableView, SLOT(selectionChanged(const QItemSelection &, const QItemSelection &)));
+  connect(&_advertisingTableView, SIGNAL(selectionChanged(int)),
+          &_executor, SLOT(onAdvertisingVideoSelectionChanged(int)));
 
   connect(_mainwindow, &MainWindow::actionChangeUserPassword,
           &_executor, &Executor::onChangePassword);

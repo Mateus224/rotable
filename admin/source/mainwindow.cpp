@@ -49,7 +49,8 @@ MainWindow::MainWindow(QWidget *parent)
   connect(_ui->removeVideoButton, &QPushButton::clicked,this,&MainWindow::removeVideo);
 
   connect(_ui->_tableViewProducts, SIGNAL(selectionChanged(int)), this, SLOT(onViewSelected(int)));
-   connect(_ui->_listViewCategories, SIGNAL(selectionChanged(int)), this, SLOT(onViewSelected(int)));
+  connect(_ui->_listViewCategories, SIGNAL(selectionChanged(int)), this, SLOT(onViewSelected(int)));
+  //connect(_ui->_advertisingTableView, SIGNAL(selectionChanged(int)), this, SLOT(onViewSelected(int)));
 
   _ui->_statusBar->showMessage(tr("Disconnected"));
   connect(_ui->_toolButtonUp, &QToolButton::clicked, this, &MainWindow::onUp);

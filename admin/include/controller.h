@@ -9,6 +9,7 @@
 #include "usertablemodel.h"
 #include "files/advertisingcontainer.h"
 #include "files/advertisingtablemodel.h"
+#include "files/advertisingtableview.h"
 
 
 #include <QObject>
@@ -79,6 +80,8 @@ private:
   /*Files*/
   rotable::AdvertisingContainer _files;
 
+
+  AdvertisingTableView _advertisingTableView;
 
 }; // class Controller
 

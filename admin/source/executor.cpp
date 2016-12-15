@@ -407,7 +407,6 @@ void Executor::onCategorySelectionChanged(int id) {
 //------------------------------------------------------------------------------
 
 void Executor::onProductSelectionChanged(int id) {
-  qDebug()<<"tettetet2";
   if (id == -1) {
     _selectedProduct = 0;
   } else {
@@ -418,14 +417,14 @@ void Executor::onProductSelectionChanged(int id) {
 
 //------------------------------------------------------------------------------
 
-void Executor::onAdvertisingSelectionChanged(const QItemSelection &selct, const QItemSelection &) {
-    qDebug()<<"tettetet";
-    selct.
+void Executor::onAdvertisingVideoSelectionChanged(const int id) {
   if (1 == -1) {
+      qCritical()<<"wrong id";
     _selectedAdvertisingVideo = 0;
   } else {
-    //_selectedAdvertisingVideo = _files->file(id);
-    //Q_ASSERT(_selectedAdvertisingVideo);
+     _files->setSelectedFile(id);
+    _selectedAdvertisingVideo =_files->getSelectedFile();
+    Q_ASSERT(_selectedAdvertisingVideo);
   }
 }
 
