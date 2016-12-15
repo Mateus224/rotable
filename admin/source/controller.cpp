@@ -197,7 +197,12 @@ void Controller::connect_signals() {
   connect(_mainwindow->_ui->_tableViewProducts, SIGNAL(selectionChanged(int)),
           &_executor, SLOT(onProductSelectionChanged(int)));
 
-  connect(_mainwindow, &MainWindow::actionChangeUserPassword, &_executor, &Executor::onChangePassword);
+  connect(_mainwindow->_ui->_advertisingTableView->selectionModel(),
+    SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
+    &_executor, SLOT(onAdvertisingSelectionChanged(const QItemSelection &, const QItemSelection &)));
+
+  connect(_mainwindow, &MainWindow::actionChangeUserPassword,
+          &_executor, &Executor::onChangePassword);
 
   //----------------------------------------------------------------------------
 

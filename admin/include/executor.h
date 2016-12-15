@@ -266,7 +266,7 @@ public slots:
    * @param id              selected advertising id
    *                        -1 on no selection
    */
-  void onAdvertisingSelectionChanged(int id);
+  void onAdvertisingSelectionChanged(const QItemSelection &, const QItemSelection &);
 
   /**
    * The user wants to export his current statistics.

@@ -22,6 +22,7 @@ int AdvertisingTableModel::rowCount(const QModelIndex &parent) const {
 //------------------------------------------------------------------------------
 
 QVariant AdvertisingTableModel::data(const QModelIndex &index, int role) const {
+
   if (role == Qt::BackgroundRole) {
     if (index.row() % 2) {
       return QVariant(QBrush(QColor(200, 250, 200)));
