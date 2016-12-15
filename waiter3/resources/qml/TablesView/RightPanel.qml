@@ -40,7 +40,7 @@ Rectangle {
 
             onEntered:
             {
-                if (drag.source.orderTag=="New" || drag.source.orderTag=="ToPay")
+                if (drag.source.orderTag==="New" || drag.source.orderTag=="ToPay")
                 {
                     console.log("drag "+drag.source.orderTag+" entered Money Button!");
                     drag.source.caught = true;
@@ -50,7 +50,7 @@ Rectangle {
             }
             onExited:
             {
-                if (drag.source.orderTag=="New" || drag.source.orderTag=="ToPay")
+                if (drag.source.orderTag==="New" || drag.source.orderTag=="ToPay")
                 {
                     console.log("drag "+drag.source.orderTag+" exited Trash Button!");
                     drag.source.caught = false;

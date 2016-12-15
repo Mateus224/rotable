@@ -39,7 +39,7 @@
        <locale language="English" country="UnitedStates"/>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>3</number>
       </property>
       <property name="iconSize">
        <size>
@@ -495,14 +495,14 @@
           <item row="0" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout_5">
             <item>
-             <widget class="QPushButton" name="addVideoButton">
+             <widget class="QToolButton" name="addVideoButton">
               <property name="text">
                <string>Add Video</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_2">
+             <widget class="QToolButton" name="removeVideoButton">
               <property name="text">
                <string>Remove video</string>
               </property>
@@ -514,7 +514,7 @@
            <widget class="QComboBox" name="comboBox"/>
           </item>
           <item row="5" column="1">
-           <widget class="QTableWidget" name="tableWidget"/>
+           <widget class="QTableView" name="_advertisingTableView"/>
           </item>
          </layout>
         </item>
@@ -803,7 +803,7 @@
      <x>0</x>
      <y>0</y>
      <width>750</width>
-     <height>27</height>
+     <height>19</height>
     </rect>
    </property>
   </widget>

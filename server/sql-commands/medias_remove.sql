@@ -1,1 +1,1 @@
-UPDATE `%1medias` SET `removed` = 1 WHERE `id` = %2;
+UPDATE `%1medias` SET `removed` = %3 WHERE `id` = %2;

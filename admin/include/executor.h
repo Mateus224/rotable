@@ -9,6 +9,8 @@
 #include "filecontainer/imagecontainer.h"
 #include "tcpclient.h"
 #include "usercontainer.h"
+#include "filecontainer/advertisingvideo.h"
+#include "files/advertisingcontainer.h"
 #include <QItemSelection>
 #include <QObject>
 
@@ -61,6 +63,8 @@ public:
    * @param users               user container
    */
   void setUserContainer(rotable::UserContainter *users);
+
+  void setFileContainer(rotable::AdvertisingContainer *file);
 
 signals:
   /**
@@ -216,6 +220,14 @@ public slots:
   void onExportDatabase();
 
   /**
+   * @brief onUpdateAdvertisingVideo
+   * @param advertisingVideo
+   * sending updated / changed information from the Gui to the server
+   * @see AdvertisingContainer::fileUpdated
+   */
+  void onUpdateAdvertisingVideo(rotable::AdvertisingVideo* advertisingVideo);
+
+  /**
    * Button to import the database has been clicked.
    */
   void onImportDatabase();
@@ -249,6 +261,14 @@ public slots:
   void onProductSelectionChanged(int id);
 
   /**
+   * The advertising video selection in the advertising table view has been changed.
+   *
+   * @param id              selected advertising id
+   *                        -1 on no selection
+   */
+  void onAdvertisingVideoSelectionChanged(const int internelId);
+
+  /**
    * The user wants to export his current statistics.
    */
   void onExportStatistic();
@@ -274,9 +294,14 @@ public slots:
   void onAddLicence();
 
   /**
-   * Method from called in the executer for add a new video
+   * Method called in the executer for add a new video
    */
-  void onAddVideo();
+  void onAddAdvertisingVideo();
+
+  /**
+   * @brief onRemoveAdvertisingVideo
+   */
+  void onRemoveAdvertisingVideo();
 
   void onProductUp();
   /**
@@ -364,6 +389,13 @@ private:
   void requestLicenceStatus();
 
   /**
+    request by server for the Advertising Videos
+   * @brief requestAdvertising
+   * @param fileId
+   */
+  void requestAdvertising(int fileId);
+
+  /**
    * @brief requestClientList
    */
   void requestClientIds();
@@ -433,6 +465,11 @@ private:
 
   /* Users */
   rotable::UserContainter *_users;
+
+  /*Files will be here stored*/
+  rotable::AdvertisingContainer *_files;
+
+  rotable::AdvertisingVideo *_selectedAdvertisingVideo;
 
   rotable::ProductCategory *_selectedCategory;
   rotable::Product *_selectedProduct; /**< TODO: describe */

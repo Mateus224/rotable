@@ -7,7 +7,7 @@
 #include <QMap>
 #include <QString>
 #include <QPixmap>
-#include <filecontainer/filecontainer.h>
+#include <filecontainer/file.h>
 
 //------------------------------------------------------------------------------
 

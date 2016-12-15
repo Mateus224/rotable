@@ -14,10 +14,11 @@ using namespace rotable;
 
 Controller::Controller(MainWindow *mainwindow, const QString &configFilePath)
     : QObject(0), _mainwindow(mainwindow),
-      _executor(mainwindow, configFilePath), _users() {
+      _executor(mainwindow, configFilePath), _users(), _files(),_advertisingTableView() {
   _executor.setImageContainer(&_images);
   _executor.setProductContainer(&_products);
   _executor.setUserContainer(&_users);
+  _executor.setFileContainer(&_files);
 
   _categoryListModel = new CategoryListModel(this);
   _categoryListModel->setProductContainer(&_products);
@@ -36,6 +37,12 @@ Controller::Controller(MainWindow *mainwindow, const QString &configFilePath)
 
   _mainwindow->_ui->_userTableView->setModel(
       reinterpret_cast<QAbstractItemModel *>(_userTableModel));
+
+  _advertisingTableModel=new AdvertisingTableModel();
+  _advertisingTableModel->setFileContainer(&_files);
+
+  _mainwindow->_ui->_advertisingTableView->setModel(
+      reinterpret_cast<QAbstractItemModel*>(_advertisingTableModel));
 
   _mainwindow->restore();
 
@@ -149,8 +156,10 @@ void Controller::connect_signals() {
           &MainWindow::onLicenceStatusSet);
 
   connect(_mainwindow, &MainWindow::addVideo,
-          &_executor, &Executor::onAddVideo);
+          &_executor, &Executor::onAddAdvertisingVideo);
 
+  connect(_mainwindow, &MainWindow::removeVideo,
+          &_executor, &Executor::onRemoveAdvertisingVideo);
   //----------------------------------------------------------------------------
 
   connect(_mainwindow, &MainWindow::actionProductUp, &_executor,
@@ -176,16 +185,33 @@ void Controller::connect_signals() {
   connect(&_products, SIGNAL(productUpdated(rotable::Product *)), &_executor,
           SLOT(onUpdateProduct(rotable::Product *)));
 
+  connect(&_files, SIGNAL(advertisingVideoUpdated(rotable::AdvertisingVideo *)),
+          _advertisingTableModel, SLOT(updateModel()));
+
+  connect(&_files, SIGNAL(advertisingVideoUpdated(rotable::AdvertisingVideo  *)), &_executor,
+          SLOT(onUpdateAdvertisingVideo(rotable::AdvertisingVideo *)));
+
   connect(_mainwindow->_ui->_listViewCategories, SIGNAL(selectionChanged(int)),
           _productTableModel, SLOT(onCategoryChanged(int)));
 
   connect(_mainwindow->_ui->_tableViewProducts, SIGNAL(selectionChanged(int)),
           &_executor, SLOT(onProductSelectionChanged(int)));
 
-  connect(_mainwindow, &MainWindow::actionChangeUserPassword, &_executor, &Executor::onChangePassword);
+  connect(_mainwindow->_ui->_advertisingTableView->selectionModel(),
+    SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
+    &_advertisingTableView, SLOT(selectionChanged(const QItemSelection &, const QItemSelection &)));
+  connect(&_advertisingTableView, SIGNAL(selectionChanged(int)),
+          &_executor, SLOT(onAdvertisingVideoSelectionChanged(int)));
+
+  connect(_mainwindow, &MainWindow::actionChangeUserPassword,
+          &_executor, &Executor::onChangePassword);
 
   //----------------------------------------------------------------------------
 
   connect(&_users, &UserContainter::updateView, _userTableModel,
           &UserTableModel::updateModel);
+  //----------------------------------------------------------------------------
+
+  connect(&_files, &AdvertisingContainer::updateView, _advertisingTableModel,
+          &AdvertisingTableModel::updateModel);
 }

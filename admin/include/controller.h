@@ -7,6 +7,9 @@
 #include "productcontainer.h"
 #include "filecontainer/imagecontainer.h"
 #include "usertablemodel.h"
+#include "files/advertisingcontainer.h"
+#include "files/advertisingtablemodel.h"
+#include "files/advertisingtableview.h"
 
 
 #include <QObject>
@@ -70,6 +73,16 @@ private:
 \
   /* Model for user table view */
   UserTableModel* _userTableModel;
+
+  /*Model for Advertising Videos*/
+  AdvertisingTableModel* _advertisingTableModel;
+
+  /*Files*/
+  rotable::AdvertisingContainer _files;
+
+
+  AdvertisingTableView _advertisingTableView;
+
 }; // class Controller
 
 //------------------------------------------------------------------------------

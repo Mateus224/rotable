@@ -435,10 +435,11 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
       qCritical() << tr("Could not convert table id '%1' to an integer!")
                          .arg(request->dataName());
     }
-  }
+  }break;
   // Not implemented yet, for admin app perhaps
-  case ComPackage::RequestOrderIds:
-    break;
+  //case ComPackage::RequestOrderIds:{
+  //}
+  //  break;
   case ComPackage::RequestOrder: {
     bool ok;
     int orderId = request->dataName().toInt(&ok);
@@ -504,11 +505,11 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
         new ComPackageDataReturn(*request, configToJSON());
     return ret;
   } break;
-  case ComPackage::RequestLicence: {
+  //case ComPackage::RequestLicence: {
     //      ComPackageDataReturn* ret = new ComPackageDataReturn(*request,
     //      QJsonValue(_licence->getLicenceStatus()));
     //      return ret;
-  } break;
+  //} break;
   case ComPackage::RequestIncome: {
     bool ok;
     int incomeId = request->dataName().toInt(&ok);
@@ -561,16 +562,26 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
     }
   } break;
   case ComPackage::RequestMediaIds: {
-    QList<int> ids;
-    if (_db.mediaIds(ids)) {
+    QList<int>* ids;
+    if (ids=_db.getMediaIdByType(ComPackage::AdvertisingVideo)) {
       QJsonArray arr;
-      foreach (int id, ids) { arr.append(id); }
+      foreach (int id, *ids) { arr.append(id); }
       QJsonValue jsonVal(arr);
-      LogManager::getInstance()->logInfo("\n\n das klappt \n\n");
       return new ComPackageDataReturn(*request, jsonVal);
     } else {
       qCritical() << tr("Could not query product category ids!");
     }
+  } break;
+  case ComPackage::RequestMedia: {
+      int mediaId=request->dataName().toInt();
+      AdvertisingVideo* Video=new AdvertisingVideo();
+      Video=reinterpret_cast<AdvertisingVideo*> (_db.media(mediaId));
+      if(Video)
+      {
+          return new ComPackageDataReturn(*request, Video->toJSON() );
+      }
+
+
   } break;
   default: {
     qCritical()
@@ -672,6 +683,20 @@ bool Server::setData(ComPackageDataSet *set, client_t client) {
     //    _licence->loadLicence();
     return true;
   } break;
+  case ComPackage::SetAdvertising: {
+      AdvertisingVideo *advertising =static_cast<AdvertisingVideo*> (AdvertisingVideo::fromJSON(set->data()));
+
+      if (advertising) {
+        if (advertising->_fileInfo._id == -1) {
+            qWarning()<<"advertising file has a wrong id";
+          return false;
+        } else {
+          return updateAdvertising(advertising);
+        }
+      } else {
+        return false;
+      }
+  }
 
 
   default: {
@@ -914,6 +939,36 @@ bool Server::setWaiterNeed(bool need, int tableId) {
 
 //------------------------------------------------------------------------------
 
+bool Server::updateAdvertising(AdvertisingVideo *advertising) {
+  File* file= static_cast<File*>(advertising);
+  if(_db.hasFile(advertising->_advertisingInfo._mediaId))
+  {
+      File* tmp =_db.media(advertising->_advertisingInfo._mediaId);
+//      if(_db.hasFile(advertising->_fileInfo._name, advertising->_fileInfo._type))
+
+        if(!tmp->rename(advertising->_fileInfo._name))
+            qCritical()<<"rename not succed!";
+        delete tmp;
+
+      if (!_db.updateFile(file)) {
+        qWarning() << tr("Failed to update product!");
+        //file->rename()
+        return false;
+      }
+
+      // Inform clients about data change...
+      ComPackageDataChanged dc;
+      dc.setDataCategory(ComPackage::RequestMediaIds);
+      dc.setDataName(QString("%1").arg(advertising->_fileInfo._id));
+      _tcp.send(-1, dc);
+
+      return true;
+  }
+  return false;
+}
+
+//------------------------------------------------------------------------------
+
 bool Server::executeCommand(ComPackageCommand *package) {
   if (package) {
     switch (package->commandType()) {
@@ -1029,6 +1084,11 @@ bool Server::executeCommand(ComPackageCommand *package) {
       if(_db.updateUserPassword(user)){
         return true;
       }
+    } break;
+    case ComPackage::CommandType::RemoveAdvertisingVideo: {
+      QJsonArray  arr = package->data().toArray();
+      qCritical()<<"to do";
+      return true;
     } break;
     default: {
       qCritical()
@@ -1292,18 +1352,12 @@ QJsonValue Server::configToJSON() {
 
 bool Server::typeOfFileDestination(ComPackageSendFile* package)
 {
-
-    int size;
     QString test1;
     if (package) {
+
       switch (package->getFileUsage()) {
       case ComPackage::AdvertisingVideo:
-          if(true){
-            FileContainer *Files= new FileContainer("advertising");
-            Files->addFile(package);
-            Files->getSize(package->getFileNames(),size);
-            delete Files;
-           }
+          addAdvertisingSD_Database(package);
           break;
       case ComPackage::AdvertisingPicture:
           if(true)
@@ -1324,6 +1378,43 @@ bool Server::typeOfFileDestination(ComPackageSendFile* package)
 
       }
     }
+    ComPackageDataChanged dc;
+    dc.setDataCategory(ComPackage::RequestMediaIds);
+    _tcp.send(-1, dc);
     return true;
 }
 
+bool Server::addAdvertisingSD_Database(ComPackageSendFile* package)
+{
+
+    AdvertisingVideo *Files= new AdvertisingVideo();
+    QList<int> *idList;
+    for(QString fileName: package->getFileNames()){
+        if(!_db.hasFile(fileName,ComPackage::AdvertisingVideo)){
+           Files->_fileListNames.append(fileName);
+        }
+        else{
+            // if file exist and removed is set true make it undo
+            QList<int>* tempForGetID;
+            QStringList tempQString;
+            tempQString.append(fileName);
+            tempForGetID=_db.getMediaIdByNameAndType(tempQString,ComPackage::AdvertisingVideo);
+            int id=tempForGetID->at(0);
+            _db.removeFile(id,0);
+        }
+    }
+
+  Files->addFileOnSD(package);
+  Files->setType(ComPackage::AdvertisingVideo);
+  Files->getFileInfoFromFileAndSet(Files->_fileListNames);
+  if(!_db.addMedia(Files))
+  {
+      qCritical()<<"failed to add Media";
+      delete Files;
+      return 0;
+  }
+  idList=_db.getMediaIdByNameAndType(package->getFileNames(),ComPackage::AdvertisingVideo);
+  _db.addAdvertisingVideo(idList);
+  delete Files;
+
+}

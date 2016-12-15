@@ -253,7 +253,6 @@ void TcpServer::socketStartRead()
       }
 
       client_t id = _socket2clients[socket];
-      LogManager::getInstance()->logInfo("TEST");
       emit packageReceived(id, package);
     }
   } while (doContinue);

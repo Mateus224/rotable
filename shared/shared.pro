@@ -33,10 +33,11 @@ SOURCES += \
     source/languagesupport.cpp \
     source/waiter_client.cpp \
     source/filecontainer/imagecontainer.cpp \
-    source/media.cpp \
-    source/filecontainer/filecontainer.cpp \
     source/batteryinfo.cpp \
-    source/wifiinfo.cpp
+    source/wifiinfo.cpp \
+    source/filecontainer/advertisingvideo.cpp \
+    source/filecontainer/file.cpp
+
 
 
 HEADERS += \
@@ -62,10 +63,11 @@ HEADERS += \
     include/messageconnector.h \
     include/languagesupport.h \
     include/filecontainer/imagecontainer.h \
-    include/media.h \
-    include/filecontainer/filecontainer.h \
     include/batteryinfo.h \
-    include/wifiinfo.h
+    include/wifiinfo.h \
+    include/filecontainer/advertisingvideo.h \
+    include/filecontainer/file.h
+
 
 
 RESOURCES += shared_resources.qrc

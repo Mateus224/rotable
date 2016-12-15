@@ -10,7 +10,7 @@
 #ifndef QSTRING_H
 #include <QString>
 #endif
-#include "filecontainer/filecontainer.h"
+#include "filecontainer/file.h"
 #include "compackage.h"
 #include "config.h"
 #include "configserver.h"
@@ -196,6 +196,8 @@ private:
    */
   bool setWaiterNeed(bool need, int tableId);
 
+  bool updateAdvertising(AdvertisingVideo *advertising);
+
   /**
    * Execute a command received from a client.
    *
@@ -268,6 +270,22 @@ private:
    * @return true if package was stored and written in the database
    */
   bool typeOfFileDestination(ComPackageSendFile* package);
+
+  /**
+   * @brief addAdvertisingSD_Database
+   * @param package
+   * @return
+   * Adding File on SD and in the Database.
+   * if file exist in Medias/Files table but the row of this video is set on removed
+   * than we undo this and we are setting it back to flase. Otherwise we store the
+   * files which are new in a List.
+   * In the next step we store the file data on the sd-card and we are adding the information into
+   * Media/File table. In the last step we add with default values the information to the
+   * advertising table. It doesn't metter if the media ID exist we add a new
+   * advertising video. So we can have more than entrys in medias with the same media ID.
+   * The current is still the max advertising ID.
+   */
+  bool addAdvertisingSD_Database(ComPackageSendFile* package);
 
   /**
    * @brief Check if connection was enstablished by admin account

@@ -23,7 +23,7 @@
 #include <QJsonObject>
 #endif
 
-#include "media.h"
+
 #include "client.h"
 #include "compackage.h"
 #include "config.h"
@@ -33,6 +33,8 @@
 #include "productcategory.h"
 #include "productorder.h"
 #include "table.h"
+#include "filecontainer/file.h"
+#include "filecontainer/advertisingvideo.h"
 
 //------------------------------------------------------------------------------
 
@@ -185,6 +187,13 @@ public:
   bool mediaIds(QList<int> &ids);
 
   /**
+   * @brief typefileIds
+   * @param ids list of advertising Vides
+   * @return
+   */
+  bool typefileIds(QList<int> &ids, int type );
+
+  /**
    * Read category from database.
    *
    * @param id          category id
@@ -252,9 +261,18 @@ public:
    * Read media from database
    * @param id          media id
    * @return            media or NULL on error
+   * Read and fill the parent class with some information
    */
-  rotable::Media *media(int id);
+  File *media(int id);
 
+  /**
+   * @brief advertisingVideo
+   * @param video
+   * @return
+   * Fill the child class with the rest of information
+   * see:   File *media(int id);
+   */
+  bool advertisingVideo(AdvertisingVideo& video);
   /**
    * Add a new product category to the database.
    * (Will not check whether a category with this name already exists!)
@@ -315,6 +333,19 @@ public:
   bool addOrderItem(OrderItem *item, int orderId);
 
   /**
+   * @brief addMedia
+   * @param
+   * @return true on success
+   */
+  bool addMedia(File* file);
+
+  /**
+   * @brief addAdvertisingVideo
+   * @param file
+   * @return
+   */
+  bool addAdvertisingVideo(QList<int>* mediaId);
+  /**
    * Update a product category.
    *
    * @param category    product category
@@ -369,6 +400,13 @@ public:
   bool updateUserPassword(User *user);
 
   /**
+   * @brief updateAdvertisingVideo
+   * @param advertising
+   * @return true on success
+   * updated files information which are changed from the admin
+   */
+  bool updateFile(File *file);
+  /**
    * Remove a category.
    *
    * @param id          id of category
@@ -399,6 +437,16 @@ public:
    * @return            true on success
    */
   bool removeConfig(int id);
+
+
+  /**
+   * @brief removedFile
+   * @param id of the File
+   * @param remove 1 if have to be remove 0 if it has bee
+   * recovered
+   * @return return true if successful
+   */
+  bool removeFile(int id, int remove);
 
   /**
    * Setup the database.
@@ -491,6 +539,21 @@ public:
 
   Income *getLastIncome();
   int getLastIncomeId();
+
+  /**
+   * @brief getTypeId
+   * @return A List of ids which the given type
+   * reading media (file) table and get the Ids of the same type
+   */
+  QList<int> *getMediaIdByType(int type);
+
+  /**
+   * @brief getMediaIdByName
+   * @param name, type
+   * @return
+   */
+  QList<int> *getMediaIdByNameAndType(QStringList name, int type);
+
   /**
    * Check Config record exist
    * @param name        config name
@@ -519,6 +582,21 @@ public:
    * @return            true on success
    */
   bool hasOrder(int id);
+
+  /**
+   * @brief hasFile
+   * @param id
+   * @return
+   */
+  bool hasFile( int id);
+
+  /**
+   * @brief hasFile
+   * @param name
+   * @return true if the file exist in medias with the same type
+   *
+   */
+  bool hasFile(QString name, int type);
 
   /**
    * Get from database not close order
@@ -670,6 +748,13 @@ private:
   bool getWaiterAdditionalData(rotable::Waiter *waiter);
 
   /**
+   * @brief get Additional Data about Video
+   * @param fc
+   * @return
+   */
+  bool getAdvertisingAdditionalData (AdvertisingVideo* fc);
+
+  /**
    * Update additional data about table
    *
    * @param id          Table id
@@ -683,9 +768,16 @@ private:
    * @brief Update additional data about waiter
    *
    * @param waiter      Waiter object
-   * @return bool       true on successs
+   * @return bool       true on success
    */
   bool updateWaiterAdditionalData(Waiter *waiter);
+
+  /**
+   * @brief updateAdvertsingAdditionalData about File;
+   * @param advertisingVideo
+   * @return true on success
+   */
+  bool updateAdvertsingAdditionalData(AdvertisingVideo *advertisingVideo);
 
   /**
    * Update OrderItem

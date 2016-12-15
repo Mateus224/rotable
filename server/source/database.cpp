@@ -464,7 +464,7 @@ bool Database::mediaIds(QList<int> &ids) {
   QString queryStr = _sqlCommands[Medias]._listIds.arg(_prefix);
 
   QSqlQuery q(_db);
-  // q.setForwardOnly(true);
+  q.setForwardOnly(true);
 
   if (!q.prepare(queryStr)) {
     qCritical() << tr("Invalid query: %1").arg(queryStr);
@@ -489,6 +489,14 @@ bool Database::mediaIds(QList<int> &ids) {
   }
 
   return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::typefileIds(QList<int> &ids, int type)
+{
+    //take the media ids which have the advertising type and take the info from advertising table
+
 }
 
 //------------------------------------------------------------------------------
@@ -1089,13 +1097,86 @@ Client *Database::client(int id) {
 
 //------------------------------------------------------------------------------
 
-Media *Database::media(int id) {
+File *Database::media(int id) {
+
+  File *fc = nullptr;
+
   if (!isConnected()) {
     return 0;
   }
 
   QString queryStr =
-      _sqlCommands[Medias]._select.arg(_prefix, "*", "id").arg(id);
+      _sqlCommands[Medias]._select.arg(_prefix, "*", "id" , ":id");//.arg(id);
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return 0;
+  }
+
+  q.bindValue(":id", id);
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return 0;
+  }
+
+  if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+    if (q.size() != 1) {
+      qCritical()
+          << tr("Query: returned %1 results but we expected it to return 1!")
+                 .arg(q.size());
+      return 0;
+    }
+  }
+
+  if (!q.next()) {
+    return 0;
+  }
+
+  bool ok;
+
+  int type = q.value("type").toInt(&ok);
+
+  switch (type) {
+  case ComPackage::AdvertisingVideo: {
+    fc = new AdvertisingVideo();
+    fc->_fileInfo._id=id;
+    fc->_fileInfo._type=type;
+    fc->_fileInfo._name=q.value("name").toString();
+    fc->_fileInfo._date=q.value("date_added").toString();
+    fc->_fileInfo._size=q.value("size").toInt(&ok);
+    fc->_fileInfo._removed=q.value("removed").toInt(&ok);
+    getAdvertisingAdditionalData(reinterpret_cast<AdvertisingVideo *>(fc));
+  } break;
+  case ComPackage::AdvertisingPicture: {
+  } break;
+  case ComPackage::CatergoryIcon: {
+  } break;
+  case ComPackage::ProductPicture: {
+  } break;
+  case ComPackage::ProductVideo: {
+  } break;
+  default:
+    qCritical() << tr("Account type don't exists");
+    return nullptr;
+  }
+  return fc;
+}
+
+//------------------------------------------------------------------------------
+
+
+bool Database::advertisingVideo(AdvertisingVideo & video) {
+  if (!isConnected()) {
+    return 0;
+  }
+
+  QString queryStr =
+      _sqlCommands[AdvertisingVideos]._select.arg(_prefix, "*", "media_id").arg(video._fileInfo._id);
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -1123,29 +1204,13 @@ Media *Database::media(int id) {
   if (!q.next()) {
     return 0;
   }
-
   bool ok;
-  int media_id = q.value("id").toInt(&ok);
-  if (!ok) {
-    qDebug() << tr("Could not convert '%1' to integer!")
-                    .arg(q.value("id").toString());
-    return 0;
-  }
 
-  /*int sequence = q.value("sequence").toInt(&ok);
-  if (!ok) {
-    qDebug() << tr("Could not convert '%1' to integer!")
-                    .arg(q.value("sequence").toString());
-    return 0;
-  }*/
-
-  Media *c = new Media();
-  c->setName(q.value("name").toString());
-  //c->setIcon(q.value("icon").toString());
-  c->setId(media_id);
-  //c->setSequence(sequence);
-
-  return c;
+  video._advertisingInfo._frequency=q.value("frequency").toInt(&ok);
+  video._advertisingInfo._id=q.value("id").toInt(&ok);
+  video._advertisingInfo._play=q.value("play").toBool();
+  video._advertisingInfo._played=q.value("played").toInt(&ok);
+  return true;
 }
 
 //------------------------------------------------------------------------------
@@ -1409,6 +1474,68 @@ bool Database::addOrderItem(OrderItem *item, int orderId) {
 
 //------------------------------------------------------------------------------
 
+bool Database::addMedia(File* file)
+{
+    if (!isConnected()) {
+      return false;
+    }
+    for (auto fileInfo: file->l_fileInfo) {
+        QString queryStr = _sqlCommands[Medias]._insert.arg(
+            _prefix, "NULL", ":type", ":name", ":size");
+
+        QSqlQuery q(_db);
+        q.setForwardOnly(true);
+
+        if (!q.prepare(queryStr)) {
+          qCritical() << tr("Invalid query: %1").arg(queryStr);
+          return false;
+        }
+        q.bindValue(":type", file->getType());
+        q.bindValue(":name", fileInfo._name);
+        q.bindValue(":size", fileInfo._size);
+
+        if (!q.exec()) {
+          qCritical()
+              << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+          return false;
+        }
+    }
+    return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::addAdvertisingVideo(QList<int>* mediaId)
+{
+    if (!isConnected()) {
+      return false;
+    }
+    for (int media_id: *mediaId) {
+        QString queryStr = _sqlCommands[AdvertisingVideos]._insert.arg(
+            _prefix, "NULL", ":frequency", ":play", ":played", ":media_id");
+
+        QSqlQuery q(_db);
+        q.setForwardOnly(true);
+
+        if (!q.prepare(queryStr)) {
+          qCritical() << tr("Invalid query: %1").arg(queryStr);
+          return false;
+        }
+        q.bindValue(":frequency",30);
+        q.bindValue(":play",0 );
+        q.bindValue(":played",0);
+        q.bindValue(":media_id",media_id );
+
+        if (!q.exec()) {
+          qCritical()
+              << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+          return false;
+        }
+    }
+    return true;
+}
+//------------------------------------------------------------------------------
+
 bool Database::updateCategory(ProductCategory *category) {
   if (!isConnected()) {
     return false;
@@ -1646,6 +1773,49 @@ bool Database::updateUserPassword(User *user)
 
 //------------------------------------------------------------------------------
 
+bool Database::updateFile(File *file) {
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr =
+      _sqlCommands[Medias]._update.arg(_prefix).arg(file->_fileInfo._id);
+
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return false;
+  }
+
+  q.bindValue(":name", file->_fileInfo._name);
+  q.bindValue(":size", file->_fileInfo._size);
+  q.bindValue(":removed", file->_fileInfo._removed);
+  q.bindValue(":type", file->_fileInfo._type);
+
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  switch (file->_fileInfo._type) {
+  case ComPackage::AdvertisingVideo: {
+    AdvertisingVideo *advertisingVideo = reinterpret_cast<AdvertisingVideo *>(file);
+    if (!updateAdvertsingAdditionalData(advertisingVideo))
+      return true;
+  } break;
+
+
+  return false;
+  }
+  return true;
+}
+
+//------------------------------------------------------------------------------
+
 bool Database::updateTableAdditionalData(int id, int connected, int need) {
   if (!isConnected()) {
     return false;
@@ -1695,6 +1865,36 @@ bool Database::updateWaiterAdditionalData(Waiter *waiter) {
   return true;
 }
 
+//------------------------------------------------------------------------------
+
+bool Database::updateAdvertsingAdditionalData(AdvertisingVideo *advertisingVideo) {
+    if (!isConnected()) {
+      return false;
+    }
+
+    QString queryStr = _sqlCommands[AdvertisingVideos]._update.arg(_prefix).arg(advertisingVideo->getA_id());
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return false;
+    }
+
+    q.bindValue(":frequency", advertisingVideo->getFrequency());
+    q.bindValue(":play", advertisingVideo->getPlay());
+    q.bindValue(":played", advertisingVideo->getPlayed());
+    q.bindValue(":media_id", advertisingVideo->getMedia_id());
+
+    if (!q.exec()) {
+      qCritical()
+          << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    return true;
+}
 //------------------------------------------------------------------------------
 
 bool Database::addWaiterCategoires(const int &waiterId,
@@ -1905,6 +2105,37 @@ bool Database::removeConfig(int id) {
   }
 
   return true;
+}
+
+//------------------------------------------------------------------------------
+bool Database::removeFile(int id, int remove)
+{
+    if (!isConnected()) {
+      return false;
+    }
+
+    QString queryStr = _sqlCommands[Medias]._remove.arg(_prefix).arg(id).arg(remove);
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return -1;
+    }
+
+    q.bindValue(":id", id);
+    if (!q.exec()) {
+      qCritical()
+          << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    if (q.next()) {
+      return true;
+    }
+
+    return false;
 }
 
 //------------------------------------------------------------------------------
@@ -2747,6 +2978,73 @@ bool Database::hasOrder(int id) {
 
 //------------------------------------------------------------------------------
 
+bool Database::hasFile(int id)
+{
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr =
+      _sqlCommands[Medias]._select.arg(_prefix, "`id`", "id", ":id");
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return -1;
+  }
+
+  q.bindValue(":id", id);
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+
+  if (q.next()) {
+    return true;
+  }
+
+  return false;
+}
+
+//------------------------------------------------------------------------------
+bool Database::hasFile(QString name, int type)
+{
+    if (!isConnected()) {
+      return false;
+    }
+
+    QString queryStr =
+            "SELECT `id` FROM rotable_medias WHERE `name` = :name AND `type` = :type ;";
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return -1;
+    }
+
+    q.bindValue(":name", name);
+    q.bindValue(":type", type);
+
+    if (!q.exec()) {
+      qCritical()
+          << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    if (q.next()) {
+      return true;
+    }
+
+    return false;
+}
+
+
+//------------------------------------------------------------------------------
+
 QList<Order *> *Database::getNotCloseOrderList() {
   if (!isConnected()) {
     return 0;
@@ -3028,6 +3326,98 @@ int Database::getLastIncomeId() {
   }
 
   return -1;
+}
+
+//------------------------------------------------------------------------------
+QList<int> *Database::getMediaIdByType(int type)
+{
+    if (!isConnected()) {
+      return NULL;
+    }
+
+    QString queryStr =
+        _sqlCommands[Medias]._select.arg(_prefix, "`id`", "type", ":type");
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return NULL;
+    }
+
+    q.bindValue(":type", type);
+
+    if (!q.exec()) {
+      qCritical()
+          << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+      return NULL;
+    }
+
+    QList<int> *list = new QList<int>();
+
+    while (q.next()) {
+      bool toIntOk=true;
+      *list<<q.value("id").toInt(&toIntOk);
+      if(!toIntOk){
+          qCritical() << tr("Could not convert entry '%1' to an integer!")
+                             .arg(q.value("id").toString());
+          list->clear();
+          return NULL;
+      }
+    }
+
+    if (list->isEmpty())
+      return NULL;
+    else
+      return list;
+
+}
+
+//------------------------------------------------------------------------------
+
+QList<int> *Database::getMediaIdByNameAndType(QStringList nameList, int type)
+{
+    if (!isConnected()) {
+      return NULL;
+    }
+
+    QList<int> *list = new QList<int>();
+
+    for(QString name: nameList){
+        QString queryStr =
+            "SELECT `id` FROM rotable_medias WHERE `name` = :name AND `type` = :type ;";
+        QSqlQuery q(_db);
+        q.setForwardOnly(true);
+
+        if (!q.prepare(queryStr)) {
+          qCritical() << tr("Invalid query: %1").arg(queryStr);
+          return NULL;
+        }
+
+        q.bindValue(":name", name);
+        q.bindValue(":type", type);
+        if (!q.exec()) {
+          qCritical()
+              << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+          return NULL;
+        }
+
+        if (q.next()){
+            bool toIntOk=true;
+            *list<<q.value("id").toInt(&toIntOk);
+            if(!toIntOk){
+                qCritical() << tr("Could not convert entry '%1' to an integer!")
+                                 .arg(q.value("id").toString());
+                list->clear();
+                return NULL;
+            }
+        }
+    }
+    if (list->isEmpty())
+      return NULL;
+    else
+      return list;
+
 }
 
 //------------------------------------------------------------------------------
@@ -3424,6 +3814,53 @@ bool Database::getWaiterAdditionalData(Waiter *waiter) {
     waiter->setCategories(list);
 
   return true;
+}
+
+bool Database::getAdvertisingAdditionalData(AdvertisingVideo* advertisingvideo)
+{
+    if (!isConnected()) {
+      return false;
+    }
+
+    QString queryStr = _sqlCommands[AdvertisingVideos]._select.arg(
+        _prefix, "*", "media_id", ":id");
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return false;
+    }
+
+    q.bindValue(":id",advertisingvideo->_fileInfo._id);
+
+    if (!q.exec()) {
+      qCritical()
+          << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+      return false;
+    }
+
+    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+      if (q.size() != 1) {
+        qCritical()
+            << tr("Query: returned %1 results but we expected it to return 1!")
+                   .arg(q.size());
+        return 0;
+      }
+    }
+
+    if (!q.next()) {
+      return false;
+    }
+    bool ok;
+    advertisingvideo->_advertisingInfo._frequency=q.value("frequency").toInt(&ok);
+    advertisingvideo->_advertisingInfo._id=q.value("id").toInt(&ok);
+    advertisingvideo->_advertisingInfo._play=q.value("play").toBool();
+    advertisingvideo->_advertisingInfo._played=q.value("played").toInt(&ok);
+    advertisingvideo->_advertisingInfo._mediaId=q.value("media_id").toInt(&ok);
+
+    return true;
 }
 
 //------------------------------------------------------------------------------

@@ -138,7 +138,10 @@ public:
     RequestUser,
 
     /* Request Media IDs*/
-    RequestMediaIds
+    RequestMediaIds,
+
+    /*Request for Information about the Advertising Videos*/
+    RequestMedia
   };
 
   /**
@@ -160,6 +163,8 @@ public:
     /* Set licence */
     SetLicence,
 
+    /*Set Advertising*/
+    SetAdvertising
   };
 
   /**
@@ -189,7 +194,9 @@ public:
 
     AddWaiterCategory,
 
-    RemoveWaiterCategory
+    RemoveWaiterCategory,
+
+    RemoveAdvertisingVideo
   };
 
   /**

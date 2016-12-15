@@ -54,7 +54,7 @@ Rectangle{
                 backAnimY.from = order.y
                 backAnimY.to = beginDrag.y
                 //if current object position != starting object pos => play animation and make object non iteractable
-                if (order.x != beginDrag.x && order.y != beginDrag.y) {
+                if (order.x !== beginDrag.x && order.y !== beginDrag.y) {
                     order.enabled = false
                     seq.start()
                 }

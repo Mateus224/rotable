@@ -64,6 +64,10 @@ void Executor::setUserContainer(UserContainter *users) { _users = users; }
 
 //------------------------------------------------------------------------------
 
+void Executor::setFileContainer(rotable::AdvertisingContainer *file) { _files = file; }
+
+//------------------------------------------------------------------------------
+
 void Executor::onConnectToServer() {
   ConnectToServerDialog dlg(_mainwindow);
 
@@ -310,6 +314,22 @@ void Executor::onResetDatabase() {
 
 //------------------------------------------------------------------------------
 
+
+void Executor::onUpdateAdvertisingVideo(AdvertisingVideo* advertisingVideo)
+{
+    if (advertisingVideo) {
+      ComPackageDataSet set;
+      set.setDataCategory(ComPackage::SetAdvertising);
+      set.setData(advertisingVideo->toJSON());
+
+      if (!_tcp_client.send(set)) {
+        qCritical() << tr("FATAL: Could not send data set package!");
+      }
+    }
+}
+
+//------------------------------------------------------------------------------
+
 void Executor::onExportDatabase() {}
 
 //------------------------------------------------------------------------------
@@ -397,6 +417,19 @@ void Executor::onProductSelectionChanged(int id) {
 
 //------------------------------------------------------------------------------
 
+void Executor::onAdvertisingVideoSelectionChanged(const int id) {
+  if (1 == -1) {
+      qCritical()<<"wrong id";
+    _selectedAdvertisingVideo = 0;
+  } else {
+     _files->setSelectedFile(id);
+    _selectedAdvertisingVideo =_files->getSelectedFile();
+    Q_ASSERT(_selectedAdvertisingVideo);
+  }
+}
+
+//------------------------------------------------------------------------------
+
 void Executor::onExportStatistic() { _mainwindow->exportPdf(); }
 
 //------------------------------------------------------------------------------
@@ -460,7 +493,7 @@ void Executor::onAddLicence() {
 
 //------------------------------------------------------------------------------
 
-void Executor::onAddVideo()
+void Executor::onAddAdvertisingVideo()
 {
 
     QStringList fileNameList;
@@ -510,6 +543,33 @@ void Executor::onAddVideo()
     msgBox.exec();
 
     }
+}
+
+
+//------------------------------------------------------------------------------
+
+void Executor::onRemoveAdvertisingVideo() {
+
+    qDebug()<<"bis hier klappt das mediaId: "<< _selectedAdvertisingVideo->getMedia_id();
+  ComPackageCommand com;
+
+  if (_selectedAdvertisingVideo) {
+
+    com.setData(_selectedAdvertisingVideo->getMedia_id());
+    com.setCommandType(ComPackage::RemoveAdvertisingVideo);
+
+
+      if (!_tcp_client.send(com)) {
+        qCritical() << tr("FATAL: Could not send data set package!");
+
+        QMessageBox msgBox;
+        msgBox.setText("Network I/O-Error!");
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.exec();
+      }
+  }
+
 }
 
 //------------------------------------------------------------------------------
@@ -811,6 +871,20 @@ void Executor::requestServerConfigs() {
 
 //------------------------------------------------------------------------------
 
+void Executor::requestAdvertising(int fileId) {
+  ComPackageDataRequest *request = new ComPackageDataRequest();
+  request->setDataCategory(ComPackage::RequestMedia);
+  request->setDataName(QString("%1").arg(fileId));
+
+  if (!_tcp_client.send(*request)) {
+    qCritical() << tr("Could not send request!");
+  } else {
+    _dataRequest[request->id()] = request;
+  }
+}
+
+//------------------------------------------------------------------------------
+
 void Executor::requestLicenceStatus() {
   //    ComPackageDataRequest* request = new ComPackageDataRequest();
   //    request->setDataCategory(ComPackage::RequestLicence);
@@ -914,8 +988,49 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
     connect(user, &User::hashPasswordChanged, this,
             &Executor::onUpdateUserPassword);
   } break;
-  default: { qCritical() << tr("Unknown data package returned"); } break;
+  case ComPackage::RequestMediaIds: {
+    QJsonArray arr = package->data().toArray();
+    foreach (QJsonValue val, arr) {
+      int id = val.toInt();
+      QString _id=QString::number(id);
+      requestAdvertising(id);
+      //qCritical()<<_id<<"das funktioniert doch";
+    }
+  } break;
+  case ComPackage::RequestMedia: {
+
+      AdvertisingVideo *ad=NULL;
+      File *file= File::fromJSON(package->data());
+      switch (file->_fileInfo._type)
+      {
+      case ComPackage::AdvertisingVideo:
+      {
+          ad=reinterpret_cast <AdvertisingVideo*> (file);
+          _files->addFile(ad);
+      }break;
+
+      case ComPackage::AdvertisingPicture:
+      {
+
+      }break;/*
+      case ComPackage::CatergoryIcon:
+      {
+
+      }break;
+      case ComPackage::ProductPicture:
+      {
+
+      }break;
+      case ComPackage::ProductVideo:
+      {
+
+      }break;*/
+      default : {qCritical() << "unknown package";} break;
+      }
+  }break;
+  default: { qCritical() << tr("Unknown data package \"requestMedia\" returned"); } break;
   }
+
 }
 
 //------------------------------------------------------------------------------
@@ -963,6 +1078,10 @@ void Executor::dataChanged(ComPackageDataChanged *package) {
     case ComPackage::RequestUserIds: {
       _users->clear();
       requestClientIds();
+    } break;
+    case ComPackage::RequestMediaIds: {
+      _files->clear();
+      requestMediaIds();
     } break;
     default: {
       qCritical() << tr("Unknown data changed category '%1' received!")

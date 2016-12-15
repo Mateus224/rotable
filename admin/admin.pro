@@ -52,7 +52,10 @@ SOURCES += \
     source/adduserdialog.cpp \
     source/setwaitercategory.cpp \
     source/waitercategories.cpp \
-    source/resetpassword.cpp
+    source/resetpassword.cpp \
+    source/files/advertisingtablemodel.cpp \
+    source/files/advertisingcontainer.cpp \
+    source/files/advertisingtableview.cpp
 
 HEADERS += \
     include/mainwindow.h \
@@ -85,7 +88,10 @@ HEADERS += \
     include/adduserdialog.h \
     include/setwaitercategory.h \
     include/waitercategories.h \
-    include/resetpassword.h
+    include/resetpassword.h \
+    include/files/advertisingtablemodel.h \
+    include/files/advertisingcontainer.h \
+    include/files/advertisingtableview.h
 
 FORMS += \
     ui/mainwindow.ui \
