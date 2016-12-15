@@ -958,7 +958,7 @@ bool Server::updateAdvertising(AdvertisingVideo *advertising) {
 
       // Inform clients about data change...
       ComPackageDataChanged dc;
-      dc.setDataCategory(ComPackage::RequestMedia);
+      dc.setDataCategory(ComPackage::RequestMediaIds);
       dc.setDataName(QString("%1").arg(advertising->_fileInfo._id));
       _tcp.send(-1, dc);
 
