@@ -264,6 +264,12 @@ void payedSlot(int i){qDebug()<<i;}
   void setState(const QString& state);
 
   /**
+   * @brief requestMediaIds
+   * request for all Media Ids from the server
+   */
+  void requestMediaIds();
+
+  /**
    * Set current category id.
    *
    * @param id          new category id

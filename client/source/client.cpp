@@ -160,6 +160,7 @@ void Client::packageReceived(ComPackage *package)
       _accepted = true;
       setState("SCREENSAVER");
       requestCategoryIds();
+      requestMediaIds();
     } break;
 
     case ComPackage::DataRequest:
@@ -251,6 +252,18 @@ void Client::setState(const QString &state)
   emit stateChanged();
 }
 
+//------------------------------------------------------------------------------
+
+void Client::requestMediaIds() {
+  ComPackageDataRequest *request = new ComPackageDataRequest();
+  request->setDataCategory(ComPackage::RequestMediaIds);
+
+  if (!_tcp.send(*request)) {
+    qCritical() << tr("Could not send request!");
+  } else {
+    _dataRequest[request->id()] = request;
+  }
+}
 //------------------------------------------------------------------------------
 
 void Client::setCurrentCategoryId(int id)
