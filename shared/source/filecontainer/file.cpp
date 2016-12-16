@@ -1,7 +1,6 @@
 #include "filecontainer/file.h"
 #include "filecontainer/advertisingvideo.h"
 #include "logmanager.h"
-#include "compackage.h"
 
 using namespace rotable;
 
@@ -29,7 +28,7 @@ File::~File()
     delete _fileDir;
 }
 
-
+//------------------------------------------------------------------------------
 
 bool File::addFileOnSD(rotable::ComPackageSendFile *package)
 {
@@ -58,6 +57,17 @@ bool File::addFileOnSD(rotable::ComPackageSendFile *package)
         outputFile.close();
     }
     return 1;
+}
+
+//------------------------------------------------------------------------------
+
+bool File::removeFileFromSD()
+{
+    _fileDir->setCurrent(_paths.at(_fileInfo._type));
+    QFile rmFile(getName());
+    if(rmFile.remove())
+        return true;
+    return false;
 }
 
 //------------------------------------------------------------------------------
@@ -125,25 +135,6 @@ void File::setRemoved(const int& removed)
   }
 }
 
-//------------------------------------------------------------------------------
-
-
- QString File::getFile(const QString& name) const
- {
-
- }
-
- void File::changeFileName()
- {
-
- }
-
- void File::rmFile()
- {
-
- }
-
-
  //------------------------------------------------------------------------------
 
  void File::getFileInfoFromFileAndSet(QStringList FileListNames)
@@ -190,14 +181,14 @@ void File::setRemoved(const int& removed)
      File *fc = nullptr;
 
      switch (o["type"].toInt()) {
-     case 0:
+     case rotable::ComPackage::AdvertisingVideo:
      {
        fc = new rotable::AdvertisingVideo();
      } break;
-     case 1: {
+     case rotable::ComPackage::AdvertisingPicture: {
 
      } break;
-     case 2: {
+     case rotable::ComPackage::CatergoryIcon: {
 
      } break;
      }

@@ -30,14 +30,16 @@ public:
     explicit File(QObject* parent = 0);
 
     ~File();
-  /*  enum File{
-        advertising=0,
-
-    };*/
-
 
     bool addFileOnSD(rotable::ComPackageSendFile* package);
-    //void setName(QString fileName){_fileListNames.append(fileName);}
+
+    /**
+     * @brief removeFileFromSD
+     * First check which type this File has
+     * for finding the File in the right folder
+     * @return
+     */
+    bool removeFileFromSD();
 
     /**
      * @brief rename
@@ -47,13 +49,6 @@ public:
      * find the old name and set a new name for a file on the the SD card
      */
     bool rename(QString &newName);
-
-    //bool setName(const QString& name);
-    QString getFile(const QString& name) const;
-    void changeFileName();
-    void rmFile();
-
-
 
     /**
      * @brief getFileInfoFromFileAndSet

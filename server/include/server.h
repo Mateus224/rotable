@@ -288,13 +288,6 @@ private:
   bool addAdvertisingSD_Database(ComPackageSendFile* package);
 
   /**
-   * @brief Removing File from the SD
-   * @param id
-   * @return
-   */
-  bool addAdvertisingSD_Database(int id);
-
-  /**
    * @brief Check if connection was enstablished by admin account
    * @param connection connection to validate
    *

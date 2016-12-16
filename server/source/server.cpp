@@ -1086,16 +1086,17 @@ bool Server::executeCommand(ComPackageCommand *package) {
       }
     } break;
     case ComPackage::CommandType::RemoveAdvertisingVideo: {
-      int  id = package->data().toInt();
-      if(_db.removeFile(id,1)){
-        if(removeAdvertisingOnSD(id)){
-          ComPackageDataChanged dc;
-          dc.setDataCategory(ComPackage::RequestMediaIds);
-          _tcp.send(-1, dc);
-          return true;
-        }
-      }
-    } break;
+        int  id = package->data().toInt();
+        File* toRemove=_db.media(id);
+        if(toRemove->removeFileFromSD()){
+            if(_db.removeFile(id,1)){
+                ComPackageDataChanged dc;
+                dc.setDataCategory(ComPackage::RequestMediaIds);
+                _tcp.send(-1, dc);
+                return true;
+            }else qCritical()<<"Could not remove file from database";
+        }else qCritical()<<"Could not remove file from SD";
+    }break;
     default: {
       qCritical()
           << tr("Unknown command type '%1'!").arg(package->commandType());
@@ -1423,8 +1424,4 @@ bool Server::addAdvertisingSD_Database(ComPackageSendFile* package)
   _db.addAdvertisingVideo(idList);
   delete Files;
   return 1;
-}
-
-bool Server::removeAdvertisingOnSD(int id){
-
 }
