@@ -5,7 +5,7 @@
 
 #include <QObject>
 #include <QAbstractTableModel>
-#include "files/advertisingcontainer.h"
+#include "filecontainer/advertisingcontainer.h"
 
 //------------------------------------------------------------------------------
 

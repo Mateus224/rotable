@@ -569,7 +569,7 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
       QJsonValue jsonVal(arr);
       return new ComPackageDataReturn(*request, jsonVal);
     } else {
-      qCritical() << tr("Could not query product category ids!");
+      return new ComPackageDataReturn(*request, -1);
     }
   } break;
   case ComPackage::RequestMedia: {
@@ -1095,7 +1095,7 @@ bool Server::executeCommand(ComPackageCommand *package) {
                 _tcp.send(-1, dc);
                 return true;
             }else qCritical()<<"Could not remove file from database";
-        }else qCritical()<<"Could not remove file from SD";
+       }else qCritical()<<"Could not remove file from SD";
     }break;
     default: {
       qCritical()

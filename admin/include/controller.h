@@ -7,7 +7,7 @@
 #include "productcontainer.h"
 #include "filecontainer/imagecontainer.h"
 #include "usertablemodel.h"
-#include "files/advertisingcontainer.h"
+#include "filecontainer/advertisingcontainer.h"
 #include "files/advertisingtablemodel.h"
 #include "files/advertisingtableview.h"
 

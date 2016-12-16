@@ -994,7 +994,6 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
       int id = val.toInt();
       QString _id=QString::number(id);
       requestAdvertising(id);
-      //qCritical()<<_id<<"das funktioniert doch";
     }
   } break;
   case ComPackage::RequestMedia: {
@@ -1012,7 +1011,7 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
       case ComPackage::AdvertisingPicture:
       {
 
-      }break;/*
+      }break;
       case ComPackage::CatergoryIcon:
       {
 
@@ -1024,7 +1023,7 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
       case ComPackage::ProductVideo:
       {
 
-      }break;*/
+      }break;
       default : {qCritical() << "unknown package";} break;
       }
   }break;

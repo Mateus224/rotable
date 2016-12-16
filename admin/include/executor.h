@@ -10,7 +10,7 @@
 #include "tcpclient.h"
 #include "usercontainer.h"
 #include "filecontainer/advertisingvideo.h"
-#include "files/advertisingcontainer.h"
+#include "filecontainer/advertisingcontainer.h"
 #include <QItemSelection>
 #include <QObject>
 

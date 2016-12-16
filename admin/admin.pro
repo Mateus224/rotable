@@ -54,7 +54,6 @@ SOURCES += \
     source/waitercategories.cpp \
     source/resetpassword.cpp \
     source/files/advertisingtablemodel.cpp \
-    source/files/advertisingcontainer.cpp \
     source/files/advertisingtableview.cpp
 
 HEADERS += \
@@ -90,7 +89,6 @@ HEADERS += \
     include/waitercategories.h \
     include/resetpassword.h \
     include/files/advertisingtablemodel.h \
-    include/files/advertisingcontainer.h \
     include/files/advertisingtableview.h
 
 FORMS += \

@@ -36,7 +36,8 @@ SOURCES += \
     source/batteryinfo.cpp \
     source/wifiinfo.cpp \
     source/filecontainer/advertisingvideo.cpp \
-    source/filecontainer/file.cpp
+    source/filecontainer/file.cpp \
+    source/filecontainer/advertisingcontainer.cpp
 
 
 
@@ -66,7 +67,8 @@ HEADERS += \
     include/batteryinfo.h \
     include/wifiinfo.h \
     include/filecontainer/advertisingvideo.h \
-    include/filecontainer/file.h
+    include/filecontainer/file.h \
+    include/filecontainer/advertisingcontainer.h
 
 
 

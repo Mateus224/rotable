@@ -34,26 +34,22 @@ bool File::addFileOnSD(rotable::ComPackageSendFile *package)
 {
     QStringList FileNameList=package->getFileNames();
     QStringList FileList=package->getFiles();
-    QString dir;
     int i=0;
     foreach(QString fileName, FileNameList)
     {
         QByteArray File=package->base64ToQString( FileList.at(i));
+        _fileDir->setCurrent(_paths.at(package->getFileUsage()));
 
-        dir=_paths.at(package->getFileUsage());
-        /* Try and open a file for output */
-        _fileDir->setCurrent(dir);
         QFile outputFile(fileName);
         outputFile.open(QIODevice::WriteOnly);
 
-        /* Check if opened OK */
         if(!outputFile.isOpen()){
             qCritical() << "- Error, unable to open" << FileList.at(i) << "for output";
             return 0;
         }
         outputFile.write(File);
         i++;
-        /* Close the file */
+
         outputFile.close();
     }
     return 1;
