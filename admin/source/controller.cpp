@@ -155,6 +155,9 @@ void Controller::connect_signals() {
   connect(&_executor, &Executor::onLicenceStatus, _mainwindow,
           &MainWindow::onLicenceStatusSet);
 
+  connect(_mainwindow, &MainWindow::updateSystem,
+          &_executor, &Executor::onUpdateSystem);
+
   connect(_mainwindow, &MainWindow::addVideo,
           &_executor, &Executor::onAddAdvertisingVideo);
 

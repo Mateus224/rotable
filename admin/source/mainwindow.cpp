@@ -38,13 +38,15 @@ MainWindow::MainWindow(QWidget *parent)
           this, SIGNAL(actionStartDebugServerListening()));
   connect(_ui->_toolButtonStopDebugListening, SIGNAL(clicked()),
           this, SIGNAL(actionStopDebugServerListening()));
+//------------------------------------------------------------------------------
   connect(_ui->_toolAddLicence, &QPushButton::clicked,
           this, &MainWindow::actionAddLicence);
   connect(this, &MainWindow::onLicencePathSet,
           _ui->licencePathLineEdit, &QLineEdit::setText);
   connect(this, &MainWindow::onLicenceStatusSet,
           _ui->licenceStatusLineEdit, &QLineEdit::setText);
-
+  connect(_ui->_updateSystem, &QPushButton::clicked,this,&MainWindow::updateSystem);
+//------------------------------------------------------------------------------
   connect(_ui->addVideoButton, &QPushButton::clicked,this,&MainWindow::addVideo);
   connect(_ui->removeVideoButton, &QPushButton::clicked,this,&MainWindow::removeVideo);
 

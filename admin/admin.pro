@@ -54,7 +54,8 @@ SOURCES += \
     source/waitercategories.cpp \
     source/resetpassword.cpp \
     source/files/advertisingtablemodel.cpp \
-    source/files/advertisingtableview.cpp
+    source/files/advertisingtableview.cpp \
+    source/dialog/systemupdatedialog.cpp
 
 HEADERS += \
     include/mainwindow.h \
@@ -89,7 +90,8 @@ HEADERS += \
     include/waitercategories.h \
     include/resetpassword.h \
     include/files/advertisingtablemodel.h \
-    include/files/advertisingtableview.h
+    include/files/advertisingtableview.h \
+    include/dialog/systemupdatedialog.h
 
 FORMS += \
     ui/mainwindow.ui \
@@ -101,7 +103,8 @@ FORMS += \
     ui/adduserdialog.ui \
     ui/setwaitercategory.ui \
     ui/waitercategories.ui \
-    ui/resetpassword.ui
+    ui/resetpassword.ui \
+    ui/systemupdatedialog.ui
 
 RESOURCES += \
     resources/resources.qrc \

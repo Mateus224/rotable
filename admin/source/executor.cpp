@@ -481,14 +481,36 @@ void Executor::onAddLicence() {
   if (!_tcp_client.send(package)) {
     qCritical() << tr("FATAL: Could not send data set package!");
 
+    QMessageBox msgBox;
+    msgBox.setText("Network I/O-Error!");
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.exec();
+  }
 
-      QMessageBox msgBox;
-      msgBox.setText("Network I/O-Error!");
-      msgBox.setStandardButtons(QMessageBox::Ok);
-      msgBox.setIcon(QMessageBox::Critical);
-      msgBox.exec();
-    }
+}
 
+//------------------------------------------------------------------------------
+
+void Executor::onUpdateSystem() {
+  SystemUpdateDialog dlg(_mainwindow);
+
+  if (dlg.exec() != QDialog::Accepted)
+        return;
+
+  ComPackageCommand package;
+  QJsonValue true_=QJsonValue(true);
+  package.setData(true_);
+  package.setCommandType(ComPackage::SetUpdate);
+  if (!_tcp_client.send(package)) {
+    qCritical() << tr("FATAL: Could not send data set package!");
+
+    QMessageBox msgBox;
+    msgBox.setText("Network I/O-Error!");
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.exec();
+  }
 }
 
 //------------------------------------------------------------------------------

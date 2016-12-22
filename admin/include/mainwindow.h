@@ -149,6 +149,13 @@ signals:
   * @param QString
   */
  void onLicenceStatusSet(QString);
+
+ /**
+  * @brief updateSystem
+  * if clicked make a System Update
+  * send a signal to the executor class
+  */
+ void updateSystem();
  /**
   * @brief
   *
@@ -169,7 +176,7 @@ signals:
   *
   */
  void actionCategoryDown();
- //By clicking add Video--> sending a signal to the class
+ //By clicking add Video--> sending a signal to the class executor
  void addVideo();
 
  void removeVideo();

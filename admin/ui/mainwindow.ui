@@ -733,6 +733,18 @@
         <string>Server Config</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_7">
+        <item alignment="Qt::AlignHCenter">
+         <widget class="QLabel" name="label_4">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Licence</string>
+          </property>
+         </widget>
+        </item>
         <item>
          <widget class="QLabel" name="label">
           <property name="text">
@@ -777,6 +789,45 @@
            </widget>
           </item>
          </layout>
+        </item>
+        <item>
+         <widget class="Line" name="line_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item alignment="Qt::AlignHCenter">
+         <widget class="QLabel" name="label_3">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Update System</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="_updateSystem">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Update</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="line_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
         </item>
         <item>
          <spacer name="verticalSpacer">

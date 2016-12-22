@@ -11,6 +11,7 @@
 #include "usercontainer.h"
 #include "filecontainer/advertisingvideo.h"
 #include "filecontainer/advertisingcontainer.h"
+#include "dialog/systemupdatedialog.h"
 #include <QItemSelection>
 #include <QObject>
 
@@ -292,6 +293,12 @@ public slots:
    * Method for send new licence to server
    */
   void onAddLicence();
+
+  /**
+   * @brief onUpdateSystem
+   * Method called from the executor
+   */
+  void onUpdateSystem();
 
   /**
    * Method called in the executer for add a new video
