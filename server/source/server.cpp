@@ -1099,6 +1099,7 @@ bool Server::executeCommand(ComPackageCommand *package) {
     }break;
     case ComPackage::CommandType::SetUpdate: {
       bool  true_ = package->data().toInt();
+    }break;
     default: {
       qCritical()
           << tr("Unknown command type '%1'!").arg(package->commandType());
