@@ -58,32 +58,6 @@ int main(int argc, char *argv[])
     configFilePath = args[0];
   }
 
-  //----------------------------------------------------------------------------
-/*
- double dUmsatz=7.9; //heutiger Umsatz
-  Date dat;
-  QList <double> QLumsatz_vorherErfassterTag;
-  double Dumsatz_vorherErfassterTag;
-
-
-
-  IO_WriteInMonthData write;
-  write.schreibeInUmsatz(dUmsatz, dat.date.dayOfYear(),ThisDay);
-
-  IO_init Init;
-
-  QLumsatz_vorherErfassterTag= Init.leseUmsatzUndSpeichereRueckwertsInListe(1,0,ThisDay);
-  Dumsatz_vorherErfassterTag=QLumsatz_vorherErfassterTag.last();
-  Init.JahrVollLegeNeueDateiAn(); //diese Funktion muss als erstes aufgerufen werden (bevor etwas in Umsatz.data geschrieben wird)
-  Init.untersucheAufLueckenUndFuelleAuf();
-
-  write.schreibeInUmsatz(Dumsatz_vorherErfassterTag, dat.date.dayOfYear(),umsatz);
-
-  Init.schreibeMonatsUmsatz();
-*/
-  //----------------------------------------------------------------------------
-
-
   MainWindow w;
   Controller controller(&w, configFilePath);
   w.show();

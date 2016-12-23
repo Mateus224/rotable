@@ -1097,6 +1097,8 @@ bool Server::executeCommand(ComPackageCommand *package) {
             }else qCritical()<<"Could not remove file from database";
        }else qCritical()<<"Could not remove file from SD";
     }break;
+    case ComPackage::CommandType::SetUpdate: {
+      bool  true_ = package->data().toInt();
     default: {
       qCritical()
           << tr("Unknown command type '%1'!").arg(package->commandType());
