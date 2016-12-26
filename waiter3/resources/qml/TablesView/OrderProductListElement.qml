@@ -4,7 +4,7 @@ import QtGraphicalEffects 1.0
 Rectangle {
     id: productButton
 
-    property int borderWidth: Math.max(2,parent.width * 0.02)
+    property int borderWidth: Math.max(2,parent.width * 0.01)
     property int itemWidth: Math.max(parent.width,70)
 
     property double dragThreshold: 0.2

@@ -1,4 +1,4 @@
-QT = core qml network gui quick widgets
+QT = core qml network gui quick widgets multimedia
 TARGET = rotable-waiter_03
 
 CONFIG += precompile_header

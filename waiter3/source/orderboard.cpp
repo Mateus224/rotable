@@ -52,6 +52,13 @@ void OrderBoard::changeState(int state)
 //    emit unLoadTable();
 }
 
+void OrderBoard::changeWaiterState(int state)
+{
+    foreach (Order *order, _orders) {
+        order->changeWaiterState(state);
+    }
+}
+
 //-----------------------------------------------------
 
 int OrderBoard::rowCount(const QModelIndex &parent) const
@@ -74,7 +81,7 @@ QVariant OrderBoard::data(const QModelIndex &index, int role) const
 //        return QVariant(order->);
     }break;
     case StatusRole:{
-        return QVariant(order->item(0)->state());
+        return QVariant(order->waiterState());
     }break;
     case ClientRole:{
         return QVariant(order->clientId());

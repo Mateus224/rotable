@@ -105,6 +105,14 @@ public:
 
     Q_INVOKABLE void changeState(int state);
 
+    /**
+     * Changes waiterState of an order.
+     * Always call changeState with same argument after calling this method from QML!
+     *
+     * @param state         New WaiterState of Order
+     */
+    Q_INVOKABLE void changeWaiterState(int state);
+
     inline bool isSomethingSelected() const { return _isSomethingSelect; }
     inline void setIsSomethingSelected(bool changed)
         { _isSomethingSelect = changed; emit isSomethingSelectedChanged(); }

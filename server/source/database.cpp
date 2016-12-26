@@ -780,6 +780,13 @@ Order *Database::order(int id, Waiter *waiter)
     return 0;
   }
 
+  int waiterState = q.value("waiter_state").toInt(&ok);
+  if (!ok) {
+    qCritical() << tr("Could not convert '%1' to integer!")
+                       .arg(q.value("waiter_state").toString());
+    return 0;
+  }
+
   // TODO: implement
   QDateTime orderSent = q.value("date_added").toDateTime();
 
@@ -788,6 +795,7 @@ Order *Database::order(int id, Waiter *waiter)
   o->setId(orderId);
   o->setClientId(clientId);
   o->setState(state);
+  o->setWaiterState(waiterState);
   o->setTimeSent(orderSent);
 
   QList<int> itemsId;
@@ -1415,6 +1423,7 @@ bool Database::addOrder(Order *order) {
   }
 
   q.bindValue(":state", order->state());
+  q.bindValue(":waiter_state", order->waiterState());
   q.bindValue(":income_id", getLastIncomeId());
   q.bindValue(":client_id", order->clientId());
 
@@ -1680,6 +1689,7 @@ bool Database::updateOrder(Order *order) {
   }
 
   q.bindValue(":state", order->state());
+  q.bindValue(":waiter_state", order->waiterState());
   q.bindValue(":client_id", order->clientId());
 
   if (!q.exec()) {
@@ -3111,6 +3121,14 @@ QList<Order *> *Database::getNotCloseOrderList() {
       return 0;
     }
 
+    int waiterState = q.value("waiter_state").toInt(&ok);
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to integer!")
+                         .arg(q.value("state").toString());
+      delete list;
+      return 0;
+    }
+
     QDateTime orderSent = q.value("date_added").toDateTime();
 
     Order *o = new Order();
@@ -3118,6 +3136,7 @@ QList<Order *> *Database::getNotCloseOrderList() {
     o->setId(orderId);
     o->setClientId(clientId);
     o->setState(state);
+    o->setWaiterState(waiterState);
 
     QList<int> itemsId;
 
@@ -3610,6 +3629,8 @@ void Database::updateDatabase(QString actualVersion) {
     updateToVersion("0.0.5");
   case version0d0d5:
     updateToVersion("0.0.6");
+  case version0d0d6:
+    updateToVersion("0.0.7");
   }
 }
 
@@ -3655,6 +3676,8 @@ int Database::versionToEnum(QString version) {
     return version0d0d5;
   else if (version == "0.0.6")
     return version0d0d6;
+  else if (version == "0.0.7")
+    return version0d0d7;
   return version0d0d0;
 }
 

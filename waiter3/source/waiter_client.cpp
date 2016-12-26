@@ -73,6 +73,9 @@ Waiter_Client::Waiter_Client(const QString &configFilePath, QObject *parent)
             this, &rotable::Waiter_Client::tableNeedWaiterChanged);
 
 //    connect(this, &Waiter_Client::logOff, &_tcp, &TcpClient::close);
+
+    _startupPreventNewOrderSound = true;
+
     setState("Login");
 }
 
@@ -367,8 +370,10 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
       {
           connect(table, &rotable::Table::sendOrders, this, &Waiter_Client::sendOrders);
           connect(table, &rotable::Table::waiterIsNeededChanged, &_needBoard, &rotable::NeedBoard::tableNeedChanged);
+          connect(table, &rotable::Table::newOrderAdded, this, &Waiter_Client::playsound);
           requestOrderOnTable(table->id());
           emit table->waiterIsNeededChanged();
+          emit table->incomingOrderCountChanged();
       }
       else
           delete table;
@@ -632,3 +637,15 @@ void Waiter_Client::requestCategoryIds()
     _dataRequest[request->id()] = request;
   }
 }
+
+//------------------------------------------------------------------------------
+
+void Waiter_Client::playsound()
+{
+    QMediaPlayer* player = new QMediaPlayer();
+    player->setMedia(QUrl("qrc:/resources/audio/newOrderAlert.wav"));
+    player->setVolume(50);
+    player->play();
+    qDebug()<<"Audio played";
+}
+

@@ -16,6 +16,10 @@
 #include <QTimer>
 #endif
 
+#ifndef QMEDIAPLAYER_H
+#include <QtMultimedia/QMediaPlayer>
+#endif
+
 #include "configwaiter.h"
 #include "tcpclient.h"
 #include "private/precomp.h"
@@ -148,6 +152,13 @@ private slots:
    */
   void tableNeedWaiterChanged(int id);
 
+  /**
+   * Request table from database
+   *
+   * @param fliePath       path to to audio file that has to played
+   */
+  void playsound();
+
 signals:
   void changeTableList();
   void loginChanged();
@@ -241,7 +252,6 @@ private:
      */
     void requestTable(int tableId);
 
-
     //------------------------------------------------------------------------------
 
     /* Whether this client has been accepted by the server */
@@ -258,6 +268,9 @@ private:
 
     /* TCP-Socket object */
     TcpClient _tcp;
+
+    /* When true, prevents waiter from playing new order sound (used at startup) */
+    bool _startupPreventNewOrderSound;
 
     /* Timer for waiting before reconnect */
     QTimer _reconnectTimer;

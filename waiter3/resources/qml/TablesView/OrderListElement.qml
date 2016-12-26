@@ -4,7 +4,7 @@ Rectangle{
     id: order
 
     property int productHeight: Math.max(40,dataView.height * 0.08)
-    property int borderWidth: Math.max(4,orderList.width * 0.02)
+    property int borderWidth: Math.max(4,orderList.width * 0.015)
     property int listWidth: Math.max(100,orderList.width)
     property int itemSpacing: Math.max(10,dataView.height*0.02)
     property string borderColor: "#46C8CF"
@@ -78,15 +78,19 @@ Rectangle{
                 switch (targetTag)
                 {
                 case "New":
+                    orderboard.changeWaiterState(0)
                     orderboard.changeState(0)
                     break;
                 case "Payed":
+                    orderboard.changeWaiterState(1)
                     orderboard.changeState(1)
                     break;
                 case "Rejected":
+                    orderboard.changeWaiterState(2)
                     orderboard.changeState(2)
                     break;
                 case "ToPay":
+                    orderboard.changeWaiterState(3)
                     orderboard.changeState(3)
                     break;
                 }

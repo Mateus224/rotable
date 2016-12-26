@@ -789,6 +789,8 @@ bool Server::newOrder(QList<OrderItem *> orders, int clientId) {
   order->setState(Order::Sent);
   // Set client id
   order->setClientId(clientId);
+  // set state to new
+  order->setWaiterState(0);
 
   // Add order
   if (!_db.addOrder(order))

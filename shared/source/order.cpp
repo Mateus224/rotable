@@ -81,6 +81,7 @@ QJsonValue Order::toJSON() const
 
     o["id"] = _id;
     o["state"] = _state;
+    o["waiterState"] = _waiterState;
     o["clientId"] = _clientId;
     o["timeSend"] = _timeSent.toString();
 
@@ -104,6 +105,7 @@ rotable::Order *Order::fromJSON(const QJsonValue &jval)
     // Check if all requaier fields are exists
     if (o.contains("id")
         && o.contains("state")
+        && o.contains("waiterState")
         && o.contains("clientId")
         && o.contains("timeSend")
         && o.contains("items")
@@ -113,6 +115,7 @@ rotable::Order *Order::fromJSON(const QJsonValue &jval)
       Order* order = new Order();
       order->_id = o["id"].toInt();
       order->_state = o["state"].toInt();
+      order->_waiterState = o["waiterState"].toInt();
       order->_clientId = o["clientId"].toInt();
       //Conver to string and next to QDateTime
       order->_timeSent = QDateTime::fromString(o["timeSend"].toString());
@@ -163,6 +166,14 @@ void Order::changeState(int state)
 
 //------------------------------------------------------------------------------
 
+void Order::changeWaiterState(int state)
+{
+    if (_readyToChangeWStatus) _waiterState = state;
+    _readyToChangeWStatus = false;
+}
+
+//------------------------------------------------------------------------------
+
 void Order::prepareOrderToChange()
 {
 //   static int changeStatus = true;
@@ -170,6 +181,7 @@ void Order::prepareOrderToChange()
 //        item->setChange(changeStatus);
        item->setChange(true);
    }
+   _readyToChangeWStatus = true;
 //   changeStatus = !changeStatus;
 }
 

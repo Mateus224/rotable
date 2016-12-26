@@ -302,9 +302,20 @@ public:
     Close
   };
 
+  /**
+   * Order states used in waiter application.
+   */
+  enum WaiterState{
+      New,
+      Pay,
+      Rejected,
+      ToPay
+  };
+
 private:
   Q_PROPERTY(int id READ id WRITE setId NOTIFY idChanged)
   Q_PROPERTY(int state READ state WRITE setState NOTIFY stateChanged)
+  Q_PROPERTY(int waiterState READ waiterState WRITE setWaiterState NOTIFY waiterStateChanged)
   Q_PROPERTY(int clientId READ clientId WRITE setClientId NOTIFY clientIdChanged)
   Q_PROPERTY(​QQmlListProperty<OrderItem> items READ items NOTIFY itemsChanged)
   Q_PROPERTY(QDateTime timeSent READ timeSent WRITE setTimeSent NOTIFY timeSentChanged)
@@ -365,6 +376,19 @@ public:
    * @param state
    */
   inline void setState(int state) { _state = state; emit stateChanged(); }
+
+  /**
+   * @brief Returns state of order in waiter application
+   *
+   * @return int
+   */
+  inline int waiterState() const { return _waiterState; }
+  /**
+   * @brief Sets state of order in waiter application
+   *
+   * @param state
+   */
+  inline void setWaiterState(int state) { _waiterState = state; emit waiterStateChanged(); }
 
   /**
    * @brief
@@ -477,6 +501,13 @@ public:
   /**
    * @brief
    *
+   * @param state
+   */
+  Q_INVOKABLE void changeWaiterState(int state);
+
+  /**
+   * @brief
+   *
    */
   Q_INVOKABLE void prepareOrderToChange();
 
@@ -541,6 +572,11 @@ signals:
    * @brief
    *
    */
+  void waiterStateChanged();
+  /**
+   * @brief
+   *
+   */
   void itemsChanged();
   /**
    * @brief
@@ -598,6 +634,9 @@ private:
   /* Order state */
   int _state;
 
+  /* Order state used in waiter application */
+  int _waiterState;
+
   /* Order items */
   QList<OrderItem *> _items;
 
@@ -606,6 +645,9 @@ private:
 
   /* Table from which the order came from */
   int _clientId;
+
+  /* True if that order is ready to have waiterState changed */
+  bool _readyToChangeWStatus;
 
   /**
    * @brief _change

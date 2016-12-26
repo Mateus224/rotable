@@ -687,11 +687,12 @@ public:
     version0d0d3,
     version0d0d4,
     version0d0d5,
-    version0d0d6
+    version0d0d6,
+    version0d0d7
   };
 
 
-  QString const newestVesion = "0.0.6";
+  QString const newestVesion = "0.0.7";
 
 
   /**

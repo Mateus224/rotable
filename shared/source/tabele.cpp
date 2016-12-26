@@ -14,6 +14,7 @@ Table::~Table() {
 Table::Table(QObject *parent)
     : rotable::Client(parent), _change(false), _waiterIsNeeded(false) {
   _lastOrder = -1;
+  _incomingOrderCount=0;
 }
 
 //------------------------------------------------------------------------------
@@ -24,8 +25,9 @@ void Table::updateOrder(rotable::Order *order) {
     _orders.value(order->id())->updateOrder(order);
     delete order;
     emit tableChanged();
-  } else
+  } else {
     addOrder(order);
+  }
   // Change are made, set change value on true
 }
 
@@ -162,7 +164,7 @@ void Table::recalcIncomingOrders()
 {
     _incomingOrderCount=0;
     for (auto order: _orders)
-        if (order->item(0)->state()==OrderItem::State::New) _incomingOrderCount++;
+        if (order->waiterState()==rotable::Order::WaiterState::New) _incomingOrderCount++;
 }
 
 //------------------------------------------------------------------------------
