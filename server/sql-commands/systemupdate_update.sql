@@ -1,0 +1,1 @@
+UPDATE `%1systemupdate` SET `current_version` = :current_version, `date_current_version` = :date_current_version, `available_version` = :available_version, `date_available_version` = :date_available_version WHERE `id` = %2;

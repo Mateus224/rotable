@@ -1,0 +1,1 @@
+SELECT %2 FROM `%1systemupdate` WHERE `%3` = %4;

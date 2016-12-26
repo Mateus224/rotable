@@ -70,7 +70,8 @@ private:
     TableDetails,
     Medias,
     AdvertisingVideos,
-    WaiterCategories
+    WaiterCategories,
+    SystemUpdate
   };
 
   /**
@@ -688,11 +689,12 @@ public:
     version0d0d4,
     version0d0d5,
     version0d0d6,
-    version0d0d7
+    version0d0d7,
+    version0d0d8
   };
 
 
-  QString const newestVesion = "0.0.7";
+  QString const newestVesion = "0.0.8";
 
 
   /**

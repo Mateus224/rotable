@@ -82,6 +82,10 @@ Database::Database(QObject *parent) : QObject(parent), _connected(false) {
   collectSqlCommands(waiterCategoriesCmds, "waitercategories");
   _sqlCommands.append(waiterCategoriesCmds);
 
+  SqlCommands systemUpdateCmds;
+  collectSqlCommands(systemUpdateCmds, "systemupdate");
+  _sqlCommands.append(systemUpdateCmds);
+
   qDebug() << "Sql commands load succesfull";
 }
 
@@ -2368,6 +2372,13 @@ bool Database::createDatabase() {
     return false;
   }
 
+  QSqlQuery q29(_sqlCommands[SystemUpdate]._create.arg(_prefix), _db);
+  if (q29.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q29.lastError().text());
+    _db.rollback();
+    return false;
+  }
+
   if (!initTriggers()) {
     _db.rollback();
     return false;
@@ -3631,6 +3642,8 @@ void Database::updateDatabase(QString actualVersion) {
     updateToVersion("0.0.6");
   case version0d0d6:
     updateToVersion("0.0.7");
+  case version0d0d7:
+    updateToVersion("0.0.8");
   }
 }
 
@@ -3678,6 +3691,8 @@ int Database::versionToEnum(QString version) {
     return version0d0d6;
   else if (version == "0.0.7")
     return version0d0d7;
+  else if (version == "0.0.8")
+    return version0d0d8;
   return version0d0d0;
 }
 

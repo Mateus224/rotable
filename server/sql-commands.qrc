@@ -87,5 +87,12 @@
         <file>sql-commands/advertisingvideos_update.sql</file>
         <file>sql-commands/update-database/0.0.6.sql</file>
         <file>sql-commands/update-database/0.0.7.sql</file>
+        <file>sql-commands/update-database/0.0.8.sql</file>
+        <file>sql-commands/systemupdate_create.sql</file>
+        <file>sql-commands/systemupdate_insert.sql</file>
+        <file>sql-commands/systemupdate_remove.sql</file>
+        <file>sql-commands/systemupdate_select_ids.sql</file>
+        <file>sql-commands/systemupdate_select.sql</file>
+        <file>sql-commands/systemupdate_update.sql</file>
     </qresource>
 </RCC>
