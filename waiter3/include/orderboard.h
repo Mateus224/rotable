@@ -158,6 +158,11 @@ public slots:
      */
     void updateOrders();
 
+    /**
+     * Decreases amount by one in orderitem that has readyTochanged set to true
+     */
+    void removeProductAmount();
+
 private slots:
     void orderReadyToChange(bool change);
     void clearBoard();

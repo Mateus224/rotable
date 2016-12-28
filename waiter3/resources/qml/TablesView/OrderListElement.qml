@@ -71,26 +71,20 @@ Rectangle{
                 else outgoingList.clip = true;
                 orderList.z = outgoingList.z = 0
 
-                orderList.clearNeeded = true
-                outgoingList.clearNeeded = true
-
+                order.enabled = false
                 readyOrder;
                 switch (targetTag)
                 {
                 case "New":
-                    orderboard.changeWaiterState(0)
                     orderboard.changeState(0)
                     break;
                 case "Payed":
-                    orderboard.changeWaiterState(1)
                     orderboard.changeState(1)
                     break;
                 case "Rejected":
-                    orderboard.changeWaiterState(2)
                     orderboard.changeState(2)
                     break;
                 case "ToPay":
-                    orderboard.changeWaiterState(3)
                     orderboard.changeState(3)
                     break;
                 }

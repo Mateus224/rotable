@@ -101,7 +101,15 @@ public:
    *
    * @param amount
    */
-  inline void setAmount(int amount) { _amount = amount; setChange(true); emit amountChanged(); }
+  inline void setAmount(int amount) {
+      _amount = amount;
+      if (amount<1) {
+          _state = rotable::OrderItem::State::Rejected;
+          emit stateChanged();
+      }
+      setChange(true);
+      emit amountChanged();
+  }
 
   /**
    * @brief
@@ -182,6 +190,13 @@ public:
    * @return            True on success
    */
   inline bool isNew() const {return _state  == New;}
+
+  /**
+   * Check if OrderItem is accepted by waiter - in a outgoin column
+   *
+   * @return            True on success
+   */
+  inline bool isToPay() const {return _state == ToPay;}
 
   QJsonValue toJSON() const;
   /**
@@ -490,7 +505,6 @@ public:
    */
   void updateOrder(Order *order);
 
-
   /**
    * @brief
    *
@@ -555,12 +569,21 @@ public:
 
   bool isNew() const;
 
+  bool isToPay() const;
+
   /**
    * @brief countProducts
    * COunt new product in order
    * @return              count
    */
   int countProducts();
+
+  /**
+   * Each order item that had set readyToChane true has its amount decreased by one
+   *
+   * @return
+   */
+  void RemoveProductAmount();
 
 signals:
   /**

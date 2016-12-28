@@ -160,8 +160,21 @@ void Order::changeState(int state)
         }
     }
 
-    if(isDone())
+    if (isNew())
+        setState(rotable::Order::Sent);
+    else if (isToPay())
+        setState(rotable::Order::Prepared);
+    else if(isDone())
         setState(rotable::Order::Close);
+}
+
+void Order::RemoveProductAmount()
+{
+    foreach (OrderItem* item, _items) {
+        if(item->isReadyToChange()){
+            item->setAmount(item->amount()-1);
+        }
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -260,6 +273,17 @@ bool Order::isNew() const
 
     foreach (OrderItem *item, _items) {
         if(item->isNew())
+            return true;       // Yes, so we return true
+    }
+
+    return false;
+}
+
+bool Order::isToPay() const
+{
+    //Checks if any item is toPay/Accepred by waiter
+    foreach (OrderItem *item, _items) {
+        if(item->isToPay())
             return true;       // Yes, so we return true
     }
 
