@@ -346,6 +346,16 @@ public:
    * @return
    */
   bool addAdvertisingVideo(QList<int>* mediaId);
+
+  /**
+   * @brief addNewSystemUpdate
+   * call method for reading old database informations
+   * and add new version / date to the database
+   * @param availableSystemVersion
+   * @return
+   */
+  bool addNewSystemUpdate(float availableSystemVersion);
+
   /**
    * Update a product category.
    *
@@ -695,6 +705,7 @@ public:
 
 
   QString const newestVesion = "0.0.8";
+  QString const _systemVersion="1.4";
 
 
   /**

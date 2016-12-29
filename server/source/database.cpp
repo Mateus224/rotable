@@ -1547,6 +1547,34 @@ bool Database::addAdvertisingVideo(QList<int>* mediaId)
     }
     return true;
 }
+
+bool Database::addNewSystemUpdate(float availableSystemVersion)
+{
+    if (!isConnected()) {
+      return false;
+    }
+    QString queryStr = _sqlCommands[SystemUpdate]._insert.arg(
+        _prefix, "NULL", ":current_version", ":date_current_version", ":available_version", "date_available_version");
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return false;
+    }
+    //q.bindValue(":current_version", file->getType());
+    //q.bindValue(":date_current_version", fileInfo._name);
+    q.bindValue(":available_version", availableSystemVersion);
+
+    if (!q.exec()) {
+      qCritical()
+          << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+      return false;
+        }
+    return true;
+}
+
 //------------------------------------------------------------------------------
 
 bool Database::updateCategory(ProductCategory *category) {
