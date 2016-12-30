@@ -39,7 +39,7 @@
        <locale language="English" country="UnitedStates"/>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>5</number>
       </property>
       <property name="iconSize">
        <size>
@@ -876,6 +876,9 @@
   </widget>
   <widget class="QStatusBar" name="_statusBar"/>
   <action name="_actionConnect">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="../resources/resources.qrc">
      <normaloff>:/rotable/network-connect.png</normaloff>:/rotable/network-connect.png</iconset>
