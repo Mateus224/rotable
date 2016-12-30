@@ -523,7 +523,7 @@ QByteArray ComPackageMessage::toByteArray() const
 {
     QJsonObject o;
     addData(o);
-    o[ROTABLE_PACKAGE_COMMAND_STR] = ROTABLE_PACKAGE_COMMAND_SEND_FILE;
+    o[ROTABLE_PACKAGE_COMMAND_STR] = ROTABLE_PACKAGE_COMMAND_MESSAGE_STR;
     o[ROTABLE_PACKAGE_MESSAGE_TYPE_STR] = _msgType;
     o[ROTABLE_PACKAGE_MESSAGE_MESSAGE_STR] = _msg;
     return QJsonDocument(o).toBinaryData();

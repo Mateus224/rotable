@@ -288,7 +288,7 @@ void Server::packageReceived(client_t client, ComPackage *package) {
           ComPackageReject reject(package->id());
           _tcp.send(client, reject);
     }
-  }
+  }break;
   case ComPackage::Reject: {
     qDebug() << tr("Did not expect to receive Reject package... doing nothing");
   } break;

@@ -550,7 +550,7 @@ void Client::dataChanged(rotable::ComPackageDataChanged *package)
   if (package) {
     switch (package->dataCategory()) {
     case ComPackage::RequestImage:
-    {
+    { int i;
     } break;
     case ComPackage::RequestCategoryIds:
     {
@@ -589,6 +589,12 @@ void Client::dataChanged(rotable::ComPackageDataChanged *package)
       } else {
         requestProduct(productId);
       }
+    } break;
+    case ComPackage::RequestTable:
+    {
+      bool ok;
+      qDebug()<<"passt doch";
+
     } break;
     default:
     {
