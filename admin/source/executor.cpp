@@ -76,6 +76,8 @@ void Executor::onConnectToServer() {
   dlg.setUsername(_config.adminName());
 
   if (dlg.exec() == QDialog::Accepted) {
+    _username = dlg.username();
+    _password = dlg.password();
     emit statusMessage(tr("Connecting to %1:%2")
                            .arg(dlg.serverAddress())
                            .arg(dlg.serverPort()));
@@ -86,8 +88,7 @@ void Executor::onConnectToServer() {
 
     _tcp_client.startConnection(dlg.serverAddress(), dlg.serverPort());
 
-    _username = dlg.username();
-    _password = dlg.password();
+
   }
 }
 
