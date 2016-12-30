@@ -144,6 +144,7 @@ void TcpClient::readPackage()
       // we probably did not receive the full package yet
       doContinue = false;
     } else {
+      qDebug().noquote() << QString::fromUtf8(jdoc.toJson());
       ComPackage* package = ComPackage::fromJson(jdoc);
 
       int endOfPackage = _buffer.indexOf(_packageStart, _packageStart.length());
