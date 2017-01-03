@@ -853,7 +853,7 @@
             <item>
              <widget class="QLabel" name="AvailableVersionNumber">
               <property name="text">
-               <string>1.5</string>
+               <string>1.4</string>
               </property>
              </widget>
             </item>
