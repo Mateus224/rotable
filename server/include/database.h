@@ -35,6 +35,7 @@
 #include "table.h"
 #include "filecontainer/file.h"
 #include "filecontainer/advertisingvideo.h"
+#include "systemupdate.h"
 
 //------------------------------------------------------------------------------
 
@@ -265,6 +266,25 @@ public:
    * Read and fill the parent class with some information
    */
   File *media(int id);
+
+  /**
+   * @brief systemUpdate
+   * It returns an Oject with the current System Version and his installed date
+   * and the available System Version and the date it was released
+   * this funktion checks the highest (latest inserted) id and calls than the funktion
+   * systemUpdate(int id)
+   * @return
+   */
+  rotable::SystemUpdate* systemUpdate();
+
+  /**
+   * @brief systemUpdate
+   * @param id
+   * @return the "current" System Version and his installed date
+   * and the available System Version and the date it was released
+   * by the id
+   */
+  rotable::SystemUpdate* systemUpdate(int id);
 
   /**
    * @brief advertisingVideo

@@ -413,6 +413,12 @@ private:
   void requestMediaIds();
 
   /**
+   * @brief requestSystemVersions
+   * request current installed version and available system version
+   */
+  void requestSystemVersions();
+
+  /**
    * @brief
    *
    * @param package

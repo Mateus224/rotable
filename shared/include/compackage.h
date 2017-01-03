@@ -141,7 +141,10 @@ public:
     RequestMediaIds,
 
     /*Request for Information about the Advertising Videos*/
-    RequestMedia
+    RequestMedia,
+
+    /*Request installed and available Version*/
+    RequestSystemVersions
   };
 
   /**

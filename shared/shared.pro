@@ -37,7 +37,8 @@ SOURCES += \
     source/wifiinfo.cpp \
     source/filecontainer/advertisingvideo.cpp \
     source/filecontainer/file.cpp \
-    source/filecontainer/advertisingcontainer.cpp
+    source/filecontainer/advertisingcontainer.cpp \
+    source/systemupdate.cpp
 
 
 
@@ -68,7 +69,8 @@ HEADERS += \
     include/wifiinfo.h \
     include/filecontainer/advertisingvideo.h \
     include/filecontainer/file.h \
-    include/filecontainer/advertisingcontainer.h
+    include/filecontainer/advertisingcontainer.h \
+    include/systemupdate.h
 
 
 

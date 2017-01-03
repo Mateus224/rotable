@@ -569,8 +569,9 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
       QJsonValue jsonVal(arr);
       return new ComPackageDataReturn(*request, jsonVal);
     } else {
-      return new ComPackageDataReturn(*request, -1);
-    }
+        qCritical()
+            << tr("Could not query income data of id %1!").arg(request->dataName().toInt());
+      }
   } break;
   case ComPackage::RequestMedia: {
       int mediaId=request->dataName().toInt();
@@ -578,11 +579,26 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
       Video=reinterpret_cast<AdvertisingVideo*> (_db.media(mediaId));
       if(Video)
       {
-          return new ComPackageDataReturn(*request, Video->toJSON() );
+          ComPackageDataReturn *ret =
+                  new ComPackageDataReturn(*request, Video->toJSON());
+          delete Video;
+          return ret;
+      }else {
+          qCritical()
+              << tr("Could not query income data of id %1!").arg(request->dataName().toInt());
+        }
+  }break;
+  case ComPackage::RequestSystemVersions: {
+      SystemUpdate* systemUpdate=_db.systemUpdate();
+      if (systemUpdate) {
+          ComPackageDataReturn *ret =
+              new ComPackageDataReturn(*request, systemUpdate->toJSON());
+          delete systemUpdate;
+          return ret;
+      } else {qCritical()
+                  << tr("Could not query income data of id %1!").arg(request->dataName().toInt());
       }
-
-
-  } break;
+    } break;
   default: {
     qCritical()
         << tr("Unknown data request id: %d").arg(request->dataCategory());

@@ -173,6 +173,7 @@ void Executor::onWaiterCategoriesChange() {
   if (!waiter)
     return;
   WaiterCategories dlg(_products, waiter, _mainwindow);
+  qDebug()<<_products;
   dlg.show();
 
   if (dlg.exec() == QDialog::Accepted) {
@@ -728,6 +729,7 @@ void Executor::onPackageReceived(ComPackage *package) {
       requestLicenceStatus();
       requestClientIds();
       requestMediaIds();
+      requestSystemVersions(); //get installed and available Version
       break;
 
     case ComPackage::DataRequest:
@@ -943,6 +945,19 @@ void Executor::requestMediaIds() {
   } else {
     _dataRequest[request->id()] = request;
   }
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::requestSystemVersions(){
+    ComPackageDataRequest *request = new ComPackageDataRequest();
+    request->setDataCategory(ComPackage::RequestSystemVersions);
+
+    if (!_tcp_client.send(*request)) {
+      qCritical() << tr("Could not send request!");
+    } else {
+      _dataRequest[request->id()] = request;
+    }
 }
 
 //------------------------------------------------------------------------------

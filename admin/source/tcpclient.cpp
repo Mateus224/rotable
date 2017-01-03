@@ -56,7 +56,7 @@ void TcpClient::startConnection(const QString &hostname, int port)
   QHostAddress addr(hostname);
   _client.connectToHost(addr, port);
 
-  if (_client.waitForConnected(100000000))
+  if (!_client.waitForConnected(100000000))
       qCritical("Can't connect!\n");
 
   int enableKeepAlive = 1;

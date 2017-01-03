@@ -1179,6 +1179,115 @@ File *Database::media(int id) {
   return fc;
 }
 
+
+//------------------------------------------------------------------------------
+
+rotable::SystemUpdate *Database::systemUpdate() {
+  rotable::SystemUpdate *sy;
+    if (!isConnected()) {
+    return 0;
+  }
+
+  QString queryStr = QString("SELECT MAX(id)  FROM %1systemupdate;").arg(_prefix);
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return 0;
+  }
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return nullptr;
+  }
+
+  int id;
+
+  if (q.next()) {
+    QSqlRecord rec = q.record();
+
+    id= rec.value(rec.indexOf("MAX(id)")).toInt();
+  }
+
+  sy=systemUpdate(id);
+
+  return sy;
+
+}
+
+rotable::SystemUpdate *Database::systemUpdate(int id) {
+    rotable::SystemUpdate *sy = new rotable::SystemUpdate;
+
+    if (!isConnected()) {
+      return 0;
+    }
+
+    QString queryStr =
+        _sqlCommands[SystemUpdate]._select.arg(_prefix, "*", "id", ":id");
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return 0;
+    }
+
+    q.bindValue(":id", id);
+
+    if (!q.exec()) {
+      qCritical()
+          << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+      return 0;
+    }
+
+    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+      if (q.size() != 1) {
+        qCritical()
+            << tr("Query: returned %1 results but we expected it to return 1!")
+                   .arg(q.size());
+        return 0;
+      }
+    }
+
+    if (!q.next()) {
+      return 0;
+    }
+
+    bool ok;
+
+    sy->setId( q.value("id").toInt(&ok));
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to integer!")
+                         .arg(q.value("id").toString());
+      return 0;
+    }
+
+    sy->setCurrentVersion(q.value("current_version").toDouble(&ok));
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to double!")
+                         .arg(q.value("id").toString());
+      return 0;
+    }
+
+    sy->setAvailableVersion(q.value("available_version").toDouble(&ok));
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to double!")
+                         .arg(q.value("id").toString());
+      return 0;
+    }
+
+    sy->setDateCurrentVersion( q.value("date_current_version").toString());
+
+    sy->setDateAvailableVersion( q.value("date_available_version").toString());
+
+    return sy;
+
+}
+
+
 //------------------------------------------------------------------------------
 
 
@@ -1941,13 +2050,15 @@ bool Database::updateAdvertsingAdditionalData(AdvertisingVideo *advertisingVideo
 
 bool Database::addWaiterCategoires(const int &waiterId,
                                    QList<int> *categoryList) {
+
   if (!isConnected()) {
+      qCritical() << "test1";
     return false;
   }
   foreach(auto var , *categoryList){
     QString queryStr = _sqlCommands[DatabaseTables::WaiterCategories]._insert.arg(
         _prefix, ":waiter_id", ":category_id");
-
+    qCritical() << "test2"<<"\n"<<var;
     QSqlQuery q(_db);
     q.setForwardOnly(true);
 
@@ -3474,6 +3585,8 @@ QList<int> *Database::getMediaIdByNameAndType(QStringList nameList, int type)
 
 }
 
+
+
 //------------------------------------------------------------------------------
 
 bool Database::isConnected() const {
@@ -3855,10 +3968,10 @@ bool Database::getWaiterAdditionalData(Waiter *waiter) {
     }
   }
 
-  if (!q.next()) {
+/*  if (!q.next()) {
     return false;
   }
-
+*/
   QList<int> *list = new QList<int>;
 
   while (q.next()) {
