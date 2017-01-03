@@ -68,7 +68,9 @@ MainWindow::MainWindow(QWidget *parent)
   connect(this, &MainWindow::setUserButtons, _ui->_toolButtonChangeStatusUser, &QToolButton::setEnabled);
   connect(_ui->_toolButtonChangePassword, &QToolButton::clicked, this, &MainWindow::actionChangeUserPassword);
 
-
+  //----System Update connact qLable for installed version and available version Number------
+  connect(this, &MainWindow::setCurrentVersion, _ui->InstalledVersionNumber, &QLabel::setText);
+  connect(this, &MainWindow::setAvailableVersion, _ui->AvailableVersionNumber, &QLabel::setText);
   //_ui->d_plot->setMode(3);
 
   // Initially hide ServerDebug tab

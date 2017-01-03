@@ -12,6 +12,7 @@
 #include "filecontainer/advertisingvideo.h"
 #include "filecontainer/advertisingcontainer.h"
 #include "dialog/systemupdatedialog.h"
+#include "systemupdate.h"
 #include <QItemSelection>
 #include <QObject>
 

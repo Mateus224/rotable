@@ -31,7 +31,7 @@ SystemUpdate *SystemUpdate::fromJSON(const QJsonValue &jval)
           &&o.contains("dateCurrentVersion")
           &&o.contains("dateAvailableVersion"))
   {
-    SystemUpdate *sy;
+    SystemUpdate *sy= new SystemUpdate;
     sy->_id=o["id"].toInt();
     sy->_currentVersion=o["currentVersion"].toDouble();
     sy->_availableVersion=o["availableVersion"].toDouble();

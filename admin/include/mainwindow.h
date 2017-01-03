@@ -195,6 +195,10 @@ signals:
 
  void actionChangeUserPassword();
 
+ void setCurrentVersion(QString);
+
+ void setAvailableVersion(QString);
+
 
 public slots:
  /**

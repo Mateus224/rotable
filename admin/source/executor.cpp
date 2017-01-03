@@ -1065,6 +1065,12 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
       default : {qCritical() << "unknown package";} break;
       }
   }break;
+  case ComPackage::RequestSystemVersions: {
+      rotable::SystemUpdate *systemupdate= rotable::SystemUpdate::fromJSON(package->data());
+      emit _mainwindow->setCurrentVersion(QString::number(systemupdate->getCurrentVersion()));
+      emit _mainwindow->setAvailableVersion(QString::number(systemupdate->getAvailableVersion()));
+      //qDebug()<<"es kommt hier an"<<qSetRealNumberPrecision(2)<< systemupdate->getCurrentVersion()<<" \n";
+  }break;
   default: { qCritical() << tr("Unknown data package \"requestMedia\" returned"); } break;
   }
 
