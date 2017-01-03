@@ -236,6 +236,7 @@ void TcpServer::socketStartRead()
       //qDebug() << QString(jdoc.toJson(QJsonDocument::Indented));
 
       LogManager::getInstance()->logJSON(jdoc);
+      //qInfo().noquote() << QString::fromUtf8(jdoc.toJson());
 
       ComPackage* package = ComPackage::fromJson(jdoc);
 
