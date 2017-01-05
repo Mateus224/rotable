@@ -52,6 +52,14 @@ void OrderBoard::changeState(int state)
 //    emit unLoadTable();
 }
 
+void OrderBoard::removeProductAmount()
+{
+    foreach (Order *order, _orders) {
+        order->RemoveProductAmount();
+    }
+    emit prepareOrderToSend();
+}
+
 void OrderBoard::changeWaiterState(int state)
 {
     foreach (Order *order, _orders) {
@@ -81,7 +89,7 @@ QVariant OrderBoard::data(const QModelIndex &index, int role) const
 //        return QVariant(order->);
     }break;
     case StatusRole:{
-        return QVariant(order->waiterState());
+        return QVariant(order->state());
     }break;
     case ClientRole:{
         return QVariant(order->clientId());

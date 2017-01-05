@@ -164,7 +164,10 @@ void Table::recalcIncomingOrders()
 {
     _incomingOrderCount=0;
     for (auto order: _orders)
-        if (order->waiterState()==rotable::Order::WaiterState::New) _incomingOrderCount++;
+        if (order->state()==rotable::Order::State::Sent)
+        {
+            _incomingOrderCount++;
+        }
 }
 
 //------------------------------------------------------------------------------

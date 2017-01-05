@@ -152,7 +152,7 @@ public:
             &rotable::Table::recalcLastOrder);
 //    connect(order, &rotable::Order::itemsChanged, this,
 //            &rotable::Table::recalcOrderedProductsCount);
-    connect(order, &rotable::Order::itemsChanged, this,
+    connect(order, &rotable::Order::stateChanged, this,
             &rotable::Table::recalcIncomingOrders);
     connect(order, &rotable::Order::forceSendRequest, this,
             &rotable::Table::prepareOrderToSend);

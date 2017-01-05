@@ -13,8 +13,6 @@ ListView {
     snapMode: ListView.SnapToItem
 //    boundsBehavior: Flickable.StopAtBounds
 
-    property bool clearNeeded: false
-
     clip:true
 
     delegate: OrderListElement { orderTag: "New"; targetTag: "None"; borderColor: waiterMain.incomingColor }
@@ -41,20 +39,6 @@ ListView {
                 drag.source.caught = false;
                 drag.source.targetTag = "None"
                 drag.source.border.color = waiterMain.menuColor
-            }
-        }
-    }
-
-    Timer {
-        interval: 500
-        running: true
-        repeat: true
-        onTriggered:
-        {
-            if (clearNeeded)
-            {
-                incDrop.update()
-                clearNeeded=false
             }
         }
     }

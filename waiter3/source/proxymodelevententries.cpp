@@ -20,7 +20,7 @@ bool rotable::PMFilterNew::filterAcceptsRow( int source_row, const QModelIndex& 
                 auto value = valueRole.toInt( &ok );
                 if ( ok )
                 {
-                    if ( value == 0 )
+                    if ( value == 1 )
                     {
                         ret = true;
                     }
