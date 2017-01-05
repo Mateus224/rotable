@@ -52,6 +52,7 @@ HEADERS += \
     include/logmanager.h \
     include/loglistenerremote.h \
     include/loglisternerstdout.h \
+    include/loglistenerfileout.h \
     include/order.h \
     include/income.h \
     include/config.h \
