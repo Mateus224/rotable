@@ -155,7 +155,7 @@ void Order::updateOrder(rotable::Order *order)
 void Order::changeState(int state)
 {
     foreach (OrderItem* item, _items) {
-        if(item->isReadyToChange()){
+        if(item->isReadyToChange() && !item->isDone()){
             item->setState(state);
         }
     }

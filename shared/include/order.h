@@ -168,7 +168,7 @@ public:
    *
    * @return            True if status wiil be change
    */
-  inline bool isReadyToChange() const { return _readyToChange && !isDone();}
+  inline bool isReadyToChange() const { return _readyToChange;}
 
   /**
    * Price to be payed for orderitem base on OrderItem status
