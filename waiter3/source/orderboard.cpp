@@ -26,7 +26,10 @@ void OrderBoard::addOrder(Order *order)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     if(order)
+    {
         _orders[order->id()] = order;
+        order->recalcChange();
+    }
     else
         qCritical() << "Empty order object";
     endInsertRows();

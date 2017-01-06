@@ -175,6 +175,7 @@ Rectangle {
                 else if (productButton.dragState==="RemoveAll")
                 {
                     model.modelData.change = true
+                    model.modelData.amount = 0
                     orderboard.changeState(2);
                 }
             }
