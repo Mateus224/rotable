@@ -104,7 +104,7 @@ public:
   inline void setAmount(int amount) {
       _amount = amount;
       if (amount<1) {
-          _state = rotable::OrderItem::State::Rejected;
+          _state = Rejected;
           emit stateChanged();
       }
       setChange(true);
@@ -168,7 +168,7 @@ public:
    *
    * @return            True if status wiil be change
    */
-  inline bool isReadyToChange() const { return _readyToChange;}
+  inline bool isReadyToChange() const { return _readyToChange && !isDone();}
 
   /**
    * Price to be payed for orderitem base on OrderItem status

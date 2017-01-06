@@ -71,7 +71,6 @@ Rectangle{
                 else outgoingList.clip = true;
                 orderList.z = outgoingList.z = 0
 
-                order.enabled = false
                 readyOrder;
                 switch (targetTag)
                 {
@@ -89,7 +88,6 @@ Rectangle{
                     break;
                 }
                 order.Drag.active = false
-                destroy()
             }
         }
     }

@@ -161,11 +161,11 @@ void Order::changeState(int state)
     }
 
     if (isNew())
-        setState(rotable::Order::Sent);
+        setState(Sent);
     else if (isToPay())
-        setState(rotable::Order::Prepared);
+        setState(Prepared);
     else if(isDone())
-        setState(rotable::Order::Close);
+        setState(Close);
 }
 
 void Order::RemoveProductAmount()

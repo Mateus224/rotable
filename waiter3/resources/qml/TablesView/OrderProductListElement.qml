@@ -167,16 +167,13 @@ Rectangle {
             {
                 console.log("Clicked!")
                 if (productButton.dragState==="RemoveOne") {
-                    model.modelData.change = true
-                    orderboard.removeProductAmount();
-//                    productButton.parent.readyOrder
-//                    modelData.amount--
+                    model.modelData.amount--
+//                    model.modelData.change = true
+//                    orderboard.removeProductAmount();
                 }
                 else if (productButton.dragState==="RemoveAll")
                 {
-                    model.modelData.change = true
                     model.modelData.amount = 0
-                    orderboard.changeState(2);
                 }
             }
         }
