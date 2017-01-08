@@ -104,6 +104,7 @@ public:
   inline void setAmount(int amount) {
       _amount = amount;
       if (amount<1) {
+          amount=0;
           _state = Rejected;
           emit stateChanged();
       }
