@@ -11,7 +11,7 @@ Rectangle {
 
     width: itemWidth
     anchors.horizontalCenter: parent.horizontalCenter
-    radius: width/8
+    radius: width / 12
 
     border.width: borderWidth
     border.color: waiterMain.productBorderColor

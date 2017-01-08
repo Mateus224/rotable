@@ -97,7 +97,7 @@ Rectangle {
 
         anchors.right: dragButton.left
         anchors.top: parent.top
-        anchors.topMargin: 8
+        anchors.topMargin: 9
 
         border.width: borderThickness
         border.color: "#000000"
