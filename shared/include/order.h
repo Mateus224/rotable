@@ -101,7 +101,7 @@ public:
    *
    * @param amount
    */
-  inline void setAmount(int amount) {
+  void setAmount(int amount) {
       _amount = amount;
       if (amount<1) {
           amount=0;
@@ -588,13 +588,6 @@ public:
    * @return              count
    */
   int countProducts();
-
-  /**
-   * Each order item that had set readyToChane true has its amount decreased by one
-   *
-   * @return
-   */
-  void RemoveProductAmount();
 
 signals:
   /**

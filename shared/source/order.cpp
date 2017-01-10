@@ -167,16 +167,6 @@ void Order::changeState(int state)
     else if(isDone())
         setState(Close);
 }
-
-void Order::RemoveProductAmount()
-{
-    foreach (OrderItem* item, _items) {
-        if(item->isReadyToChange()){
-            item->setAmount(item->amount()-1);
-        }
-    }
-}
-
 //------------------------------------------------------------------------------
 
 void Order::changeWaiterState(int state)

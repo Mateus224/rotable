@@ -52,14 +52,6 @@ void OrderBoard::changeState(int state)
 //    emit unLoadTable();
 }
 
-void OrderBoard::removeProductAmount()
-{
-    foreach (Order *order, _orders) {
-        order->RemoveProductAmount();
-    }
-    emit prepareOrderToSend();
-}
-
 void OrderBoard::changeWaiterState(int state)
 {
     foreach (Order *order, _orders) {

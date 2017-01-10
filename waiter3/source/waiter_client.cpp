@@ -74,8 +74,6 @@ Waiter_Client::Waiter_Client(const QString &configFilePath, QObject *parent)
 
 //    connect(this, &Waiter_Client::logOff, &_tcp, &TcpClient::close);
 
-    _startupPreventNewOrderSound = true;
-
     setState("Login");
 }
 

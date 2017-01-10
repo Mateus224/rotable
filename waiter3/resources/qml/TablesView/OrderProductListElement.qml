@@ -168,8 +168,6 @@ Rectangle {
                 console.log("Clicked!")
                 if (productButton.dragState==="RemoveOne") {
                     model.modelData.amount--
-//                    model.modelData.change = true
-//                    orderboard.removeProductAmount();
                 }
                 else if (productButton.dragState==="RemoveAll")
                 {
