@@ -150,13 +150,10 @@ public:
 #ifdef WAITER
     connect(order, &rotable::Order::stateChanged, this,
             &rotable::Table::recalcLastOrder);
-//    connect(order, &rotable::Order::itemsChanged, this,
-//            &rotable::Table::recalcOrderedProductsCount);
     connect(order, &rotable::Order::stateChanged, this,
             &rotable::Table::recalcIncomingOrders);
     connect(order, &rotable::Order::forceSendRequest, this,
             &rotable::Table::prepareOrderToSend);
-//    recalcOrderedProductsCount();
     recalcIncomingOrders();
 #endif
     emit tableChanged();

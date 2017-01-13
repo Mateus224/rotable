@@ -159,13 +159,6 @@ void Order::changeState(int state)
             item->setState(state);
         }
     }
-
-    if (isNew())
-        setState(Sent);
-    else if (isToPay())
-        setState(Prepared);
-    else if(isDone())
-        setState(Close);
 }
 //------------------------------------------------------------------------------
 
@@ -184,7 +177,7 @@ void Order::prepareOrderToChange()
 //        item->setChange(changeStatus);
        item->setChange(true);
    }
-   _readyToChangeWStatus = true;
+   _change = true;
 //   changeStatus = !changeStatus;
 }
 
@@ -318,14 +311,21 @@ void Order::itemIsReadyToChanged()
 
 void Order::checkOrderState()
 {
-    switch (state()) {
-    case State::Sent:
-        if(!isNew())
-            setState(State::Prepared);
-    case State::Prepared:
-        if(isDone())
-            setState(State::Close);
-    }
+//    old version of check, kept just to be safe
+//    switch (state()) {
+//    case State::Sent:
+//        if(!isNew())
+//            setState(State::Prepared);
+//    case State::Prepared:
+//        if(isDone())
+//            setState(State::Close);
+//    }
+    if (isNew())
+        setState(Sent);
+    else if (isToPay())
+        setState(Prepared);
+    else if(isDone())
+        setState(Close);
 }
 
 //------------------------------------------------------------------------------

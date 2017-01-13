@@ -485,13 +485,13 @@ public:
    */
   inline void addItem(rotable::OrderItem* item){
       _items.append(item);
+      connect(item, &rotable::OrderItem::stateChanged, this, &rotable::Order::checkOrderState);
       connect(item, &rotable::OrderItem::amountChanged, this, &rotable::Order::itemChanged);
       connect(item, &rotable::OrderItem::amountChanged, this, &rotable::Order::forceSend);
       connect(item, &rotable::OrderItem::stateChanged, this, &rotable::Order::itemChanged);
       connect(item, &rotable::OrderItem::priceChanged, this, &rotable::Order::itemChanged);
       connect(item, &rotable::OrderItem::timeChanged, this, &rotable::Order::itemChanged);
       connect(item, &rotable::OrderItem::readyToChanged, this, &rotable::Order::itemIsReadyToChanged);
-      connect(item, &rotable::OrderItem::stateChanged, this, &rotable::Order::checkOrderState);
   }
 
   /**
