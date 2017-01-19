@@ -3532,7 +3532,10 @@ QList<int> *Database::getMediaIdByType(int type)
     }
 
     if (list->isEmpty())
-      return NULL;
+    {
+        list->append(-1);
+      return list;
+    }
     else
       return list;
 

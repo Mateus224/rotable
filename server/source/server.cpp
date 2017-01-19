@@ -280,7 +280,7 @@ void Server::packageReceived(client_t client, ComPackage *package) {
             ComPackageReject reject(package->id());
             _tcp.send(client, reject);
           }
-
+          send_to_users(*package,rotable::ComPackage::TableAccount);
       }
       else{
           qDebug() << tr("WARNING: Unallowed Command from client \"%1\"")
@@ -1110,7 +1110,7 @@ bool Server::executeCommand(ComPackageCommand *package) {
             if(_db.removeFile(id,1)){
                 ComPackageDataChanged dc;
                 dc.setDataCategory(ComPackage::RequestMediaIds);
-                _tcp.send(-1, dc);
+                send_to_users(dc,rotable::ComPackage::AdminAccount);
                 return true;
             }else qCritical()<<"Could not remove file from database";
        }else qCritical()<<"Could not remove file from SD";
@@ -1385,7 +1385,8 @@ bool Server::typeOfFileDestination(ComPackageSendFile* package)
 
       switch (package->getFileUsage()) {
       case ComPackage::AdvertisingVideo:
-          if(addAdvertisingSD_Database(package));
+          if(!addAdvertisingSD_Database(package))
+              return false;
           break;
       case ComPackage::AdvertisingPicture:
           if(true)
@@ -1408,9 +1409,11 @@ bool Server::typeOfFileDestination(ComPackageSendFile* package)
     }
     ComPackageDataChanged dc;
     dc.setDataCategory(ComPackage::RequestMediaIds);
-    _tcp.send(-1, dc);
+    send_to_users(dc,rotable::ComPackage::AdminAccount);
     return true;
 }
+
+//------------------------------------------------------------------------------
 
 bool Server::addAdvertisingSD_Database(ComPackageSendFile* package)
 {
@@ -1422,7 +1425,7 @@ bool Server::addAdvertisingSD_Database(ComPackageSendFile* package)
            Files->_fileListNames.append(fileName);
         }
         else{
-            // if file exist and removed is set true make it undo
+            // if file exist and removed is set true; make it undo
             QList<int>* tempForGetID;
             QStringList tempQString;
             tempQString.append(fileName);

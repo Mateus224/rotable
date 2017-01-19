@@ -23,6 +23,8 @@
 #include "callwaiter.h"
 #include "messageconnector.h"
 #include "queue.h"
+#include "filecontainer/advertisingvideo.h"
+
 
 
 
@@ -356,6 +358,13 @@ private:
    * @param package     received package
    */
   void dataChanged(rotable::ComPackageDataChanged* package);
+
+  /**
+   * @brief typeOfFileDestination is a funktion in which we are chacking the kind of sended file
+   * @param package
+   * @return
+   */
+  bool typeOfFileDestination(rotable::ComPackageSendFile* package);
 
   //----------------------------------------------------------------------------
 

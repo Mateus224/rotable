@@ -200,6 +200,14 @@ void Client::packageReceived(ComPackage *package)
         ComPackageMessage *msg = static_cast<ComPackageMessage*>(package);
         emit reciveMessagePackage(msg);
     } break;
+    case rotable::ComPackage::File:
+    {
+        ComPackageSendFile* p=static_cast <ComPackageSendFile*>(package);
+        if (!typeOfFileDestination(p)) {
+          ComPackageReject reject(package->id());
+          _tcp.send(reject);
+        }
+    }
     default:
     {
       qDebug() << tr("WARNING: Received unknown package!");
@@ -603,4 +611,38 @@ void Client::dataChanged(rotable::ComPackageDataChanged *package)
     } break;
     }
   }
+}
+
+bool Client::typeOfFileDestination(ComPackageSendFile* package)
+{
+    File *fc=nullptr;
+    QString test1;
+    if (package) {
+
+      switch (package->getFileUsage()) {
+      case ComPackage::AdvertisingVideo:
+          fc= new AdvertisingVideo();
+          if(!fc->addFileOnSD(package))
+              return false;
+          break;
+      case ComPackage::AdvertisingPicture:
+          if(true)
+           // VideoContainer* a=static_cast <VideoContainer*>(Files);
+          test1=package->getFiles().at(0);
+          break;
+      case ComPackage::CatergoryIcon:
+          if(true)
+           // VideoContainer* b=static_cast <VideoContainer*>(Files);
+          test1=package->getFiles().at(0);
+          break;
+      case ComPackage::ProductPicture:
+          break;
+
+      case ComPackage::ProductVideo:
+          break;
+      default:
+          return false;
+      }
+    }
+    return true;
 }
