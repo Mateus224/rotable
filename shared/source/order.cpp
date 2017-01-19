@@ -155,17 +155,17 @@ void Order::updateOrder(rotable::Order *order)
 void Order::changeState(int state)
 {
     foreach (OrderItem* item, _items) {
-        if(item->isReadyToChange()){
+        if(item->isReadyToChange() && !item->isDone()){
             item->setState(state);
         }
     }
 
     if (isNew())
-        setState(rotable::Order::Sent);
+        setState(Sent);
     else if (isToPay())
-        setState(rotable::Order::Prepared);
+        setState(Prepared);
     else if(isDone())
-        setState(rotable::Order::Close);
+        setState(Close);
 }
 
 void Order::RemoveProductAmount()

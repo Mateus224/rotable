@@ -4,7 +4,7 @@ Rectangle{
     id: order
 
     property int productHeight: Math.max(40,dataView.height * 0.08)
-    property int borderWidth: Math.max(4,orderList.width * 0.015)
+    property int borderWidth: Math.max(4,orderList.width * 0.013)
     property int listWidth: Math.max(100,orderList.width)
     property int itemSpacing: Math.max(10,dataView.height*0.02)
     property string borderColor: "#46C8CF"
@@ -20,7 +20,7 @@ Rectangle{
 
     border.width: borderWidth
     border.color: borderColor
-    radius: width / 12
+    radius: width / 15
 
     Drag.active: dragArea.drag.active
 
@@ -71,7 +71,6 @@ Rectangle{
                 else outgoingList.clip = true;
                 orderList.z = outgoingList.z = 0
 
-                order.enabled = false
                 readyOrder;
                 switch (targetTag)
                 {
@@ -89,7 +88,6 @@ Rectangle{
                     break;
                 }
                 order.Drag.active = false
-                destroy()
             }
         }
     }
@@ -118,7 +116,7 @@ Rectangle{
     Image {
         id: touchImage
 
-        source: "qrc:/resources/images/touch-icon.png"
+        source: "qrc:/resources/images/fingerprint.jpg"
         fillMode: Image.PreserveAspectFit
 
         anchors.left: parent.left
@@ -153,7 +151,7 @@ Rectangle{
         width: orderTime.font.pixelSize * 4
         height: borderWidth * 2
         anchors.top: parent.top
-        anchors.topMargin: -1
+        anchors.topMargin: -2
         anchors.horizontalCenter: parent.horizontalCenter
 
         z: parent.z
@@ -162,7 +160,7 @@ Rectangle{
             id: orderTime
             text: model.timeSent
             color: borderColor
-            font.pixelSize: borderWidth * 1.2
+            font.pixelSize: borderWidth * 2
             font.bold: true
             anchors.top: parent.top
             anchors.horizontalCenter: parent.horizontalCenter

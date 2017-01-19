@@ -44,5 +44,6 @@
         <file>resources/images/Wifi/wifi-nul.svg</file>
         <file>resources/images/touch-icon.png</file>
         <file>resources/audio/newOrderAlert.wav</file>
+        <file>resources/images/fingerprint.jpg</file>
     </qresource>
 </RCC>

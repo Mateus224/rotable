@@ -104,7 +104,8 @@ public:
   inline void setAmount(int amount) {
       _amount = amount;
       if (amount<1) {
-          _state = rotable::OrderItem::State::Rejected;
+          amount=0;
+          _state = Rejected;
           emit stateChanged();
       }
       setChange(true);
@@ -424,11 +425,21 @@ public:
    * @return bool
    */
   inline bool change() const { return _change; }
+
+  /**
+   * @brief
+   *
+   * Checks if any order items are ready to be changed
+   *
+   */
+  void recalcChange();
+
   /**
    * @brief
    *
    */
-  void recalcChange();
+  inline void resetChange() { _change = false; }
+
   /**
    * Get QML list of items.
    *

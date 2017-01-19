@@ -92,7 +92,10 @@ QMap<int, QJsonValue> *Table::getOrderJSON() const {
   QMap<int, QJsonValue> *map = new QMap<int, QJsonValue>;
   foreach (Order *order, _orders) {
     if (order->change())
-      map->insert(order->id(), order->toJSON());
+    {
+        map->insert(order->id(), order->toJSON());
+        order->resetChange();
+    }
   }
   return map;
 }
