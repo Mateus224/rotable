@@ -477,8 +477,7 @@ void Waiter_Client::requestOrderOnTable(int tableId)
       qCritical() << tr("Could not send request!");
     } else {
       _dataRequest[request->id()] = request;
-      //disabled requesting daily income for now
-      //requestLastIncome();
+      requestLastIncome();
     }
 }
 
@@ -494,8 +493,7 @@ void Waiter_Client::requestOrder(int orderId)
       qCritical() << tr("Could not send request!");
     } else {
       _dataRequest[request->id()] = request;
-      //disabled requesting daily income for now
-      //requestLastIncome();
+      requestLastIncome();
     }
 }
 
@@ -648,6 +646,5 @@ void Waiter_Client::playsound()
     player->setMedia(QUrl("qrc:/resources/audio/newOrderAlert.wav"));
     player->setVolume(50);
     player->play();
-    qDebug()<<"Audio played";
 }
 
