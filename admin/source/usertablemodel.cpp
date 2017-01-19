@@ -55,7 +55,14 @@ QVariant UserTableModel::data(const QModelIndex &index, int role) const {
       rotable::User *user = _container->user(ids[index.row()]);
       Q_ASSERT(user);
       if (user) {
-        return QVariant(user->accountType());
+          QString s_accountType;
+          if (user->accountType()==0)
+              s_accountType="Waiter";
+          else if(user->accountType()==2)
+              s_accountType="Administrator";
+          else
+              Q_ASSERT(user->accountType());
+        return QVariant(s_accountType);
       }
     }
   } break;
