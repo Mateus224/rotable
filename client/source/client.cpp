@@ -538,9 +538,49 @@ void Client::dataReturned(ComPackageDataReturn *package)
       _products->updateProduct(product);
     } break;
 
+    case ComPackage::RequestMediaIds:
+    {
+        QJsonArray arr = package->data().toArray();
+        foreach (QJsonValue val, arr) {
+          int id = val.toInt();
+          QString _id=QString::number(id);
+          requestAdvertising(id);
+        }
+    } break;
+    case ComPackage::RequestMedia:
+    {
+        AdvertisingVideo *ad=NULL;
+        File *file= File::fromJSON(package->data());
+        switch (file->_fileInfo._type)
+        {
+        case ComPackage::AdvertisingVideo:
+        {
+            ad=reinterpret_cast <AdvertisingVideo*> (file);
+            //_files->addFile(ad);
+        }break;
+
+        case ComPackage::AdvertisingPicture:
+        {
+
+        }break;
+        case ComPackage::CatergoryIcon:
+        {
+
+        }break;
+        case ComPackage::ProductPicture:
+        {
+
+        }break;
+        case ComPackage::ProductVideo:
+        {
+
+        }break;
+        default : {qCritical() << "unknown package";} break;
+        }
+    }break;
     default:
     {
-      qCritical() << tr("Unknown data package returned");
+      qCritical() << tr("Unknown data package returned")<< package->dataCategory();
     } break;
 
     }
@@ -613,6 +653,8 @@ void Client::dataChanged(rotable::ComPackageDataChanged *package)
   }
 }
 
+//------------------------------------------------------------------------------
+
 bool Client::typeOfFileDestination(ComPackageSendFile* package)
 {
     File *fc=nullptr;
@@ -646,3 +688,19 @@ bool Client::typeOfFileDestination(ComPackageSendFile* package)
     }
     return true;
 }
+
+//------------------------------------------------------------------------------
+
+void Client::requestAdvertising(int fileId) {
+  ComPackageDataRequest *request = new ComPackageDataRequest();
+  request->setDataCategory(ComPackage::RequestMedia);
+  request->setDataName(QString("%1").arg(fileId));
+
+  if (!_tcp.send(*request)) {
+    qCritical() << tr("Could not send request!");
+  } else {
+    _dataRequest[request->id()] = request;
+  }
+}
+
+//------------------------------------------------------------------------------

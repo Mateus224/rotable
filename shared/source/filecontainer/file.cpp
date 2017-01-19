@@ -77,7 +77,7 @@ bool File::rename(QString &newName)
             renameFile.open(QIODevice::WriteOnly| QIODevice::ReadOnly);
             if(!renameFile.rename(newName))
             {
-                qCritical()<<"rename the File failed!";
+                renameFile.close(); // !true if other information were changed but not the filename
                 return false;
             }
             renameFile.close();

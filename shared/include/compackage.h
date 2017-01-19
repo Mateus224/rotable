@@ -92,58 +92,58 @@ public:
     /* Client requests an image */
     RequestImage = 0,
 
-    /* Request list of category ids */
+    /* Request list of category ids 1*/
     RequestCategoryIds,
 
-    /* Request list of product ids for a given category id */
+    /* Request list of product ids for a given category id 2*/
     RequestProductIds,
 
-    /* Request category data from a given category id */
+    /* Request category data from a given category id 3*/
     RequestCategory,
 
-    /* Request product data from a given product id */
+    /* Request product data from a given product id 4*/
     RequestProduct,
 
-    /* Request order data from a given order id */
+    /* Request order data from a given order id 5*/
     RequestOrder,
 
-    /* Request waiter data from a given product id or when login*/
+    /* Request waiter data from a given product id or when login 6*/
     RequestWaiter,
 
-    /* Request orderIds*/
+    /* Request orderIds 7*/
     RequestOrderIds,
 
-    /* Request list of connected table ids */
+    /* Request list of connected table ids 8*/
     RequestTableIds,
 
-    /* Request table data from a table id */
+    /* Request table data from a table id 9*/
     RequestTable,
 
-    /* Request list order on table*/
+    /* Request list order on table 10*/
     RequestOrderOnTable,
 
-    /* Request config on server*/
+    /* Request config on server 11*/
     RequestConfig,
 
-    /* Request licence info from server*/
+    /* Request licence info from server 12*/
     RequestLicence,
 
-    /* Request income from certain day */
+    /* Request income from certain day 13*/
     RequestIncome,
 
-    /* Request user ids (admins + waiters) */
+    /* Request user ids (admins + waiters) 14*/
     RequestUserIds,
 
-    /* Request user data*/
+    /* Request user data 15*/
     RequestUser,
 
-    /* Request Media IDs*/
+    /* Request Media IDs 16*/
     RequestMediaIds,
 
-    /*Request for Information about the Advertising Videos*/
+    /*Request for Information about the Advertising Videos 17*/
     RequestMedia,
 
-    /*Request installed and available Version*/
+    /*Request installed and available Version 18*/
     RequestSystemVersions
   };
 

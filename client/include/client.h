@@ -366,6 +366,8 @@ private:
    */
   bool typeOfFileDestination(rotable::ComPackageSendFile* package);
 
+  void requestAdvertising(int fileId);
+
   //----------------------------------------------------------------------------
 
   /* Configuration file access */

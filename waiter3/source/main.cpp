@@ -33,6 +33,12 @@ int main(int argc, char *argv[])
   QCoreApplication::translate("main", "Path of the configuration file."));
   parser.process(app);
 
+#ifdef __linux__
+  system("qjackctl -s &");
+#elif _WIN32
+
+#endif
+
   /* Load translator */
 
   rotable::LanguageSupport* langSupp = new rotable::LanguageSupport(rotable::LanguageSupport::AppType::waiter);

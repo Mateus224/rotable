@@ -965,11 +965,11 @@ bool Server::updateAdvertising(AdvertisingVideo *advertising) {
 //      if(_db.hasFile(advertising->_fileInfo._name, advertising->_fileInfo._type))
 
         if(!tmp->rename(advertising->_fileInfo._name))
-            qCritical()<<"rename not succed!";
+            qWarning()<<"rename not succed!";
         delete tmp;
 
       if (!_db.updateFile(file)) {
-        qWarning() << tr("Failed to update product!");
+        qWarning() << tr("Failed to update file!");
         //file->rename()
         return false;
       }
