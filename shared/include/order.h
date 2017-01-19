@@ -101,7 +101,7 @@ public:
    *
    * @param amount
    */
-  inline void setAmount(int amount) {
+  void setAmount(int amount) {
       _amount = amount;
       if (amount<1) {
           amount=0;
@@ -485,13 +485,13 @@ public:
    */
   inline void addItem(rotable::OrderItem* item){
       _items.append(item);
+      connect(item, &rotable::OrderItem::stateChanged, this, &rotable::Order::checkOrderState);
       connect(item, &rotable::OrderItem::amountChanged, this, &rotable::Order::itemChanged);
       connect(item, &rotable::OrderItem::amountChanged, this, &rotable::Order::forceSend);
       connect(item, &rotable::OrderItem::stateChanged, this, &rotable::Order::itemChanged);
       connect(item, &rotable::OrderItem::priceChanged, this, &rotable::Order::itemChanged);
       connect(item, &rotable::OrderItem::timeChanged, this, &rotable::Order::itemChanged);
       connect(item, &rotable::OrderItem::readyToChanged, this, &rotable::Order::itemIsReadyToChanged);
-      connect(item, &rotable::OrderItem::stateChanged, this, &rotable::Order::checkOrderState);
   }
 
   /**
@@ -588,13 +588,6 @@ public:
    * @return              count
    */
   int countProducts();
-
-  /**
-   * Each order item that had set readyToChane true has its amount decreased by one
-   *
-   * @return
-   */
-  void RemoveProductAmount();
 
 signals:
   /**
