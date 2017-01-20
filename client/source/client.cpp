@@ -20,10 +20,10 @@ using namespace rotable;
 Client::Client(const QString &configFilePath, QObject *parent)
   : QObject(parent),
     _config(configFilePath, parent), _accepted(false), _state("DISCONNECTED"), _stopping(false),
-    _currentCategoryId(-1),  _productListModel(0), _imageProvider(0)
+    _currentCategoryId(-1),  _productListModel(0), _imageProvider(0),_advertisingVideo(0), _TmpAdvertisingVideo(0)
 {
   _products = new ProductContainer();
-
+  _advertisingVideo=new AdvertisingVideo();
   _productOrder = new ProductOrder(*_products);
 
   connect(&_tcp, SIGNAL(connected()),
@@ -549,14 +549,14 @@ void Client::dataReturned(ComPackageDataReturn *package)
     } break;
     case ComPackage::RequestMedia:
     {
-        AdvertisingVideo *ad=NULL;
-        File *file= File::fromJSON(package->data());
-        switch (file->_fileInfo._type)
+        _file= File::fromJSON(package->data());
+        switch (_file->_fileInfo._type)
         {
         case ComPackage::AdvertisingVideo:
         {
-            ad=reinterpret_cast <AdvertisingVideo*> (file);
-            //_files->addFile(ad);
+            _TmpAdvertisingVideo=reinterpret_cast <AdvertisingVideo*> (_file);
+            _advertisingVideo->advertisingContainer.insert(_TmpAdvertisingVideo->_fileInfo._name, _TmpAdvertisingVideo->_advertisingInfo);
+            // QEvent http://stackoverflow.com/questions/28449475/how-to-get-touchevent-for-mainwindow-in-qt
         }break;
 
         case ComPackage::AdvertisingPicture:

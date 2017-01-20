@@ -412,6 +412,12 @@ private:
 
   rotable::MessageConnector _connector;
 
+  rotable::File *_file;
+
+  rotable::AdvertisingVideo *_TmpAdvertisingVideo;
+
+  rotable::AdvertisingVideo *_advertisingVideo;
+
 }; // class Client
 
 //------------------------------------------------------------------------------

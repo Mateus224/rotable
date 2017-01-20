@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
   parser.process(app);
 
 #ifdef __linux__
-  system("qjackctl -s &");
+  //system("qjackctl -s &"); maybe you need it
 #elif _WIN32
 
 #endif
