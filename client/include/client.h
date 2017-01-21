@@ -24,7 +24,7 @@
 #include "messageconnector.h"
 #include "queue.h"
 #include "filecontainer/advertisingvideo.h"
-
+#include "playadvertising.h"
 
 
 
@@ -40,6 +40,7 @@ namespace rotable {
   class ComPackageDataChanged;
   class ProductContainer;
   class ProductOrder;
+  class PlayAdvertising;
 }
 
 class ProductOrderListModel;
@@ -368,6 +369,8 @@ private:
 
   void requestAdvertising(int fileId);
 
+  void prepareForPlayAdvertising();
+
   //----------------------------------------------------------------------------
 
   /* Configuration file access */
@@ -417,6 +420,10 @@ private:
   rotable::AdvertisingVideo *_TmpAdvertisingVideo;
 
   rotable::AdvertisingVideo *_advertisingVideo;
+
+  rotable::PlayAdvertising * _playA;
+
+
 
 }; // class Client
 

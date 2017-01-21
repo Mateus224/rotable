@@ -28,7 +28,8 @@ HEADERS += \
     include/imageprovider.h \
     include/callwaiter.h \
     include/queue.h \
-    private/precomp.h
+    private/precomp.h \
+    include/playadvertising.h
 
 SOURCES += \
     source/main.cpp \
@@ -40,7 +41,8 @@ SOURCES += \
     source/productlistmodel.cpp \
     source/imageprovider.cpp \
     source/callwaiter.cpp \
-    source/queue.cpp
+    source/queue.cpp \
+    source/playadvertising.cpp
 
 
 RESOURCES +=\
