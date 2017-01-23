@@ -167,6 +167,7 @@ Rectangle {
                                         MouseArea {
                                             anchors.fill: parent
                                             onClicked:{
+                                                touchEvent.newTouchEvent()
                                                 MyOrder.addToProductHash(productId)
                                                 MyOrder.addProductFromGuiTo_orderProducts(productId)
                                             }
@@ -186,6 +187,7 @@ Rectangle {
                                         MouseArea {
                                             anchors.fill: parent
                                             onClicked:{
+                                                touchEvent.newTouchEvent()
                                                 MyOrder.rmFromProductHash(productId)
                                                 MyOrder.removeProductFromGuiTo_orderProducts(productId)
                                             }
@@ -223,6 +225,7 @@ Rectangle {
                             MouseArea{
                                 anchors.fill: parent
                                 onClicked: {
+                                    touchEvent.newTouchEvent()
                                     if(MyOrder.b_acceptOrder())
                                     {
                                         client.sendOrder()

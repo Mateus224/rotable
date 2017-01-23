@@ -29,7 +29,6 @@ signals:
 
 private slots:
     void timerEnd(QString name);
-    void test(QString name);
 
 private:
     QTimer* _timer;

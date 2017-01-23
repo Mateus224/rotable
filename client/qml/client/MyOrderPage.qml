@@ -9,6 +9,7 @@ Rectangle {
         id: idMouseAreaBProductPage
         anchors.fill: parent
         enabled: true
+        onClicked: touchEvent.newTouchEvent()
     }
 
 

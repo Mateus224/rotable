@@ -66,6 +66,7 @@ Rectangle {
                     anchors.fill: parent
                     anchors.margins: parent.height * 0.02
                     onClicked:  {
+                        touchEvent.newTouchEvent()
                         if(callwaiterbutton.state!="CALLWAITER")
                             CallWaiterObject.waiterNeed = true
 

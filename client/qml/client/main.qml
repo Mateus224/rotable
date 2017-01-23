@@ -1,11 +1,16 @@
 import QtQuick 2.0
 import "globals.js" as Global
 import "games"
+import QtQuick.Controls 1.4
 
 Rectangle {
+
     id: mainScreen
 
-    color: "red"
+    MouseArea{
+        anchors.fill: parent
+        onClicked: touchEvent.newTouchEvent()
+    }
 
     RotationButton{
         id: rotationButton_leftTop

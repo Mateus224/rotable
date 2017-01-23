@@ -54,6 +54,7 @@ Rectangle {
                 anchors.fill: parent
                 hoverEnabled: true
                 onPressed: {
+                    touchEvent.newTouchEvent()
                     parent.color= "#f9a8d8"
                 }
                 onExited: {

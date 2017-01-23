@@ -9,6 +9,7 @@ Rectangle {
         id: idMouseAreaPayedPage
         anchors.fill: parent
         enabled: true
+        onClicked: touchEvent.newTouchEvent()
     }
 
     Rectangle {

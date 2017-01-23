@@ -30,7 +30,10 @@ Rectangle {
             rotation: _rotation+90
             MouseArea{
                 anchors.fill: parent
-                onPressed: parent.source= "qrc:/client/resources/Pfeil_02.png"
+                onPressed: {
+                    touchEvent.newTouchEvent()
+                    parent.source= "qrc:/client/resources/Pfeil_02.png"
+                }
                 onReleased:{
                     screen.rotation= _rotation
                     parent.source=   "qrc:/client/resources/Pfeil_01.png"

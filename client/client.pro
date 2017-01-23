@@ -1,4 +1,4 @@
-QT = core qml network gui quick
+QT = core qml network gui quick widgets quickwidgets
 TARGET = rotable-client
 
 CONFIG += precompile_header c++11
@@ -29,7 +29,8 @@ HEADERS += \
     include/callwaiter.h \
     include/queue.h \
     private/precomp.h \
-    include/playadvertising.h
+    include/playadvertising.h \
+    include/touchevent.h
 
 SOURCES += \
     source/main.cpp \
@@ -42,7 +43,8 @@ SOURCES += \
     source/imageprovider.cpp \
     source/callwaiter.cpp \
     source/queue.cpp \
-    source/playadvertising.cpp
+    source/playadvertising.cpp \
+    source/touchevent.cpp
 
 
 RESOURCES +=\

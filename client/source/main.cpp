@@ -1,6 +1,6 @@
 #include "private/precomp.h"
 #include  "../include/qmlcontxt.h"
-//#include "client/linux/handler/exception_handler.h"
+#include <QApplication>
 
 #include "client.h"
 #include "settings.h"
@@ -8,6 +8,7 @@
 #include "productorder.h"
 #include "mytables.h"
 #include "languagesupport.h"
+#include "touchevent.h"
 
 #ifdef __arm__
 #include <wiringPi.h>
@@ -35,13 +36,18 @@
 /////////////////////////////////////////
 //------------------------------------------------------------------------------
 
+void touchEvent(QTouchEvent* test){
+    qDebug()<<"bbbb";
+}
+
+
 int main(int argc, char *argv[])
 {
   // Create minidump on program crash (for later debugging)
   //google_breakpad::MinidumpDescriptor breakpad_descriptor("/tmp");
   //google_breakpad::ExceptionHandler breakpad_handler(
   //  breakpad_descriptor, NULL, NULL, NULL, true, -1);
-  QGuiApplication app(argc, argv);
+  QApplication app(argc, argv);
 
   QCoreApplication::setApplicationName("rotable-client");
   QCoreApplication::setApplicationVersion("1.0b");
@@ -101,8 +107,8 @@ int main(int argc, char *argv[])
   client->setImageProvider(imageProvider);
 
 
-  QQuickView* view=new QQuickView;
-  //rotable::ProductOrder* MyOrder= new rotable::ProductOrder();
+  rotable::TouchEvent*  touch=new rotable::TouchEvent;
+  QQuickView* view=new QQuickView();
 
   client->startup();               //this will be in the fulture in the client included
   view->setResizeMode(QQuickView::SizeRootObjectToView);
@@ -116,12 +122,8 @@ int main(int argc, char *argv[])
   view->rootContext()->setContextProperty("CallWaiterObject", &(client->_callWaiter));
   view->rootContext()->setContextProperty("OrderQueue", &(client->_queue));
   view->rootContext()->setContextProperty("langObject", langSupp);
-  QQmlContext *ctxt = view->engine()->rootContext();
+  view->rootContext()->setContextProperty("touchEvent",touch);
 
-
-  //view.setSource(QUrl::fromLocalFile(QString(ROTABLE_QML_PATH) + QString("main.qml")));
-
-  //view->setSource(QString("qrc:/client/main.qml"));
   switch (ProductVersion){
   case 1:
     view->setSource(QString("qrc:/client_LB/main_LB.qml"));

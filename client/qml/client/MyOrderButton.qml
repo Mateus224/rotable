@@ -21,7 +21,10 @@ Rectangle {
     MouseArea {
         id:te
         anchors.fill: parent
-        onPressed: parent.gradient=clubcolors
+        onPressed: {
+            parent.gradient=clubcolors
+            touchEvent.newTouchEvent()
+        }
         onReleased: {
             client.state= myorderscreen
             //ToDo: fix this
