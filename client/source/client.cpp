@@ -20,7 +20,8 @@ using namespace rotable;
 Client::Client(const QString &configFilePath, QObject *parent)
   : QObject(parent),
     _config(configFilePath, parent), _accepted(false), _state("DISCONNECTED"), _stopping(false),
-    _currentCategoryId(-1),  _productListModel(0), _imageProvider(0),_advertisingVideo(0), _TmpAdvertisingVideo(0)
+    _currentCategoryId(-1),  _productListModel(0), _imageProvider(0),_advertisingVideo(0), _TmpAdvertisingVideo(0),_numberOfMedias(0),
+    _countIncomeMedias(0)
 {
 
   _advertisingVideo=new AdvertisingVideo();
@@ -162,6 +163,7 @@ void Client::packageReceived(ComPackage *package)
       setState("SCREENSAVER");
       requestCategoryIds();
       requestMediaIds();
+
     } break;
 
     case ComPackage::DataRequest:
@@ -543,6 +545,7 @@ void Client::dataReturned(ComPackageDataReturn *package)
     {
         QJsonArray arr = package->data().toArray();
         foreach (QJsonValue val, arr) {
+            _numberOfMedias++;
           int id = val.toInt();
           QString _id=QString::number(id);
           requestAdvertising(id);
@@ -555,6 +558,7 @@ void Client::dataReturned(ComPackageDataReturn *package)
         {
         case ComPackage::AdvertisingVideo:
         {
+            _countIncomeMedias++;
             prepareForPlayAdvertising();
         }break;
 
@@ -708,13 +712,17 @@ void Client::prepareForPlayAdvertising()
 {
     _TmpAdvertisingVideo=reinterpret_cast <AdvertisingVideo*> (_file);
     _advertisingVideo->advertisingContainer.insert(_TmpAdvertisingVideo->_fileInfo._name, _TmpAdvertisingVideo->_advertisingInfo);
-    if (_playA) //if exist delete old object because we have a new list
+    if(_numberOfMedias==_countIncomeMedias)
     {
-        _playA=nullptr;
+        if (_playA) //if exist delete old object because we have a new list
+        {
+            _playA=nullptr;
+        }
+        _playA=new PlayAdvertising(*_advertisingVideo);
+        _playA->startPlayAdvertising();
     }
-    _playA=new PlayAdvertising(*_advertisingVideo);
-    _playA->startPlayAdvertising();
     // QEvent http://stackoverflow.com/questions/28449475/how-to-get-touchevent-for-mainwindow-in-qt
 }
+
 
 //------------------------------------------------------------------------------

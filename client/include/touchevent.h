@@ -13,10 +13,16 @@ class rotable::TouchEvent:public QObject
     Q_OBJECT
 public:
     TouchEvent();
+
+    /** This Method is called from the QML-Files
+     *  Every OnClicked calls this funktion
+     *  This funkton takes the current time and add 45 seconds
+     *  (later we will compare if the last touch was more or less than 45 seconds ago)
+     * */
     Q_INVOKABLE void newTouchEvent();
 
-private:
-    QTime* _secondsFromLastTouch;
+public:
+    QTime* _secondsFromLastTouchPlus;
 
 
 };

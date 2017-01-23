@@ -15,7 +15,7 @@ void PlayAdvertising::startPlayAdvertising()
     QMap<QString, AdvertisingVideo::advertisingInfo >::const_iterator i = _advertisingVideo->advertisingContainer.begin();
     while (i != _advertisingVideo->advertisingContainer.constEnd()) {
         QString video_name = i.key();
-         QTimer::singleShot(10000, [=]() { timerEnd(video_name); } );
+         QTimer::singleShot(1, [=]() { timerEnd(video_name); } );
          //i.value()._frequency
         ++i;
     }

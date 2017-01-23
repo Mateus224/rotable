@@ -371,6 +371,7 @@ private:
 
   void prepareForPlayAdvertising();
 
+
   //----------------------------------------------------------------------------
 
   /* Configuration file access */
@@ -422,6 +423,8 @@ private:
   rotable::AdvertisingVideo *_advertisingVideo;
 
   rotable::PlayAdvertising * _playA;
+
+  int _numberOfMedias, _countIncomeMedias;
 
 
 
