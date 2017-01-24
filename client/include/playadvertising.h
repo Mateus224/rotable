@@ -2,8 +2,8 @@
 #define PLAYADVERTISING_H
 
 #include <QTouchEvent>
-//#include <QTimer>
-#include <qtimer.h>
+#include <QTimer>
+#include <QTime>
 #include <QObject>
 
 #include "filecontainer/advertisingvideo.h"
@@ -31,7 +31,8 @@ private slots:
     void timerEnd(QString name);
 
 private:
-    QTimer* _timer;
+    QTime _timeAfterShot;
+    QTime* _time;
     rotable::AdvertisingVideo* _advertisingVideo;
 
 
