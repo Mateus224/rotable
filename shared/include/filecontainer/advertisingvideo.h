@@ -80,7 +80,7 @@ public:
         int _played;
     };
 
-    QMap<QString, advertisingInfo> advertisingContainer;
+    QMap<QString*, advertisingInfo> advertisingContainer;
 
     advertisingInfo _advertisingInfo;
 

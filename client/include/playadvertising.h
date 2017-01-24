@@ -19,20 +19,26 @@ public:
     PlayAdvertising(rotable::AdvertisingVideo & _advertisingVideo, QObject *parent = 0);
 
     void startPlayAdvertising();
-
 private:
 
     void timerStart(const QString name);
+    void timer(int sec, QTime& timer);
 signals:
     void startTimer(QString);
 
 
 private slots:
-    void timerEnd(QString name);
+    void timerEnd(QString& name);
 
 private:
-    QTime _timeAfterShot;
-    QTime* _time;
+    struct Timers{
+        QTime* _timer;
+        QString* _videoName;
+    }
+    *st_timer;
+
+    QList<Timers*>* L_timers;
+
     rotable::AdvertisingVideo* _advertisingVideo;
 
 

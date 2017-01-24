@@ -711,7 +711,7 @@ void Client::requestAdvertising(int fileId)
 void Client::prepareForPlayAdvertising()
 {
     _TmpAdvertisingVideo=reinterpret_cast <AdvertisingVideo*> (_file);
-    _advertisingVideo->advertisingContainer.insert(_TmpAdvertisingVideo->_fileInfo._name, _TmpAdvertisingVideo->_advertisingInfo);
+    _advertisingVideo->advertisingContainer.insert(&_TmpAdvertisingVideo->_fileInfo._name, _TmpAdvertisingVideo->_advertisingInfo);
     if(_numberOfMedias==_countIncomeMedias)
     {
         if (_playA) //if exist delete old object because we have a new list
