@@ -640,9 +640,9 @@ void Waiter_Client::requestCategoryIds()
 
 void Waiter_Client::playsound()
 {
-    QMediaPlayer* player = new QMediaPlayer();
+    QMediaPlayer* player = new QMediaPlayer;
     player->setMedia(QUrl("qrc:/resources/audio/newOrderAlert.wav"));
-    player->setVolume(50);
+    player->setVolume(100);
     player->play();
 }
 
