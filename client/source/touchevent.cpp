@@ -13,5 +13,3 @@ void TouchEvent::newTouchEvent()
     *_secondsFromLastTouchPlus=QTime::currentTime();
     *_secondsFromLastTouchPlus=_secondsFromLastTouchPlus->addSecs(45);
 }
-
-

@@ -25,6 +25,7 @@ Client::Client(const QString &configFilePath, QObject *parent)
 {
 
   _advertisingVideo=new AdvertisingVideo();
+  _touch=new TouchEvent();
   _products = new ProductContainer();
   _productOrder = new ProductOrder(*_products);
 
@@ -718,7 +719,7 @@ void Client::prepareForPlayAdvertising()
         {
             _playA=nullptr;
         }
-        _playA=new PlayAdvertising(*_advertisingVideo);
+        _playA=new PlayAdvertising(*_advertisingVideo,*_touch);
         _playA->startPlayAdvertising();
     }
     // QEvent http://stackoverflow.com/questions/28449475/how-to-get-touchevent-for-mainwindow-in-qt

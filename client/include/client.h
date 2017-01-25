@@ -193,6 +193,7 @@ public:
   rotable::CallWaiter _callWaiter;
   rotable::Queue _queue;
   rotable::ProductOrder* _productOrder;  
+  rotable::TouchEvent* _touch;
   /* Table sensors */
   rotable::Sensors _sensors;
   int _device;

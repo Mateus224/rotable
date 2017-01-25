@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
   view->rootContext()->setContextProperty("CallWaiterObject", &(client->_callWaiter));
   view->rootContext()->setContextProperty("OrderQueue", &(client->_queue));
   view->rootContext()->setContextProperty("langObject", langSupp);
-  view->rootContext()->setContextProperty("touchEvent",touch);
+  view->rootContext()->setContextProperty("touchEvent",client->_touch);
 
   switch (ProductVersion){
   case 1:

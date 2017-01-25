@@ -21,8 +21,9 @@ public:
      * */
     Q_INVOKABLE void newTouchEvent();
 
-public:
-    QTime* _secondsFromLastTouchPlus;
+    inline QTime* getLastTouch(){ return _secondsFromLastTouchPlus;}
+
+     QTime* _secondsFromLastTouchPlus;
 
 
 };
