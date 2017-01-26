@@ -27,21 +27,28 @@ signals:
 
 
 private slots:
-    void timerEnd(QString& name);
+    void timerEnd(int& id);
 
 private:
 
-    void advertisingTimerQueue();
+    void advertisingTimerQueue(const int &id);
 
-    struct Timers{
+    int MinBreakTime();
+
+    bool _playing; //is the video now playing
+
+    struct AdvertisingTimers{
         QTime* _timer;
+        QTime* _lastPlay;
         QString* _videoName;
+        int _frequency;
+        int _id;
     }
     *st_timer;
 
-    QList<Timers*>* L_timers;
+    QList<AdvertisingTimers*> L_timers;
 
-    QList<Timers*>* L_timerQueue;
+    QList<AdvertisingTimers*> L_timerQueue;
 
     rotable::AdvertisingVideo* _advertisingVideo;
 
