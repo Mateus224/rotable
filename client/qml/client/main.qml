@@ -2,6 +2,7 @@ import QtQuick 2.0
 import "globals.js" as Global
 import "games"
 import QtQuick.Controls 1.4
+import "advertising"
 
 Rectangle {
 
@@ -97,6 +98,10 @@ Rectangle {
             id: sendAccept
         }
 
+        PlayAdvertising{
+            id:playAdvertising
+        }
+
 
         //! [states]
         states: [
@@ -111,6 +116,7 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: playAdvertising; visible: false}
 
             },
             State {
@@ -124,6 +130,7 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: playAdvertising; visible: false}
             },
             State {
                 name: "STARTSCREEN"
@@ -136,6 +143,7 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: playAdvertising; visible: false}
             },
             State {
                 name: "PRODUCTSCREEN"
@@ -148,6 +156,7 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: playAdvertising; visible: false}
             },
             State {
                 name: "MYORDERSCREEN"
@@ -160,6 +169,7 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: playAdvertising; visible: false}
             },
             State {
                 name: "GAMEPAGE"
@@ -172,6 +182,7 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: playAdvertising; visible: false}
             },
             State {
                 name: "CALLWAITERPAGE"
@@ -184,6 +195,7 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: true}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: playAdvertising; visible: false}
             },
             State {
                 name: "SENTPAGE"
@@ -196,6 +208,7 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: true}
                 PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: playAdvertising; visible: false}
             },
             State {
                 name: "SENDACCEPT"
@@ -208,6 +221,20 @@ Rectangle {
                 PropertyChanges { target: callWaiterPage; visible: false}
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: true}
+                PropertyChanges { target: playAdvertising; visible: false}
+            },
+            State {
+                name: "PLAYADVERTISING"
+                PropertyChanges { target: connectionPage; visible: false }
+                PropertyChanges { target: screensaverPage; visible: false }
+                PropertyChanges { target: startPage; visible: false }
+                PropertyChanges { target: productPage; visible: false }
+                PropertyChanges { target: myOrderPage; visible: false}
+                PropertyChanges { target: gamePage; visible: false}
+                PropertyChanges { target: callWaiterPage; visible: false}
+                PropertyChanges { target: sentPage; visible: false}
+                PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: playAdvertising; visible: true}
             }
         ]
         //! [states]

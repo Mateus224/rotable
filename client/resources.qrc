@@ -155,4 +155,7 @@
     <qresource prefix="/">
         <file>config.ini</file>
     </qresource>
+    <qresource prefix="/client/advertising">
+        <file alias="PlayAdvertising.qml">qml/client/advertising/PlayAdvertising.qml</file>
+    </qresource>
 </RCC>
