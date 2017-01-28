@@ -317,6 +317,13 @@ void payedSlot(int i){qDebug()<<i;}
    */
   void orderQueue(rotable::Message *msg);
 
+  /**
+   * get informations from playAdvertising Class which Advertising
+   * will be played next. We set the state and starting to Play the video
+   * @brief playAdvertising
+   */
+  void playAdvertising(int id);
+
 private:
   /**
    * Request all category ids.
@@ -423,7 +430,7 @@ private:
 
   rotable::AdvertisingVideo *_advertisingVideo;
 
-  rotable::PlayAdvertising * _playA;
+  rotable::PlayAdvertising* _playA;
 
   int _numberOfMedias, _countIncomeMedias;
 

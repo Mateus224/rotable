@@ -24,6 +24,13 @@ private:
     void timer(int sec, QTime& timer);
 signals:
     void startTimer(QString);
+    /**
+     * Sends information to the Client Class to change the state and
+     * to start the video with the given ID
+     * @brief play
+     * @param id
+     */
+    void play(int id);
 
 
 private slots:

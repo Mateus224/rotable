@@ -54,6 +54,7 @@ Client::Client(const QString &configFilePath, QObject *parent)
   // Connect send package from callWaiter by Client
   connect(&_callWaiter, &rotable::CallWaiter::sendCallWaiter,
           this, &Client::sendPackage);
+
 }
 
 //------------------------------------------------------------------------------
@@ -720,6 +721,8 @@ void Client::prepareForPlayAdvertising()
             _playA=nullptr;
         }
         _playA=new PlayAdvertising(*_advertisingVideo,*_touch);
+        qDebug()<<connect(_playA,SIGNAL(play(int)),
+                this, SLOT(playAdvertising(int)) );
         _playA->startPlayAdvertising();
     }
     // QEvent http://stackoverflow.com/questions/28449475/how-to-get-touchevent-for-mainwindow-in-qt
@@ -727,3 +730,8 @@ void Client::prepareForPlayAdvertising()
 
 
 //------------------------------------------------------------------------------
+
+void Client::playAdvertising(int videoName)
+{
+    setState("PLAYADVERTISING");
+}

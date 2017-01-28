@@ -11,7 +11,6 @@ PlayAdvertising::PlayAdvertising(AdvertisingVideo & advertisingVideo, TouchEvent
     //_advertisingVideo= new AdvertisingVideo();
     _advertisingVideo=&advertisingVideo;
     _touch=&touch;
-    //connect(timer, SIGNAL(timerStart()), this, SLOT(timerEnd(video_name)));
 }
 
 void PlayAdvertising::startPlayAdvertising()
@@ -37,22 +36,27 @@ void PlayAdvertising::startPlayAdvertising()
 
 void PlayAdvertising::timerEnd(int& id)
 {
+    qDebug()<<"1";
     int nextPlay;
     if(_touch->_secondsFromLastTouchPlus->secsTo(QTime::currentTime())<0)//true if Touchscreen wasn't touched in the last 45 sec
     {
+        qDebug()<<"1";
         nextPlay=MinBreakTime();
         if(nextPlay<=0){
+            qDebug()<<"12";
             if(L_timerQueue.empty()){
                 if(_playing==false){
+                    qDebug()<<id;
                     _playing=true;
-                    //while Play()
+                    emit play(id);
+                    qDebug()<<"133";
                     _playing=false;
                     for(AdvertisingTimers* namesOfTimer: L_timers) {
                         if(namesOfTimer->_id==id){
                             QTime temp=QTime::currentTime();
                             namesOfTimer->_lastPlay=&temp;
-                            AdvertisingTimers* nextAdvertising=L_timerQueue.takeFirst();
-                            QTimer::singleShot(nextAdvertising->_frequency, [=]() {timerEnd(nextAdvertising->_id);});
+                            //AdvertisingTimers* nextAdvertising=L_timerQueue.takeFirst();
+                            QTimer::singleShot(namesOfTimer->_frequency, [=]() {timerEnd(namesOfTimer->_id);});
                         }
                         else
                             qCritical()<<"No Advertising Timer found";
@@ -82,6 +86,10 @@ int PlayAdvertising::MinBreakTime()
 {
     int max_time=0;
         for(AdvertisingTimers* advertising: L_timers) {
+            if(!advertising->_lastPlay){
+                QTime now=QTime::currentTime();
+                advertising->_lastPlay=&now;
+            }
             advertising->_lastPlay->addSecs(59); // bevor playing new Video you have to wait 59 sec
             int time=advertising->_lastPlay->secsTo(QTime::currentTime());
             if (time>0){  // if advertising was played in the last minute return
@@ -101,3 +109,4 @@ void PlayAdvertising::advertisingTimerQueue(const int &id)
     AdvertisingTimers* nextAdvertising=L_timerQueue.takeFirst();
     QTimer::singleShot(nextAdvertising->_frequency, [=]() {timerEnd(nextAdvertising->_id);});
 }
+
