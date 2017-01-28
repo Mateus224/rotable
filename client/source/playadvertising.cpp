@@ -42,20 +42,24 @@ void PlayAdvertising::timerEnd(int& id)
     {
         nextPlay=MinBreakTime();
         if(nextPlay<=0){
-            if(_playing==false){
-                _playing=true;
-                //while Play()
-                _playing=false;
-                for(AdvertisingTimers* namesOfTimer: L_timers) {
-                    if(namesOfTimer->_id==id){
-                        QTime temp=QTime::currentTime();
-                        namesOfTimer->_lastPlay=&temp;
-                        AdvertisingTimers* nextAdvertising=L_timerQueue.takeFirst();
-                        QTimer::singleShot(nextAdvertising->_frequency, [=]() {timerEnd(nextAdvertising->_id);});
+            if(L_timerQueue.empty()){
+                if(_playing==false){
+                    _playing=true;
+                    //while Play()
+                    _playing=false;
+                    for(AdvertisingTimers* namesOfTimer: L_timers) {
+                        if(namesOfTimer->_id==id){
+                            QTime temp=QTime::currentTime();
+                            namesOfTimer->_lastPlay=&temp;
+                            AdvertisingTimers* nextAdvertising=L_timerQueue.takeFirst();
+                            QTimer::singleShot(nextAdvertising->_frequency, [=]() {timerEnd(nextAdvertising->_id);});
+                        }
+                        else
+                            qCritical()<<"No Advertising Timer found";
                     }
-                    else
-                        qCritical()<<"No Advertising Timer found";
                 }
+                else
+                    advertisingTimerQueue(id);
             }
             else
                 advertisingTimerQueue(id);
