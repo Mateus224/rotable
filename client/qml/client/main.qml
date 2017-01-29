@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import "globals.js" as Global
 import "games"
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.0
 import "advertising"
 
 Rectangle {
@@ -19,7 +19,7 @@ Rectangle {
         //property double topMargin: 0.01
         //property double bottomMargin: 0.005
         property int _rotation: 180
-        z:2
+        //z:0
     }
     RotationButton{
         id: rotationButton_rightTop
@@ -27,7 +27,7 @@ Rectangle {
         //property double topMargin: 0.01
         //property double bottomMargin: 0.005
         property int _rotation: 270
-        z:2
+        //z:2
     }
     RotationButton{
         id: rotationButton_rightBottom
@@ -36,7 +36,7 @@ Rectangle {
         //property double topMargin: 0.005
         //property double bottomMargin: 0.01
         property int _rotation: 0
-        z:2
+        //z:2
     }
     RotationButton{
         id: rotationButton_leftBottom
@@ -45,7 +45,7 @@ Rectangle {
         //property double topMargin: 0.005
         //property double bottomMargin: 0.01
         property int _rotation: 90
-        z:2
+        //z:2
     }
 
 //------------------------------------------------------------
@@ -117,6 +117,7 @@ Rectangle {
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
                 PropertyChanges { target: playAdvertising; visible: false}
+                PropertyChanges { target: screen; width: Math.min(parent.height, parent.width); height:Math.min(mainScreen.width, mainScreen.height)}
 
             },
             State {
@@ -131,6 +132,7 @@ Rectangle {
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
                 PropertyChanges { target: playAdvertising; visible: false}
+                PropertyChanges { target: screen; width: Math.min(parent.height, parent.width); height:Math.min(mainScreen.width, mainScreen.height)}
             },
             State {
                 name: "STARTSCREEN"
@@ -144,6 +146,7 @@ Rectangle {
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
                 PropertyChanges { target: playAdvertising; visible: false}
+                PropertyChanges { target: screen; width: Math.min(parent.height, parent.width); height:Math.min(mainScreen.width, mainScreen.height)}
             },
             State {
                 name: "PRODUCTSCREEN"
@@ -157,6 +160,7 @@ Rectangle {
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
                 PropertyChanges { target: playAdvertising; visible: false}
+                PropertyChanges { target: screen; width: Math.min(parent.height, parent.width); height:Math.min(mainScreen.width, mainScreen.height)}
             },
             State {
                 name: "MYORDERSCREEN"
@@ -170,6 +174,7 @@ Rectangle {
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
                 PropertyChanges { target: playAdvertising; visible: false}
+                PropertyChanges { target: screen; width: Math.min(parent.height, parent.width); height:Math.min(mainScreen.width, mainScreen.height)}
             },
             State {
                 name: "GAMEPAGE"
@@ -183,6 +188,7 @@ Rectangle {
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
                 PropertyChanges { target: playAdvertising; visible: false}
+                PropertyChanges { target: screen; width: Math.min(parent.height, parent.width); height:Math.min(mainScreen.width, mainScreen.height)}
             },
             State {
                 name: "CALLWAITERPAGE"
@@ -196,6 +202,7 @@ Rectangle {
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
                 PropertyChanges { target: playAdvertising; visible: false}
+                PropertyChanges { target: screen; width: Math.min(parent.height, parent.width); height:Math.min(mainScreen.width, mainScreen.height)}
             },
             State {
                 name: "SENTPAGE"
@@ -209,6 +216,7 @@ Rectangle {
                 PropertyChanges { target: sentPage; visible: true}
                 PropertyChanges { target: sendAccept; visible: false}
                 PropertyChanges { target: playAdvertising; visible: false}
+                PropertyChanges { target: screen; width: Math.min(parent.height, parent.width); height:Math.min(mainScreen.width, mainScreen.height)}
             },
             State {
                 name: "SENDACCEPT"
@@ -222,6 +230,7 @@ Rectangle {
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: true}
                 PropertyChanges { target: playAdvertising; visible: false}
+                PropertyChanges { target: screen; width: Math.min(parent.height, parent.width); height:Math.min(mainScreen.width, mainScreen.height)}
             },
             State {
                 name: "PLAYADVERTISING"
@@ -235,6 +244,7 @@ Rectangle {
                 PropertyChanges { target: sentPage; visible: false}
                 PropertyChanges { target: sendAccept; visible: false}
                 PropertyChanges { target: playAdvertising; visible: true}
+                PropertyChanges { target: screen; width:  mainScreen.width; height:  mainScreen.height}
             }
         ]
         //! [states]

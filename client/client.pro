@@ -1,4 +1,4 @@
-QT = core qml network gui quick widgets quickwidgets
+QT = core qml network gui quick widgets quickwidgets multimedia
 TARGET = rotable-client
 
 CONFIG += precompile_header c++11
