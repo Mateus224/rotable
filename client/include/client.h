@@ -56,8 +56,6 @@ class rotable::Client : public QObject
 {
   Q_OBJECT
 
- Q_PROPERTY(QString AdvertisingVideoName READ AdvertisingVideoName WRITE setAdvertisingVideoName NOTIFY AdvertisingVideoNameChanged)
-
   Q_PROPERTY(QString state READ state WRITE setState NOTIFY stateChanged)
   Q_PROPERTY(int currentCategoryId READ currentCategoryId WRITE setCurrentCategoryId NOTIFY currentCategoryIdChanged)
   Q_PROPERTY(QString currentCategoryName READ currentCategoryName NOTIFY currentCategoryIdChanged)
@@ -139,7 +137,6 @@ public:
    */
   inline const QString& state() const { return _state; }
 
-  inline const QString& AdvertisingVideoName()const{return _advertisingVideoName;}
 
   /**
    * Get name of current category.
@@ -176,8 +173,6 @@ public:
   inline bool hasPackage(const QString& packageId) const {
     return _dataRequest.contains(packageId);
   }
-
-   Q_INVOKABLE void playAdvertisingEnded(QString);
 
   /**
    * Get whether this application has been build in debug mode.
@@ -229,11 +224,6 @@ signals:
    */
   void debugChanged();
 
-  /**
-   * Sending the Advertising Name to QML
-   * @brief AdvertisingVideoNameChanged
-   */
-  void AdvertisingVideoNameChanged();
 
   /**
    * Recive new message
@@ -277,9 +267,6 @@ void payedSlot(int i){qDebug()<<i;}
    * @param state       new GUI state
    */
   void setState(const QString& state);
-
-
-  void setAdvertisingVideoName(const QString& name);
 
   /**
    * @brief requestMediaIds
@@ -414,8 +401,6 @@ private:
 
   /* Program state */
   QString _state;
-
-  QString _advertisingVideoName;
 
   /* Timer for waiting before reconnect */
   QTimer _reconnectTimer;

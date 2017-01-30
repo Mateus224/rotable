@@ -270,14 +270,6 @@ void Client::setState(const QString &state)
 
 //------------------------------------------------------------------------------
 
-void Client::setAdvertisingVideoName(const QString &name)
-{
-  _advertisingVideoName = name;
-  emit AdvertisingVideoNameChanged();
-}
-
-//------------------------------------------------------------------------------
-
 void Client::requestMediaIds() {
   ComPackageDataRequest *request = new ComPackageDataRequest();
   request->setDataCategory(ComPackage::RequestMediaIds);
@@ -749,12 +741,13 @@ void Client::playAdvertising(QString* videoName)
     setState("PLAYADVERTISING");
 }
 
-void Client::playAdvertisingEnded(QString name)
-{
-   _playA->advertisingVideoEnded(name);
-   //TODO send package with played video
-}
-
 void Client::MediaStatusChanged(QMediaPlayer::MediaStatus status){
+    int st=status;
+    if(st==7) //If status EndOfMedia
+    {
+        setState("STARTSCREEN");
+        _playA->advertisingVideoEnded("test01.mp4");
+        //TODO send package with played video
+    }
     qDebug()<<"Media status:"<<status;
 }
