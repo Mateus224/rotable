@@ -12,19 +12,18 @@ Rectangle {
     Video {
         id: video
         anchors.fill: parent
-        source: "file:///opt/rotable/advertisingVideo/test01.mp4"
+        source: "file:///opt/rotable/advertisingVideo/"+client.AdvertisingVideoName
         autoLoad: true
-        //play: startPlay
 
         onStatusChanged: {
             if (status == MediaPlayer.EndOfMedia)
+            {
                 client.state="STARTSCREEN"
+                client.playAdvertisingEnded(client.AdvertisingVideoName)
+            }
         }
         z: 1
         focus: true
-        Keys.onSpacePressed: video.playbackState == MediaPlayer.PlayingState ? video.pause() : video.play()
-        Keys.onLeftPressed: video.seek(video.position - 5000)
-        Keys.onRightPressed: video.seek(video.position + 5000)
     }
     states: [
         State {

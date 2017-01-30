@@ -267,6 +267,14 @@ void Client::setState(const QString &state)
 
 //------------------------------------------------------------------------------
 
+void Client::setAdvertisingVideoName(const QString &name)
+{
+  _advertisingVideoName = name;
+  emit AdvertisingVideoNameChanged();
+}
+
+//------------------------------------------------------------------------------
+
 void Client::requestMediaIds() {
   ComPackageDataRequest *request = new ComPackageDataRequest();
   request->setDataCategory(ComPackage::RequestMediaIds);
@@ -721,8 +729,8 @@ void Client::prepareForPlayAdvertising()
             _playA=nullptr;
         }
         _playA=new PlayAdvertising(*_advertisingVideo,*_touch);
-        qDebug()<<connect(_playA,SIGNAL(play(int)),
-                this, SLOT(playAdvertising(int)) );
+        qDebug()<<connect(_playA,SIGNAL(play(QString*)),
+                this, SLOT(playAdvertising(QString*)) );
         _playA->startPlayAdvertising();
     }
     // QEvent http://stackoverflow.com/questions/28449475/how-to-get-touchevent-for-mainwindow-in-qt
@@ -731,7 +739,13 @@ void Client::prepareForPlayAdvertising()
 
 //------------------------------------------------------------------------------
 
-void Client::playAdvertising(int videoName)
+void Client::playAdvertising(QString* videoName)
 {
+    setAdvertisingVideoName("test01.mp4");
     setState("PLAYADVERTISING");
+}
+
+void Client::playAdvertisingEnded(QString name)
+{
+   _playA->advertisingVideoEnded(name);
 }

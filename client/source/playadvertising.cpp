@@ -36,30 +36,18 @@ void PlayAdvertising::startPlayAdvertising()
 
 void PlayAdvertising::timerEnd(int& id)
 {
-    qDebug()<<"1";
     int nextPlay;
     if(_touch->_secondsFromLastTouchPlus->secsTo(QTime::currentTime())<0)//true if Touchscreen wasn't touched in the last 45 sec
     {
-        qDebug()<<"1";
         nextPlay=MinBreakTime();
         if(nextPlay<=0){
-            qDebug()<<"12";
             if(L_timerQueue.empty()){
                 if(_playing==false){
-                    qDebug()<<id;
                     _playing=true;
-                    emit play(id);
-                    qDebug()<<"133";
-                    _playing=false;
                     for(AdvertisingTimers* namesOfTimer: L_timers) {
                         if(namesOfTimer->_id==id){
-                            QTime temp=QTime::currentTime();
-                            namesOfTimer->_lastPlay=&temp;
-                            //AdvertisingTimers* nextAdvertising=L_timerQueue.takeFirst();
-                            QTimer::singleShot(namesOfTimer->_frequency, [=]() {timerEnd(namesOfTimer->_id);});
+                            emit play(namesOfTimer->_videoName);
                         }
-                        else
-                            qCritical()<<"No Advertising Timer found";
                     }
                 }
                 else
@@ -108,5 +96,14 @@ void PlayAdvertising::advertisingTimerQueue(const int &id)
     }
     AdvertisingTimers* nextAdvertising=L_timerQueue.takeFirst();
     QTimer::singleShot(nextAdvertising->_frequency, [=]() {timerEnd(nextAdvertising->_id);});
+}
+
+void PlayAdvertising::advertisingVideoEnded(QString name){
+    for(AdvertisingTimers* namesOfTimer: L_timers) {
+        QTime temp=QTime::currentTime();
+        namesOfTimer->_lastPlay=&temp;
+        QTimer::singleShot(namesOfTimer->_frequency, [=]() {timerEnd(namesOfTimer->_id);});
+        _playing=true;
+    }
 }
 

@@ -18,6 +18,9 @@ public:
     PlayAdvertising(rotable::AdvertisingVideo & _advertisingVideo,rotable::TouchEvent &touch, QObject *parent = 0);
 
     void startPlayAdvertising();
+
+     void advertisingVideoEnded(QString name);
+
 private:
 
     void timerStart(const QString name);
@@ -30,7 +33,7 @@ signals:
      * @brief play
      * @param id
      */
-    void play(int id);
+    void play(QString *name);
 
 
 private slots:
