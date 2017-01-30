@@ -123,6 +123,7 @@ int main(int argc, char *argv[])
   view->rootContext()->setContextProperty("OrderQueue", &(client->_queue));
   view->rootContext()->setContextProperty("langObject", langSupp);
   view->rootContext()->setContextProperty("touchEvent",client->_touch);
+  view->engine()->rootContext()->setContextProperty("mediaplayer", client->_player);
 
   switch (ProductVersion){
   case 1:

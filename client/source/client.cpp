@@ -24,6 +24,7 @@ Client::Client(const QString &configFilePath, QObject *parent)
     _countIncomeMedias(0)
 {
 
+  _player=new MediaPlayer();
   _advertisingVideo=new AdvertisingVideo();
   _touch=new TouchEvent();
   _products = new ProductContainer();
@@ -54,6 +55,8 @@ Client::Client(const QString &configFilePath, QObject *parent)
   // Connect send package from callWaiter by Client
   connect(&_callWaiter, &rotable::CallWaiter::sendCallWaiter,
           this, &Client::sendPackage);
+  connect(_player, SIGNAL(mediaStatusChanged(QMediaPlayer::MediaStatus)),
+          this, SLOT(MediaStatusChanged(QMediaPlayer::MediaStatus)));
 
 }
 
@@ -741,11 +744,17 @@ void Client::prepareForPlayAdvertising()
 
 void Client::playAdvertising(QString* videoName)
 {
-    setAdvertisingVideoName("test01.mp4");
+    _player->setMedia(QUrl::fromLocalFile("/opt/rotable/advertisingVideo/test01.mp4"));
+    _player->play();
     setState("PLAYADVERTISING");
 }
 
 void Client::playAdvertisingEnded(QString name)
 {
    _playA->advertisingVideoEnded(name);
+   //TODO send package with played video
+}
+
+void Client::MediaStatusChanged(QMediaPlayer::MediaStatus status){
+    qDebug()<<"Media status:"<<status;
 }

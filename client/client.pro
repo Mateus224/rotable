@@ -30,7 +30,8 @@ HEADERS += \
     include/queue.h \
     private/precomp.h \
     include/playadvertising.h \
-    include/touchevent.h
+    include/touchevent.h \
+    include/mediaplayer.h
 
 SOURCES += \
     source/main.cpp \
@@ -44,7 +45,8 @@ SOURCES += \
     source/callwaiter.cpp \
     source/queue.cpp \
     source/playadvertising.cpp \
-    source/touchevent.cpp
+    source/touchevent.cpp \
+    source/mediaplayer.cpp
 
 
 RESOURCES +=\

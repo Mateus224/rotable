@@ -25,7 +25,7 @@
 #include "queue.h"
 #include "filecontainer/advertisingvideo.h"
 #include "playadvertising.h"
-
+#include "mediaplayer.h"
 
 
 //------------------------------------------------------------------------------
@@ -201,6 +201,7 @@ public:
   /* Table sensors */
   rotable::Sensors _sensors;
   int _device;
+  rotable::MediaPlayer* _player;
 
 signals:
   /**
@@ -337,6 +338,8 @@ void payedSlot(int i){qDebug()<<i;}
    */
   void playAdvertising(QString* name);
 
+  void MediaStatusChanged(QMediaPlayer::MediaStatus status);
+
 private:
   /**
    * Request all category ids.
@@ -446,6 +449,8 @@ private:
   rotable::AdvertisingVideo *_advertisingVideo;
 
   rotable::PlayAdvertising* _playA;
+
+
 
   int _numberOfMedias, _countIncomeMedias;
 

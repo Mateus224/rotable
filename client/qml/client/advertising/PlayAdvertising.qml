@@ -1,19 +1,24 @@
 import QtQuick 2.0
-import QtMultimedia 5.0
+import QtMultimedia 5.5
 
 Rectangle {
     id:playAdvertising
     anchors.fill: parent
-    //width: mainScreen.width
-    //height: mainScreen.height
     color: "#111111"
     state:client.state ? client.state: "STARTSCREEN"
     z: 1
-    Video {
+    VideoOutput {
+    id: videooutput
+    anchors.fill: parent
+    source: mediaplayer
+
+    }
+    /*Video {
         id: video
         anchors.fill: parent
         source: "file:///opt/rotable/advertisingVideo/"+client.AdvertisingVideoName
         autoLoad: true
+        autoPlay: true
 
         onStatusChanged: {
             if (status == MediaPlayer.EndOfMedia)
@@ -21,14 +26,18 @@ Rectangle {
                 client.state="STARTSCREEN"
                 client.playAdvertisingEnded(client.AdvertisingVideoName)
             }
+            console.log(status)
         }
-        z: 1
         focus: true
-    }
+    }*/
     states: [
         State {
             name: "PLAYADVERTISING"
-            PropertyChanges { target: video.play()}
+            //PropertyChanges { target: video.play()}
+        },
+        State {
+            name: "STARTSCREEN"
+            //PropertyChanges { target: video.}
         }
     ]
 
