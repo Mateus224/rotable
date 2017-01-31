@@ -1,6 +1,7 @@
 import QtQuick 2.4
 import "SpinTheBottle/"
 import "BigKingsCup/"
+import "Cubes/"
 import ".."
 
 Rectangle {
@@ -92,7 +93,10 @@ Rectangle {
                     color:parent.color(0,1)
                 }
                 EmptyGridRect{
-                   color: parent.color(0,2)
+                    id_: 2
+                    gameName:"Cubes"
+                    infoString:"<h1>Cubes</h1><blockquote></blockquote>"
+                    color: parent.color(0,2)
                 }
                 EmptyGridRect{
                     id:a
@@ -182,6 +186,11 @@ Rectangle {
         visible: false
     }
 
+    Cubes{
+        id: cubes
+        visible: false
+    }
+
     states: [
         State {
             name: "DEFAULT"
@@ -205,6 +214,13 @@ Rectangle {
             PropertyChanges { target: bigKingsCup; z: 1 }
             PropertyChanges { target: bigKingsCup; width: Math.min(mainScreen.height, mainScreen.width) }
             PropertyChanges { target: bigKingsCup; height: Math.min(mainScreen.height, mainScreen.width) }
+        },
+        State {
+            name: "CUBES"
+            PropertyChanges { target: cubes; visible: true }
+            PropertyChanges { target: cubes; z: 1 }
+            PropertyChanges { target: cubes; width: Math.min(mainScreen.height, mainScreen.width) }
+            PropertyChanges { target: cubes; height: Math.min(mainScreen.height, mainScreen.width) }
         }
     ]
 }

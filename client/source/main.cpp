@@ -9,6 +9,12 @@
 #include "mytables.h"
 #include "languagesupport.h"
 
+#include <QtGui/QGuiApplication>
+#include <QtCore/QDir>
+#include <QtQuick/QQuickView>
+#include <QtQml/QQmlEngine>
+#include <QtCore/QLoggingCategory>
+
 #ifdef __arm__
 #include <wiringPi.h>
 #include <iostream>

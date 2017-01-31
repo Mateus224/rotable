@@ -154,5 +154,32 @@
     </qresource>
     <qresource prefix="/">
         <file>config.ini</file>
+        <file>include/callwaiter.h</file>
+        <file>include/categorylistmodel.h</file>
+        <file>include/client.h</file>
+        <file>include/configclient.h</file>
+        <file>include/imageprovider.h</file>
+        <file>include/productlistmodel.h</file>
+        <file>include/queue.h</file>
+        <file>include/sensors.h</file>
+        <file>include/settings.h</file>
+        <file>include/tcpclient.h</file>
+        <file>private/precomp.h</file>
+        <file>source/callwaiter.cpp</file>
+        <file>source/categorylistmodel.cpp</file>
+        <file>source/client.cpp</file>
+        <file>source/configclient.cpp</file>
+        <file>source/imageprovider.cpp</file>
+        <file>source/main.cpp</file>
+        <file>source/productlistmodel.cpp</file>
+        <file>source/queue.cpp</file>
+        <file>source/sensors.cpp</file>
+        <file>source/tcpclient.cpp</file>
+    </qresource>
+    <qresource prefix="/client/games/Cubes">
+        <file alias="Cubes.qml">qml/client/games/Cubes/Cubes.qml</file>
+        <file alias="textureandlight.js">qml/client/games/Cubes/textureandlight.js</file>
+        <file alias="gl-matrix.js">qml/client/games/Cubes/gl-matrix.js</file>
+        <file alias="qtlogo.png">qml/client/games/Cubes/qtlogo.png</file>
     </qresource>
 </RCC>

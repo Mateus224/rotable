@@ -135,7 +135,7 @@ Rectangle {
                         case 2:
                             if (gamePage.state == "DEFAULT")
                             {
-                                gamePage.state = "DEFAULT"
+                                gamePage.state = "CUBES"
                             }
                             break
                         case 3:
