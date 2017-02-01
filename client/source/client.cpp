@@ -736,7 +736,10 @@ void Client::prepareForPlayAdvertising()
 
 void Client::playAdvertising(QString* videoName)
 {
-    _player->setMedia(QUrl::fromLocalFile("/opt/rotable/advertisingVideo/test01.mp4"));
+    _player->playingVideo=*videoName;
+    QString path="/opt/rotable/advertisingVideo/";
+    path=path.append(_player->playingVideo);
+    _player->setMedia(QUrl::fromLocalFile(path));
     _player->play();
     setState("PLAYADVERTISING");
 }
@@ -746,7 +749,7 @@ void Client::MediaStatusChanged(QMediaPlayer::MediaStatus status){
     if(st==7) //If status EndOfMedia
     {
         setState("STARTSCREEN");
-        _playA->advertisingVideoEnded("test01.mp4");
+        _playA->advertisingVideoEnded(_player->playingVideo);
         //TODO send package with played video
     }
     qDebug()<<"Media status:"<<status;

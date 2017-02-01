@@ -13,6 +13,7 @@ class rotable::MediaPlayer: public QMediaPlayer
 
     public:
     MediaPlayer(QObject * parent = 0, Flags flags = 0);
+    QString playingVideo;
 
     public slots:
 

@@ -15,17 +15,21 @@ void PlayAdvertising::startPlayAdvertising()
     int j=0;
     QMap<QString*, AdvertisingVideo::advertisingInfo >::const_iterator i = _advertisingVideo->advertisingContainer.begin();
     while (i != _advertisingVideo->advertisingContainer.constEnd()) {
-        st_timer=new AdvertisingTimers();
-        st_timer->_timer=new QTime();
-        st_timer->_lastPlay=new QTime();
-        st_timer->_videoName=i.key();
-        st_timer->_id=i.value()._id;
-        st_timer->_frequency=i.value()._frequency*1000;
-        L_timers.append(st_timer);
-        timer(90,*st_timer->_timer);
-        QTimer::singleShot(st_timer->_frequency, [=]() { timerEnd(L_timers.at(j)->_id); } );
+        if(i.value()._play==true)
+        {
+            st_timer=new AdvertisingTimers();
+            st_timer->_timer=new QTime();
+            st_timer->_lastPlay=new QTime();
+            st_timer->_videoName=i.key();
+            st_timer->_id=i.value()._id;
+            st_timer->_frequency=i.value()._frequency*1000;
+            L_timers.append(st_timer);
+            timer(90,*st_timer->_timer);
+            QTimer::singleShot(st_timer->_frequency, [=]() { timerEnd(L_timers.at(j)->_id); } );
+            j++; //normal int for list
+        }
         ++i; //iterator
-        j++; //normal int for list
+
     }
 }
 
@@ -93,7 +97,6 @@ void PlayAdvertising::advertisingTimerQueue(const int &id)
 }
 
 void PlayAdvertising::advertisingVideoEnded(QString name){
-    qDebug()<<"test";
     for(AdvertisingTimers* namesOfTimer: L_timers) {
         if(namesOfTimer->_videoName==name){
             QTime temp=QTime::currentTime();
@@ -102,6 +105,6 @@ void PlayAdvertising::advertisingVideoEnded(QString name){
             _playing=false;
         }
     }
-    _playing=false; //have to be remove after test
+    //_playing=false; //have to be remove after test
 }
 
