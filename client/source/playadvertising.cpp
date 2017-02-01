@@ -97,14 +97,13 @@ void PlayAdvertising::advertisingTimerQueue(const int &id)
 }
 
 void PlayAdvertising::advertisingVideoEnded(QString name){
+    int i=0;
     for(AdvertisingTimers* namesOfTimer: L_timers) {
         if(namesOfTimer->_videoName==name){
-            QTime temp=QTime::currentTime();
-            namesOfTimer->_lastPlay=&temp;
+            *L_timers.at(i)->_lastPlay=QTime::currentTime();
             QTimer::singleShot(namesOfTimer->_frequency, [=]() {timerEnd(namesOfTimer->_id);});
             _playing=false;
         }
+        i++;
     }
-    //_playing=false; //have to be remove after test
 }
-
