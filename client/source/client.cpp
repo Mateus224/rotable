@@ -737,9 +737,12 @@ void Client::prepareForPlayAdvertising()
 void Client::playAdvertising(QString* videoName)
 {
     _player->playingVideo=*videoName;
-    QString path="/opt/rotable/advertisingVideo/";
-    path=path.append(_player->playingVideo);
-    _player->setMedia(QUrl::fromLocalFile(path));
+    auto dir = QDir(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
+    QString s_advertisingvideo=dir.absolutePath().append("/advertisingVideos/");
+    if(!QDir::exists(s_advertisingvideo))
+        qCritical()<<"no such dir for advertising, check if server mkdir";
+    s_advertisingvideo=s_advertisingvideo.append(_player->playingVideo);
+    _player->setMedia(QUrl::fromLocalFile(s_advertisingvideo));
     _player->play();
     setState("PLAYADVERTISING");
 }
