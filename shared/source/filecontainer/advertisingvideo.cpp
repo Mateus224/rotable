@@ -53,6 +53,14 @@ void AdvertisingVideo::setPlayed(const int& played)
   }
 }
 
+void AdvertisingVideo::setDuration(const int& duration)
+{
+  if (_advertisingInfo._duration!= duration) {
+    _advertisingInfo._duration = duration;
+    emit durationChanged();
+  }
+}
+
 //------------------------------------------------------------------------------
 
 void AdvertisingVideo::addAdditionalData(QJsonObject &o) const
@@ -62,6 +70,7 @@ void AdvertisingVideo::addAdditionalData(QJsonObject &o) const
     o["media_id"]=_advertisingInfo._mediaId;
     o["play"]=_advertisingInfo._play;
     o["played"]=_advertisingInfo._played;
+    o["duration"]=_advertisingInfo._duration;
 }
 
 void AdvertisingVideo::setAdditionalData(QJsonObject &o)
@@ -69,13 +78,15 @@ void AdvertisingVideo::setAdditionalData(QJsonObject &o)
     if(  o.contains("media_id")
        &&o.contains("frequency")
        &&o.contains("play")
-       &&o.contains("played"))
+       &&o.contains("played")
+       &&o.contains("duration"))
     {
         _advertisingInfo._id=o["a_id"].toInt();
         _advertisingInfo._frequency=o["frequency"].toInt();
         _advertisingInfo._mediaId=o["media_id"].toInt();
         _advertisingInfo._play=o["play"].toBool();
         _advertisingInfo._played=o["played"].toInt();
+        _advertisingInfo._duration=o["duration"].toInt();
     }
 }
 
@@ -92,4 +103,5 @@ void AdvertisingVideo::updateData(AdvertisingVideo* file)
     _advertisingInfo._mediaId=_advertisingInfo._mediaId;
     _advertisingInfo._play=_advertisingInfo._play;
     _advertisingInfo._played=_advertisingInfo._played;
+    _advertisingInfo._duration=_advertisingInfo._duration;
 }

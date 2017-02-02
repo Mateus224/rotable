@@ -53,7 +53,7 @@ QVariant AdvertisingTableModel::data(const QModelIndex &index, int role) const {
       rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
       Q_ASSERT(file);
       if (file) {
-        return QVariant(file->_fileInfo._size);
+        return QVariant(file->_fileInfo._size/1048576);
       }
     }
   } break;
@@ -68,6 +68,17 @@ QVariant AdvertisingTableModel::data(const QModelIndex &index, int role) const {
       }
     }
   } break;
+  case duration: {
+    if (role == Qt::DisplayRole || role == Qt::EditRole) {
+      QList<int> ids = _advertisingVideos->fileIds();
+      Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
+      rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
+      Q_ASSERT(file);
+      if (file) {
+        return QVariant(file->_advertisingInfo._duration/1000);
+      }
+    }
+  }
   case played: {
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
       QList<int> ids = _advertisingVideos->fileIds();
@@ -138,6 +149,15 @@ bool AdvertisingTableModel::setData(const QModelIndex &index, const QVariant &va
         Q_ASSERT(file);
         if (file) {
         //file->setDate(value.toString());
+      }
+    } break;
+    case duration: {
+        QList<int> ids = _advertisingVideos->fileIds();
+        Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
+        rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
+        Q_ASSERT(file);
+        if (file) {
+        //file->_advertisingInfo._played = value.toInt();
       }
     } break;
     case played: {
@@ -211,7 +231,10 @@ QVariant AdvertisingTableModel::headerData(int section, Qt::Orientation orientat
             return QVariant("Name");
           } break;
           case size: {
-            return QVariant("Size");
+            return QVariant("Size [MB]");
+          } break;
+          case duration: {
+            return QVariant("Duration [sec]");
           } break;
           case date: {
             return QVariant("Date");
@@ -220,7 +243,7 @@ QVariant AdvertisingTableModel::headerData(int section, Qt::Orientation orientat
               return QVariant("Played");
           } break;
           case frequnecy: {
-           return QVariant("Frequenzy");
+           return QVariant("Frequency [min]");
           } break;
           case play: {
            return QVariant("Play");

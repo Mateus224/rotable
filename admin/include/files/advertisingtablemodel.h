@@ -129,6 +129,7 @@ public:
     enum Columns{
         name=0,
         date,
+        duration,
         size,
         played,
         frequnecy,

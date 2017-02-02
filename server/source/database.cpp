@@ -1331,6 +1331,7 @@ bool Database::advertisingVideo(AdvertisingVideo & video) {
   video._advertisingInfo._id=q.value("id").toInt(&ok);
   video._advertisingInfo._play=q.value("play").toBool();
   video._advertisingInfo._played=q.value("played").toInt(&ok);
+  video._advertisingInfo._duration=q.value("duration").toInt(&ok);
   return true;
 }
 
@@ -1634,7 +1635,7 @@ bool Database::addAdvertisingVideo(QList<int>* mediaId)
     }
     for (int media_id: *mediaId) {
         QString queryStr = _sqlCommands[AdvertisingVideos]._insert.arg(
-            _prefix, "NULL", ":frequency", ":play", ":played", ":media_id");
+            _prefix, "NULL", ":frequency", ":play", ":played", ":media_id", ":duration");
 
         QSqlQuery q(_db);
         q.setForwardOnly(true);
@@ -1647,6 +1648,7 @@ bool Database::addAdvertisingVideo(QList<int>* mediaId)
         q.bindValue(":play",0 );
         q.bindValue(":played",0);
         q.bindValue(":media_id",media_id );
+        q.bindValue(":duration",0);
 
         if (!q.exec()) {
           qCritical()
@@ -2037,6 +2039,7 @@ bool Database::updateAdvertsingAdditionalData(AdvertisingVideo *advertisingVideo
     q.bindValue(":play", advertisingVideo->getPlay());
     q.bindValue(":played", advertisingVideo->getPlayed());
     q.bindValue(":media_id", advertisingVideo->getMedia_id());
+    q.bindValue(":duration", advertisingVideo->getDuration());
 
     if (!q.exec()) {
       qCritical()
@@ -4037,6 +4040,7 @@ bool Database::getAdvertisingAdditionalData(AdvertisingVideo* advertisingvideo)
     advertisingvideo->_advertisingInfo._play=q.value("play").toBool();
     advertisingvideo->_advertisingInfo._played=q.value("played").toInt(&ok);
     advertisingvideo->_advertisingInfo._mediaId=q.value("media_id").toInt(&ok);
+    advertisingvideo->_advertisingInfo._duration=q.value("duration").toInt(&ok);
 
     return true;
 }

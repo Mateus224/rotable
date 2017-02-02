@@ -962,17 +962,25 @@ bool Server::updateAdvertising(AdvertisingVideo *advertising) {
   if(_db.hasFile(advertising->_advertisingInfo._mediaId))
   {
       File* tmp =_db.media(advertising->_advertisingInfo._mediaId);
-//      if(_db.hasFile(advertising->_fileInfo._name, advertising->_fileInfo._type))
 
-        if(!tmp->rename(advertising->_fileInfo._name))
-            qWarning()<<"rename not succed!";
-        delete tmp;
+      if(!tmp->rename(advertising->_fileInfo._name))
+      qWarning()<<"rename not succed!";
 
       if (!_db.updateFile(file)) {
         qWarning() << tr("Failed to update file!");
         //file->rename()
         return false;
       }
+
+      if(advertising->_advertisingInfo._played==-2)
+      {
+          AdvertisingVideo* _advertising=static_cast<AdvertisingVideo*>(tmp);
+          _advertising->_advertisingInfo._played++;
+          _advertising->_advertisingInfo._duration=advertising->_advertisingInfo._duration;
+          _db.updateFile(_advertising);
+      }
+
+
 
       // Inform clients about data change...
       ComPackageDataChanged dc;

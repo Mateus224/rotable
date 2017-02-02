@@ -729,7 +729,7 @@ void Executor::onPackageReceived(ComPackage *package) {
       requestLicenceStatus();
       requestClientIds();
       requestMediaIds();
-      requestSystemVersions(); //get installed and available Version
+      //requestSystemVersions(); //get installed and available Version
       break;
 
     case ComPackage::DataRequest:

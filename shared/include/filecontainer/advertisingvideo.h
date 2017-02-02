@@ -46,6 +46,9 @@ public:
     void setPlayed(const int& played);
     inline int getPlayed(){return _advertisingInfo._played;}
 
+    void setDuration(const int& duration);
+    inline int getDuration(){return _advertisingInfo._duration;}
+
     void updateVideo();
 
     //QJsonValue toJSON()const;
@@ -65,6 +68,7 @@ signals:
     void mediaIdChanged();
     void playChanged();
     void playedChanged();
+    void durationChanged();
 
 public:
 
