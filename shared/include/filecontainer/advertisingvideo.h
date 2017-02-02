@@ -78,9 +78,8 @@ public:
         int _frequency;
         bool _play;
         int _played;
+        int _duration;
     };
-
-    QMap<QString*, advertisingInfo> advertisingContainer;
 
     advertisingInfo _advertisingInfo;
 

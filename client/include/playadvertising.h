@@ -15,7 +15,7 @@ class rotable::PlayAdvertising : public QObject
 {
     Q_OBJECT
 public:
-    PlayAdvertising(rotable::AdvertisingVideo & _advertisingVideo,rotable::TouchEvent &touch, QObject *parent = 0);
+    PlayAdvertising(QList<rotable::AdvertisingVideo*> & _advertisingVideo,rotable::TouchEvent &touch, QObject *parent = 0);
 
     void startPlayAdvertising();
 
@@ -60,7 +60,7 @@ private:
 
     QList<AdvertisingTimers*> L_timerQueue;
 
-    rotable::AdvertisingVideo* _advertisingVideo;
+    QList<rotable::AdvertisingVideo*> l_advertisingVideo;
 
     rotable::TouchEvent* _touch;
 

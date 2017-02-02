@@ -3,33 +3,30 @@
 
 using namespace rotable;
 
-PlayAdvertising::PlayAdvertising(AdvertisingVideo & advertisingVideo, TouchEvent &touch, QObject *parent)
+PlayAdvertising::PlayAdvertising(QList<AdvertisingVideo*> & advertisingVideo, TouchEvent &touch, QObject *parent)
     : QObject(parent)
 {
-    _advertisingVideo=&advertisingVideo;
+    l_advertisingVideo=advertisingVideo;
     _touch=&touch;
 }
 
 void PlayAdvertising::startPlayAdvertising()
 {
     int j=0;
-    QMap<QString*, AdvertisingVideo::advertisingInfo >::const_iterator i = _advertisingVideo->advertisingContainer.begin();
-    while (i != _advertisingVideo->advertisingContainer.constEnd()) {
-        if(i.value()._play==true)
+    foreach(AdvertisingVideo* video, l_advertisingVideo){
+        if(video->_advertisingInfo._play==true)
         {
             st_timer=new AdvertisingTimers();
             st_timer->_timer=new QTime();
             st_timer->_lastPlay=new QTime();
-            st_timer->_videoName=i.key();
-            st_timer->_id=i.value()._id;
-            st_timer->_frequency=i.value()._frequency*1000;
+            st_timer->_videoName=&video->_fileInfo._name;
+            st_timer->_id=video->_advertisingInfo._id;
+            st_timer->_frequency=video->_advertisingInfo._frequency*1000;
             L_timers.append(st_timer);
             timer(90,*st_timer->_timer);
             QTimer::singleShot(st_timer->_frequency, [=]() { timerEnd(L_timers.at(j)->_id); } );
             j++; //normal int for list
         }
-        ++i; //iterator
-
     }
 }
 

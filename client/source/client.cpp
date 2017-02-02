@@ -21,11 +21,13 @@ Client::Client(const QString &configFilePath, QObject *parent)
   : QObject(parent),
     _config(configFilePath, parent), _accepted(false), _state("DISCONNECTED"), _stopping(false),
     _currentCategoryId(-1),  _productListModel(0), _imageProvider(0),_advertisingVideo(0), _TmpAdvertisingVideo(0),_numberOfMedias(0),
-    _countIncomeMedias(0)
+    _countIncomeMedias(0), _duration(0)
 {
+
 
   _player=new MediaPlayer();
   _advertisingVideo=new AdvertisingVideo();
+  l_advertisingVideo=new QList<rotable::AdvertisingVideo*>();
   _touch=new TouchEvent();
   _products = new ProductContainer();
   _productOrder = new ProductOrder(*_products);
@@ -57,7 +59,8 @@ Client::Client(const QString &configFilePath, QObject *parent)
           this, &Client::sendPackage);
   connect(_player, SIGNAL(mediaStatusChanged(QMediaPlayer::MediaStatus)),
           this, SLOT(MediaStatusChanged(QMediaPlayer::MediaStatus)));
-
+  connect(_player, SIGNAL(durationChanged(qint64)),
+          this, SLOT(DurationChanged(qint64)));
 }
 
 //------------------------------------------------------------------------------
@@ -716,21 +719,20 @@ void Client::requestAdvertising(int fileId)
 void Client::prepareForPlayAdvertising()
 {
     _TmpAdvertisingVideo=reinterpret_cast <AdvertisingVideo*> (_file);
-    _advertisingVideo->advertisingContainer.insert(&_TmpAdvertisingVideo->_fileInfo._name, _TmpAdvertisingVideo->_advertisingInfo);
+    l_advertisingVideo->append(_TmpAdvertisingVideo);
+    //_advertisingVideo->advertisingContainer.insert(&_TmpAdvertisingVideo->_fileInfo._name, _TmpAdvertisingVideo->_advertisingInfo);
     if(_numberOfMedias==_countIncomeMedias)
     {
         if (_playA) //if exist delete old object because we have a new list
         {
             _playA=nullptr;
         }
-        _playA=new PlayAdvertising(*_advertisingVideo,*_touch);
-        qDebug()<<connect(_playA,SIGNAL(play(QString*)),
+        _playA=new PlayAdvertising(*l_advertisingVideo,*_touch);
+        connect(_playA,SIGNAL(play(QString*)),
                 this, SLOT(playAdvertising(QString*)) );
         _playA->startPlayAdvertising();
     }
-    // QEvent http://stackoverflow.com/questions/28449475/how-to-get-touchevent-for-mainwindow-in-qt
 }
-
 
 //------------------------------------------------------------------------------
 
@@ -738,8 +740,8 @@ void Client::playAdvertising(QString* videoName)
 {
     _player->playingVideo=*videoName;
     auto dir = QDir(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
-    QString s_advertisingvideo=dir.absolutePath().append("/advertisingVideos/");
-    if(!QDir::exists(s_advertisingvideo))
+    QString s_advertisingvideo=dir.absolutePath().append("/rotable/advertisingVideos/");
+    if(!dir.exists(s_advertisingvideo))
         qCritical()<<"no such dir for advertising, check if server mkdir";
     s_advertisingvideo=s_advertisingvideo.append(_player->playingVideo);
     _player->setMedia(QUrl::fromLocalFile(s_advertisingvideo));
@@ -747,13 +749,41 @@ void Client::playAdvertising(QString* videoName)
     setState("PLAYADVERTISING");
 }
 
+//------------------------------------------------------------------------------
+
 void Client::MediaStatusChanged(QMediaPlayer::MediaStatus status){
     int st=status;
     if(st==7) //If status EndOfMedia
     {
         setState("STARTSCREEN");
         _playA->advertisingVideoEnded(_player->playingVideo);
-        //TODO send package with played video
+        sendPlayedAdvertising();
+
     }
     qDebug()<<"Media status:"<<status;
+}
+
+//------------------------------------------------------------------------------
+
+void Client::DurationChanged(qint64 duration){
+      _duration=duration;
+}
+
+//------------------------------------------------------------------------------
+
+void Client::sendPlayedAdvertising(){
+    foreach(rotable::AdvertisingVideo* video, *l_advertisingVideo) {
+        if(video->_fileInfo._name== _player->playingVideo)
+        {
+            video->_advertisingInfo._played=-2; //-2 means you have on the server add +1
+            video->_advertisingInfo._duration=this->_duration;
+            ComPackageDataSet set;
+            set.setDataCategory(ComPackage::SetAdvertising);
+            set.setData(video->toJSON());
+
+            if (!_tcp.send(set)) {
+              qCritical() << tr("FATAL: Could not send data set package!");
+            }
+        }
+    }
 }

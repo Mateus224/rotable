@@ -327,6 +327,8 @@ void payedSlot(int i){qDebug()<<i;}
 
   void MediaStatusChanged(QMediaPlayer::MediaStatus status);
 
+  void DurationChanged(qint64 duration);
+
 private:
   /**
    * Request all category ids.
@@ -382,6 +384,8 @@ private:
 
   void prepareForPlayAdvertising();
 
+  void sendPlayedAdvertising();
+
 
   //----------------------------------------------------------------------------
 
@@ -435,6 +439,9 @@ private:
 
   rotable::PlayAdvertising* _playA;
 
+  qint64 _duration;
+
+  QList<rotable::AdvertisingVideo*>* l_advertisingVideo;
 
 
   int _numberOfMedias, _countIncomeMedias;

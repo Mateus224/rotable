@@ -10,9 +10,9 @@ File::File( QObject *parent) : QObject(parent),_fileInfo()
 {
     //This sequence have be the same like the FileUsage see also Comapackge
     auto dir = QDir(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
-    QString s_advertisingvideo=dir.absolutePath().append("/advertisingVideos/");
-    QString s_advertisingPicture=dir.absolutePath().append("/advertisingPictures/");
-    QString s_CategoryIcons=dir.absolutePath().append("/categoryIcons/");
+    QString s_advertisingvideo=dir.absolutePath().append("/rotable/advertisingVideos/");
+    QString s_advertisingPicture=dir.absolutePath().append("/rotable/advertisingPictures/");
+    QString s_CategoryIcons=dir.absolutePath().append("/rotable/categoryIcons/");
     _paths<<s_advertisingvideo<<s_advertisingPicture<<s_CategoryIcons;
     for(QString &path: _paths)
         {
@@ -79,7 +79,7 @@ bool File::rename(QString &newName)
             renameFile.open(QIODevice::WriteOnly| QIODevice::ReadOnly);
             if(!renameFile.rename(newName))
             {
-                qCritical()<<"problem";
+                qCritical()<<"err with rename file";
                 renameFile.close(); // !true if other information were changed but not the filename
                 return false;
             }
