@@ -15,8 +15,11 @@ AdvertisingTableModel::~AdvertisingTableModel()
 //------------------------------------------------------------------------------
 
 int AdvertisingTableModel::rowCount(const QModelIndex &parent) const {
-  Q_UNUSED(parent)
-  return _advertisingVideos->count();
+    if (parent.isValid()) {
+      return 0;
+    } else {
+        return _advertisingVideos->count();
+    }
 }
 
 //------------------------------------------------------------------------------

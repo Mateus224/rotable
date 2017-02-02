@@ -188,8 +188,8 @@ void Controller::connect_signals() {
   connect(&_products, SIGNAL(productUpdated(rotable::Product *)), &_executor,
           SLOT(onUpdateProduct(rotable::Product *)));
 
-  connect(&_files, SIGNAL(advertisingVideoUpdated(rotable::AdvertisingVideo *)),
-          _advertisingTableModel, SLOT(updateModel()));
+  //connect(&_files, SIGNAL(advertisingVideoUpdated(rotable::AdvertisingVideo *)),
+  //        _advertisingTableModel, SLOT(updateModel())); crashes sometimes let commented
 
   connect(&_files, SIGNAL(advertisingVideoUpdated(rotable::AdvertisingVideo  *)), &_executor,
           SLOT(onUpdateAdvertisingVideo(rotable::AdvertisingVideo *)));

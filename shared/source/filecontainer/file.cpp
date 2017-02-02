@@ -1,7 +1,7 @@
 #include "filecontainer/file.h"
 #include "filecontainer/advertisingvideo.h"
 #include "logmanager.h"
-
+#include <QStandardPaths>
 using namespace rotable;
 
 //------------------------------------------------------------------------------
@@ -9,9 +9,10 @@ using namespace rotable;
 File::File( QObject *parent) : QObject(parent),_fileInfo()
 {
     //This sequence have be the same like the FileUsage see also Comapackge
-    QString s_advertisingvideo={"/opt/rotable/advertisingVideo/"};
-    QString s_advertisingPicture={"/opt/rotable/advertisingPicture/"};
-    QString s_CategoryIcons={"/opt/rotable/CategoryIcons/"};
+    auto dir = QDir(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
+    QString s_advertisingvideo=dir.absolutePath().append("/advertisingVideos/");
+    QString s_advertisingPicture=dir.absolutePath().append("/advertisingPictures/");
+    QString s_CategoryIcons=dir.absolutePath().append("/categoryIcons/");
     _paths<<s_advertisingvideo<<s_advertisingPicture<<s_CategoryIcons;
     for(QString &path: _paths)
         {
@@ -59,7 +60,8 @@ bool File::addFileOnSD(rotable::ComPackageSendFile *package)
 
 bool File::removeFileFromSD()
 {
-    _fileDir->setCurrent(_paths.at(_fileInfo._type));
+    LogManager::getInstance()->logInfo(_paths.at(_fileInfo._type));
+    if(_fileDir->setCurrent(_paths.at(_fileInfo._type)));
     QFile rmFile(getName());
     if(rmFile.remove())
         return true;
@@ -77,6 +79,7 @@ bool File::rename(QString &newName)
             renameFile.open(QIODevice::WriteOnly| QIODevice::ReadOnly);
             if(!renameFile.rename(newName))
             {
+                qCritical()<<"problem";
                 renameFile.close(); // !true if other information were changed but not the filename
                 return false;
             }
