@@ -53,7 +53,7 @@ QVariant AdvertisingTableModel::data(const QModelIndex &index, int role) const {
       rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
       Q_ASSERT(file);
       if (file) {
-        return QVariant(file->_fileInfo._size/1048576);
+        return QVariant(file->_fileInfo._size/1000000);
       }
     }
   } break;

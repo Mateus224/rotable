@@ -21,10 +21,11 @@ void PlayAdvertising::startPlayAdvertising()
             st_timer->_lastPlay=new QTime();
             st_timer->_videoName=&video->_fileInfo._name;
             st_timer->_id=video->_advertisingInfo._id;
-            st_timer->_frequency=video->_advertisingInfo._frequency*1000;
+            st_timer->_frequency=video->_advertisingInfo._frequency*60000;
             L_timers.append(st_timer);
             timer(90,*st_timer->_timer);
-            QTimer::singleShot(st_timer->_frequency, [=]() { timerEnd(L_timers.at(j)->_id); } );
+            if(st_timer->_frequency>=1000)
+                QTimer::singleShot(st_timer->_frequency, [=]() { timerEnd(L_timers.at(j)->_id); } );
             j++; //normal int for list
         }
     }
@@ -33,13 +34,13 @@ void PlayAdvertising::startPlayAdvertising()
 
 void PlayAdvertising::timerEnd(int& id)
 {
-    int nextPlay;
+    int nextPlay=0;
     qDebug()<<_touch->_secondsFromLastTouchPlus->secsTo(QTime::currentTime());
     if(_touch->_secondsFromLastTouchPlus->secsTo(QTime::currentTime())>=0)//true if Touchscreen wasn't touched in the last 45 sec
     {
         nextPlay=MinBreakTime();
         qDebug()<<"nextPlay:"<<nextPlay;
-        if(nextPlay<=0){
+        if(nextPlay>=0){
             if(L_timerQueue.empty()){
                 qDebug()<<"L=1:";
                 if(_playing==false){
@@ -68,17 +69,18 @@ void PlayAdvertising::timer(int sec, QTime& timer)
 int PlayAdvertising::MinBreakTime()
 {
     int i=0;
-    int max_time=60;
+    int max_time=0;
         for(AdvertisingTimers* advertising: L_timers) {
             if(!advertising->_lastPlay->isValid()){
                 timer(0, *advertising->_lastPlay);
             }
-            *advertising->_lastPlay=advertising->_lastPlay->addSecs(59); // bevor playing new Video you have to wait 59 sec
-            int time=advertising->_lastPlay->secsTo(QTime::currentTime());
+            QTime tmpLastPlay;
+            tmpLastPlay=advertising->_lastPlay->addSecs(59); // bevor playing new Video you have to wait 59 sec
+            int time=tmpLastPlay.secsTo(QTime::currentTime());
             qDebug()<<"time:"<<time;
-            if (time<max_time){  // looking for the latest played advertising in the list
+            //if (time<max_time){  // looking for the latest played advertising in the list
                 max_time=time;
-            }
+            //}
         }
     return max_time;
 }

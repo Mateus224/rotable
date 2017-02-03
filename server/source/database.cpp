@@ -1645,7 +1645,7 @@ bool Database::addAdvertisingVideo(QList<int>* mediaId)
           return false;
         }
         q.bindValue(":frequency",30);
-        q.bindValue(":play",0 );
+        q.bindValue(":play",1 );
         q.bindValue(":played",0);
         q.bindValue(":media_id",media_id );
         q.bindValue(":duration",0);
