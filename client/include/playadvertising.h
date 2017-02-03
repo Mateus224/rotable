@@ -45,6 +45,8 @@ private:
 
     int MinBreakTime();
 
+    void calculateDelay();
+
     bool _playing; //is the video now playing
 
     struct AdvertisingTimers{
@@ -53,6 +55,7 @@ private:
         QString* _videoName;
         int _frequency;
         int _id;
+        int _startDelay;
     }
     *st_timer;
 
@@ -63,6 +66,8 @@ private:
     QList<rotable::AdvertisingVideo*> l_advertisingVideo;
 
     rotable::TouchEvent* _touch;
+
+    int _delay;
 
 
 
