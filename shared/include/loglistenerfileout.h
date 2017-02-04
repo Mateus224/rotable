@@ -30,7 +30,7 @@ public:
    * @param flags         log levels to receive (default is all)
    * @param parent        parent object
    */
-  LogListenerFileOut(int flags = -1, QObject* parent = 0, const std::string path = "defaultLog.txt")
+  LogListenerFileOut(const std::string path = "defaultLog.txt", int flags = -1, QObject* parent = 0)
     : QObject(parent), LogListener(flags)
   {
       _logfile.open(path);

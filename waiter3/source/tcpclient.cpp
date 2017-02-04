@@ -147,6 +147,10 @@ void TcpClient::readPackage()
       doContinue = false;
     } else {
       qDebug().noquote() << QString::fromUtf8(jdoc.toJson());
+
+      //temporary logging, remove after done testing
+      LogManager::getInstance()->logJSON(jdoc);
+
       ComPackage* package = ComPackage::fromJson(jdoc);
 
       int endOfPackage = _buffer.indexOf(_packageStart, _packageStart.length());

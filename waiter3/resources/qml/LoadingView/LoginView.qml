@@ -1,5 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.4
+//import QtQuick.VirtualKeyboard 2.1
 
 Rectangle {
     id: mainLayout
@@ -35,8 +36,8 @@ Rectangle {
 
     TextField {
         id: loginField
-        width: Math.max(204,parent.width * 0.18)
-        height: Math.max(33,parent.height * 0.029)
+        width: Math.max(202,parent.width * 0.18)
+        height: Math.max(38,parent.height * 0.029)
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: appname.bottom
         anchors.topMargin: parent.height * 0.05
@@ -46,13 +47,15 @@ Rectangle {
 
     TextField {
         id: passwordField
-        width: Math.max(204,parent.width * 0.18)
-        height: Math.max(33,parent.height * 0.029)
+        width: Math.max(202,parent.width * 0.18)
+        height: Math.max(38,parent.height * 0.029)
         anchors.top: loginField.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         echoMode: 2
         onTextChanged: waiter.password = text
         placeholderText: qsTr("Please insert password")+ langObject.emptyString
+
+        //EnterKeyAction.enabled: true
     }
 
     Button {
