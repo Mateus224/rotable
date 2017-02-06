@@ -3,7 +3,7 @@ import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.1
-import Qt.labs.controls 1.0
+//import Qt.labs.controls 1.0
 import "KingsCupFunktions.js" as KingsCupFunktions
 
 Rectangle {
@@ -35,7 +35,7 @@ Rectangle {
         anchors.rightMargin: screen.width/10
         text: "<center> Verloren ! !</center> Du hast den dritten König gezogen !<blockquote></blockquote> Viel Spaß beim Exen !"
         font.family: "FreeSans"
-        color:  "white"
+        //color:  "white"
         font.bold: true
         font.pixelSize: parent.height * 0.08
         font.capitalization: Font.AllUppercase

@@ -1,6 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.4
-//import QtQuick.VirtualKeyboard 2.1
+import QtQuick.VirtualKeyboard 2.1
 
 Rectangle {
     id: mainLayout
@@ -47,6 +47,7 @@ Rectangle {
 
     TextField {
         id: passwordField
+
         width: Math.max(202,parent.width * 0.18)
         height: Math.max(38,parent.height * 0.029)
         anchors.top: loginField.bottom
@@ -54,8 +55,38 @@ Rectangle {
         echoMode: 2
         onTextChanged: waiter.password = text
         placeholderText: qsTr("Please insert password")+ langObject.emptyString
+    }
 
-        //EnterKeyAction.enabled: true
+    InputPanel {
+        id: keyboard
+
+        y: parent.height
+        z:99
+        anchors.left: parent.left
+        anchors.right: parent.right
+        active: true
+
+        states: State {
+                        name: "visible"
+                        when: Qt.inputMethod.visible
+                        PropertyChanges {
+                            target: keyboard
+                            y: parent.height - keyboard.height
+                        }
+                    }
+
+        transitions: Transition {
+                        from: ""
+                        to: "visible"
+                        reversible: true
+                        ParallelAnimation {
+                            NumberAnimation {
+                                properties: "y"
+                                duration: 250
+                                easing.type: Easing.InOutQuad
+                            }
+                        }
+                    }
     }
 
     Button {

@@ -22,6 +22,9 @@
 int main(int argc, char *argv[])
 {
 
+  //this command is necessary to use virtual keyboard in qml
+  qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
+
   //--------------------------------------------------
   // Teporary testing logging, remove it after done
   // rotable::LogManager::getInstance()->registerQtWarnings();
