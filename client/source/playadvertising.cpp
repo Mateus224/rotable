@@ -68,15 +68,16 @@ bool PlayAdvertising::creatAdvertisingPlayList()
 
 void PlayAdvertising::calculatePlayListLength()
 {
-    int a;
+    int a, length;
     for(int i=0;i<L_timers.length();i++){
         if(i==0)
             a=L_timers.at(i)->_frequency;
         else
             a=kgV(a,L_timers.at(i)->_frequency);
-
     }
+    length=PlayListLength(a);
     qDebug()<<"kgV: "<<a;
+    qDebug()<<"lenth: "<<length;
 }
 
 //----------------------------------------------------------
@@ -91,6 +92,17 @@ int PlayAdvertising::ggT(int a, int b)
 
 int PlayAdvertising::kgV(int a, int b){
     return (a * b) / ggT(a, b);
+}
+
+//----------------------------------------------------------
+
+int PlayAdvertising::PlayListLength(int kgV)
+{
+    int length=0;
+    for(int i=0;i<L_timers.length();i++){
+        length=(kgV/L_timers.at(i)->_frequency)+length;
+    }
+    return length;
 }
 
 //----------------------------------------------------------

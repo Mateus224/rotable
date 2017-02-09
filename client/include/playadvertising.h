@@ -93,6 +93,8 @@ private:
     int ggT(int a, int b);
     int kgV(int a, int b);
 
+    int PlayListLength(int kgV);
+
 signals:
     /**
      * Sends information to the Client Class to change the state and
