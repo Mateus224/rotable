@@ -181,10 +181,10 @@ Rectangle {
         }
     }
 
-    BigKingsCup{
+    /*BigKingsCup{
         id: bigKingsCup
         visible: false
-    }
+    }*/
 
     Cubes{
         id: cubes
@@ -208,13 +208,13 @@ Rectangle {
             PropertyChanges { target: spinTheBottle; width: Math.min(mainScreen.height, mainScreen.width) }
             PropertyChanges { target: spinTheBottle; height: Math.min(mainScreen.height, mainScreen.width) }
         },
-        State {
-            name: "BIGKINGSCUP"
-            PropertyChanges { target: bigKingsCup; visible: true }
-            PropertyChanges { target: bigKingsCup; z: 1 }
-            PropertyChanges { target: bigKingsCup; width: Math.min(mainScreen.height, mainScreen.width) }
-            PropertyChanges { target: bigKingsCup; height: Math.min(mainScreen.height, mainScreen.width) }
-        },
+//        State {
+//            name: "BIGKINGSCUP"
+//            PropertyChanges { target: bigKingsCup; visible: true }
+//            PropertyChanges { target: bigKingsCup; z: 1 }
+//            PropertyChanges { target: bigKingsCup; width: Math.min(mainScreen.height, mainScreen.width) }
+//            PropertyChanges { target: bigKingsCup; height: Math.min(mainScreen.height, mainScreen.width) }
+//        },
         State {
             name: "CUBES"
             PropertyChanges { target: cubes; visible: true }

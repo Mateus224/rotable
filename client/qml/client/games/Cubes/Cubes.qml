@@ -50,6 +50,8 @@
 
 import QtQuick 2.0
 import QtCanvas3D 1.0
+import QtQuick.Controls 1.4
+import "../"
 
 //! [4]
 import "textureandlight.js" as GLCode
@@ -60,6 +62,10 @@ Item {
     width: 1280
     height: 768
     visible: true
+
+
+
+
 
     //! [0]
     Canvas3D {
@@ -88,85 +94,42 @@ Item {
             GLCode.resizeGL(canvas3d);
         }
 
-        Keys.onSpacePressed: {
-            canvas3d.isRunning = !canvas3d.isRunning
-            if (canvas3d.isRunning) {
-                objAnimationX.pause();
-                objAnimationY.pause();
-                objAnimationZ.pause();
-            } else {
-                objAnimationX.resume();
-                objAnimationY.resume();
-                objAnimationZ.resume();
-            }
+        Label {
+            text: GLCode.poz | 0
+            font.pixelSize: 22
+            font.italic: true
+            color: "steelblue"
         }
 
-        //! [5]
-        SequentialAnimation {
+        MouseArea {
+            id: clickArea
+            anchors.fill: parent
+            onPressed: GLCode.cubePressed(mouse)
+            onReleased: GLCode.cubeReleased(mouse)
+            }
+
+        CloseButton{
+
+        }
+
+        NumberAnimation {
             id: objAnimationX
-            loops: Animation.Infinite
-            running: true
-            NumberAnimation {
-                target: canvas3d
-                property: "xRotAnim"
-                from: 0.0
-                to: 120.0
-                duration: 7000
-                easing.type: Easing.InOutQuad
-            }
-            NumberAnimation {
-                target: canvas3d
-                property: "xRotAnim"
-                from: 120.0
-                to: 0.0
-                duration: 7000
-                easing.type: Easing.InOutQuad
-            }
+            alwaysRunToEnd: true;
+            target: canvas3d
+            property: "xRotAnim"
+            from: 0.0
+            duration: 5000
+            easing.type: Easing.OutExpo
         }
-        //! [5]
 
-        SequentialAnimation {
+        NumberAnimation {
             id: objAnimationY
-            loops: Animation.Infinite
-            running: true
-            NumberAnimation {
-                target: canvas3d
-                property: "yRotAnim"
-                from: 0.0
-                to: 240.0
-                duration: 5000
-                easing.type: Easing.InOutCubic
-            }
-            NumberAnimation {
-                target: canvas3d
-                property: "yRotAnim"
-                from: 240.0
-                to: 0.0
-                duration: 5000
-                easing.type: Easing.InOutCubic
-            }
-        }
-
-        SequentialAnimation {
-            id: objAnimationZ
-            loops: Animation.Infinite
-            running: true
-            NumberAnimation {
-                target: canvas3d
-                property: "zRotAnim"
-                from: -100.0
-                to: 100.0
-                duration: 3000
-                easing.type: Easing.InOutSine
-            }
-            NumberAnimation {
-                target: canvas3d
-                property: "zRotAnim"
-                from: 100.0
-                to: -100.0
-                duration: 3000
-                easing.type: Easing.InOutSine
-            }
+            alwaysRunToEnd: true;
+            target: canvas3d
+            property: "yRotAnim"
+            from: 0.0
+            duration: 5000
+            easing.type: Easing.OutExpo
         }
     }
 }

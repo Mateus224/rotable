@@ -1,9 +1,7 @@
 import QtQuick 2.5
-//import QtQuick.Controls 2.0
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.0
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.1
-import Qt.labs.controls 1.0
 import "KingsCupFunktions.js" as KingsCupFunktions
 
 Rectangle {

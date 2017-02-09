@@ -136,7 +136,8 @@ INSTALLS    += target
 
 DISTFILES += \
 #    qml/client/callWaiter/CallWaiterPage.qml
-    qml/client/games/Cubes/gl-matrix.js
+    qml/client/games/Cubes/gl-matrix.js \
+    qml/client/games/Cubesthree/three.js
 
 ########################################################################
 # TRANSLATION:

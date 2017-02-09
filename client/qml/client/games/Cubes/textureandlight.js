@@ -73,6 +73,12 @@ var height = 0;
 var canvas3d;
 var pixelSize;
 
+// cube properties after mouse drag
+var pozX = 0;
+var pozY = 0;
+var diffX = 0;
+var diffY = 0;
+
 function initializeGL(canvas) {
     canvas3d = canvas;
     //! [1]
@@ -140,6 +146,28 @@ function degToRad(degrees) {
     return degrees * Math.PI / 180;
 }
 
+// Gathering information about cursor position
+function cubePressed(event){
+    pozX = event.x;
+    pozY = event.y;
+}
+
+// Counting length of mouse drag, and transforming it into final position of rotation animation
+function cubeReleased(event){
+    diffX = event.x - pozX;
+    diffX = Math.round(diffX / 100);
+    diffY = pozY - event.y;
+    diffY = Math.round(diffY / 100);
+    console.log("diffX " + diffX);
+    console.log("diffY " + diffY);
+    objAnimationX.to = 360 * diffX;  // multiply by 360 to always stop dice flat on its side - not at some angle, same reason for rounding diffX & diffY
+    objAnimationX.running = true;
+    objAnimationX.running = false;
+    objAnimationY.to = 360 * diffY;
+    objAnimationY.running = true;
+    objAnimationY.running = false;
+}
+
 function paintGL(canvas) {
     //! [9]
     var pixelRatio = canvas.devicePixelRatio;
@@ -149,7 +177,8 @@ function paintGL(canvas) {
         width = currentWidth;
         height = currentHeight;
         gl.viewport(0, 0, width, height);
-        mat4.perspective(pMatrix, degToRad(45), width / height, 0.1, 500.0);
+        mat4.ortho(pMatrix, -40, 40, -40, 40, 0.1, 100.0);
+    //    mat4.perspective(pMatrix, degToRad(145), width / height, 0.1, 500.0);
         gl.uniformMatrix4fv(pMatrixUniform, false, pMatrix);
     }
     //! [9]
@@ -160,11 +189,11 @@ function paintGL(canvas) {
 
     //! [11]
     mat4.identity(mvMatrix);
-    mat4.translate(mvMatrix, mvMatrix, [(canvas.yRotAnim - 120.0) / 120.0,
-                                        (canvas.xRotAnim -  60.0) / 50.0,
+    mat4.translate(mvMatrix, mvMatrix, [(canvas.xRotAnim -  60.0) / 50.0,
+                                        (canvas.yRotAnim -  60.0) / 50.0,
                                         -10.0]);
     mat4.rotate(mvMatrix, mvMatrix, degToRad(canvas.xRotAnim), [0, 1, 0]);
-    mat4.rotate(mvMatrix, mvMatrix, degToRad(canvas.yRotAnim), [1, 0, 0]);
+    mat4.rotate(mvMatrix, mvMatrix, degToRad(-canvas.yRotAnim), [1, 0, 0]);
     mat4.rotate(mvMatrix, mvMatrix, degToRad(canvas.zRotAnim), [0, 0, 1]);
     gl.uniformMatrix4fv(mvMatrixUniform, false, mvMatrix);
     //! [11]
