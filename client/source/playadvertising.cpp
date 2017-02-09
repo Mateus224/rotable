@@ -1,9 +1,10 @@
 #include "include/playadvertising.h"
 #include "touchevent.h"
 
-#define minBreak        59
-#define tryAgainIn      60
-#define calculateToSec  60000
+#define minBreak            53
+#define calculateToMin      60000
+#define calculateToSec      1000
+#define minSettedFrequenc   1 //in sec
 
 using namespace rotable;
 
@@ -14,6 +15,8 @@ PlayAdvertising::PlayAdvertising(QList<AdvertisingVideo*> & advertisingVideo, To
     _touch=&touch;
 }
 
+//----------------------------------------------------------
+
 void PlayAdvertising::startPlayAdvertising()
 {
     int j=0;
@@ -21,48 +24,96 @@ void PlayAdvertising::startPlayAdvertising()
     for(AdvertisingVideo* video: l_advertisingVideo){
         if(video->_advertisingInfo._play==true)
         {
-            st_timer=new AdvertisingTimers();
-            st_timer->_lastPlay=new QTime();
-            st_timer->_startDelay=_delay*(j+1); //_delay=denominator (j+1)=counter
-            st_timer->_videoName=&video->_fileInfo._name;
-            st_timer->_id=video->_advertisingInfo._id;
-            st_timer->_frequency=video->_advertisingInfo._frequency*calculateToSec;
-            L_timers.append(st_timer);
-            if(st_timer->_frequency>=1000)
-                QTimer::singleShot(st_timer->_startDelay, [=]() { timerEnd(L_timers.at(j)->_id); } );
-            j++; //normal int for list
-        }
-    }
-}
-
-
-void PlayAdvertising::timerEnd(int& id)
-{
-    int nextPlay=0;
-    qDebug()<<_touch->_secondsFromLastTouchPlus->secsTo(QTime::currentTime());
-    if(_touch->_secondsFromLastTouchPlus->secsTo(QTime::currentTime())>=0)//true if Touchscreen wasn't touched in the last 45 sec
-    {
-        nextPlay=MinBreakTime();
-        qDebug()<<"nextPlay:"<<nextPlay;
-        if(nextPlay>=0){
-            if(L_timerQueue.empty()){
-                qDebug()<<"L=1:";
-                if(_playing==false){
-                          qDebug()<<"L=2:";
-                    _playing=true;
-                    for(AdvertisingTimers* namesOfTimer: L_timers) {
-                        if(namesOfTimer->_id==id){
-                            emit play(namesOfTimer->_videoName);
-                            return;
-                        }
-                    }
-                }
+            if(video->_advertisingInfo._frequency >=minSettedFrequenc)
+            {
+                st_timer=new AdvertisingTimers();
+                st_timer->_lastPlay=new QTime();
+                st_timer->_startDelay=_delay*(j+1); //_delay=denominator (j+1)=counter
+                st_timer->_videoName=&video->_fileInfo._name;
+                st_timer->_id=video->_advertisingInfo._id;
+                st_timer->_frequency=video->_advertisingInfo._frequency;//*calculateToMin;
+                L_timers.append(st_timer);
+                int test=video->_advertisingInfo._frequency;
+                _frequncy.append(test);
+                    //QTimer::singleShot(st_timer->_startDelay, [=]() { timerEnd(L_timers.at(j)); } );
+                j++; //counter for list
             }
         }
     }
-        advertisingTimerQueue(id); //else
+    creatAdvertisingPlayList();
+    calculatePlayListLength();
 }
 
+//----------------------------------------------------------
+
+bool PlayAdvertising::creatAdvertisingPlayList()
+{
+    AdvertisingTimers* test=new AdvertisingTimers();
+    for(int i=0; i<100; i++){
+        int tmp=0, k=0;
+        for(int j=0; j<L_timers.length();j++){
+            if(tmp>_frequncy.at(j)||tmp==0){
+               tmp=_frequncy.at(j);
+               k=j;
+            }
+        }
+         int h=L_timers.at(k)->_frequency + _frequncy.at(k);
+         _frequncy.replace(k,h);
+         test=L_timers.at(k);
+        L_timerQueue.append(test);
+    }
+}
+
+//----------------------------------------------------------
+
+void PlayAdvertising::calculatePlayListLength()
+{
+    int a;
+    for(int i=0;i<L_timers.length();i++){
+        if(i==0)
+            a=L_timers.at(i)->_frequency;
+        else
+            a=kgV(a,L_timers.at(i)->_frequency);
+
+    }
+    qDebug()<<"kgV: "<<a;
+}
+
+//----------------------------------------------------------
+
+int PlayAdvertising::ggT(int a, int b)
+{
+    if(b == 0)
+        return a;
+    else return ggT(b, a % b);
+
+}
+
+int PlayAdvertising::kgV(int a, int b){
+    return (a * b) / ggT(a, b);
+}
+
+//----------------------------------------------------------
+
+void PlayAdvertising::timerEnd(AdvertisingTimers* video)
+{
+    qDebug()<<_touch->_secondsFromLastTouchPlus->secsTo(QTime::currentTime());
+    if(_touch->_secondsFromLastTouchPlus->secsTo(QTime::currentTime())>=0)//true if Touchscreen wasn't touched in the last 45 sec
+    {
+        if(MinBreakTime()){
+            if(_playing==false){
+                _playing=true;
+                if(!L_timerQueue.empty())
+                    L_timerQueue.takeFirst();
+                emit play(video->_videoName);
+                return;
+            }
+        }
+    }
+        advertisingTimerQueue(video,tryLaterAgain); //else
+}
+
+//----------------------------------------------------------
 
 void PlayAdvertising::timer(int sec, QTime& timer)
 {
@@ -70,9 +121,10 @@ void PlayAdvertising::timer(int sec, QTime& timer)
     timer=timer.addSecs(sec);
 }
 
-int PlayAdvertising::MinBreakTime()
+//----------------------------------------------------------
+
+bool PlayAdvertising::MinBreakTime()
 {
-    int i=0;
     int max_time=0;
         for(AdvertisingTimers* advertising: L_timers) {
             if(!advertising->_lastPlay->isValid()){
@@ -82,32 +134,42 @@ int PlayAdvertising::MinBreakTime()
             tmpLastPlay=advertising->_lastPlay->addSecs(minBreak); // bevor playing new Video you have to wait 59 sec
             int time=tmpLastPlay.secsTo(QTime::currentTime());
             qDebug()<<"time:"<<time;
+            if(max_time>time)
                 max_time=time;
         }
-    return max_time;
+        if(max_time>=0)
+            return true;
+        return false;
 }
 
-void PlayAdvertising::advertisingTimerQueue(const int &id)
+//----------------------------------------------------------
+
+void PlayAdvertising::advertisingTimerQueue(AdvertisingTimers* video, source info)
 {
-    foreach (AdvertisingTimers* advertisngTimer, L_timers) {
-        if(advertisngTimer->_id==id)
-            L_timerQueue.append(advertisngTimer);
-    }
-    AdvertisingTimers* nextAdvertising=L_timerQueue.takeFirst();
-    QTimer::singleShot(tryAgainIn*calculateToSec, [=]() {timerEnd(nextAdvertising->_id);});
+if(!alreadyInQueue(video->_id)){
+    L_timerQueue.append(video);
 }
+if(info==tryLaterAgain)
+    QTimer::singleShot(L_timerQueue.first()->_frequency, [=]() { timerEnd(L_timerQueue.first());});
+}
+
+//----------------------------------------------------------
 
 void PlayAdvertising::advertisingVideoEnded(QString name){
     int i=0;
     for(AdvertisingTimers* namesOfTimer: L_timers) {
         if(namesOfTimer->_videoName==name){
-            *L_timers.at(i)->_lastPlay=QTime::currentTime();
-            QTimer::singleShot(namesOfTimer->_frequency, [=]() {timerEnd(namesOfTimer->_id);});
             _playing=false;
+            *L_timers.at(i)->_lastPlay=QTime::currentTime();
+            int QueueTime=minBreak*calculateToSec+1;
+            QTimer::singleShot((QueueTime), [=]() { playVideoInQueue(namesOfTimer);});
+            return;
         }
         i++;
     }
 }
+
+//----------------------------------------------------------
 
 void PlayAdvertising::calculateDelay(){
     int NumerOfVideos=l_advertisingVideo.length();
@@ -116,5 +178,45 @@ void PlayAdvertising::calculateDelay(){
         if(max_frequency<video->_advertisingInfo._frequency)
             max_frequency=video->_advertisingInfo._frequency;
     }
-    _delay=(max_frequency*calculateToSec)/NumerOfVideos;
+    _delay=(max_frequency*calculateToMin)/NumerOfVideos;
 }
+
+//----------------------------------------------------------
+
+bool PlayAdvertising::alreadyInQueue(int id)
+{
+    int i=0;
+    bool AlreadyInQueue=false;
+    for(AdvertisingTimers* which: L_timerQueue){
+        if(which->_id==id){
+            i++;
+            if(i==4)
+                AlreadyInQueue=true;
+        }
+    }
+    if(AlreadyInQueue)
+      return true;
+    return false;
+}
+
+//----------------------------------------------------------
+
+void PlayAdvertising::playVideoInQueue(AdvertisingTimers* video)
+{
+    if(!L_timerQueue.empty())
+    {
+        QTimer::singleShot(0, [=]() { timerEnd(L_timerQueue.first());});
+        advertisingTimerQueue(video,putOnlyInQueue);
+    }
+    else
+    {
+        int time=video->_frequency-(minBreak*calculateToSec);
+        QTimer::singleShot(time, [=]() { timerEnd(video);});
+    }
+}
+//----------------------------------------------------------
+
+/*void PlayAdvertising::tryLater(int id)
+{
+
+}*/
