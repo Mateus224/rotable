@@ -64,14 +64,18 @@ void TcpClient::startConnection(const QString &hostname, int port)
   int fd = _client.socketDescriptor();
 
   #ifdef Q_OS_WIN
-  setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, (char*)&enableKeepAlive, sizeof(enableKeepAlive));
 
+  if (setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, (char*)&enableKeepAlive, sizeof(enableKeepAlive)) == SOCKET_ERROR)
+      qCritical()<<"setsockopt(SO_KEEPALIVE) failed; "<<WSAGetLastError()<<"\n";
+
+  DWORD dwBytesRet=0;
   tcp_keepalive info;           //structure holding keepalive data
-  info.keepaliveinterval = 2000;//if there is no resposne, how often next keepalive pakcets are sent in miliseconds
-  info.keepalivetime = 10000;   //how often in miliseconds tcp sends keepalive probe
-  info.onoff = 1;               //on
+  info.onoff = TRUE;               //on
+  info.keepaliveinterval = 1000; //if there is no resposne, how often next keepalive pakcets are sent in miliseconds
+  info.keepalivetime = 10000;   //how long tcp waits before starting to send out keepalive probes
 
-  WSAIoctl(fd,SIO_KEEPALIVE_VALS,&info,sizeof(info),NULL,0,NULL,NULL,NULL);
+  if(WSAIoctl(fd,SIO_KEEPALIVE_VALS,&info,sizeof(info),NULL,0,&dwBytesRet,NULL,NULL) == SOCKET_ERROR)
+      qCritical()<<"WSAIotcl(SIO_KEEPALIVE_VALS) failed; "<<WSAGetLastError()<<"\n";
 
   #else
   setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, &enableKeepAlive, sizeof(enableKeepAlive));
@@ -147,6 +151,10 @@ void TcpClient::readPackage()
       doContinue = false;
     } else {
       qDebug().noquote() << QString::fromUtf8(jdoc.toJson());
+
+      //temporary logging, remove after done testing
+      LogManager::getInstance()->logJSON(jdoc);
+
       ComPackage* package = ComPackage::fromJson(jdoc);
 
       int endOfPackage = _buffer.indexOf(_packageStart, _packageStart.length());

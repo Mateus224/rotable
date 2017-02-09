@@ -3,7 +3,7 @@ import QtQuick 2.5
 Rectangle {
     id:iconBody
 
-    property int batteryCheckInterval: 5000
+    property int batteryCheckInterval: 2000
 
     anchors.top: parent.top
     anchors.right: parent.right
@@ -13,7 +13,8 @@ Rectangle {
     Image {
         id: batteryImage
         anchors.fill: parent
-        source: if (batteryInfo.batteryStatus>90) "qrc:/resources/images/Batteries/battery-full.svg"
+        source: if (batteryInfo.isCharging) "qrc:/resources/images/Batteries/battery-charging.svg"
+                else if (batteryInfo.batteryStatus>90) "qrc:/resources/images/Batteries/battery-full.svg"
                 else if (batteryInfo.batteryStatus>70) "qrc:/resources/images/Batteries/battery-80.svg"
                 else if (batteryInfo.batteryStatus>50) "qrc:/resources/images/Batteries/battery-60.svg"
                 else if (batteryInfo.batteryStatus>30) "qrc:/resources/images/Batteries/battery-40.svg"
@@ -30,7 +31,8 @@ Rectangle {
 
         onTriggered:
         {
-            if (batteryInfo.batteryStatus>90) batteryImage.source = "qrc:/resources/images/Batteries/battery-full.svg"
+            if (batteryInfo.isCharging) batteryImage.source = "qrc:/resources/images/Batteries/battery-charging.svg"
+            else if (batteryInfo.batteryStatus>90) batteryImage.source = "qrc:/resources/images/Batteries/battery-full.svg"
             else if (batteryInfo.batteryStatus>70) batteryImage.source = "qrc:/resources/images/Batteries/battery-80.svg"
             else if (batteryInfo.batteryStatus>50) batteryImage.source = "qrc:/resources/images/Batteries/battery-60.svg"
             else if (batteryInfo.batteryStatus>30) batteryImage.source = "qrc:/resources/images/Batteries/battery-40.svg"

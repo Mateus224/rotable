@@ -15,11 +15,22 @@
 
 
 //#include "client/linux/handler/exception_handler.h"
+#include "loglistenerfileout.h"
 
 //------------------------------------------------------------------------------
 
 int main(int argc, char *argv[])
 {
+
+  //this command is necessary to use virtual keyboard in qml
+  qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
+
+  //--------------------------------------------------
+  // Teporary testing logging, remove it after done
+  // rotable::LogManager::getInstance()->registerQtWarnings();
+  rotable::LogManager::getInstance()->addListener(new rotable::LogListenerFileOut("waiterlog.txt"));
+  //--------------------------------------------------
+
   QGuiApplication app(argc, argv);
 
   QCoreApplication::setApplicationName("rotable-waiter");

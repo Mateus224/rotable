@@ -149,9 +149,9 @@ Rectangle{
 
     Rectangle {
         width: orderTime.font.pixelSize * 4
-        height: borderWidth * 2
+        height: borderWidth * 2.5
         anchors.top: parent.top
-        anchors.topMargin: -2
+        anchors.topMargin: -3
         anchors.horizontalCenter: parent.horizontalCenter
 
         z: parent.z
@@ -160,7 +160,7 @@ Rectangle{
             id: orderTime
             text: model.timeSent
             color: borderColor
-            font.pixelSize: borderWidth * 2
+            font.pixelSize: borderWidth * 2.5
             font.bold: true
             anchors.top: parent.top
             anchors.horizontalCenter: parent.horizontalCenter
