@@ -20,13 +20,16 @@ class rotable::BatteryInfo : public QObject
     Q_OBJECT
 
     Q_PROPERTY(int batteryStatus READ getBatteryStatus NOTIFY batteryStatusChanged)
+    Q_PROPERTY(bool isCharging READ getIsCharging NOTIFY isChargingChanged)
 
 public:
     BatteryInfo();
     int getBatteryStatus();
+    bool getIsCharging();
 
 signals:
     void batteryStatusChanged();
+    void isChargingChanged();
 };
 
 #endif // BATTERYINFO_H

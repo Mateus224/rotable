@@ -33,7 +33,7 @@ Rectangle {
         anchors.rightMargin: screen.width/10
         text: "<center> Verloren ! !</center> Du hast den dritten König gezogen !<blockquote></blockquote> Viel Spaß beim Exen !"
         font.family: "FreeSans"
-        color:  "white"
+        //color:  "white"
         font.bold: true
         font.pixelSize: parent.height * 0.08
         font.capitalization: Font.AllUppercase
