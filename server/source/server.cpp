@@ -68,7 +68,6 @@ bool Server::startup() {
     } else
       _db.update();
   }
-  qDebug() << "test";
 
   if (!_tcp.start(_config.port())) {
     qCritical() << tr("FATAL: Could not start listening on port %1\n")
@@ -713,7 +712,11 @@ bool Server::setData(ComPackageDataSet *set, client_t client) {
         return false;
       }
   }
-
+  case ComPackage::SetFrequencePlayTime: {
+      qCritical() << set->data().toInt();
+      //_db
+      return true;
+  }break;
 
   default: {
     qCritical() << tr("Unknown data set id: %d").arg(set->dataCategory());

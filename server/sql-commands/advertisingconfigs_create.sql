@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS `%1advertisingconfigs` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `frequency` INTEGER NOT NULL
+);

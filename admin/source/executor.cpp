@@ -330,6 +330,17 @@ void Executor::onUpdateAdvertisingVideo(AdvertisingVideo* advertisingVideo)
     }
 }
 
+void Executor::onUpdateFrequencePlayTime(int minutes)
+{
+    ComPackageDataSet set;
+    set.setDataCategory(ComPackage::SetFrequencePlayTime);
+    set.setData(minutes);
+
+    if (!_tcp_client.send(set)) {
+      qCritical() << tr("FATAL: Could not send data set package!");
+    }
+}
+
 //------------------------------------------------------------------------------
 
 void Executor::onExportDatabase() {}

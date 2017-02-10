@@ -720,11 +720,12 @@ public:
     version0d0d5,
     version0d0d6,
     version0d0d7,
-    version0d0d8
+    version0d0d8,
+    version0d0d9
   };
 
 
-  QString const newestVesion = "0.0.8";
+  QString const newestVesion = "0.0.9";
   QString const _systemVersion="1.4";
 
 

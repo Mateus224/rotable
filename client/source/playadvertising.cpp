@@ -35,13 +35,13 @@ void PlayAdvertising::startPlayAdvertising()
                 L_timers.append(st_timer);
                 int test=video->_advertisingInfo._frequency;
                 _frequncy.append(test);
-                    //QTimer::singleShot(st_timer->_startDelay, [=]() { timerEnd(L_timers.at(j)); } );
+                    QTimer::singleShot(st_timer->_startDelay, [=]() { timerEnd(L_timers.at(j)); } );
                 j++; //counter for list
             }
         }
     }
-    creatAdvertisingPlayList();
     calculatePlayListLength();
+    creatAdvertisingPlayList();
 }
 
 //----------------------------------------------------------
@@ -49,7 +49,7 @@ void PlayAdvertising::startPlayAdvertising()
 bool PlayAdvertising::creatAdvertisingPlayList()
 {
     AdvertisingTimers* test=new AdvertisingTimers();
-    for(int i=0; i<100; i++){
+    for(int i=0; i<_playListLenth; i++){
         int tmp=0, k=0;
         for(int j=0; j<L_timers.length();j++){
             if(tmp>_frequncy.at(j)||tmp==0){
@@ -57,9 +57,10 @@ bool PlayAdvertising::creatAdvertisingPlayList()
                k=j;
             }
         }
-         int h=L_timers.at(k)->_frequency + _frequncy.at(k);
-         _frequncy.replace(k,h);
-         test=L_timers.at(k);
+        int h=L_timers.at(k)->_frequency + _frequncy.at(k);
+        _frequncy.replace(k,h);
+        test=L_timers.at(k);
+        qDebug()<<test->_frequency;
         L_timerQueue.append(test);
     }
 }
@@ -68,16 +69,16 @@ bool PlayAdvertising::creatAdvertisingPlayList()
 
 void PlayAdvertising::calculatePlayListLength()
 {
-    int a, length;
+    int a;
     for(int i=0;i<L_timers.length();i++){
         if(i==0)
             a=L_timers.at(i)->_frequency;
         else
             a=kgV(a,L_timers.at(i)->_frequency);
     }
-    length=PlayListLength(a);
+    _playListLenth=PlayListLength(a);
     qDebug()<<"kgV: "<<a;
-    qDebug()<<"lenth: "<<length;
+    qDebug()<<"lenth: "<<_playListLenth;
 }
 
 //----------------------------------------------------------

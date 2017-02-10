@@ -94,5 +94,12 @@
         <file>sql-commands/systemupdate_select_ids.sql</file>
         <file>sql-commands/systemupdate_select.sql</file>
         <file>sql-commands/systemupdate_update.sql</file>
+        <file>sql-commands/update-database/0.0.9.sql</file>
+        <file>sql-commands/advertisingconfigs_create.sql</file>
+        <file>sql-commands/advertisingconfigs_insert.sql</file>
+        <file>sql-commands/advertisingconfigs_remove.sql</file>
+        <file>sql-commands/advertisingconfigs_select.sql</file>
+        <file>sql-commands/advertisingconfigs_select_ids.sql</file>
+        <file>sql-commands/advertisingconfigs_update.sql</file>
     </qresource>
 </RCC>

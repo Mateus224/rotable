@@ -199,6 +199,16 @@ signals:
 
  void setAvailableVersion(QString);
 
+ void setFrequencePlayTime(int);
+
+ /**
+  * Signal which get a signal from the Gui about
+  * how often the advertising have to be played
+  * sending to the executor
+  * @brief frequencPlayTime
+  */
+ void getFrequencePlayTime(int min);
+
 
 public slots:
  /**
@@ -249,6 +259,7 @@ public slots:
   *
   */
  void onDown();
+
 
 protected:
  /**

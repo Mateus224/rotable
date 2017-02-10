@@ -230,6 +230,12 @@ public slots:
   void onUpdateAdvertisingVideo(rotable::AdvertisingVideo* advertisingVideo);
 
   /**
+   * @brief onUpdateFrequencePlayTime
+   * @param minutes
+   * sending updated / changed information from the Gui to the server
+   */
+  void onUpdateFrequencePlayTime(int minutes);
+  /**
    * Button to import the database has been clicked.
    */
   void onImportDatabase();

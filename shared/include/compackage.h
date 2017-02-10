@@ -167,7 +167,10 @@ public:
     SetLicence,
 
     /*Set Advertising*/
-    SetAdvertising
+    SetAdvertising,
+
+    /*Set the play frequence of advertisings*/
+    SetFrequencePlayTime
   };
 
   /**

@@ -3791,6 +3791,8 @@ void Database::updateDatabase(QString actualVersion) {
     updateToVersion("0.0.7");
   case version0d0d7:
     updateToVersion("0.0.8");
+  case version0d0d8:
+    updateToVersion("0.0.9");
   }
 }
 
@@ -3840,6 +3842,8 @@ int Database::versionToEnum(QString version) {
     return version0d0d7;
   else if (version == "0.0.8")
     return version0d0d8;
+  else if (version == "0.0.9")
+    return version0d0d9;
   return version0d0d0;
 }
 

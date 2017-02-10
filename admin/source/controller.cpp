@@ -209,6 +209,9 @@ void Controller::connect_signals() {
   connect(_mainwindow, &MainWindow::actionChangeUserPassword,
           &_executor, &Executor::onChangePassword);
 
+  connect(_mainwindow,&MainWindow::getFrequencePlayTime,
+          &_executor, &Executor::onUpdateFrequencePlayTime);
+
   //----------------------------------------------------------------------------
 
   connect(&_users, &UserContainter::updateView, _userTableModel,
