@@ -70,8 +70,8 @@ MainWindow::MainWindow(QWidget *parent)
   //----Advertising Config for Frequence of Play Time------
   connect(_ui->frequencPlayTime, SIGNAL(valueChanged(int)),
           this, SIGNAL(getFrequencePlayTime(int)));
-  //connect(this, SIGNAL(valueChanged(int)),
-  //        this, SLOT(getFrequencPlayTime(int)));
+  connect(this, SIGNAL(setFrequencePlayTime(int)),
+          _ui->frequencPlayTime, SLOT(setValue(int)));
   //----System Update connact qLable for installed version and available version Number------
   connect(this, &MainWindow::setCurrentVersion, _ui->InstalledVersionNumber, &QLabel::setText);
   connect(this, &MainWindow::setAvailableVersion, _ui->AvailableVersionNumber, &QLabel::setText);

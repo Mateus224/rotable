@@ -1,3 +1,3 @@
 INSERT INTO `%1advertisingconfigs` 
-(`id`, `frequncy`)
+(`id`, `frequency`)
 VALUES (%2, %3);

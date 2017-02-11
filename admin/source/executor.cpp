@@ -333,7 +333,7 @@ void Executor::onUpdateAdvertisingVideo(AdvertisingVideo* advertisingVideo)
 void Executor::onUpdateFrequencePlayTime(int minutes)
 {
     ComPackageDataSet set;
-    set.setDataCategory(ComPackage::SetFrequencePlayTime);
+    set.setDataCategory(ComPackage::SetAdvertisingConfig);
     set.setData(minutes);
 
     if (!_tcp_client.send(set)) {
@@ -740,6 +740,7 @@ void Executor::onPackageReceived(ComPackage *package) {
       requestLicenceStatus();
       requestClientIds();
       requestMediaIds();
+      requestAdvertisingConfigs();
       //requestSystemVersions(); //get installed and available Version
       break;
 
@@ -960,6 +961,19 @@ void Executor::requestMediaIds() {
 
 //------------------------------------------------------------------------------
 
+void Executor::requestAdvertisingConfigs() {
+  ComPackageDataRequest *request = new ComPackageDataRequest();
+  request->setDataCategory(ComPackage::RequestAdvertisingConfig);
+
+  if (!_tcp_client.send(*request)) {
+    qCritical() << tr("Could not send request!");
+  } else {
+    _dataRequest[request->id()] = request;
+  }
+}
+
+//------------------------------------------------------------------------------
+
 void Executor::requestSystemVersions(){
     ComPackageDataRequest *request = new ComPackageDataRequest();
     request->setDataCategory(ComPackage::RequestSystemVersions);
@@ -1083,6 +1097,11 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
       emit _mainwindow->setCurrentVersion(QString::number(systemupdate->getCurrentVersion()));
       emit _mainwindow->setAvailableVersion(QString::number(systemupdate->getAvailableVersion()));
       //qDebug()<<"es kommt hier an"<<qSetRealNumberPrecision(2)<< systemupdate->getCurrentVersion()<<" \n";
+  }break;
+  case ComPackage::RequestAdvertisingConfig: {
+      int frequency= package->data().toInt();
+       emit _mainwindow->setFrequencePlayTime(frequency);
+      qDebug()<<"es kommt hier an"<<frequency;
   }break;
   default: { qCritical() << tr("Unknown data package \"requestMedia\" returned"); } break;
   }

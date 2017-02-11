@@ -420,6 +420,12 @@ private:
   void requestMediaIds();
 
   /**
+   * request for the setted frequency
+   * @brief requestAdvertisingConfigs
+   */
+  void requestAdvertisingConfigs();
+
+  /**
    * @brief requestSystemVersions
    * request current installed version and available system version
    */

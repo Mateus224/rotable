@@ -597,7 +597,14 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
       } else {qCritical()
                   << tr("Could not query income data of id %1!").arg(request->dataName().toInt());
       }
-    } break;
+  } break;
+  case ComPackage::RequestAdvertisingConfig: {
+      int frequency=_db.getLastAdvertisingConfig();
+      ComPackageDataReturn *ret =
+          new ComPackageDataReturn(*request, frequency);
+      return ret;
+
+  } break;
   default: {
     qCritical()
         << tr("Unknown data request id: %d").arg(request->dataCategory());
@@ -712,10 +719,12 @@ bool Server::setData(ComPackageDataSet *set, client_t client) {
         return false;
       }
   }
-  case ComPackage::SetFrequencePlayTime: {
-      qCritical() << set->data().toInt();
-      //_db
-      return true;
+  case ComPackage::SetAdvertisingConfig: {
+      // this have to be changed if there will be more informations in future (new AdvertisingConfig class)
+      if(_db.addAdvertisingConfig(set->data().toInt()))
+          return true;
+      else
+          return false;
   }break;
 
   default: {
