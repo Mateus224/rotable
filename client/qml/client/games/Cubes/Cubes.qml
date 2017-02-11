@@ -76,6 +76,8 @@ Item {
         property double xRotAnim: 0
         property double yRotAnim: 0
         property double zRotAnim: 0
+        property double xMovAnim: 0
+        property double yMovAnim: 0
         property bool isRunning: true
 
         //! [1]
@@ -113,8 +115,18 @@ Item {
         }
 
         NumberAnimation {
-            id: objAnimationX
-            alwaysRunToEnd: true;
+            id: objMovAnimationX
+            alwaysRunToEnd: true
+            target: canvas3d
+            property: "xMovAnim"
+            from: 0.0
+            duration: 5000
+            easing.type: Easing.OutExpo
+        }
+
+        NumberAnimation {
+            id: objRotAnimationX
+            alwaysRunToEnd: true
             target: canvas3d
             property: "xRotAnim"
             from: 0.0
@@ -123,8 +135,18 @@ Item {
         }
 
         NumberAnimation {
-            id: objAnimationY
-            alwaysRunToEnd: true;
+            id: objMovAnimationY
+            alwaysRunToEnd: true
+            target: canvas3d
+            property: "yMovAnim"
+            from: 0.0
+            duration: 5000
+            easing.type: Easing.OutExpo
+        }
+
+        NumberAnimation {
+            id: objRotAnimationY
+            alwaysRunToEnd: true
             target: canvas3d
             property: "yRotAnim"
             from: 0.0

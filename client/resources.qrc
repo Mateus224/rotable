@@ -180,6 +180,6 @@
         <file alias="Cubes.qml">qml/client/games/Cubes/Cubes.qml</file>
         <file alias="textureandlight.js">qml/client/games/Cubes/textureandlight.js</file>
         <file alias="gl-matrix.js">qml/client/games/Cubes/gl-matrix.js</file>
-        <file alias="qtlogo.png">qml/client/games/Cubes/qtlogo.png</file>
+        <file alias="dice_texture_map.png">qml/client/games/Cubes/dice_texture_map.png</file>
     </qresource>
 </RCC>

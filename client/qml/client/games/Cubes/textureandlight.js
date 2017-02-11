@@ -78,6 +78,8 @@ var pozX = 0;
 var pozY = 0;
 var diffX = 0;
 var diffY = 0;
+var rotX = 0;
+var rotY = 0;
 
 function initializeGL(canvas) {
     canvas3d = canvas;
@@ -132,7 +134,7 @@ function initializeGL(canvas) {
     qtLogoImage.imageLoadingFailed.connect(function() {
         console.log("Texture load FAILED, "+qtLogoImage.errorString);
     });
-    qtLogoImage.src = "qrc:/client/games/Cubes/qtlogo.png";
+    qtLogoImage.src = "qrc:/client/games/Cubes/dice_texture_map.png";
 }
 
 function resizeGL(canvas)
@@ -158,14 +160,24 @@ function cubeReleased(event){
     diffX = Math.round(diffX / 100);
     diffY = pozY - event.y;
     diffY = Math.round(diffY / 100);
-    console.log("diffX " + diffX);
-    console.log("diffY " + diffY);
-    objAnimationX.to = 360 * diffX;  // multiply by 360 to always stop dice flat on its side - not at some angle, same reason for rounding diffX & diffY
-    objAnimationX.running = true;
-    objAnimationX.running = false;
-    objAnimationY.to = 360 * diffY;
-    objAnimationY.running = true;
-    objAnimationY.running = false;
+    rotX = Math.round(Math.random() * 3 + 1);
+    rotY = Math.round(Math.random() * 3 + 1);
+    console.log("rotX " + rotX);
+    console.log("rotY " + rotY);
+    //Rotation of dice
+    objRotAnimationX.to = 90 * rotX * diffX;  // multiply by 90 to always stop dice flat on its side - not at some angle, same reason for rounding diffX & diffY
+    objRotAnimationX.running = true;
+    objRotAnimationX.running = false;
+    objRotAnimationY.to = 90 * rotY * diffY;
+    objRotAnimationY.running = true;
+    objRotAnimationY.running = false;
+    //Moving of dice
+    objMovAnimationX.to = 360 * diffX;
+    objMovAnimationX.running = true;
+    objMovAnimationX.running = false;
+    objMovAnimationY.to = 360 * diffY;
+    objMovAnimationY.running = true;
+    objMovAnimationY.running = false;
 }
 
 function paintGL(canvas) {
@@ -177,7 +189,7 @@ function paintGL(canvas) {
         width = currentWidth;
         height = currentHeight;
         gl.viewport(0, 0, width, height);
-        mat4.ortho(pMatrix, -40, 40, -40, 40, 0.1, 100.0);
+        mat4.ortho(pMatrix, -20, 20, -20, 20, 0.1, 50.0);
     //    mat4.perspective(pMatrix, degToRad(145), width / height, 0.1, 500.0);
         gl.uniformMatrix4fv(pMatrixUniform, false, pMatrix);
     }
@@ -189,12 +201,11 @@ function paintGL(canvas) {
 
     //! [11]
     mat4.identity(mvMatrix);
-    mat4.translate(mvMatrix, mvMatrix, [(canvas.xRotAnim -  60.0) / 50.0,
-                                        (canvas.yRotAnim -  60.0) / 50.0,
-                                        -10.0]);
+    mat4.translate(mvMatrix, mvMatrix, [(canvas.xMovAnim -  60.0) / 50.0,
+                                        (canvas.yMovAnim -  60.0) / 50.0,
+                                        -5.0]);
     mat4.rotate(mvMatrix, mvMatrix, degToRad(canvas.xRotAnim), [0, 1, 0]);
     mat4.rotate(mvMatrix, mvMatrix, degToRad(-canvas.yRotAnim), [1, 0, 0]);
-    mat4.rotate(mvMatrix, mvMatrix, degToRad(canvas.zRotAnim), [0, 0, 1]);
     gl.uniformMatrix4fv(mvMatrixUniform, false, mvMatrix);
     //! [11]
 
@@ -275,35 +286,35 @@ function initBuffers()
     gl.bindBuffer(gl.ARRAY_BUFFER, cubeVerticesTextureCoordBuffer);
     var textureCoordinates = [
                 // Front
-                1.0,  0.0,
-                0.0,  0.0,
-                0.0,  1.0,
-                1.0,  1.0,
+                0.75,  0.0,
+                0.5,  0.0,
+                0.5,  0.25,
+                0.75,  0.25,
                 // Back
-                1.0,  0.0,
-                0.0,  0.0,
-                0.0,  1.0,
-                1.0,  1.0,
+                0.75,  0.5,
+                0.5,  0.5,
+                0.5,  0.75,
+                0.75,  0.75,
                 // Top
-                1.0,  0.0,
-                0.0,  0.0,
-                0.0,  1.0,
-                1.0,  1.0,
+                0.75,  0.25,
+                0.5,  0.25,
+                0.5,  0.5,
+                0.75,  0.5,
                 // Bottom
-                1.0,  0.0,
-                0.0,  0.0,
-                0.0,  1.0,
-                1.0,  1.0,
+                0.25,  0.25,
+                0.0,  0.25,
+                0.0,  0.5,
+                0.25,  0.5,
                 // Right
-                1.0,  0.0,
-                0.0,  0.0,
-                0.0,  1.0,
-                1.0,  1.0,
+                1.0,  0.25,
+                0.75,  0.25,
+                0.75,  0.5,
+                1.0,  0.5,
                 // Left
-                1.0,  0.0,
-                0.0,  0.0,
-                0.0,  1.0,
-                1.0,  1.0
+                0.5,  0.25,
+                0.25,  0.25,
+                0.25,  0.5,
+                0.5,  0.5
             ];
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoordinates),
                   gl.STATIC_DRAW);
