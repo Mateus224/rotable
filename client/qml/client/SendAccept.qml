@@ -17,14 +17,14 @@ Rectangle {
 
         anchors.top: parent.top
         anchors.left: parent.left
-        anchors.topMargin: parent.height * 0.1
+        anchors.topMargin: parent.height * 0.06
         width: parent.width //* 0.33333
-        height: parent.height * 0.05
+        height: parent.height * 0.06
         gradient: clubcolorsrevers
         Gradient {
             id: clubcolorsrevers
             GradientStop { position: 0.0; color:"#8EE2FE"}//"#8EE2FE"}
-            GradientStop { position: 0.90; color: "#000000"}
+            GradientStop { position: 0.95; color: "#000000"}
         }
 
 
@@ -34,7 +34,7 @@ Rectangle {
             font.family: "FreeSans"
             color: "#000000"
             font.bold: true
-            font.pixelSize: parent.height * 0.8
+            font.pixelSize: parent.height * 0.75
             anchors.verticalCenter: parent.verticalCenter
             anchors.centerIn: parent
             anchors.leftMargin: parent.width * 0.1
@@ -48,7 +48,7 @@ Rectangle {
 
     Rectangle {
         anchors.fill: parent
-        anchors.topMargin: (parent.height * 0.1)*3/2
+        anchors.topMargin: (parent.height * 0.115)*1.5
         anchors.leftMargin: (parent.width * (1.0 - 0.805) / 2.0)*2/3*(1/2*0.82)
         anchors.rightMargin: (parent.width * (1.0 - 0.805) / 2.0)*2/3*(1/2*0.82)
         anchors.bottomMargin: (parent.height * (0.09125 + 0.10 + 0.125))*0.82

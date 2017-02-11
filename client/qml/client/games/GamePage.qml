@@ -16,20 +16,20 @@ Rectangle {
 
         anchors.top: parent.top
         anchors.left: parent.left
-        anchors.topMargin: parent.height * 0.05
+        anchors.topMargin: parent.height * 0.06
         width: parent.width //* 0.33333
-        height: parent.height * 0.05
+        height: parent.height * 0.06
         gradient: clubcolorsrevers
         Gradient {
             id: clubcolorsrevers
             GradientStop { position: 0.0; color:"#8EE2FE"}//"#8EE2FE"}
-            GradientStop { position: 0.90; color: "#000000"}
+            GradientStop { position: 0.95; color: "#000000"}
         }
     }
 
     Rectangle {
         anchors.fill: parent
-        anchors.topMargin: (parent.height * 0.1)*3/2
+        anchors.topMargin: (parent.height * 0.115)*1.5
         anchors.leftMargin: (parent.width * (1.0 - 0.805) / 2.0)*2/3*(1/2*0.82)
         anchors.rightMargin: (parent.width * (1.0 - 0.805) / 2.0)*2/3*(1/2*0.82)
         anchors.bottomMargin: (parent.height * (0.09125 + 0.10 + 0.125))*0.82
