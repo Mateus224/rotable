@@ -144,7 +144,10 @@ public:
     RequestMedia,
 
     /*Request installed and available Version 18*/
-    RequestSystemVersions
+    RequestSystemVersions,
+
+    /*Request the frequence of playing advertising*/
+    RequestAdvertisingConfig
   };
 
   /**
@@ -167,7 +170,10 @@ public:
     SetLicence,
 
     /*Set Advertising*/
-    SetAdvertising
+    SetAdvertising,
+
+    /*Set the play frequence of advertisings*/
+    SetAdvertisingConfig
   };
 
   /**

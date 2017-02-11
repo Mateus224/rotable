@@ -39,7 +39,7 @@
        <locale language="English" country="UnitedStates"/>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>2</number>
       </property>
       <property name="iconSize">
        <size>
@@ -456,9 +456,35 @@
           <property name="sizeConstraint">
            <enum>QLayout::SetDefaultConstraint</enum>
           </property>
-          <item row="0" column="1">
+          <item row="4" column="1">
+           <widget class="QTableView" name="_advertisingTableView"/>
+          </item>
+          <item row="1" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item alignment="Qt::AlignLeft">
+             <widget class="QLabel" name="label_5">
+              <property name="text">
+               <string>Frequenzcy [min]:</string>
+              </property>
+             </widget>
+            </item>
             <item>
+             <widget class="QSpinBox" name="frequencPlayTime"/>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_5">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item alignment="Qt::AlignLeft">
              <widget class="QToolButton" name="addVideoButton">
               <property name="text">
                <string>Add Video</string>
@@ -474,17 +500,14 @@
             </item>
            </layout>
           </item>
-          <item row="1" column="1">
-           <widget class="QComboBox" name="comboBox"/>
-          </item>
-          <item row="5" column="1">
-           <widget class="QTableView" name="_advertisingTableView"/>
-          </item>
          </layout>
         </item>
        </layout>
       </widget>
       <widget class="QWidget" name="_tabServerDebug">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <attribute name="icon">
         <iconset resource="../resources/resources.qrc">
          <normaloff>:/rotable/toggle_log.png</normaloff>:/rotable/toggle_log.png</iconset>
@@ -870,7 +893,7 @@
      <x>0</x>
      <y>0</y>
      <width>750</width>
-     <height>19</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

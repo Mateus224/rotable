@@ -86,6 +86,9 @@ Database::Database(QObject *parent) : QObject(parent), _connected(false) {
   collectSqlCommands(systemUpdateCmds, "systemupdate");
   _sqlCommands.append(systemUpdateCmds);
 
+  SqlCommands AdvertisingConfigCmds;
+  collectSqlCommands(AdvertisingConfigCmds, "advertisingconfigs");
+  _sqlCommands.append(AdvertisingConfigCmds);
   qDebug() << "Sql commands load succesfull";
 }
 
@@ -1182,41 +1185,6 @@ File *Database::media(int id) {
 
 //------------------------------------------------------------------------------
 
-rotable::SystemUpdate *Database::systemUpdate() {
-  rotable::SystemUpdate *sy;
-    if (!isConnected()) {
-    return 0;
-  }
-
-  QString queryStr = QString("SELECT MAX(id)  FROM %1systemupdate;").arg(_prefix);
-  QSqlQuery q(_db);
-  q.setForwardOnly(true);
-
-  if (!q.prepare(queryStr)) {
-    qCritical() << tr("Invalid query: %1").arg(queryStr);
-    return 0;
-  }
-
-  if (!q.exec()) {
-    qCritical()
-        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
-    return nullptr;
-  }
-
-  int id;
-
-  if (q.next()) {
-    QSqlRecord rec = q.record();
-
-    id= rec.value(rec.indexOf("MAX(id)")).toInt();
-  }
-
-  sy=systemUpdate(id);
-
-  return sy;
-
-}
-
 rotable::SystemUpdate *Database::systemUpdate(int id) {
     rotable::SystemUpdate *sy = new rotable::SystemUpdate;
 
@@ -1287,6 +1255,59 @@ rotable::SystemUpdate *Database::systemUpdate(int id) {
 
 }
 
+//------------------------------------------------------------------------------
+
+int Database::advertisingConfig(int id) {
+    int ac;
+
+    if (!isConnected()) {
+      return 0;
+    }
+
+    QString queryStr =
+        _sqlCommands[AdvertisingConfig]._select.arg(_prefix, "*", "id", ":id");
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return 0;
+    }
+
+    q.bindValue(":id", id);
+
+    if (!q.exec()) {
+      qCritical()
+          << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+      return 0;
+    }
+
+    if (_db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+      if (q.size() != 1) {
+        qCritical()
+            << tr("Query: returned %1 results but we expected it to return 1!")
+                   .arg(q.size());
+        return 0;
+      }
+    }
+
+    if (!q.next()) {
+      return 0;
+    }
+
+    bool ok;
+
+    ac= q.value("frequency").toInt(&ok);
+    if (!ok) {
+      qCritical() << tr("Could not convert '%1' to integer!")
+                         .arg(q.value("id").toString());
+      return 0;
+    }
+
+    return ac;
+
+}
 
 //------------------------------------------------------------------------------
 
@@ -1677,6 +1698,34 @@ bool Database::addNewSystemUpdate(float availableSystemVersion)
     //q.bindValue(":current_version", file->getType());
     //q.bindValue(":date_current_version", fileInfo._name);
     q.bindValue(":available_version", availableSystemVersion);
+
+    if (!q.exec()) {
+      qCritical()
+          << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+      return false;
+        }
+    return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::addAdvertisingConfig(int frequency)
+{
+    if (!isConnected()) {
+      return false;
+    }
+    QString queryStr = _sqlCommands[AdvertisingConfig]._insert.arg(
+        _prefix, "NULL", ":frequency");
+
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return false;
+    }
+
+    q.bindValue(":frequency", frequency);
 
     if (!q.exec()) {
       qCritical()
@@ -2517,6 +2566,13 @@ bool Database::createDatabase() {
   QSqlQuery q29(_sqlCommands[SystemUpdate]._create.arg(_prefix), _db);
   if (q29.lastError().type() != QSqlError::NoError) {
     qCritical() << tr("Query exec failed: %1").arg(q29.lastError().text());
+    _db.rollback();
+    return false;
+  }
+
+  QSqlQuery q30(_sqlCommands[AdvertisingConfig]._create.arg(_prefix), _db);
+  if (q30.lastError().type() != QSqlError::NoError) {
+    qCritical() << tr("Query exec failed: %1").arg(q30.lastError().text());
     _db.rollback();
     return false;
   }
@@ -3497,6 +3553,43 @@ int Database::getLastIncomeId() {
 }
 
 //------------------------------------------------------------------------------
+
+rotable::SystemUpdate *Database::systemUpdate() {
+  rotable::SystemUpdate *sy;
+    if (!isConnected()) {
+    return 0;
+  }
+
+  QString queryStr = QString("SELECT MAX(id)  FROM %1systemupdate;").arg(_prefix);
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return 0;
+  }
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return nullptr;
+  }
+
+  int id;
+
+  if (q.next()) {
+    QSqlRecord rec = q.record();
+
+    id= rec.value(rec.indexOf("MAX(id)")).toInt();
+  }
+
+  sy=systemUpdate(id);
+
+  return sy;
+
+}
+
+//------------------------------------------------------------------------------
 QList<int> *Database::getMediaIdByType(int type)
 {
     if (!isConnected()) {
@@ -3589,6 +3682,39 @@ QList<int> *Database::getMediaIdByNameAndType(QStringList nameList, int type)
     else
       return list;
 
+}
+
+//------------------------------------------------------------------------------
+
+int Database::getLastAdvertisingConfig()
+{
+    if (!isConnected()) {
+      return -1;
+    }
+
+    QString queryStr =
+        QString("SELECT MAX(id)  FROM %1advertisingconfigs;").arg(_prefix);
+    QSqlQuery q(_db);
+    q.setForwardOnly(true);
+
+    if (!q.prepare(queryStr)) {
+      qCritical() << tr("Invalid query: %1").arg(queryStr);
+      return -1;
+    }
+
+    if (!q.exec()) {
+      qCritical()
+          << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+      return -1;
+    }
+
+    if (q.next()) {
+      QSqlRecord rec = q.record();
+
+      return advertisingConfig(rec.value(rec.indexOf("MAX(id)")).toInt());
+    }
+
+    return -1;
 }
 
 
@@ -3791,6 +3917,8 @@ void Database::updateDatabase(QString actualVersion) {
     updateToVersion("0.0.7");
   case version0d0d7:
     updateToVersion("0.0.8");
+  case version0d0d8:
+    updateToVersion("0.0.9");
   }
 }
 
@@ -3840,6 +3968,8 @@ int Database::versionToEnum(QString version) {
     return version0d0d7;
   else if (version == "0.0.8")
     return version0d0d8;
+  else if (version == "0.0.9")
+    return version0d0d9;
   return version0d0d0;
 }
 

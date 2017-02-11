@@ -1,0 +1,1 @@
+UPDATE `%1advertisingconfigs` SET `frequency` = :frequency WHERE `id` = %2;

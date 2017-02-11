@@ -67,18 +67,25 @@ MainWindow::MainWindow(QWidget *parent)
   connect(this, &MainWindow::setUserButtons, _ui->_toolButtonChangePassword, &QToolButton::setEnabled);
   connect(this, &MainWindow::setUserButtons, _ui->_toolButtonChangeStatusUser, &QToolButton::setEnabled);
   connect(_ui->_toolButtonChangePassword, &QToolButton::clicked, this, &MainWindow::actionChangeUserPassword);
-
+  //----Advertising Config for Frequence of Play Time------
+  connect(_ui->frequencPlayTime, SIGNAL(valueChanged(int)),
+          this, SIGNAL(getFrequencePlayTime(int)));
+  connect(this, SIGNAL(setFrequencePlayTime(int)),
+          _ui->frequencPlayTime, SLOT(setValue(int)));
   //----System Update connact qLable for installed version and available version Number------
   connect(this, &MainWindow::setCurrentVersion, _ui->InstalledVersionNumber, &QLabel::setText);
   connect(this, &MainWindow::setAvailableVersion, _ui->AvailableVersionNumber, &QLabel::setText);
-  //_ui->d_plot->setMode(3);
 
-  // Initially hide ServerDebug tab
+  // Initially hide ServerDebug and Sales tab
   int serverDebugTabIdx = _ui->_tabWidget->indexOf(_ui->_tabServerDebug);
   Q_ASSERT(-1 != serverDebugTabIdx);
+  int SalesTabIdx = _ui->_tabWidget->indexOf(_ui->_tabSales);
+  Q_ASSERT(-1 != SalesTabIdx);
   _serverDebugTabIcon = _ui->_tabWidget->tabIcon(serverDebugTabIdx);
   _serverDebugTabLabel = _ui->_tabWidget->tabText(serverDebugTabIdx);
   _ui->_tabWidget->removeTab(serverDebugTabIdx);
+  _ui->_tabWidget->removeTab(SalesTabIdx);
+
   // Always run this same tab
   _ui->_tabWidget->setCurrentIndex(0);
 }

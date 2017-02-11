@@ -72,7 +72,8 @@ private:
     Medias,
     AdvertisingVideos,
     WaiterCategories,
-    SystemUpdate
+    SystemUpdate,
+    AdvertisingConfig
   };
 
   /**
@@ -287,6 +288,17 @@ public:
   rotable::SystemUpdate* systemUpdate(int id);
 
   /**
+   * get frequency information through id
+   * called in getLastAdvertisingConfig which get
+   * the last (max) id and calls
+   * with this argument advertisingConfig
+   * @brief advertisingConfig
+   * @param id
+   * @return
+   */
+  int advertisingConfig(int id);
+
+  /**
    * @brief advertisingVideo
    * @param video
    * @return
@@ -375,6 +387,13 @@ public:
    * @return
    */
   bool addNewSystemUpdate(float availableSystemVersion);
+
+  /**
+   * @brief addAdvertisingConfig
+   * @param frequency
+   * @return
+   */
+  bool addAdvertisingConfig(int frequency);
 
   /**
    * Update a product category.
@@ -586,6 +605,12 @@ public:
   QList<int> *getMediaIdByNameAndType(QStringList name, int type);
 
   /**
+   * @brief getLastAdvertisingConfig
+   * @return the last insertion of configured frequency
+   */
+  int getLastAdvertisingConfig();
+
+  /**
    * Check Config record exist
    * @param name        config name
    * @return            record id
@@ -720,11 +745,12 @@ public:
     version0d0d5,
     version0d0d6,
     version0d0d7,
-    version0d0d8
+    version0d0d8,
+    version0d0d9
   };
 
 
-  QString const newestVesion = "0.0.8";
+  QString const newestVesion = "0.0.9";
   QString const _systemVersion="1.4";
 
 

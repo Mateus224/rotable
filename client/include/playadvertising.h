@@ -62,6 +62,8 @@ private:
 
     int _delay;
 
+    int _playListLenth;
+
     enum source{
         tryLaterAgain,
         putOnlyInQueue
