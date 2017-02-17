@@ -1,5 +1,6 @@
 #include "include/playadvertising.h"
 #include "touchevent.h"
+#include <QtAlgorithms>
 
 //https://forum.qt.io/topic/4752/how-to-stop-a-qtimer-singleshot/7
 
@@ -18,6 +19,8 @@ PlayAdvertising::PlayAdvertising(QList<AdvertisingVideo*> & advertisingVideo, To
 PlayAdvertising::~PlayAdvertising(){
     _timer->stop();
     delete _timer;
+    qDeleteAll(L_timers.begin(), L_timers.end());
+    L_timers.clear();
 }
 
 //----------------------------------------------------------

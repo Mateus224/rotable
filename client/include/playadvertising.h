@@ -46,7 +46,6 @@ private:
     bool _playing; //is the video now playing
 
     struct AdvertisingTimers{
-        QTime* _timer;
         QString* _videoName;
         float _playTime;
         int _id;
