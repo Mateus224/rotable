@@ -974,15 +974,11 @@ bool Server::updateAdvertising(AdvertisingVideo *advertising) {
   if(_db.hasFile(advertising->_advertisingInfo._mediaId))
   {
       File* tmp =_db.media(advertising->_advertisingInfo._mediaId);
+      // Inform clients about data change...
+      ComPackageDataChanged dc;
+      dc.setDataCategory(ComPackage::RequestMediaIds);
+      dc.setDataName(QString("%1").arg(advertising->_fileInfo._id));
 
-      if(!tmp->rename(advertising->_fileInfo._name))
-      qWarning()<<"rename not succed!";
-
-      if (!_db.updateFile(file)) {
-        qWarning() << tr("Failed to update file!");
-        //file->rename()
-        return false;
-      }
 
       if(advertising->_advertisingInfo._played==-2)
       {
@@ -990,20 +986,25 @@ bool Server::updateAdvertising(AdvertisingVideo *advertising) {
           _advertising->_advertisingInfo._played++;
           _advertising->_advertisingInfo._duration=advertising->_advertisingInfo._duration;
           _db.updateFile(_advertising);
+          send_to_users(dc, rotable::ComPackage::AdminAccount);
+          return true;
+      }
+      else if(!tmp->rename(advertising->_fileInfo._name))
+        qWarning()<<"rename not succed!";
+      else if (!_db.updateFile(file)) {
+        qWarning() << tr("Failed to update file!");
+        return false;
       }
 
-
-
-      // Inform clients about data change...
-      ComPackageDataChanged dc;
-      dc.setDataCategory(ComPackage::RequestMediaIds);
-      dc.setDataName(QString("%1").arg(advertising->_fileInfo._id));
-      _tcp.send(-1, dc);
+      send_to_users(dc, rotable::ComPackage::AdminAccount);
+      send_to_users(dc,rotable::ComPackage::TableAccount);
 
       return true;
   }
   return false;
 }
+
+//------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
 

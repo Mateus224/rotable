@@ -21,7 +21,7 @@ Client::Client(const QString &configFilePath, QObject *parent)
   : QObject(parent),
     _config(configFilePath, parent), _accepted(false), _state("DISCONNECTED"), _stopping(false),
     _currentCategoryId(-1),  _productListModel(0), _imageProvider(0),_advertisingVideo(0), _TmpAdvertisingVideo(0),_numberOfMedias(0),
-    _countIncomeMedias(0), _duration(0)
+    _countIncomeMedias(0), _duration(0), _playA(NULL)
 {
 
 
@@ -170,6 +170,7 @@ void Client::packageReceived(ComPackage *package)
       _accepted = true;
       setState("SCREENSAVER");
       requestCategoryIds();
+      requestAdvertisingConfig();
       requestMediaIds();
 
     } break;
@@ -269,6 +270,19 @@ void Client::setState(const QString &state)
 {
   _state = state;
   emit stateChanged();
+}
+
+//------------------------------------------------------------------------------
+
+void Client::requestAdvertisingConfig(){
+    ComPackageDataRequest *request = new ComPackageDataRequest();
+    request->setDataCategory(ComPackage::RequestAdvertisingConfig);
+
+    if (!_tcp.send(*request)) {
+      qCritical() << tr("Could not send request!");
+    } else {
+      _dataRequest[request->id()] = request;
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -589,6 +603,10 @@ void Client::dataReturned(ComPackageDataReturn *package)
         default : {qCritical() << "unknown package";} break;
         }
     }break;
+    case ComPackage::RequestAdvertisingConfig:
+    {
+        _frequence= package->data().toInt();
+    } break;
     default:
     {
       qCritical() << tr("Unknown data package returned")<< package->dataCategory();
@@ -655,6 +673,14 @@ void Client::dataChanged(rotable::ComPackageDataChanged *package)
       qDebug()<<"passt doch";
 
     } break;
+    case ComPackage::RequestMediaIds:
+    {
+        int id=package->dataName().toInt();
+        _numberOfMedias=1;
+        _countIncomeMedias=0;
+        requestAdvertising(id);
+
+    }
     default:
     {
       qCritical() << tr("Unknown data changed category '%1' received!")
@@ -718,16 +744,23 @@ void Client::requestAdvertising(int fileId)
 //------------------------------------------------------------------------------
 void Client::prepareForPlayAdvertising()
 {
+    int flag=0;
     _TmpAdvertisingVideo=reinterpret_cast <AdvertisingVideo*> (_file);
-    l_advertisingVideo->append(_TmpAdvertisingVideo);
-    //_advertisingVideo->advertisingContainer.insert(&_TmpAdvertisingVideo->_fileInfo._name, _TmpAdvertisingVideo->_advertisingInfo);
+    for(int i=0; i<l_advertisingVideo->length(); i++)
+        if(l_advertisingVideo->at(i)->_advertisingInfo._id==_TmpAdvertisingVideo->_advertisingInfo._id){
+            l_advertisingVideo->replace(i,_TmpAdvertisingVideo);
+            flag=1;
+        }
+    if(flag==0)
+        l_advertisingVideo->append(_TmpAdvertisingVideo);
     if(_numberOfMedias==_countIncomeMedias)
     {
-        if (_playA) //if exist delete old object because we have a new list
+        if (_playA!=NULL) //if exist delete old object because we have a new list
         {
-            _playA=nullptr;
+            delete _playA;
         }
         _playA=new PlayAdvertising(*l_advertisingVideo,*_touch);
+        _playA->_frequnce=_frequence;
         connect(_playA,SIGNAL(play(QString*)),
                 this, SLOT(playAdvertising(QString*)) );
         _playA->startPlayAdvertising();

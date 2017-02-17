@@ -220,6 +220,10 @@ private:
    *
    * @param package         Package with data
    * @param accountType     Account type
+   * WaiterAccount  = 0
+    TableAccount    = 1
+    AdminAccount    = 2
+   * see also rotable::ComPackage::LoginType
    */
   inline void send_to_users(ComPackage &package, int accountType);
 

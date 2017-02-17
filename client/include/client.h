@@ -269,6 +269,12 @@ void payedSlot(int i){qDebug()<<i;}
   void setState(const QString& state);
 
   /**
+   * request for advertising Configs (frequnce of playing advertising)
+   * @brief requestAdvertisingConfig
+   */
+  void requestAdvertisingConfig();
+
+  /**
    * @brief requestMediaIds
    * request for all Media Ids from the server
    */
@@ -437,7 +443,7 @@ private:
 
   rotable::AdvertisingVideo *_advertisingVideo;
 
-  rotable::PlayAdvertising* _playA;
+  rotable::PlayAdvertising *_playA;
 
   qint64 _duration;
 
@@ -445,6 +451,9 @@ private:
 
 
   int _numberOfMedias, _countIncomeMedias;
+
+  // Frequnce of the playing advertisings
+  int _frequence;
 
 
 

@@ -16,7 +16,9 @@ class rotable::PlayAdvertising : public QObject
     Q_OBJECT
 public:
     PlayAdvertising(QList<rotable::AdvertisingVideo*> & _advertisingVideo,rotable::TouchEvent &touch, QObject *parent = 0);
+    PlayAdvertising(QObject *parent = 0);
 
+    ~PlayAdvertising();
     /**
      * This funktion init the playing of the Advertising videos
      * It goes through a list with the advertisingVideos
@@ -36,17 +38,18 @@ public:
      */
     void advertisingVideoEnded(QString name);
 
+
+    int _frequnce;
+
 private:
 
     bool _playing; //is the video now playing
 
     struct AdvertisingTimers{
         QTime* _timer;
-        QTime* _lastPlay;
         QString* _videoName;
-        int _frequency;
+        float _playTime;
         int _id;
-        int _startDelay;
     }
     *st_timer;
 
@@ -58,20 +61,17 @@ private:
 
     rotable::TouchEvent* _touch;
 
-    QList<int> _frequncy;
+    QList<float> _frequncy;
 
     int _delay;
 
     int _playListLenth;
 
-    enum source{
-        tryLaterAgain,
-        putOnlyInQueue
-    };
+    QTimer *_timer;
+
+
 
      bool creatAdvertisingPlayList();
-
-     void advertisingTimerQueue(AdvertisingTimers* video, source info);
 
      /**
       * @brief MinBreakTime make a check when the last
@@ -124,14 +124,7 @@ private slots:
      * @brief timerEnd
      * @param id
      */
-    void timerEnd(AdvertisingTimers* video);
-
-
-
-
-
-private slots:
-    void playVideoInQueue(AdvertisingTimers* nameOfTimer);
+    void timerEnd();
 
 
 };
