@@ -61,10 +61,12 @@ Rectangle {
         color: parent.color
         visible: false
 
-        x: parent.x
-        y: parent.y
+//        x: parent.x
+//        y: parent.y
+
         width: parent.width
         height: parent.height
+
         Rectangle{
             color: "transparent"
             x: (parent.width/35)*32
@@ -336,7 +338,6 @@ Rectangle {
                 if (productButton.state == "EXPANDED") {
                     productButton.state = "COLLAPSED"
                    // MyOrder.setproductid(buttonProductId)
-
                 }
             }
         }
@@ -346,13 +347,14 @@ Rectangle {
         State {
             name: "EXPANDED"
             PropertyChanges { target: buttonExpanded; visible: true }
-            PropertyChanges { target: buttonExpanded; x: -productButton.x }
-            PropertyChanges { target: buttonExpanded; y: -productButton.y}
+            PropertyChanges { target: buttonExpanded; color: productButton.color }
             PropertyChanges { target: buttonExpanded; width: 5 * (grid.buttonWidth + grid.buttonMarginH) - grid.buttonMarginH }
             PropertyChanges { target: buttonExpanded; height: 3 * (grid.buttonHeight + grid.buttonMarginV) - grid.buttonMarginV }
             PropertyChanges { target: productButton; z: 1 }
             PropertyChanges { target: buttonExpanded; z: 1 }
-            //PropertyChanges { target: buttonExpanded; MyOrderButton }
+            PropertyChanges { target: buttonExpanded; parent: grid }
+
+            PropertyChanges { target: grid; interactive: false }
         },
         State {
             name: "COLLAPSED"
@@ -363,6 +365,9 @@ Rectangle {
             PropertyChanges { target: buttonExpanded; y: productButton.y }
             PropertyChanges { target: buttonExpanded; z: 0 }
             PropertyChanges { target: productButton; z: 0 }
+            PropertyChanges { target: buttonExpanded; parent: productButton }
+
+            PropertyChanges { target: grid; interactive: model.count > 15 }
         }
     ]
 }
