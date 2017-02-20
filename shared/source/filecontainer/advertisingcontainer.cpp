@@ -107,15 +107,25 @@ void rotable::AdvertisingContainer::onFileUpdated()
 
 void rotable::AdvertisingContainer::playTimeNextElement(int id)
 {
-    int SumOfplayTimes=0, nextId=0,test=0;
+    int SumOfplayTimes=0, nextId=0,test=0,j=0,size=0;
     bool flag=0;
+
     QHash<int,AdvertisingVideo*>::const_iterator i = _files->constBegin();
     while (i != _files->constEnd()) {
         tmpFile= i.value();
         test=tmpFile->getA_id();
         SumOfplayTimes+=tmpFile->getPlayTime();
-        if(tmpFile->getA_id()==id)
+        if(tmpFile->getA_id()==id){
             flag=true;
+            size=_files->size();
+            if((size-1)==j){
+                i= _files->constBegin();
+                tmpFile= i.value();
+                nextId=tmpFile->getA_id();
+                SumOfplayTimes-=tmpFile->getPlayTime();
+                nextFile = _files->value(nextId);
+            }
+        }
         else if(flag==true){
             flag=false;
             nextId=tmpFile->getA_id();
@@ -123,6 +133,7 @@ void rotable::AdvertisingContainer::playTimeNextElement(int id)
             nextFile = _files->value(nextId);
         }
         ++i;
+        ++j;
     }
     if(!calculatePercentNextElement_PlayTime(SumOfplayTimes))
         playTimeNextElement(nextId);
@@ -132,9 +143,8 @@ void rotable::AdvertisingContainer::playTimeNextElement(int id)
 
 bool rotable::AdvertisingContainer::calculatePercentNextElement_PlayTime(int SumOfplayTimes)
 {
-    int nextElementPlayTime;
     if(SumOfplayTimes>=100){
-        nextElementPlayTime=0;
+        nextFile->setPlayTime(0);
         return false;
     }
     else if(SumOfplayTimes<100){
