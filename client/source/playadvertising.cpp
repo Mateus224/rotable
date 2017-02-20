@@ -14,6 +14,9 @@ PlayAdvertising::PlayAdvertising(QList<AdvertisingVideo*> & advertisingVideo, To
     l_advertisingVideo=advertisingVideo;
     _touch=&touch;
     _timer=new QTimer(this);
+    _timer->setInterval(_frequnce);
+    _timer->setSingleShot(true);
+    connect(_timer, SIGNAL(timeout()), SLOT(timerEnd()));
 }
 
 PlayAdvertising::~PlayAdvertising(){
