@@ -20,6 +20,7 @@ PlayAdvertising::PlayAdvertising(QList<AdvertisingVideo*> & advertisingVideo, To
 }
 
 PlayAdvertising::~PlayAdvertising(){
+    _timer->setSingleShot(false);
     _timer->stop();
     delete _timer;
     qDeleteAll(L_timers.begin(), L_timers.end());
@@ -34,17 +35,17 @@ void PlayAdvertising::startPlayAdvertising()
     for(AdvertisingVideo* video: l_advertisingVideo){
         if(video->_advertisingInfo._play){
             if(_frequnce>0){
-                if(video->_advertisingInfo._frequency >0)
+                if(video->_advertisingInfo._playTime >0)
                 {
                     st_timer=new AdvertisingTimers();
                     st_timer->_videoName=&video->_fileInfo._name;
                     st_timer->_id=video->_advertisingInfo._id;
-                    int tmp=(int)((1/((float)video->_advertisingInfo._frequency))*10000);
-                    st_timer->_playTime=((1/((float)video->_advertisingInfo._frequency)));
+                    int tmp=(int)((1/((float)video->_advertisingInfo._playTime))*10000);
+                    st_timer->_playTime=((1/((float)video->_advertisingInfo._playTime)));
                     L_timers.append(st_timer);
                     float hallo=st_timer->_playTime;
 
-                    _frequncy.append(hallo);
+                    l_playTimeList.append(hallo);
                 }
             }
         }
@@ -64,18 +65,18 @@ bool PlayAdvertising::creatAdvertisingPlayList()
     for(int i=0; i<100; i++){
         float tmp=0;
         for(int j=0; j<L_timers.length();j++){
-            if(tmp>_frequncy.at(j)||tmp==0){
-               tmp=_frequncy.at(j);
+            if(tmp>l_playTimeList.at(j)||tmp==0){
+               tmp=l_playTimeList.at(j);
                k=j;
             }
         }
-        //qDebug()<<"frequence: "<<_frequncy.at(k);
-        float h=L_timers.at(k)->_playTime + _frequncy.at(k);
-        _frequncy.replace(k,h);
+        //qDebug()<<"frequence: "<<l_playTimeList.at(k);
+        float h=L_timers.at(k)->_playTime + l_playTimeList.at(k);
+        l_playTimeList.replace(k,h);
         L_timerQueue.append(L_timers.at(k));
         qDebug()<<"i: "<<i<<"Queue: "<<L_timers.at(k)->_id;
         switch (L_timers.at(k)->_id) {
-        case 1:
+/*        case 1:
             m++;
             break;
         case 2:
@@ -85,11 +86,11 @@ bool PlayAdvertising::creatAdvertisingPlayList()
             o++;
             break;
         default:
-            qDebug()<<"err;";
+            qDebug()<<"err;";*/
         }
     }
 
-    qDebug()<<"m:"<<m<<" n: "<<n<<" o :"<<o;
+    //qDebug()<<"m:"<<m<<" n: "<<n<<" o :"<<o;
 }
 
 //----------------------------------------------------------

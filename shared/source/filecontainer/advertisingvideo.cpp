@@ -21,11 +21,11 @@ void AdvertisingVideo::setA_id(const int& id)
   }
 }
 
-void AdvertisingVideo::setFrequency(const int& frequency)
+void AdvertisingVideo::setPlayTime(const int& playTime)
 {
-  if (_advertisingInfo._frequency != frequency) {
-    _advertisingInfo._frequency = frequency;
-    emit frequencyChanged();
+  if (_advertisingInfo._playTime != playTime) {
+    _advertisingInfo._playTime = playTime;
+    emit playTimeChanged();
   }
 }
 
@@ -66,7 +66,7 @@ void AdvertisingVideo::setDuration(const int& duration)
 void AdvertisingVideo::addAdditionalData(QJsonObject &o) const
 {
     o["a_id"]=_advertisingInfo._id;
-    o["frequency"]=_advertisingInfo._frequency;
+    o["playTime"]=_advertisingInfo._playTime;
     o["media_id"]=_advertisingInfo._mediaId;
     o["play"]=_advertisingInfo._play;
     o["played"]=_advertisingInfo._played;
@@ -76,13 +76,13 @@ void AdvertisingVideo::addAdditionalData(QJsonObject &o) const
 void AdvertisingVideo::setAdditionalData(QJsonObject &o)
 {
     if(  o.contains("media_id")
-       &&o.contains("frequency")
+       &&o.contains("playTime")
        &&o.contains("play")
        &&o.contains("played")
        &&o.contains("duration"))
     {
         _advertisingInfo._id=o["a_id"].toInt();
-        _advertisingInfo._frequency=o["frequency"].toInt();
+        _advertisingInfo._playTime=o["playTime"].toInt();
         _advertisingInfo._mediaId=o["media_id"].toInt();
         _advertisingInfo._play=o["play"].toBool();
         _advertisingInfo._played=o["played"].toInt();
@@ -98,10 +98,11 @@ void AdvertisingVideo::updateData(AdvertisingVideo* file)
     _fileInfo._removed=file->_fileInfo._removed;
     _fileInfo._size=file->_fileInfo._size;
     _fileInfo._type=file->_fileInfo._type;
-    _advertisingInfo._frequency=file->_advertisingInfo._frequency;
+    _advertisingInfo._playTime=file->_advertisingInfo._playTime;
     _advertisingInfo._id=file->_advertisingInfo._id;
     _advertisingInfo._mediaId=_advertisingInfo._mediaId;
     _advertisingInfo._play=_advertisingInfo._play;
     _advertisingInfo._played=_advertisingInfo._played;
     _advertisingInfo._duration=_advertisingInfo._duration;
 }
+

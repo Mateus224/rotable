@@ -132,7 +132,7 @@ public:
         duration,
         size,
         played,
-        frequnecy,
+        playTime,
         play
     };
 

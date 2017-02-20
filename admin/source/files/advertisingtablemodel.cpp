@@ -90,14 +90,14 @@ QVariant AdvertisingTableModel::data(const QModelIndex &index, int role) const {
       }
     }
   } break;
-  case frequnecy: {
+  case playTime: {
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
       QList<int> ids = _advertisingVideos->fileIds();
       Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
       rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
       Q_ASSERT(file);
       if (file) {
-        return QVariant(file->_advertisingInfo._frequency);
+        return QVariant(file->_advertisingInfo._playTime);
       }
     }
   } break;
@@ -169,13 +169,14 @@ bool AdvertisingTableModel::setData(const QModelIndex &index, const QVariant &va
         //file->_advertisingInfo._played = value.toInt();
       }
     } break;
-    case frequnecy: {
+    case playTime: {
         QList<int> ids = _advertisingVideos->fileIds();
         Q_ASSERT(index.row() >= 0 && index.row() < ids.count());
         rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
         Q_ASSERT(file);
         if (file) {
-        file->setFrequency(value.toInt());
+        file->setPlayTime(value.toInt());
+        _advertisingVideos->playTimeNextElement(ids[index.row()]);
       }
     } break;
     case play: {
@@ -242,8 +243,8 @@ QVariant AdvertisingTableModel::headerData(int section, Qt::Orientation orientat
           case played:{
               return QVariant("Played");
           } break;
-          case frequnecy: {
-           return QVariant("Frequency [min]");
+          case playTime: {
+           return QVariant("Play Time [%]");
           } break;
           case play: {
            return QVariant("Play");

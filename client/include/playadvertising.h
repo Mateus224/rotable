@@ -60,7 +60,7 @@ private:
 
     rotable::TouchEvent* _touch;
 
-    QList<float> _frequncy;
+    QList<float> l_playTimeList;
 
     int _delay;
 

@@ -34,6 +34,8 @@ public:
     void setSelectedFile(AdvertisingVideo *value);
     void setSelectedFile(int inx);
 
+    void playTimeNextElement(int id);
+
 
 
 signals:
@@ -67,9 +69,12 @@ private slots:
     void onFileUpdated();
 
 private:
+    bool calculatePercentNextElement_PlayTime(int SumOfplayTimes);
 
     QHash<int,AdvertisingVideo*> *_files; /** Container with files */
     AdvertisingVideo *selectedFile;
+    AdvertisingVideo *tmpFile;
+    AdvertisingVideo *nextFile;
 };
 
 #endif // ADVERTISINGCONTAINER_H

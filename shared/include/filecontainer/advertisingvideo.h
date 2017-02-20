@@ -21,12 +21,12 @@ public:
     inline int getA_id(){return _advertisingInfo._id;}
 
     /**
-     * @brief setFrequency
+     * @brief setplayTime
      * @param min
      * how often will be the video played in minutes
      */
-    void setFrequency(const int& frequency);
-    inline int getFrequency(){return _advertisingInfo._frequency;}
+    void setPlayTime(const int& playTime);
+    inline int getPlayTime(){return _advertisingInfo._playTime;}
 
     void setMedia_id(const int& mediaId);
     inline int getMedia_id(){return _advertisingInfo._mediaId;}
@@ -64,7 +64,7 @@ public:
 
 signals:
     void idChanged();
-    void frequencyChanged();
+    void playTimeChanged();
     void mediaIdChanged();
     void playChanged();
     void playedChanged();
@@ -79,7 +79,7 @@ public:
     struct advertisingInfo{
         int _id;
         int _mediaId;
-        int _frequency;
+        int _playTime;
         bool _play;
         int _played;
         int _duration;

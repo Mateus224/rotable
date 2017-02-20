@@ -1348,7 +1348,7 @@ bool Database::advertisingVideo(AdvertisingVideo & video) {
   }
   bool ok;
 
-  video._advertisingInfo._frequency=q.value("frequency").toInt(&ok);
+  video._advertisingInfo._playTime=q.value("playtime").toInt(&ok);
   video._advertisingInfo._id=q.value("id").toInt(&ok);
   video._advertisingInfo._play=q.value("play").toBool();
   video._advertisingInfo._played=q.value("played").toInt(&ok);
@@ -1656,7 +1656,7 @@ bool Database::addAdvertisingVideo(QList<int>* mediaId)
     }
     for (int media_id: *mediaId) {
         QString queryStr = _sqlCommands[AdvertisingVideos]._insert.arg(
-            _prefix, "NULL", ":frequency", ":play", ":played", ":media_id", ":duration");
+            _prefix, "NULL", ":playtime", ":play", ":played", ":media_id", ":duration");
 
         QSqlQuery q(_db);
         q.setForwardOnly(true);
@@ -1665,7 +1665,7 @@ bool Database::addAdvertisingVideo(QList<int>* mediaId)
           qCritical() << tr("Invalid query: %1").arg(queryStr);
           return false;
         }
-        q.bindValue(":frequency",30);
+        q.bindValue(":playtime",30);
         q.bindValue(":play",1 );
         q.bindValue(":played",0);
         q.bindValue(":media_id",media_id );
@@ -2084,7 +2084,7 @@ bool Database::updateAdvertsingAdditionalData(AdvertisingVideo *advertisingVideo
       return false;
     }
 
-    q.bindValue(":frequency", advertisingVideo->getFrequency());
+    q.bindValue(":playtime", advertisingVideo->getPlayTime());
     q.bindValue(":play", advertisingVideo->getPlay());
     q.bindValue(":played", advertisingVideo->getPlayed());
     q.bindValue(":media_id", advertisingVideo->getMedia_id());
@@ -4165,7 +4165,7 @@ bool Database::getAdvertisingAdditionalData(AdvertisingVideo* advertisingvideo)
       return false;
     }
     bool ok;
-    advertisingvideo->_advertisingInfo._frequency=q.value("frequency").toInt(&ok);
+    advertisingvideo->_advertisingInfo._playTime=q.value("playtime").toInt(&ok);
     advertisingvideo->_advertisingInfo._id=q.value("id").toInt(&ok);
     advertisingvideo->_advertisingInfo._play=q.value("play").toBool();
     advertisingvideo->_advertisingInfo._played=q.value("played").toInt(&ok);

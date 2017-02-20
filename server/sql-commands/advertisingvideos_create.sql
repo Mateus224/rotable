@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `%1advertisingvideos` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `frequency` INTEGER NOT NULL,
+  `playtime` INTEGER NOT NULL,
   `play` INTEGER NOT NULL DEFAULT 0,
   `played` INTEGER NOT NULL,
   `media_id` INTEGER NOT NULL,

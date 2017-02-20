@@ -27,7 +27,7 @@ void rotable::AdvertisingContainer::addFile(rotable::AdvertisingVideo *file)
     int id=file->getId();
 
     /*which information can be changed from the gui*/
-    connect(file, SIGNAL(frequencyChanged()), this, SLOT(onFileUpdated()));
+    connect(file, SIGNAL(playTimeChanged()), this, SLOT(onFileUpdated()));
     connect(file, SIGNAL(playChanged()), this, SLOT(onFileUpdated()));
     connect(file, SIGNAL(nameChanged()), this, SLOT(onFileUpdated()));
 
@@ -105,3 +105,41 @@ void rotable::AdvertisingContainer::onFileUpdated()
 
 //------------------------------------------------------------------------------
 
+void rotable::AdvertisingContainer::playTimeNextElement(int id)
+{
+    int SumOfplayTimes=0, nextId=0,test=0;
+    bool flag=0;
+    QHash<int,AdvertisingVideo*>::const_iterator i = _files->constBegin();
+    while (i != _files->constEnd()) {
+        tmpFile= i.value();
+        test=tmpFile->getA_id();
+        SumOfplayTimes+=tmpFile->getPlayTime();
+        if(tmpFile->getA_id()==id)
+            flag=true;
+        else if(flag==true){
+            flag=false;
+            nextId=tmpFile->getA_id();
+            SumOfplayTimes-=tmpFile->getPlayTime();
+            nextFile = _files->value(nextId);
+        }
+        ++i;
+    }
+    if(!calculatePercentNextElement_PlayTime(SumOfplayTimes))
+        playTimeNextElement(nextId);
+}
+
+//------------------------------------------------------------------------------
+
+bool rotable::AdvertisingContainer::calculatePercentNextElement_PlayTime(int SumOfplayTimes)
+{
+    int nextElementPlayTime;
+    if(SumOfplayTimes>=100){
+        nextElementPlayTime=0;
+        return false;
+    }
+    else if(SumOfplayTimes<100){
+        SumOfplayTimes=100-SumOfplayTimes;
+    }
+    nextFile->setPlayTime(SumOfplayTimes);
+    return true;
+}
