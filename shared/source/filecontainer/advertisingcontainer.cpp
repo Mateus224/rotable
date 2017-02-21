@@ -120,12 +120,11 @@ void rotable::AdvertisingContainer::playTimeNextElement(int id)
         if(tmpFile->getA_id()==id){
             flag=true;
             size=_files->size();
-            SumOfplayTimes-=tmpFile->getPlayTime();
             if(size==j){
                 tmp_i= _files->constBegin();
                 nextFile= tmp_i.value();
+                //SumOfplayTimes-=tmpFile->getPlayTime();
                 nextId=nextFile->getA_id();
-
             }
         }
         else if(flag==true){
