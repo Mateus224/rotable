@@ -111,19 +111,21 @@ void rotable::AdvertisingContainer::playTimeNextElement(int id)
     bool flag=0;
 
     QHash<int,AdvertisingVideo*>::const_iterator i = _files->constBegin();
+    QHash<int,AdvertisingVideo*>::const_iterator tmp_i = _files->constBegin();
     while (i != _files->constEnd()) {
+        ++j;
         tmpFile= i.value();
         test=tmpFile->getA_id();
         SumOfplayTimes+=tmpFile->getPlayTime();
         if(tmpFile->getA_id()==id){
             flag=true;
             size=_files->size();
-            if((size-1)==j){
-                i= _files->constBegin();
-                tmpFile= i.value();
-                nextId=tmpFile->getA_id();
-                SumOfplayTimes-=tmpFile->getPlayTime();
-                nextFile = _files->value(nextId);
+            SumOfplayTimes-=tmpFile->getPlayTime();
+            if(size==j){
+                tmp_i= _files->constBegin();
+                nextFile= tmp_i.value();
+                nextId=nextFile->getA_id();
+
             }
         }
         else if(flag==true){
@@ -133,7 +135,6 @@ void rotable::AdvertisingContainer::playTimeNextElement(int id)
             nextFile = _files->value(nextId);
         }
         ++i;
-        ++j;
     }
     if(!calculatePercentNextElement_PlayTime(SumOfplayTimes))
         playTimeNextElement(nextId);
