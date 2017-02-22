@@ -23,8 +23,10 @@ Controller::Controller(MainWindow *mainwindow, const QString &configFilePath)
   _categoryListModel = new CategoryListModel(this);
   _categoryListModel->setProductContainer(&_products);
   _categoryListModel->setImageContainer(&_images);
+  _executor.setCategoryTableModel(_categoryListModel);
 
   _mainwindow->_ui->_listViewCategories->setModel(_categoryListModel);
+  _executor.setTableViewCategory(_mainwindow->_ui->_listViewCategories);
 
   _productTableModel = new ProductTableModel(this);
   _productTableModel->setProductContainer(&_products);
@@ -32,7 +34,7 @@ Controller::Controller(MainWindow *mainwindow, const QString &configFilePath)
   _executor.setProductTableModel(_productTableModel);
 
   _mainwindow->_ui->_tableViewProducts->setModel(_productTableModel);
-  _executor.setTableViewProducts(mainwindow->_ui->_tableViewProducts);
+  _executor.setTableViewProducts(_mainwindow->_ui->_tableViewProducts);
 
   _userTableModel = new UserTableModel();
   _userTableModel->setUserContainer(&_users);

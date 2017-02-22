@@ -617,14 +617,7 @@ void Executor::onProductUp() {
           _products->product(sequence[_selectedProduct->sequence() - 1]);
       _selectedProduct->up();
       product_second->down();
-      int id=_selectedProduct->id();
-      int sequence=_selectedProduct->sequence();
-      qDebug()<<"selected id:"<<id<<" sequence:"<<sequence;
-      QItemSelectionModel *selectionModel= _productTableView->selectionModel();
-      QModelIndex topLeft = _productTableModel->index(_selectedProduct->sequence()-1, 0, QModelIndex());
-      QModelIndex bottomRight = _productTableModel->index(_selectedProduct->sequence()-1, 0, QModelIndex());
-      QItemSelection selection(topLeft, bottomRight);
-      selectionModel->select(selection, QItemSelectionModel::Select);
+      changingSelection(productModel,up);
     }
   }
 }
@@ -639,12 +632,7 @@ void Executor::onProductDown() {
           _products->product(sequence[_selectedProduct->sequence() + 1]);
       _selectedProduct->down();
       product_second->up();
-      QItemSelectionModel *selectionModel= _productTableView->selectionModel();
-      QModelIndex topLeft = _productTableModel->index(0, 0, QModelIndex());
-      QModelIndex bottomRight = _productTableModel->index(0, 0, QModelIndex());
-      QItemSelection selection(topLeft, bottomRight);
-      selectionModel->select(selection, QItemSelectionModel::Select);
-
+      changingSelection(productModel,down);
     }
   }
 }
@@ -659,11 +647,7 @@ void Executor::onCategoryUp() {
           _products->category(sequence[_selectedCategory->sequence() - 1]);
       _selectedCategory->up();
       category_second->down();
-      QItemSelectionModel *selectionModel= _productTableView->selectionModel();
-      QModelIndex topLeft = _productTableModel->index(0, 0, QModelIndex());
-      QModelIndex bottomRight = _productTableModel->index(0, 0, QModelIndex());
-      QItemSelection selection(topLeft, bottomRight);
-      selectionModel->select(selection, QItemSelectionModel::Select);
+      changingSelection(categoryModel,up);
     }
   }
 }
@@ -678,13 +662,44 @@ void Executor::onCategoryDown() {
           _products->category(sequence[_selectedCategory->sequence() + 1]);
       _selectedCategory->down();
       category_second->up();
-      QItemSelectionModel *selectionModel= _productTableView->selectionModel();
-      QModelIndex topLeft = _productTableModel->index(0, 0, QModelIndex());
-      QModelIndex bottomRight = _productTableModel->index(0, 0, QModelIndex());
-      QItemSelection selection(topLeft, bottomRight);
-      selectionModel->select(selection, QItemSelectionModel::Select);
+      changingSelection(categoryModel,down);
     }
   }
+}
+
+//------------------------------------------------------------------------------
+void Executor::changingSelection(tableModel model,direction direct)
+{
+    QItemSelectionModel *selectionModel;
+    QModelIndex topLeft;
+    QModelIndex bottomRight ;
+
+    switch (model){
+    case productModel:
+        selectionModel= _productTableView->selectionModel();
+        if(direct==up){
+            topLeft = _productTableModel->index(_selectedProduct->sequence()-1, 0, QModelIndex());
+            bottomRight = _productTableModel->index(_selectedProduct->sequence()-1, 0, QModelIndex());
+        }
+        else if(direct==down){
+            topLeft = _productTableModel->index(_selectedProduct->sequence()+1, 0, QModelIndex());
+            bottomRight = _productTableModel->index(_selectedProduct->sequence()+1, 0, QModelIndex());
+        }break;
+    case categoryModel:
+        selectionModel= _categoryTableView->selectionModel();
+        if(direct==up){
+            topLeft = _categoryTableModel->index(_selectedCategory->sequence()-1, 0, QModelIndex());
+            bottomRight = _categoryTableModel->index(_selectedCategory->sequence()-1, 0, QModelIndex());
+        }
+        else if(direct==down){
+            topLeft = _categoryTableModel->index(_selectedCategory->sequence()+1, 0, QModelIndex());
+            bottomRight = _categoryTableModel->index(_selectedCategory->sequence()+1, 0, QModelIndex());
+        }break;
+    default:
+        qCritical()<<"non exisiting model (selection changing)";
+    }
+    QItemSelection selection(topLeft, bottomRight);
+    selectionModel->select(selection, QItemSelectionModel::Select);
 }
 
 //------------------------------------------------------------------------------

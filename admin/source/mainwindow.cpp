@@ -281,12 +281,6 @@ void MainWindow::onDown() {
   // First we check if we select prodct (when product is selected also category
   // is selected)
   if (_ui->_tableViewProducts->selectionModel()->hasSelection()) {
-     /*QItemSelectionModel *selectionModel= _ui->_tableViewProducts->selectionModel();
-     _p_tableModel= _contoller->_productTableModel;
-     QModelIndex topLeft = _p_tableModel->index(0, 0, QModelIndex());
-     QModelIndex bottomRight = _p_tableModel->index(0, 4, QModelIndex());
-     QItemSelection selection(topLeft, bottomRight);
-     selectionModel->select(selection, QItemSelectionModel::Select);*/
      emit actionProductDown();
     return;
   }

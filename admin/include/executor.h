@@ -15,6 +15,8 @@
 #include "systemupdate.h"
 #include "producttablemodel.h"
 #include "producttableview.h"
+#include "categorylistmodel.h"
+#include "categorylistview.h"
 #include <QItemSelection>
 #include <QObject>
 
@@ -72,7 +74,11 @@ public:
 
   inline void setProductTableModel(ProductTableModel* productTableModel){ _productTableModel=productTableModel;}
 
+  inline void setCategoryTableModel(CategoryListModel* categoryTableModel){ _categoryTableModel=categoryTableModel;}
+
   inline void setTableViewProducts(ProductTableView * productTableView){_productTableView =productTableView;}
+
+  inline void setTableViewCategory(CategoryListView * categoryTableView){_categoryTableView =categoryTableView;}
 signals:
   /**
    * @brief
@@ -372,6 +378,17 @@ private slots:
   void onWaiterCategoryRemove(int categoryId);
 
 private:
+
+  enum tableModel{
+      productModel=0,
+      categoryModel
+  };
+
+  enum direction{
+      up=0,
+      down
+  };
+
   /**
    * @brief
    *
@@ -469,6 +486,8 @@ private:
    */
   void userSelectionChange();
 
+  void changingSelection(tableModel model,direction direct);
+
   /* MainWindow object */
   MainWindow *_mainwindow;
 
@@ -509,7 +528,11 @@ private:
 
   ProductTableModel* _productTableModel;
 
+  CategoryListModel* _categoryTableModel;
+
   ProductTableView* _productTableView;
+
+  CategoryListView* _categoryTableView;
 
 };                                      // class Executor
 
