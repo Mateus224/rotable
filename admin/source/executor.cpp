@@ -617,7 +617,7 @@ void Executor::onProductUp() {
           _products->product(sequence[_selectedProduct->sequence() - 1]);
       _selectedProduct->up();
       product_second->down();
-      changingSelection(productModel,up);
+      changingSelection(productModel);
     }
   }
 }
@@ -632,7 +632,7 @@ void Executor::onProductDown() {
           _products->product(sequence[_selectedProduct->sequence() + 1]);
       _selectedProduct->down();
       product_second->up();
-      changingSelection(productModel,down);
+      changingSelection(productModel);
     }
   }
 }
@@ -647,7 +647,7 @@ void Executor::onCategoryUp() {
           _products->category(sequence[_selectedCategory->sequence() - 1]);
       _selectedCategory->up();
       category_second->down();
-      changingSelection(categoryModel,up);
+      changingSelection(categoryModel);
     }
   }
 }
@@ -662,13 +662,13 @@ void Executor::onCategoryDown() {
           _products->category(sequence[_selectedCategory->sequence() + 1]);
       _selectedCategory->down();
       category_second->up();
-      changingSelection(categoryModel,down);
+      changingSelection(categoryModel);
     }
   }
 }
 
 //------------------------------------------------------------------------------
-void Executor::changingSelection(tableModel model,direction direct)
+void Executor::changingSelection(tableModel model)
 {
     QItemSelectionModel *selectionModel;
     QModelIndex topLeft;
@@ -677,24 +677,15 @@ void Executor::changingSelection(tableModel model,direction direct)
     switch (model){
     case productModel:
         selectionModel= _productTableView->selectionModel();
-        if(direct==up){
-            topLeft = _productTableModel->index(_selectedProduct->sequence()-1, 0, QModelIndex());
-            bottomRight = _productTableModel->index(_selectedProduct->sequence()-1, 0, QModelIndex());
-        }
-        else if(direct==down){
-            topLeft = _productTableModel->index(_selectedProduct->sequence()+1, 0, QModelIndex());
-            bottomRight = _productTableModel->index(_selectedProduct->sequence()+1, 0, QModelIndex());
-        }break;
+        topLeft = _productTableModel->index(_selectedProduct->sequence()-1, 0, QModelIndex());
+        bottomRight = _productTableModel->index(_selectedProduct->sequence()-1, 0, QModelIndex());
+        break;
     case categoryModel:
         selectionModel= _categoryTableView->selectionModel();
-        if(direct==up){
-            topLeft = _categoryTableModel->index(_selectedCategory->sequence()-1, 0, QModelIndex());
-            bottomRight = _categoryTableModel->index(_selectedCategory->sequence()-1, 0, QModelIndex());
-        }
-        else if(direct==down){
-            topLeft = _categoryTableModel->index(_selectedCategory->sequence()+1, 0, QModelIndex());
-            bottomRight = _categoryTableModel->index(_selectedCategory->sequence()+1, 0, QModelIndex());
-        }break;
+        topLeft = _categoryTableModel->index(_selectedCategory->sequence()-1, 0, QModelIndex());
+        bottomRight = _categoryTableModel->index(_selectedCategory->sequence()-1, 0, QModelIndex());
+
+        break;
     default:
         qCritical()<<"non exisiting model (selection changing)";
     }

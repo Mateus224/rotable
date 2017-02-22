@@ -384,11 +384,6 @@ private:
       categoryModel
   };
 
-  enum direction{
-      up=0,
-      down
-  };
-
   /**
    * @brief
    *
@@ -486,7 +481,7 @@ private:
    */
   void userSelectionChange();
 
-  void changingSelection(tableModel model,direction direct);
+  void changingSelection(tableModel model);
 
   /* MainWindow object */
   MainWindow *_mainwindow;
