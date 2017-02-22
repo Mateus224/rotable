@@ -722,7 +722,14 @@ bool Server::setData(ComPackageDataSet *set, client_t client) {
   case ComPackage::SetAdvertisingConfig: {
       // this have to be changed if there will be more informations in future (new AdvertisingConfig class)
       if(_db.addAdvertisingConfig(set->data().toInt()))
+      {
+          int newFrequence=set->data().toInt();
+          ComPackageDataChanged dc;
+          dc.setDataCategory(ComPackage::RequestAdvertisingConfig);
+          dc.setDataName(QString("%1").arg(newFrequence));
+          send_to_users(dc, rotable::ComPackage::AdminAccount);
           return true;
+      }
       else
           return false;
   }break;
@@ -1004,7 +1011,6 @@ bool Server::updateAdvertising(AdvertisingVideo *advertising) {
   return false;
 }
 
-//------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
 

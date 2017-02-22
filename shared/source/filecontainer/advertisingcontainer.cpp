@@ -120,9 +120,9 @@ void rotable::AdvertisingContainer::playTimeNextElement(int id)
         if(tmpFile->getA_id()==id){
             flag=true;
             size=_files->size();
-            if(size==j){
+            if(size==j){    //if you make a change at the last element you have to check the first element (kind of ring List)
                 if(size==1)
-                    SumOfplayTimes=0;
+                    SumOfplayTimes=0; //if only one element is in the list it have be always 100%
                 tmp_i= _files->constBegin();
                 nextFile= tmp_i.value();
                 nextId=nextFile->getA_id();

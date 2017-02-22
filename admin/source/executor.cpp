@@ -1099,9 +1099,8 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
       //qDebug()<<"es kommt hier an"<<qSetRealNumberPrecision(2)<< systemupdate->getCurrentVersion()<<" \n";
   }break;
   case ComPackage::RequestAdvertisingConfig: {
-      int frequency= package->data().toInt();
-       emit _mainwindow->setFrequencePlayTime(frequency);
-      qDebug()<<"es kommt hier an"<<frequency;
+      int frequence= package->data().toInt();
+       emit _mainwindow->setFrequencePlayTime(frequence);
   }break;
   default: { qCritical() << tr("Unknown data package \"requestMedia\" returned"); } break;
   }
@@ -1157,6 +1156,10 @@ void Executor::dataChanged(ComPackageDataChanged *package) {
     case ComPackage::RequestMediaIds: {
       _files->clear();
       requestMediaIds();
+    } break;
+    case ComPackage::RequestAdvertisingConfig: {
+      int frequence= package->dataName().toInt();
+      emit _mainwindow->setFrequencePlayTime(frequence);
     } break;
     default: {
       qCritical() << tr("Unknown data changed category '%1' received!")
