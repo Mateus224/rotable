@@ -617,9 +617,12 @@ void Executor::onProductUp() {
           _products->product(sequence[_selectedProduct->sequence() - 1]);
       _selectedProduct->up();
       product_second->down();
+      int id=_selectedProduct->id();
+      int sequence=_selectedProduct->sequence();
+      qDebug()<<"selected id:"<<id<<" sequence:"<<sequence;
       QItemSelectionModel *selectionModel= _productTableView->selectionModel();
-      QModelIndex topLeft = _productTableModel->index(0, 0, QModelIndex());
-      QModelIndex bottomRight = _productTableModel->index(0, 0, QModelIndex());
+      QModelIndex topLeft = _productTableModel->index(_selectedProduct->sequence()-1, 0, QModelIndex());
+      QModelIndex bottomRight = _productTableModel->index(_selectedProduct->sequence()-1, 0, QModelIndex());
       QItemSelection selection(topLeft, bottomRight);
       selectionModel->select(selection, QItemSelectionModel::Select);
     }
