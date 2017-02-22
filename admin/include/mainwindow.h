@@ -8,6 +8,7 @@
 #endif
 
 #include "logmanager.h"
+#include "controller.h"
 
 //------------------------------------------------------------------------------
 
@@ -260,6 +261,11 @@ public slots:
   */
  void onDown();
 
+public:
+
+ /* UI */
+ Ui::MainWindow* _ui;
+
 
 protected:
  /**
@@ -277,8 +283,7 @@ protected:
  void keyPressEvent(QKeyEvent *event);
 
 private:
- /* UI */
- Ui::MainWindow* _ui;
+
 
  /* Whether the application is currently shutting down. */
  bool _isClosing;

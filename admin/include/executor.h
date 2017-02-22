@@ -13,6 +13,8 @@
 #include "filecontainer/advertisingcontainer.h"
 #include "dialog/systemupdatedialog.h"
 #include "systemupdate.h"
+#include "producttablemodel.h"
+#include "producttableview.h"
 #include <QItemSelection>
 #include <QObject>
 
@@ -68,6 +70,9 @@ public:
 
   void setFileContainer(rotable::AdvertisingContainer *file);
 
+  inline void setProductTableModel(ProductTableModel* productTableModel){ _productTableModel=productTableModel;}
+
+  inline void setTableViewProducts(ProductTableView * productTableView){_productTableView =productTableView;}
 signals:
   /**
    * @brief
@@ -501,6 +506,11 @@ private:
   rotable::Product *_selectedProduct; /**< TODO: describe */
 
   ServerLogListener _serverLogListener; /**< TODO: describe */
+
+  ProductTableModel* _productTableModel;
+
+  ProductTableView* _productTableView;
+
 };                                      // class Executor
 
 //------------------------------------------------------------------------------

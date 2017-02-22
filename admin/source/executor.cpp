@@ -617,6 +617,11 @@ void Executor::onProductUp() {
           _products->product(sequence[_selectedProduct->sequence() - 1]);
       _selectedProduct->up();
       product_second->down();
+      QItemSelectionModel *selectionModel= _productTableView->selectionModel();
+      QModelIndex topLeft = _productTableModel->index(0, 0, QModelIndex());
+      QModelIndex bottomRight = _productTableModel->index(0, 0, QModelIndex());
+      QItemSelection selection(topLeft, bottomRight);
+      selectionModel->select(selection, QItemSelectionModel::Select);
     }
   }
 }
@@ -631,6 +636,12 @@ void Executor::onProductDown() {
           _products->product(sequence[_selectedProduct->sequence() + 1]);
       _selectedProduct->down();
       product_second->up();
+      QItemSelectionModel *selectionModel= _productTableView->selectionModel();
+      QModelIndex topLeft = _productTableModel->index(0, 0, QModelIndex());
+      QModelIndex bottomRight = _productTableModel->index(0, 0, QModelIndex());
+      QItemSelection selection(topLeft, bottomRight);
+      selectionModel->select(selection, QItemSelectionModel::Select);
+
     }
   }
 }
@@ -645,6 +656,11 @@ void Executor::onCategoryUp() {
           _products->category(sequence[_selectedCategory->sequence() - 1]);
       _selectedCategory->up();
       category_second->down();
+      QItemSelectionModel *selectionModel= _productTableView->selectionModel();
+      QModelIndex topLeft = _productTableModel->index(0, 0, QModelIndex());
+      QModelIndex bottomRight = _productTableModel->index(0, 0, QModelIndex());
+      QItemSelection selection(topLeft, bottomRight);
+      selectionModel->select(selection, QItemSelectionModel::Select);
     }
   }
 }
@@ -659,6 +675,11 @@ void Executor::onCategoryDown() {
           _products->category(sequence[_selectedCategory->sequence() + 1]);
       _selectedCategory->down();
       category_second->up();
+      QItemSelectionModel *selectionModel= _productTableView->selectionModel();
+      QModelIndex topLeft = _productTableModel->index(0, 0, QModelIndex());
+      QModelIndex bottomRight = _productTableModel->index(0, 0, QModelIndex());
+      QItemSelection selection(topLeft, bottomRight);
+      selectionModel->select(selection, QItemSelectionModel::Select);
     }
   }
 }

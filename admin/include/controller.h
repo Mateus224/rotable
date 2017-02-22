@@ -49,6 +49,7 @@ public:
    */
   void connect_signals();
 
+
 private:
   /* MainWindow */
   MainWindow* _mainwindow;

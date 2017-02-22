@@ -29,8 +29,10 @@ Controller::Controller(MainWindow *mainwindow, const QString &configFilePath)
   _productTableModel = new ProductTableModel(this);
   _productTableModel->setProductContainer(&_products);
   _productTableModel->setImageContainer(&_images);
+  _executor.setProductTableModel(_productTableModel);
 
   _mainwindow->_ui->_tableViewProducts->setModel(_productTableModel);
+  _executor.setTableViewProducts(mainwindow->_ui->_tableViewProducts);
 
   _userTableModel = new UserTableModel();
   _userTableModel->setUserContainer(&_users);
