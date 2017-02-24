@@ -22,7 +22,7 @@ TableModel::~TableModel() {
 
 //-----------------------------------------------------
 
-void TableModel::clearTableModel() {
+void TableModel::clearOrders() {
       foreach (Table *table, _tables) {
           table->_orders.clear();
       }

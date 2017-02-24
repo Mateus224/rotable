@@ -348,6 +348,11 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
       _products->updateProduct(product);
     } break;
 
+    case ComPackage::RequestWaiterCategories:
+    {
+        requestTableList();
+    }
+
     case ComPackage::RequestTableIds:
     {
       //TODO: create property table
@@ -415,7 +420,7 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
     } break;
     default:
     {
-      qCritical() << tr("Unknown data package returned");
+      qCritical() << tr("Unknown data package returned")<<package->dataCategory();
     } break;
 
     }
@@ -601,7 +606,7 @@ void Waiter_Client::dataChanged(rotable::ComPackageDataChanged *package)
     } break;
     case ComPackage::RequestUser:
     {
-        _tables.clearTableModel();
+        _tables.clearOrders();
         ComPackageDataRequest* request= new ComPackageDataRequest();
         request->setDataCategory(ComPackage::RequestWaiterCategories);
         if (!_tcp.send(*request)) {
@@ -609,7 +614,6 @@ void Waiter_Client::dataChanged(rotable::ComPackageDataChanged *package)
         } else {
           _dataRequest[request->id()] = request;
         }
-        requestTableList();
     } break;
     default:
     {

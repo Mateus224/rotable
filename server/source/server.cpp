@@ -566,6 +566,7 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
       Waiter *UpdatedWaiter = reinterpret_cast<Waiter*>(_db.client(waiter->id()));
       _waiterList.insert(client,UpdatedWaiter);
       ComPackageDataReturn *ret =new ComPackageDataReturn();
+      ret->setDataCategory(ComPackage::RequestWaiterCategories);
       return ret;
     }
   } break;
