@@ -299,6 +299,7 @@ private:
    */
   bool ifAdmin(int connection) const;
 
+  bool ifWaiter(int connection) const;
   /**
    * @brief Update logged Waiter categories
    *

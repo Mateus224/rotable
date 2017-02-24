@@ -22,6 +22,18 @@ TableModel::~TableModel() {
 
 //-----------------------------------------------------
 
+void TableModel::clearTableModel() {
+      foreach (Table *table, _tables) {
+          table->_orders.clear();
+      }
+
+    //_orderList.clear();
+    beginResetModel();
+    endResetModel();
+}
+
+//-----------------------------------------------------
+
 QHash<int, QByteArray> TableModel::roleNames() const {
   QHash<int, QByteArray> roles;
 

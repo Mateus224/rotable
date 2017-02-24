@@ -208,6 +208,11 @@ public:
 
   int getincomingOrderCount() const { return _incomingOrderCount; }
 
+  /**
+   * Store orders, int - orderId
+   */
+  QMap<int, rotable::Order *> _orders;
+
 protected:
   virtual void addAdditionalData(QJsonObject &obj) const;
   virtual void setAdditionalData(QJsonObject &obj);
@@ -218,10 +223,7 @@ private:
    */
   void recalcLastOrder();
 
-  /**
-   * Store orders, int - orderId
-   */
-  QMap<int, rotable::Order *> _orders;
+
 
   /**
    * Store status table

@@ -374,7 +374,8 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
           emit table->incomingOrderCountChanged();
       }
       else
-          delete table;
+          requestOrderOnTable(table->id());
+          //delete table;
 
     } break;
 
@@ -597,6 +598,18 @@ void Waiter_Client::dataChanged(rotable::ComPackageDataChanged *package)
         } else {
           requestOrder(orderId);
         }
+    } break;
+    case ComPackage::RequestUser:
+    {
+        _tables.clearTableModel();
+        ComPackageDataRequest* request= new ComPackageDataRequest();
+        request->setDataCategory(ComPackage::RequestWaiterCategories);
+        if (!_tcp.send(*request)) {
+          qCritical() << tr("Could not send request!");
+        } else {
+          _dataRequest[request->id()] = request;
+        }
+        requestTableList();
     } break;
     default:
     {

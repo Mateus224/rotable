@@ -560,6 +560,15 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
       }
     }
   } break;
+  case ComPackage::RequestWaiterCategories:{
+    if (ifWaiter(client)) {
+      Waiter* waiter=_waiterList.take(client);
+      Waiter *UpdatedWaiter = reinterpret_cast<Waiter*>(_db.client(waiter->id()));
+      _waiterList.insert(client,UpdatedWaiter);
+      ComPackageDataReturn *ret =new ComPackageDataReturn();
+      return ret;
+    }
+  } break;
   case ComPackage::RequestMediaIds: {
     QList<int>* ids;
     if (ids=_db.getMediaIdByType(ComPackage::AdvertisingVideo)) {
@@ -1097,7 +1106,8 @@ bool Server::executeCommand(ComPackageCommand *package) {
         ComPackageDataChanged dc;
         dc.setDataCategory(ComPackage::RequestUser);
         dc.setDataName(QString("%1").arg(arr[0].toInt()));
-        send_to_users(dc, 2);
+        send_to_users(dc, rotable::ComPackage::AdminAccount);
+        send_to_users(dc, rotable::ComPackage::WaiterAccount);
         return true;
       }
     } break;
@@ -1110,7 +1120,8 @@ bool Server::executeCommand(ComPackageCommand *package) {
         ComPackageDataChanged dc;
         dc.setDataCategory(ComPackage::RequestUser);
         dc.setDataName(QString("%1").arg(arr[0].toInt()));
-        send_to_users(dc, 2);
+        send_to_users(dc, rotable::ComPackage::AdminAccount);
+        send_to_users(dc, rotable::ComPackage::WaiterAccount);
         return true;
       }  
     } break;
@@ -1375,7 +1386,15 @@ void Server::sendQueueOrders() {
 //------------------------------------------------------------------------------
 
 bool Server::ifAdmin(int connection) const {
-  if (_users[2].contains(connection))
+  if (_users[rotable::ComPackage::AdminAccount].contains(connection))
+    return true;
+  return false;
+}
+
+//------------------------------------------------------------------------------
+
+bool Server::ifWaiter(int connection) const {
+  if (_users[rotable::ComPackage::WaiterAccount].contains(connection))
     return true;
   return false;
 }

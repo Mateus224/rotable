@@ -68,6 +68,8 @@ public:
     */
     ~TableModel();
 
+    void clearTableModel();
+
     //-----------------------------------------------------
     // Virtual method from QAbstractListModel
     //-----------------------------------------------------

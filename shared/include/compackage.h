@@ -137,6 +137,9 @@ public:
     /* Request user data 15*/
     RequestUser,
 
+     /*Request WaiterCategories after changing*/
+    RequestWaiterCategories,
+
     /* Request Media IDs 16*/
     RequestMediaIds,
 

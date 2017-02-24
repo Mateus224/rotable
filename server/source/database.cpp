@@ -2110,7 +2110,6 @@ bool Database::addWaiterCategoires(const int &waiterId,
   foreach(auto var , *categoryList){
     QString queryStr = _sqlCommands[DatabaseTables::WaiterCategories]._insert.arg(
         _prefix, ":waiter_id", ":category_id");
-    qCritical() << "test2"<<"\n"<<var;
     QSqlQuery q(_db);
     q.setForwardOnly(true);
 
