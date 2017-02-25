@@ -83,7 +83,7 @@ QJsonValue Order::toJSON() const
     o["state"] = _state;
     o["waiterState"] = _waiterState;
     o["clientId"] = _clientId;
-    o["timeSend"] = _timeSent.toString();
+    o["timeSend"] = _timeSent.toString("hh:mm");
 
     // Convert list of OrderItem to JSON array
     QJsonArray arr;
