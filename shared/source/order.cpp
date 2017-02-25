@@ -118,7 +118,7 @@ rotable::Order *Order::fromJSON(const QJsonValue &jval)
       order->_waiterState = o["waiterState"].toInt();
       order->_clientId = o["clientId"].toInt();
       //Conver to string and next to QDateTime
-      order->_timeSent = QDateTime::fromString(o["timeSend"].toString());
+      order->_timeSent = QDateTime::fromString(o["timeSend"].toString(),"hh:mm");
 
       QJsonArray array = o["items"].toArray();
       foreach(QJsonValue value, array){
