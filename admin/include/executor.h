@@ -529,6 +529,10 @@ private:
 
   CategoryListView* _categoryTableView;
 
+  /*this int stores the current frequence to check if there is a change
+    this is need at starting program*/
+  int _dataBaseFrequnceAdvertising;
+
 };                                      // class Executor
 
 //------------------------------------------------------------------------------

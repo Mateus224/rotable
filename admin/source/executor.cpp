@@ -330,14 +330,16 @@ void Executor::onUpdateAdvertisingVideo(AdvertisingVideo* advertisingVideo)
     }
 }
 
-void Executor::onUpdateFrequencePlayTime(int minutes)
+void Executor::onUpdateFrequencePlayTime(int changedFrequenceAdvertising)
 {
-    ComPackageDataSet set;
-    set.setDataCategory(ComPackage::SetAdvertisingConfig);
-    set.setData(minutes);
+    if(changedFrequenceAdvertising!=_dataBaseFrequnceAdvertising){
+        ComPackageDataSet set;
+        set.setDataCategory(ComPackage::SetAdvertisingConfig);
+        set.setData(changedFrequenceAdvertising);
 
-    if (!_tcp_client.send(set)) {
-      qCritical() << tr("FATAL: Could not send data set package!");
+        if (!_tcp_client.send(set)) {
+          qCritical() << tr("FATAL: Could not send data set package!");
+        }
     }
 }
 
@@ -1130,6 +1132,7 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
   }break;
   case ComPackage::RequestAdvertisingConfig: {
       int frequence= package->data().toInt();
+      _dataBaseFrequnceAdvertising=frequence;
        emit _mainwindow->setFrequencePlayTime(frequence);
   }break;
   default: { qCritical() << tr("Unknown data package \"requestMedia\" returned"); } break;
@@ -1189,6 +1192,7 @@ void Executor::dataChanged(ComPackageDataChanged *package) {
     } break;
     case ComPackage::RequestAdvertisingConfig: {
       int frequence= package->dataName().toInt();
+      _dataBaseFrequnceAdvertising=frequence;
       emit _mainwindow->setFrequencePlayTime(frequence);
     } break;
     default: {
