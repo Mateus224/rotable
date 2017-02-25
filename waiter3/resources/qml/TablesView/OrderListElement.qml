@@ -116,7 +116,7 @@ Rectangle{
     Image {
         id: touchImage
 
-        source: "qrc:/resources/images/fingerprint.jpg"
+        source: "qrc:/resources/images/fingerprint.png"
         fillMode: Image.PreserveAspectFit
 
         anchors.left: parent.left
