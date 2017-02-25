@@ -699,7 +699,6 @@ bool Server::setData(ComPackageDataSet *set, client_t client) {
     int i  = 0; // i++?
 
 
-
     foreach (QJsonValue file, arr) {
       QByteArray ba = QByteArray::fromBase64(file.toString().toLocal8Bit(),
                                              QByteArray::Base64UrlEncoding);
