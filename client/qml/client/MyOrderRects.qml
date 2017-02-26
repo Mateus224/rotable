@@ -2,7 +2,7 @@ import QtQuick 2.0
 
 Rectangle {
     anchors.fill: parent
-    anchors.topMargin: (parent.height * 0.1)*3/2
+    anchors.topMargin: (parent.height * 0.115)*1.5
     anchors.leftMargin: (parent.width * (1.0 - 0.805) / 2.0)*2/3*(1/2*0.82)
     anchors.rightMargin: (parent.width * (1.0 - 0.805) / 2.0)*2/3*(1/2*0.82)
     anchors.bottomMargin: (parent.height * (0.09125 + 0.10 + 0.125))*0.82
@@ -206,11 +206,16 @@ Rectangle {
                         height: heightINFO
                         gradient: clubcolorsrevers
                         Rectangle {
-                            anchors.verticalCenter:parent.verticalCenter
-                            x:parent.width/4
-                            width: parent.width/4
                             id: sendOrderButton
+
+                            anchors.verticalCenter:parent.verticalCenter
+                            anchors.left: parent.left
+                            anchors.leftMargin: parent.width * 0.1
+                            //x:parent.width/4
+
+                            width: parent.width*0.4
                             height: parent.height*0.66
+
                             border.color: "#8772c0"
                             border.width: 2
                             color: defcolor
@@ -244,7 +249,7 @@ Rectangle {
                                     parent.color=defcolor
                                 }
                                 Text {
-                                    font.family: "FreeSans"; font.pointSize: fontSize; font.bold: true
+                                    font.family: "FreeSans"; font.pointSize: fontSize * 0.9; font.bold: true
                                     text:  qsTr("Send Order")+langObject.emptyString
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
@@ -253,8 +258,12 @@ Rectangle {
                         }
                         Rectangle {
                             id: endPriceDoub
-                            x:parent.width/2
-                            width: parent.width/2;
+                            //x:parent.width/2
+                            anchors.right: parent.right
+                            anchors.rightMargin: parent.width * 0.1
+                            anchors.left: sendOrderButton.right
+                            anchors.leftMargin: parent.width * 0.1
+                            //width: parent.width/2;
                             height: heightINFO
                             gradient: clubcolorsrevers
                             Text {

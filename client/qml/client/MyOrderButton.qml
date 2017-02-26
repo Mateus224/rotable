@@ -4,7 +4,7 @@ Rectangle {
     anchors.bottom: parent.bottom
     anchors.horizontalCenter:  parent.horizontalCenter
     anchors.bottomMargin: parent.height * 0.175 //0.2
-    width: parent.width * 0.35 //0.4
+    width: parent.width * 0.38 //0.4
     height: parent.height * 0.07 //0.8
     Gradient {
         id: clubcolorsrevers
@@ -14,7 +14,7 @@ Rectangle {
     Gradient {
         id: clubcolors
         GradientStop { position: 0.0; color:"#f9a8d8"}//"#8EE2FE"}
-        GradientStop { position: 0.90; color: "#000000"}
+        GradientStop { position: 0.95; color: "#000000"}
     }
     gradient: clubcolorsrevers
     property string myorderscreen: "MYORDERSCREEN"
@@ -40,7 +40,7 @@ Rectangle {
         font.family: "FreeSans"
         color: "#000000"
         font.bold: true
-        font.pixelSize: parent.height * 0.8
+        font.pixelSize: parent.height * 0.75
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.rightMargin: parent.width * 0.1
