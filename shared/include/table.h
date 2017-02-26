@@ -155,6 +155,8 @@ public:
     connect(order, &rotable::Order::forceSendRequest, this,
             &rotable::Table::prepareOrderToSend);
     recalcIncomingOrders();
+    if (order->isNew()) _lastOrder = order->id();
+    emit lastOrderChange();
 #endif
     emit tableChanged();
     emit newOrderAdded();
