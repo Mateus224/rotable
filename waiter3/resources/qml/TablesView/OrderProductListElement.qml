@@ -7,7 +7,7 @@ Rectangle {
     property int borderWidth: Math.max(2,parent.width * 0.01)
     property int itemWidth: Math.max(parent.width,70)
 
-    property double dragThreshold: 0.2
+    property double dragThreshold: 0.4
 
     width: itemWidth
     anchors.horizontalCenter: parent.horizontalCenter
@@ -44,8 +44,8 @@ Rectangle {
         border.width: borderWidth
         border.color: waiterMain.productBorderColor
 
-        property int maxLeft: -width * 0.87
-        property int maxRight: width * 0.87
+        property int maxLeft: -width * 0.75
+        property int maxRight: width * 0.75
 
         z:1
 
