@@ -8,6 +8,7 @@ Rectangle {
     property int itemWidth: Math.max(parent.width,70)
 
     property double dragThreshold: 0.4
+    property double hideDragThreshold: 0.1
 
     width: itemWidth
     anchors.horizontalCenter: parent.horizontalCenter
@@ -60,7 +61,7 @@ Rectangle {
             if (dragActive) {
                 Drag.start();
             } else {
-                if (parent.dragState==="Product")
+                if (parent.dragState==="Product" )
                 {
                     if (x < dragThreshold*maxLeft) {
                         parent.dragState="RemoveAll"
@@ -72,22 +73,19 @@ Rectangle {
                     }
                     else goMiddle.start()
                 }
-                else if (parent.dragState==="RemoveOne")
+                else if (parent.dragState==="RemoveAll")
                 {
-                    if (x > (1-dragThreshold)*maxRight) goRight.start()
-                    else if (x > 0) {
+                    if (x>(1-hideDragThreshold)*maxLeft)
+                    {
                         parent.dragState="Product"
                         goMiddle.start()
                     }
-                    else {
-                        parent.dragState="RemoveAll"
-                        goLeft.start()
-                    }
+                    else goLeft.start()
                 }
                 else
                 {
-                    if (x < (1-dragThreshold)*maxLeft) goLeft.start()
-                    if (x < 0) {
+                    if (x<(1-hideDragThreshold)*maxRight)
+                    {
                         parent.dragState="Product"
                         goMiddle.start()
                     }
