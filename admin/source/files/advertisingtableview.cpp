@@ -9,7 +9,6 @@ QTableView(parent)
 void AdvertisingTableView::selectionChanged(const QItemSelection& selected,
                                         const QItemSelection& /*deselected*/)
 {
-  Q_ASSERT(selected.indexes().count() <= 1);
   if (selected.indexes().count()) {
     QModelIndex selection = selected.indexes()[0];
     emit selectionChanged(selection.internalId());
