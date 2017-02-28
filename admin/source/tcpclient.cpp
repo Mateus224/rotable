@@ -126,6 +126,7 @@ bool TcpClient::send(const QByteArray d)
     return false;
   }
   qint64 bytesSent = _client.write(d);
+  _client.waitForBytesWritten();
   if (bytesSent != static_cast<qint64>(d.length())) {
     qCritical() << tr("Could not send package!");
     return false;
@@ -149,7 +150,7 @@ bool TcpClient::sendInPart(const ComPackage &p, int IDprogressBar)
         if(i%onePercent == 0 && i!=0)
         {
             count++;
-            send(string);
+            if (send(string));
             string.clear();
             emit progressBar(count,IDprogressBar);
         }

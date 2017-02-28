@@ -547,40 +547,54 @@ void Executor::onAddAdvertisingVideo()
     if(filePathList.isEmpty())
         return;
 
+    int size=0;
+    bool send=false;
     ComPackageSendFile package;
     foreach(QString path, filePathList)
     {
+
         /*make a StringList of the names from the files*/
         QStringList splitPath=path.split("/");
         QString fileName=splitPath.last();
-        fileNameList.append(fileName);
+        QFileInfo sizeInfo(path);
+        size+=sizeInfo.size();
 
-        /*make a StringList of files in base64*/
-        QFile file(path);
-        file.open(QIODevice::ReadOnly);
+        if(45*1024*1024>size){
+            qDebug()<<"größe:"<<sizeInfo.size();
+            fileNameList.append(fileName);
 
-        QByteArray ba;
-        QBuffer buffer(&ba);
-        ba = file.readAll();
-        package.byteArrayToBase64(ba);
+            /*make a StringList of files in base64*/
+            QFile file(path);
+            file.open(QIODevice::ReadOnly);
 
+            QByteArray ba;
+            QBuffer buffer(&ba);
+            ba = file.readAll();
+            package.byteArrayToBase64(ba);
+            send=true;
+        }
+        else{
+            send=false;
+            QMessageBox msgBox;
+            msgBox.setText(tr("To big file [max. 45MB]"));
+            msgBox.setStandardButtons(QMessageBox::Ok);
+            msgBox.setIcon(QMessageBox::Critical);
+            msgBox.exec();
+        }
     }
+    if(send==true){
+        package.setFileUsage(ComPackage::AdvertisingVideo);
+        package.setFileNames(fileNameList);
+        if (!_tcp_client.sendInPart(package,0)) {
+          qCritical() << tr("FATAL: Could not send data set package!");
 
+        QMessageBox msgBox;
+        msgBox.setText("Network I/O-Error!");
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.exec();
 
-    package.setFileUsage(ComPackage::AdvertisingVideo);
-    package.setFileNames(fileNameList);
-
-    if (!_tcp_client.sendInPart(package,0)) {
-      qCritical() << tr("FATAL: Could not send data set package!");
-
-
-
-    QMessageBox msgBox;
-    msgBox.setText("Network I/O-Error!");
-    msgBox.setStandardButtons(QMessageBox::Ok);
-    msgBox.setIcon(QMessageBox::Critical);
-    msgBox.exec();
-
+        }
     }
 }
 
@@ -1105,6 +1119,7 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
       {
           ad=reinterpret_cast <AdvertisingVideo*> (file);
           _files->addFile(ad);
+          SendProgressBarType(0, 0);
       }break;
 
       case ComPackage::AdvertisingPicture:
