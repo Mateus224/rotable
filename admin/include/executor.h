@@ -3,6 +3,7 @@
 
 //------------------------------------------------------------------------------
 
+#include "addnewvideo.h"
 #include "compackage.h"
 #include "configadmin.h"
 #include "serverloglistener.h"
@@ -79,6 +80,11 @@ public:
   inline void setTableViewProducts(ProductTableView * productTableView){_productTableView =productTableView;}
 
   inline void setTableViewCategory(CategoryListView * categoryTableView){_categoryTableView =categoryTableView;}
+
+private:
+  enum ProgressBarType{
+      AddAdvertising=0
+  };
 signals:
   /**
    * @brief
@@ -347,6 +353,8 @@ public slots:
 
   void handleSelectionChanged(const QItemSelection& selection);
 
+  void SendProgressBarType(int value, int type);
+
 private slots:
   /**
    * @brief
@@ -528,6 +536,8 @@ private:
   ProductTableView* _productTableView;
 
   CategoryListView* _categoryTableView;
+
+  AddNewVideo* _addNewVideo;
 
   /*this int stores the current frequence to check if there is a change
     this is need at starting program*/

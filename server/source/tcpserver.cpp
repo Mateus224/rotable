@@ -227,7 +227,6 @@ void TcpServer::socketStartRead()
   QByteArray& buffer = _clients[_socket2clients[socket]].buffer;
 
   buffer += socket->readAll();
-
   bool doContinue = true;
   do {
     QJsonDocument jdoc = QJsonDocument::fromBinaryData(buffer);

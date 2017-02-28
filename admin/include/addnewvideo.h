@@ -19,6 +19,7 @@ public:
     ~AddNewVideo();
 
     QStringList getStringVideo();
+    void progressBarChanged(int value);
 
 private slots:
     void on_addVideoButton_clicked();

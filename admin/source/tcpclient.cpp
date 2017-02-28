@@ -119,12 +119,57 @@ bool TcpClient::send(const ComPackage &p)
 
 //------------------------------------------------------------------------------
 
+bool TcpClient::send(const QByteArray d)
+{
+  if (!_client.isWritable()) {
+    qCritical() << tr("Socket is not writable!");
+    return false;
+  }
+  qint64 bytesSent = _client.write(d);
+  if (bytesSent != static_cast<qint64>(d.length())) {
+    qCritical() << tr("Could not send package!");
+    return false;
+  } else {
+    return true;
+  }
+}
+
+
+//------------------------------------------------------------------------------
+
+void TcpClient::sendInPart(const ComPackage &p, int IDprogressBar)
+{
+    QByteArray data = p.toByteArray();
+    QByteArray string;
+    int count = 0;
+    int onePercent=data.size()/100;
+
+    for(int i = 0; i < data.size(); i++)
+    {
+        if(i%onePercent == 0 && i!=0)
+        {
+            count++;
+            send(string);
+            string.clear();
+            emit progressBar(count,IDprogressBar);
+        }
+        string.append(data.at(i));
+    }
+    count++;
+    if(string.length()>0)
+        send(string);
+    emit progressBar(count,IDprogressBar);
+}
+
+//------------------------------------------------------------------------------
+
 void TcpClient::readPackage()
 {
   _buffer += _client.readAll();
-
+  int i=0;
   bool doContinue = true;
   do {
+    qDebug()<<"how long is i:"<<i;
     QJsonDocument jdoc = QJsonDocument::fromBinaryData(_buffer);
     if (jdoc.isNull()) {
       // we probably did not receive the full package yet

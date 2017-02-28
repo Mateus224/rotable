@@ -84,6 +84,8 @@ private:
 
   AdvertisingTableView _advertisingTableView;
 
+  TcpClient _tcp_client;
+
 }; // class Controller
 
 //------------------------------------------------------------------------------

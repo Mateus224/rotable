@@ -1,7 +1,6 @@
 #include "private/precomp.h"
 
 #include "addnewlicence.h"
-#include "addnewvideo.h"
 #include "addproductcategory.h"
 #include "addproductdialog.h"
 #include "adduserdialog.h"
@@ -26,6 +25,8 @@ Executor::Executor(MainWindow *mainwindow, const QString &configFilePath,
                    QObject *parent)
     : QObject(parent), _mainwindow(mainwindow), _config(configFilePath),
       _disconnectRequested(false), _images(0), _products(0), _tryLogin(false) {
+
+  _addNewVideo= new AddNewVideo(_mainwindow);
   connect(&_tcp_client, SIGNAL(connected()), this,
           SLOT(onConnectionEstablished()));
   connect(&_tcp_client, SIGNAL(disconnected()), this, SLOT(onConnectionLost()));
@@ -35,6 +36,8 @@ Executor::Executor(MainWindow *mainwindow, const QString &configFilePath,
           SLOT(onPackageReceived(rotable::ComPackage *)));
   connect(&_tcp_client, SIGNAL(error(QAbstractSocket::SocketError)), this,
           SLOT(onClientError(QAbstractSocket::SocketError)));
+  connect(&_tcp_client, SIGNAL(progressBar(int, int)), this,
+          SLOT(SendProgressBarType(int, int)));
   connect(&_serverLogListener, SIGNAL(connectionEstablished()), this,
           SIGNAL(serverLogConnectionEstablished()));
   connect(&_serverLogListener, SIGNAL(disconnected()), this,
@@ -46,6 +49,7 @@ Executor::Executor(MainWindow *mainwindow, const QString &configFilePath,
   //    qDebug() << tr("Could not load %1:
   //    %2").arg(configFilePath).arg(_config.errorStr());
   //  }
+
 }
 
 //------------------------------------------------------------------------------
@@ -535,12 +539,11 @@ void Executor::onAddAdvertisingVideo()
 
     QStringList fileNameList;
     QStringList files;
-    AddNewVideo dlg(_mainwindow);
 
-      if (dlg.exec() != QDialog::Accepted)
+      if (_addNewVideo->exec() != QDialog::Accepted)
           return;
       ;
-    QStringList filePathList = dlg.getStringVideo();
+    QStringList filePathList = _addNewVideo->getStringVideo();
     if(filePathList.isEmpty())
         return;
 
@@ -566,7 +569,6 @@ void Executor::onAddAdvertisingVideo()
 
     package.setFileUsage(ComPackage::AdvertisingVideo);
     package.setFileNames(fileNameList);
-    //package.setFiles(files);
 
     if (!_tcp_client.send(package)) {
       qCritical() << tr("FATAL: Could not send data set package!");
@@ -1226,6 +1228,17 @@ void Executor::userSelectionChange() {
   emit setUserButtons(true);
   emit setWaiterButton(_users->getSelectedUser()->accountType() == 0 ? true
                                                                      : false);
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::SendProgressBarType(int value, int type)
+{
+    switch (type){
+        case AddAdvertising:{
+            _addNewVideo->progressBarChanged(value);
+        }
+    }
 }
 
 //------------------------------------------------------------------------------

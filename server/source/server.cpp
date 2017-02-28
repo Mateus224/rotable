@@ -728,6 +728,18 @@ bool Server::setData(ComPackageDataSet *set, client_t client) {
         return false;
       }
   }
+  case ComPackage::RequestFile: {
+     /* int FileId=request->dataName().toInt();
+       if(Video)
+      {
+          ComPackageSendFile *file =
+                  new ComPackageSendFile();
+          delete Video;
+          return ret;
+      }else {
+          return false;
+        }*/
+  }break;
   case ComPackage::SetAdvertisingConfig: {
       // this have to be changed if there will be more informations in future (new AdvertisingConfig class)
       if(_db.addAdvertisingConfig(set->data().toInt()))

@@ -146,6 +146,9 @@ public:
     /*Request for Information about the Advertising Videos 17*/
     RequestMedia,
 
+     /*Request File for example advertisingVideos*/
+    RequestFile,
+
     /*Request installed and available Version 18*/
     RequestSystemVersions,
 

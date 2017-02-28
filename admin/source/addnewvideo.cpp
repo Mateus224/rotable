@@ -9,7 +9,6 @@ AddNewVideo::AddNewVideo(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->buttonBox->button(QDialogButtonBox::Save)->setEnabled(false);
-
 }
 
 AddNewVideo::~AddNewVideo()
@@ -44,4 +43,11 @@ void AddNewVideo::on_buttonBox_clicked(QAbstractButton *button)
     else
         ;//qDebug()<<"is false";
     QDialog::accept();
+}
+
+
+void AddNewVideo::progressBarChanged(int value){
+
+    emit ui->progressBar->valueChanged(value);
+
 }

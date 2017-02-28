@@ -52,6 +52,22 @@ public:
    */
   bool send(const rotable::ComPackage& p);
 
+  /**
+   * Send given QByteArray to the server.
+   *
+   * @param p           package to send
+   * @return            true on success
+   */
+  bool send(const QByteArray d);
+
+  /**
+   * @brief sendInPart
+   * @param p package to send
+   * @param IDprogressBar for identifier thedesitination progressBar
+   * this method devides a package in 100 parts
+   */
+  void sendInPart(const rotable::ComPackage &p, int progressBar);
+
 signals:
   /**
    * @brief
@@ -76,6 +92,7 @@ signals:
    */
   void error(QAbstractSocket::SocketError socketError);
 
+  void progressBar(int count,int IDprogressBar);
 private slots:
   /**
    * @brief
