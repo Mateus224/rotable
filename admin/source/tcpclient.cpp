@@ -137,7 +137,7 @@ bool TcpClient::send(const QByteArray d)
 
 //------------------------------------------------------------------------------
 
-void TcpClient::sendInPart(const ComPackage &p, int IDprogressBar)
+bool TcpClient::sendInPart(const ComPackage &p, int IDprogressBar)
 {
     QByteArray data = p.toByteArray();
     QByteArray string;
@@ -157,7 +157,8 @@ void TcpClient::sendInPart(const ComPackage &p, int IDprogressBar)
     }
     count++;
     if(string.length()>0)
-        send(string);
+        if(send(string))
+            return true;
     emit progressBar(count,IDprogressBar);
 }
 

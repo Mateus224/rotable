@@ -3,8 +3,9 @@
 #include "ui_addnewvideodialog.h"
 #include <QFileDialog>
 #include <QTextCodec>
-
+#include <QBuffer>
 #include <QDialog>
+#include "compackage.h"
 
 namespace Ui {
 class AddNewVideo;

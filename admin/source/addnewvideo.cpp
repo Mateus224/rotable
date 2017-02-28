@@ -44,10 +44,3 @@ void AddNewVideo::on_buttonBox_clicked(QAbstractButton *button)
         ;//qDebug()<<"is false";
     QDialog::accept();
 }
-
-
-void AddNewVideo::progressBarChanged(int value){
-
-    emit ui->progressBar->valueChanged(value);
-
-}

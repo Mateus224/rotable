@@ -570,7 +570,7 @@ void Executor::onAddAdvertisingVideo()
     package.setFileUsage(ComPackage::AdvertisingVideo);
     package.setFileNames(fileNameList);
 
-    if (!_tcp_client.send(package)) {
+    if (!_tcp_client.sendInPart(package,0)) {
       qCritical() << tr("FATAL: Could not send data set package!");
 
 
@@ -1236,7 +1236,8 @@ void Executor::SendProgressBarType(int value, int type)
 {
     switch (type){
         case AddAdvertising:{
-            _addNewVideo->progressBarChanged(value);
+        _mainwindow->setAdvertisingProgressBar(value);
+            //_addNewVideo->progressBarChanged(value);
         }
     }
 }

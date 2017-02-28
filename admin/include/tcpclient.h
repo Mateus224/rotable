@@ -66,7 +66,7 @@ public:
    * @param IDprogressBar for identifier thedesitination progressBar
    * this method devides a package in 100 parts
    */
-  void sendInPart(const rotable::ComPackage &p, int progressBar);
+  bool sendInPart(const rotable::ComPackage &p, int progressBar);
 
 signals:
   /**
