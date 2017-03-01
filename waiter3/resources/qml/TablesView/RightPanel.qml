@@ -5,8 +5,6 @@ Rectangle {
 
     id: panelBody
 
-//    color: "#0F6E20"
-
     DropShadow {
         anchors.fill: moneyImage
         radius: 25
@@ -42,21 +40,21 @@ Rectangle {
             {
                 if (drag.source.orderTag==="New" || drag.source.orderTag=="ToPay")
                 {
-                    console.log("drag "+drag.source.orderTag+" entered Money Button!");
-                    drag.source.caught = true;
-                    drag.source.targetTag = "Payed"
-                    drag.source.border.color = "#00FF00"
+//                    console.log("drag "+drag.source.orderTag+" entered Money Button!");
+//                    drag.source.caught = true;
+//                    drag.source.targetTag = "Payed"
+//                    drag.source.border.color = "#00FF00"
                 }
             }
             onExited:
             {
                 if (drag.source.orderTag==="New" || drag.source.orderTag=="ToPay")
                 {
-                    console.log("drag "+drag.source.orderTag+" exited Trash Button!");
-                    drag.source.caught = false;
-                    drag.source.targetTag = "None"
-                    if (drag.source.orderTag=="New") drag.source.border.color = waiterMain.incomingColor
-                    else drag.source.border.color = waiterMain.menuColor
+//                    console.log("drag "+drag.source.orderTag+" exited Trash Button!");
+//                    drag.source.caught = false;
+//                    drag.source.targetTag = "None"
+//                    if (drag.source.orderTag=="New") drag.source.border.color = waiterMain.incomingColor
+//                    else drag.source.border.color = waiterMain.menuColor
                 }
             }
         }
@@ -77,24 +75,24 @@ Rectangle {
 
             onEntered:
             {
-                if (drag.source.orderTag=="New" || drag.source.orderTag=="ToPay")
-                {
-                    console.log("drag "+drag.source.orderTag+" entered Trash Button!");
-                    drag.source.caught = true;
-                    drag.source.targetTag = "Rejected"
-                    drag.source.border.color = "#FF0000"
-                }
+//                if (drag.source.orderTag=="New" || drag.source.orderTag=="ToPay")
+//                {
+//                    console.log("drag "+drag.source.orderTag+" entered Trash Button!");
+//                    drag.source.caught = true;
+//                    drag.source.targetTag = "Rejected"
+//                    drag.source.border.color = "#FF0000"
+//                }
             }
             onExited:
             {
-                if (drag.source.orderTag=="New" || drag.source.orderTag=="ToPay")
-                {
-                    console.log("drag "+drag.source.orderTag+" exited Trash Button!");
-                    drag.source.caught = false;
-                    drag.source.targetTag = "None"
-                    if (drag.source.orderTag=="New") drag.source.border.color = waiterMain.incomingColor
-                    else drag.source.border.color = waiterMain.menuColor
-                }
+//                if (drag.source.orderTag=="New" || drag.source.orderTag=="ToPay")
+//                {
+//                    console.log("drag "+drag.source.orderTag+" exited Trash Button!");
+//                    drag.source.caught = false;
+//                    drag.source.targetTag = "None"
+//                    if (drag.source.orderTag=="New") drag.source.border.color = waiterMain.incomingColor
+//                    else drag.source.border.color = waiterMain.menuColor
+//                }
             }
         }
     }

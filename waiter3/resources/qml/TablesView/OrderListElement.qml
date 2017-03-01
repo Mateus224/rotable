@@ -7,7 +7,7 @@ Rectangle{
     property int borderWidth: Math.max(4,orderList.width * 0.013)
     property int listWidth: Math.max(100,orderList.width)
     property int itemSpacing: Math.max(10,dataView.height*0.02)
-    property string borderColor: "#46C8CF"
+    property string borderColor
     property int listHeight: orderItemsView.count * productHeight + 6 * borderWidth + (orderItemsView.count-1) * itemSpacing
 
     property string orderTag
@@ -16,7 +16,10 @@ Rectangle{
     property point beginDrag: Qt.point(x,y)
 
     property var globalPosThis
-    property var globalPosTarget
+    property var globalPosNew : waiterMain.mapFromItem(orderList, 0, 0)
+    property var globalPosToPay : waiterMain.mapFromItem(outgoingList, 0, 0)
+    property var globalPosRemove : waiterMain.mapFromItem(trashImage, 0, 0)
+    property var globalPosPayed : waiterMain.mapFromItem(moneyImage, 0, 0)
 
     width: listWidth
     height: model.itemCount > 0 ? listHeight : 0
@@ -28,6 +31,37 @@ Rectangle{
     Drag.active: dragArea.drag.active
 
     z: (dragArea.pressed || dragArea.drag.active) ? 1 : 0
+
+    function isInside(objectPos,targetPos,targetWidth,targetHeight)
+    {
+        return ( objectPos.x >= targetPos.x && objectPos.x <= targetPos.x+targetWidth
+                && objectPos.y >= targetPos.y && objectPos.y <= targetPos.y+targetHeight )
+    }
+    function handleDragging()
+    {
+        globalPosThis = waiterMain.mapFromItem(order, 0, 0)
+        globalPosThis.x = globalPosThis.x + order.width * 0.95
+        if (isInside(globalPosThis,globalPosNew,orderList.width,orderList.height))
+            order.borderColor = waiterMain.incomingColor
+        else if (isInside(globalPosThis,globalPosToPay,outgoingList.width,outgoingList.height))
+            order.borderColor = waiterMain.menuColor
+        else if (isInside(globalPosThis,globalPosRemove,trashImage.width,trashImage.height))
+            order.borderColor = waiterMain.removeColor
+        else if (isInside(globalPosThis,globalPosPayed,moneyImage.width,moneyImage.height))
+            order.borderColor = waiterMain.payedColor
+        else order.borderColor = orderTag=="New" ? waiterMain.incomingColor : waiterMain.menuColor
+    }
+
+    onXChanged: {
+        if (dragArea.drag.active) {
+            handleDragging()
+        }
+    }
+    onYChanged: {
+        if (dragArea.drag.active) {
+            handleDragging()
+        }
+    }
 
     MouseArea{
         id:dragArea
@@ -51,21 +85,42 @@ Rectangle{
         }
         onReleased: {
             globalPosThis = waiterMain.mapFromItem(order, 0, 0)
-            globalPosThis.x = globalPosThis.x + order.width
+            globalPosThis.x = globalPosThis.x + order.width * 0.95
 
             if (order.orderTag=="ToPay")
             {
-                globalPosTarget = waiterMain.mapFromItem(orderList, 0, 0)
-                if (globalPosThis.x >= globalPosTarget.x && globalPosThis.x <= globalPosTarget.x+orderList.width
-                        && globalPosThis.y >= globalPosTarget.y && globalPosThis.y <= globalPosTarget.y+orderList.height)
+                if (isInside(globalPosThis,globalPosNew,orderList.width,orderList.height))
                 {
                     order.caught = true;
                     order.targetTag = "New"
-                    order.border.color = waiterMain.incomingColor
+                    console.log("Topay order dropped in new area")
+                }
+            }
+            else if (order.orderTag=="New")
+            {
+                if (isInside(globalPosThis,globalPosToPay,outgoingList.width,outgoingList.height))
+                {
+                    order.caught = true;
+                    order.targetTag = "ToPay"
+                    console.log("New order dropped in topay area")
                 }
             }
 
-            console.log("Global pos of object: "+globalPosThis+" Global pos of the incoming list: "+globalPosTarget)
+            if (isInside(globalPosThis,globalPosRemove,trashImage.width,trashImage.height) && !caught)
+            {
+                order.caught = true;
+                order.targetTag = "Rejected"
+                console.log(orderTag+" order dropped in rejected area")
+            }
+            else if (isInside(globalPosThis,globalPosPayed,moneyImage.width,moneyImage.height) && !caught)
+            {
+                order.caught = true;
+                order.targetTag = "Payed"
+                console.log(orderTag+" order dropped in payed area")
+            }
+
+            console.log("Global pos of object: "+globalPosThis)
+
             if(!order.caught) {
                 console.log("Object was not caught in any proper area.")
                 backAnimX.from = order.x
