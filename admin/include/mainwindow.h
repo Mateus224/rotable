@@ -202,6 +202,8 @@ signals:
 
  void setFrequencePlayTime(int);
 
+ void setAdvertisingProgressBar(int);
+
  /**
   * Signal which get a signal from the Gui about
   * how often the advertising have to be played

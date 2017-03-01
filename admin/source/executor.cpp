@@ -1,7 +1,6 @@
 #include "private/precomp.h"
 
 #include "addnewlicence.h"
-#include "addnewvideo.h"
 #include "addproductcategory.h"
 #include "addproductdialog.h"
 #include "adduserdialog.h"
@@ -26,6 +25,8 @@ Executor::Executor(MainWindow *mainwindow, const QString &configFilePath,
                    QObject *parent)
     : QObject(parent), _mainwindow(mainwindow), _config(configFilePath),
       _disconnectRequested(false), _images(0), _products(0), _tryLogin(false) {
+
+  _addNewVideo= new AddNewVideo(_mainwindow);
   connect(&_tcp_client, SIGNAL(connected()), this,
           SLOT(onConnectionEstablished()));
   connect(&_tcp_client, SIGNAL(disconnected()), this, SLOT(onConnectionLost()));
@@ -35,6 +36,8 @@ Executor::Executor(MainWindow *mainwindow, const QString &configFilePath,
           SLOT(onPackageReceived(rotable::ComPackage *)));
   connect(&_tcp_client, SIGNAL(error(QAbstractSocket::SocketError)), this,
           SLOT(onClientError(QAbstractSocket::SocketError)));
+  connect(&_tcp_client, SIGNAL(progressBar(int, int)), this,
+          SLOT(SendProgressBarType(int, int)));
   connect(&_serverLogListener, SIGNAL(connectionEstablished()), this,
           SIGNAL(serverLogConnectionEstablished()));
   connect(&_serverLogListener, SIGNAL(disconnected()), this,
@@ -46,6 +49,7 @@ Executor::Executor(MainWindow *mainwindow, const QString &configFilePath,
   //    qDebug() << tr("Could not load %1:
   //    %2").arg(configFilePath).arg(_config.errorStr());
   //  }
+
 }
 
 //------------------------------------------------------------------------------
@@ -535,50 +539,62 @@ void Executor::onAddAdvertisingVideo()
 
     QStringList fileNameList;
     QStringList files;
-    AddNewVideo dlg(_mainwindow);
 
-      if (dlg.exec() != QDialog::Accepted)
+      if (_addNewVideo->exec() != QDialog::Accepted)
           return;
       ;
-    QStringList filePathList = dlg.getStringVideo();
+    QStringList filePathList = _addNewVideo->getStringVideo();
     if(filePathList.isEmpty())
         return;
 
+    int size=0;
+    bool send=false;
     ComPackageSendFile package;
     foreach(QString path, filePathList)
     {
+
         /*make a StringList of the names from the files*/
         QStringList splitPath=path.split("/");
         QString fileName=splitPath.last();
-        fileNameList.append(fileName);
+        QFileInfo sizeInfo(path);
+        size+=sizeInfo.size();
 
-        /*make a StringList of files in base64*/
-        QFile file(path);
-        file.open(QIODevice::ReadOnly);
+        if(45*1024*1024>size){
+            qDebug()<<"größe:"<<sizeInfo.size();
+            fileNameList.append(fileName);
 
-        QByteArray ba;
-        QBuffer buffer(&ba);
-        ba = file.readAll();
-        package.byteArrayToBase64(ba);
+            /*make a StringList of files in base64*/
+            QFile file(path);
+            file.open(QIODevice::ReadOnly);
 
+            QByteArray ba;
+            QBuffer buffer(&ba);
+            ba = file.readAll();
+            package.byteArrayToBase64(ba);
+            send=true;
+        }
+        else{
+            send=false;
+            QMessageBox msgBox;
+            msgBox.setText(tr("To big file [max. 45MB]"));
+            msgBox.setStandardButtons(QMessageBox::Ok);
+            msgBox.setIcon(QMessageBox::Critical);
+            msgBox.exec();
+        }
     }
+    if(send==true){
+        package.setFileUsage(ComPackage::AdvertisingVideo);
+        package.setFileNames(fileNameList);
+        if (!_tcp_client.sendInPart(package,0)) {
+          qCritical() << tr("FATAL: Could not send data set package!");
 
+        QMessageBox msgBox;
+        msgBox.setText("Network I/O-Error!");
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.exec();
 
-    package.setFileUsage(ComPackage::AdvertisingVideo);
-    package.setFileNames(fileNameList);
-    //package.setFiles(files);
-
-    if (!_tcp_client.send(package)) {
-      qCritical() << tr("FATAL: Could not send data set package!");
-
-
-
-    QMessageBox msgBox;
-    msgBox.setText("Network I/O-Error!");
-    msgBox.setStandardButtons(QMessageBox::Ok);
-    msgBox.setIcon(QMessageBox::Critical);
-    msgBox.exec();
-
+        }
     }
 }
 
@@ -1103,6 +1119,7 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
       {
           ad=reinterpret_cast <AdvertisingVideo*> (file);
           _files->addFile(ad);
+          SendProgressBarType(0, 0);
       }break;
 
       case ComPackage::AdvertisingPicture:
@@ -1226,6 +1243,18 @@ void Executor::userSelectionChange() {
   emit setUserButtons(true);
   emit setWaiterButton(_users->getSelectedUser()->accountType() == 0 ? true
                                                                      : false);
+}
+
+//------------------------------------------------------------------------------
+
+void Executor::SendProgressBarType(int value, int type)
+{
+    switch (type){
+        case AddAdvertising:{
+        _mainwindow->setAdvertisingProgressBar(value);
+            //_addNewVideo->progressBarChanged(value);
+        }
+    }
 }
 
 //------------------------------------------------------------------------------

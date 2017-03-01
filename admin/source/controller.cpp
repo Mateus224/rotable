@@ -1,4 +1,5 @@
 #include "private/precomp.h"
+#include "tcpclient.h"
 
 #include "categorylistmodel.h"
 #include "controller.h"
@@ -31,6 +32,7 @@ Controller::Controller(MainWindow *mainwindow, const QString &configFilePath)
   _productTableModel = new ProductTableModel(this);
   _productTableModel->setProductContainer(&_products);
   _productTableModel->setImageContainer(&_images);
+
   _executor.setProductTableModel(_productTableModel);
 
   _mainwindow->_ui->_tableViewProducts->setModel(_productTableModel);
@@ -56,6 +58,7 @@ Controller::Controller(MainWindow *mainwindow, const QString &configFilePath)
 //------------------------------------------------------------------------------
 
 void Controller::connect_signals() {
+
   connect(&_executor, SIGNAL(connectionEstablished()), _mainwindow,
           SLOT(onConnectionEstablished()));
 
@@ -224,4 +227,5 @@ void Controller::connect_signals() {
 
   connect(&_files, &AdvertisingContainer::updateView, _advertisingTableModel,
           &AdvertisingTableModel::updateModel);
+
 }

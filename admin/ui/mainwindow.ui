@@ -472,6 +472,33 @@
              <widget class="QSpinBox" name="frequencPlayTime"/>
             </item>
             <item>
+             <spacer name="horizontalSpacer_6">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QToolButton" name="addVideoButton">
+              <property name="text">
+               <string>Add Video</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="removeVideoButton">
+              <property name="text">
+               <string>Remove video</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="horizontalSpacer_5">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -484,17 +511,10 @@
               </property>
              </spacer>
             </item>
-            <item alignment="Qt::AlignLeft">
-             <widget class="QToolButton" name="addVideoButton">
-              <property name="text">
-               <string>Add Video</string>
-              </property>
-             </widget>
-            </item>
             <item>
-             <widget class="QToolButton" name="removeVideoButton">
-              <property name="text">
-               <string>Remove video</string>
+             <widget class="QProgressBar" name="progressBar">
+              <property name="value">
+               <number>0</number>
               </property>
              </widget>
             </item>

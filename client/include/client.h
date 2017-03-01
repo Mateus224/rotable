@@ -275,6 +275,12 @@ void payedSlot(int i){qDebug()<<i;}
   void requestAdvertisingConfig();
 
   /**
+   * @brief requestFile
+   * @param id
+   */
+  void requestFile(int id);
+
+  /**
    * @brief requestMediaIds
    * request for all Media Ids from the server
    */

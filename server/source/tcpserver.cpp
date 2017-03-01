@@ -226,8 +226,8 @@ void TcpServer::socketStartRead()
 
   QByteArray& buffer = _clients[_socket2clients[socket]].buffer;
 
-  buffer += socket->readAll();
 
+  buffer += socket->readAll();
   bool doContinue = true;
   do {
     QJsonDocument jdoc = QJsonDocument::fromBinaryData(buffer);
@@ -235,11 +235,9 @@ void TcpServer::socketStartRead()
       // we probably did not receive the full package yet
       doContinue = false;
     } else {
-
       //qDebug() << tr("============ NEW PACKAGE =============");
-      //qDebug() << QString(jdoc.toJson(QJsonDocument::Indented));
-
       LogManager::getInstance()->logJSON(jdoc);
+
       //qInfo().noquote() << QString::fromUtf8(jdoc.toJson());
 
       ComPackage* package = ComPackage::fromJson(jdoc);

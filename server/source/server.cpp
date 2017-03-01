@@ -728,6 +728,25 @@ bool Server::setData(ComPackageDataSet *set, client_t client) {
         return false;
       }
   }
+  case ComPackage::RequestFile: {
+      int id=set->data().toInt();
+      File* sendVideo=_db.media(id);
+      sendVideo->setDir(); //change to the advertising direktory
+      QFile file(sendVideo->getName());
+      file.open(QIODevice::ReadOnly);
+
+      ComPackageSendFile package;
+      QByteArray ba;
+      QBuffer buffer(&ba);
+      ba = file.readAll();
+      package.byteArrayToBase64(ba);
+      package.setFileUsage(ComPackage::AdvertisingVideo);
+      QStringList video;
+      video<<sendVideo->getName();
+      package.setFileNames(video);
+      send_to_users(package, ComPackage::TableAccount);
+
+  }break;
   case ComPackage::SetAdvertisingConfig: {
       // this have to be changed if there will be more informations in future (new AdvertisingConfig class)
       if(_db.addAdvertisingConfig(set->data().toInt()))

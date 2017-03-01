@@ -42,6 +42,15 @@ public:
     bool removeFileFromSD();
 
     /**
+     * @brief checkMediaOnSD
+     * Check at start after we get the databaseinformation
+     * which Medias have to be played, we have to check if
+     * the client has this file on SD. If Yes
+     * @return true
+     */
+    bool checkMediaOnSD();
+
+    /**
      * @brief rename
      * @param oldName
      * @param newName
@@ -58,6 +67,11 @@ public:
      */
     void getFileInfoFromFileAndSet(QStringList FileListName);
 
+    /**
+     * @brief setDir
+     * @return
+     */
+    bool setDir();
     /**
      * @brief setType
      * @param type

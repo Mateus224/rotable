@@ -60,10 +60,19 @@ bool File::addFileOnSD(rotable::ComPackageSendFile *package)
 
 bool File::removeFileFromSD()
 {
-    LogManager::getInstance()->logInfo(_paths.at(_fileInfo._type));
+    //LogManager::getInstance()->logInfo(_paths.at(_fileInfo._type));
     if(_fileDir->setCurrent(_paths.at(_fileInfo._type)));
     QFile rmFile(getName());
     if(rmFile.remove())
+        return true;
+    return false;
+}
+//------------------------------------------------------------------------------
+
+bool File::checkMediaOnSD(){
+    if(_fileDir->setCurrent(_paths.at(_fileInfo._type)));
+    QFile existFile(getName());
+    if(existFile.exists())
         return true;
     return false;
 }
@@ -93,6 +102,14 @@ bool File::rename(QString &newName)
     }break;
     }
     return true;
+}
+
+//------------------------------------------------------------------------------
+
+bool File::setDir(){
+   if(_fileDir->setCurrent(_paths.at(_fileInfo._type)))
+       return true;
+   return false;
 }
 
 //------------------------------------------------------------------------------
@@ -152,7 +169,9 @@ void File::setRemoved(const int& removed)
         l_fileInfo.append(struct_fileInfo);
     }
  }
+ //------------------------------------------------------------------------------
 
+//void File
  //------------------------------------------------------------------------------
 
  QJsonValue File::toJSON() const {

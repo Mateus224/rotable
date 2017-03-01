@@ -72,6 +72,8 @@ MainWindow::MainWindow(QWidget *parent)
           this, SIGNAL(getFrequencePlayTime(int)));
   connect(this, SIGNAL(setFrequencePlayTime(int)),
           _ui->frequencPlayTime, SLOT(setValue(int)));
+  connect(this, SIGNAL(setAdvertisingProgressBar(int)),
+          _ui->progressBar, SLOT(setValue(int)));
   //----System Update connact qLable for installed version and available version Number------
   connect(this, &MainWindow::setCurrentVersion, _ui->InstalledVersionNumber, &QLabel::setText);
   connect(this, &MainWindow::setAvailableVersion, _ui->AvailableVersionNumber, &QLabel::setText);

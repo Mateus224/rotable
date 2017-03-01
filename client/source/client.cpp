@@ -581,6 +581,8 @@ void Client::dataReturned(ComPackageDataReturn *package)
         case ComPackage::AdvertisingVideo:
         {
             _countIncomeMedias++;
+            if(!_file->checkMediaOnSD())
+                requestFile(_file->_fileInfo._id);
             prepareForPlayAdvertising();
         }break;
 
@@ -818,5 +820,20 @@ void Client::sendPlayedAdvertising(){
               qCritical() << tr("FATAL: Could not send data set package!");
             }
         }
+    }
+}
+
+//------------------------------------------------------------------------------
+
+void Client::requestFile(int id)
+{
+    /*we need compackage data set because on the server side we need as answer not data
+    ComPackageDataReturn but ComPackageSendFile*/
+    ComPackageDataSet *request = new ComPackageDataSet();
+    request->setDataCategory(ComPackage::RequestFile);
+    request->setData(id);
+
+    if (!_tcp.send(*request)) {
+      qCritical() << tr("Could not send request!");
     }
 }

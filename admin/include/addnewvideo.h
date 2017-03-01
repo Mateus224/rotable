@@ -3,8 +3,9 @@
 #include "ui_addnewvideodialog.h"
 #include <QFileDialog>
 #include <QTextCodec>
-
+#include <QBuffer>
 #include <QDialog>
+#include "compackage.h"
 
 namespace Ui {
 class AddNewVideo;
@@ -19,6 +20,7 @@ public:
     ~AddNewVideo();
 
     QStringList getStringVideo();
+    void progressBarChanged(int value);
 
 private slots:
     void on_addVideoButton_clicked();

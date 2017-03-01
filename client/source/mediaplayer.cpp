@@ -8,7 +8,6 @@ MediaPlayer::MediaPlayer(QObject* parent, Flags flags): QMediaPlayer(parent, fla
 
 void MediaPlayer::setVideoSurface(QAbstractVideoSurface* surface)
 {
-qDebug() << "Changing surface";
 m_surface = surface;
 setVideoOutput(m_surface);
 }

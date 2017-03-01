@@ -176,7 +176,11 @@ public:
     SetAdvertising,
 
     /*Set the play frequence of advertisings*/
-    SetAdvertisingConfig
+    SetAdvertisingConfig,
+
+     /*Request File for example advertisingVideos*/
+     RequestFile,
+
   };
 
   /**

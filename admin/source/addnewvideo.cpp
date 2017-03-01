@@ -9,7 +9,6 @@ AddNewVideo::AddNewVideo(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->buttonBox->button(QDialogButtonBox::Save)->setEnabled(false);
-
 }
 
 AddNewVideo::~AddNewVideo()
