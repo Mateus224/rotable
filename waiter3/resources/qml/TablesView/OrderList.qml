@@ -25,20 +25,20 @@ ListView {
         {
             if (drag.source.orderTag === "ToPay")
             {
-                console.log("drag ToPay entered New list!");
-                drag.source.caught = true;
-                drag.source.targetTag = "New"
-                drag.source.border.color = waiterMain.incomingColor
+//                console.log("drag ToPay entered New list!");
+//                drag.source.caught = true;
+//                drag.source.targetTag = "New"
+//                drag.source.border.color = waiterMain.incomingColor
             }
         }
         onExited:
         {
             if (drag.source.orderTag === "ToPay")
             {
-                console.log("drag ToPay left new list!");
-                drag.source.caught = false;
-                drag.source.targetTag = "None"
-                drag.source.border.color = waiterMain.menuColor
+//                console.log("drag ToPay left new list!");
+//                drag.source.caught = false;
+//                drag.source.targetTag = "None"
+//                drag.source.border.color = waiterMain.menuColor
             }
         }
     }

@@ -15,6 +15,9 @@ Rectangle{
     property bool caught: false
     property point beginDrag: Qt.point(x,y)
 
+    property var globalPosThis
+    property var globalPosTarget
+
     width: listWidth
     height: model.itemCount > 0 ? listHeight : 0
 
@@ -47,6 +50,22 @@ Rectangle{
             console.log("Order tag: "+orderTag);
         }
         onReleased: {
+            globalPosThis = waiterMain.mapFromItem(order, 0, 0)
+            globalPosThis.x = globalPosThis.x + order.width
+
+            if (order.orderTag=="ToPay")
+            {
+                globalPosTarget = waiterMain.mapFromItem(orderList, 0, 0)
+                if (globalPosThis.x >= globalPosTarget.x && globalPosThis.x <= globalPosTarget.x+orderList.width
+                        && globalPosThis.y >= globalPosTarget.y && globalPosThis.y <= globalPosTarget.y+orderList.height)
+                {
+                    order.caught = true;
+                    order.targetTag = "New"
+                    order.border.color = waiterMain.incomingColor
+                }
+            }
+
+            console.log("Global pos of object: "+globalPosThis+" Global pos of the incoming list: "+globalPosTarget)
             if(!order.caught) {
                 console.log("Object was not caught in any proper area.")
                 backAnimX.from = order.x
