@@ -584,18 +584,20 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
   } break;
   case ComPackage::RequestMedia: {
       int mediaId=request->dataName().toInt();
-      AdvertisingVideo* Video=new AdvertisingVideo();
-      Video=reinterpret_cast<AdvertisingVideo*> (_db.media(mediaId));
-      if(Video)
-      {
-          ComPackageDataReturn *ret =
-                  new ComPackageDataReturn(*request, Video->toJSON());
-          delete Video;
-          return ret;
-      }else {
-          qCritical()
-              << tr("Could not query income data of id %1!").arg(request->dataName().toInt());
-        }
+      if(mediaId>0){
+          AdvertisingVideo* Video=new AdvertisingVideo();
+          Video=reinterpret_cast<AdvertisingVideo*> (_db.media(mediaId));
+          if(Video)
+          {
+              ComPackageDataReturn *ret =
+                      new ComPackageDataReturn(*request, Video->toJSON());
+              delete Video;
+              return ret;
+          }else {
+              qCritical()
+                  << tr("Could not query income data of id %1!").arg(request->dataName().toInt());
+          }
+      }
   }break;
   case ComPackage::RequestSystemVersions: {
       SystemUpdate* systemUpdate=_db.systemUpdate();
