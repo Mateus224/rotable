@@ -237,8 +237,6 @@ void TcpServer::socketStartRead()
     } else {
       //qDebug() << tr("============ NEW PACKAGE =============");
       LogManager::getInstance()->logJSON(jdoc);
-      LogManager::getInstance()->logInfo("\n");
-      LogManager::getInstance()->logInfo("\n");
 
       //qInfo().noquote() << QString::fromUtf8(jdoc.toJson());
 
