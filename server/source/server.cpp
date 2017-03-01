@@ -731,7 +731,7 @@ bool Server::setData(ComPackageDataSet *set, client_t client) {
   case ComPackage::RequestFile: {
       int id=set->dataName().toInt();
       File* sendVideo=_db.media(id);
-      sendVideo->_fileDir->setCurrent(sendVideo->_paths.at(sendVideo->_fileInfo._type)); //change to the advertising direktory
+      sendVideo->setDir(); //change to the advertising direktory
       QFile file(sendVideo->getName());
       file.open(QIODevice::ReadOnly);
 

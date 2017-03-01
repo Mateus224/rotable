@@ -106,6 +106,14 @@ bool File::rename(QString &newName)
 
 //------------------------------------------------------------------------------
 
+bool File::setDir(){
+   if(_fileDir->setCurrent(_paths.at(_fileInfo._type)))
+       return true;
+   return false;
+}
+
+//------------------------------------------------------------------------------
+
 void File::setId(const int& id)
 {
   if (_fileInfo._id != id) {

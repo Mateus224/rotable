@@ -68,6 +68,11 @@ public:
     void getFileInfoFromFileAndSet(QStringList FileListName);
 
     /**
+     * @brief setDir
+     * @return
+     */
+    bool setDir();
+    /**
      * @brief setType
      * @param type
      * Set type of the sended Files (needed by adding files)
