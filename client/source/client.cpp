@@ -172,7 +172,6 @@ void Client::packageReceived(ComPackage *package)
       requestCategoryIds();
       requestAdvertisingConfig();
       requestMediaIds();
-      //checkMedias();
 
     } break;
 
@@ -583,7 +582,7 @@ void Client::dataReturned(ComPackageDataReturn *package)
         {
             _countIncomeMedias++;
             if(!_file->checkMediaOnSD());
-                //requestFile(_file->_fileInfo._id);
+                requestFile(_file->_fileInfo._id);
             prepareForPlayAdvertising();
         }break;
 
@@ -836,7 +835,5 @@ void Client::requestFile(int id)
 
     if (!_tcp.send(*request)) {
       qCritical() << tr("Could not send request!");
-    } else {
-      _dataRequest[request->id()] = request;
     }
 }

@@ -1665,7 +1665,7 @@ bool Database::addAdvertisingVideo(QList<int>* mediaId)
           qCritical() << tr("Invalid query: %1").arg(queryStr);
           return false;
         }
-        q.bindValue(":playtime",30);
+        q.bindValue(":playtime",0);
         q.bindValue(":play",1 );
         q.bindValue(":played",0);
         q.bindValue(":media_id",media_id );

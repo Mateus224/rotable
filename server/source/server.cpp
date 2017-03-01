@@ -729,16 +729,23 @@ bool Server::setData(ComPackageDataSet *set, client_t client) {
       }
   }
   case ComPackage::RequestFile: {
-     /* int FileId=request->dataName().toInt();
-       if(Video)
-      {
-          ComPackageSendFile *file =
-                  new ComPackageSendFile();
-          delete Video;
-          return ret;
-      }else {
-          return false;
-        }*/
+      int id=set->dataName().toInt();
+      File* sendVideo=_db.media(id);
+      sendVideo->_fileDir->setCurrent(sendVideo->_paths.at(sendVideo->_fileInfo._type)); //change to the advertising direktory
+      QFile file(sendVideo->getName());
+      file.open(QIODevice::ReadOnly);
+
+      ComPackageSendFile package;
+      QByteArray ba;
+      QBuffer buffer(&ba);
+      ba = file.readAll();
+      package.byteArrayToBase64(ba);
+      package.setFileUsage(ComPackage::AdvertisingVideo);
+      QStringList video;
+      video<<sendVideo->getName();
+      package.setFileNames(video);
+      send_to_users(package, ComPackage::TableAccount);
+
   }break;
   case ComPackage::SetAdvertisingConfig: {
       // this have to be changed if there will be more informations in future (new AdvertisingConfig class)

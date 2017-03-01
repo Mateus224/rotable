@@ -40,6 +40,7 @@ TcpServer::TcpServer(QObject *parent) :
 
   for (int i = 0; i < ROTABLE_MAX_CLIENTS; ++i) {
     _clients[i].socket = 0;
+    packageCounter=0;
   }
 }
 
@@ -226,6 +227,7 @@ void TcpServer::socketStartRead()
 
   QByteArray& buffer = _clients[_socket2clients[socket]].buffer;
 
+
   buffer += socket->readAll();
   bool doContinue = true;
   do {
@@ -233,12 +235,16 @@ void TcpServer::socketStartRead()
     if (jdoc.isNull()) {
       // we probably did not receive the full package yet
       doContinue = false;
+ /*     LogManager::getInstance()->logInfo("\n");
+      LogManager::getInstance()->logInfo("Package number:\n");
+      LogManager::getInstance()->logInfo("Package number:\n");
+      LogManager::getInstance()->logInfo(QString::number(packageCounter));
+      packageCounter=packageCounter+1;*/
     } else {
-
+packageCounter++;
       //qDebug() << tr("============ NEW PACKAGE =============");
       //qDebug() << QString(jdoc.toJson(QJsonDocument::Indented));
 
-      LogManager::getInstance()->logJSON(jdoc);
       //qInfo().noquote() << QString::fromUtf8(jdoc.toJson());
 
       ComPackage* package = ComPackage::fromJson(jdoc);
