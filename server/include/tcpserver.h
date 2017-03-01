@@ -169,7 +169,6 @@ private:
  QMap<QTcpSocket*, client_t> _socket2clients;
 
  QByteArray _packageStart;
- int packageCounter;
 }; // class TcpServer
 
 //------------------------------------------------------------------------------
