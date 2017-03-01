@@ -122,7 +122,7 @@ Rectangle{
             console.log("Global pos of object: "+globalPosThis)
 
             if(!order.caught) {
-                console.log("Object was not caught in any proper area.")
+                console.log("Object was not caught in any proper area, returning to intial position.")
                 backAnimX.from = order.x
                 backAnimX.to = beginDrag.x
                 backAnimY.from = order.y
@@ -193,8 +193,8 @@ Rectangle{
         source: "qrc:/resources/images/fingerprint.png"
         fillMode: Image.PreserveAspectFit
 
-        anchors.left: parent.left
-        anchors.right: orderItemsView.left
+        anchors.left: orderItemsView.right
+        anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
         anchors.leftMargin: Math.max(parent.width*0.02,10)
         anchors.rightMargin: Math.max(parent.width*0.01,10)
@@ -208,7 +208,7 @@ Rectangle{
         anchors.bottomMargin: borderWidth*3
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        anchors.right: parent.right
+        anchors.left: parent.left
         width: parent.width * 0.8
 
         z: parent.z
