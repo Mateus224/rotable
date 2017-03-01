@@ -729,7 +729,7 @@ bool Server::setData(ComPackageDataSet *set, client_t client) {
       }
   }
   case ComPackage::RequestFile: {
-      int id=set->dataName().toInt();
+      int id=set->data().toInt();
       File* sendVideo=_db.media(id);
       sendVideo->setDir(); //change to the advertising direktory
       QFile file(sendVideo->getName());
