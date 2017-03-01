@@ -581,9 +581,11 @@ void Client::dataReturned(ComPackageDataReturn *package)
         case ComPackage::AdvertisingVideo:
         {
             _countIncomeMedias++;
-            if(!_file->checkMediaOnSD());
+            if(!_file->checkMediaOnSD())
                 requestFile(_file->_fileInfo._id);
-            prepareForPlayAdvertising();
+            else{
+                prepareForPlayAdvertising();
+            }
         }break;
 
         case ComPackage::AdvertisingPicture:
