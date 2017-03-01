@@ -54,24 +54,24 @@ public:
     {
     case LogManager::info:
     {
-      _logfile << qPrintable(message.message());
+      _logfile << qPrintable(message.message()) << std::endl;
     } break;
     case LogManager::warning:
     {
-      _logfile << qPrintable("Warning: " + message.message());
+      _logfile << qPrintable("Warning: " + message.message()) << std::endl;
     } break;
     case LogManager::error:
     {
-      _logfile << qPrintable("Error: " + message.message());
+      _logfile << qPrintable("Error: " + message.message()) << std::endl;
     } break;
     case LogManager::qt:
     {
-      _logfile << qPrintable("QT: " + message.message());
+      _logfile << qUtf8Printable("QT: " + message.message()) << std::endl;
     } break;
     case LogManager::json:
     {
       _logfile << "[ " << qPrintable(QTime::currentTime().toString()) << " ]" << std::endl;
-      _logfile << qPrintable(message.message());
+      _logfile << qPrintable(message.message()) << std::endl;
     } break;
     default:
     {

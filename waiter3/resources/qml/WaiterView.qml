@@ -11,6 +11,8 @@ Rectangle {
 
     property color menuColor: "#0170bf"
     property color incomingColor: "#75d4f0"
+    property color removeColor : "#FF0000"
+    property color payedColor : "#00FF00"
     property color productBorderColor: "#bababa"
 
     TimeBar {

@@ -4,11 +4,12 @@ import QtGraphicalEffects 1.0
 Rectangle {
     id: productButton
 
-    property int borderWidth: Math.max(2,parent.width * 0.01)
+    property int borderWidth: Math.max(4,parent.width * 0.01)
     property int itemWidth: Math.max(parent.width,70)
 
     property double dragThreshold: 0.4
     property double hideDragThreshold: 0.1
+    property double buttonsVisiblePart: 0.25
 
     width: itemWidth
     anchors.horizontalCenter: parent.horizontalCenter
@@ -45,8 +46,8 @@ Rectangle {
         border.width: borderWidth
         border.color: waiterMain.productBorderColor
 
-        property int maxLeft: -width * 0.75
-        property int maxRight: width * 0.75
+        property int maxLeft: -width * (1-buttonsVisiblePart)
+        property int maxRight: width * (1-buttonsVisiblePart)
 
         z:1
 
