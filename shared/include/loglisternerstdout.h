@@ -47,23 +47,23 @@ public:
     {
     case LogManager::info:
     {
-      std::cout << qPrintable(message.message());
+      std::cout << qPrintable(message.message()) << std::endl;
     } break;
     case LogManager::warning:
     {
-      std::cout << qPrintable("Warning: " + message.message());
+      std::cout << qPrintable("Warning: " + message.message()) << std::endl;
     } break;
     case LogManager::error:
     {
-      std::cerr << qPrintable("Error: " + message.message());
+      std::cerr << qPrintable("Error: " + message.message()) << std::endl;
     } break;
     case LogManager::qt:
     {
-      std::cout << qPrintable("QT: " + message.message());
+      std::cout << qPrintable("QT: " + message.message()) << std::endl;
     } break;
     case LogManager::json:
     {
-      std::cout << qPrintable(message.message());
+      std::cout << qPrintable(message.message()) << std::endl;
     } break;
     default:
     {

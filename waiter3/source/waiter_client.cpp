@@ -222,6 +222,11 @@ void Waiter_Client::packageReceived(ComPackage *package)
       }
       //rejected(static_cast<ComPackageReject*>(package));
     } break;
+    case ComPackage::Message:
+    {
+        ComPackageMessage *m = static_cast<ComPackageMessage*>(package);
+        qDebug() << "Message :" << m->message();
+    } break;
 //    case ComPackage::WaiterNeed:
 //    {
 //        ComPackageWaiterNeed *p = static_cast<ComPackageWaiterNeed*>(package);
@@ -229,7 +234,7 @@ void Waiter_Client::packageReceived(ComPackage *package)
 //    } break;
     default:
     {
-      qDebug() << tr("WARNING: Received unknown package!");
+      qDebug() << tr("WARNING: Received unknown package!") << package->type();
     } break;
     }
   }
