@@ -173,6 +173,8 @@ public:
   /* Table map with table id */
   rotable::TableModel _tables;
 
+  rotable::Table* _table;
+
   /* Board with orders */
   rotable::OrderBoard _board;
 

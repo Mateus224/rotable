@@ -75,6 +75,7 @@ Waiter_Client::Waiter_Client(const QString &configFilePath, QObject *parent)
 //    connect(this, &Waiter_Client::logOff, &_tcp, &TcpClient::close);
 
     setState("Login");
+    _table=new Table();
 }
 
 
@@ -368,18 +369,22 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
     case ComPackage::RequestTable:
     {
       //Load data about order
-      Table *table = reinterpret_cast<Table*>(Client::fromJSON(package->data()));
-      if(_tables.addTable(table))
+        _table = reinterpret_cast<Table*>(Client::fromJSON(package->data()));
+      //Table *table = reinterpret_cast<Table*>(Client::fromJSON(package->data()));
+      //Sometimes the Signal was emitted but the slot didn't arrives so it is called for the: if (funktion)
+
+      //connect(table, &rotable::Table::waiterIsNeededChanged, &_needBoard, &rotable::NeedBoard::tableNeedChanged);
+      if(_tables.addTable(_table))
       {
-          connect(table, &rotable::Table::sendOrders, this, &Waiter_Client::sendOrders);
-          connect(table, &rotable::Table::waiterIsNeededChanged, &_needBoard, &rotable::NeedBoard::tableNeedChanged);
-          connect(table, &rotable::Table::newOrderAdded, this, &Waiter_Client::playsound);
-          requestOrderOnTable(table->id());
-          emit table->waiterIsNeededChanged();
-          emit table->incomingOrderCountChanged();
+          connect(_table, &rotable::Table::sendOrders, this, &Waiter_Client::sendOrders);
+          connect(_table, &rotable::Table::waiterIsNeededChanged, &_needBoard, &rotable::NeedBoard::tableNeedChanged);
+          connect(_table, &rotable::Table::newOrderAdded, this, &Waiter_Client::playsound);
+          requestOrderOnTable(_table->id());
+          emit _table->waiterIsNeededChanged();
+          emit _table->incomingOrderCountChanged();
       }
       else
-          requestOrderOnTable(table->id());
+          requestOrderOnTable(_table->id());
           //delete table;
 
     } break;

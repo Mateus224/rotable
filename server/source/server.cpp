@@ -248,7 +248,8 @@ void Server::packageReceived(client_t client, ComPackage *package) {
         ComPackageDataChanged dc;
         dc.setDataCategory(rotable::ComPackage::RequestTable);
         dc.setDataName(QString("%1").arg(id));
-        _tcp.send(-1, dc);
+        //_tcp.send(-1, dc);
+        send_to_users(dc, rotable::ComPackage::TableAccount);
         send_to_users(dc, rotable::ComPackage::WaiterAccount);
 
         if (updateTable) {
