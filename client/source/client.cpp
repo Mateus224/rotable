@@ -219,6 +219,7 @@ void Client::packageReceived(ComPackage *package)
           ComPackageReject reject(package->id());
           _tcp.send(reject);
         }
+        requestMediaIds();
     }
     default:
     {
@@ -705,7 +706,6 @@ bool Client::typeOfFileDestination(ComPackageSendFile* package)
           fc= new AdvertisingVideo();
           if(!fc->addFileOnSD(package))
               return false;
-          prepareForPlayAdvertising();
           break;
       case ComPackage::AdvertisingPicture:
           if(true)
