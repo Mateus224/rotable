@@ -20,8 +20,7 @@ Rectangle {
         width: waiterMain.width * 0.03
         height: width
 
-        border.width: borderThickness
-        border.color: "#000000"
+        color: "red"
 
         property int collapseDuration: (x/menuWidth)*scrollTimeMax
         property int expandDuration: ((menuWidth-x)/menuWidth)*scrollTimeMax
@@ -52,12 +51,20 @@ Rectangle {
             }
         }
 
-        Text {
-            id: arrowtext
-            text: ">"
-            font.pixelSize: parent.height
-            anchors.centerIn: parent
-            anchors.verticalCenterOffset: -2
+//        Text {
+//            id: arrowtext
+//            text: ">"
+//            font.pixelSize: parent.height
+//            anchors.centerIn: parent
+//            anchors.verticalCenterOffset: -2
+//        }
+
+        Image {
+            id: dragImage
+            source: "qrc:/resources/images/pullout.svg"
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.leftMargin: -2
         }
 
         MouseArea {
@@ -218,18 +225,18 @@ Rectangle {
     states: [
         State {
             name: "Expand"
-            PropertyChanges {
-                target: arrowtext
-                text: ">"
-            }
+//            PropertyChanges {
+//                target: arrowtext
+//                text: ">"
+//            }
         },
 
         State {
             name: "Collapse"
-            PropertyChanges {
-                target: arrowtext
-                text: "<"
-            }
+//            PropertyChanges {
+//                target: arrowtext
+//                text: "<"
+//            }
         }
     ]
 }
