@@ -7,6 +7,7 @@ Rectangle {
     color: "#00000000"
 
     property double dynamicSize: Math.min(parent.width * 0.05, parent.height * 0.1)
+    property double buttonMargin: height * 0.015
 
     // Clear fields on state change
     onStateChanged: {
@@ -18,13 +19,13 @@ Rectangle {
         id: appname
 
         width: parent.width * 0.4
-        height: parent.height * 0.2
+        height: parent.height * 0.12
 
         anchors.top: parent.top
         anchors.topMargin: parent.height * 0.08
         anchors.horizontalCenter: parent.horizontalCenter
 
-        text: qsTr("Rotable Waiter Application")+ langObject.emptyString
+        text: qsTr("Rotable Waiter")+ langObject.emptyString
 
         font.pixelSize: dynamicSize
         style: Text.Outline
@@ -32,15 +33,17 @@ Rectangle {
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
         wrapMode: Text.WordWrap
+
+        Behavior on anchors.topMargin { PropertyAnimation { easing.type: Easing.InOutQuad; duration: 250 } }
     }
 
     TextField {
         id: loginField
         width: Math.max(202,parent.width * 0.18)
-        height: Math.max(38,parent.height * 0.029)
+        height: Math.max(36,parent.height * 0.04)
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: appname.bottom
-        anchors.topMargin: parent.height * 0.05
+        anchors.topMargin: parent.height * 0.06
         onTextChanged: waiter.login = text
         placeholderText: qsTr("Please insert login")+ langObject.emptyString
     }
@@ -49,7 +52,7 @@ Rectangle {
         id: passwordField
 
         width: Math.max(202,parent.width * 0.18)
-        height: Math.max(38,parent.height * 0.029)
+        height: Math.max(36,parent.height * 0.04)
         anchors.top: loginField.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         echoMode: 2
@@ -73,6 +76,10 @@ Rectangle {
                             target: keyboard
                             y: parent.height - keyboard.height
                         }
+                        PropertyChanges {
+                            target: appname
+                            anchors.topMargin: -appname.height
+                        }
                     }
 
         transitions: Transition {
@@ -94,10 +101,12 @@ Rectangle {
         text: qsTr("Log in") + langObject.emptyString
 
         anchors.left: loginField.left
+        anchors.leftMargin: -buttonMargin
         anchors.top: passwordField.bottom
-        anchors.topMargin: parent.height * 0.015
+        anchors.topMargin: buttonMargin
         anchors.right: passwordField.horizontalCenter
-        checkable: false
+
+        height: Math.max(28,parent.height * 0.04)
         activeFocusOnPress: true
         isDefault: true
         onClicked: waiter.logIn()
@@ -108,9 +117,12 @@ Rectangle {
         text: qsTr("Close")+ langObject.emptyString
 
         anchors.right: loginField.right
+        anchors.rightMargin: -buttonMargin
         anchors.top: passwordField.bottom
-        anchors.topMargin: parent.height * 0.015
+        anchors.topMargin: buttonMargin
         anchors.left: passwordField.horizontalCenter
+
+        height: Math.max(28,parent.height * 0.04)
         onClicked: Qt.quit()
     }
 
