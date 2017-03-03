@@ -46,14 +46,14 @@ bool File::addFileOnSD(rotable::ComPackageSendFile *package)
 
         if(!outputFile.isOpen()){
             qCritical() << "- Error, unable to open" << FileList.at(i) << "for output";
-            return 0;
+            return false;
         }
         outputFile.write(File);
         i++;
 
         outputFile.close();
     }
-    return 1;
+    return true;
 }
 
 //------------------------------------------------------------------------------

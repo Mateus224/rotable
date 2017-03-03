@@ -520,7 +520,6 @@ void Client::dataReturned(ComPackageDataReturn *package)
             _products->removeCategory(categoryId);
             if(categoryId == _currentCategoryId)
                 setState("STARTSCREEN");
-
         }
       }
     } break;
@@ -583,7 +582,8 @@ void Client::dataReturned(ComPackageDataReturn *package)
             _countIncomeMedias++;
             if(!_file->checkMediaOnSD())
                 requestFile(_file->_fileInfo._id);
-            prepareForPlayAdvertising();
+            else
+                prepareForPlayAdvertising();
         }break;
 
         case ComPackage::AdvertisingPicture:
@@ -672,7 +672,7 @@ void Client::dataChanged(rotable::ComPackageDataChanged *package)
     case ComPackage::RequestTable:
     {
       bool ok;
-      qDebug()<<"passt doch";
+      qCritical() << tr("ComPackage::RequestTable received! WHY?!");
 
     } break;
     case ComPackage::RequestMediaIds:
@@ -705,6 +705,7 @@ bool Client::typeOfFileDestination(ComPackageSendFile* package)
           fc= new AdvertisingVideo();
           if(!fc->addFileOnSD(package))
               return false;
+          prepareForPlayAdvertising();
           break;
       case ComPackage::AdvertisingPicture:
           if(true)

@@ -168,10 +168,8 @@ bool TcpClient::sendInPart(const ComPackage &p, int IDprogressBar)
 void TcpClient::readPackage()
 {
   _buffer += _client.readAll();
-  int i=0;
   bool doContinue = true;
   do {
-    qDebug()<<"how long is i:"<<i;
     QJsonDocument jdoc = QJsonDocument::fromBinaryData(_buffer);
     if (jdoc.isNull()) {
       // we probably did not receive the full package yet
