@@ -107,7 +107,7 @@ void rotable::AdvertisingContainer::onFileUpdated()
 
 void rotable::AdvertisingContainer::playTimeNextElement(int id)
 {
-    int SumOfplayTimes=0, nextId=0,test=0,j=0,size=0;
+    int SumOfplayTimes=0, nextId=0,j=0,size=0;
     bool flag=0;
 
     QHash<int,AdvertisingVideo*>::const_iterator i = _files->constBegin();
@@ -115,7 +115,8 @@ void rotable::AdvertisingContainer::playTimeNextElement(int id)
     while (i != _files->constEnd()) {
         ++j;
         tmpFile= i.value();
-        test=tmpFile->getA_id();
+
+        nextId=tmpFile->getA_id();
         SumOfplayTimes+=tmpFile->getPlayTime();
         if(tmpFile->getA_id()==id){
             flag=true;
@@ -129,10 +130,9 @@ void rotable::AdvertisingContainer::playTimeNextElement(int id)
             }
         }
         else if(flag==true){
+            nextFile= i.value();
             flag=false;
-            nextId=tmpFile->getA_id();
-            SumOfplayTimes-=tmpFile->getPlayTime();
-            nextFile = _files->value(nextId);
+            SumOfplayTimes=SumOfplayTimes-tmpFile->getPlayTime();
         }
         ++i;
     }
