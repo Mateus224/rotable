@@ -176,7 +176,7 @@ bool AdvertisingTableModel::setData(const QModelIndex &index, const QVariant &va
         Q_ASSERT(file);
         if (file) {
         file->setPlayTime(value.toInt());
-        _advertisingVideos->playTimeNextElement(ids[index.row()]);
+        _advertisingVideos->playTimeNextElement(file->getA_id());
       }
     } break;
     case play: {
