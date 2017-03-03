@@ -39,7 +39,7 @@
        <locale language="English" country="UnitedStates"/>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <property name="iconSize">
        <size>
@@ -217,26 +217,6 @@
               <widget class="Line" name="line_2">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QToolButton" name="_toolButtonRename">
-               <property name="text">
-                <string>Rename</string>
-               </property>
-               <property name="icon">
-                <iconset resource="../resources/resources.qrc">
-                 <normaloff>:/rotable/edit.png</normaloff>:/rotable/edit.png</iconset>
-               </property>
-               <property name="iconSize">
-                <size>
-                 <width>24</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="toolButtonStyle">
-                <enum>Qt::ToolButtonTextUnderIcon</enum>
                </property>
               </widget>
              </item>
@@ -913,7 +893,7 @@
      <x>0</x>
      <y>0</y>
      <width>750</width>
-     <height>22</height>
+     <height>19</height>
     </rect>
    </property>
   </widget>
