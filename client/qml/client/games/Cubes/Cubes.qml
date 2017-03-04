@@ -140,5 +140,14 @@ Item {
             duration: 5000
             easing.type: Easing.OutExpo
         }
+
+        NumberAnimation {
+            id: objRotAnimationZ
+            alwaysRunToEnd: true
+            target: canvas3d
+            property: "zRotAnim"
+            duration: 5000
+            easing.type: Easing.OutExpo
+        }
     }
 }

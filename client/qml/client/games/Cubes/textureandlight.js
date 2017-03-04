@@ -163,30 +163,43 @@ function cubeReleased(event){
     diffY = Math.round(diffY / 100);
     rollResult = Math.round(Math.random() * 5 + 1);
     console.log("random " + rollResult);
+
     switch (rollResult){        //rotX & rotY - starting rotation of dice
         case 1:
             rotX = 0;
             rotY = 0;
+            objRotAnimationY.to = 360 * diffY + rotY;
+            objRotAnimationZ.to = 0;
             break;
         case 2:
             rotX = 90;
             rotY = 0;
+            objRotAnimationY.to = rotY;
+            objRotAnimationZ.to = - (360 * diffY);
             break;
         case 3:
             rotX = 0;
             rotY = 270;
+            objRotAnimationY.to = 360 * diffY + rotY;
+            objRotAnimationZ.to = 0;
             break;
         case 4:
             rotX = 0;
             rotY = 90;
+            objRotAnimationY.to = 360 * diffY + rotY;
+            objRotAnimationZ.to = 0;
             break;
         case 5:
             rotX = 270;
             rotY = 0;
+            objRotAnimationY.to = rotY;
+            objRotAnimationZ.to = 360 * diffY;
             break;
         case 6:
             rotX = 180;
             rotY = 0;
+            objRotAnimationY.to = - (360 * diffY + rotY);
+            objRotAnimationZ.to = 0;
             break;
     }
     //Rotation of dice
@@ -194,10 +207,15 @@ function cubeReleased(event){
     objRotAnimationX.to = 360 * diffX + rotX;  // multiply by 360 to always stop dice flat on its side - not at some angle, same reason for rounding diffX & diffY
     objRotAnimationX.running = true;
     objRotAnimationX.running = false;
+
     objRotAnimationY.from = rotY;
-    objRotAnimationY.to = 360 * diffY + rotY;
     objRotAnimationY.running = true;
     objRotAnimationY.running = false;
+
+    objRotAnimationZ.from = 0;
+    objRotAnimationZ.running = true;
+    objRotAnimationZ.running = false;
+
     //Moving of dice
     objMovAnimationX.to = 360 * diffX;
     objMovAnimationX.running = true;
@@ -217,7 +235,6 @@ function paintGL(canvas) {
         height = currentHeight;
         gl.viewport(0, 0, width, height);
         mat4.ortho(pMatrix, -20, 20, -20, 20, 0.1, 50.0);
-    //    mat4.perspective(pMatrix, degToRad(145), width / height, 0.1, 500.0);
         gl.uniformMatrix4fv(pMatrixUniform, false, pMatrix);
     }
     //! [9]
@@ -233,6 +250,7 @@ function paintGL(canvas) {
                                         -5.0]);
     mat4.rotate(mvMatrix, mvMatrix, degToRad(canvas.xRotAnim), [0, 1, 0]);
     mat4.rotate(mvMatrix, mvMatrix, degToRad(-canvas.yRotAnim), [1, 0, 0]);
+    mat4.rotate(mvMatrix, mvMatrix, degToRad(canvas.zRotAnim), [0, 0, 1]);
     gl.uniformMatrix4fv(mvMatrixUniform, false, mvMatrix);
     //! [11]
 
