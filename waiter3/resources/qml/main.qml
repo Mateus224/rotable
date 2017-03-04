@@ -18,7 +18,6 @@ Rectangle{
 
     LoginView {
         id: loginView
-        y: 230
         anchors.fill: parent
         visible: false
         enabled: false

@@ -1,24 +1,25 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
 import QtQuick.VirtualKeyboard 2.1
 
 Rectangle {
     id: mainLayout
     color: "#00000000"
 
-    property double dynamicSize: Math.min(parent.width * 0.05, parent.height * 0.1)
+    property double dynamicSize: Math.min(parent.width * 0.07, parent.height * 0.12)
     property double buttonMargin: height * 0.015
+    property double dynamicHeight: Math.max(70,parent.height * 0.1)
 
     // Clear fields on state change
     onStateChanged: {
-//        textField1.text = "";
         passwordField.text = "";
     }
 
     Label {
         id: appname
 
-        width: parent.width * 0.4
+        width: parent.width * 0.6
         height: parent.height * 0.12
 
         anchors.top: parent.top
@@ -34,13 +35,13 @@ Rectangle {
         horizontalAlignment: Text.AlignHCenter
         wrapMode: Text.WordWrap
 
-        Behavior on anchors.topMargin { PropertyAnimation { easing.type: Easing.InOutQuad; duration: 250 } }
+//        Behavior on anchors.topMargin { PropertyAnimation { easing.type: Easing.InOutQuad; duration: 250 } }
     }
 
     TextField {
         id: loginField
-        width: Math.max(202,parent.width * 0.18)
-        height: Math.max(36,parent.height * 0.04)
+        width: Math.max(250,parent.width * 0.25)
+        height: dynamicHeight
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: appname.bottom
         anchors.topMargin: parent.height * 0.06
@@ -51,8 +52,8 @@ Rectangle {
     TextField {
         id: passwordField
 
-        width: Math.max(202,parent.width * 0.18)
-        height: Math.max(36,parent.height * 0.04)
+        width: Math.max(250,parent.width * 0.25)
+        height: dynamicHeight
         anchors.top: loginField.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         echoMode: 2
@@ -80,6 +81,10 @@ Rectangle {
                             target: appname
                             anchors.topMargin: -appname.height
                         }
+                        PropertyChanges {
+                            target: loginField
+                            anchors.topMargin: mainLayout.height * 0.015
+                        }
                     }
 
         transitions: Transition {
@@ -92,6 +97,18 @@ Rectangle {
                                 duration: 250
                                 easing.type: Easing.InOutQuad
                             }
+                            NumberAnimation {
+                                target: appname
+                                properties: "anchors.topMargin"
+                                duration: 250
+                                easing.type: Easing.InOutQuad
+                            }
+                            NumberAnimation {
+                                target: loginField
+                                properties: "anchors.topMargin"
+                                duration: 250
+                                easing.type: Easing.InOutQuad
+                            }
                         }
                     }
     }
@@ -101,15 +118,25 @@ Rectangle {
         text: qsTr("Log in") + langObject.emptyString
 
         anchors.left: loginField.left
-        anchors.leftMargin: -buttonMargin
         anchors.top: passwordField.bottom
         anchors.topMargin: buttonMargin
         anchors.right: passwordField.horizontalCenter
 
-        height: Math.max(28,parent.height * 0.04)
+        height: dynamicHeight
         activeFocusOnPress: true
         isDefault: true
         onClicked: waiter.logIn()
+
+        style: ButtonStyle {
+            label: Text {
+                renderType: Text.NativeRendering
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                font.family: "Helvetica"
+                font.pointSize: control.width * 0.15
+                text: control.text
+            }
+        }
     }
 
     Button {
@@ -117,13 +144,23 @@ Rectangle {
         text: qsTr("Close")+ langObject.emptyString
 
         anchors.right: loginField.right
-        anchors.rightMargin: -buttonMargin
         anchors.top: passwordField.bottom
         anchors.topMargin: buttonMargin
         anchors.left: passwordField.horizontalCenter
 
-        height: Math.max(28,parent.height * 0.04)
+        height: dynamicHeight
         onClicked: Qt.quit()
+
+        style: ButtonStyle {
+            label: Text {
+                renderType: Text.NativeRendering
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                font.family: "Helvetica"
+                font.pointSize: control.width * 0.15
+                text: control.text
+            }
+        }
     }
 
     Text {
@@ -150,7 +187,4 @@ Rectangle {
             }
         }
     ]
-
-
-
 }
