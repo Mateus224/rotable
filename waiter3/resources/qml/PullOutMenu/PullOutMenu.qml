@@ -65,6 +65,7 @@ Rectangle {
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
             anchors.leftMargin: -2
+            scale: 0.5
         }
 
         MouseArea {
