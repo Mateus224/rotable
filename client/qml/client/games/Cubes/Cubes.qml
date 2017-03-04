@@ -63,10 +63,6 @@ Item {
     height: 768
     visible: true
 
-
-
-
-
     //! [0]
     Canvas3D {
         id: canvas3d
@@ -96,13 +92,6 @@ Item {
             GLCode.resizeGL(canvas3d);
         }
 
-        Label {
-            text: GLCode.poz | 0
-            font.pixelSize: 22
-            font.italic: true
-            color: "steelblue"
-        }
-
         MouseArea {
             id: clickArea
             anchors.fill: parent
@@ -129,7 +118,6 @@ Item {
             alwaysRunToEnd: true
             target: canvas3d
             property: "xRotAnim"
-            from: 0.0
             duration: 5000
             easing.type: Easing.OutExpo
         }
@@ -149,7 +137,6 @@ Item {
             alwaysRunToEnd: true
             target: canvas3d
             property: "yRotAnim"
-            from: 0.0
             duration: 5000
             easing.type: Easing.OutExpo
         }

@@ -72,14 +72,15 @@ var width = 0;
 var height = 0;
 var canvas3d;
 var pixelSize;
+var rollResult;
+var rotX;
+var rotY;
 
 // cube properties after mouse drag
 var pozX = 0;
 var pozY = 0;
 var diffX = 0;
 var diffY = 0;
-var rotX = 0;
-var rotY = 0;
 
 function initializeGL(canvas) {
     canvas3d = canvas;
@@ -160,15 +161,41 @@ function cubeReleased(event){
     diffX = Math.round(diffX / 100);
     diffY = pozY - event.y;
     diffY = Math.round(diffY / 100);
-    rotX = Math.round(Math.random() * 3 + 1);
-    rotY = Math.round(Math.random() * 3 + 1);
-    console.log("rotX " + rotX);
-    console.log("rotY " + rotY);
+    rollResult = Math.round(Math.random() * 5 + 1);
+    console.log("random " + rollResult);
+    switch (rollResult){        //rotX & rotY - starting rotation of dice
+        case 1:
+            rotX = 0;
+            rotY = 0;
+            break;
+        case 2:
+            rotX = 90;
+            rotY = 0;
+            break;
+        case 3:
+            rotX = 0;
+            rotY = 270;
+            break;
+        case 4:
+            rotX = 0;
+            rotY = 90;
+            break;
+        case 5:
+            rotX = 270;
+            rotY = 0;
+            break;
+        case 6:
+            rotX = 180;
+            rotY = 0;
+            break;
+    }
     //Rotation of dice
-    objRotAnimationX.to = 90 * rotX * diffX;  // multiply by 90 to always stop dice flat on its side - not at some angle, same reason for rounding diffX & diffY
+    objRotAnimationX.from = rotX;
+    objRotAnimationX.to = 360 * diffX + rotX;  // multiply by 360 to always stop dice flat on its side - not at some angle, same reason for rounding diffX & diffY
     objRotAnimationX.running = true;
     objRotAnimationX.running = false;
-    objRotAnimationY.to = 90 * rotY * diffY;
+    objRotAnimationY.from = rotY;
+    objRotAnimationY.to = 360 * diffY + rotY;
     objRotAnimationY.running = true;
     objRotAnimationY.running = false;
     //Moving of dice
