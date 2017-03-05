@@ -378,19 +378,15 @@ void Waiter_Client::dataReturned(ComPackageDataReturn *package)
       //Table *table = reinterpret_cast<Table*>(Client::fromJSON(package->data()));
       //Sometimes the Signal was emitted but the slot didn't arrives so it is called for the: if (funktion)
 
-      connect(_table, &rotable::Table::waiterIsNeededChanged, &_needBoard, &rotable::NeedBoard::tableNeedChanged);
       if(_tables.addTable(_table))
       {
           connect(_table, &rotable::Table::sendOrders, this, &Waiter_Client::sendOrders);
-          //connect(_table, &rotable::Table::waiterIsNeededChanged, &_needBoard, &rotable::NeedBoard::tableNeedChanged);
+          connect(_table, &rotable::Table::waiterIsNeededChanged, &_needBoard, &rotable::NeedBoard::tableNeedChanged);
           connect(_table, &rotable::Table::newOrderAdded, this, &Waiter_Client::playsound);
           requestOrderOnTable(_table->id());
           emit _table->waiterIsNeededChanged();
           emit _table->incomingOrderCountChanged();
       }
-      else
-          requestOrderOnTable(_table->id());
-          //delete table;
 
     } break;
 
