@@ -137,7 +137,8 @@ Rectangle {
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 font.family: "Helvetica"
-                font.pointSize: control.width * 0.15
+                font.pixelSize: fontSize
+                //font.pointSize: control.width * 0.15
                 text: control.text
             }
         }
