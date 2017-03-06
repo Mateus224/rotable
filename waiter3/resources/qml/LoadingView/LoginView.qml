@@ -10,6 +10,7 @@ Rectangle {
     property double dynamicSize: Math.min(parent.width * 0.07, parent.height * 0.12)
     property double buttonMargin: height * 0.015
     property double dynamicHeight: Math.max(70,parent.height * 0.1)
+    property double fontSize: parent.height*0.035
 
     // Clear fields on state change
     onStateChanged: {
@@ -40,13 +41,15 @@ Rectangle {
 
     TextField {
         id: loginField
-        width: Math.max(250,parent.width * 0.25)
+        width: Math.max(100,parent.width * 0.25)
         height: dynamicHeight
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: appname.bottom
         anchors.topMargin: parent.height * 0.06
         onTextChanged: waiter.login = text
         placeholderText: qsTr("Please insert login")+ langObject.emptyString
+        font.pixelSize: fontSize
+
     }
 
     TextField {
@@ -59,6 +62,7 @@ Rectangle {
         echoMode: 2
         onTextChanged: waiter.password = text
         placeholderText: qsTr("Please insert password")+ langObject.emptyString
+        font.pixelSize: fontSize
     }
 
     InputPanel {
@@ -115,13 +119,13 @@ Rectangle {
 
     Button {
         id: loginButton
-        text: qsTr("Log in") + langObject.emptyString
+        text: qsTr("Login") + langObject.emptyString
 
         anchors.left: loginField.left
         anchors.top: passwordField.bottom
         anchors.topMargin: buttonMargin
-        anchors.right: passwordField.horizontalCenter
-
+        //anchors.right: passwordField.horizontalCenter
+        anchors.right:loginField.right
         height: dynamicHeight
         activeFocusOnPress: true
         isDefault: true
@@ -139,7 +143,7 @@ Rectangle {
         }
     }
 
-    Button {
+/*    Button {
         id: closeButton
         text: qsTr("Close")+ langObject.emptyString
 
@@ -161,7 +165,7 @@ Rectangle {
                 text: control.text
             }
         }
-    }
+    }*/
 
     Text {
         id: text1
