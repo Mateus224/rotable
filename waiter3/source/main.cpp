@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
 
   QCoreApplication::setApplicationName("rotable-waiter");
   QCoreApplication::setApplicationVersion("1.0");
+  app.setWindowIcon(QIcon(":/resources/icon/waiter_icon.ico"));
 
   QCommandLineParser parser;
   parser.setApplicationDescription("rotable waiter application");
