@@ -174,7 +174,7 @@ Rectangle {
         font.pixelSize: dynamicSize / 2
         opacity: 0
 
-        anchors.top: closeButton.bottom
+        anchors.top: loginButton.bottom
         anchors.topMargin: parent.height * 0.02
         anchors.horizontalCenter: parent.horizontalCenter
     }

@@ -3,7 +3,7 @@ import QtQuick 2.5
 Rectangle {
     id: container
 
-    height: order.height + lol.height
+    height: order.height + emptySpace.height
     width: listWidth
 
     color: "transparent"
@@ -13,8 +13,8 @@ Rectangle {
     z: (dragArea.pressed || dragArea.drag.active || seq.running) ? 1 : 0
 
     Rectangle {
-        id: lol
-        height: waiterMain.height * 0.006
+        id: emptySpace
+        height: waiterMain.height * 0.01
         color: "transparent"
 
         anchors.top: parent.top
@@ -69,7 +69,7 @@ Rectangle {
 
 Rectangle{
     id: order
-    anchors.top: lol.bottom
+    anchors.top: emptySpace.bottom
 
     property int productHeight: Math.max(40,dataView.height * 0.08)
     property int borderWidth: Math.max(4,orderList.width * 0.013)
@@ -128,13 +128,13 @@ Rectangle{
                 }
             }
 
-            if (isInside(globalPosThis,globalPosRemove,trashImage.width,trashImage.height) && !caught)
+            if (isInside(globalPosThis,globalPosRemove,trashImage.width,trashImage.height) && !order.caught)
             {
                 order.caught = true;
                 targetTag = "Rejected"
                 console.log(orderTag+" order dropped in rejected area")
             }
-            else if (isInside(globalPosThis,globalPosPayed,moneyImage.width,moneyImage.height) && !caught)
+            else if (isInside(globalPosThis,globalPosPayed,moneyImage.width,moneyImage.height) && !order.caught)
             {
                 order.caught = true;
                 targetTag = "Payed"
@@ -256,10 +256,11 @@ Rectangle{
             id: orderTime
             text: model.timeSent
             color: borderColor
-            font.pixelSize: order.borderWidth * 3.8
+            font.pixelSize: order.borderWidth * 3.6
             font.bold: true
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
+            anchors.verticalCenterOffset: -order.borderWidth * 0.6
         }
     }
 }
