@@ -48,8 +48,10 @@ int main(int argc, char *argv[])
   //google_breakpad::ExceptionHandler breakpad_handler(
   //  breakpad_descriptor, NULL, NULL, NULL, true, -1);
   QApplication app(argc, argv);
+  app.setWindowIcon(QIcon("qrc:/icon/admin_icon.ico"));
 
-  QCoreApplication::setApplicationName("rotable-client");
+
+  QCoreApplication::setApplicationName("waiter-client");
   QCoreApplication::setApplicationVersion("1.0b");
 
   QCommandLineParser parser;

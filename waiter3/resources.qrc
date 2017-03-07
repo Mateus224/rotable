@@ -45,5 +45,6 @@
         <file>resources/images/touch-icon.png</file>
         <file>resources/audio/newOrderAlert.wav</file>
         <file>resources/images/fingerprint.png</file>
+        <file>resources/icon/waiter_icon.ico</file>
     </qresource>
 </RCC>

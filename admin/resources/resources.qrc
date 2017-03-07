@@ -21,4 +21,7 @@
         <file>gear.svg</file>
         <file>waiter2.svg</file>
     </qresource>
+    <qresource prefix="/">
+        <file>icon/admin_icon.ico</file>
+    </qresource>
 </RCC>

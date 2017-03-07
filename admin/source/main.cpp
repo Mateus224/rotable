@@ -30,11 +30,13 @@ int main(int argc, char *argv[])
 //   breakpad_descriptor, NULL, NULL, NULL, true, -1);
 
   QApplication a(argc, argv);
+  a.setWindowIcon(QIcon("qrc:/icon/admin_icon.ico"));
 
   QCoreApplication::setApplicationName("rotable-admin");
   QCoreApplication::setApplicationVersion("1.0b");
   QCoreApplication::setOrganizationName("rotable");
   QCoreApplication::setOrganizationDomain("rotable.info");
+
 
   // Load translator
   rotable::LanguageSupport* langSupp = new rotable::LanguageSupport(rotable::LanguageSupport::AppType::admin);

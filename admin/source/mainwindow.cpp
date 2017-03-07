@@ -28,8 +28,8 @@ MainWindow::MainWindow(QWidget *parent)
           this, SIGNAL(actionImportDatabase()));
   connect(_ui->_toolButtonRemove, SIGNAL(clicked(bool)),
           this, SIGNAL(actionRemoveCurrentEntry()));
-  connect(_ui->_toolButtonRename, SIGNAL(clicked(bool)),
-          this, SIGNAL(actionRenameCurrentEntry()));
+  /*connect(_ui->_toolButtonRename, SIGNAL(clicked(bool)),
+          this, SIGNAL(actionRenameCurrentEntry()));*/
   connect(_ui->_toolButtonExport, SIGNAL(clicked(bool)),
           this, SIGNAL(actionExportStatistic()));
   connect(_ui->_toolButtonClearDebugListening, SIGNAL(clicked()),

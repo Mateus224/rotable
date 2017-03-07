@@ -759,6 +759,7 @@ bool Server::setData(ComPackageDataSet *set, client_t client) {
           dc.setDataCategory(ComPackage::RequestAdvertisingConfig);
           dc.setDataName(QString("%1").arg(newFrequence));
           send_to_users(dc, rotable::ComPackage::AdminAccount);
+          send_to_users(dc, rotable::ComPackage::TableAccount);
           return true;
       }
       else

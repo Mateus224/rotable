@@ -147,3 +147,6 @@ win32:LIBS += -lws2_32
 #LIBS += -L/home/rosynski/qwt-6.1.2/lib -lqwt
 #INCLUDEPATH += /usr/local/qwt-6.1.2/include
 #DEPENDPATH += /usr/local/qwt-6.1.2/include
+
+DISTFILES += \
+    resources/icon/admin_icon.ico
