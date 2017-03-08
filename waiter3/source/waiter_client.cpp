@@ -124,7 +124,7 @@ void Waiter_Client::logOff()
 {
     _stopping = true;
     _tcp.close();
-    setState("");
+    setState("Login");
     //setViewState("");
 }
 

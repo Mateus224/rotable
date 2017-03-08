@@ -46,7 +46,9 @@
         <file>resources/audio/newOrderAlert.wav</file>
         <file>resources/images/fingerprint.png</file>
         <file>resources/icon/waiter_icon.ico</file>
-        <file>resources/images/pullout.svg</file>
-        <file>resources/images/pullout2.svg</file>
+        <file>resources/images/fat_pull_in.svg</file>
+        <file>resources/images/fat_pull_out.svg</file>
+        <file>resources/images/slim_pull_in.svg</file>
+        <file>resources/images/slim_pull_out.svg</file>
     </qresource>
 </RCC>

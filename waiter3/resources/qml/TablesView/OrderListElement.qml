@@ -1,19 +1,29 @@
 import QtQuick 2.5
 
-Rectangle{
-    id: order
+Rectangle {
+    id: container
 
-    property int productHeight: Math.max(40,dataView.height * 0.08)
-    property int borderWidth: Math.max(4,orderList.width * 0.013)
-    property int listWidth: Math.max(100,orderList.width)
-    property int itemSpacing: Math.max(10,dataView.height*0.02)
+    height: order.height + emptySpace.height
+    width: listWidth
+
+    color: "transparent"
+
+    Drag.active: dragArea.drag.active
+
+    z: (dragArea.pressed || dragArea.drag.active || seq.running) ? 1 : 0
+
+    Rectangle {
+        id: emptySpace
+        height: waiterMain.height * 0.01
+        color: "transparent"
+
+        anchors.top: parent.top
+        width: listWidth
+    }
+
     property string borderColor
-    property int listHeight: orderItemsView.count * productHeight + 6 * borderWidth + (orderItemsView.count-1) * itemSpacing
-
     property string orderTag
     property string targetTag
-    property bool caught: false
-    property point beginDrag: Qt.point(x,y)
 
     property var globalPosThis
     property var globalPosNew : waiterMain.mapFromItem(orderList, 0, 0)
@@ -21,35 +31,29 @@ Rectangle{
     property var globalPosRemove : waiterMain.mapFromItem(trashImage, 0, 0)
     property var globalPosPayed : waiterMain.mapFromItem(moneyImage, 0, 0)
 
-    width: listWidth
-    height: model.itemCount > 0 ? listHeight : 0
+    property point beginDrag: Qt.point(x,y)
 
-    border.width: borderWidth
-    border.color: borderColor
-    radius: width / 15
-
-    Drag.active: dragArea.drag.active
-
-    z: (dragArea.pressed || dragArea.drag.active) ? 1 : 0
+    property int listWidth: Math.max(100,orderList.width)
 
     function isInside(objectPos,targetPos,targetWidth,targetHeight)
     {
         return ( objectPos.x >= targetPos.x && objectPos.x <= targetPos.x+targetWidth
                 && objectPos.y >= targetPos.y && objectPos.y <= targetPos.y+targetHeight )
     }
+
     function handleDragging()
     {
-        globalPosThis = waiterMain.mapFromItem(order, 0, 0)
-        globalPosThis.x = globalPosThis.x + order.width * 0.95
+        globalPosThis = waiterMain.mapFromItem(container, 0, 0)
+        globalPosThis.x = globalPosThis.x + container.width * 0.95
         if (isInside(globalPosThis,globalPosNew,orderList.width,orderList.height))
-            order.borderColor = waiterMain.incomingColor
+            container.borderColor = waiterMain.incomingColor
         else if (isInside(globalPosThis,globalPosToPay,outgoingList.width,outgoingList.height))
-            order.borderColor = waiterMain.menuColor
+            container.borderColor = waiterMain.menuColor
         else if (isInside(globalPosThis,globalPosRemove,trashImage.width,trashImage.height))
-            order.borderColor = waiterMain.removeColor
+            container.borderColor = waiterMain.removeColor
         else if (isInside(globalPosThis,globalPosPayed,moneyImage.width,moneyImage.height))
-            order.borderColor = waiterMain.payedColor
-        else order.borderColor = orderTag=="New" ? waiterMain.incomingColor : waiterMain.menuColor
+            container.borderColor = waiterMain.payedColor
+        else container.borderColor = orderTag=="New" ? waiterMain.incomingColor : waiterMain.menuColor
     }
 
     onXChanged: {
@@ -63,14 +67,32 @@ Rectangle{
         }
     }
 
+Rectangle{
+    id: order
+    anchors.top: emptySpace.bottom
+
+    property int productHeight: Math.max(40,dataView.height * 0.08)
+    property int borderWidth: Math.max(4,orderList.width * 0.013)
+    property int itemSpacing: Math.max(10,dataView.height*0.02)
+    property int listHeight: orderItemsView.count * productHeight + 6 * borderWidth + (orderItemsView.count-1) * itemSpacing
+
+    property bool caught: false
+
+    width: listWidth
+    height: model.itemCount > 0 ? listHeight : 0
+
+    border.width: borderWidth
+    border.color: borderColor
+    radius: width / 15
+
     MouseArea{
         id:dragArea
 
         anchors.fill: parent
-        drag.target: parent
+        drag.target: container
 
         onPressed: {
-            order.beginDrag = Qt.point(order.x, order.y);
+            beginDrag = Qt.point(container.x, container.y);
             if ( orderTag == "New" ) {
                 orderList.z = 1
                 outgoingList.z = 0
@@ -84,38 +106,38 @@ Rectangle{
             console.log("Order tag: "+orderTag);
         }
         onReleased: {
-            globalPosThis = waiterMain.mapFromItem(order, 0, 0)
-            globalPosThis.x = globalPosThis.x + order.width * 0.95
+            globalPosThis = waiterMain.mapFromItem(container, 0, 0)
+            globalPosThis.x = globalPosThis.x + container.width * 0.95
 
-            if (order.orderTag=="ToPay")
+            if (container.orderTag=="ToPay")
             {
                 if (isInside(globalPosThis,globalPosNew,orderList.width,orderList.height))
                 {
                     order.caught = true;
-                    order.targetTag = "New"
+                    targetTag = "New"
                     console.log("Topay order dropped in new area")
                 }
             }
-            else if (order.orderTag=="New")
+            else if (container.orderTag=="New")
             {
                 if (isInside(globalPosThis,globalPosToPay,outgoingList.width,outgoingList.height))
                 {
                     order.caught = true;
-                    order.targetTag = "ToPay"
+                    targetTag = "ToPay"
                     console.log("New order dropped in topay area")
                 }
             }
 
-            if (isInside(globalPosThis,globalPosRemove,trashImage.width,trashImage.height) && !caught)
+            if (isInside(globalPosThis,globalPosRemove,trashImage.width,trashImage.height) && !order.caught)
             {
                 order.caught = true;
-                order.targetTag = "Rejected"
+                targetTag = "Rejected"
                 console.log(orderTag+" order dropped in rejected area")
             }
-            else if (isInside(globalPosThis,globalPosPayed,moneyImage.width,moneyImage.height) && !caught)
+            else if (isInside(globalPosThis,globalPosPayed,moneyImage.width,moneyImage.height) && !order.caught)
             {
                 order.caught = true;
-                order.targetTag = "Payed"
+                targetTag = "Payed"
                 console.log(orderTag+" order dropped in payed area")
             }
 
@@ -123,13 +145,13 @@ Rectangle{
 
             if(!order.caught) {
                 console.log("Object was not caught in any proper area, returning to intial position.")
-                backAnimX.from = order.x
+                backAnimX.from = container.x
                 backAnimX.to = beginDrag.x
-                backAnimY.from = order.y
+                backAnimY.from = container.y
                 backAnimY.to = beginDrag.y
                 //if current object position != starting object pos => play animation and make object non iteractable
-                if (order.x !== beginDrag.x && order.y !== beginDrag.y) {
-                    order.enabled = false
+                if (container.x !== beginDrag.x && container.y !== beginDrag.y) {
+                    container.enabled = false
                     seq.start()
                 }
                 //otherwise - reset parent list clipping and z positions
@@ -171,8 +193,8 @@ Rectangle{
 
         ParallelAnimation {
             id: backAnim
-            PropertyAnimation { id: backAnimX; target: order; property: "x"; duration: 300; }
-            PropertyAnimation { id: backAnimY; target: order; property: "y"; duration: 300; }
+            PropertyAnimation { id: backAnimX; target: container; property: "x"; duration: 300; }
+            PropertyAnimation { id: backAnimY; target: container; property: "y"; duration: 300; }
         }
 
         ScriptAction {
@@ -180,7 +202,7 @@ Rectangle{
                 if ( orderTag == "New" ) orderList.clip = true
                 else outgoingList.clip = true;
                 orderList.z = outgoingList.z = 0
-                order.enabled = true
+                container.enabled = true
                 console.log("Sequential anim ended.")
             }
         }
@@ -203,9 +225,9 @@ Rectangle{
     ListView {
         id: orderItemsView
 
-        anchors.margins: borderWidth*1.5
-        anchors.topMargin: borderWidth*3
-        anchors.bottomMargin: borderWidth*3
+        anchors.margins: order.borderWidth*1.5
+        anchors.topMargin: order.borderWidth*3
+        anchors.bottomMargin: order.borderWidth*3
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.left: parent.left
@@ -215,15 +237,15 @@ Rectangle{
 
         interactive: false
 
-        spacing: itemSpacing
+        spacing: order.itemSpacing
 
         model: orderItems
-        delegate: OrderProductListElement { height: productHeight}
+        delegate: OrderProductListElement { height: order.productHeight}
     }
 
     Rectangle {
         width: orderTime.font.pixelSize * 4
-        height: borderWidth * 2.5
+        height: order.borderWidth * 3
         anchors.top: parent.top
         anchors.topMargin: -3
         anchors.horizontalCenter: parent.horizontalCenter
@@ -234,10 +256,13 @@ Rectangle{
             id: orderTime
             text: model.timeSent
             color: borderColor
-            font.pixelSize: borderWidth * 2.5
+            font.pixelSize: order.borderWidth * 3.6
             font.bold: true
-            anchors.top: parent.top
             anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.verticalCenterOffset: -order.borderWidth * 0.6
         }
     }
+}
+
 }

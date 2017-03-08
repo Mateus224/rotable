@@ -11,7 +11,6 @@ Rectangle {
 
     anchors.left: parent.left
     anchors.horizontalCenter: parent.horizontalCenter
-    anchors.margins: parent.borderThickness
 
     color: selected ? waiterMain.menuColor : "#FFFFFF"
 

@@ -6,7 +6,7 @@ ListView {
 
     width: parent.width * 0.33
 
-    spacing: Math.max(10,dataView.height*0.02)
+    spacing: Math.max(5,dataView.height*0.01)
 
     model: orderFilterNew
 
