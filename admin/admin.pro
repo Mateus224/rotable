@@ -11,7 +11,7 @@ PRECOMPILED_HEADER = private/precomp.h
 QMAKE_CFLAGS_RELEASE = -g
 
 win32:CONFIG += windows
-win32:RC_ICONS += icon/admin_icon.ico
+win32:RC_ICONS += resources/icon/admin_icon.ico
 
 ########################################################################
 # FILES:
