@@ -154,6 +154,7 @@
     </qresource>
     <qresource prefix="/">
         <file>config.ini</file>
+        <file>resources/icon/client_icon.ico</file>
     </qresource>
     <qresource prefix="/client/advertising">
         <file alias="PlayAdvertising.qml">qml/client/advertising/PlayAdvertising.qml</file>

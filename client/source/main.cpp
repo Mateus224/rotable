@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
   //google_breakpad::ExceptionHandler breakpad_handler(
   //  breakpad_descriptor, NULL, NULL, NULL, true, -1);
   QApplication app(argc, argv);
-  app.setWindowIcon(QIcon("qrc:/icon/admin_icon.ico"));
+  app.setWindowIcon(QIcon(":/resources/icon/client_icon.ico"));
 
 
   QCoreApplication::setApplicationName("waiter-client");
