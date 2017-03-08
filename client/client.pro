@@ -52,7 +52,8 @@ SOURCES += \
 
 RESOURCES +=\
     resources.qrc \
-    $$PWD/../shared/shared_resources.qrc
+    $$PWD/../shared/shared_resources.qrc \
+
 
 OTHER_FILES += \
     qml/client/main.qml \
