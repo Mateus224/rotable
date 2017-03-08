@@ -1,4 +1,5 @@
 import QtQuick 2.5
+import QtGraphicalEffects 1.0
 
 Rectangle {
     id: mainMenuLayout
@@ -17,10 +18,12 @@ Rectangle {
 
         anchors.verticalCenter: parent.verticalCenter
 
-        width: waiterMain.width * 0.03
-        height: width
+        width: dragImage.width * 0.8
+        height: width * 2
 
-        color: "red"
+        color: "transparent"
+
+        z: 1
 
         property int collapseDuration: (x/menuWidth)*scrollTimeMax
         property int expandDuration: ((menuWidth-x)/menuWidth)*scrollTimeMax
@@ -61,11 +64,20 @@ Rectangle {
 
         Image {
             id: dragImage
-            source: "qrc:/resources/images/pullout.svg"
+            source: mainMenuLayout.state=="Expand" ? "qrc:/resources/images/slim_pull_out.svg" : "qrc:/resources/images/slim_pull_in.svg"
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
-            anchors.leftMargin: -2
-            scale: 0.5
+            anchors.leftMargin: -dragImage.width * 0.075
+            scale: 0.8
+        }
+
+        DropShadow {
+            anchors.fill: dragImage
+            horizontalOffset: 5
+            radius: 10
+            samples: 21
+            color: waiterMain.menuColor
+            source: dragImage
         }
 
         MouseArea {
@@ -107,8 +119,10 @@ Rectangle {
         anchors.top: parent.top
         anchors.topMargin: 9
 
-        border.width: borderThickness
-        border.color: "#000000"
+        z:2
+
+//        border.width: borderThickness
+//        border.color: "#000000"
 
         PullOutMenuElement {
             id:orderButton
@@ -117,7 +131,7 @@ Rectangle {
             selected: true
 
             anchors.top: parent.top
-            anchors.margins: borderThickness
+            //anchors.margins: borderThickness
 
             MouseArea {
                 id: orderMouseArea
@@ -139,7 +153,7 @@ Rectangle {
             height: mainMenuLayout.menuItemHeight
 
             anchors.top: orderButton.bottom
-            anchors.margins: borderThickness
+            //anchors.margins: borderThickness
 
             MouseArea {
                 id: archiveMouseArea
@@ -161,7 +175,7 @@ Rectangle {
             height: mainMenuLayout.menuItemHeight
 
             anchors.top: archiveButton.bottom
-            anchors.margins: borderThickness
+            //anchors.margins: borderThickness
 
             MouseArea {
                 id: configMouseArea
@@ -183,7 +197,7 @@ Rectangle {
             height: mainMenuLayout.menuItemHeight
 
             anchors.top: configButton.bottom
-            anchors.margins: borderThickness
+            //anchors.margins: borderThickness
 
             MouseArea {
                 id: languageMouseArea
@@ -205,19 +219,19 @@ Rectangle {
             height: mainMenuLayout.menuItemHeight
 
             anchors.top: languageButton.bottom
-            anchors.margins: borderThickness
+            //anchors.margins: borderThickness
 
             MouseArea {
                 id: logoutMouseare
                 anchors.fill: parent
                 onClicked: {
-                    dataView.state="NotImplemented"
+                    dataView.state="Logout"
                     orderButton.selected=false
                     archiveButton.selected=false
                     configButton.selected=false
                     languageButton.selected=false
                     logoutButton.selected=true
-                    Qt.quit()
+                    //Qt.quit()
                 }
             }
         }
@@ -240,4 +254,18 @@ Rectangle {
 //            }
         }
     ]
+
+    Rectangle {
+        id: dummy
+        anchors.fill: dragMenu
+    }
+
+    DropShadow {
+        anchors.fill: dummy
+        horizontalOffset: 5
+        radius: 10
+        samples: 21
+        color: waiterMain.menuColor
+        source: dummy
+    }
 }

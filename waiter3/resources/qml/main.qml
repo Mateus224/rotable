@@ -48,7 +48,11 @@ Rectangle{
 
         State {
             name: "Login"
-
+            PropertyChanges {
+                target: waiterView
+                visible: false
+                enabled: false
+            }
             PropertyChanges {
                 target: loginView
                 clip: false
@@ -64,6 +68,11 @@ Rectangle{
                 target: waiterView
                 visible: true
                 enabled: true
+            }
+            PropertyChanges {
+                target: loginView
+                visible: false
+                enabled: false
             }
         },
 
