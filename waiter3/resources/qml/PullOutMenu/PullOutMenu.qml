@@ -64,7 +64,7 @@ Rectangle {
 
         Image {
             id: dragImage
-            source: mainMenuLayout.state=="Expand" ? "qrc:/resources/images/slim_pull_out.svg" : "qrc:/resources/images/slim_pull_in.svg"
+            source: mainMenuLayout.state=="Expand" ? "qrc:/resources/images/fat_pull_out.svg" : "qrc:/resources/images/fat_pull_in.svg"
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
             anchors.leftMargin: -dragImage.width * 0.075
