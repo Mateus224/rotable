@@ -492,8 +492,8 @@ public:
   /**
    * @brief removedFile
    * @param id of the File
-   * @param remove 1 if have to be remove 0 if it has bee
-   * recovered
+   * @param remove 1 if have to be remove
+   * 0 if it has be recovered
    * @return return true if successful
    */
   bool removeFile(int id, int remove);

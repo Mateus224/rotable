@@ -396,6 +396,8 @@ private:
 
   void prepareForPlayAdvertising();
 
+  void creatObjectPlayAdvertising();
+
   void sendPlayedAdvertising();
 
 

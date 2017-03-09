@@ -279,8 +279,12 @@ void Server::packageReceived(client_t client, ComPackage *package) {
           if (!typeOfFileDestination(p)) {
             ComPackageReject reject(package->id());
             _tcp.send(client, reject);
+          }else{
+          ComPackageDataChanged dc;
+          dc.setDataCategory(ComPackage::RequestMediaIds);
+          send_to_users(dc,rotable::ComPackage::AdminAccount); //inform admin about changes which are done in the database
+          send_to_users(*package,rotable::ComPackage::TableAccount); // send files to table-clients
           }
-          send_to_users(*package,rotable::ComPackage::TableAccount);
       }
       else{
           qDebug() << tr("WARNING: Unallowed Command from client \"%1\"")
@@ -616,7 +620,12 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
       ComPackageDataReturn *ret =
           new ComPackageDataReturn(*request, frequency);
       return ret;
-
+  } break;
+  case ComPackage::RequestRemoveFile: {
+      File* file=_db.media(request->dataName().toInt());
+      ComPackageDataReturn *ret =
+          new ComPackageDataReturn(*request, file->toJSON());
+      return ret;
   } break;
   default: {
     qCritical()
@@ -1164,18 +1173,24 @@ bool Server::executeCommand(ComPackageCommand *package) {
         return true;
       }
     } break;
-    case ComPackage::CommandType::RemoveAdvertisingVideo: {
-        int  id = package->data().toInt();
-        File* toRemove=_db.media(id);
-        if(toRemove->removeFileFromSD()){
-            if(_db.removeFile(id,1)){
-                ComPackageDataChanged dc;
-                dc.setDataCategory(ComPackage::RequestMediaIds);
-                send_to_users(dc,rotable::ComPackage::AdminAccount);
-                return true;
-            }else qCritical()<<"Could not remove file from database";
-       }else qCritical()<<"Could not remove file from SD";
-    }break;
+    case ComPackage::CommandType::RemoveFile: {
+        int mediaID=package->data().toInt();
+        File* file= _db.media(mediaID);
+        if(file->removeFileFromSD())
+            if(!_db.removeFile(mediaID,1)){
+                qCritical()<<"Could not remove file from database";
+                break;
+            }
+            ComPackageDataChanged dc_admin;
+            dc_admin.setDataCategory(ComPackage::RequestMediaIds);
+            send_to_users(dc_admin,rotable::ComPackage::AdminAccount);
+            ComPackageDataChanged dc_table;
+            //dc_table.setData(file->toJSON());
+
+            dc_table.setDataName(QString("%1").arg(mediaID);
+            dc_table.setDataCategory(ComPackage::RemoveFile);
+            send_to_users(ds_table, rotable::ComPackage::TableAccount);
+        }break;
     case ComPackage::CommandType::SetUpdate: {
       bool  true_ = package->data().toInt();
     }break;
@@ -1451,36 +1466,31 @@ bool Server::typeOfFileDestination(ComPackageSendFile* package)
 {
     QString test1;
     if (package) {
-
       switch (package->getFileUsage()) {
-      case ComPackage::AdvertisingVideo:
-          if(!addAdvertisingSD_Database(package))
-              return false;
-          break;
-      case ComPackage::AdvertisingPicture:
-          if(true)
-           // VideoContainer* a=static_cast <VideoContainer*>(Files);
-          test1=package->getFiles().at(0);
-          break;
-      case ComPackage::CatergoryIcon:
-          if(true)
-           // VideoContainer* b=static_cast <VideoContainer*>(Files);
-          test1=package->getFiles().at(0);
-          break;
-      case ComPackage::ProductPicture:
-          break;
+          case ComPackage::AdvertisingVideo:
+              if(!addAdvertisingSD_Database(package))
+                  return false;
+              break;
+          case ComPackage::AdvertisingPicture:
+              if(true)
+               // VideoContainer* a=static_cast <VideoContainer*>(Files);
+              test1=package->getFiles().at(0);
+              break;
+          case ComPackage::CatergoryIcon:
+              if(true)
+               // VideoContainer* b=static_cast <VideoContainer*>(Files);
+              test1=package->getFiles().at(0);
+              break;
+          case ComPackage::ProductPicture:
+              break;
 
-      case ComPackage::ProductVideo:
-          break;
-
-
+          case ComPackage::ProductVideo:
+              break;
       }
     }
-    ComPackageDataChanged dc;
-    dc.setDataCategory(ComPackage::RequestMediaIds);
-    send_to_users(dc,rotable::ComPackage::AdminAccount);
     return true;
 }
+
 
 //------------------------------------------------------------------------------
 
@@ -1516,5 +1526,5 @@ bool Server::addAdvertisingSD_Database(ComPackageSendFile* package)
   idList=_db.getMediaIdByNameAndType(package->getFileNames(),ComPackage::AdvertisingVideo);
   _db.addAdvertisingVideo(idList);
   delete Files;
-  return 1;
+  return true;
 }

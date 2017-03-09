@@ -609,7 +609,7 @@ void Executor::onRemoveAdvertisingVideo() {
   if (_selectedAdvertisingVideo) {
 
     com.setData(_selectedAdvertisingVideo->getMedia_id());
-    com.setCommandType(ComPackage::RemoveAdvertisingVideo);
+    com.setCommandType(ComPackage::RemoveFile);
 
 
       if (!_tcp_client.send(com)) {

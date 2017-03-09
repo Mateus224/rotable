@@ -271,9 +271,16 @@ private:
   /**
    * @brief typeOfFileDestination
    * @param package
-   * @return true if package was stored and written in the database
+   * @return true if package was stored and were written in the database
    */
   bool typeOfFileDestination(ComPackageSendFile* package);
+
+  /**
+   * @brief typeOfFileDestination
+   * @param package
+   * @return true if package was removed and changes were written in the database
+   */
+  bool typeOfFileDestination_remove(ComPackageSendFile* package);
 
   /**
    * @brief addAdvertisingSD_Database
@@ -290,6 +297,8 @@ private:
    * The current is still the max advertising ID.
    */
   bool addAdvertisingSD_Database(ComPackageSendFile* package);
+
+  bool rmAdvertisingSD_Database(rotable::File* file);
 
   /**
    * @brief Check if connection was enstablished by admin account

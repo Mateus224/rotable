@@ -610,6 +610,12 @@ void Client::dataReturned(ComPackageDataReturn *package)
     {
         _frequence= package->data().toInt();
     } break;
+    case ComPackage::RequestRemoveFile:
+    {
+       File* file=File::fromJSON(package->data());
+       if(!file->removeFileFromSD())
+           qCritical() << "Could not remove File from SD";
+    } break;
     default:
     {
       qCritical() << tr("Unknown data package returned")<< package->dataCategory();
@@ -682,7 +688,15 @@ void Client::dataChanged(rotable::ComPackageDataChanged *package)
         _numberOfMedias=1;
         _countIncomeMedias=0;
         requestAdvertising(id);
-
+    }
+    case ComPackage::RequestAdvertisingConfig:
+    {
+        _frequence=package->dataName().toInt();
+        creatObjectPlayAdvertising();
+    }
+    case ComPackage::RemoveFile:
+    {
+        requestFileToRemove();
     }
     default:
     {
@@ -726,6 +740,7 @@ bool Client::typeOfFileDestination(ComPackageSendFile* package)
           return false;
       }
     }
+    delete fc;
     return true;
 }
 
@@ -758,16 +773,23 @@ void Client::prepareForPlayAdvertising()
         l_advertisingVideo->append(_TmpAdvertisingVideo);
     if(_numberOfMedias==_countIncomeMedias)
     {
-        if (_playA!=NULL) //if exist delete old object because we have a new list
-        {
-            delete _playA;
-        }
-        _playA=new PlayAdvertising(*l_advertisingVideo,*_touch);
-        _playA->_frequnce=_frequence;
-        connect(_playA,SIGNAL(play(QString*)),
-                this, SLOT(playAdvertising(QString*)) );
-        _playA->startPlayAdvertising();
+        creatObjectPlayAdvertising();
     }
+}
+
+//------------------------------------------------------------------------------
+
+void Client::creatObjectPlayAdvertising()
+{
+    if (_playA!=NULL) //if exist delete old object because we have a new list
+    {
+        delete _playA;
+    }
+    _playA=new PlayAdvertising(*l_advertisingVideo,*_touch);
+    _playA->_frequnce=_frequence;
+    connect(_playA,SIGNAL(play(QString*)),
+            this, SLOT(playAdvertising(QString*)) );
+    _playA->startPlayAdvertising();
 }
 
 //------------------------------------------------------------------------------
@@ -830,8 +852,19 @@ void Client::requestFile(int id)
 {
     /*we need compackage data set because on the server side we need as answer not data
     ComPackageDataReturn but ComPackageSendFile*/
-    ComPackageDataSet *request = new ComPackageDataSet();
+    ComPackageDataSet *request=new ComPackageDataSet();
     request->setDataCategory(ComPackage::RequestFile);
+    request->setData(id);
+
+    if (!_tcp.send(*request)) {
+      qCritical() << tr("Could not send request!");
+    }
+}
+
+void Client::requestFileToRemove(int id)
+{
+    ComPackageDataRequest *request=new ComPackageDataSet();
+    request->setDataCategory(ComPackage::RequestRemoveFile);
     request->setData(id);
 
     if (!_tcp.send(*request)) {
