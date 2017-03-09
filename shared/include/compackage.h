@@ -150,7 +150,11 @@ public:
     RequestSystemVersions,
 
     /*Request the frequence of playing advertising*/
-    RequestAdvertisingConfig
+    RequestAdvertisingConfig,
+
+    /*remove File from the SD card*/
+    RequestRemoveFile
+
   };
 
   /**
@@ -181,6 +185,7 @@ public:
      /*Request File for example advertisingVideos*/
      RequestFile,
 
+     RemoveFile
   };
 
   /**
@@ -212,7 +217,7 @@ public:
 
     RemoveWaiterCategory,
 
-    RemoveAdvertisingVideo,
+    RemoveFile,
 
     /*Inform the server to make a system update if there is a new version*/
     SetUpdate

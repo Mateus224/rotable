@@ -613,8 +613,10 @@ void Client::dataReturned(ComPackageDataReturn *package)
     case ComPackage::RequestRemoveFile:
     {
        File* file=File::fromJSON(package->data());
+       //delete _playA
        if(!file->removeFileFromSD())
            qCritical() << "Could not remove File from SD";
+       requestMediaIds();
     } break;
     default:
     {
