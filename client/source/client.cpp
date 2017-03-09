@@ -609,6 +609,7 @@ void Client::dataReturned(ComPackageDataReturn *package)
     case ComPackage::RequestAdvertisingConfig:
     {
         _frequence= package->data().toInt();
+        _playA->setNewFrequency(_frequence);
     } break;
     default:
     {
@@ -762,8 +763,7 @@ void Client::prepareForPlayAdvertising()
         {
             delete _playA;
         }
-        _playA=new PlayAdvertising(*l_advertisingVideo,*_touch);
-        _playA->_frequnce=_frequence;
+        _playA=new PlayAdvertising(*l_advertisingVideo,*_touch, _frequence);
         connect(_playA,SIGNAL(play(QString*)),
                 this, SLOT(playAdvertising(QString*)) );
         _playA->startPlayAdvertising();
