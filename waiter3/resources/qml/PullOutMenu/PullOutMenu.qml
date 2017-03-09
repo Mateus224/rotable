@@ -68,7 +68,7 @@ Rectangle {
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
             anchors.leftMargin: -dragImage.width * 0.075
-            scale: 1
+            scale: 1.4
         }
 
         DropShadow {
