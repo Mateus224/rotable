@@ -38,8 +38,9 @@ void PlayAdvertising::startPlayAdvertising() {
           st_timer = new AdvertisingTimers();
           st_timer->_videoName = &video->_fileInfo._name;
           st_timer->_id = video->_advertisingInfo._id;
+          st_timer->_playTime=((1/((float)video->_advertisingInfo._playTime)));
           L_timers.append(st_timer);
-          l_playTimeList.append(video->_advertisingInfo._playTime);
+          l_playTimeList.append(st_timer->_playTime);
         }
       }
     }
@@ -63,7 +64,6 @@ bool PlayAdvertising::creatAdvertisingPlayList() {
         k = j;
       }
     }
-    // qDebug()<<"frequence: "<<l_playTimeList.at(k);
     float h = L_timers.at(k)->_playTime + l_playTimeList.at(k);
     l_playTimeList.replace(k, h);
     L_timerQueue.append(L_timers.at(k));
