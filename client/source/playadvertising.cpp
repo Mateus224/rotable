@@ -14,7 +14,7 @@ PlayAdvertising::PlayAdvertising(QList<AdvertisingVideo *> &advertisingVideo,
     : QObject(parent) {
   l_advertisingVideo = advertisingVideo;
   _touch = &touch;
-  _frequency = frequnce;
+  _frequency = frequnce* calculateToMin;
   connect(&_timer, &QTimer::timeout, this, &PlayAdvertising::timerEnd);
 }
 
@@ -22,14 +22,13 @@ PlayAdvertising::PlayAdvertising(QList<AdvertisingVideo *> &advertisingVideo,
 
 PlayAdvertising::~PlayAdvertising() {
   _timer.stop();
-  qDeleteAll(L_timers.begin(), L_timers.end());
-  L_timers.clear();
+  //qDeleteAll(L_timers.begin(), L_timers.end());
+  //L_timers.clear();
 }
 
 //----------------------------------------------------------
 
 void PlayAdvertising::startPlayAdvertising() {
-  _frequency = _frequency * calculateToMin;
   for (AdvertisingVideo *video : l_advertisingVideo) {
     if (video->_advertisingInfo._play) {
       if (_frequency > 0) {
@@ -37,14 +36,8 @@ void PlayAdvertising::startPlayAdvertising() {
           st_timer = new AdvertisingTimers();
           st_timer->_videoName = &video->_fileInfo._name;
           st_timer->_id = video->_advertisingInfo._id;
-          int tmp =
-              (int)((1 / ((float)video->_advertisingInfo._playTime)) * 10000);
-          st_timer->_playTime =
-              ((1 / ((float)video->_advertisingInfo._playTime)));
           L_timers.append(st_timer);
-          float hallo = st_timer->_playTime;
-
-          l_playTimeList.append(hallo);
+          l_playTimeList.append(st_timer->_playTime);
         }
       }
     }
@@ -136,7 +129,8 @@ void PlayAdvertising::setTimer(int oldTime) {
   }*/
 
   int time = _frequency - oldTime + _timer.remainingTime();
-  _timer.start(time ? time : 0);
+  //_timer.start(time ? time : 0);
+  _timer.start(_frequency);
 }
 
 //----------------------------------------------------------
@@ -172,7 +166,7 @@ void PlayAdvertising::advertisingVideoEnded(QString name) {
       _playing = false;
       L_timerQueue.append(namesOfTimer);
       setTimer();
-      _timer.start();
+      //_timer.start();
       return;
     }
   }

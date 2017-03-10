@@ -24,7 +24,6 @@ Client::Client(const QString &configFilePath, QObject *parent)
     _countIncomeMedias(0), _duration(0), _playA(NULL)
 {
 
-
   _player=new MediaPlayer();
   _advertisingVideo=new AdvertisingVideo();
   l_advertisingVideo=new QList<rotable::AdvertisingVideo*>();
@@ -615,7 +614,7 @@ void Client::dataReturned(ComPackageDataReturn *package)
     case ComPackage::RequestRemoveFile:
     {
        File* file=File::fromJSON(package->data());
-       delete _playA;
+       _playA=NULL;
        if(!file->removeFileFromSD())
            qCritical() << "Could not remove File from SD";
        requestMediaIds();
@@ -692,16 +691,16 @@ void Client::dataChanged(rotable::ComPackageDataChanged *package)
         _numberOfMedias=1;
         _countIncomeMedias=0;
         requestAdvertising(id);
-    }
+    }break;
     case ComPackage::RequestAdvertisingConfig:
     {
         _frequence=package->dataName().toInt();
         creatObjectPlayAdvertising();
-    }
+    }break;
     case ComPackage::RemoveFile:
     {
         requestFileToRemove(package->dataName().toInt());
-    }
+    }break;
     default:
     {
       qCritical() << tr("Unknown data changed category '%1' received!")
@@ -787,7 +786,7 @@ void Client::creatObjectPlayAdvertising()
 {
     if (_playA!=NULL) //if exist delete old object because we have a new list
     {
-        delete _playA;
+        _playA=NULL ;
     }
     _playA=new PlayAdvertising(*l_advertisingVideo,*_touch, _frequence);
     connect(_playA,SIGNAL(play(QString*)),
@@ -814,7 +813,7 @@ void Client::playAdvertising(QString* videoName)
 
 void Client::MediaStatusChanged(QMediaPlayer::MediaStatus status){
     int st=status;
-    if(st==7) //If status EndOfMedia
+    if(st==QMediaPlayer::MediaStatus::EndOfMedia||st==QMediaPlayer::MediaStatus::InvalidMedia) //If status EndOfMedia or InvalidMedia
     {
         setState("STARTSCREEN");
         _playA->advertisingVideoEnded(_player->playingVideo);
