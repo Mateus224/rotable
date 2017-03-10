@@ -37,7 +37,7 @@ void PlayAdvertising::startPlayAdvertising() {
           st_timer->_videoName = &video->_fileInfo._name;
           st_timer->_id = video->_advertisingInfo._id;
           L_timers.append(st_timer);
-          l_playTimeList.append(st_timer->_playTime);
+          l_playTimeList.append(video->_advertisingInfo._playTime);
         }
       }
     }
