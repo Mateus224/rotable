@@ -865,7 +865,7 @@ void Client::requestFile(int id)
 
 void Client::requestFileToRemove(int id)
 {
-    ComPackageDataRequest *request=new ComPackageDataSet();
+    ComPackageDataRequest *request=new ComPackageDataRequest();
     request->setDataCategory(ComPackage::RequestRemoveFile);
     request->setData(id);
 
