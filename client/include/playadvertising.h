@@ -13,7 +13,7 @@ class PlayAdvertising;
 class rotable::PlayAdvertising : public QObject {
   Q_OBJECT
 public:
-  PlayAdvertising(QList<rotable::AdvertisingVideo *> &_advertisingVideo,
+  PlayAdvertising(QList<rotable::AdvertisingVideo *> *_advertisingVideo,
                   rotable::TouchEvent &touch, int frequnce,
                   QObject *parent = 0);
   PlayAdvertising(QObject *parent = 0);
@@ -53,7 +53,7 @@ private:
 
   QList<AdvertisingTimers *> L_timerQueue;
 
-  QList<rotable::AdvertisingVideo *> l_advertisingVideo;
+  QList<rotable::AdvertisingVideo *>* l_advertisingVideo;
 
   rotable::TouchEvent *_touch;
 

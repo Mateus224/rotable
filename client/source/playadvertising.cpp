@@ -8,7 +8,7 @@
 
 using namespace rotable;
 
-PlayAdvertising::PlayAdvertising(QList<AdvertisingVideo *> &advertisingVideo,
+PlayAdvertising::PlayAdvertising(QList<AdvertisingVideo *>*advertisingVideo,
                                  TouchEvent &touch, int frequnce,
                                  QObject *parent)
     : QObject(parent) {
@@ -29,7 +29,9 @@ PlayAdvertising::~PlayAdvertising() {
 //----------------------------------------------------------
 
 void PlayAdvertising::startPlayAdvertising() {
-  for (AdvertisingVideo *video : l_advertisingVideo) {
+  qDeleteAll(L_timers.begin(), L_timers.end());
+  L_timers.clear();
+  for (AdvertisingVideo *video : *l_advertisingVideo) {
     if (video->_advertisingInfo._play) {
       if (_frequency > 0) {
         if (video->_advertisingInfo._playTime > 0) {
