@@ -1190,6 +1190,7 @@ bool Server::executeCommand(ComPackageCommand *package) {
             dc_table.setDataName(QString("%1").arg(mediaID));
             dc_table.setDataCategory(ComPackage::RequestRemoveFile);
             send_to_users(dc_table, rotable::ComPackage::TableAccount);
+            return true;
         }break;
     case ComPackage::CommandType::SetUpdate: {
       bool  true_ = package->data().toInt();
