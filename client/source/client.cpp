@@ -784,11 +784,11 @@ void Client::prepareForPlayAdvertising()
 
 void Client::creatObjectPlayAdvertising()
 {
-    if (_playA!=NULL) //if exist delete old object because we have a new list
+    if (_playA==NULL) //if exist delete old object because we have a new list
     {
-        _playA=NULL ;
+        _playA=new PlayAdvertising(l_advertisingVideo,*_touch, _frequence);
     }
-    _playA=new PlayAdvertising(*l_advertisingVideo,*_touch, _frequence);
+
     connect(_playA,SIGNAL(play(QString*)),
             this, SLOT(playAdvertising(QString*)) );
     _playA->startPlayAdvertising();
