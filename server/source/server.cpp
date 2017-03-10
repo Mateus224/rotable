@@ -249,7 +249,7 @@ void Server::packageReceived(client_t client, ComPackage *package) {
         dc.setDataCategory(rotable::ComPackage::RequestTable);
         dc.setDataName(QString("%1").arg(id));
         //_tcp.send(-1, dc);
-        send_to_users(dc, rotable::ComPackage::TableAccount);
+//        send_to_users(dc, rotable::ComPackage::TableAccount);
         send_to_users(dc, rotable::ComPackage::WaiterAccount);
 
         if (updateTable) {
@@ -1187,9 +1187,9 @@ bool Server::executeCommand(ComPackageCommand *package) {
             ComPackageDataChanged dc_table;
             //dc_table.setData(file->toJSON());
 
-            dc_table.setDataName(QString("%1").arg(mediaID);
-            dc_table.setDataCategory(ComPackage::RemoveFile);
-            send_to_users(ds_table, rotable::ComPackage::TableAccount);
+            dc_table.setDataName(QString("%1").arg(mediaID));
+            dc_table.setDataCategory(ComPackage::RequestRemoveFile);
+            send_to_users(dc_table, rotable::ComPackage::TableAccount);
         }break;
     case ComPackage::CommandType::SetUpdate: {
       bool  true_ = package->data().toInt();

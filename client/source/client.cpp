@@ -609,11 +609,13 @@ void Client::dataReturned(ComPackageDataReturn *package)
     case ComPackage::RequestAdvertisingConfig:
     {
         _frequence= package->data().toInt();
+        if(_playA)
+            _playA->setNewFrequency(_frequence);
     } break;
     case ComPackage::RequestRemoveFile:
     {
        File* file=File::fromJSON(package->data());
-       //delete _playA
+       delete _playA;
        if(!file->removeFileFromSD())
            qCritical() << "Could not remove File from SD";
        requestMediaIds();
@@ -698,7 +700,7 @@ void Client::dataChanged(rotable::ComPackageDataChanged *package)
     }
     case ComPackage::RemoveFile:
     {
-        requestFileToRemove();
+        requestFileToRemove(package->dataName().toInt());
     }
     default:
     {
@@ -787,8 +789,7 @@ void Client::creatObjectPlayAdvertising()
     {
         delete _playA;
     }
-    _playA=new PlayAdvertising(*l_advertisingVideo,*_touch);
-    _playA->_frequnce=_frequence;
+    _playA=new PlayAdvertising(*l_advertisingVideo,*_touch, _frequence);
     connect(_playA,SIGNAL(play(QString*)),
             this, SLOT(playAdvertising(QString*)) );
     _playA->startPlayAdvertising();
@@ -863,11 +864,13 @@ void Client::requestFile(int id)
     }
 }
 
-void Client::requestFileToRemove(int id)
+//------------------------------------------------------------------------------
+
+void Client::requestFileToRemove(int mediaID)
 {
     ComPackageDataRequest *request=new ComPackageDataRequest();
     request->setDataCategory(ComPackage::RequestRemoveFile);
-    request->setData(id);
+    request->setDataName(QString("%1").arg(mediaID));
 
     if (!_tcp.send(*request)) {
       qCritical() << tr("Could not send request!");

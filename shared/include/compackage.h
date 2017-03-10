@@ -185,7 +185,7 @@ public:
      /*Request File for example advertisingVideos*/
      RequestFile,
 
-     RemoveFile
+     //SetRemoveFile
   };
 
   /**

@@ -281,6 +281,12 @@ void payedSlot(int i){qDebug()<<i;}
   void requestFile(int id);
 
   /**
+   * @brief requestFileToRemove Request server about the file which have to be deleted
+   * @param id
+   */
+  void requestFileToRemove(int id);
+
+  /**
    * @brief requestMediaIds
    * request for all Media Ids from the server
    */
