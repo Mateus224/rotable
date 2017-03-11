@@ -762,16 +762,9 @@ void Client::requestAdvertising(int fileId)
 //------------------------------------------------------------------------------
 void Client::prepareForPlayAdvertising()
 {
-    //int flag=0;
     _TmpAdvertisingVideo=reinterpret_cast <AdvertisingVideo*> (_file);
     if(_countIncomeMedias==1)
         l_advertisingVideo->clear();
-    /*for(int i=0; i<l_advertisingVideo->length(); i++)
-        if(l_advertisingVideo->at(i)->_advertisingInfo._id==_TmpAdvertisingVideo->_advertisingInfo._id){
-            l_advertisingVideo->replace(i,_TmpAdvertisingVideo);
-            flag=1;
-        }
-    if(flag==0)*/
     l_advertisingVideo->append(_TmpAdvertisingVideo);
     if(_numberOfMedias==_countIncomeMedias)
     {
@@ -783,7 +776,7 @@ void Client::prepareForPlayAdvertising()
 
 void Client::creatObjectPlayAdvertising()
 {
-    if (_playA==NULL) //if exist delete old object because we have a new list
+    if (_playA==NULL)
     {
         _playA=new PlayAdvertising(l_advertisingVideo,*_touch, _frequence);
         connect(_playA,SIGNAL(play(QString*)),
