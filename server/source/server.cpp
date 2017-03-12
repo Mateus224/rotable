@@ -622,7 +622,8 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
       return ret;
   } break;
   case ComPackage::RequestRemoveFile: {
-      File* file=_db.media(request->dataName().toInt());
+      int id=request->dataName().toInt();
+      File* file=_db.media(id,1);
       ComPackageDataReturn *ret =
           new ComPackageDataReturn(*request, file->toJSON());
       return ret;

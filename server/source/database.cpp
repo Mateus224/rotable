@@ -1112,7 +1112,7 @@ Client *Database::client(int id) {
 
 //------------------------------------------------------------------------------
 
-File *Database::media(int id) {
+File *Database::media(int id, int removed) {
 
   File *fc = nullptr;
 
@@ -1121,7 +1121,7 @@ File *Database::media(int id) {
   }
 
   QString queryStr =
-      _sqlCommands[Medias]._select.arg(_prefix, "*", "id" , ":id");//.arg(id);
+      _sqlCommands[Medias]._select.arg(_prefix, "*", "id" , ":id", ":removed");
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -1132,6 +1132,7 @@ File *Database::media(int id) {
   }
 
   q.bindValue(":id", id);
+  q.bindValue(":removed", removed);
 
   if (!q.exec()) {
     qCritical()
@@ -3589,14 +3590,14 @@ rotable::SystemUpdate *Database::systemUpdate() {
 }
 
 //------------------------------------------------------------------------------
-QList<int> *Database::getMediaIdByType(int type)
+QList<int> *Database::getMediaIdByType(int type,int removed)
 {
     if (!isConnected()) {
       return NULL;
     }
 
     QString queryStr =
-        _sqlCommands[Medias]._select.arg(_prefix, "`id`", "type", ":type");
+        _sqlCommands[Medias]._select.arg(_prefix, "`id`", "type", ":type", ":removed");
     QSqlQuery q(_db);
     q.setForwardOnly(true);
 
@@ -3606,6 +3607,7 @@ QList<int> *Database::getMediaIdByType(int type)
     }
 
     q.bindValue(":type", type);
+    q.bindValue(":removed", removed);
 
     if (!q.exec()) {
       qCritical()

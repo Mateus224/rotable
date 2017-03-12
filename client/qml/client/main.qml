@@ -102,6 +102,10 @@ Rectangle {
             id:playAdvertising
         }
 
+        UploadingFilePage{
+            id:uploadingFilePage
+        }
+
 
         //! [states]
         states: [
@@ -118,7 +122,7 @@ Rectangle {
                 PropertyChanges { target: sendAccept; visible: false}
                 PropertyChanges { target: playAdvertising; visible: false}
                 PropertyChanges { target: screen; width: Math.min(parent.height, parent.width); height:Math.min(mainScreen.width, mainScreen.height)}
-
+                PropertyChanges { target: uploadingFilePage; visible: false}
             },
             State {
                 name: "SCREENSAVER"
@@ -133,6 +137,7 @@ Rectangle {
                 PropertyChanges { target: sendAccept; visible: false}
                 PropertyChanges { target: playAdvertising; visible: false}
                 PropertyChanges { target: screen; width: Math.min(parent.height, parent.width); height:Math.min(mainScreen.width, mainScreen.height)}
+                PropertyChanges { target: uploadingFilePage; visible: false}
             },
             State {
                 name: "STARTSCREEN"
@@ -147,6 +152,7 @@ Rectangle {
                 PropertyChanges { target: sendAccept; visible: false}
                 PropertyChanges { target: playAdvertising; visible: false}
                 PropertyChanges { target: screen; width: Math.min(parent.height, parent.width); height:Math.min(mainScreen.width, mainScreen.height)}
+                PropertyChanges { target: uploadingFilePage; visible: false}
             },
             State {
                 name: "PRODUCTSCREEN"
@@ -161,6 +167,7 @@ Rectangle {
                 PropertyChanges { target: sendAccept; visible: false}
                 PropertyChanges { target: playAdvertising; visible: false}
                 PropertyChanges { target: screen; width: Math.min(parent.height, parent.width); height:Math.min(mainScreen.width, mainScreen.height)}
+                PropertyChanges { target: uploadingFilePage; visible: false}
             },
             State {
                 name: "MYORDERSCREEN"
@@ -175,6 +182,7 @@ Rectangle {
                 PropertyChanges { target: sendAccept; visible: false}
                 PropertyChanges { target: playAdvertising; visible: false}
                 PropertyChanges { target: screen; width: Math.min(parent.height, parent.width); height:Math.min(mainScreen.width, mainScreen.height)}
+                PropertyChanges { target: uploadingFilePage; visible: false}
             },
             State {
                 name: "GAMEPAGE"
@@ -189,6 +197,7 @@ Rectangle {
                 PropertyChanges { target: sendAccept; visible: false}
                 PropertyChanges { target: playAdvertising; visible: false}
                 PropertyChanges { target: screen; width: Math.min(parent.height, parent.width); height:Math.min(mainScreen.width, mainScreen.height)}
+                PropertyChanges { target: uploadingFilePage; visible: false}
             },
             State {
                 name: "CALLWAITERPAGE"
@@ -203,6 +212,7 @@ Rectangle {
                 PropertyChanges { target: sendAccept; visible: false}
                 PropertyChanges { target: playAdvertising; visible: false}
                 PropertyChanges { target: screen; width: Math.min(parent.height, parent.width); height:Math.min(mainScreen.width, mainScreen.height)}
+                PropertyChanges { target: uploadingFilePage; visible: false}
             },
             State {
                 name: "SENTPAGE"
@@ -217,6 +227,7 @@ Rectangle {
                 PropertyChanges { target: sendAccept; visible: false}
                 PropertyChanges { target: playAdvertising; visible: false}
                 PropertyChanges { target: screen; width: Math.min(parent.height, parent.width); height:Math.min(mainScreen.width, mainScreen.height)}
+                PropertyChanges { target: uploadingFilePage; visible: false}
             },
             State {
                 name: "SENDACCEPT"
@@ -231,6 +242,7 @@ Rectangle {
                 PropertyChanges { target: sendAccept; visible: true}
                 PropertyChanges { target: playAdvertising; visible: false}
                 PropertyChanges { target: screen; width: Math.min(parent.height, parent.width); height:Math.min(mainScreen.width, mainScreen.height)}
+                PropertyChanges { target: uploadingFilePage; visible: false}
             },
             State {
                 name: "PLAYADVERTISING"
@@ -245,6 +257,22 @@ Rectangle {
                 PropertyChanges { target: sendAccept; visible: false}
                 PropertyChanges { target: playAdvertising; visible: true}
                 PropertyChanges { target: screen; width:  mainScreen.width; height:  mainScreen.height}
+                PropertyChanges { target: uploadingFilePage; visible: false}
+            },
+            State {
+                name: "UPLOADINGFILE"
+                PropertyChanges { target: connectionPage; visible: false }
+                PropertyChanges { target: screensaverPage; visible: false }
+                PropertyChanges { target: startPage; visible: false }
+                PropertyChanges { target: productPage; visible: false }
+                PropertyChanges { target: myOrderPage; visible: false}
+                PropertyChanges { target: gamePage; visible: false}
+                PropertyChanges { target: callWaiterPage; visible: false}
+                PropertyChanges { target: sentPage; visible: false}
+                PropertyChanges { target: sendAccept; visible: false}
+                PropertyChanges { target: playAdvertising; visible: false}
+                PropertyChanges { target: screen; width:  mainScreen.width; height:  mainScreen.height}
+                PropertyChanges { target: uploadingFilePage; visible: true}
             }
         ]
         //! [states]

@@ -263,10 +263,11 @@ public:
   /**
    * Read media from database
    * @param id          media id
+   * @param removed     if removed==1 return the media even though it is removed from the sd
    * @return            media or NULL on error
    * Read and fill the parent class with some information
    */
-  File *media(int id);
+  File *media(int id, int removed=0);
 
   /**
    * @brief systemUpdate
@@ -594,8 +595,9 @@ public:
    * @brief getTypeId
    * @return A List of ids which the given type
    * reading media (file) table and get the Ids of the same type
+   * removed==1 means give alle in database written files (removed from SD)
    */
-  QList<int> *getMediaIdByType(int type);
+  QList<int> *getMediaIdByType(int type, int removed=0);
 
   /**
    * @brief getMediaIdByName
