@@ -62,6 +62,6 @@ int main(int argc, char *argv[])
 
   MainWindow w;
   Controller controller(&w, configFilePath);
-  w.show();
+  w.showMaximized();
   return a.exec();
 }
