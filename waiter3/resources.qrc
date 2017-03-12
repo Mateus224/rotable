@@ -26,8 +26,6 @@
         <file>resources/qml/DataView.qml</file>
         <file>resources/qml/main.qml</file>
         <file>resources/qml/WaiterView.qml</file>
-        <file>resources/qml/LoadingView/LoadDot.qml</file>
-        <file>resources/qml/LoadingView/LoadingSymbol.qml</file>
         <file>resources/qml/LoadingView/LoginView.qml</file>
         <file>resources/images/Batteries/battery-20.svg</file>
         <file>resources/images/Batteries/battery-40.svg</file>
