@@ -11,6 +11,8 @@ Rectangle {
     property double hideDragThreshold: 0.1
     property double buttonsVisiblePart: 0.25
 
+    property string productString: model.modelData.amount + " x " + productList.productName(model.modelData.productId)
+
     width: itemWidth
     anchors.horizontalCenter: parent.horizontalCenter
     radius: width / 12
@@ -107,7 +109,7 @@ Rectangle {
         }
 
         Text {
-            text: model.modelData.amount + " x " + productList.productName(model.modelData.productId)
+            text: productString
             anchors.centerIn: parent
             font.pixelSize: parent.height * 0.4
         }

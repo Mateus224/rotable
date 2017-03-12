@@ -17,4 +17,8 @@
         <file>resources/shisha.png</file>
         <file alias="close.png">resources/close.png</file>
     </qresource>
+    <qresource prefix="/LoadingSymbol">
+        <file>resources/LoadDot.qml</file>
+        <file>resources/LoadingSymbol.qml</file>
+    </qresource>
 </RCC>
