@@ -29,8 +29,11 @@ PlayAdvertising::~PlayAdvertising() {
 //----------------------------------------------------------
 
 void PlayAdvertising::startPlayAdvertising() {
+  _timer.stop();
   qDeleteAll(L_timers.begin(), L_timers.end());
   L_timers.clear();
+  L_timerQueue.clear();
+  l_playTimeList.clear();
   for (AdvertisingVideo *video : *l_advertisingVideo) {
     if (video->_advertisingInfo._play) {
       if (_frequency > 0) {

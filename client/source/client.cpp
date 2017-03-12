@@ -565,7 +565,9 @@ void Client::dataReturned(ComPackageDataReturn *package)
     case ComPackage::RequestMediaIds:
     {
         QJsonArray arr = package->data().toArray();
+        _numberOfMedias=0;
         foreach (QJsonValue val, arr) {
+            _countIncomeMedias=0;
             _numberOfMedias++;
           int id = val.toInt();
           QString _id=QString::number(id);
