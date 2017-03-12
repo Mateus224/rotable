@@ -107,6 +107,6 @@ int main(int argc, char *argv[])
   view->setSource(QUrl("qrc:/resources/qml/main.qml"));
   view->setResizeMode(QQuickView::SizeRootObjectToView);
 
-  view->show();
+  view->showMaximized();
   return app.exec();
 }
