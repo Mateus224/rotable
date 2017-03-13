@@ -140,8 +140,11 @@ public:
      /*Request WaiterCategories after changing*/
     RequestWaiterCategories,
 
-    /* Request Media IDs 16*/
+    /* Request not removed MediasIDs 16*/
     RequestMediaIds,
+
+    /* Request all MediaIds */
+    RequestAllMediaIds,
 
     /*Request for Information about the Advertising Videos 17*/
     RequestMedia,

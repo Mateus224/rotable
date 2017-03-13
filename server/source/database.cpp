@@ -461,14 +461,14 @@ bool Database::userIds(QList<int> &ids) {
 
 //------------------------------------------------------------------------------
 
-bool Database::mediaIds(QList<int> &ids) {
+bool Database::mediaIds(QList<int> &ids, int removed) {
   ids.clear();
 
   if (!isConnected()) {
     return false;
   }
 
-  QString queryStr = _sqlCommands[Medias]._listIds.arg(_prefix);
+  QString queryStr = _sqlCommands[Medias]._listIds.arg(_prefix,"removed").arg(removed);
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -477,6 +477,7 @@ bool Database::mediaIds(QList<int> &ids) {
     qCritical() << tr("Invalid query: %1").arg(queryStr);
     return false;
   }
+    //q.bindValue(":removed",removed);
 
   if (!q.exec()) {
     qCritical()
@@ -1112,7 +1113,7 @@ Client *Database::client(int id) {
 
 //------------------------------------------------------------------------------
 
-File *Database::media(int id, int removed) {
+File *Database::media(int id) {
 
   File *fc = nullptr;
 
@@ -1121,7 +1122,7 @@ File *Database::media(int id, int removed) {
   }
 
   QString queryStr =
-      _sqlCommands[Medias]._select.arg(_prefix, "*", "id" , ":id", ":removed");
+      _sqlCommands[Medias]._select.arg(_prefix, "*", "id" , ":id", ";");
 
   QSqlQuery q(_db);
   q.setForwardOnly(true);
@@ -1132,7 +1133,6 @@ File *Database::media(int id, int removed) {
   }
 
   q.bindValue(":id", id);
-  q.bindValue(":removed", removed);
 
   if (!q.exec()) {
     qCritical()
@@ -3590,14 +3590,15 @@ rotable::SystemUpdate *Database::systemUpdate() {
 }
 
 //------------------------------------------------------------------------------
-QList<int> *Database::getMediaIdByType(int type,int removed)
+QList<int> *Database::getMediaIdByType(int type, int removed)
 {
     if (!isConnected()) {
       return NULL;
     }
 
     QString queryStr =
-        _sqlCommands[Medias]._select.arg(_prefix, "`id`", "type", ":type", ":removed");
+        _sqlCommands[Medias]._select.arg(_prefix, "`id`", "type", ":type","AND `removed` = :removed;"
+);
     QSqlQuery q(_db);
     q.setForwardOnly(true);
 

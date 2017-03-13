@@ -187,7 +187,7 @@ public:
    * @param ids         (result) list of media ids
    * @return            true on successs
    */
-  bool mediaIds(QList<int> &ids);
+  bool mediaIds(QList<int> &ids,int removed=0);
 
   /**
    * @brief typefileIds
@@ -267,7 +267,7 @@ public:
    * @return            media or NULL on error
    * Read and fill the parent class with some information
    */
-  File *media(int id, int removed=0);
+  File *media(int id);
 
   /**
    * @brief systemUpdate

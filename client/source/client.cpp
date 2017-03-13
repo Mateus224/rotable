@@ -170,6 +170,7 @@ void Client::packageReceived(ComPackage *package)
       setState("SCREENSAVER");
       requestCategoryIds();
       requestAdvertisingConfig();
+      requestAllMediaIds();
       requestMediaIds();
 
     } break;
@@ -299,6 +300,17 @@ void Client::requestMediaIds() {
 }
 //------------------------------------------------------------------------------
 
+void Client::requestAllMediaIds() {
+  ComPackageDataRequest *request = new ComPackageDataRequest();
+  request->setDataCategory(ComPackage::RequestAllMediaIds);
+
+  if (!_tcp.send(*request)) {
+    qCritical() << tr("Could not send request!");
+  } else {
+    _dataRequest[request->id()] = request;
+  }
+}
+//------------------------------------------------------------------------------
 void Client::setCurrentCategoryId(int id)
 {
   if (id != _currentCategoryId || _state != "PRODUCTSCREEN") {
@@ -563,6 +575,18 @@ void Client::dataReturned(ComPackageDataReturn *package)
     } break;
 
     case ComPackage::RequestMediaIds:
+    {
+        QJsonArray arr = package->data().toArray();
+        _numberOfMedias=0;
+        foreach (QJsonValue val, arr) {
+            _countIncomeMedias=0;
+            _numberOfMedias++;
+          int id = val.toInt();
+          QString _id=QString::number(id);
+          requestAdvertising(id);
+        }
+    } break;
+    case ComPackage::RequestAllMediaIds:  // db gibt die medias über id zurück und überprüft sie nicht nochmal auf rm
     {
         QJsonArray arr = package->data().toArray();
         _numberOfMedias=0;

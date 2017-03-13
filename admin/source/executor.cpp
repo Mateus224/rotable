@@ -1103,6 +1103,7 @@ void Executor::dataReturned(ComPackageDataReturn *package) {
     QJsonArray arr = package->data().toArray();
     foreach (QJsonValue val, arr) {
       int id = val.toInt();
+      qDebug()<<"id: "<<id;
       if(id>=0){    //If List is empty we get id=-1
       QString _id=QString::number(id);
       requestAdvertising(id);

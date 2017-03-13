@@ -587,6 +587,18 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
             << tr("Could not query income data of id %1!").arg(request->dataName().toInt());
       }
   } break;
+  case ComPackage::RequestAllMediaIds: {
+    QList<int>* ids;
+    if (ids=_db.getMediaIdByType(ComPackage::AdvertisingVideo)) {
+      QJsonArray arr;
+      foreach (int id, *ids) { arr.append(id); }
+      QJsonValue jsonVal(arr);
+      return new ComPackageDataReturn(*request, jsonVal);
+    } else {
+        qCritical()
+            << tr("Could not query income data of id %1!").arg(request->dataName().toInt());
+      }
+  } break;
   case ComPackage::RequestMedia: {
       int mediaId=request->dataName().toInt();
       if(mediaId>0){
@@ -623,7 +635,7 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
   } break;
   case ComPackage::RequestRemoveFile: {
       int id=request->dataName().toInt();
-      File* file=_db.media(id,1);
+      File* file=_db.media(id);
       ComPackageDataReturn *ret =
           new ComPackageDataReturn(*request, file->toJSON());
       return ret;

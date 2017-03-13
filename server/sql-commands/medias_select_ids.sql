@@ -1,1 +1,1 @@
-SELECT `id` FROM `%1medias` WHERE `removed` = 0;
+SELECT `id` FROM `%1medias` WHERE `removed` = %2;
