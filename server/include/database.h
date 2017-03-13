@@ -649,6 +649,13 @@ public:
   bool hasFile( int id);
 
   /**
+   * @brief hasAdvertising checks if Advertising table has given mediaId
+   * @param mediaId
+   * @return
+   */
+  bool hasAdvertising(int mediaId);
+
+  /**
    * @brief hasFile
    * @param name
    * @return true if the file exist in medias with the same type

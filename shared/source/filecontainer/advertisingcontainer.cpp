@@ -109,13 +109,12 @@ void rotable::AdvertisingContainer::playTimeNextElement(int id)
 {
     int SumOfplayTimes=0, nextId=0,j=0,size=0;
     bool flag=0;
-
+    AdvertisingVideo* firstElement;
     QHash<int,AdvertisingVideo*>::const_iterator i = _files->constBegin();
     QHash<int,AdvertisingVideo*>::const_iterator tmp_i = _files->constBegin();
     while (i != _files->constEnd()) {
         ++j;
         tmpFile= i.value();
-
         nextId=tmpFile->getA_id();
         SumOfplayTimes+=tmpFile->getPlayTime();
         if(tmpFile->getA_id()==id){
@@ -125,6 +124,8 @@ void rotable::AdvertisingContainer::playTimeNextElement(int id)
                 if(size==1)
                     SumOfplayTimes=0; //if only one element is in the list it have be always 100%
                 tmp_i= _files->constBegin();
+                firstElement=tmp_i.value();
+                SumOfplayTimes-=firstElement->getPlayTime();
                 nextFile= tmp_i.value();
                 nextId=nextFile->getA_id();
             }

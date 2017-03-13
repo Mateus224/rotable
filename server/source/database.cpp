@@ -1652,6 +1652,7 @@ bool Database::addMedia(File* file)
 
 bool Database::addAdvertisingVideo(QList<int>* mediaId)
 {
+
     if (!isConnected()) {
       return false;
     }
@@ -3115,7 +3116,8 @@ bool Database::hasConfig(int id) {
         << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
     return -1;
   }
-
+  if(q.last())
+      return true;
   if (q.next()) {
     return true;
   }
@@ -3184,6 +3186,8 @@ bool Database::hasOrder(int id) {
     return false;
   }
 
+  if(q.last())
+      return true;
   if (q.next()) {
     return true;
   }
@@ -3217,6 +3221,42 @@ bool Database::hasFile(int id)
     return false;
   }
 
+  if(q.last())
+      return true;
+  if (q.next()) {
+    return true;
+  }
+
+  return false;
+}
+
+//------------------------------------------------------------------------------
+
+bool Database::hasAdvertising(int media_id)
+{
+  if (!isConnected()) {
+    return false;
+  }
+
+  QString queryStr =
+      _sqlCommands[AdvertisingVideos]._select.arg(_prefix, "`id`", "media_id", ":media_id");
+  QSqlQuery q(_db);
+  q.setForwardOnly(true);
+
+  if (!q.prepare(queryStr)) {
+    qCritical() << tr("Invalid query: %1").arg(queryStr);
+    return -1;
+  }
+
+  q.bindValue(":media_id", media_id);
+
+  if (!q.exec()) {
+    qCritical()
+        << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
+    return false;
+  }
+  if(q.last())
+      return true;
   if (q.next()) {
     return true;
   }
@@ -3249,7 +3289,8 @@ bool Database::hasFile(QString name, int type)
           << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
       return false;
     }
-
+    if(q.last())
+        return true;
     if (q.next()) {
       return true;
     }

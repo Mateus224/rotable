@@ -1530,6 +1530,7 @@ bool Server::addAdvertisingSD_Database(ComPackageSendFile* package)
 
     AdvertisingVideo *Files= new AdvertisingVideo();
     QList<int> *idList;
+    QList<int> *toAddAdvertising= new QList<int>;
     for(QString fileName: package->getFileNames()){
         if(!_db.hasFile(fileName,ComPackage::AdvertisingVideo)){
            Files->_fileListNames.append(fileName);
@@ -1550,12 +1551,21 @@ bool Server::addAdvertisingSD_Database(ComPackageSendFile* package)
   Files->getFileInfoFromFileAndSet(Files->_fileListNames);
   if(!_db.addMedia(Files))
   {
-      qCritical()<<"failed to add Media";
-      delete Files;
-      return 0;
+    qCritical()<<"failed to add Media";
+    delete Files;
+    return 0;
   }
   idList=_db.getMediaIdByNameAndType(package->getFileNames(),ComPackage::AdvertisingVideo);
-  _db.addAdvertisingVideo(idList);
+
+  for(int i=0; i<idList->length(); i++){
+      if (!toAddAdvertising->empty())
+        toAddAdvertising->clear();
+      toAddAdvertising->append(idList->at(i));
+  if(!_db.hasAdvertising(idList->at(i)))
+    _db.addAdvertisingVideo(toAddAdvertising);
+  }
+  delete toAddAdvertising;
+  delete idList;
   delete Files;
   return true;
 }
