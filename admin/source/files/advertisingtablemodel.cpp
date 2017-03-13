@@ -32,15 +32,10 @@ QVariant AdvertisingTableModel::data(const QModelIndex &index, int role) const {
     } else if(index.column()<5 ) {
       return QVariant(QBrush(QColor(220, 250, 220)));
     }
-    else if (index.row() % 2 && (index.column()==6) )
-      return QVariant(QBrush(QColor(200, 200, 250)));
-    else if(index.column()==6)
-      return QVariant(QBrush(QColor(220, 220, 250)));
-
-    if (index.row() % 2 && (index.column()==5) )
-      return QVariant(QBrush(QColor(200, 200, 250)));
-    else if(index.column()==5)
-      return QVariant(QBrush(QColor(220, 220, 250)));
+    else if (index.row() % 2 && (index.column()>4) )
+      return QVariant(QBrush(QColor(200, 245, 220)));
+    else if(index.column()>4)
+      return QVariant(QBrush(QColor(220, 255, 230)));
   }
 
   switch (index.column()) {
