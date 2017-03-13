@@ -406,6 +406,8 @@ private:
 
   void requestAdvertising(int fileId);
 
+  void requestRmAdvertising(int fileId);
+
   void prepareForPlayAdvertising();
 
   void creatObjectPlayAdvertising();
