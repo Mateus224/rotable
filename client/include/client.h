@@ -296,7 +296,7 @@ void payedSlot(int i){qDebug()<<i;}
    * @brief requestMediaIds
    * request for all Media Ids from the server
    */
-  void requestAllMediaIds();
+  void requestRmMediaIds();
 
   /**
    * Set current category id.

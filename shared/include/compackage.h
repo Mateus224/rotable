@@ -144,7 +144,10 @@ public:
     RequestMediaIds,
 
     /* Request all MediaIds */
-    RequestAllMediaIds,
+    RequestRmMediaIds,
+
+    /* Request all MediaIds */
+    RequestRmMedia,
 
     /*Request for Information about the Advertising Videos 17*/
     RequestMedia,

@@ -587,11 +587,11 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
             << tr("Could not query income data of id %1!").arg(request->dataName().toInt());
       }
   } break;
-  case ComPackage::RequestAllMediaIds: {
-    QList<int>* ids;
-    if (ids=_db.getMediaIdByType(ComPackage::AdvertisingVideo)) {
+  case ComPackage::RequestRmMediaIds: {
+    QList<int> *rmIds;
+    if (rmIds=_db.getMediaIdByType(ComPackage::AdvertisingVideo,1)) {
       QJsonArray arr;
-      foreach (int id, *ids) { arr.append(id); }
+      foreach (int id, *rmIds) { arr.append(id); }
       QJsonValue jsonVal(arr);
       return new ComPackageDataReturn(*request, jsonVal);
     } else {
@@ -600,6 +600,23 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
       }
   } break;
   case ComPackage::RequestMedia: {
+      int mediaId=request->dataName().toInt();
+      if(mediaId>0){
+          AdvertisingVideo* Video=new AdvertisingVideo();
+          Video=reinterpret_cast<AdvertisingVideo*> (_db.media(mediaId));
+          if(Video)
+          {
+              ComPackageDataReturn *ret =
+                      new ComPackageDataReturn(*request, Video->toJSON());
+              delete Video;
+              return ret;
+          }else {
+              qCritical()
+                  << tr("Could not query income data of id %1!").arg(request->dataName().toInt());
+          }
+      }
+  }break;
+  case ComPackage::RequestRmMedia: {
       int mediaId=request->dataName().toInt();
       if(mediaId>0){
           AdvertisingVideo* Video=new AdvertisingVideo();
