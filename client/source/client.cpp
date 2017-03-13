@@ -628,6 +628,11 @@ void Client::dataReturned(ComPackageDataReturn *package)
         default : {qCritical() << "unknown package";} break;
         }
     }break;
+    case ComPackage::RequestRmMedia:
+    {
+        _file= File::fromJSON(package->data());
+        _file->removeFileFromSD();
+    }break;
     case ComPackage::RequestAdvertisingConfig:
     {
         _frequence= package->data().toInt();
