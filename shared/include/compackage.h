@@ -140,8 +140,14 @@ public:
      /*Request WaiterCategories after changing*/
     RequestWaiterCategories,
 
-    /* Request Media IDs 16*/
+    /* Request not removed MediasIDs 16*/
     RequestMediaIds,
+
+    /* Request all MediaIds */
+    RequestRmMediaIds,
+
+    /* Request all MediaIds */
+    RequestRmMedia,
 
     /*Request for Information about the Advertising Videos 17*/
     RequestMedia,
@@ -150,7 +156,11 @@ public:
     RequestSystemVersions,
 
     /*Request the frequence of playing advertising*/
-    RequestAdvertisingConfig
+    RequestAdvertisingConfig,
+
+    /*remove File from the SD card*/
+    RequestRemoveFile
+
   };
 
   /**
@@ -181,6 +191,7 @@ public:
      /*Request File for example advertisingVideos*/
      RequestFile,
 
+     //SetRemoveFile
   };
 
   /**
@@ -212,7 +223,7 @@ public:
 
     RemoveWaiterCategory,
 
-    RemoveAdvertisingVideo,
+    RemoveFile,
 
     /*Inform the server to make a system update if there is a new version*/
     SetUpdate

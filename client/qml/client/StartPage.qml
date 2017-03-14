@@ -8,7 +8,7 @@ Rectangle {
     Image {
 
         id: logo
-        source: "qrc:/client/resources/rotable_logo.png"
+        source: "qrc:/images/resources/powered_by_logo_in_e_white.svg"
         anchors.top: parent.top
         anchors.bottom: categoryBar.top
         anchors.horizontalCenter: parent.horizontalCenter

@@ -27,11 +27,15 @@ int AdvertisingTableModel::rowCount(const QModelIndex &parent) const {
 QVariant AdvertisingTableModel::data(const QModelIndex &index, int role) const {
 
   if (role == Qt::BackgroundRole) {
-    if (index.row() % 2) {
+    if (index.row() % 2 && (index.column()<5) ) {
       return QVariant(QBrush(QColor(200, 250, 200)));
-    } else {
+    } else if(index.column()<5 ) {
       return QVariant(QBrush(QColor(220, 250, 220)));
     }
+    else if (index.row() % 2 && (index.column()>4) )
+      return QVariant(QBrush(QColor(200, 245, 220)));
+    else if(index.column()>4)
+      return QVariant(QBrush(QColor(220, 255, 230)));
   }
 
   switch (index.column()) {
@@ -129,7 +133,7 @@ bool AdvertisingTableModel::setData(const QModelIndex &index, const QVariant &va
       rotable::AdvertisingVideo *file = _advertisingVideos->file(ids[index.row()]);
       Q_ASSERT(file);
       if (file) {
-        file->setName(value.toString());
+        //file->setName(value.toString());
         return true;
       }
     } break;

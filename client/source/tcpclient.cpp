@@ -152,6 +152,8 @@ void TcpClient::readPackage()
       // we probably did not receive the full package yet
       doContinue = false;
     } else {
+      // -----------------------------
+      //Do not use qDebug by JSON packages during uploading files on WINDOWS you get a runtime Error (memory problems)
       qDebug().noquote()  << QString::fromUtf8(jdoc.toJson());
       ComPackage* package = ComPackage::fromJson(jdoc);
 

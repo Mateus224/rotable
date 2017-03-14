@@ -32,6 +32,7 @@
         <file>resources/Pfeil_01.png</file>
         <file>resources/Pfeil_02.png</file>
         <file>resources/Pfeil_03.png</file>
+        <file alias="UploadingFilePage.qml">UploadFilePage.qml</file>
     </qresource>
     <qresource prefix="/client/games">
         <file alias="GamePage.qml">qml/client/games/GamePage.qml</file>

@@ -24,7 +24,6 @@ Client::Client(const QString &configFilePath, QObject *parent)
     _countIncomeMedias(0), _duration(0), _playA(NULL)
 {
 
-
   _player=new MediaPlayer();
   _advertisingVideo=new AdvertisingVideo();
   l_advertisingVideo=new QList<rotable::AdvertisingVideo*>();
@@ -171,6 +170,7 @@ void Client::packageReceived(ComPackage *package)
       setState("SCREENSAVER");
       requestCategoryIds();
       requestAdvertisingConfig();
+      requestRmMediaIds();
       requestMediaIds();
 
     } break;
@@ -300,6 +300,17 @@ void Client::requestMediaIds() {
 }
 //------------------------------------------------------------------------------
 
+void Client::requestRmMediaIds() {
+  ComPackageDataRequest *request = new ComPackageDataRequest();
+  request->setDataCategory(ComPackage::RequestRmMediaIds);
+
+  if (!_tcp.send(*request)) {
+    qCritical() << tr("Could not send request!");
+  } else {
+    _dataRequest[request->id()] = request;
+  }
+}
+//------------------------------------------------------------------------------
 void Client::setCurrentCategoryId(int id)
 {
   if (id != _currentCategoryId || _state != "PRODUCTSCREEN") {
@@ -566,11 +577,22 @@ void Client::dataReturned(ComPackageDataReturn *package)
     case ComPackage::RequestMediaIds:
     {
         QJsonArray arr = package->data().toArray();
+        _numberOfMedias=0;
         foreach (QJsonValue val, arr) {
+            _countIncomeMedias=0;
             _numberOfMedias++;
           int id = val.toInt();
           QString _id=QString::number(id);
           requestAdvertising(id);
+        }
+    } break;
+    case ComPackage::RequestRmMediaIds:  // db gibt die medias über id zurück und überprüft sie nicht nochmal auf rm
+    {
+        QJsonArray arr = package->data().toArray();
+        foreach (QJsonValue val, arr) {
+          int id = val.toInt();
+          QString _id=QString::number(id);
+          requestRmAdvertising(id);
         }
     } break;
     case ComPackage::RequestMedia:
@@ -606,9 +628,24 @@ void Client::dataReturned(ComPackageDataReturn *package)
         default : {qCritical() << "unknown package";} break;
         }
     }break;
+    case ComPackage::RequestRmMedia:
+    {
+        _file= File::fromJSON(package->data());
+        _file->removeFileFromSD();
+    }break;
     case ComPackage::RequestAdvertisingConfig:
     {
         _frequence= package->data().toInt();
+        if(_playA)
+            _playA->setNewFrequency(_frequence);
+    } break;
+    case ComPackage::RequestRemoveFile:
+    {
+       File* file=File::fromJSON(package->data());
+       _playA=NULL;
+       if(!file->removeFileFromSD())
+           qCritical() << "Could not remove File from SD";
+       requestMediaIds();
     } break;
     default:
     {
@@ -678,12 +715,17 @@ void Client::dataChanged(rotable::ComPackageDataChanged *package)
     } break;
     case ComPackage::RequestMediaIds:
     {
-        int id=package->dataName().toInt();
-        _numberOfMedias=1;
-        _countIncomeMedias=0;
-        requestAdvertising(id);
-
-    }
+        requestMediaIds();
+    }break;
+    case ComPackage::RequestAdvertisingConfig:
+    {
+        _playA->setNewFrequency(package->dataName().toInt());
+        //creatObjectPlayAdvertising();
+    }break;
+    case ComPackage::RequestRemoveFile:
+    {
+        requestFileToRemove(package->dataName().toInt());
+    }break;
     default:
     {
       qCritical() << tr("Unknown data changed category '%1' received!")
@@ -726,6 +768,7 @@ bool Client::typeOfFileDestination(ComPackageSendFile* package)
           return false;
       }
     }
+    delete fc;
     return true;
 }
 
@@ -745,29 +788,44 @@ void Client::requestAdvertising(int fileId)
 }
 
 //------------------------------------------------------------------------------
+
+void Client::requestRmAdvertising(int fileId)
+{
+  ComPackageDataRequest *request = new ComPackageDataRequest();
+  request->setDataCategory(ComPackage::RequestRmMedia);
+  request->setDataName(QString("%1").arg(fileId));
+
+  if (!_tcp.send(*request)) {
+    qCritical() << tr("Could not send request!");
+  } else {
+    _dataRequest[request->id()] = request;
+  }
+}
+
+//------------------------------------------------------------------------------
 void Client::prepareForPlayAdvertising()
 {
-    int flag=0;
     _TmpAdvertisingVideo=reinterpret_cast <AdvertisingVideo*> (_file);
-    for(int i=0; i<l_advertisingVideo->length(); i++)
-        if(l_advertisingVideo->at(i)->_advertisingInfo._id==_TmpAdvertisingVideo->_advertisingInfo._id){
-            l_advertisingVideo->replace(i,_TmpAdvertisingVideo);
-            flag=1;
-        }
-    if(flag==0)
-        l_advertisingVideo->append(_TmpAdvertisingVideo);
+    if(_countIncomeMedias==1)
+        l_advertisingVideo->clear();
+    l_advertisingVideo->append(_TmpAdvertisingVideo);
     if(_numberOfMedias==_countIncomeMedias)
     {
-        if (_playA!=NULL) //if exist delete old object because we have a new list
-        {
-            delete _playA;
-        }
-        _playA=new PlayAdvertising(*l_advertisingVideo,*_touch);
-        _playA->_frequnce=_frequence;
+        creatObjectPlayAdvertising();
+    }
+}
+
+//------------------------------------------------------------------------------
+
+void Client::creatObjectPlayAdvertising()
+{
+    if (_playA==NULL)
+    {
+        _playA=new PlayAdvertising(l_advertisingVideo,*_touch, _frequence);
         connect(_playA,SIGNAL(play(QString*)),
                 this, SLOT(playAdvertising(QString*)) );
-        _playA->startPlayAdvertising();
     }
+    _playA->startPlayAdvertising();
 }
 
 //------------------------------------------------------------------------------
@@ -789,7 +847,7 @@ void Client::playAdvertising(QString* videoName)
 
 void Client::MediaStatusChanged(QMediaPlayer::MediaStatus status){
     int st=status;
-    if(st==7) //If status EndOfMedia
+    if(st==QMediaPlayer::MediaStatus::EndOfMedia||st==QMediaPlayer::MediaStatus::InvalidMedia) //If status EndOfMedia or InvalidMedia
     {
         setState("STARTSCREEN");
         _playA->advertisingVideoEnded(_player->playingVideo);
@@ -830,9 +888,22 @@ void Client::requestFile(int id)
 {
     /*we need compackage data set because on the server side we need as answer not data
     ComPackageDataReturn but ComPackageSendFile*/
-    ComPackageDataSet *request = new ComPackageDataSet();
+    ComPackageDataSet *request=new ComPackageDataSet();
     request->setDataCategory(ComPackage::RequestFile);
     request->setData(id);
+
+    if (!_tcp.send(*request)) {
+      qCritical() << tr("Could not send request!");
+    }
+}
+
+//------------------------------------------------------------------------------
+
+void Client::requestFileToRemove(int mediaID)
+{
+    ComPackageDataRequest *request=new ComPackageDataRequest();
+    request->setDataCategory(ComPackage::RequestRemoveFile);
+    request->setDataName(QString("%1").arg(mediaID));
 
     if (!_tcp.send(*request)) {
       qCritical() << tr("Could not send request!");

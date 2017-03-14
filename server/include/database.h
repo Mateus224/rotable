@@ -187,7 +187,7 @@ public:
    * @param ids         (result) list of media ids
    * @return            true on successs
    */
-  bool mediaIds(QList<int> &ids);
+  bool mediaIds(QList<int> &ids,int removed=0);
 
   /**
    * @brief typefileIds
@@ -263,6 +263,7 @@ public:
   /**
    * Read media from database
    * @param id          media id
+   * @param removed     if removed==1 return the media even though it is removed from the sd
    * @return            media or NULL on error
    * Read and fill the parent class with some information
    */
@@ -492,8 +493,8 @@ public:
   /**
    * @brief removedFile
    * @param id of the File
-   * @param remove 1 if have to be remove 0 if it has bee
-   * recovered
+   * @param remove 1 if have to be remove
+   * 0 if it has be recovered
    * @return return true if successful
    */
   bool removeFile(int id, int remove);
@@ -594,8 +595,9 @@ public:
    * @brief getTypeId
    * @return A List of ids which the given type
    * reading media (file) table and get the Ids of the same type
+   * removed==1 means give alle in database written files (removed from SD)
    */
-  QList<int> *getMediaIdByType(int type);
+  QList<int> *getMediaIdByType(int type, int removed=0);
 
   /**
    * @brief getMediaIdByName
@@ -645,6 +647,13 @@ public:
    * @return
    */
   bool hasFile( int id);
+
+  /**
+   * @brief hasAdvertising checks if Advertising table has given mediaId
+   * @param mediaId
+   * @return
+   */
+  bool hasAdvertising(int mediaId);
 
   /**
    * @brief hasFile

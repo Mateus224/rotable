@@ -28,7 +28,7 @@ void AddNewVideo::on_addVideoButton_clicked()
     QFileDialog dialog(this);
     dialog.setDirectory(QDir::homePath());
     dialog.setFileMode(QFileDialog::ExistingFiles);
-    dialog.setNameFilter(trUtf8("Video file (*.mp4)"));
+    dialog.setNameFilter(trUtf8("Video file (*.avi *.wav)"));
     if (dialog.exec())
         _videos = dialog.selectedFiles();
     ui->buttonBox->button(QDialogButtonBox::Save)->setEnabled(true);
