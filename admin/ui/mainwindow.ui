@@ -444,7 +444,7 @@
             <item alignment="Qt::AlignLeft">
              <widget class="QLabel" name="label_5">
               <property name="text">
-               <string>Frequenzcy [min]:</string>
+               <string>Frequenzce [min]:</string>
               </property>
              </widget>
             </item>
@@ -893,7 +893,7 @@
      <x>0</x>
      <y>0</y>
      <width>750</width>
-     <height>19</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
