@@ -719,8 +719,8 @@ void Client::dataChanged(rotable::ComPackageDataChanged *package)
     }break;
     case ComPackage::RequestAdvertisingConfig:
     {
-        _frequence=package->dataName().toInt();
-        creatObjectPlayAdvertising();
+        _playA->setNewFrequency(package->dataName().toInt());
+        //creatObjectPlayAdvertising();
     }break;
     case ComPackage::RemoveFile:
     {

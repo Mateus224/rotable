@@ -22,29 +22,27 @@ PlayAdvertising::PlayAdvertising(QList<AdvertisingVideo *>*advertisingVideo,
 
 PlayAdvertising::~PlayAdvertising() {
   _timer.stop();
-  //qDeleteAll(L_timers.begin(), L_timers.end());
-  //L_timers.clear();
+  qDeleteAll(L_timers.begin(), L_timers.end());
+  L_timers.clear();
 }
 
 //----------------------------------------------------------
 
 void PlayAdvertising::startPlayAdvertising() {
   _timer.stop();
+  _playing=false;
   qDeleteAll(L_timers.begin(), L_timers.end());
   L_timers.clear();
   L_timerQueue.clear();
   l_playTimeList.clear();
   for (AdvertisingVideo *video : *l_advertisingVideo) {
     if (video->_advertisingInfo._play) {
-      if (_frequency > 0) {
-        if (video->_advertisingInfo._playTime > 0) {
-          st_timer = new AdvertisingTimers();
-          st_timer->_videoName = &video->_fileInfo._name;
-          st_timer->_id = video->_advertisingInfo._id;
-          st_timer->_playTime=((1/((float)video->_advertisingInfo._playTime)));
-          L_timers.append(st_timer);
-          l_playTimeList.append(st_timer->_playTime);
-        }
+      if (video->_advertisingInfo._playTime > 0) {
+        st_timer = new AdvertisingTimers();         st_timer->_videoName = &video->_fileInfo._name;
+        st_timer->_id = video->_advertisingInfo._id;
+        st_timer->_playTime=((1/((float)video->_advertisingInfo._playTime)));
+        L_timers.append(st_timer);
+        l_playTimeList.append(st_timer->_playTime);
       }
     }
   }
@@ -128,14 +126,12 @@ int PlayAdvertising::PlayListLength(int kgV) {
 //----------------------------------------------------------
 
 void PlayAdvertising::setTimer(int oldTime) {
-  /*if (!_timer.isActive()) {
-    _timer.setInterval(_frequency);
-    return;
-  }*/
-
-  int time = _frequency - oldTime + _timer.remainingTime();
-  //_timer.start(time ? time : 0);
-  _timer.start(_frequency);
+    if(!_timer.isActive()){
+        _timer.setInterval(_frequency);
+    }
+  //int time = _frequency - oldTime + _timer.remainingTime();
+  if(_frequency>0)
+    _timer.start(_frequency);
 }
 
 //----------------------------------------------------------
@@ -181,6 +177,7 @@ void PlayAdvertising::advertisingVideoEnded(QString name) {
 
 void PlayAdvertising::setNewFrequency(int frequency)
 {
+    _timer.stop();
     int old = _frequency;
     _frequency = frequency* calculateToMin;
     setTimer(old);

@@ -16,5 +16,9 @@
         <file>resources/food.png</file>
         <file>resources/shisha.png</file>
         <file alias="close.png">resources/close.png</file>
+        <file>resources/powered_by_logo_in_e_white.svg</file>
+        <file>resources/powered_by_logo_in_e_black.svg</file>
+        <file>resources/powered_by_logo_under_e_white.svg</file>
+        <file>resources/powered_by_logo_under_e_black.svg</file>
     </qresource>
 </RCC>
