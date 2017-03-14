@@ -1,4 +1,4 @@
-QT = core network sql gui qml
+QT = core network sql gui qml widgets
 TARGET = rotable-server
 
 CONFIG   += precompile_header c++11 console #debug
@@ -10,6 +10,7 @@ QMAKE_CFLAGS_RELEASE = -g
 QMAKE_CXXFLAGS += -std=c++11
 
 win32:CONFIG += windows
+win32:RC_ICONS += resources/icon/server_icon.ico
 
 ########################################################################
 # FILES:
@@ -74,7 +75,8 @@ win32:LIBS += -lws2_32
 
 RESOURCES += \
     sql-commands.qrc \
-    keys.qrc
+    keys.qrc \
+    icon.qrc
 
 target.path = /opt/rotable
 INSTALLS    += target
