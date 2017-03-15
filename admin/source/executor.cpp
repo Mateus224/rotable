@@ -45,6 +45,9 @@ Executor::Executor(MainWindow *mainwindow, const QString &configFilePath,
   connect(&_serverLogListener, SIGNAL(log(rotable::LogManager::LogMessage)),
           this, SIGNAL(serverLog(rotable::LogManager::LogMessage)));
 
+  _selectedAdvertisingVideo=0;  // at start nothing is selected
+  _selectedCategory=0;          // at start nothing is selected
+  _selectedProduct=0;           // at start nothing is selected
   //  if (NoError != _config.load(configFilePath)) {
   //    qDebug() << tr("Could not load %1:
   //    %2").arg(configFilePath).arg(_config.errorStr());
@@ -437,13 +440,12 @@ void Executor::onProductSelectionChanged(int id) {
 //------------------------------------------------------------------------------
 
 void Executor::onAdvertisingVideoSelectionChanged(const int id) {
-  if (1 == -1) {
-      qCritical()<<"wrong id";
+  if (id == -1) {
     _selectedAdvertisingVideo = 0;
   } else {
      _files->setSelectedFile(id);
     _selectedAdvertisingVideo =_files->getSelectedFile();
-    //Q_ASSERT(_selectedAdvertisingVideo);
+    Q_ASSERT(_selectedAdvertisingVideo);
   }
 }
 
@@ -602,8 +604,6 @@ void Executor::onAddAdvertisingVideo()
 //------------------------------------------------------------------------------
 
 void Executor::onRemoveAdvertisingVideo() {
-
-    qDebug()<<"bis hier klappt das mediaId: "<< _selectedAdvertisingVideo->getMedia_id();
   ComPackageCommand com;
 
   if (_selectedAdvertisingVideo) {
