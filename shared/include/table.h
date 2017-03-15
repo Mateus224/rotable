@@ -191,7 +191,7 @@ public:
    */
   bool hasOrder(const int &orderId) const;
 
-  void disconnectTable();
+  void disconnectTable(QObject *obj = nullptr);
 
   /**
    * Check if table has new order
