@@ -70,9 +70,9 @@ bool Table::hasOrder(const int &orderId) const {
 
 //------------------------------------------------------------------------------
 
-void Table::disconnectTable() {
-  disconnect(this, &Table::tableChanged, 0, 0);
-  disconnect(this, &Table::waiterIsNeededChanged, 0, 0);
+void Table::disconnectTable(QObject* obj) {
+  disconnect(this, &Table::tableChanged, obj, 0);
+  disconnect(this, &Table::waiterIsNeededChanged, obj, 0);
   foreach (Order *order, _orders) { order->disconnectOrder(); }
 }
 
@@ -141,7 +141,7 @@ void Table::recalcLastOrder() {
 
 //------------------------------------------------------------------------------
 
-void Table::diconnectRemote() { disconnectTable(); }
+void Table::diconnectRemote() { disconnectTable(sender()); }
 
 //------------------------------------------------------------------------------
 
