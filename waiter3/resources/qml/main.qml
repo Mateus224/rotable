@@ -3,6 +3,7 @@ import QtQuick 2.5
 import "LoadingView/"
 import "qrc:/LoadingSymbol/resources/"
 
+
 Rectangle{
     visible: true
     id: mainscreen
