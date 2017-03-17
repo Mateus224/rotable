@@ -3289,8 +3289,8 @@ bool Database::hasFile(QString name, int type)
           << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
       return false;
     }
-    if(q.last())
-        return true;
+    /*if(q.last())
+        return true;*/
     if (q.next()) {
       return true;
     }
