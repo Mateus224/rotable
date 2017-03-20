@@ -503,8 +503,10 @@ bool Database::mediaIds(QList<int> &ids, int removed) {
 
 bool Database::typefileIds(QList<int> &ids, int type)
 {
+    Q_UNUSED(ids)
+    Q_UNUSED(type)
     //take the media ids which have the advertising type and take the info from advertising table
-
+    return false;
 }
 
 //------------------------------------------------------------------------------

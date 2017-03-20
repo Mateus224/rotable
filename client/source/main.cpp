@@ -37,6 +37,7 @@
 //------------------------------------------------------------------------------
 
 void touchEvent(QTouchEvent* test){
+    Q_UNUSED(test)
     qDebug()<<"bbbb";
 }
 
@@ -109,7 +110,7 @@ int main(int argc, char *argv[])
   client->setImageProvider(imageProvider);
 
 
-  rotable::TouchEvent*  touch=new rotable::TouchEvent();
+  rotable::TouchEvent* touch=new rotable::TouchEvent();
   QQuickView* view=new QQuickView();
 
   client->startup();               //this will be in the fulture in the client included
