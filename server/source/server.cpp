@@ -16,14 +16,13 @@ using namespace rotable;
 //------------------------------------------------------------------------------
 
 Server::Server(const QString &configFilePath, QObject *parent)
-  : QObject(parent), _config(configFilePath, this), _tcp(this), _db(this)
-{
-  connect(&_tcp, SIGNAL(clientConnected(client_t)),
-          this, SLOT(clientConnected(client_t)));
-  connect(&_tcp, SIGNAL(clientDisconnected(client_t,QString)),
-          this, SLOT(clientDisconnected(client_t,QString)));
-  connect(&_tcp, SIGNAL(packageReceived(client_t,ComPackage*)),
-          this, SLOT(packageReceived(client_t,ComPackage*)));
+    : QObject(parent), _config(configFilePath, this), _tcp(this), _db(this) {
+  connect(&_tcp, SIGNAL(clientConnected(client_t)), this,
+          SLOT(clientConnected(client_t)));
+  connect(&_tcp, SIGNAL(clientDisconnected(client_t, QString)), this,
+          SLOT(clientDisconnected(client_t, QString)));
+  connect(&_tcp, SIGNAL(packageReceived(client_t, ComPackage *)), this,
+          SLOT(packageReceived(client_t, ComPackage *)));
   // if we add or update any config we parse them
   connect(&_db, &Database::parseConfig, this, &Server::config_parser);
   schedule = new Schedule();
@@ -75,16 +74,16 @@ bool Server::startup() {
     return false;
   }
 
-  foreach (const ConfigServer::Image& i, _config.images()) {
+  foreach (const ConfigServer::Image &i, _config.images()) {
     if (!QFile(i.path).exists()) {
-      qDebug() << tr("WARNING: Image %1 does not exist at %2!")
-                  .arg(i.name, i.path);
+      qDebug()
+          << tr("WARNING: Image %1 does not exist at %2!").arg(i.name, i.path);
     } else {
       Image img;
       img.path = i.path;
       if (!img.img.load(i.path)) {
         qDebug() << tr("WARNING: Could not load Image %1 at %2!")
-                    .arg(i.name, i.path);
+                        .arg(i.name, i.path);
       } else {
         _images[i.name] = img;
         qDebug() << tr("Image %1 loaded.").arg(i.path);
@@ -94,7 +93,8 @@ bool Server::startup() {
 
   load_configs();
 
-  qDebug() << tr("Listening for incoming connections on port %1").arg(_config.port());
+  qDebug() << tr("Listening for incoming connections on port %1")
+                  .arg(_config.port());
 
   return true;
 }
@@ -110,7 +110,8 @@ void Server::createDatabase() {
 //------------------------------------------------------------------------------
 
 void Server::clientConnected(client_t client) {
-  //LogManager::getInstance()->logInfo(tr("Client connected: %1").arg(_tcp.clientSocket(client)->peerAddress().toString()));
+  // LogManager::getInstance()->logInfo(tr("Client connected:
+  // %1").arg(_tcp.clientSocket(client)->peerAddress().toString()));
   qDebug() << tr("Client connected: %1")
                   .arg(_tcp.clientSocket(client)->peerAddress().toString());
 }
@@ -123,15 +124,14 @@ void Server::packageReceived(client_t client, ComPackage *package) {
     ComPackageConnectionRequest *p =
         static_cast<ComPackageConnectionRequest *>(package);
     if (login(p, client)) {
-      if (p->clientType() == rotable::ComPackage::TableAccount)
-      {
+      if (p->clientType() == rotable::ComPackage::TableAccount) {
         ;
-      //          if(Q_UNLIKELY(!_licence->getLicence(_tcp.clientSocket(client))))
-      //          {
-      //              ComPackageReject reject(package->id());
-      //              _tcp.send(client, reject);
-      //              break;
-      //          }
+        //          if(Q_UNLIKELY(!_licence->getLicence(_tcp.clientSocket(client))))
+        //          {
+        //              ComPackageReject reject(package->id());
+        //              _tcp.send(client, reject);
+        //              break;
+        //          }
       }
       _tcp.setClientName(client, p->clientName());
       ComPackageConnectionAccept accept;
@@ -148,8 +148,7 @@ void Server::packageReceived(client_t client, ComPackage *package) {
     _tcp.send(client, reject);
   } break;
   case ComPackage::Message: {
-    qDebug() << tr(
-        "Did not expect to receive Message package... rejecting");
+    qDebug() << tr("Did not expect to receive Message package... rejecting");
     ComPackageReject reject(package->id());
     _tcp.send(client, reject);
   } break;
@@ -249,7 +248,7 @@ void Server::packageReceived(client_t client, ComPackage *package) {
         dc.setDataCategory(rotable::ComPackage::RequestTable);
         dc.setDataName(QString("%1").arg(id));
         //_tcp.send(-1, dc);
-//        send_to_users(dc, rotable::ComPackage::TableAccount);
+        //        send_to_users(dc, rotable::ComPackage::TableAccount);
         send_to_users(dc, rotable::ComPackage::WaiterAccount);
 
         if (updateTable) {
@@ -270,29 +269,31 @@ void Server::packageReceived(client_t client, ComPackage *package) {
       ComPackageReject reject(package->id());
       _tcp.send(client, reject);
     }
-  } break;     
-  case ComPackage::File:
-  {
-      if (_tcp.isClientAccepted(client))
-      {
-          ComPackageSendFile* p=static_cast <ComPackageSendFile*>(package);
-          if (!typeOfFileDestination(p)) {
-            ComPackageReject reject(package->id());
-            _tcp.send(client, reject);
-          }else{
-          ComPackageDataChanged dc;
-          dc.setDataCategory(ComPackage::RequestMediaIds);
-          send_to_users(dc,rotable::ComPackage::AdminAccount); //inform admin about changes which are done in the database
-          send_to_users(*package,rotable::ComPackage::TableAccount); // send files to table-clients
-          }
+  } break;
+  case ComPackage::File: {
+    if (_tcp.isClientAccepted(client)) {
+      ComPackageSendFile *p = static_cast<ComPackageSendFile *>(package);
+      if (!typeOfFileDestination(p)) {
+        ComPackageReject reject(package->id());
+        _tcp.send(client, reject);
+      } else {
+        ComPackageDataChanged dc;
+        dc.setDataCategory(ComPackage::RequestMediaIds);
+        send_to_users(dc, rotable::ComPackage::AdminAccount); // inform admin
+                                                              // about changes
+                                                              // which are done
+                                                              // in the database
+        send_to_users(
+            *package,
+            rotable::ComPackage::TableAccount); // send files to table-clients
       }
-      else{
-          qDebug() << tr("WARNING: Unallowed Command from client \"%1\"")
+    } else {
+      qDebug() << tr("WARNING: Unallowed Command from client \"%1\"")
                       .arg(_tcp.clientName(client));
-          ComPackageReject reject(package->id());
-          _tcp.send(client, reject);
+      ComPackageReject reject(package->id());
+      _tcp.send(client, reject);
     }
-  }break;
+  } break;
   case ComPackage::Reject: {
     qDebug() << tr("Did not expect to receive Reject package... doing nothing");
   } break;
@@ -319,7 +320,7 @@ void Server::clientDisconnected(client_t client, const QString &clientName) {
   }
 
   // Check if wneed remove element from waiter list
-  if(_waiterList.contains(client)){
+  if (_waiterList.contains(client)) {
     delete _waiterList[client];
     _waiterList.remove(client);
   }
@@ -422,7 +423,7 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
         foreach (int id, ids) {
           Order *order = _db.order(id, _waiterList[client]);
           if (order) {
-            if(order->itemCount())
+            if (order->itemCount())
               arr.append(order->toJSON());
             delete order;
           } else
@@ -439,9 +440,9 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
       qCritical() << tr("Could not convert table id '%1' to an integer!")
                          .arg(request->dataName());
     }
-  }break;
+  } break;
   // Not implemented yet, for admin app perhaps
-  //case ComPackage::RequestOrderIds:{
+  // case ComPackage::RequestOrderIds:{
   //}
   //  break;
   case ComPackage::RequestOrder: {
@@ -509,10 +510,10 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
         new ComPackageDataReturn(*request, configToJSON());
     return ret;
   } break;
-  //case ComPackage::RequestLicence: {
-    //      ComPackageDataReturn* ret = new ComPackageDataReturn(*request,
-    //      QJsonValue(_licence->getLicenceStatus()));
-    //      return ret;
+  // case ComPackage::RequestLicence: {
+  //      ComPackageDataReturn* ret = new ComPackageDataReturn(*request,
+  //      QJsonValue(_licence->getLicenceStatus()));
+  //      return ret;
   //} break;
   case ComPackage::RequestIncome: {
     bool ok;
@@ -551,7 +552,7 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
                            .arg(rotable::ComPackage::TableAccount);
     }
   } break;
-  case ComPackage::RequestUser:{
+  case ComPackage::RequestUser: {
     if (ifAdmin(client)) {
       Client *user = _db.client(request->dataName().toInt());
       if (user) {
@@ -560,102 +561,101 @@ ComPackageDataReturn *Server::getData(ComPackageDataRequest *request,
         delete user;
         return ret;
       } else {
-        qCritical()
-            << tr("Could not query income data of id %1!").arg(request->dataName().toInt());
+        qCritical() << tr("Could not query income data of id %1!")
+                           .arg(request->dataName().toInt());
       }
     }
   } break;
-  case ComPackage::RequestWaiterCategories:{
+  case ComPackage::RequestWaiterCategories: {
     if (ifWaiter(client)) {
-      Waiter* waiter=_waiterList.take(client);
-      Waiter *UpdatedWaiter = reinterpret_cast<Waiter*>(_db.client(waiter->id()));
-      _waiterList.insert(client,UpdatedWaiter);
-      ComPackageDataReturn *ret =new ComPackageDataReturn();
+      Waiter *waiter = _waiterList.take(client);
+      Waiter *UpdatedWaiter =
+          reinterpret_cast<Waiter *>(_db.client(waiter->id()));
+      _waiterList.insert(client, UpdatedWaiter);
+      ComPackageDataReturn *ret = new ComPackageDataReturn();
       ret->setDataCategory(ComPackage::RequestWaiterCategories);
       return ret;
     }
   } break;
   case ComPackage::RequestMediaIds: {
-    QList<int>* ids;
-    if (ids=_db.getMediaIdByType(ComPackage::AdvertisingVideo)) {
+    QList<int> *ids = nullptr;
+    if ((ids = _db.getMediaIdByType(ComPackage::AdvertisingVideo))) {
       QJsonArray arr;
       foreach (int id, *ids) { arr.append(id); }
       QJsonValue jsonVal(arr);
       return new ComPackageDataReturn(*request, jsonVal);
     } else {
-        qCritical()
-            << tr("Could not query income data of id %1!").arg(request->dataName().toInt());
-      }
+      qCritical() << tr("Could not query income data of id %1!")
+                         .arg(request->dataName().toInt());
+    }
   } break;
   case ComPackage::RequestRmMediaIds: {
-    QList<int> *rmIds;
-    if (rmIds=_db.getMediaIdByType(ComPackage::AdvertisingVideo,1)) {
+    QList<int> *rmIds = nullptr;
+    if ((rmIds = _db.getMediaIdByType(ComPackage::AdvertisingVideo, 1))) {
       QJsonArray arr;
       foreach (int id, *rmIds) { arr.append(id); }
       QJsonValue jsonVal(arr);
       return new ComPackageDataReturn(*request, jsonVal);
     } else {
-        qCritical()
-            << tr("Could not query income data of id %1!").arg(request->dataName().toInt());
-      }
+      qCritical() << tr("Could not query income data of id %1!")
+                         .arg(request->dataName().toInt());
+    }
   } break;
   case ComPackage::RequestMedia: {
-      int mediaId=request->dataName().toInt();
-      if(mediaId>0){
-          AdvertisingVideo* Video=new AdvertisingVideo();
-          Video=reinterpret_cast<AdvertisingVideo*> (_db.media(mediaId));
-          if(Video)
-          {
-              ComPackageDataReturn *ret =
-                      new ComPackageDataReturn(*request, Video->toJSON());
-              delete Video;
-              return ret;
-          }else {
-              qCritical()
-                  << tr("Could not query income data of id %1!").arg(request->dataName().toInt());
-          }
+    int mediaId = request->dataName().toInt();
+    if (mediaId > 0) {
+      AdvertisingVideo *Video = nullptr;
+      Video = reinterpret_cast<AdvertisingVideo *>(_db.media(mediaId));
+      if (Video) {
+        ComPackageDataReturn *ret =
+            new ComPackageDataReturn(*request, Video->toJSON());
+        delete Video;
+        return ret;
+      } else {
+        qCritical() << tr("Could not query income data of id %1!")
+                           .arg(request->dataName().toInt());
       }
-  }break;
+    }
+  } break;
   case ComPackage::RequestRmMedia: {
-      int mediaId=request->dataName().toInt();
-      if(mediaId>0){
-          AdvertisingVideo* Video=new AdvertisingVideo();
-          Video=reinterpret_cast<AdvertisingVideo*> (_db.media(mediaId));
-          if(Video)
-          {
-              ComPackageDataReturn *ret =
-                      new ComPackageDataReturn(*request, Video->toJSON());
-              delete Video;
-              return ret;
-          }else {
-              qCritical()
-                  << tr("Could not query income data of id %1!").arg(request->dataName().toInt());
-          }
+    int mediaId = request->dataName().toInt();
+    if (mediaId > 0) {
+      AdvertisingVideo *Video = nullptr;
+      Video = reinterpret_cast<AdvertisingVideo *>(_db.media(mediaId));
+      if (Video) {
+        ComPackageDataReturn *ret =
+            new ComPackageDataReturn(*request, Video->toJSON());
+        delete Video;
+        return ret;
+      } else {
+        qCritical() << tr("Could not query income data of id %1!")
+                           .arg(request->dataName().toInt());
       }
-  }break;
+    }
+  } break;
   case ComPackage::RequestSystemVersions: {
-      SystemUpdate* systemUpdate=_db.systemUpdate();
-      if (systemUpdate) {
-          ComPackageDataReturn *ret =
-              new ComPackageDataReturn(*request, systemUpdate->toJSON());
-          delete systemUpdate;
-          return ret;
-      } else {qCritical()
-                  << tr("Could not query income data of id %1!").arg(request->dataName().toInt());
-      }
+    SystemUpdate *systemUpdate = _db.systemUpdate();
+    if (systemUpdate) {
+      ComPackageDataReturn *ret =
+          new ComPackageDataReturn(*request, systemUpdate->toJSON());
+      delete systemUpdate;
+      return ret;
+    } else {
+      qCritical() << tr("Could not query income data of id %1!")
+                         .arg(request->dataName().toInt());
+    }
   } break;
   case ComPackage::RequestAdvertisingConfig: {
-      int frequency=_db.getLastAdvertisingConfig();
-      ComPackageDataReturn *ret =
-          new ComPackageDataReturn(*request, frequency);
-      return ret;
+    int frequency = _db.getLastAdvertisingConfig();
+    ComPackageDataReturn *ret = new ComPackageDataReturn(*request, frequency);
+    return ret;
   } break;
   case ComPackage::RequestRemoveFile: {
-      int id=request->dataName().toInt();
-      File* file=_db.media(id);
-      ComPackageDataReturn *ret =
-          new ComPackageDataReturn(*request, file->toJSON());
-      return ret;
+    int id = request->dataName().toInt();
+    File *file = _db.media(id);
+    ComPackageDataReturn *ret =
+        new ComPackageDataReturn(*request, file->toJSON());
+    return ret;
   } break;
   default: {
     qCritical()
@@ -738,8 +738,7 @@ bool Server::setData(ComPackageDataSet *set, client_t client) {
     QStringList name = {"licence.dat", "licence.crt"};
     auto path = QDir(_config.licence_path());
 
-    int i  = 0; // i++?
-
+    int i = 0; // i++?
 
     foreach (QJsonValue file, arr) {
       QByteArray ba = QByteArray::fromBase64(file.toString().toLocal8Bit(),
@@ -757,59 +756,62 @@ bool Server::setData(ComPackageDataSet *set, client_t client) {
     return true;
   } break;
   case ComPackage::SetAdvertising: {
-      AdvertisingVideo *advertising =static_cast<AdvertisingVideo*> (AdvertisingVideo::fromJSON(set->data()));
+    AdvertisingVideo *advertising = static_cast<AdvertisingVideo *>(
+        AdvertisingVideo::fromJSON(set->data()));
 
-      if (advertising) {
-        if (advertising->_fileInfo._id == -1) {
-            qWarning()<<"advertising file has a wrong id";
-          return false;
-        } else {
-          return updateAdvertising(advertising);
-        }
-      } else {
+    if (advertising) {
+      if (advertising->_fileInfo._id == -1) {
+        qWarning() << "advertising file has a wrong id";
         return false;
+      } else {
+        return updateAdvertising(advertising);
       }
+    } else {
+      return false;
+    }
   }
   case ComPackage::RequestFile: {
-      int id=set->data().toInt();
-      File* sendVideo=_db.media(id);
-      sendVideo->setDir(); //change to the advertising direktory
-      QFile file(sendVideo->getName());
-      file.open(QIODevice::ReadOnly);
+    int id = set->data().toInt();
+    File *sendVideo = _db.media(id);
+    sendVideo->setDir(); // change to the advertising direktory
+    QFile file(sendVideo->getName());
+    file.open(QIODevice::ReadOnly);
 
-      ComPackageSendFile package;
-      QByteArray ba;
-      QBuffer buffer(&ba);
-      ba = file.readAll();
-      package.byteArrayToBase64(ba);
-      package.setFileUsage(ComPackage::AdvertisingVideo);
-      QStringList video;
-      video<<sendVideo->getName();
-      package.setFileNames(video);
-      send_to_users(package, ComPackage::TableAccount);
+    ComPackageSendFile package;
+    QByteArray ba;
+    QBuffer buffer(&ba);
+    ba = file.readAll();
+    package.byteArrayToBase64(ba);
+    package.setFileUsage(ComPackage::AdvertisingVideo);
+    QStringList video;
+    video << sendVideo->getName();
+    package.setFileNames(video);
+    send_to_users(package, ComPackage::TableAccount);
 
-  }break;
+  } break;
+
   case ComPackage::SetAdvertisingConfig: {
-      // this have to be changed if there will be more informations in future (new AdvertisingConfig class)
-      if(_db.addAdvertisingConfig(set->data().toInt()))
-      {
-          int newFrequence=set->data().toInt();
-          ComPackageDataChanged dc;
-          dc.setDataCategory(ComPackage::RequestAdvertisingConfig);
-          dc.setDataName(QString("%1").arg(newFrequence));
-          send_to_users(dc, rotable::ComPackage::AdminAccount);
-          send_to_users(dc, rotable::ComPackage::TableAccount);
-          return true;
-      }
-      else
-          return false;
-  }break;
+    // this have to be changed if there will be more informations in future (new
+    // AdvertisingConfig class)
+    if (_db.addAdvertisingConfig(set->data().toInt())) {
+      int newFrequence = set->data().toInt();
+      ComPackageDataChanged dc;
+      dc.setDataCategory(ComPackage::RequestAdvertisingConfig);
+      dc.setDataName(QString("%1").arg(newFrequence));
+      send_to_users(dc, rotable::ComPackage::AdminAccount);
+      send_to_users(dc, rotable::ComPackage::TableAccount);
+      return true;
+    } else
+      return false;
+  } break;
 
   default: {
     qCritical() << tr("Unknown data set id: %d").arg(set->dataCategory());
     return false;
   } break;
   }
+
+  return false;
 }
 
 //------------------------------------------------------------------------------
@@ -1034,54 +1036,49 @@ bool Server::closeDay() {
 //------------------------------------------------------------------------------
 
 bool Server::setWaiterNeed(bool need, int tableId) {
-  if (_db.setWaiterNeed(need, tableId)) {
-    ComPackageDataChanged dc;
-    dc.setDataCategory(ComPackage::RequestTable);
-    dc.setDataName(QString(tableId));
-    send_to_users(dc, 2);
+  if (_db.setWaiterNeed(need, tableId))
+    //    ComPackageDataChanged dc;
+    //    dc.setDataCategory(ComPackage::RequestTable);
+    //    dc.setDataName(QString(tableId));
+    //    send_to_users(dc, 2);
     return true;
-  } else {
+  else
     return false;
-  }
 }
 
 //------------------------------------------------------------------------------
 
 bool Server::updateAdvertising(AdvertisingVideo *advertising) {
-  File* file= static_cast<File*>(advertising);
-  if(_db.hasFile(advertising->_advertisingInfo._mediaId))
-  {
-      File* tmp =_db.media(advertising->_advertisingInfo._mediaId);
-      // Inform clients about data change...
-      ComPackageDataChanged dc;
-      dc.setDataCategory(ComPackage::RequestMediaIds);
-      dc.setDataName(QString("%1").arg(advertising->_fileInfo._id));
+  File *file = static_cast<File *>(advertising);
+  if (_db.hasFile(advertising->_advertisingInfo._mediaId)) {
+    File *tmp = _db.media(advertising->_advertisingInfo._mediaId);
+    // Inform clients about data change...
+    ComPackageDataChanged dc;
+    dc.setDataCategory(ComPackage::RequestMediaIds);
+    dc.setDataName(QString("%1").arg(advertising->_fileInfo._id));
 
-
-      if(advertising->_advertisingInfo._played==-2)
-      {
-          AdvertisingVideo* _advertising=static_cast<AdvertisingVideo*>(tmp);
-          _advertising->_advertisingInfo._played++;
-          _advertising->_advertisingInfo._duration=advertising->_advertisingInfo._duration;
-          _db.updateFile(_advertising);
-          send_to_users(dc, rotable::ComPackage::AdminAccount);
-          return true;
-      }
-      else if(!tmp->rename(advertising->_fileInfo._name))
-        qWarning()<<"rename not succed!";
-      else if (!_db.updateFile(file)) {
-        qWarning() << tr("Failed to update file!");
-        return false;
-      }
-
+    if (advertising->_advertisingInfo._played == -2) {
+      AdvertisingVideo *_advertising = static_cast<AdvertisingVideo *>(tmp);
+      _advertising->_advertisingInfo._played++;
+      _advertising->_advertisingInfo._duration =
+          advertising->_advertisingInfo._duration;
+      _db.updateFile(_advertising);
       send_to_users(dc, rotable::ComPackage::AdminAccount);
-      send_to_users(dc,rotable::ComPackage::TableAccount);
-
       return true;
+    } else if (!tmp->rename(advertising->_fileInfo._name))
+      qWarning() << "rename not succed!";
+    else if (!_db.updateFile(file)) {
+      qWarning() << tr("Failed to update file!");
+      return false;
+    }
+
+    send_to_users(dc, rotable::ComPackage::AdminAccount);
+    send_to_users(dc, rotable::ComPackage::TableAccount);
+
+    return true;
   }
   return false;
 }
-
 
 //------------------------------------------------------------------------------
 
@@ -1148,8 +1145,8 @@ bool Server::executeCommand(ComPackageCommand *package) {
       _config.setLicence_path(path);
     } break;
     case ComPackage::CommandType::CreateUser: {
-      User *user = reinterpret_cast<User*>(Client::fromJSON(package->data()));
-      if(_db.addUser(user)){
+      User *user = reinterpret_cast<User *>(Client::fromJSON(package->data()));
+      if (_db.addUser(user)) {
         // Inform admins about data change...
         ComPackageDataChanged dc;
         dc.setDataCategory(ComPackage::RequestUserIds);
@@ -1158,12 +1155,11 @@ bool Server::executeCommand(ComPackageCommand *package) {
       }
 
     } break;
-    case ComPackage::CommandType::AddWaiterCategory:
-    {
-      QJsonArray  arr = package->data().toArray();
+    case ComPackage::CommandType::AddWaiterCategory: {
+      QJsonArray arr = package->data().toArray();
       QList<int> list;
       list.append(arr[1].toInt());
-      if(_db.addWaiterCategoires(arr[0].toInt(), &list)){
+      if (_db.addWaiterCategoires(arr[0].toInt(), &list)) {
         // Inform admins about data change...
         ComPackageDataChanged dc;
         dc.setDataCategory(ComPackage::RequestUser);
@@ -1174,10 +1170,10 @@ bool Server::executeCommand(ComPackageCommand *package) {
       }
     } break;
     case ComPackage::CommandType::RemoveWaiterCategory: {
-      QJsonArray  arr = package->data().toArray();
+      QJsonArray arr = package->data().toArray();
       QList<int> list;
       list.append(arr[1].toInt());
-      if(_db.removeWaiterCategoires(arr[0].toInt(), &list)){
+      if (_db.removeWaiterCategoires(arr[0].toInt(), &list)) {
         // Inform admins about data change...
         ComPackageDataChanged dc;
         dc.setDataCategory(ComPackage::RequestUser);
@@ -1185,46 +1181,47 @@ bool Server::executeCommand(ComPackageCommand *package) {
         send_to_users(dc, rotable::ComPackage::AdminAccount);
         send_to_users(dc, rotable::ComPackage::WaiterAccount);
         return true;
-      }  
+      }
     } break;
     case ComPackage::CommandType::ChangeClientName: {
-      QJsonArray  arr = package->data().toArray();
-      Client* user = _db.client(arr[0].toInt());
+      QJsonArray arr = package->data().toArray();
+      Client *user = _db.client(arr[0].toInt());
       user->setName(arr[1].toString());
-      if(_db.updateClient(user)){
+      if (_db.updateClient(user)) {
         return true;
       }
     } break;
     case ComPackage::CommandType::ChangePassword: {
-      QJsonArray  arr = package->data().toArray();
-      User* user = reinterpret_cast<User*>(_db.client(arr[0].toInt()));
+      QJsonArray arr = package->data().toArray();
+      User *user = reinterpret_cast<User *>(_db.client(arr[0].toInt()));
       user->setHashPassword(arr[1].toString());
-      if(_db.updateUserPassword(user)){
+      if (_db.updateUserPassword(user)) {
         return true;
       }
     } break;
     case ComPackage::CommandType::RemoveFile: {
-        int mediaID=package->data().toInt();
-        File* file= _db.media(mediaID);
-        if(file->removeFileFromSD())
-            if(!_db.removeFile(mediaID,1)){
-                qCritical()<<"Could not remove file from database";
-                break;
-            }
-            ComPackageDataChanged dc_admin;
-            dc_admin.setDataCategory(ComPackage::RequestMediaIds);
-            send_to_users(dc_admin,rotable::ComPackage::AdminAccount);
-            ComPackageDataChanged dc_table;
-            //dc_table.setData(file->toJSON());
+      int mediaID = package->data().toInt();
+      File *file = _db.media(mediaID);
+      if (file->removeFileFromSD())
+        if (!_db.removeFile(mediaID, 1)) {
+          qCritical() << "Could not remove file from database";
+          break;
+        }
+      ComPackageDataChanged dc_admin;
+      dc_admin.setDataCategory(ComPackage::RequestMediaIds);
+      send_to_users(dc_admin, rotable::ComPackage::AdminAccount);
+      ComPackageDataChanged dc_table;
+      // dc_table.setData(file->toJSON());
 
-            dc_table.setDataName(QString("%1").arg(mediaID));
-            dc_table.setDataCategory(ComPackage::RequestRemoveFile);
-            send_to_users(dc_table, rotable::ComPackage::TableAccount);
-            return true;
-        }break;
+      dc_table.setDataName(QString("%1").arg(mediaID));
+      dc_table.setDataCategory(ComPackage::RequestRemoveFile);
+      send_to_users(dc_table, rotable::ComPackage::TableAccount);
+      return true;
+    } break;
     case ComPackage::CommandType::SetUpdate: {
-      bool  true_ = package->data().toInt();
-    }break;
+      bool true_ = package->data().toInt();
+      Q_UNUSED(true_)
+    } break;
     default: {
       qCritical()
           << tr("Unknown command type '%1'!").arg(package->commandType());
@@ -1254,9 +1251,8 @@ bool Server::login(ComPackageConnectionRequest *package, client_t client) {
       if (id < 1) // If id < 0 then loggin failed, we can end it
         return false;
       _users[package->clientType()].insert(client, id);
-      if(package->clientType() == rotable::ComPackage::WaiterAccount)
-      {
-        Waiter *waiter = reinterpret_cast<Waiter*>(_db.client(id));
+      if (package->clientType() == rotable::ComPackage::WaiterAccount) {
+        Waiter *waiter = reinterpret_cast<Waiter *>(_db.client(id));
         _waiterList[client] = waiter;
       }
       return true;
@@ -1470,13 +1466,10 @@ bool Server::ifWaiter(int connection) const {
 
 //------------------------------------------------------------------------------
 
-void Server::updateWaiterCategories(int waiterId, int categoryId, int type)
-{
-  for(auto waiter: _waiterList)
-  {
-    if(waiter->id() == waiterId)
-    {
-      if(type == 1)
+void Server::updateWaiterCategories(int waiterId, int categoryId, int type) {
+  for (auto waiter : _waiterList) {
+    if (waiter->id() == waiterId) {
+      if (type == 1)
         waiter->addWaiterCategory(categoryId);
       else
         waiter->removeWaiterCategory(categoryId);
@@ -1493,76 +1486,73 @@ QJsonValue Server::configToJSON() {
 
 //------------------------------------------------------------------------------
 
-bool Server::typeOfFileDestination(ComPackageSendFile* package)
-{
-    QString test1;
-    if (package) {
-      switch (package->getFileUsage()) {
-          case ComPackage::AdvertisingVideo:
-              if(!addAdvertisingSD_Database(package))
-                  return false;
-              break;
-          case ComPackage::AdvertisingPicture:
-              if(true)
-               // VideoContainer* a=static_cast <VideoContainer*>(Files);
-              test1=package->getFiles().at(0);
-              break;
-          case ComPackage::CatergoryIcon:
-              if(true)
-               // VideoContainer* b=static_cast <VideoContainer*>(Files);
-              test1=package->getFiles().at(0);
-              break;
-          case ComPackage::ProductPicture:
-              break;
+bool Server::typeOfFileDestination(ComPackageSendFile *package) {
+  QString test1;
+  if (package) {
+    switch (package->getFileUsage()) {
+    case ComPackage::AdvertisingVideo:
+      if (!addAdvertisingSD_Database(package))
+        return false;
+      break;
+    case ComPackage::AdvertisingPicture:
+      if (true)
+        // VideoContainer* a=static_cast <VideoContainer*>(Files);
+        test1 = package->getFiles().at(0);
+      break;
+    case ComPackage::CatergoryIcon:
+      if (true)
+        // VideoContainer* b=static_cast <VideoContainer*>(Files);
+        test1 = package->getFiles().at(0);
+      break;
+    case ComPackage::ProductPicture:
+      break;
 
-          case ComPackage::ProductVideo:
-              break;
-      }
+    case ComPackage::ProductVideo:
+      break;
     }
-    return true;
+  }
+  return true;
 }
-
 
 //------------------------------------------------------------------------------
 
-bool Server::addAdvertisingSD_Database(ComPackageSendFile* package)
-{
+bool Server::addAdvertisingSD_Database(ComPackageSendFile *package) {
 
-    AdvertisingVideo *Files= new AdvertisingVideo();
-    QList<int> *idList;
-    QList<int> *toAddAdvertising= new QList<int>;
-    for(QString fileName: package->getFileNames()){
-        if(!_db.hasFile(fileName,ComPackage::AdvertisingVideo)){
-           Files->_fileListNames.append(fileName);
-        }
-        else{
-            // if file exist and removed is set true; make it undo
-            QList<int>* tempForGetID;
-            QStringList tempQString;
-            tempQString.append(fileName);
-            tempForGetID=_db.getMediaIdByNameAndType(tempQString,ComPackage::AdvertisingVideo);
-            int id=tempForGetID->at(0);
-            _db.removeFile(id,0);
-        }
+  AdvertisingVideo *Files = new AdvertisingVideo();
+  QList<int> *idList;
+  QList<int> *toAddAdvertising = new QList<int>;
+  for (QString fileName : package->getFileNames()) {
+    if (!_db.hasFile(fileName, ComPackage::AdvertisingVideo)) {
+      Files->_fileListNames.append(fileName);
+    } else {
+      // if file exist and removed is set true; make it undo
+      QList<int> *tempForGetID;
+      QStringList tempQString;
+      tempQString.append(fileName);
+      tempForGetID = _db.getMediaIdByNameAndType(tempQString,
+                                                 ComPackage::AdvertisingVideo);
+      int id = tempForGetID->at(0);
+      _db.removeFile(id, 0);
     }
+  }
 
   Files->addFileOnSD(package);
   Files->setType(ComPackage::AdvertisingVideo);
   Files->getFileInfoFromFileAndSet(Files->_fileListNames);
-  if(!_db.addMedia(Files))
-  {
-    qCritical()<<"failed to add Media";
+  if (!_db.addMedia(Files)) {
+    qCritical() << "failed to add Media";
     delete Files;
     return 0;
   }
-  idList=_db.getMediaIdByNameAndType(package->getFileNames(),ComPackage::AdvertisingVideo);
+  idList = _db.getMediaIdByNameAndType(package->getFileNames(),
+                                       ComPackage::AdvertisingVideo);
 
-  for(int i=0; i<idList->length(); i++){
-      if (!toAddAdvertising->empty())
-        toAddAdvertising->clear();
-      toAddAdvertising->append(idList->at(i));
-  if(!_db.hasAdvertising(idList->at(i)))
-    _db.addAdvertisingVideo(toAddAdvertising);
+  for (int i = 0; i < idList->length(); i++) {
+    if (!toAddAdvertising->empty())
+      toAddAdvertising->clear();
+    toAddAdvertising->append(idList->at(i));
+    if (!_db.hasAdvertising(idList->at(i)))
+      _db.addAdvertisingVideo(toAddAdvertising);
   }
   delete toAddAdvertising;
   delete idList;

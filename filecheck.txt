@@ -1,0 +1,83 @@
+[admin\source\executor.cpp:440]: (style) Condition '1==-1' is always false
+[admin\source\executor.cpp:141]: (style) The scope of the variable 'user' can be reduced.
+[admin\source\io_init.cpp:26]: (style) The scope of the variable 'ivergleicheTag' can be reduced.
+[admin\source\io_init.cpp:108]: (style) The scope of the variable 'SummeDerUmsaetzeDesMonats' can be reduced.
+[admin\source\io_init.cpp:217]: (style) The scope of the variable 'SummeMonat' can be reduced.
+[admin\source\io_writeinmonthwithnewdata.cpp:27]: (style) The scope of the variable 'ivergleicheTag' can be reduced.
+[admin\source\main.cpp:66]: (error) Memory leak: langSupp
+[admin\source\serverloglistener.cpp:81]: (warning) Return value of function log() is not used.
+[admin\source\serverloglistener.cpp:101]: (warning) Return value of function log() is not used.
+[client\source\main.cpp:147]: (error) Memory leak: touch
+[client\source\playadvertising.cpp:141]: (style) The scope of the variable 'video' can be reduced.
+[client\source\playadvertising.cpp:43]: (style) Variable 'tmp' is assigned a value that is never used.
+[client\source\playadvertising.cpp:64]: (style) Variable 'm' is assigned a value that is never used.
+[client\source\playadvertising.cpp:64]: (style) Variable 'n' is assigned a value that is never used.
+[client\source\playadvertising.cpp:64]: (style) Variable 'o' is assigned a value that is never used.
+[client\source\sensors.cpp:173]: (style) Variable 'values' is assigned a value that is never used.
+[client\source\sensors.cpp:100]: (error) Memory leak: c_num
+[sales_graphics\Statistik\date.cpp:18]: (error) Pointer to local array variable returned.
+[sales_graphics\Statistik\io_init.cpp:26]: (style) The scope of the variable 'ivergleicheTag' can be reduced.
+[sales_graphics\Statistik\io_init.cpp:108]: (style) The scope of the variable 'SummeDerUmsaetzeDesMonats' can be reduced.
+[sales_graphics\Statistik\io_init.cpp:217]: (style) The scope of the variable 'SummeMonat' can be reduced.
+[sales_graphics\Statistik\io_writeinmonthwithnewdata.cpp:27]: (style) The scope of the variable 'ivergleicheTag' can be reduced.
+[sales_graphics\Statistik\statistik_plot.h:24]: (style) Class 'Statistik_Plot' has a constructor with 1 argument that is not explicit.
+[sales_graphics\Statistik\main.cpp:20]: (style) Class 'MainWindow' has a constructor with 1 argument that is not explicit.
+[sales_graphics\TestDataCreator\main.cpp:21]: (style) Unused variable: iUmsatz
+[server\source\database.cpp:1192]: (error) Memory leak: sy
+[server\source\database.cpp:3019]: (error) Memory leak: list
+[server\source\database.cpp:3625]: (error) Memory leak: list
+[server\source\database.cpp:3657]: (error) Memory leak: list
+[server\source\database.cpp:4119]: (error) Memory leak: list
+[server\source\licence.cpp:0]: (information) The configuration 'Q_OS_WIN;__ANDROID_API__' was not checked because its code equals another one.
+[server\source\server.cpp:589] -> [server\source\server.cpp:590]: (style) Variable 'Video' is reassigned a value before the old one has been used.
+[shared\source\mytables.cpp:5]: (warning) Member variable 'myTables::m_price' is not initialized in the constructor.
+[shared\source\mytables.cpp:5]: (warning) Member variable 'myTables::m_toPay' is not initialized in the constructor.
+[shared\source\mytables.cpp:5]: (warning) Member variable 'myTables::m_pieces' is not initialized in the constructor.
+[shared\include\orderinformation.h:27]: (style) Class 'OrderInformation' has a constructor with 1 argument that is not explicit.
+[shared\include\mytables.h:37]: (style) Class 'myTables' has a constructor with 1 argument that is not explicit.
+[shared\source\orderinformation.cpp:5]: (warning) Member variable 'OrderInformation::m_price' is not initialized in the constructor.
+[shared\source\orderinformation.cpp:5]: (warning) Member variable 'OrderInformation::m_pieces' is not initialized in the constructor.
+[shared\source\filecontainer\advertisingcontainer.cpp:151]: (style) Condition 'SumOfplayTimes<100' is always true
+[shared\source\filecontainer\advertisingvideo.cpp:103]: (warning) Redundant assignment of '_advertisingInfo._mediaId' to itself.
+[shared\source\filecontainer\advertisingvideo.cpp:104]: (warning) Redundant assignment of '_advertisingInfo._play' to itself.
+[shared\source\filecontainer\advertisingvideo.cpp:105]: (warning) Redundant assignment of '_advertisingInfo._played' to itself.
+[shared\source\filecontainer\advertisingvideo.cpp:106]: (warning) Redundant assignment of '_advertisingInfo._duration' to itself.
+[waiter\include\orderinformation.h:18]: (style) Class 'OrderInformation' has a constructor with 1 argument that is not explicit.
+[waiter\include\mytables.h:16]: (style) Class 'myTables' has a constructor with 1 argument that is not explicit.
+[waiter\include\configwaiter.h:34]: (style) Class 'ConfigWaiter' has a constructor with 1 argument that is not explicit.
+[waiter\include\tcpclient.h:39]: (style) Class 'TcpClient' has a constructor with 1 argument that is not explicit.
+[waiter\include\waiterappwindow.h:11]: (style) Class 'WaiterAppWindow' has a constructor with 1 argument that is not explicit.
+[waiter\include\qmlcontxt.h:16]: (style) Class 'qmlContxt' has a constructor with 1 argument that is not explicit.
+[waiter\source\main.cpp:112]: (error) Memory leak: waiter_client
+[waiter\source\mytables.cpp:5]: (warning) Member variable 'myTables::m_price' is not initialized in the constructor.
+[waiter\source\mytables.cpp:5]: (warning) Member variable 'myTables::m_toPay' is not initialized in the constructor.
+[waiter\source\mytables.cpp:5]: (warning) Member variable 'myTables::m_pieces' is not initialized in the constructor.
+[waiter\source\orderinformation.cpp:5]: (warning) Member variable 'OrderInformation::m_price' is not initialized in the constructor.
+[waiter\source\orderinformation.cpp:5]: (warning) Member variable 'OrderInformation::m_pieces' is not initialized in the constructor.
+[waiter\source\waiterappwindow.cpp:4]: (warning) Member variable 'WaiterAppWindow::m_toPay' is not initialized in the constructor.
+[waiter2\include\orderinformation.h:18]: (style) Class 'OrderInformation' has a constructor with 1 argument that is not explicit.
+[waiter2\include\mytables.h:16]: (style) Class 'myTables' has a constructor with 1 argument that is not explicit.
+[waiter2\include\tcpclient.h:39]: (style) Class 'TcpClient' has a constructor with 1 argument that is not explicit.
+[waiter2\include\tablemodel.h:63]: (style) Class 'TableModel' has a constructor with 1 argument that is not explicit.
+[waiter2\include\orderboard.h:61]: (style) Class 'OrderBoard' has a constructor with 1 argument that is not explicit.
+[waiter2\include\productlist.h:43]: (style) Class 'ProductList' has a constructor with 1 argument that is not explicit.
+[waiter2\include\neededboard.h:55]: (style) Class 'NeedBoard' has a constructor with 1 argument that is not explicit.
+[waiter2\source\mytables.cpp:5]: (warning) Member variable 'myTables::m_price' is not initialized in the constructor.
+[waiter2\source\mytables.cpp:5]: (warning) Member variable 'myTables::m_toPay' is not initialized in the constructor.
+[waiter2\source\mytables.cpp:5]: (warning) Member variable 'myTables::m_pieces' is not initialized in the constructor.
+[waiter2\source\orderinformation.cpp:5]: (warning) Member variable 'OrderInformation::m_price' is not initialized in the constructor.
+[waiter2\source\orderinformation.cpp:5]: (warning) Member variable 'OrderInformation::m_pieces' is not initialized in the constructor.
+[waiter3\include\orderinformation.h:18]: (style) Class 'OrderInformation' has a constructor with 1 argument that is not explicit.
+[waiter3\include\mytables.h:16]: (style) Class 'myTables' has a constructor with 1 argument that is not explicit.
+[waiter3\include\tcpclient.h:39]: (style) Class 'TcpClient' has a constructor with 1 argument that is not explicit.
+[waiter3\include\tablemodel.h:64]: (style) Class 'TableModel' has a constructor with 1 argument that is not explicit.
+[waiter3\include\orderboard.h:64]: (style) Class 'OrderBoard' has a constructor with 1 argument that is not explicit.
+[waiter3\include\productlist.h:43]: (style) Class 'ProductList' has a constructor with 1 argument that is not explicit.
+[waiter3\include\neededboard.h:55]: (style) Class 'NeedBoard' has a constructor with 1 argument that is not explicit.
+[waiter3\source\main.cpp:0]: (information) The configuration '_WIN32' was not checked because its code equals another one.
+[waiter3\source\main.cpp:0]: (information) The configuration '__linux__' was not checked because its code equals another one.
+[waiter3\source\mytables.cpp:5]: (warning) Member variable 'myTables::m_price' is not initialized in the constructor.
+[waiter3\source\mytables.cpp:5]: (warning) Member variable 'myTables::m_toPay' is not initialized in the constructor.
+[waiter3\source\mytables.cpp:5]: (warning) Member variable 'myTables::m_pieces' is not initialized in the constructor.
+[waiter3\source\orderinformation.cpp:5]: (warning) Member variable 'OrderInformation::m_price' is not initialized in the constructor.
+[waiter3\source\orderinformation.cpp:5]: (warning) Member variable 'OrderInformation::m_pieces' is not initialized in the constructor.

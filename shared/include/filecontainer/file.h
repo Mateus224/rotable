@@ -102,7 +102,10 @@ public:
 
     inline virtual int fileType() const { return -1; }
 
-    virtual void updateData(File *file){;}
+    virtual void updateData(File *file){
+        Q_UNUSED(file)
+        ;
+    }
 
 
     inline int getId() const { return _fileInfo._id; }
