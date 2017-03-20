@@ -2011,8 +2011,6 @@ bool Database::updateFile(File *file) {
     if (!updateAdvertsingAdditionalData(advertisingVideo))
       return true;
   } break;
-
-
   return false;
   }
   return true;
