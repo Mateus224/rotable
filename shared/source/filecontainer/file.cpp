@@ -61,7 +61,7 @@ bool File::addFileOnSD(rotable::ComPackageSendFile *package)
 bool File::removeFileFromSD()
 {
     //LogManager::getInstance()->logInfo(_paths.at(_fileInfo._type));
-    if(_fileDir->setCurrent(_paths.at(_fileInfo._type)));
+    if(_fileDir->setCurrent(_paths.at(_fileInfo._type))) {}
     QFile rmFile(getName());
     if(rmFile.remove())
         return true;
@@ -70,7 +70,7 @@ bool File::removeFileFromSD()
 //------------------------------------------------------------------------------
 
 bool File::checkMediaOnSD(){
-    if(_fileDir->setCurrent(_paths.at(_fileInfo._type)));
+    if(_fileDir->setCurrent(_paths.at(_fileInfo._type))) {}
     QFile existFile(getName());
     if(existFile.exists())
         return true;

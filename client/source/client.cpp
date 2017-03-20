@@ -172,7 +172,7 @@ void Client::packageReceived(ComPackage *package)
       requestAdvertisingConfig();
       requestRmMediaIds();
       requestMediaIds();
-
+      _callWaiter.preparePackageToSend();
     } break;
 
     case ComPackage::DataRequest:

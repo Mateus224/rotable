@@ -5,7 +5,7 @@ using namespace rotable;
 
 //------------------------------------------------------------------------------
 
-AdvertisingVideo::AdvertisingVideo(QObject *parent):_advertisingInfo()
+AdvertisingVideo::AdvertisingVideo(QObject *parent):File(parent), _advertisingInfo()
 {
 
 }
