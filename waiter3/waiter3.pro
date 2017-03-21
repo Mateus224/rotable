@@ -78,16 +78,16 @@ win32{
 
 CONFIG(debug, debug|release) {
     DESTDIR     = $$PWD/../bin/debug/$$PLATFORM/waiter
-    OBJECTS_DIR = $$PWD/../bin/tmp/obj/debug/$$PLATFORM/$$TARGET
-    MOC_DIR     = $$PWD/../bin/tmp/moc/debug/$$PLATFORM/$$TARGET
-    RCC_DIR     = $$PWD/../bin/tmp/rcc/debug/$$PLATFORM/$$TARGET
-    UI_DIR      = $$PWD/../bin/tmp/ui/debug/$$PLATFORM/$$TARGET
+    OBJECTS_DIR = $$PWD/../bin/tmp/obj/debug/$$PLATFORM/waiter/$$TARGET
+    MOC_DIR     = $$PWD/../bin/tmp/moc/debug/$$PLATFORM/waiter/$$TARGET
+    RCC_DIR     = $$PWD/../bin/tmp/rcc/debug/$$PLATFORM/waiter/$$TARGET
+    UI_DIR      = $$PWD/../bin/tmp/ui/debug/$$PLATFORM/waiter/$$TARGET
 } else {
     DESTDIR     = $$PWD/../bin/release/host/waiter
-    OBJECTS_DIR = $$PWD/../bin/tmp/obj/release/$$PLATFORM/$$TARGET
-    MOC_DIR     = $$PWD/../bin/tmp/moc/release/$$PLATFORM/$$TARGET
-    RCC_DIR     = $$PWD/../bin/tmp/rcc/release/$$PLATFORM/$$TARGET
-    UI_DIR      = $$PWD/../bin/tmp/ui/release/$$PLATFORM/$$TARGET
+    OBJECTS_DIR = $$PWD/../bin/tmp/obj/release/$$PLATFORM/waiter/$$TARGET
+    MOC_DIR     = $$PWD/../bin/tmp/moc/release/$$PLATFORM/waiter/$$TARGET
+    RCC_DIR     = $$PWD/../bin/tmp/rcc/release/$$PLATFORM/waiter/$$TARGET
+    UI_DIR      = $$PWD/../bin/tmp/ui/release/$$PLATFORM/waiter/$$TARGET
 }
 
 ########################################################################

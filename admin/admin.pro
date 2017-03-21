@@ -117,24 +117,24 @@ RESOURCES += \
 PLATFORM = host
 
 CONFIG(debug, debug|release) {
-    DESTDIR     = $$PWD/../bin/debug/$$PLATFORM/admin
+    DESTDIR     = $$PWD/../bin/debug/$$PLATFORM#/admin
     OBJECTS_DIR = $$PWD/../bin/tmp/obj/debug/$$PLATFORM/$$TARGET
     MOC_DIR     = $$PWD/../bin/tmp/moc/debug/$$PLATFORM/$$TARGET
     RCC_DIR     = $$PWD/../bin/tmp/rcc/debug/$$PLATFORM/$$TARGET
     UI_DIR      = $$PWD/../bin/tmp/ui/debug/$$PLATFORM/$$TARGET
 } else {
     DESTDIR     = $$PWD/../bin/release/host/admin
-    OBJECTS_DIR = $$PWD/../bin/tmp/obj/release/$$PLATFORM/$$TARGET
-    MOC_DIR     = $$PWD/../bin/tmp/moc/release/$$PLATFORM/$$TARGET
-    RCC_DIR     = $$PWD/../bin/tmp/rcc/release/$$PLATFORM/$$TARGET
-    UI_DIR      = $$PWD/../bin/tmp/ui/release/$$PLATFORM/$$TARGET
+    OBJECTS_DIR = $$PWD/../bin/tmp/obj/release/$$PLATFORM/admin/$$TARGET
+    MOC_DIR     = $$PWD/../bin/tmp/moc/release/$$PLATFORM/admin/$$TARGET
+    RCC_DIR     = $$PWD/../bin/tmp/rcc/release/$$PLATFORM/admin/$$TARGET
+    UI_DIR      = $$PWD/../bin/tmp/ui/release/$$PLATFORM/admin/$$TARGET
 }
 
 ########################################################################
 # LINK:
 
 LIBS += \
-    -L$$DESTDIR/.. -lrotable-shared
+    -L$$DESTDIR -lrotable-shared
    # -L$$PWD/../third-party/google-breakpad-read-only/src/client/linux -lbreakpad_client \
    # -L$$PWD/../third-party/qwt/lib -lqwt -lqwt -lqwt
 
