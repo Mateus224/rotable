@@ -3116,8 +3116,8 @@ bool Database::hasConfig(int id) {
         << tr("Query exec failed: (%1: %2").arg(queryStr, q.lastError().text());
     return -1;
   }
-  if(q.last())
-      return true;
+  /*if(q.last())
+      return true;*/
   if (q.next()) {
     return true;
   }
@@ -3186,8 +3186,8 @@ bool Database::hasOrder(int id) {
     return false;
   }
 
-  if(q.last())
-      return true;
+  /*if(q.last())
+      return true;*/
   if (q.next()) {
     return true;
   }
@@ -3221,8 +3221,8 @@ bool Database::hasFile(int id)
     return false;
   }
 
-  if(q.last())
-      return true;
+  /*if(q.last())
+      return true;*/
   if (q.next()) {
     return true;
   }
