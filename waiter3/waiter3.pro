@@ -77,13 +77,13 @@ win32{
 }
 
 CONFIG(debug, debug|release) {
-    DESTDIR     = $$PWD/../bin/debug/$$PLATFORM
+    DESTDIR     = $$PWD/../bin/debug/$$PLATFORM/waiter
     OBJECTS_DIR = $$PWD/../bin/tmp/obj/debug/$$PLATFORM/$$TARGET
     MOC_DIR     = $$PWD/../bin/tmp/moc/debug/$$PLATFORM/$$TARGET
     RCC_DIR     = $$PWD/../bin/tmp/rcc/debug/$$PLATFORM/$$TARGET
     UI_DIR      = $$PWD/../bin/tmp/ui/debug/$$PLATFORM/$$TARGET
 } else {
-    DESTDIR     = $$PWD/../bin/release/host
+    DESTDIR     = $$PWD/../bin/release/host/waiter
     OBJECTS_DIR = $$PWD/../bin/tmp/obj/release/$$PLATFORM/$$TARGET
     MOC_DIR     = $$PWD/../bin/tmp/moc/release/$$PLATFORM/$$TARGET
     RCC_DIR     = $$PWD/../bin/tmp/rcc/release/$$PLATFORM/$$TARGET
@@ -94,7 +94,7 @@ CONFIG(debug, debug|release) {
 # LINK:
 
 LIBS += \
-    -L$$DESTDIR -lrotable-shared
+    -L$$DESTDIR/.. -lrotable-shared
 
 win32:LIBS += -lws2_32
 
