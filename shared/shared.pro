@@ -24,7 +24,7 @@ SOURCES += \
     source/order.cpp \
     source/income.cpp \
     source/config.cpp \
-    source/mytables.cpp \
+    #source/mytables.cpp \
     source/productorderlistmodel.cpp \
     source/client.cpp \
     source/tabele.cpp \
@@ -56,7 +56,7 @@ HEADERS += \
     include/order.h \
     include/income.h \
     include/config.h \
-    include/mytables.h \
+    #include/mytables.h \
     include/productorderlistmodel.h \
     include/client.h \
     include/waiter.h \

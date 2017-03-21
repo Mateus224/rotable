@@ -1,4 +1,4 @@
-#include "../include/mytables.h"
+/*#include "../include/mytables.h"
 #include <QDebug>
 #include <QObject>
 
@@ -83,3 +83,4 @@ void myTables::setToPay(const double &toPay)
     }
 }
 
+*/

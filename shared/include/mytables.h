@@ -1,7 +1,7 @@
 #ifndef MYTABLES_H
 #define MYTABLES_H
 #include "private/precomp.h"
-#include "orderinformation.h"
+//#include "orderinformation.h"
 
 
 //------------------------------------------------------------------------------
@@ -115,7 +115,7 @@ public:
     void setColor_orderinformation(const int &position,const QString &color);
 
 
-    QList <OrderInformation*>  L_orderinformation; /**< TODO: describe */
+    //QList <OrderInformation*>  L_orderinformation; /**< TODO: describe */
 
 
 
