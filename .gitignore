@@ -6,7 +6,7 @@ third-party/**
 qt/**
 /.project
 bin/debug/**
-bin/release/host/client/*
+bin/release/host/client/
 !bin/release/host/client/games/**
 bin/release/host/server/**
 bin/release/host/admin/**
