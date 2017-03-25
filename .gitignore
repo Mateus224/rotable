@@ -10,6 +10,7 @@ bin/release/host/client/**
 bin/release/host/server/**
 bin/release/host/admin/**
 bin/release/host/waiter/**
+bin/release/host/*.a
 bin/tmp/**
 Makefile-build-rotable*
 Makefile
