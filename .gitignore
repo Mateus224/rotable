@@ -7,7 +7,7 @@ qt/**
 /.project
 bin/debug/**
 !bin/release/host/client/games/*
-!bin/release/host/client/*
+bin/release/host/client/*
 bin/release/host/server/**
 bin/release/host/admin/**
 bin/release/host/waiter/**
